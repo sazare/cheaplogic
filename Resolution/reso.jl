@@ -103,16 +103,16 @@ end
 function inside(vt::Symbol, et::Expr)::Bool
   for arg in et.args
    if typeof(arg) == Symbol
-    if vt == arg; return true end
+    if vt == arg; throw(Loop(vt,et,:inside)) end
    else
-    if inside(vt, arg);return true end
+    if inside(vt, arg);return throw(Loop(vt,et,:inside)) end
    end
   end
   return false
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Expr)
- isvar(t1,vars)&&!inside(t1,t2) && return (t1,t2) 
+ isvar(t1,vars) && !inside(t1,t2) && return (t1,t2) 
  if t1!=t2; throw(ICMP(t1,t2,:unify0)) end
 end
 
@@ -210,24 +210,26 @@ resolution clash the i1'th of c1 with i2'th of c2
 function resolution(vars::Vlist, c1::Expr, c2::Expr, i1::Int, i2::Int)
 # clause c1,c2 is an array.
 
- if length(c1.args) < i1; println("i1 over the c1's length");return end
- if length(c2.args) < i2; println("i2 over the c2's length");return end
- if i1 <= 0; println("i1 should be >=0");return end
- if i2 <= 0; println("i2 should be >=0");return end
+ if length(c1.args) < i1; println("i1 over the c1's length");return :NAP end
+ if length(c2.args) < i2; println("i2 over the c2's length");return :NAP end
+ if i1 <= 0; println("i1 should be >=0");return :NAP end
+ if i2 <= 0; println("i2 should be >=0");return :NAP end
 
  lit1 = c1.args[i1]
  lit2 = c2.args[i2]
 
  if lit1.args[1] == lit2.args[1]; return :NAP end
- lit1.args[1] = lit2.args[1]  # temporarily make same
+ lit1.args[1] = lit2.args[1]  # temporarily let signs same
 
  try 
   sigma = unify(vars, lit1, lit2)
   c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end],c2.args[1:(i2-1)],c2.args[(i2+1):end])
   return apply(vars,c1,sigma)
  catch e
-  if isa(e, 
-  return :NAP
+  if isa(e, Loop)
+   return :FAIL
+  end
  end
+ return :NAP
 end
 
