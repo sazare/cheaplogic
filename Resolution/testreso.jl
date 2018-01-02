@@ -35,12 +35,12 @@ end
 
 @testset "inside check" begin
  @test inside(:x,:(g(y)))==false
-#not huppen  @test inside(:x,:x)==false
- @test inside(:x,:(g(x)))==true
- @test inside(:x,:(f(a,g(x))))==true
+## not happen case: @test inside(:x,:x)==false
+ @test_throws Loop inside(:x,:(g(x)))
+ @test_throws Loop inside(:x,:(f(a,g(x))))
  @test inside(:x,:(f(g(y),g(h(y)))))==false
- @test inside(:x,:(f(g(a),g(x))))==true
- @test inside(:x,:(f(g(x),g(x))))==true
+ @test_throws Loop inside(:x,:(f(g(a),g(x))))
+ @test_throws Loop inside(:x,:(f(g(x),g(x))))
 end
 
 @testset "unify0 find a pair unifiable" begin
@@ -57,9 +57,9 @@ end
  @test unify0([:x], :(P(f(a))), :(P(f(x)))) == (:x,:a)
  @test unify0([:x], :(P(f(a))), :(P(x))) == (:x,:(f(a)))
 
- @test_throws ICMP  unify0([:x],:(P(g(a))),:(P(f(x))))
- @test_throws ICMP  unify0([:x],:(P(f(a))),:(P(f(b))))
- @test_throws ICMP  unify0([:x],:(P(a)), :(P(f(b)))) 
+ @test_throws ICMP unify0([:x],:(P(g(a))),:(P(f(x))))
+ @test_throws ICMP unify0([:x],:(P(f(a))),:(P(f(b))))
+ @test_throws ICMP unify0([:x],:(P(a)), :(P(f(b)))) 
 end
 
 @testset "unify" begin
@@ -87,8 +87,8 @@ end
  @test unify([:x,:y],:(P(x,y)),:(P(y,f(a)))) == [:(f(a)),:(f(a))]
 
  @testset "unify inside test fail" begin
-  @test_throws ICMP unify([:x,:y],:(P(x)),:(P(f(x))))
-  @test_throws ICMP unify([:x,:y],:(P(x,y)),:(P(y,f(y))))
+  @test_throws Loop unify([:x,:y],:(P(x)),:(P(f(x))))
+  @test_throws Loop unify([:x,:y],:(P(x,y)),:(P(y,f(y))))
  end
 end
 
