@@ -105,6 +105,7 @@ end
  @test resolution([:x,:y],parse("[+(P(x))]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,1) == parse("[+Q(x,y),+R(y)]")
  @test resolution([:x,:y],parse("[+(P(a))]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,1) == parse("[+Q(a,y),+R(y)]")
 
- @test resolution([:x,:y],parse("[-Q(a,b),+(P(a))]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,2) == parse("[+P(a),-P(a),+R(b)]")
+ @test resolution([:x,:y],parse("[-Q(a,b),+P(a)]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,2) == parse("[+P(a),-P(a),+R(b)]")
+ @test resolution([:x,:y],parse("[-Q(a,b),+P(a)]"), parse("[+Q(x, y),+R(y),-P(x)]"),2,3) == parse("[-Q(a,b),+Q(a,y),+R(y)]")
 end
 
