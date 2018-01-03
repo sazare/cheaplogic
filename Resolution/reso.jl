@@ -204,6 +204,14 @@ function unify(vars::Vlist, t1::Expr, t2::Expr)
 end
 
 ## resolution of 2 clauses
+function genvars(vars::Vlist)::Vlist
+ map(v->gensym(v),vars)
+end
+
+function rename(vars, C::Expr)::Expr
+ apply(vars, C, genvars(vars))
+end
+
 """
 resolution clash the i1'th of c1 with i2'th of c2
 """

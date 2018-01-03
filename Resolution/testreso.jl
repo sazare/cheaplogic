@@ -92,6 +92,14 @@ end
  end
 end
 
+@testset "genvars" begin
+ @test genvars([]) == []
+ gv = genvars([:x,:y])
+ @test length(gv) == 2
+ @test gv != [:x,:y]
+
+end
+
 @testset "resolution" begin
  @test resolution([:x,:y],parse("[+P(a)]"), parse("[+P(a)]"),1,1) == :NAP
  @test resolution([:x,:y],parse("[+P(a)]"), parse("[-P(a)]"),1,1) == EmptyClause
