@@ -2,7 +2,7 @@ module Resolution
 
 ### DONT WORK YET module
 
-export unify,apply,merge
+export unify,apply,resolution
 
 include("reso.jl")
 
