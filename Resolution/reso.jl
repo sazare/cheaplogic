@@ -208,8 +208,8 @@ function genvars(vars::Vlist)::Vlist
  map(v->gensym(v),vars)
 end
 
-function rename(vars, C::Expr)::Expr
- apply(vars, C, genvars(vars))
+function rename(vars, C::Expr, nvar)::Expr
+ apply(vars, C, nvar)
 end
 
 """
@@ -239,5 +239,14 @@ function resolution(vars::Vlist, c1::Expr, c2::Expr, i1::Int, i2::Int)
   end
  end
  return :NAP
+end
+
+function resolution(var1::Vlist, c1::Expr, i1::Int, var2::Vlist, c2::Expr, i2::Int)
+ vs1 = genvars(var1)
+ vs2 = genvars(var2)
+ var = vcat(vs1,vs2)  
+ rc1=rename(var1, c1, vs1)
+ rc2=rename(var2, c2, vs2)
+ return var, resolution(var, rc1, rc2, i1, i2)
 end
 
