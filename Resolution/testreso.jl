@@ -117,10 +117,11 @@ end
  @test resolution([:x,:y],parse("[-Q(a,b),+P(a)]"), parse("[+Q(x, y),+R(y),-P(x)]"),2,3) == parse("[-Q(a,b),+Q(a,y),+R(y)]")
 end
 
-@testset "resolution" begin
+@testset "real resolution" begin
  v,r = resolution([:y], parse("[-Q(a,y),+P(a)]"), 2, [:x,:y], parse("[+Q(x, y),+R(y),-P(x)]"),3) 
  @test rename(v,r,[:x,:y,:z]) == parse("[-Q(a,x),+Q(a,z),+R(z)]")
  v,r = resolution([], parse("[-Q(a,b),+P(a)]"), 2, [:x,:y], parse("[+Q(x, y),+R(y),-P(x)]"),3) 
  @test rename(v,r,[:x,:y]) ==  parse("[-Q(a,b),+Q(a,y),+R(y)]")
+
 end
 
