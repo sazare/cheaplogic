@@ -40,7 +40,7 @@ function makeldb(ldb, cid, cls)
 end
 
 function makepg(ldb)
- # psyms calc is too slow
+ # ADHOC
  psyms = map(x->x.args[2].args[1],values(ldb))
  psyms = union(psyms,psyms)
  map(p->pgr[p]=[[],[]],psyms)
