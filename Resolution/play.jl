@@ -79,4 +79,6 @@ PG1 = Dict(
 
 
 
+include("testcgop.jl")
+db3=makedb(cls3)
 

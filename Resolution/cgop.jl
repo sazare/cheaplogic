@@ -127,6 +127,12 @@ function printplist(plist)
  end
 end
 
+function printldb(ldb)
+ for pr in keys(ldb)
+  println("$pr => $(ldb[pr])")
+ end
+end
+
 function printpgr(pgr)
  for p in keys(pgr)
   print("$p: ")
@@ -137,4 +143,14 @@ function printpgr(pgr)
   println()
  end
 end
+
+function printdb(db)
+println("Clauses")
+ printcdb(db[1])
+println("\nLiterals")
+ printldb(db[2])
+println("\nGraph")
+ printpgr(db[3])
+end
+
 
