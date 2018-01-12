@@ -1,5 +1,7 @@
 # reso.jl
 
+include("common.jl")
+
 ## Type declare
 
 Term=Union{Symbol,Number,Expr}
@@ -248,5 +250,13 @@ function resolution(var1::Vlist, c1::Expr, i1::Int, var2::Vlist, c2::Expr, i2::I
  rc1=rename(var1, c1, vs1)
  rc2=rename(var2, c2, vs2)
  return var, resolution(var, rc1, rc2, i1, i2)
+end
+
+"""
+reduction
+"""
+function reduction(vars::Vlist, cls::Expr)
+
+ return cls
 end
 
