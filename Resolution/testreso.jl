@@ -125,3 +125,30 @@ end
 
 end
 
+@testset "reduction" begin
+ r0 = parse("[-Q(a,y),+P(a)]")
+ r = reduction([:x], r0, 2)
+ @test r == r0
+
+ r = reduction([:x], parse("[-Q(a,y),+P(a),+P(a)]"), 2)
+ @test r == parse("[-Q(a,y),+P(a)]")
+
+ r = reduction([:x], parse("[-Q(a,y),+P(x),+P(a)]"), 2)
+ @test r == parse("[-Q(a,y),+P(a)]")
+
+ r = reduction([:x], parse("[-Q(a,y),+P(b),+P(a)]"), 2)
+ @test r == parse("[-Q(a,y),+P(b),+P(a)]")
+
+ r = reduction([:x], parse("[-Q(a,x),+P(x),+P(a)]"), 2)
+ @test r == parse("[-Q(a,a),+P(a)]")
+
+ r = reduction([:x], parse("[-Q(a,x),+P(x),+P(a),+R(x)]"), 2)
+ @test r == parse("[-Q(a,a),+P(a),+R(a)]")
+
+ r = reduction([:x], parse("[-Q(a,x),+P(x),+P(a),+R(x)]"), 2)
+ @test r == parse("[-Q(a,a),+P(a),+R(a)]")
+
+ r = reduction([:x], parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]"), 2)
+ @test r == parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]")
+end
+

@@ -255,8 +255,26 @@ end
 """
 reduction
 """
-function reduction(vars::Vlist, cls::Expr)
+function reduction(vars::Vlist, c1::Expr, i1::Int)
+ if length(c1.args) < i1; println("i1 over the c1's length");return :NAP end
+ if i1 <= 0; println("i1 should be >=0");return :NAP end
+ lit1 = c1.args[i1]
+ atm1 = lit1.args[2]
 
- return cls
+ for i2 in 1:length(c1.args)
+  if i2==i1; continue end
+   lit2 = c1.args[i2]
+   if lit1.args[1] != lit2.args[1]; continue end
+   atm2 = lit2.args[2]
+   if atm1.args[1] != atm2.args[1]; continue end
+   try 
+    sigma = unify(vars, lit1, lit2)
+    c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end])
+    return apply(vars,c1,sigma)
+   catch e
+    continue
+   end
+ end
+ return c1
 end
 
