@@ -152,3 +152,14 @@ end
  @test r == parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]")
 end
 
+@testset "reduction" begin
+ @test satisfiable([:x], parse("[-Q(a,x),+P(x),-P(y),+R(x)]")) == true
+ @test satisfiable([], parse("[-Q(a,x),+P(x),-P(y),+R(x)]")) == false
+
+ @test satisfiable([:x,:y], parse("[-Q(a,x),+P(x),-P(y),+R(x)]")) == true
+ @test satisfiable([:x,:y], parse("[-Q(a,x),+P(x,a),-P(y,a),+R(x)]")) == true
+ @test satisfiable([:x,:y], parse("[-Q(a,x),-P(x,a),-P(y,a),+R(x)]")) == false
+
+
+end
+
