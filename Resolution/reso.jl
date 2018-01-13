@@ -264,9 +264,10 @@ function reduction(vars::Vlist, c1::Expr, i1::Int)
  for i2 in 1:length(c1.args)
   if i2==i1; continue end
    lit2 = c1.args[i2]
-   if lit1.args[1] != lit2.args[1]; continue end
    atm2 = lit2.args[2]
    if atm1.args[1] != atm2.args[1]; continue end
+   if lit1.args[1] != lit2.args[1]; continue end
+
    try 
     sigma = unify(vars, lit1, lit2)
     c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end])
@@ -276,5 +277,34 @@ function reduction(vars::Vlist, c1::Expr, i1::Int)
    end
  end
  return c1
+end
+
+"""
+satisfiable check
+"""
+function satisfiable(vars::Vlist, c1::Expr)
+ for i1 in 1:length(c1.args) 
+  lit1 = c1.args[i1]
+  atm1 = lit1.args[2]
+
+  for i2 in i1+1:length(c1.args)
+   lit2 = c1.args[i2]
+   atm2 = lit2.args[2]
+   if atm1.args[1] != atm2.args[1]; continue end
+   if lit1.args[1] == lit2.args[1]; continue end
+   lit2.args[1] = lit1.args[1] # temporaly let it same
+
+   try 
+    sigma = unify(vars, lit1, lit2)
+@show lit1,lit2,sigma
+    return true
+   catch e
+    continue
+   end
+  end
+ end
+
+ return false
+
 end
 
