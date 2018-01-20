@@ -296,7 +296,6 @@ function satisfiable(vars::Vlist, c1::Expr)
 
    try 
     sigma = unify(vars, lit1, lit2)
-@show lit1,lit2,sigma
     return true
    catch e
     continue
