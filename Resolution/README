@@ -1,0 +1,18 @@
+README
+memo.txt
+
+common.jl    -- nyi() ... something like this
+play.jl      -- like a demo ... not updated
+setdata.jl   -- just setup data ... not updated
+
+reso.jl      -- resolution operations
+cgop.jl      -- graphic representation ... in progress
+                todo make a type for (pgr, cdb, ldb) 
+tact.jl      -- tactical common
+tactu.jl     -- tactical unit resolution 
+
+-- followings are tests. 
+testreso.jl
+testcgop.jl
+testtact.jl
+testtactu.jl
