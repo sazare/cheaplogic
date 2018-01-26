@@ -1,3 +1,34 @@
+## real data
+include("cgop.jl")
+
+cls1 = [
+ parse("[x,y].[+P(x),+Q(x,y)]"),
+ parse("[y,x].[+P(a),-Q(x,y)]"),
+ parse("[x,y].[+Q(x,x),-P(x)]"),
+ parse("[].[-P(b)]"),
+ parse("[x].[-P(x)]")
+]
+
+cls2 = [
+ parse("[x,y].[+P(x),+Q(x,y)]"),
+ parse("[y,x].[+P(a),-Q(x,y)]"),
+ parse("[x,y].[+Q(x,x),-P(x)]"),
+ parse("[].[-P(b),+Q(b,b)]"),
+ parse("[x].[-P(x),+Q(x,x)]")
+]
+
+cls3 = [
+ parse("[x,y].[+Q(x,x),+R(x),-P(x),+R(x)]"),
+ parse("[y,x].[+P(a),-R(a),-Q(x,y),-R(a)]"),
+ parse("[x].[-P(b),+R(b),+R(x),+Q(b,b)]"),
+ parse("[x,y].[+P(x),+Q(x,y),-R(x),-R(y)]"),
+ parse("[y,x].[+P(a),-Q(x,y),-R(a)]"),
+ parse("[x,y].[-P(x),+Q(x,x),+R(x,f(a)),+R(x,y)]")
+]
+
+db3=makedb(cls3)
+
+#==
 # Image 
 
 # input
@@ -73,12 +104,4 @@ PG1 = Dict(
 #CDB1[1][2].args[2] # literal
 #CDB1[1][2].args[2].args[1] # sign::Symbol{+,-}
 #CDB1[1][2].args[2].args[2] # atom::Expr
-
-
-
-
-
-
-include("testcgop.jl")
-db3=makedb(cls3)
-
+==#
