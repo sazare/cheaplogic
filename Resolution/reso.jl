@@ -4,6 +4,7 @@ include("common.jl")
 
 ## Type declare
 
+FTerm=Expr
 Term=Union{Symbol,Number,Expr}
 Var = Symbol
 Const = Union{Symbol,Number}
@@ -13,6 +14,9 @@ Tlist = Array
 
 ## result
 # :NAP is Not APplicable 
+
+Clause = Expr
+Literal = Expr
 
 EmptyClause = :([])
 
@@ -217,7 +221,7 @@ end
 """
 resolution clash the i1'th of c1 with i2'th of c2
 """
-function resolution(vars::Vlist, c1::Expr, c2::Expr, i1::Int, i2::Int)
+function resolution(vars::Vlist, c1::Clause, c2::Clause, i1::Int, i2::Int)
 # clause c1,c2 is an array.
 
  if length(c1.args) < i1; println("i1 over the c1's length");return :NAP end
@@ -243,7 +247,7 @@ function resolution(vars::Vlist, c1::Expr, c2::Expr, i1::Int, i2::Int)
  return :NAP
 end
 
-function resolution(var1::Vlist, c1::Expr, i1::Int, var2::Vlist, c2::Expr, i2::Int)
+function resolution(var1::Vlist, c1::Clause, i1::Int, var2::Vlist, c2::Clause, i2::Int)
  vs1 = genvars(var1)
  vs2 = genvars(var2)
  var = vcat(vs1,vs2)  
@@ -255,7 +259,7 @@ end
 """
 reduction
 """
-function reduction(vars::Vlist, c1::Expr, i1::Int)
+function reduction(vars::Vlist, c1::Clause, i1::Int)
  if length(c1.args) < i1; println("i1 over the c1's length");return :NAP end
  if i1 <= 0; println("i1 should be >=0");return :NAP end
  lit1 = c1.args[i1]
@@ -282,7 +286,7 @@ end
 """
 satisfiable check
 """
-function satisfiable(vars::Vlist, c1::Expr)
+function satisfiable(vars::Vlist, c1::Clause)
  for i1 in 1:length(c1.args) 
   lit1 = c1.args[i1]
   atm1 = lit1.args[2]
