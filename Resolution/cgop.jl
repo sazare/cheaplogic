@@ -1,5 +1,11 @@
 # Clause set operation
 
+struct RESDB
+  cdb
+  ldb
+  pgr
+end
+
 #==
  CDB(clauses) -> LDB(Literals), PGR(Graph)
 ==#
@@ -15,13 +21,36 @@ function getvars(cdb, cid)
  cdb[cid][1]
 end
 
+function getvars(db::RESDB, cid) 
+ db.cdb[cid][1]
+end
+
+function getcls(cdb, cid)
+ if cid == 0; return [[],EmptyClause] end
+ cdb[cid]
+end
+
+function getcls(rdb::RESDB, cid)
+ if cid == 0; return [[],EmptyClause] end
+ rdb.cdb[cid]
+end
+
 function getlit(cdb, clp)
  cid,lid=clp
  return cdb[cid][2].args[lid].args[1], cdb[cid][2].args[lid].args[2]
 end
 
+function getlit(db::RESDB, clp)
+ cid,lid=clp
+ return db.cdb[cid][2].args[lid].args[1], db.cdb[cid][2].args[lid].args[2]
+end
+
 function litcounts(cdb)
  map(x->length(x[2].args),cdb)
+end
+
+function litcounts(db::RESDB)
+ map(x->length(x[2].args),db.cdb)
 end
 
 #==
@@ -74,7 +103,7 @@ function makedb(clauses)
   ldb = makeldb(ldb, cid, cls)
  end
  pgr = makepg(ldb)
- return cdb, ldb, pgr
+ return RESDB(cdb, ldb, pgr)
 end
 
 ##
@@ -143,7 +172,7 @@ function printpgr(pgr)
   println()
  end
 end
-
+#==
 function printdb(db)
 println("Clauses")
  printcdb(db[1])
@@ -152,5 +181,16 @@ println("\nLiterals")
 println("\nGraph")
  printpgr(db[3])
 end
+==#
 
+## introduce a type for DB(cdb,ldb,pgr)
 
+function printresdb(resdb)
+println("Clauses")
+  printcdb(resdb.cdb)
+println("\nLiterals")
+  printldb(resdb.ldb)
+println("\nGraph")
+  printpgr(resdb.pgr)
+end
+ 

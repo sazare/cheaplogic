@@ -1,12 +1,23 @@
 ## real data
 include("cgop.jl")
 
+pr1=[makeastep(:resolution, [:x], parse("[+P(x,a)]"), 1, [:x], parse("[-P(x,x)]"),1, [:v], EmptyClause, [:a]),
+ makeastep(:reduction, [:x], parse("[+P(x,a),+P(x,x)]"), 1, 2, parse("[+P(a,a)]"), [:a])
+]
+
+pr2=[
+makeastep(:resolution, [:x], parse("[+P(x,a)]"), 1, [:x], parse("[-P(x,x)]"),1, [:v], EmptyClause, [:a]),
+makeastep(:resolution, [:x], parse("[+P(x,a),+Q(x,a)]"), 1, [:x], parse("[-P(x,x)]"),1, [:v], parse("[+Q(a,a)]"), [:a]),
+makeastep(:reduction, [:x], parse("[+P(x,a),+P(x,x)]"), 1, 2, parse("[+P(a,a)]"), [:a])
+]
+
 cls1 = [
  parse("[x,y].[+P(x),+Q(x,y)]"),
  parse("[y,x].[+P(a),-Q(x,y)]"),
  parse("[x,y].[+Q(x,x),-P(x)]"),
  parse("[].[-P(b)]"),
- parse("[x].[-P(x)]")
+ parse("[x].[-P(x)]"),
+ parse("[x].[-Q(x,x)]")
 ]
 
 cls2 = [
@@ -24,6 +35,19 @@ cls3 = [
  parse("[x,y].[+P(x),+Q(x,y),-R(x),-R(y)]"),
  parse("[y,x].[+P(a),-Q(x,y),-R(a)]"),
  parse("[x,y].[-P(x),+Q(x,x),+R(x,f(a)),+R(x,y)]")
+]
+
+res1=[
+ parse("[y].[+Q(b,y)]"),
+]
+
+# 0 means contradiction :([])
+
+db1=makedb(vcat(cls1,res1))
+
+ipr1=[
+ makeastep(:resolution,[:x],4,1,[:x,:y],1,1,[:y],7, [:b,:y]),
+ makeastep(:resolution,[:x],7,1,[:y],6,1,[],     0, [:b,:y])
 ]
 
 db3=makedb(cls3)

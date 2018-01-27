@@ -53,28 +53,28 @@ end
 end
 
 @testset "makedb" begin
- cdb,ldb,pgr = makedb(cls1)
+ resdb= makedb(cls1)
 
- @test length(cdb) == 5
- @test length(values(ldb)) == 8
- @test length(keys(pgr)) == 2
- @test length(values(pgr)) == 2
+ @test length(resdb.cdb) == 5
+ @test length(values(resdb.ldb)) == 8
+ @test length(keys(resdb.pgr)) == 2
+ @test length(values(resdb.pgr)) == 2
 
- @test getvars(cdb,1) == [:x,:y]
- @test getvars(cdb,4) == []
+ @test getvars(resdb.cdb,1) == [:x,:y]
+ @test getvars(resdb.cdb,4) == []
 
- @test litcounts(cdb) == [2,2,2,1,1]
+ @test litcounts(resdb.cdb) == [2,2,2,1,1]
 
- @test getlit(cdb,(2,2)) == (:-, parse("Q(x,y)"))
+ @test getlit(resdb.cdb,(2,2)) == (:-, parse("Q(x,y)"))
 
 end
 
 @testset "putclause" begin
- cdb1,ldb1,pgr1 = makedb(cls1)
- cdb2,ldb2,pgr2 = makedb(cls2)
+ rdb1= makedb(cls1)
+ rdb2= makedb(cls2)
 
- @test findunit(cdb1) == [4,5]
- @test findunit(cdb2) == []
+ @test findunit(rdb1.cdb) == [4,5]
+ @test findunit(rdb2.cdb) == []
 end
 
 @testset "putcdb" begin
