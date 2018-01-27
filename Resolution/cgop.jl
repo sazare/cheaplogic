@@ -74,7 +74,7 @@ function makedb(clauses)
   ldb = makeldb(ldb, cid, cls)
  end
  pgr = makepg(ldb)
- return cdb, ldb, pgr
+ return RESDB(cdb, ldb, pgr)
 end
 
 ##
@@ -143,7 +143,7 @@ function printpgr(pgr)
   println()
  end
 end
-
+#==
 function printdb(db)
 println("Clauses")
  printcdb(db[1])
@@ -152,5 +152,21 @@ println("\nLiterals")
 println("\nGraph")
  printpgr(db[3])
 end
+==#
 
+## introduce a type for DB(cdb,ldb,pgr)
+struct RESDB
+  cdb
+  ldb
+  pgr
+end
 
+function printresdb(resdb)
+println("Clauses")
+  printcdb(resdb.cdb)
+println("\nLiterals")
+  printldb(resdb.ldb)
+println("\nGraph")
+  printpgr(resdb.pgr)
+end
+ 

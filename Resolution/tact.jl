@@ -58,11 +58,11 @@ end
 """
 Functions
 """
-function makeproof(op, vars, c1, l1, ren1, c2, l2, ren2, r, sigma)
+function makeastep(op, vars, c1, l1, ren1, c2, l2, ren2, r, sigma)
  return [:resolution, vars, (c1,l1,ren1), (c2,l2,ren2), (r,sigma)]
 end
 
-function makeproof(op, vars, c1, l1, l2, r, sigma)
+function makeastep(op, vars, c1, l1, l2, r, sigma)
  return [:reduction, vars, (c1,l1,l2), (r,sigma)]
 end
 
@@ -112,14 +112,8 @@ function printastep(step, db)
   end
 end
 
-#==
-function printastep(step, db)
-  step[1] == :resolution && println("$step[1]: $(step[3][1]),$(step[3][2]),$(step[4][1]),$(step[4][2])=>$(step[5][1]),$(step[5][2])")
-  step[1] == :reduction && println("$step[1]: $(step[3][1]),$(step[3][2]),$(step[3][3])=>$(step[4][1]),$(step[4][2])")
-end
-==#
 
-function printproof(proof, db)
+function printproof(proof, db=[])
  for ix in 1:size(proof,1)
   printastep(proof[ix,:][1], db)
  end
