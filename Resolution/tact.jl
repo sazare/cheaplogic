@@ -66,13 +66,6 @@ function makeastep(op, vars, c1, l1, l2, r, sigma)
  return [:reduction, vars, (c1,l1,l2), (r,sigma)]
 end
 
-function traceproof(op, vars, c1, l1, rn1, c2, l2, rn2, r, sigma)
- 
-end
-
-function traceproof(op, vars, c1, l1, l2, r, sigma)
-
-end
 
 ### printing
 
@@ -81,8 +74,12 @@ function printliteral(lit)
 end
 
 function printclause(cls::Clause)
- for lit in cls.args
-  printliteral(lit)
+ if isempty(cls.args)
+  print("□")
+ else
+  for lit in cls.args
+   printliteral(lit)
+  end
  end
 end
 
@@ -112,10 +109,42 @@ function printastep(step, db)
   end
 end
 
+function printistep(step, db)
+  if step[1] == :resolution 
+    print("resolution: ")
+    printclause(getcls(db, step[3][1])[2])
+    print("*")
+    printclause(getcls(db, step[4][1])[2])
+    print("@($(step[3][2]),$(step[4][2]))")
+    print("=>")
+    printclause(getcls(db, step[5][1])[2])
+    print("|")
+    printvars(step[5][2])
+    println()
+  elseif step[1] == :reduction 
+    print("reduction: ")
+    printclause(getcls(db, step[3][1])[2])
+    print("@($(step[3][2]),$(step[3][3]))")
+    print("=>")
+    printclause(getcls(db, step[4][1])[2])
+    print("|")
+    printvars(step[4][2])
+    println()
+  else
+    println("unknown")
+  end
+end
+
 
 function printproof(proof, db=[])
  for ix in 1:size(proof,1)
   printastep(proof[ix,:][1], db)
+ end
+end
+
+function printiproof(proof, db=[])
+ for ix in 1:size(proof,1)
+  printistep(proof[ix,:][1], db)
  end
 end
 
