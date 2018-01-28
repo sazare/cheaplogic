@@ -110,7 +110,7 @@ end
 newcd(cdb) = length(cdb) + 1
 
 function putcdb(cdb,cls)
-@nyi :pubcdb
+ push!(cdb, cls)
 end
 
 function putcdb(cls, cdb,ldb,pgr)

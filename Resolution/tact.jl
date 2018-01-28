@@ -83,6 +83,14 @@ function printclause(cls::Clause)
  end
 end
 
+function printclause(cid::Int, cdb)
+ vars,cls = getcls(cdb, cid)
+ print("$cid:")
+ printvars(vars)
+ print(".")
+ printclause(cls)
+end
+
 function printastep(step, db)
   if step[1] == :resolution 
     print("resolution: ")
@@ -112,21 +120,21 @@ end
 function printistep(step, db)
   if step[1] == :resolution 
     print("resolution: ")
-    printclause(getcls(db, step[3][1])[2])
+    printclause(step[3][1],db)
     print("*")
-    printclause(getcls(db, step[4][1])[2])
+    printclause(step[4][1],db)
     print("@($(step[3][2]),$(step[4][2]))")
     print("=>")
-    printclause(getcls(db, step[5][1])[2])
+    printclause(step[5][1],db)
     print("|")
     printvars(step[5][2])
     println()
   elseif step[1] == :reduction 
     print("reduction: ")
-    printclause(getcls(db, step[3][1])[2])
+    printclause(step[3][1],db)
     print("@($(step[3][2]),$(step[3][3]))")
     print("=>")
-    printclause(getcls(db, step[4][1])[2])
+    printclause(step[4][1],db)
     print("|")
     printvars(step[4][2])
     println()
