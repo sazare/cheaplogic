@@ -20,6 +20,9 @@ Literal = Expr
 
 EmptyClause = :([])
 
+CForm = Tuple{Array,Expr}
+EmptyCForm = ([],EmptyClause)
+
 ## Exceptions
 """
 Exception for ununifiable terms in subst
@@ -215,6 +218,7 @@ function genvars(vars::Vlist)::Vlist
 end
 
 function rename(vars, C::Expr, nvar)::Expr
+ if isempty(vars); return C end
  apply(vars, C, nvar)
 end
 
@@ -238,7 +242,8 @@ function resolution(vars::Vlist, c1::Clause, c2::Clause, i1::Int, i2::Int)
  try 
   sigma = unify(vars, lit1, lit2)
   c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end],c2.args[1:(i2-1)],c2.args[(i2+1):end])
-  return apply(vars,c1,sigma)
+  r1,s1 = apply(vars,c1,sigma), sigma
+  return r1,s1
  catch e
   if isa(e, Loop)
    return :FAIL
@@ -253,11 +258,19 @@ function resolution(var1::Vlist, c1::Clause, i1::Int, var2::Vlist, c2::Clause, i
  var = vcat(vs1,vs2)  
  rc1=rename(var1, c1, vs1)
  rc2=rename(var2, c2, vs2)
- return var, resolution(var, rc1, rc2, i1, i2)
+ rv = resolution(var, rc1, rc2, i1, i2)
+ if typeof(rv) == Symbol;return rv end
+ r1,sigma = rv
+ return (var, r1), sigma
 end
 
-function resolution(c1::Tuple{Array,Expr},i1,c2::Tuple{Array,Expr},i2)
- resolution(c1[1],c1[2],i1, c2[1],c2[2],i2)
+function resolution(c1::CForm, i1::Int, c2::CForm,i2::Int)
+ cc1=deepcopy(c1)
+ cc2=deepcopy(c2)
+ rv =resolution(cc1[1],cc1[2],i1, cc2[1],cc2[2],i2)
+ if typeof(rv) == Symbol; return rv end 
+ cf,sigma=rv
+ return renamereadable(cf,sigma)
 end
 
 
@@ -280,15 +293,16 @@ function reduction(vars::Vlist, c1::Clause, i1::Int)
    try 
     sigma = unify(vars, lit1, lit2)
     c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end])
-    return apply(vars,c1,sigma)
+    r1=apply(vars,c1,sigma)
+    return renamereadable((vars, r1), sigma)
    catch e
     continue
    end
  end
- return c1
+ return ((vars,c1),[])
 end
 
-function reduction(c1::Tuple{Array,Expr}, i1::Int)
+function reduction(c1::CForm, i1::Int)
  reduction(c1[1], c1[2], i1)
 end
 
@@ -320,7 +334,76 @@ function satisfiable(vars::Vlist, c1::Clause)
 
 end
 
-function satisfiable(c1::Tuple{Array, Expr})
+function satisfiable(c1::CForm)
  satisfiable(c1[1], c1[2])
+end
+
+### variable lists
+
+numberingvar(vs::Array{Symbol},i::Int) = map(v->Symbol(v,i),vs)
+
+function readablevars(n::Int)
+ rv = [:u,:v,:w,:x,:y,:z]
+ vars=[]
+ for i in 1:ceil(Int, n/length(rv))
+   append!(vars, numberingvar(rv, i))
+ end
+ vars[1:n]::Vlist
+end
+
+function containvar(vars::Vlist, cls::Clause)
+  cvars=[]::Vlist
+  for arg in cls.args
+   if typeof(arg) == Symbol
+    if arg in vars
+      push!(cvars, arg)
+    end
+   else
+    pvars =  containvar(vars, arg)
+    append!(cvars, pvars)
+   end
+  end
+  return union(cvars,cvars)
+end
+
+function reducesub(vars::Vlist, fvars::Vlist, sub::Tlist)
+ fsub  = []
+ if isempty(sub); return [] end
+ for i in 1:length(vars)
+  if vars[i] in fvars
+    push!(fsub, sub[i])
+  end
+ end
+ return fsub
+end
+
+function fitvars(vars::Vlist, cls::Clause, sub::Tlist)
+ fvars = containvar(vars, cls)
+ fsub = reducesub(vars, fvars, sub)
+ return((fvars, cls), fsub)
+end
+
+function renamereadable(clause::CForm, sub::Tlist)
+ vars = clause[1]
+ cls  = clause[2]
+
+ rvars = readablevars(length(vars))
+ rcls = apply(vars, cls, rvars)
+ rsub = apply(vars, sub, rvars)
+ fcls, fsub = fitvars(rvars, rcls, rsub)
+ return fcls,fsub
+end
+
+function equalclause(clause1::CForm, clause2::CForm)
+ var1=clause1[1]
+ cls1=clause1[2]
+ var2=clause2[1]
+ cls2=clause2[2]
+ if length(var1)!=length(var2);return false end
+ if length(cls1.args)!=length(cls2.args);return false end
+
+ scls2 = apply(var2, cls2, var1)
+ if cls1 == scls2; return true end
+ return false
 end
 
