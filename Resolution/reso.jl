@@ -256,6 +256,11 @@ function resolution(var1::Vlist, c1::Clause, i1::Int, var2::Vlist, c2::Clause, i
  return var, resolution(var, rc1, rc2, i1, i2)
 end
 
+function resolution(c1::Tuple{Array,Expr},i1,c2::Tuple{Array,Expr},i2)
+ resolution(c1[1],c1[2],i1, c2[1],c2[2],i2)
+end
+
+
 """
 reduction
 """
@@ -281,6 +286,10 @@ function reduction(vars::Vlist, c1::Clause, i1::Int)
    end
  end
  return c1
+end
+
+function reduction(c1::Tuple{Array,Expr}, i1::Int)
+ reduction(c1[1], c1[2], i1)
 end
 
 """
@@ -309,5 +318,9 @@ function satisfiable(vars::Vlist, c1::Clause)
 
  return false
 
+end
+
+function satisfiable(c1::Tuple{Array, Expr})
+ satisfiable(c1[1], c1[2])
 end
 

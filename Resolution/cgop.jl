@@ -64,6 +64,13 @@ function makecdb(cdb,cls)
   return cdb
 end
 
+function addcdb(cdb, clss)
+ for cls in clss
+  makecdb(cdb,cls)
+ end
+ cdb
+end
+
 function makeldb(ldb, cid, cls)
  for lid in 1:length(cls.args[2].args[1].args)
   lit=cls.args[2].args[1].args[lid]
@@ -172,20 +179,10 @@ function printpgr(pgr)
   println()
  end
 end
-#==
-function printdb(db)
-println("Clauses")
- printcdb(db[1])
-println("\nLiterals")
- printldb(db[2])
-println("\nGraph")
- printpgr(db[3])
-end
-==#
 
 ## introduce a type for DB(cdb,ldb,pgr)
 
-function printresdb(resdb)
+function printdb(resdb)
 println("Clauses")
   printcdb(resdb.cdb)
 println("\nLiterals")
