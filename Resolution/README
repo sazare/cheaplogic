@@ -2,8 +2,8 @@ README
 memo.txt
 
 common.jl    -- nyi() ... something like this
-play.jl      -- like a demo ... not updated
 setdata.jl   -- just setup data ... not updated
+play.jl      -- not used now
 
 reso.jl      -- resolution operations
 cgop.jl      -- graphic representation ... in progress
@@ -11,8 +11,11 @@ cgop.jl      -- graphic representation ... in progress
 tact.jl      -- tactical common
 tactu.jl     -- tactical unit resolution 
 
--- followings are tests. 
+testall.jl   -- run test below tests
 testreso.jl
 testcgop.jl
 testtact.jl
+
+
+-- followings are tests. 
 testtactu.jl

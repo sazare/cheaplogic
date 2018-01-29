@@ -100,56 +100,67 @@ end
 
 end
 
+@testset "equalclause" begin
+ @test equalclause(([:x], parse("[+Q(x,b)]")), ([:x],parse("[+Q(x,b)]"))) == true
+ @test equalclause(([:y], parse("[+Q(y,b)]")), ([:x],parse("[+Q(x,b)]"))) == true
+end
+
 @testset "pure resolution" begin
- @test resolution([:x,:y],parse("[+P(a)]"), parse("[+P(a)]"),1,1) == :NAP
- @test resolution([:x,:y],parse("[+P(a)]"), parse("[-P(a)]"),1,1) == EmptyClause
- @test resolution([:x,:y],parse("[-P(a)]"), parse("[+P(a)]"),1,1) == EmptyClause
- @test resolution([:x,:y],parse("[+P(a)]"), parse("[-P(x)]"),1,1) == EmptyClause
- @test resolution([:x,:y],parse("[+P(x)]"), parse("[-P(x)]"),1,1) == EmptyClause
+ @test resolution(([],parse("[+P(a)]")),1, ([],parse("[+P(a)]")),1) == :NAP
+ @test resolution(([],parse("[+P(a)]")),1, ([],parse("[-P(a)]")),1) == (EmptyCForm,[])
+ @test resolution(([],parse("[-P(a)]")),1, ([],parse("[+P(a)]")),1) == (EmptyCForm,[])
+ @test resolution(([],parse("[+P(a)]")),1, ([:x],parse("[-P(x)]")),1) == (EmptyCForm,[])
+ @test resolution(([:x],parse("[+P(x)]")),1, ([:x],parse("[-P(x)]")),1) == (EmptyCForm,[])
 
- @test resolution([:x,:y],parse("[+P(a)]"), parse("[-P(b)]"),1,1) == :NAP
- @test resolution([:x,:y],parse("[+P(a)]"), parse("[-P(b),+Q(x,y),+R(y)]"),1,1) == :NAP
+ @test resolution(([],parse("[+P(a)]")),1, ([],parse("[-P(b)]")),1) == :NAP
+ @test resolution(([],parse("[+P(a)]")),1, ([:x,:y],parse("[-P(b),+Q(x,y),+R(y)]")),1) == :NAP
 
- @test resolution([:x,:y],parse("[+(P(x))]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,1) == parse("[+Q(x,y),+R(y)]")
- @test resolution([:x,:y],parse("[+(P(a))]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,1) == parse("[+Q(a,y),+R(y)]")
+ r1 = resolution(([:x],parse("[+(P(x))]")),1, ([:x,:y],parse("[-P(x),+Q(x, y),+R(y)]")),1) 
+ @test equalclause(r1[1],([:x,:y],parse("[+Q(x,y),+R(y)]"))) == true
 
- @test resolution([:x,:y],parse("[-Q(a,b),+P(a)]"), parse("[-P(x),+Q(x, y),+R(y)]"),1,2) == parse("[+P(a),-P(a),+R(b)]")
- @test resolution([:x,:y],parse("[-Q(a,b),+P(a)]"), parse("[+Q(x, y),+R(y),-P(x)]"),2,3) == parse("[-Q(a,b),+Q(a,y),+R(y)]")
+ r2 = resolution(([],parse("[+(P(a))]")), 1, ([:x,:y],parse("[-P(x),+Q(x, y),+R(y)]")),1) 
+ @test equalclause(r2[1], ([:y],parse("[+Q(a,y),+R(y)]")))
+
+ r3 = resolution(([],parse("[-Q(a,b),+P(a)]")),1, ([:x,:y],parse("[-P(x),+Q(x, y),+R(y)]")),2) 
+ @test equalclause(r3[1], ([],parse("[+P(a),-P(a),+R(b)]")))
+
+ r4 = resolution(([],parse("[-Q(a,b),+P(a)]")),2, ([:x,:y],parse("[+Q(x, y),+R(y),-P(x)]")),3) 
+ @test equalclause(r4[1], ([:y],parse("[-Q(a,b),+Q(a,y),+R(y)]")))
+
 end
 
 @testset "real resolution" begin
  v,r = resolution([:y], parse("[-Q(a,y),+P(a)]"), 2, [:x,:y], parse("[+Q(x, y),+R(y),-P(x)]"),3) 
- @test rename(v,r,[:x,:y,:z]) == parse("[-Q(a,x),+Q(a,z),+R(z)]")
+ @test rename(v[1],v[2],[:x,:y,:z]) == parse("[-Q(a,x),+Q(a,z),+R(z)]")
  v,r = resolution([], parse("[-Q(a,b),+P(a)]"), 2, [:x,:y], parse("[+Q(x, y),+R(y),-P(x)]"),3) 
- @test rename(v,r,[:x,:y]) ==  parse("[-Q(a,b),+Q(a,y),+R(y)]")
+ @test rename(v[1],v[2],[:x,:y]) ==  parse("[-Q(a,b),+Q(a,y),+R(y)]")
 
 end
 
 @testset "reduction" begin
- r0 = parse("[-Q(a,y),+P(a)]")
- r = reduction([:x], r0, 2)
- @test r == r0
+ r = reduction(([:y], parse("[-Q(a,y),+P(a)]")), 1)
+ @test equalclause(r[1], ([:y],parse("[-Q(a,y),+P(a)]"))) == true
 
- r = reduction([:x], parse("[-Q(a,y),+P(a),+P(a)]"), 2)
- @test r == parse("[-Q(a,y),+P(a)]")
+ r = reduction(([:y], parse("[-Q(a,y),+P(a),+P(a)]")), 2)
+ @test equalclause(r[1], ([:y],parse("[-Q(a,y),+P(a)]"))) == true
 
- r = reduction([:x], parse("[-Q(a,y),+P(x),+P(a)]"), 2)
- @test r == parse("[-Q(a,y),+P(a)]")
+ r = reduction(([:x,:y],parse("[-Q(a,y),+P(x),+P(a)]")), 2)
+ @test equalclause(r[1], ([:y], parse("[-Q(a,y),+P(a)]"))) == true
 
- r = reduction([:x], parse("[-Q(a,y),+P(b),+P(a)]"), 2)
- @test r == parse("[-Q(a,y),+P(b),+P(a)]")
+ r = reduction(([:y], parse("[-Q(a,y),+P(b),+P(a)]")), 2)
+ @test equalclause(r[1], ([:y],parse("[-Q(a,y),+P(b),+P(a)]"))) == true
 
- r = reduction([:x], parse("[-Q(a,x),+P(x),+P(a)]"), 2)
- @test r == parse("[-Q(a,a),+P(a)]")
+ r = reduction(([:x], parse("[-Q(a,x),+P(x),+P(a)]")), 2)
+ @test equalclause(r[1], ([],parse("[-Q(a,a),+P(a)]"))) == true
 
- r = reduction([:x], parse("[-Q(a,x),+P(x),+P(a),+R(x)]"), 2)
- @test r == parse("[-Q(a,a),+P(a),+R(a)]")
+ r = reduction(([:x], parse("[-Q(a,x),+P(x),+P(a),+R(x)]")), 2)
+ @test equalclause(r[1],([],parse("[-Q(a,a),+P(a),+R(a)]")))== true
 
- r = reduction([:x], parse("[-Q(a,x),+P(x),+P(a),+R(x)]"), 2)
- @test r == parse("[-Q(a,a),+P(a),+R(a)]")
+ r = reduction(([:x], parse("[-Q(a,x),+P(x),+P(a),+R(x)]")), 2)
+ @test equalclause(r[1],([], parse("[-Q(a,a),+P(a),+R(a)]"))) == true
 
- r = reduction([:x], parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]"), 2)
- @test r == parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]")
+ r = reduction(([:x], parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]")), 2)
+ @test equalclause(r[1], ([:x],parse("[-Q(a,x),+P(x),+P(f(x)),+R(x)]"))) == true
 end
 
 @testset "reduction" begin
@@ -162,4 +173,22 @@ end
 
 
 end
+
+@testset "readablevars" begin
+ @test length(readablevars(1))==1
+ @test length(readablevars(10))==10
+ newv = readablevars(30)
+ @test length(intersect(newv,newv)) == 30
+end
+
+@testset "reducesub" begin
+ @test reducesub([:x,:y], [:x], [:a,:b]) == [:a]
+ @test reducesub([:x,:y,:z,:w], [:x,:w], [:a,:b,:c,[:f :x]]) == [:a, [:f :x]]
+end
+
+@testset "fitvars" begin
+ @test fitvars([:x,:y], parse("[+Q(x,b)]"), [:a,:b]) == (([:x],parse("[+Q(x,b)]")), [:a])
+ @test fitvars([:x,:y], parse("[+Q(a,b)]"), [:a,:b]) == (([],parse("[+Q(a,b)]")), [])
+end
+
 
