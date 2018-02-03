@@ -68,7 +68,17 @@ end
 
 end
 
-@testset "putclause" begin
+@testset "putcls" begin
+ adb1= makedb(tcls1)
+ cdb1=adb1.cdb
+ @test putcls(([:x,:y],parse("[+(P(x)),+Q(x,y)]")),cdb1) == 1
+ @test putcls(([:w,:y],parse("[+(P(w)),+Q(w,y)]")),cdb1) == 1
+ @test putcls(([:w,:y],parse("[+(P(w)),+Q(x,y)]")),cdb1) == size(cdb1,1)+1 
+ @test putcls(([:x,:y],parse("[+(R(x)),+Q(x,y)]")),cdb1) == size(cdb1,1)+1
+
+end
+
+@testset "findunit" begin
  rdb1= makedb(tcls1)
  rdb2= makedb(tcls2)
 
