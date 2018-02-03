@@ -116,6 +116,18 @@ end
 ##
 newcd(cdb) = length(cdb) + 1
 
+function putcls(cls,cdb)::Int
+ cid = 1
+ for ci in cdb
+  if equalclause(ci, cls)
+   return cid
+  end 
+  cid += 1
+ end
+ push!(cdb, cls)
+ return cid +1
+end
+
 function putcdb(cdb,cls)
  push!(cdb, cls)
 end

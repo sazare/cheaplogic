@@ -102,7 +102,13 @@ end
 
 @testset "equalclause" begin
  @test equalclause(([:x], parse("[+Q(x,b)]")), ([:x],parse("[+Q(x,b)]"))) == true
+ @test equalclause(([:x], parse("[+Q(x,c)]")), ([:x],parse("[+Q(x,b)]"))) == false
  @test equalclause(([:y], parse("[+Q(y,b)]")), ([:x],parse("[+Q(x,b)]"))) == true
+ @test equalclause(([:y], parse("[+Q(y,b),+P(c)]")), ([:x],parse("[+Q(x,b),P(a)]"))) == false
+ @test equalclause(([:x,:y], parse("[+Q(x,y),+P(a)]")), ([:w,:y],parse("[+Q(x,y),P(b)]"))) == false
+ @test equalclause(([:x,:y], parse("[+Q(x,y),+P(x)]")), ([:w,:y],parse("[+Q(x,y),P(w)]"))) == false
+ @test equalclause(([:y], parse("[+Q(y,b)]")), ([:y],parse("[+Q(x,b)]"))) == false
+ @test equalclause(([:x], parse("[+Q(y,x,b)]")), ([:y],parse("[+Q(y,x,b)]"))) == false
 end
 
 @testset "pure resolution" begin

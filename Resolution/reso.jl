@@ -395,10 +395,14 @@ function renamereadable(clause::CForm, sub::Tlist)
 end
 
 function equalclause(clause1::CForm, clause2::CForm)
- var1=clause1[1]
- cls1=clause1[2]
- var2=clause2[1]
- cls2=clause2[2]
+ rcls1,rsub1=renamereadable(clause1, [])
+ rcls2,rsub2=renamereadable(clause2, [])
+
+ var1=rcls1[1]
+ cls1=rcls1[2]
+ var2=rcls2[1]
+ cls2=rcls2[2]
+
  if length(var1)!=length(var2);return false end
  if length(cls1.args)!=length(cls2.args);return false end
 
