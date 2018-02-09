@@ -23,3 +23,17 @@ vars=cls[1]
  cls
 end
 
+#### readclause
+
+#from a file
+function readclausefromfile(fname)
+ lines=readlines(fname)
+ clss = []
+ for line in lines
+  if (length(line)>0)&&(line[1]=='[')
+   push!(clss,parse(line))
+  end
+ end
+ return clss
+end
+

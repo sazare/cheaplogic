@@ -1,4 +1,6 @@
 ## real data
-include("setdata.jl")
+include("loadall.jl")
 
-
+madoka=readclausefromfile("madoka.def")
+madodb=makedb(madoka)
+printdb(madodb)
