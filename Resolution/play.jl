@@ -3,10 +3,12 @@ include("loadall.jl")
 include("newcore.jl")
 
 magia=readclausefromfile("magia.def")
-#magidb=makedb(magia)
-#printdb(magidb)
 
 cmagi=createcore(magia)
 printcore(cmagi)
 
+db001=readclausefromfile("data001.def")
+cd001=createcore(db001)
+
+printresolvent(:R1, rdb001, cd001)
 

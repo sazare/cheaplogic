@@ -8,8 +8,6 @@ c4=parse("-Q(a,g(b))")
 c5=parse("+R(g(x))")
 c6=parse("+R(f(x))")
 
-include("cgop.jl")
-include("tact.jl")
 
 pr1=[makeastep(:resolution, [:x], parse("[+P(x,a)]"), 1, [:x], parse("[-P(x,x)]"),1, [:v], EmptyClause, [:a]),
  makeastep(:reduction, [:x], parse("[+P(x,a),+P(x,x)]"), 1, 2, parse("[+P(a,a)]"), [:a])

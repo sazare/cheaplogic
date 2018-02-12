@@ -26,6 +26,6 @@ query
  [x].[-Love(x, Kamijo)]
  [x].[+H(x)]
 
-#最後のは人類ではないものを訪ねているのでQBを求めたい
+# The last question assumes QB is the answer. It asks what is the non human.
 
 

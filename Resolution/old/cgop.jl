@@ -37,26 +37,26 @@ end
 
 function getlit(cdb, clp)
  cid,lid=clp
- return cdb[cid][2].args[lid].args[1], cdb[cid][2].args[lid].args[2]
+ return cdb[cid][2][lid].args[1], cdb[cid][2][lid].args[2]
 end
 
 function getlit(db::RESDB, clp)
  cid,lid=clp
- return db.cdb[cid][2].args[lid].args[1], db.cdb[cid][2].args[lid].args[2]
+ return db.cdb[cid][2][lid].args[1], db.cdb[cid][2][lid].args[2]
 end
 
 function litcounts(cdb)
- map(x->length(x[2].args),cdb)
+ map(x->length(x[2]),cdb)
 end
 
 function litcounts(db::RESDB)
- map(x->length(x[2].args),db.cdb)
+ map(x->length(x[2]),db.cdb)
 end
 
 #==
  maker for CDB,LDB,PGR
 ==# 
-makecent(cls) = (Array{Symbol}(cls.args[1].args), cls.args[2].args[1])
+makecent(cls) = (cls.args[1].args, cls.args[2].args[1].args)
 
 function makecdb(cdb,cls)
   vars, cl = makecent(cls)
@@ -72,8 +72,11 @@ function addcdb(cdb, clss)
 end
 
 function makeldb(ldb, cid, cls)
- for lid in 1:length(cls.args[2].args[1].args)
-  lit=cls.args[2].args[1].args[lid]
+@show cls
+ for lid in 1:length(cls[2])
+  lit=cls[2][lid]
+@show lid
+@show lit
   ldb[(cid,lid)]=lit
  end 
  return ldb

@@ -15,12 +15,10 @@ function gelit(var1,L1,var2,L2)
  return(sl1<=sl2)
 end
 
-#### sort make a list but need Expr ...
-function sortcls(cls::CForm)
- vars=cls[1]
- nargs=sort(cls[2].args, lt=(x,y)->gelit(vars,x,vars,y))
- cls[2].args=nargs
- cls
+# sort literals for uniquness
+function sortcls(vars, cls)
+ nargs=sort(cls, lt=(x,y)->gelit(vars,x,vars,y))
+ return vars, nargs
 end
 
 #### readclause
