@@ -146,6 +146,7 @@ end
 
 
 ### new resolution
+# insufficient
 function resolution(lid1, lid2, core)
 # clause c1,c2 is an array.
 
