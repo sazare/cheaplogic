@@ -2,6 +2,14 @@
 
 include("common.jl")
 
+# input form
+# "[x,y].[+P(x,f(x),-Q(x)]"
+
+# internal form
+# CForm = ([:x,:y], [:(+(P(x,f(x)))), :(-(Q(x)))])
+# CForm2 = (:C12, [:x,:y], [:(+(P(x,f(x)))), :(-(Q(x)))])
+
+
 ## Type declare
 
 FTerm=Expr
@@ -15,12 +23,12 @@ Tlist = Array
 ## result
 # :NAP is Not APplicable 
 
-Clause = Expr
+Clause = Array
 Literal = Expr
 
-EmptyClause = :([])
+EmptyClause = []
 
-CForm = Tuple{Array,Expr}
+CForm = Tuple{Array,Array}
 EmptyCForm = ([],EmptyClause)
 
 ## Exceptions
@@ -217,7 +225,7 @@ function genvars(vars::Vlist)::Vlist
  map(v->gensym(v),vars)
 end
 
-function rename(vars, C::Expr, nvar)::Expr
+function rename(vars, C::Clause, nvar)::Clause
  if isempty(vars); return C end
  apply(vars, C, nvar)
 end
@@ -228,20 +236,20 @@ resolution clash the i1'th of c1 with i2'th of c2
 function resolution(vars::Vlist, c1::Clause, c2::Clause, i1::Int, i2::Int)
 # clause c1,c2 is an array.
 
- if length(c1.args) < i1; println("i1 over the c1's length");return :NAP end
- if length(c2.args) < i2; println("i2 over the c2's length");return :NAP end
+ if length(c1) < i1; println("i1 over the c1's length");return :NAP end
+ if length(c2) < i2; println("i2 over the c2's length");return :NAP end
  if i1 <= 0; println("i1 should be >=0");return :NAP end
  if i2 <= 0; println("i2 should be >=0");return :NAP end
 
- lit1 = c1.args[i1]
- lit2 = c2.args[i2]
+ lit1 = c1[i1]
+ lit2 = c2[i2]
 
  if lit1.args[1] == lit2.args[1]; return :NAP end
  lit1.args[1] = lit2.args[1]  # temporarily let signs same
 
  try 
   sigma = unify(vars, lit1, lit2)
-  c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end],c2.args[1:(i2-1)],c2.args[(i2+1):end])
+  c1=vcat(c1[1:(i1-1)],c1[(i1+1):end],c2[1:(i2-1)],c2[(i2+1):end])
   r1,s1 = apply(vars,c1,sigma), sigma
   return r1,s1
  catch e
@@ -278,21 +286,21 @@ end
 reduction
 """
 function reduction(vars::Vlist, c1::Clause, i1::Int)
- if length(c1.args) < i1; println("i1 over the c1's length");return :NAP end
+ if length(c1) < i1; println("i1 over the c1's length");return :NAP end
  if i1 <= 0; println("i1 should be >=0");return :NAP end
- lit1 = c1.args[i1]
+ lit1 = c1[i1]
  atm1 = lit1.args[2]
 
- for i2 in 1:length(c1.args)
+ for i2 in 1:length(c1)
   if i2==i1; continue end
-   lit2 = c1.args[i2]
+   lit2 = c1[i2]
    atm2 = lit2.args[2]
    if atm1.args[1] != atm2.args[1]; continue end
    if lit1.args[1] != lit2.args[1]; continue end
 
    try 
     sigma = unify(vars, lit1, lit2)
-    c1.args=vcat(c1.args[1:(i1-1)],c1.args[(i1+1):end])
+    c1=vcat(c1[1:(i1-1)],c1[(i1+1):end])
     r1=apply(vars,c1,sigma)
     return renamereadable((vars, r1), sigma)
    catch e
@@ -310,12 +318,12 @@ end
 satisfiable check
 """
 function satisfiable(vars::Vlist, c1::Clause)
- for i1 in 1:length(c1.args) 
-  lit1 = c1.args[i1]
+ for i1 in 1:length(c1) 
+  lit1 = c1[i1]
   atm1 = lit1.args[2]
 
-  for i2 in i1+1:length(c1.args)
-   lit2 = c1.args[i2]
+  for i2 in i1+1:length(c1)
+   lit2 = c1[i2]
    atm2 = lit2.args[2]
    if atm1.args[1] != atm2.args[1]; continue end
    if lit1.args[1] == lit2.args[1]; continue end
@@ -351,9 +359,9 @@ function readablevars(n::Int)
  vars[1:n]::Vlist
 end
 
-function containvar(vars::Vlist, cls::Clause)
+function containvar(vars::Vlist, form::Expr)
   cvars=[]::Vlist
-  for arg in cls.args
+  for arg in form.args
    if typeof(arg) == Symbol
     if arg in vars
       push!(cvars, arg)
@@ -362,6 +370,15 @@ function containvar(vars::Vlist, cls::Clause)
     pvars =  containvar(vars, arg)
     append!(cvars, pvars)
    end
+  end
+  return union(cvars,cvars)
+end
+
+function containvar(vars::Vlist, cls::Clause)
+  cvars=[]::Vlist
+  for lit in cls
+   pvars =  containvar(vars, lit)
+   append!(cvars, pvars)
   end
   return union(cvars,cvars)
 end
@@ -386,7 +403,6 @@ end
 function renamereadable(clause::CForm, sub::Tlist)
  vars = clause[1]
  cls  = clause[2]
-
  rvars = readablevars(length(vars))
  rcls = apply(vars, cls, rvars)
  rsub = apply(vars, sub, rvars)
@@ -404,7 +420,7 @@ function equalclause(clause1::CForm, clause2::CForm)
  cls2=rcls2[2]
 
  if length(var1)!=length(var2);return false end
- if length(cls1.args)!=length(cls2.args);return false end
+ if length(cls1)!=length(cls2);return false end
 
  scls2 = apply(var2, cls2, var1)
  if cls1 == scls2; return true end

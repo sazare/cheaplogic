@@ -1,0 +1,31 @@
+Fact
+[].[+B(Kamijo)]
+[].[+G(Hitomi)]
+[].[+G(Madoka)]
+[].[+MG(Mami)]
+[].[+MG(Sayaka)]
+[].[+MG(Homura)]
+[].[+MG(Kyoko)]
+[].[+C(QB)]
+[].[+Love(Sayaka, Kamijo)]
+[].[+Love(Hitomi, Kamijo)]
+[].[+Love(Kyoko, Sayaka)]
+[].[+Love(Homura, Madoka)]
+
+
+Theory
+[x].[-MG(x),+G(x)]
+[x].[-B(x),+H(x)]
+[x].[-G(x),+H(x)]
+
+
+query
+ [].[-H(Kamijo)]
+ [].[-H(Sayaka)]
+
+ [x].[-Love(x, Kamijo)]
+ [x].[+H(x)]
+
+# The last question assumes QB is the answer. It asks what is the non human.
+
+

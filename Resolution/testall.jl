@@ -1,7 +1,8 @@
 include("testreso.jl")
-include("testcgop.jl")
-include("testtact.jl")
+#include("testcgop.jl")
+#include("testtact.jl")
 include("testutils.jl")
-include("setdata.jl")
+#include("setdata.jl")
+include("testnewcore.jl")
 
 

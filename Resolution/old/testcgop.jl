@@ -31,15 +31,18 @@ tcls3 = [
  cdb1 = []
 
  cdb2 = makecdb(cdb1,tcls1[1])
- @test cdb2[1] == ([:x,:y], parse("[+P(x),+Q(x,y)]"))
+ @test cdb2[1] == ([:x,:y], parse("[+P(x),+Q(x,y)]").args)
  cdb3 = makecdb(cdb2,tcls1[4])
- @test cdb3[2] == ([], parse("[-P(b)]"))
+ @test cdb3[2] == ([], parse("[-P(b)]").args)
 
 end
 
 @testset "makeldb" begin
  ldb1 = Dict()
+@show tcls1[2]
  ldb2 = makeldb(ldb1, 2, tcls1[2])
+@show ldb1
+@show ldb2
  @test ldb2[(2,1)] == parse("+P(a)")
  @test ldb2[(2,2)] == parse("-Q(x,y)")
 end

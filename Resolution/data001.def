@@ -1,0 +1,14 @@
+Goal
+[y].[-Q(a,y)]
+ [x,y].[-Q(x,y)]
+
+Fact
+[y].[+P(a,y)]
+[y].[+P(b,y)]
+[x].[+R(x,x)]
+[x].[+R(a,c)]
+
+
+Theory
+[x,y].[-P(x,y),+Q(x,y),-R(x,y)]
+[x,y].[-P(x,f(y)),+Q(x,y),-R(x,y)]
