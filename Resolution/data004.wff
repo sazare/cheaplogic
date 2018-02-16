@@ -1,0 +1,7 @@
+@ test for DVC(1)
+[x,y].[+P(x,y)]
+[x,y].[+P(x,f(x)],-Q(x,y)]
+[x,y,z].[+Q(x,y),-R(x,y),-S(f(y),z)]
+[x].[-S(x,h(x))]
+[x,y].[+R(x,y),-S(x,y)]
+

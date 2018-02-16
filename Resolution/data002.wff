@@ -1,0 +1,13 @@
+@ ambiguous equation
+Goal
+[y].[-P(y)]
+
+Axioms
+Theory
+[y].[+P(y),-Q(y),-R(y)]
+[y].[+Q(y),-S(y)]
+[x].[+S(x),-Q(x)]
+[x].[+R(x),-S(x)]
+[x].[+P(x),-Q(x),-S(x)]
+
+
