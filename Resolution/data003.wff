@@ -1,0 +1,12 @@
+@ Arithmetic sample
+Goal
+[x].[-P(x,y)]
+
+Axioms
+Theory
+[x,y].[+P(x,y),-Q(x,y),-Q(x,y)]
+[x,y].[+Q(x,f(z)),-R(x,z)]
+[x,y].[+Q(x,f(g(z))),-S(x,z)]
+[x].[+S(x,f(x))]
+[x].[+R(x,g(h(x)))]
+

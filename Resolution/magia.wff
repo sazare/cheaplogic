@@ -1,3 +1,4 @@
+@ Madoka
 Fact
 [].[+B(Kamijo)]
 [].[+G(Hitomi)]
@@ -26,6 +27,6 @@ query
  [x].[-Love(x, Kamijo)]
  [x].[+H(x)]
 
-# The last question assumes QB is the answer. It asks what is the non human.
+memo The last question assumes QB is the answer. It asks what is the non human.
 
 
