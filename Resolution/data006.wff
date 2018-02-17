@@ -1,0 +1,5 @@
+@ test for DVC -- not occurs
+[].[-P(a,f(f(x)))]
+[x,y].[-P(x,y),+P(x,f(y))]
+[].P(a,b)
+
