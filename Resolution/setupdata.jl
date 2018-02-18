@@ -1,9 +1,9 @@
 include("loadall.jl")
 
-magia=readclausefromfile("magia.def")
+magia=readclausefromfile("magia.wff")
 cmagi=createcore(magia)
 
-data001=readclausefromfile("data001.def")
+data001=readclausefromfile("data001.wff")
 cd001=createcore(data001)
 
 #
