@@ -27,7 +27,7 @@ struct CORE
  clmap
  lcmap
  allpsym
- graph
+ level0
 end
 
 function stringtoclause(cid, cls)
