@@ -20,7 +20,6 @@ struct LForm2
  body
 end
 
-
 struct CORE
  ldb
  cdb
@@ -37,10 +36,10 @@ function stringtoclause(cid, cls)
 end
 
 function cform2ofclause(clss, initn=1)
- nclss=[]
+ nclss=Dict()
  for cno in 1:length(clss)
   cid = cidof(cno+initn-1)
-  push!(nclss, stringtoclause(cid, clss[cno]))
+  nclss[cid] = stringtoclause(cid, clss[cno])
  end
  nclss
 end
@@ -58,7 +57,7 @@ function numberingliterals(ncls, lno0, ldb, lcmap, clmap, allpsym)
   lcmap[lid] = cid
   push!(allpsym, lit.args[2].args[1])
   push!(lids, lid) 
-  push!(ldb, LForm2(lid, lit))
+  ldb[lid] = LForm2(lid, lit)
  end
  clmap[cid] = lids
 
@@ -66,19 +65,24 @@ function numberingliterals(ncls, lno0, ldb, lcmap, clmap, allpsym)
 end
 
 function createLDB(clss)
- ldb = []
+ ldb = Dict()
  lno = 1
  ltoc = Dict()
  ctol = Dict()
  allpsym = Set()
- for ncls in clss
+ for ncid in keys(clss)
+  ncls=clss[ncid]
   lno, ldb, ltoc, ctol, allpsym = numberingliterals(ncls, lno, ldb, ltoc, ctol, allpsym)
  end 
  return ldb, ltoc, ctol, allpsym
 end
 
 function vform2ofclause(cdb)
- map(ncl->VForm2(ncl.cid, ncl.vars) ,cdb)
+ vcl=[]
+ for cid in keys(cdb)
+   push!(vcl, VForm2(cid, cdb[cid].vars))
+ end
+ vcl
 end
 
 function createcore(clss)
@@ -91,21 +95,19 @@ end
 
 #core operation
 
-getno(id) = parse(string(id)[2:end])
 cidof(num::Int) = Symbol(:C, num)
 lidof(num::Int) = Symbol(:L, num)
 ridof(num::Int) = Symbol(:R, num)
 
 function varsof(cid, core)
- cno = getno(cid)
- core.cdb[cno].vars
+ core.cdb[cid].vars
 end
 
 function bodyof(cid, core)
  clmap=core.clmap[cid]
  body = []
  for lid in core.clmap[cid]
-  push!(body, core.ldb[getno(lid)].body)
+  push!(body, core.ldb[lid].body)
  end
  body
 end

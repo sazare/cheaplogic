@@ -11,7 +11,10 @@ function printldb(ldb)
  if isempty(ldb)
   println("empty")
  else
-  map(nli->println("$(nli.lid): $(nli.body)"),ldb)
+  for lid in keys(ldb)
+    nli = ldb[lid]
+    println("$(nli.lid): $(nli.body)")
+  end
  end
 end
 
@@ -55,7 +58,8 @@ function printclause(cid, core)
 end
 
 function printresolvent(rid, rdb, core)
- rrd = rdb[getno(rid)]
+@show rid
+ rrd = rdb[rid]
  println("$rid $(rrd.vars).")
  println("  {$(literalof(rrd.left, core)):$(literalof(rrd.right, core))}")
 

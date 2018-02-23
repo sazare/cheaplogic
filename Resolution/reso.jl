@@ -1,6 +1,7 @@
 # reso.jl
 
 include("common.jl")
+include("primitives.jl")
 
 # input form
 # "[x,y].[+P(x,f(x),-Q(x)]"
@@ -9,16 +10,6 @@ include("common.jl")
 # CForm = ([:x,:y], [:(+(P(x,f(x)))), :(-(Q(x)))])
 # CForm2 = (:C12, [:x,:y], [:(+(P(x,f(x)))), :(-(Q(x)))])
 
-
-## Type declare
-
-FTerm=Expr
-Term=Union{Symbol,Number,Expr}
-Var = Symbol
-Const = Union{Symbol,Number}
-
-Vlist = Array
-Tlist = Array
 
 ## result
 # :NAP is Not APplicable 
@@ -56,13 +47,6 @@ struct Loop
  right
  op
 end
-
-## primitives
-isvar(sym::Symbol,vars::Vlist)=sym in vars
-isvar(term,vars::Vlist)=false
-
-isconst(sym::Symbol,vars::Vlist)=!(sym in vars)
-isconst(sym::Number,vars::Vlist)=true
 
 """
 apply substitution to a term, substitution
