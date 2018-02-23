@@ -1,14 +1,13 @@
 ## real data
 include("loadall.jl")
-include("newcore.jl")
 
-magia=readclausefromfile("magia.def")
-
-cmagi=createcore(magia)
+cmagi=readcore("magia.wff")
 printcore(cmagi)
 
-db001=readclausefromfile("data001.def")
-cd001=createcore(db001)
+cd001=readcore("data001.wff")
+printcore(cd001)
 
-printresolvent(:R1, rdb001, cd001)
+ctime=readcore("time.wff")
+printcore(ctime)
+
 
