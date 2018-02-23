@@ -4,5 +4,6 @@ include("testreso.jl")
 include("testutils.jl")
 #include("setdata.jl")
 include("testnewcore.jl")
+include("testdvcreso.jl")
 
 
