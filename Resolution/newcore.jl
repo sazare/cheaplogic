@@ -27,6 +27,11 @@ struct CORE
  lcmap
  allpsym
  level0
+#==
+ rdb
+ rlmap
+ lrmap
+==#
 end
 
 function stringtoclause(cid, cls)
