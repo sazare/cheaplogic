@@ -35,3 +35,9 @@ function readclausefromfile(fname)
  return clss
 end
 
+#### readcore
+function readcore(fname)
+ cls = readclausefromfile(fname)
+ createcore(cls)
+end
+
