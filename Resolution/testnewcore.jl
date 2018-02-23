@@ -1,5 +1,5 @@
 # test new core
-1
+
 using Base.Test
 
 include("newcore.jl")
@@ -12,4 +12,10 @@ include("newcore.jl")
 
 end
 
+@testset "xid" begin
+ @test cidof(123) == :C123
+ @test lidof(3339) == :L3339
+ @test ridof(233) == :R233
+
+end
 

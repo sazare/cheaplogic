@@ -1,7 +1,6 @@
-@ Madoka
+@ time is comming
+
 Fact
-[].[+B(Kamijo)]
-[].[+G(Hitomi)]
 [].[+G(Madoka)]
 [].[+MG(Mami)]
 [].[+MG(Sayaka)]
@@ -17,17 +16,18 @@ Theory
 [x].[-MG(x),+G(x)]
 [x].[-B(x),+H(x)]
 [x].[-G(x),+H(x)]
+[x,t1,t2].[-MG(x,t1),+WT(x,t2),+GT(t2,t1)]
 
 
 query
- [].[-H(Kamijo)]
  [].[-H(Sayaka)]
 
+@ I'm not sure how to write
+ [x,t1,t2].[-G(x,t1),-Sup(QB,x,z),+WT(x,t2)]
+ [x,y].[Sup(QB,x,x)]
  [x].[-Love(x, Kamijo)]
 
-This question assumes QB is the answer. It asks what is the non human.
- [x].[+H(x)]
-
-
+query 
+ [x].[+MG(x,t1),-GT(t2,t1),+WT(x,t2)]
 
 
