@@ -28,8 +28,12 @@ function readclausefromfile(fname)
  lines=readlines(fname)
  clss = []
  for line in lines
-  if (length(line)>0)&&(line[1]=='[')
-   push!(clss,parse(line))
+  if length(line)>0
+    if line[1]=='['
+      push!(clss,parse(line))
+    elseif line[1] == '<'
+      append!(clss, readclausefromfile(strip(line[2:end],[' ','\t'])))
+    end
   end
  end
  return clss
