@@ -1,6 +1,6 @@
 # reso.jl
 
-include("common.jl")
+include("misc.jl")
 include("primitives.jl")
 
 # input form
