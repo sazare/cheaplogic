@@ -83,9 +83,9 @@ function createLDB(clss)
 end
 
 function vform2ofclause(cdb)
- vcl=[]
+ vcl=Dict()
  for cid in keys(cdb)
-   push!(vcl, VForm2(cid, cdb[cid].vars))
+   vcl[cid] = VForm2(cid, cdb[cid].vars)
  end
  vcl
 end
@@ -131,8 +131,7 @@ function cidof(lid, core)
 end
 
 function literalof(lid, core)
- ix = find(x->x.lid==lid,core.ldb)
- !isempty(ix) && core.ldb[ix][1].body
+ core.ldb[lid]
 end
 
 function literalsof(lids, core)
