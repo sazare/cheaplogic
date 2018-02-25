@@ -68,3 +68,8 @@ end
 
 end
 
+@testset "inverseof" begin
+ @test inverseof(:+) == :-
+ @test inverseof(:-) == :+
+end
+

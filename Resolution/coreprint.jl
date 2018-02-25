@@ -3,7 +3,7 @@ function printcdb(cdb)
  if isempty(cdb)
   println("empty")
  else
-  map(ncl->println("$(ncl.cid): $(ncl.vars)"), cdb)
+  map(cid->println("$(cid): $(cdb[cid])"), keys(cdb))
  end
 end
 
@@ -11,20 +11,15 @@ function printldb(ldb)
  if isempty(ldb)
   println("empty")
  else
-  for lid in keys(ldb)
-    nli = ldb[lid]
-    println("$(nli.lid): $(nli.body)")
-  end
+  map(lid->println("$(lid): $(ldb[lid].body)"),keys(ldb))
  end
 end
 
-function printmap(symmap)
- if isempty(keys(symmap))
+function printamap(amap)
+ if isempty(keys(amap))
   println("empty")
  else
-  for key in keys(symmap)
-   println("$key=>$(symmap[key])")
-  end
+  map(key->println("$key=>$(amap[key])"), keys(amap))
  end
 end
 
@@ -39,10 +34,11 @@ println("LDB")
  printldb(core.ldb)
 println()
 println("LCMAP")
- printmap(core.lcmap)
+ printamap(core.lcmap)
 println()
 println("CLMAP")
- printmap(core.clmap)
+ printamap(core.clmap)
+ println("\n-- end of core --")
 end
 
 #### resolvent
