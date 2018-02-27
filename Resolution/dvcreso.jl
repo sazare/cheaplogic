@@ -83,9 +83,19 @@ function equationof(sign, psym, core)
   cid = cidof(lid, core)
   lids = lidsof(cid, core)
   rem = setdiff(lids, [lid])
-@show rem
   push!(body, [cid, varsof(cid, core), lid, rem])
  end
  [(sign, psym), body]
 end
+
+function allequationof(core)
+ alleq = []
+ allpsym = core.allpsym 
+ for psym in allpsym
+   push!(alleq, equationof(:+, psym, core))
+   push!(alleq, equationof(:-, psym, core))
+ end
+ alleq
+end
+
 
