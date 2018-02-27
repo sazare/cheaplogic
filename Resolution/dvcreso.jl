@@ -40,7 +40,7 @@ end
 
 
 function rename_clause(xid, vars, clause)
-  (newvarlist(xid, vars), rename_term(xid, vars, clause))
+  CForm2(xid, newvarlist(xid, vars), map(lit->rename_term(xid, vars, lit),clause))
 end
 
 ## Equation

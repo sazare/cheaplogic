@@ -64,7 +64,11 @@ end
 end
 
 @testset "rename_clause" begin
- @test rename_clause(:R19, [:x3_C22,:y2_C22,:x3_C11R2], parse("[+P(x3_C22,f(y2_C22)),-Q(h(x3_C11R2,y2_C22),y2_C22)]")) == ([:x3_C22R19,:y2_C22R19,:x3_C11R2R19], parse("[+P(x3_C22R19, f(y2_C22R19)),-Q(h(x3_C11R2R19,y2_C22R19),y2_C22R19)]"))
+ r19 = rename_clause(:R19, [:x3_C22,:y2_C22,:x3_C11R2], parse("[+P(x3_C22,f(y2_C22)),-Q(h(x3_C11R2,y2_C22),y2_C22)]").args)
+
+ @test r19.cid == :R19
+ @test r19.vars == [:x3_C22R19,:y2_C22R19,:x3_C11R2R19]
+ @test r19.body == parse("[+P(x3_C22R19, f(y2_C22R19)),-Q(h(x3_C11R2R19,y2_C22R19),y2_C22R19)]").args
 
 end
 

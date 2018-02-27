@@ -1,21 +1,28 @@
 README
-memo.txt
+misc.jl       -- nyi() ... something like this
 
-common.jl    -- nyi() ... something like this
-setdata.jl   -- just setup data ... not updated
-play.jl      -- not used now
+primitives.jl -- primitive difinitions and functions
+utils.jl      -- basic concepts and readclause/readcore
+reso.jl       -- resolution operations -- almost uncompatibles
+newcore.jl    -- new core concepts
+coreprint.jl  -- print over core
+dvcreso.jl    -- DVC based resolution and more
 
-reso.jl      -- resolution operations
-cgop.jl      -- graphic representation ... in progress
-                todo make a type for (pgr, cdb, ldb) 
-tact.jl      -- tactical common
-tactu.jl     -- tactical unit resolution 
+setupdata.jl  -- just setup data 
+play.jl       -- playgound
 
-testall.jl   -- run test below tests
+#tests
+testall.jl    -- run test below tests
 testreso.jl
+testnewcore.jl
+testdvcreso.jl
+
+# obsoletes
+cgop.jl      -- graphic representation ... almost obsolete
+                todo make a type for (pgr, cdb, ldb) 
+
+tact.jl      -- tactical common obsolete 
+tactu.jl     -- tactical unit resolution  obsolete
 testcgop.jl
 testtact.jl
-
-
--- followings are tests. 
 testtactu.jl
