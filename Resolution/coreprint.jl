@@ -1,4 +1,29 @@
 #print
+
+function printliteral(lit)
+ print(lit)
+end
+
+function printclause(cls)
+ if isempty(cls)
+  print("□")
+ else
+  for lit in cls
+   printliteral(lit)
+  end
+ end
+end
+
+function printclause(cid, core)
+ vars,cls = getcls(cdb, cid)
+ print("$cid:")
+ printvars(vars)
+ print(".")
+ printclause(cls)
+end
+
+
+
 function printcdb(cdb) 
  if isempty(cdb)
   println("empty")
@@ -54,7 +79,6 @@ function printclause(cid, core)
 end
 
 function printresolvent(rid, rdb, core)
-@show rid
  rrd = rdb[rid]
  println("$rid $(rrd.vars).")
  println("  {$(literalof(rrd.left, core)):$(literalof(rrd.right, core))}")

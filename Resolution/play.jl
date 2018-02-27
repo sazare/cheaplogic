@@ -11,3 +11,10 @@ ctime=readcore("data/time.wff")
 printcore(ctime)
 
 
+## rename steps
+c6=clause2of(:C6, cd001)
+r11=rename_clause(:R11, c6.vars, c6.body)
+r11.cid
+r11.vars
+r11.body
+

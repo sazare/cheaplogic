@@ -30,6 +30,7 @@ literal and the substituion σ by previous resolutions.
 
 
 ==#
+#=
 """
 Definition
 """
@@ -40,8 +41,6 @@ struct PSTEP
   rlid::Symbol # :Lm
   sigma::Tlist
 end
-
-#==
 """
 Functions
 """
@@ -51,31 +50,6 @@ end
 
 function makeastep(op, vars, c1, l1, l2, r, sigma)
  return ProofStep(:reduction, rid, llid, rlid, sigma)
-end
-
-
-### printing
-
-function printliteral(lit)
- print(lit)
-end
-
-function printclause(cls::Clause)
- if isempty(cls)
-  print("□")
- else
-  for lit in cls
-   printliteral(lit)
-  end
- end
-end
-
-function printclause(cid, core)
- vars,cls = getcls(cdb, cid)
- print("$cid:")
- printvars(vars)
- print(".")
- printclause(cls)
 end
 
 function printastep(step, db)
@@ -108,7 +82,5 @@ function printproof(proof, db=[])
   printastep(proof[ix,:][1], db)
  end
 end
-
-
 ==#
 
