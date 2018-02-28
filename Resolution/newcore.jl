@@ -21,6 +21,7 @@ struct LForm2
 end
 
 struct CORE
+ maxcid
  ldb
  cdb
  clmap
@@ -42,11 +43,13 @@ end
 
 function cform2ofclause(clss, initn=1)
  nclss=Dict()
+ maxcid = cidof(1+initn-1)
  for cno in 1:length(clss)
   cid = cidof(cno+initn-1)
+  maxcid = cid
   nclss[cid] = stringtoclause(cid, clss[cno])
  end
- nclss
+ (maxcid, nclss)
 end
 
 function numberingliterals(ncls, lno0, ldb, lcmap, clmap, allpsym)
@@ -91,11 +94,11 @@ function vform2ofclause(cdb)
 end
 
 function createcore(clss)
- cdb = cform2ofclause(clss)
+ (maxcid, cdb) = cform2ofclause(clss)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= []
- CORE(ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph)
+ CORE(maxcid, ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph)
 end
 
 #core operation
@@ -156,7 +159,6 @@ end
 function resolution(lid1, lid2, core)
 # clause c1,c2 is an array.
 
-# lid make input clause not resolvent
 # is it ok? no
  vars = vcat(varsof(cidof(lid1, core), core), varsof(cidof(lid2, core), core))
  lit1 = literalof(lid1,core)
