@@ -38,7 +38,8 @@ end
 function stringtoclause(cid, cls)
  vars = cls.args[1].args
  body = cls.args[2].args[1].args
- return CForm2(cid, vars, body)
+ rcls = rename_clause(cid, vars, body)
+ return CForm2(cid, rcls.vars, rcls.body)
 end
 
 function cform2ofclause(clss, initn=1)
