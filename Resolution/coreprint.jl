@@ -49,9 +49,9 @@ function printamap(amap)
 end
 
 function printcore(core)
-println("Psyms")
- println(core.allpsym)
- println()
+println("max cid = $(core.maxcid)")
+println("Psyms = $(core.allpsym)")
+println()
 println("CDB")
  printcdb(core.cdb)
 println()

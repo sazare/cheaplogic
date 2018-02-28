@@ -38,6 +38,13 @@ function rename_term(xid, vars, term::Term)
   end
 end
 
+function rename_input(core)
+  ncdb = Dict()
+  for cid in keys(core.cdb)
+
+  end
+
+end
 
 function rename_clause(xid, vars, clause)
   CForm2(xid, newvarlist(xid, vars), map(lit->rename_term(xid, vars, lit),clause))
@@ -67,12 +74,6 @@ function oppositof(sign, psym, core)
  end
  rems
  
-end
-
-struct EQTerm
- vars
- head
- body
 end
 
 function equationof(sign, psym, core)
