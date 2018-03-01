@@ -50,6 +50,7 @@ end
 
 function printcore(core)
 println("max cid = $(core.maxcid)")
+println("max rid = $(core.maxrid)")
 println("Psyms = $(core.allpsym)")
 println()
 println("CDB")
