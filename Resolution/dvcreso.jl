@@ -1,5 +1,6 @@
 # post-rename DVC version
 
+include("misc.jl")
 include("primitives.jl")
 
 # variable manipulation
@@ -38,17 +39,92 @@ function rename_term(xid, vars, term::Term)
   end
 end
 
-function rename_input(core)
-  ncdb = Dict()
-  for cid in keys(core.cdb)
+function rename_clause(xid, vars, body)
+ CForm2(xid, newvarlist(xid, vars), map(lit->rename_term(xid, vars, lit), body))
+end
 
+function entrylit(rid, nlid, lid, core)
+  olit = literalof(lid, core).body
+  ovars = varsof(cidof(lid,core),core)
+  nlit=LForm2(nlid, rename_term(rid, ovars, olit))
+  core.ldb[nlid] = nlit
+end
+
+function rename_lid(rid, lid, core)
+  Symbol(origof(lid), rid)
+end
+
+function rename_lids(rid, lids, core)
+@show rid
+@show lids
+ nlids=[]
+ for lid in lids
+  nlid=rename_lid(rid, lid, core)
+  entrylit(rid, nlid, lid, core)
+  push!(nlids, nlid)
+ end
+@show nlids
+ return nlids
+end
+
+## resolution
+function dvc_resolution(l1,l2,core)
+ vars1 = varsof(cidof(l1, core), core)
+ vars2 = varsof(cidof(l2, core), core)
+ lit1  = literalof(l1, core).body
+ lit2  = literalof(l2, core).body
+ ovars = vcat(vars1,vars2)
+ (sign1, psym1) = psymof(l1, core)
+ (sign2, psym2) = psymof(l2, core)
+
+@show psym1, psym2
+@show sign1, sign2
+ if sign1 == sign2; return :FAIL end
+ if psym1 != psym2; return :FAIL end
+ try 
+   sigmai = unify(ovars, lit1, lit2)
+@show ovars
+@show sigmai
+
+   rid =  newrid(core)
+
+   rem1 = lidsof(cidof(l1, core),core)
+   rem1 = setdiff(rem1, [l1])
+   rem2 = lidsof(cidof(l2, core),core)
+   rem2 = setdiff(rem2, [l2])
+   vars = intersect(ovars, sigmai)
+
+#   vars = newvarlist(rid, vars)
+@show vars
+   
+# rename rlid
+
+   rem = vcat(rem1, rem2)
+@show rem
+   nrem = rename_lids(rid, rem, core)
+@show nrem
+   nbody = literalsof(rem, core)
+@show nbody
+   body = rename_clause(rid, vars, nbody)
+@show body
+ ## settlement
+
+# cdb[rid] to vars
+
+# clmap[rid] to rlid*
+ 
+# ldb[rlid] to full
+
+# lcmap[rlid] to rid
+
+  return CForm2(rid, vars, body)
+
+  catch e 
+    return e
   end
-
 end
 
-function rename_clause(xid, vars, clause)
-  CForm2(xid, newvarlist(xid, vars), map(lit->rename_term(xid, vars, lit),clause))
-end
+
 
 ## Equation
 function psymof(lid, core)
@@ -99,4 +175,4 @@ function allequationof(core)
  alleq
 end
 
-
+### 

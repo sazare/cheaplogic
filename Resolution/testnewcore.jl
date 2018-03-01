@@ -12,10 +12,24 @@ include("newcore.jl")
 
 end
 
-@testset "xid" begin
+@testset "id and etc" begin
  @test cidof(123) == :C123
  @test lidof(3339) == :L3339
  @test ridof(233) == :R233
+
+ @test origof(:xy_C12) == :xy
+ @test origof(:xy_C12_JJ) == :xy
+ @test origof(:xy) == :xy
+
+ @test numof(:C123) == 123
+ @test numof(:L22) == 22
+ @test numof(:R2333) == 2333
+
+ ctest = CORE(0,[0],0,0,0,0,0,0)
+ @test newrid(ctest) == :R1
+ @test newrid(ctest) == :R2
+ @test newrid(ctest) == :R3
+
 
 end
 

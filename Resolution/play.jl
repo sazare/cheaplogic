@@ -34,3 +34,9 @@ sd1 = "@ 1st example\nGoal\n[y].[-Q(a,y)]\n [x,y].[-Q(x,y)]\n\nFact\n[y].[+P(a,y
 sc1=readcore(IOBuffer(sd1))
 printcore(sc1)
 
+#resolution
+
+dvc_resolution(:L6, :L1, cd001)
+
+
+

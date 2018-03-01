@@ -1,5 +1,7 @@
 # new Core
 
+include("dvcreso.jl") # for eename_clause() means a cycle dependency happend
+
 # clause format
 # parse("[x,y].[+P(x,f(x),-Q(x,y)]")
 # as readclausesfromfile()
@@ -22,6 +24,7 @@ end
 
 struct CORE
  maxcid
+ maxrid
  ldb
  cdb
  clmap
@@ -99,7 +102,7 @@ function createcore(clss)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= []
- CORE(maxcid, ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph)
+ CORE([numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph)
 end
 
 #core operation
@@ -107,6 +110,25 @@ end
 cidof(num::Int) = Symbol(:C, num)
 lidof(num::Int) = Symbol(:L, num)
 ridof(num::Int) = Symbol(:R, num)
+
+function newlid(xid, lid)
+  Symbol(lid,xid)
+end
+
+
+function newrid(core) 
+ core.maxrid[1] += 1 
+ ridof(core.maxrid[1])
+end
+
+function origof(xid)
+ pix = search(string(xid), SEPSYM)
+
+ pix == 0 && return xid
+ return Symbol(string(xid)[1:(search(string(xid),'_')-1)])
+end
+
+numof(xid) = parse(string(xid)[2:end])
 
 function varsof(cid, core)
  core.cdb[cid].vars
@@ -139,7 +161,7 @@ function literalof(lid, core)
 end
 
 function literalsof(lids, core)
- map(lid->literalof(lid), lids)
+ map(lid->literalof(lid, core).body, lids)
 end
 
 #### resolvent
