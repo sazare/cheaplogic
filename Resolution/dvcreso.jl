@@ -34,8 +34,9 @@ function rename_term(xid, vars, term::Term)
     end
   else
     params = term.args
-    term.args = map(param->rename_term(xid, vars, param),params)
-    return term
+    nterm = deepcopy(term)
+    nterm.args = map(param->rename_term(xid, vars, param),params)
+    return nterm
   end
 end
 
@@ -55,15 +56,15 @@ function rename_lid(rid, lid, core)
 end
 
 function rename_lids(rid, lids, core)
-@show rid
-@show lids
+#@show rid
+#@show lids
  nlids=[]
  for lid in lids
   nlid=rename_lid(rid, lid, core)
   entrylit(rid, nlid, lid, core)
   push!(nlids, nlid)
  end
-@show nlids
+#@show nlids
  return nlids
 end
 
@@ -77,14 +78,14 @@ function dvc_resolution(l1,l2,core)
  (sign1, psym1) = psymof(l1, core)
  (sign2, psym2) = psymof(l2, core)
 
-@show psym1, psym2
-@show sign1, sign2
+#@show psym1, psym2
+#@show sign1, sign2
  if sign1 == sign2; return :FAIL end
  if psym1 != psym2; return :FAIL end
  try 
    sigmai = unify(ovars, lit1, lit2)
-@show ovars
-@show sigmai
+#@show ovars
+#@show sigmai
 
    rid =  newrid(core)
 
@@ -95,29 +96,43 @@ function dvc_resolution(l1,l2,core)
    vars = intersect(ovars, sigmai)
 
 #   vars = newvarlist(rid, vars)
-@show vars
+#@show vars
    
 # rename rlid
-
+#@show rem1
+#@show rem2
    rem = vcat(rem1, rem2)
-@show rem
+#@show rem
    nrem = rename_lids(rid, rem, core)
-@show nrem
+#@show nrem
    nbody = literalsof(rem, core)
-@show nbody
+#@show nbody
    body = rename_clause(rid, vars, nbody)
-@show body
+#@show body
  ## settlement
 
 # cdb[rid] to vars
+  core.cdb[rid] = VForm2(rid, body.vars)
 
-# clmap[rid] to rlid*
+# clmap[rid] to rlid* = nrem
  
+  core.clmap[rid] = nrem
+
 # ldb[rlid] to full
+ 
+  for i in 1:length(nrem)
+#@show nrem[i]
+#@show body.body[i]
+    core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
+  end
 
 # lcmap[rlid] to rid
+#@show nrem
+  for rlid in nrem
+    core.lcmap[rlid] = rid
+  end
 
-  return CForm2(rid, vars, body)
+  return CForm2(rid, body.vars, body.body)
 
   catch e 
     return e

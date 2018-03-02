@@ -36,7 +36,25 @@ printcore(sc1)
 
 #resolution
 
-dvc_resolution(:L6, :L1, cd001)
+### resolution step (image)
+print("\nstep1 R1 = <L1,L6>")
+printclause(:C2, cd001)
+printclause(:C7, cd001)
+r1= dvc_resolution(:L1, :L6, cd001)
+printclause(:R1, cd001)
+
+print("\n\nstep1 R2 = <L7R1, L2>")
+printclause(:C1, cd001)
+r2= dvc_resolution(:L7R1, :L2, cd001)
+printclause(:R2, cd001)
+
+print("\n\nstep1 R3 = <L8R1R2, L10>")
+printclause(:C4, cd001)
+r3= dvc_resolution(:L8R1R2, :L10, cd001)
+printclause(:R3, cd001)
+
+println("\n\n final core")
+printcore(cd001)
 
 
 

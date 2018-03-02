@@ -4,24 +4,46 @@ function printliteral(lit)
  print(lit)
 end
 
-function printclause(cls)
- if isempty(cls)
+function printlids(lids, core)
+ if isempty(lids)
   print("□")
  else
-  for lit in cls
-   printliteral(lit)
+  for i in 1:length(lids)
+   println()
+   print(" $(lids[i]) = ")
+   printliteral(literalof(lids[i], core).body)
   end
  end
 end
 
-function printclause(cid, core)
- vars,cls = getcls(cdb, cid)
- print("$cid:")
- printvars(vars)
- print(".")
- printclause(cls)
+function printbody(cls)
+ if isempty(cls)
+  print("□")
+ else
+  for i in 1:length(cls)
+   println()
+   print(" ")
+   printliteral(cls[i])
+  end
+ end
 end
 
+function printvars(vars)
+ print("[")
+ for i in 1:length(vars)
+  i != 1 && print(",")
+  print(vars[i])
+ end
+ print("]")
+end
+
+function printclause(cid, core)
+ print("\n$cid:")
+ printvars(varsof(cid, core))
+ print(".")
+ printlids(lidsof(cid,core), core)
+ #printbody(cls.body)
+end
 
 
 function printcdb(cdb) 
@@ -68,6 +90,7 @@ println("CLMAP")
 end
 
 #### resolvent
+#=
 function printliteral(lid, core)
  println("  $lid.$(literalof(lid,core))")
 end
@@ -91,4 +114,4 @@ function printresolvent(rid, rdb, core)
 end
 
 
-
+==#
