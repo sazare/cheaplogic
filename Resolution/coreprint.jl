@@ -4,14 +4,19 @@ function printliteral(lit)
  print(lit)
 end
 
+function printlid(lid, core)
+  print(" $lid.")
+  printliteral(literalof(lid, core).body)
+end
+
 function printlids(lids, core)
  if isempty(lids)
   print("□")
  else
   for i in 1:length(lids)
-   println()
-   print(" $(lids[i]) = ")
-   printliteral(literalof(lids[i], core).body)
+    i!=1 && print(",")
+#   println()
+   printlid(lids[i], core)
   end
  end
 end
@@ -40,7 +45,7 @@ end
 function printclause(cid, core)
  print("\n$cid:")
  printvars(varsof(cid, core))
- print(".")
+ println(".")
  printlids(lidsof(cid,core), core)
  #printbody(cls.body)
 end
@@ -90,28 +95,57 @@ println("CLMAP")
 end
 
 #### resolvent
-#=
 function printliteral(lid, core)
- println("  $lid.$(literalof(lid,core))")
+ println("  $lid:$(literalof(lid,core).body)")
 end
 
-function printclause(cid, core)
- println("$cid $(varsof(cid, core)).")
- for lid in lidsof(cid, core)
-  printliteral(lid, core)
- end
+#### template
+function printtemplate1(eq, core)
+  println("$(eq[1][1])$(eq[1][2]) = ")
+  body=eq[2]
+  for i in 1:length(body)
+    i!=1 && println("*")
+    ll=body[i]
+    printlid(ll[3], core)
+    print("[")
+    printlids(ll[4],core)
+    print("]")
+    print(" ($(ll[1]))")
+  end
 end
 
-function printresolvent(rid, rdb, core)
- rrd = rdb[rid]
- println("$rid $(rrd.vars).")
- println("  {$(literalof(rrd.left, core)):$(literalof(rrd.right, core))}")
-
- for lid in rrd.body
-  println("  $(literalof(lid, core))")
- end
- println("σ:$(rrd.sigma)")
+function printlid0(lid, core)
+  print("$(lsymof(lid, core))")
 end
 
+function printlids0(lids, core)
+  for lid in lids
+   printlid0(lid, core)
+  end
+end
 
-==#
+function printtemplate0(eq, core)
+  print("$(eq[1][1])$(eq[1][2]) = ")
+  body=eq[2]
+  for i in 1:length(body)
+    i!=1 && print("*")
+    printlid0(body[i][3], core)
+    print("[")
+    printlids0(body[i][4],core)
+    print("]($(body[i][1]))")
+  end
+end
+
+function printtemplates0(eqs, core)
+  for eq in eqs
+    printtemplate0(eq, core)
+    println()
+  end
+end
+
+function printtemplates1(eqs,core)
+  for eq in eqs
+    printtemplate1(eq, core)
+    println()
+  end
+end
