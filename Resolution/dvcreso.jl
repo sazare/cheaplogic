@@ -147,6 +147,11 @@ function psymof(lid, core)
  (lit.args[1], lit.args[2].args[1])
 end
 
+function lsymof(lid, core)
+ psym = psymof(lid, core)
+ string(psym[1],psym[2])
+end
+
 inverseof(sign) = if sign == :- ; :+ else :- end
 
 function litis(sign, psym, lid, core)
@@ -167,7 +172,7 @@ function oppositof(sign, psym, core)
  
 end
 
-function equationof(sign, psym, core)
+function templateof(sign, psym, core)
  eqs = Dict()
  oppos = oppositof(sign, psym, core)
  body = []
@@ -180,12 +185,12 @@ function equationof(sign, psym, core)
  [(sign, psym), body]
 end
 
-function allequationof(core)
+function alltemplateof(core)
  alleq = []
  allpsym = core.allpsym 
  for psym in allpsym
-   push!(alleq, equationof(:+, psym, core))
-   push!(alleq, equationof(:-, psym, core))
+   push!(alleq, templateof(:+, psym, core))
+   push!(alleq, templateof(:-, psym, core))
  end
  alleq
 end

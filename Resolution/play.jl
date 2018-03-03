@@ -34,9 +34,14 @@ sd1 = "@ 1st example\nGoal\n[y].[-Q(a,y)]\n [x,y].[-Q(x,y)]\n\nFact\n[y].[+P(a,y
 sc1=readcore(IOBuffer(sd1))
 printcore(sc1)
 
-#resolution
+# equation
+aeq = alltemplateof(cd001)
 
-### resolution step (image)
+printtemplates0(aeq, cd001)
+printtemplates1(aeq, cd001)
+
+
+# resolution
 print("\nstep1 R1 = <L1,L6>")
 printclause(:C2, cd001)
 printclause(:C7, cd001)
