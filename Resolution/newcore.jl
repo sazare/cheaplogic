@@ -22,6 +22,19 @@ struct LForm2
  body
 end
 
+struct STEPC
+ rid
+ leftp
+ rightp
+end
+
+struct STEP
+ rid
+ leftp
+ rightp
+ sigma
+end
+
 struct CORE
  maxcid
  maxrid
@@ -31,11 +44,7 @@ struct CORE
  lcmap
  allpsym
  level0
-#==
- rdb
- rlmap
- lrmap
-==#
+ proof
 end
 
 function stringtoclause(cid, cls)
@@ -101,8 +110,30 @@ function createcore(clss)
  (maxcid, cdb) = cform2ofclause(clss)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
- graph= []
- CORE([numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph)
+ graph= Dict()
+ CORE([numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict())
+end
+
+# proof operation
+stepof(rid, core) = core.proof[rid]
+
+function proofcof(rid, core)
+ proof = []
+ rids  = [rid]
+
+ while !isempty(rids)
+  rid = pop!(rids)
+
+  if isrid(rid)
+    astep=stepof(rid, core)
+    push!(rids, cidof(astep.leftp, core))
+    push!(rids, cidof(astep.rightp, core))
+    push!(proof, STEPC(rid, cidof(astep.leftp, core), cidof(astep.rightp, core)))
+  else
+    continue
+  end
+ end
+ proof
 end
 
 #core operation
@@ -178,8 +209,8 @@ end
 
 
 ### new resolution
-# insufficient
 function resolution(lid1, lid2, core)
+@show "insufficient yet"
 # clause c1,c2 is an array.
 
 # is it ok? no

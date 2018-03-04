@@ -7,6 +7,9 @@ printcore(cmagi)
 cd001=readcore("data/data001.wff")
 printcore(cd001)
 
+cd002=readcore("data/data002.wff")
+printcore(cd002)
+
 ctime=readcore("data/time.wff")
 printcore(ctime)
 
@@ -34,10 +37,13 @@ sd1 = "@ 1st example\nGoal\n[y].[-Q(a,y)]\n [x,y].[-Q(x,y)]\n\nFact\n[y].[+P(a,y
 sc1=readcore(IOBuffer(sd1))
 printcore(sc1)
 
-# equation
-aeq = alltemplateof(cd001)
+# templates
+println("make all templates")
+alltemplateof(cd001)
+aeq = cd001.level0
+printcore(cd001)
 
-printtemplates0(aeq, cd001)
+printtemplates0(cd001.level0, cd001)
 printtemplates1(aeq, cd001)
 
 
@@ -48,18 +54,33 @@ printclause(:C7, cd001)
 r1= dvc_resolution(:L1, :L6, cd001)
 printclause(:R1, cd001)
 
-print("\n\nstep1 R2 = <L7R1, L2>")
+print("\n\nstep1 R2 = <L7_R1, L2>")
 printclause(:C1, cd001)
-r2= dvc_resolution(:L7R1, :L2, cd001)
+r2= dvc_resolution(:L7_R1, :L2, cd001)
 printclause(:R2, cd001)
 
-print("\n\nstep1 R3 = <L8R1R2, L10>")
+print("\n\nstep1 R3 = <L8_R2, L10>")
 printclause(:C4, cd001)
-r3= dvc_resolution(:L8R1R2, :L10, cd001)
+r3= dvc_resolution(:L8_R2, :L10, cd001)
 printclause(:R3, cd001)
 
 println("\n\n final core")
 printcore(cd001)
+
+println(proofcof(:R3, cd001))
+
+itemp1 = alltemplateof(cd001)
+applytemp(:L1, cd001)
+
+itemp2 = alltemplateof(cd002)
+
+goal1 = lidsof(:C1, cd002)
+gs1 = []
+for g1 in goal1
+ push!(gs1, applytemp(g1, cd002))
+end
+
+#goal2 = lidsof(:R1, cd002)
 
 
 
