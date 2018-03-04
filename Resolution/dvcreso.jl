@@ -52,7 +52,7 @@ function entrylit(rid, nlid, lid, core)
 end
 
 function rename_lid(rid, lid, core)
-  Symbol(origof(lid), rid)
+  Symbol(origof(lid), SEPSYM, rid)
 end
 
 function rename_lids(rid, lids, core)
@@ -131,9 +131,8 @@ function dvc_resolution(l1,l2,core)
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
-
+  core.proof[rid] = STEP(rid, l1, l2, sigmai)
   return CForm2(rid, body.vars, body.body)
-
   catch e 
     return e
   end
@@ -141,11 +140,13 @@ end
 
 
 
-## Equation
+## Template
 function psymof(lid, core)
  lit = literalof(lid, core).body
  (lit.args[1], lit.args[2].args[1])
 end
+
+lsym(sign, psym) = Symbol(sign, psym)
 
 function lsymof(lid, core)
  psym = psymof(lid, core)
@@ -182,17 +183,30 @@ function templateof(sign, psym, core)
   rem = setdiff(lids, [lid])
   push!(body, [cid, varsof(cid, core), lid, rem])
  end
- [(sign, psym), body]
+ core.level0[lsym(sign, psym)]= body
 end
 
 function alltemplateof(core)
- alleq = []
  allpsym = core.allpsym 
  for psym in allpsym
-   push!(alleq, templateof(:+, psym, core))
-   push!(alleq, templateof(:-, psym, core))
+   templateof(:+, psym, core)
+   templateof(:-, psym, core)
  end
- alleq
 end
 
-### 
+function applytemp(lid, core)
+ (sign, psym) = psymof(lid, core)
+ templs = templateof(sign, psym, core)
+ rids = []
+ for templ in templs
+   reso = dvc_resolution(lid, templ[3], core)  
+   if typeof(reso) == CForm2
+     push!(rids, reso.cid)
+     println(reso)
+   else
+     eontinue
+   end
+ end
+ rids
+end
+

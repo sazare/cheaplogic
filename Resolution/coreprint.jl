@@ -75,6 +75,19 @@ function printamap(amap)
  end
 end
 
+function printstep(step)
+  print("$(step.rid):<$(step.leftp):$(step.rightp)>=")
+  printvars(step.sigma)
+end
+
+function printproof(proof)
+ for rid in keys(proof)
+   step = proof[rid]
+   printstep(step)
+   println()
+ end
+end
+
 function printcore(core)
 println("max cid = $(core.maxcid)")
 println("max rid = $(core.maxrid)")
@@ -91,6 +104,12 @@ println("LCMAP")
 println()
 println("CLMAP")
  printamap(core.clmap)
+println()
+println("TEMPLATE(level0)")
+ printtemplates0(core.level0,core)
+println()
+println("PROOFS")
+ printproof(core.proof)
  println("\n-- end of core --")
 end
 
@@ -100,19 +119,6 @@ function printliteral(lid, core)
 end
 
 #### template
-function printtemplate1(eq, core)
-  println("$(eq[1][1])$(eq[1][2]) = ")
-  body=eq[2]
-  for i in 1:length(body)
-    i!=1 && println("*")
-    ll=body[i]
-    printlid(ll[3], core)
-    print("[")
-    printlids(ll[4],core)
-    print("]")
-    print(" ($(ll[1]))")
-  end
-end
 
 function printlid0(lid, core)
   print("$(lsymof(lid, core))")
@@ -124,9 +130,9 @@ function printlids0(lids, core)
   end
 end
 
-function printtemplate0(eq, core)
-  print("$(eq[1][1])$(eq[1][2]) = ")
-  body=eq[2]
+function printtemplate0(key, eq, core)
+  print("$key= ")
+  body=eq
   for i in 1:length(body)
     i!=1 && print("*")
     printlid0(body[i][3], core)
@@ -137,15 +143,33 @@ function printtemplate0(eq, core)
 end
 
 function printtemplates0(eqs, core)
-  for eq in eqs
-    printtemplate0(eq, core)
+  for key in keys(eqs)
+    eq = eqs[key]
+    printtemplate0(key, eq, core)
     println()
   end
 end
 
+function printtemplate1(key, eq, core)
+  print("$key= ")
+  body=eq
+  for i in 1:length(body)
+    i!=1 && println("*")
+    ll=body[i]
+    printlid(ll[3], core)
+    print("[")
+    printlids(ll[4],core)
+    print("]")
+    print(" ($(ll[1]))")
+  end
+end
+
 function printtemplates1(eqs,core)
-  for eq in eqs
-    printtemplate1(eq, core)
+  for key in keys(eqs)
+    eq = eqs[key]
+    printtemplate1(key, eq, core)
     println()
   end
 end
+
+

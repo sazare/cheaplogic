@@ -25,7 +25,7 @@ end
  @test numof(:L22) == 22
  @test numof(:R2333) == 2333
 
- ctest = CORE(0,[0],0,0,0,0,0,0)
+ ctest = CORE(0,[0],0,0,0,0,0,0,0)
  @test newrid(ctest) == :R1
  @test newrid(ctest) == :R2
  @test newrid(ctest) == :R3
