@@ -60,7 +60,9 @@ function cform2ofclause(clss, initn=1)
  for cno in 1:length(clss)
   cid = cidof(cno+initn-1)
   maxcid = cid
-  nclss[cid] = stringtoclause(cid, clss[cno])
+  cls = stringtoclause(cid, clss[cno])
+  if satisfiable(cls.vars, cls.body); continue end
+  nclss[cid] = cls
  end
  (maxcid, nclss)
 end

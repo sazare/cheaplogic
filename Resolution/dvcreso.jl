@@ -188,10 +188,12 @@ end
 
 function alltemplateof(core)
  allpsym = core.allpsym 
+ alltemp = []
  for psym in allpsym
-   templateof(:+, psym, core)
-   templateof(:-, psym, core)
+   push!(alltemp, templateof(:+, psym, core))
+   push!(alltemp, templateof(:-, psym, core))
  end
+ core.level0
 end
 
 function applytemp(lid, core)
