@@ -302,26 +302,34 @@ end
 satisfiable check
 """
 function satisfiable(vars::Vlist, c1::Clause)
+@show vars, c1
  for i1 in 1:length(c1) 
   lit1 = c1[i1]
   atm1 = lit1.args[2]
 
+@show lit1
+@show atm1
   for i2 in i1+1:length(c1)
    lit2 = c1[i2]
    atm2 = lit2.args[2]
+@show lit2
+@show atm2
    if atm1.args[1] != atm2.args[1]; continue end
    if lit1.args[1] == lit2.args[1]; continue end
    lit2.args[1] = lit1.args[1] # temporaly let it same
 
    try 
+@show vars
+@show lit1
+@show lit2
     sigma = unify(vars, lit1, lit2)
+@show sigma
     return true
    catch e
     continue
    end
   end
  end
-
  return false
 
 end

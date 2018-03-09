@@ -1,4 +1,5 @@
 # sort clause
+include("misc.jl")
 
 # for equalclause, they should be sorted.
 
@@ -41,7 +42,17 @@ end
 
 #### readcore
 function readcore(fname)
+@show fname
  cls = readclausefromfile(fname)
  createcore(cls)
 end
 
+function readcoredir(dirname)
+ cores = []
+ for (r,ds,fs) in walkdir(dirname)
+   for f in fs
+     push!(cores,readcore("$r/$f"))
+   end
+ end
+ cores
+end
