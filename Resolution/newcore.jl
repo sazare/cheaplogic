@@ -61,7 +61,9 @@ function cform2ofclause(clss, initn=1)
   cid = cidof(cno+initn-1)
   maxcid = cid
   cls = stringtoclause(cid, clss[cno])
-  if satisfiable(cls.vars, cls.body); continue end
+#  -F(x,y),-F(y,z),+F(x,z) is satisfiable... but not good to remove it.
+#   so, may satisfible clause be removed or not ?
+#  if satisfiable(cls.vars, cls.body); continue end
   nclss[cid] = cls
  end
  (maxcid, nclss)
