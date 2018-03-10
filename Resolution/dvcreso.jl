@@ -56,15 +56,12 @@ function rename_lid(rid, lid, core)
 end
 
 function rename_lids(rid, lids, core)
-#@show rid
-#@show lids
  nlids=[]
  for lid in lids
   nlid=rename_lid(rid, lid, core)
   entrylit(rid, nlid, lid, core)
   push!(nlids, nlid)
  end
-#@show nlids
  return nlids
 end
 
@@ -78,14 +75,10 @@ function dvc_resolution(l1,l2,core)
  (sign1, psym1) = psymof(l1, core)
  (sign2, psym2) = psymof(l2, core)
 
-#@show psym1, psym2
-#@show sign1, sign2
  if sign1 == sign2; return :FAIL end
  if psym1 != psym2; return :FAIL end
  try 
-   sigmai = unify(ovars, lit1, lit2)
-#@show ovars
-#@show sigmai
+   sigmai = unify(ovars, lit1.args[2], lit2.args[2])
 
    rid =  newrid(core)
 
@@ -93,22 +86,13 @@ function dvc_resolution(l1,l2,core)
    rem1 = setdiff(rem1, [l1])
    rem2 = lidsof(cidof(l2, core),core)
    rem2 = setdiff(rem2, [l2])
-   vars = intersect(ovars, sigmai)
-
-#   vars = newvarlist(rid, vars)
-#@show vars
+   vars = ovars
    
 # rename rlid
-#@show rem1
-#@show rem2
    rem = vcat(rem1, rem2)
-#@show rem
    nrem = rename_lids(rid, rem, core)
-#@show nrem
    nbody = literalsof(rem, core)
-#@show nbody
    body = rename_clause(rid, vars, nbody)
-#@show body
  ## settlement
 
 # cdb[rid] to vars
@@ -121,20 +105,17 @@ function dvc_resolution(l1,l2,core)
 # ldb[rlid] to full
  
   for i in 1:length(nrem)
-#@show nrem[i]
-#@show body.body[i]
     core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
   end
 
 # lcmap[rlid] to rid
-#@show nrem
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
   core.proof[rid] = STEP(rid, l1, l2, sigmai)
   return CForm2(rid, body.vars, body.body)
   catch e 
-    return e
+    return :FAIL
   end
 end
 
@@ -206,9 +187,18 @@ function applytemp(lid, core)
      push!(rids, reso.cid)
      println(reso)
    else
-     eontinue
+     continue
    end
  end
  rids
+end
+
+function dostep(goal, templ, core)
+ newlids = []
+ for lid in goal
+   nlids = applytemp(lid, core)
+   append!(newlids, nlids)
+ end
+ newlids
 end
 

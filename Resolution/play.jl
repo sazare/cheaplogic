@@ -10,6 +10,7 @@ printcore(cd001)
 cd002=readcore("data/data002.wff")
 printcore(cd002)
 
+
 ctime=readcore("data/time.wff")
 printcore(ctime)
 
@@ -39,8 +40,7 @@ printcore(sc1)
 
 # templates
 println("make all templates")
-alltemplateof(cd001)
-aeq = cd001.level0
+aeq = alltemplateof(cd001)
 printcore(cd001)
 
 printtemplates0(cd001.level0, cd001)
@@ -83,4 +83,14 @@ end
 #goal2 = lidsof(:R1, cd002)
 
 
+##### friend3
+cf03=readcore("data/friend3.wff")
+printcore(cf03)
+
+tf03=alltemplateof(cf03)
+tnf=tf03[Symbol("-F")]
+
+#goal0 = cf03.clmap[:C1]
+
+#goal1 = dostep(goal0, tf03, cf03)
 

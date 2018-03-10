@@ -69,6 +69,7 @@ end
  @test unify([:x],:(P()),:(P())) == [:x]
  @test unify([:x],:(P()),:(Q())) == [:x]
 
+
  @test unify([:x],:(P(x)), :(P(x))) == [:x]
  @test unify([:y],:(P(x)), :(P(x))) == [:y]
 
@@ -76,6 +77,9 @@ end
  @test unify([:y],:(P(x)), :(P(y))) == [:x]
 
  @test_throws ICMP unify([:z],:(P(x)), :(P(y)))
+
+ @test unify([],:(P(a)), :(P(a))) == []
+ @test_throws ICMP unify([],:(P(a)), :(P(b)))
 
  @test unify([:x,:y],:(P(x)),:(P(y))) == [:y,:y]
  @test unify([:x,:y],:(P(x)),:(P(a))) == [:a,:y]
