@@ -190,15 +190,34 @@ function applytemp(lid, core)
      continue
    end
  end
- rids
+ map(rid->lidsof(rid, core),rids)
 end
 
-function dostep(goal, templ, core)
+function dostepagoal(goal, templ, core)
  newlids = []
  for lid in goal
    nlids = applytemp(lid, core)
    append!(newlids, nlids)
  end
  newlids
+end
+
+function dostepgoals(goals, templ, core)
+ nextg = []
+ for g in goals
+  ngs = dostepagoal(g, templ, core)
+  append!(nextg, ngs)
+ end
+ nextg
+end
+
+function contradictionsof(core)
+ conds=[]
+ for cid in keys(core.cdb)
+   if length(lidsof(cid, core)) == 0
+     push!(conds, cid)
+   end
+ end
+ conds
 end
 

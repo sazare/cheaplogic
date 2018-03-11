@@ -90,7 +90,14 @@ printcore(cf03)
 tf03=alltemplateof(cf03)
 tnf=tf03[Symbol("-F")]
 
-#goal0 = cf03.clmap[:C1]
+g0 = [lidsof(:C1, cf03)]
+g1 = dostepgoals(g0, tf03, cf03)
+g2 = dostepgoals(g1, tf03, cf03)
+g3 = dostepgoals(g2, tf03, cf03)
 
-#goal1 = dostep(goal0, tf03, cf03)
+conds = contradictionsof(cf03)
+
+printaproof1(:R20, cf03)
+printaproof0(:R20, cf03)
+
 

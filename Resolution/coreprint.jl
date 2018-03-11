@@ -43,13 +43,22 @@ function printvars(vars)
 end
 
 function printclause(cid, core)
- print("\n$cid:")
+ print("$cid:")
  printvars(varsof(cid, core))
- println(".")
+
+# if isempty(lidsof(cid,core)); print(".");
+# else println(".") end
+print(".")
+
  printlids(lidsof(cid,core), core)
  #printbody(cls.body)
 end
 
+function printclauses(core)
+  for cid in sort(collect(keys(core.cdb)))
+    printclause(cid, core)
+  end
+end
 
 function printcdb(cdb) 
  if isempty(cdb)
@@ -86,6 +95,37 @@ function printproof(proof)
    printstep(step)
    println()
  end
+end
+
+function printaproof0(rid, core)
+ !(rid in keys(core.proof)) && return
+ step=core.proof[rid]
+ printaproof0(cidof(step.leftp,core), core)
+ printaproof0(cidof(step.rightp,core), core)
+ println("$rid=<$(cidof(step.leftp, core)):$(cidof(step.rightp, core))>")
+end
+
+function printns(shift)
+  map(x->print(" "), 1:2shift)
+end
+
+function printaproof1(rid, core, shift=0)
+  if rid in keys(core.proof)
+    step = core.proof[rid]
+    printaproof1(cidof(step.leftp,core), core, shift+1)
+    printaproof1(cidof(step.rightp,core), core, shift+1)
+
+    println()
+    printns(shift)
+    print("<$(step.leftp):")
+    print("$(step.rightp)>=")
+    printns(shift)
+    printclause(rid, core)
+  else
+    println()
+    printns(shift)
+    printclause(rid, core)
+  end
 end
 
 function printcore(core)
