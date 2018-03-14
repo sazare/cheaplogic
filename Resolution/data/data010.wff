@@ -1,0 +1,22 @@
+@ test data for general templates(general)
+
+[x].[-P(x)]
+[x].[+P(x),-Q(a),-R(b)]
+[x].[+P(x),-Q(c),-R(d)]
+[x].[+P(x),-S(x),-T(x)]
+[x].[+Q(x),-V(a),-U(x)]
+[x].[+Q(x),-V(b),-W(x)]
+[].[+R(b)]
+[].[+R(d)]
+[x].[+R(x),-A(x),-B(x)]
+[x].[+S(x),-V(x)]
+[].[+S(a)]
+[x].[+T(x),-W(x)]
+[x].[+T(a)]
+[x].[+V(a)]
+[x].[+V(b)]
+[x].[+W(x)]
+[x].[+U(x)]
+[x].[+A(x)]
+[x].[+B(x)]
+

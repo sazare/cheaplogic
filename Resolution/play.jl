@@ -1,6 +1,7 @@
 ## real data
 include("loadall.jl")
 
+#==
 cmagi=readcore("data/magia.wff")
 printcore(cmagi)
 
@@ -99,5 +100,40 @@ conds = contradictionsof(cf03)
 
 printaproof1(:R20, cf03)
 printaproof0(:R20, cf03)
+
+tpr=templateof(:+, :R, cd002)
+ g0=[:L12]
+ g1=dostepagoal(g0, tpr, cd002)
+ printaproof0(:R3, cd002)
+ printaproof0(:R4, cd002)
+ printaproof1(:R3, cd002)
+
+cd010=readcore("data/data010.wff")
+printcore(cd010)
+td010=alltemplateof(cd010)
+tnp=td10[Symbol("-P")]
+g0=[[:L7]]
+g1=dostepagoal(g0[1], tnp, cd010)
+
+==#
+function doit(wff)
+ cdx=readcore(wff)
+ printcore(cdx)
+ tdx=alltemplateof(cdx)
+ tnx=tdx[Symbol("-Z")]
+ g0=[lidsof(:C1, cdx)]
+ #gn=dostepgoals(g0, tnx, cdx)
+ gn=dostepgoals1(g0, tnx, cdx)
+ return cdx,tdx,tnx,gn
+end
+
+cd,td,tnp,gn=doit("data/data012.wff")
+
+
+
+
+
+
+
 
 

@@ -1,0 +1,7 @@
+@ test data for general templates(simple combine)
+
+[x].[-Z(x)]
+[x].[+Z(x),-P(x),-Q(x)]
+[x].[+P(x),-R(x),-S(x)]
+[x].[+Q(x),-T(x),-U(x)]
+

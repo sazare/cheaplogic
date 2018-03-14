@@ -1,0 +1,7 @@
+@ friend world simple
+# incorrect Th.
+[x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+
+[].[+F(a,b)]
+[].[+F(b,c)]
+[].[+F(a,c)]

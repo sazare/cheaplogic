@@ -177,6 +177,7 @@ function alltemplateof(core)
  core.level0
 end
 
+## apply template to lid
 function applytemp(lid, core)
  (sign, psym) = psymof(lid, core)
  templs = templateof(sign, psym, core)
@@ -185,7 +186,7 @@ function applytemp(lid, core)
    reso = dvc_resolution(lid, templ[3], core)  
    if typeof(reso) == CForm2
      push!(rids, reso.cid)
-     println(reso)
+ #    println(reso)
    else
      continue
    end
@@ -193,6 +194,29 @@ function applytemp(lid, core)
  map(rid->lidsof(rid, core),rids)
 end
 
+### step forward on template
+
+function prod(tmpl1, tmpl2)
+  newtmpl = []
+  for t1 in tmpl1
+  for t2 in tmpl2
+    push!(newtmpl, vcat(t1, t2))
+  end
+  end
+  newtmpl
+end
+
+function prodm(tmpls)
+ mtempl=tmpls[1]
+ for rtmpl in tmpls[2:end]
+  mtempl=prod(mtempl, rtmpl)
+ end
+ return mtempl
+end
+
+"""
+ goal = [L1,L2,...]
+"""
 function dostepagoal(goal, templ, core)
  newlids = []
  for lid in goal
@@ -202,15 +226,46 @@ function dostepagoal(goal, templ, core)
  newlids
 end
 
-function dostepgoals(goals, templ, core)
+"""
+ goals = [[L1,L2,...],...]
+"""
+function dostep1goals(goals, templ, core)
  nextg = []
  for g in goals
-  ngs = dostepagoal(g, templ, core)
+  ngs = dostepagoal1(g, templ, core)
   append!(nextg, ngs)
  end
+println("$goals => $nextg")
  nextg
 end
 
+"""
+ goal = [L1,L2,...]
+"""
+function dostepagoal1(goal, templ, core)
+ newlids = []
+ if isempty(goal); return [] end
+ lid = goal[1]
+ nlids = applytemp(lid, core)
+ return nlids
+end
+
+"""
+ goals = [[L1,L2,...],...]
+"""
+function dostepgoals1(goals, templ, core)
+ nextg = []
+ for g in goals
+  ngs = dostepagoal1(g, templ, core)
+  append!(nextg, ngs)
+ end
+println("$goals => $nextg")
+ nextg
+end
+
+"""
+ find the resolvents of body empty
+"""
 function contradictionsof(core)
  conds=[]
  for cid in keys(core.cdb)
@@ -221,3 +276,16 @@ function contradictionsof(core)
  conds
 end
 
+function pairwiseeq(d1,d2)
+ all(map((x,y)->origof(x)==origof(y),d1,d2))
+end
+
+# proof should be an array of pair(Lid)
+function findrepeat(proof)
+ for i in 1:(length(proof)-1)
+  for j in (i+1):length(proof)
+   find(x->pairwiseeq(proof[i], proof[j])) && return true
+  end
+ end
+ return false
+end

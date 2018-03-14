@@ -1,0 +1,13 @@
+@ friend world infering
+# incorrect Th.
+[x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+
+[].[+F(a,b)]
+[].[+F(b,c)]
+[].[+F(a,c)]
+
+[].[+F(b,d)]
+[].[+F(b,e)]
+[].[+F(a,d)]
+[].[+F(a,e)]
+

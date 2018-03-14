@@ -212,4 +212,16 @@ function printtemplates1(eqs,core)
   end
 end
 
+function printgoal(goal, core)
+  for lid in goal
+    printliteral(lid, core)
+  end   
+end
+
+function printgoals(goals, core)
+  for g in goals
+    printgoal(g, core)
+    println()
+  end   
+end
 
