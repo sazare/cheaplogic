@@ -230,9 +230,11 @@ end
  goals = [[L1,L2,...],...]
 """
 function dostep1goals(goals, templ, core)
+<<<<<<< HEAD
+=======
  nextg = []
  for g in goals
-  ngs = dostepagoal(g, templ, core)
+  ngs = dostepagoal1(g, templ, core)
   append!(nextg, ngs)
  end
 println("$goals => $nextg")
