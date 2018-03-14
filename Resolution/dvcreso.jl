@@ -217,7 +217,7 @@ end
 """
  goal = [L1,L2,...]
 """
-function dostepagoal(goal, templ, core)
+function dostepagoal(goal, core)
  newlids = []
  for lid in goal
    nlids = applytemp(lid, core)
@@ -229,12 +229,10 @@ end
 """
  goals = [[L1,L2,...],...]
 """
-function dostep1goals(goals, templ, core)
-<<<<<<< HEAD
-=======
+function dostep1goals(goals, core)
  nextg = []
  for g in goals
-  ngs = dostepagoal1(g, templ, core)
+  ngs = dostepagoal(g, core)
   append!(nextg, ngs)
  end
 println("$goals => $nextg")
