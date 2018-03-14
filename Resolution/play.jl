@@ -120,16 +120,14 @@ function doit(wff)
  cdx=readcore(wff)
  printcore(cdx)
  tdx=alltemplateof(cdx)
- tnx=tdx[Symbol("-Z")]
  g0=[lidsof(:C1, cdx)]
- #gn=dostepgoals(g0, tnx, cdx)
- gn=dostepgoals1(g0, tnx, cdx)
- return cdx,tdx,tnx,gn
+ #gn=dostepgoals(g0, cdx)
+ gn=dostepgoals1(g0, cdx)
+ return cdx,tdx,g0,gn
 end
 
-cd,td,tnp,gn=doit("data/data012.wff")
-
-
+cd,td,g0,g1=doit("data/data012.wff")
+g1
 
 
 
