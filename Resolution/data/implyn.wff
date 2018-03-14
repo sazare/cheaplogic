@@ -1,0 +1,10 @@
+@imply negative
+# P(x) -> Q(x)
+#nconj
+[x].[-Q(x)]
+
+[x].[+P(x)]
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+Q(a)]
