@@ -1,0 +1,10 @@
+@ friend world 2 groups
+# incorrect Th.
+[x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+
+[].[+F(a,b)]
+[].[+F(b,c)]
+[].[+F(a,c)]
+[].[+F(a1,b1)]
+[].[+F(b1,c1)]
+[].[+F(a1,c1)]

@@ -1,0 +1,8 @@
+@ have some tautology
+[x].[-P(x)]
+
+[].[+P(a)]
+[x].[+P(x),+Q(x),-Q(a)]
+[x].[+R(x,y),-R(y,x)]
+
+#only 2 clause should be alive 

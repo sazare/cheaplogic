@@ -1,0 +1,8 @@
+@ test data for general templates(-R+R)
+
+[x].[-Z(x)]
+
+[x].[+Z(x),-P(x),-Q(x)]
+[x].[+P(x),-R(x),-S(x)]
+[x].[+Q(x),+R(x),-U(x)]
+
