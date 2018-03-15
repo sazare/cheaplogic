@@ -65,6 +65,39 @@ function rename_lids(rid, lids, core)
  return nlids
 end
 
+#fitting vars in literal
+function fitting_vars_term(vars, term)
+  if typeof(term) == Symbol
+    if term in vars
+      return [term]
+    else
+      return []
+    end
+  else
+    return fitting_vars_args(vars, term.args[2:end])
+  end
+end
+
+function fitting_vars_args(vars, args)
+  nvars=[]
+  for term in args
+    append!(nvars, fitting_vars_term(vars, term))
+  end
+  union(nvars, nvars)
+end
+
+function fitting_vars_lit(vars, lit)
+  fitting_vars_term(vars, lit.args[2])
+end
+
+function fitting_vars(vars, lids, core)
+ evars = []
+ for lid in lids
+   append!(evars, fitting_vars_lit(vars, literalof(lid, core).body))
+ end
+ union(evars, evars)
+end
+
 ## resolution
 function dvc_resolution(l1,l2,core)
  vars1 = varsof(cidof(l1, core), core)
@@ -86,10 +119,11 @@ function dvc_resolution(l1,l2,core)
    rem1 = setdiff(rem1, [l1])
    rem2 = lidsof(cidof(l2, core),core)
    rem2 = setdiff(rem2, [l2])
-   vars = ovars
+
+   rem = vcat(rem1, rem2)
+   vars = fitting_vars(ovars, rem, core)
    
 # rename rlid
-   rem = vcat(rem1, rem2)
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
    body = rename_clause(rid, vars, nbody)
@@ -115,6 +149,7 @@ function dvc_resolution(l1,l2,core)
   core.proof[rid] = STEP(rid, l1, l2, sigmai)
   return CForm2(rid, body.vars, body.body)
   catch e 
+@show e
     return :FAIL
   end
 end
@@ -185,6 +220,10 @@ function applytemp(lid, core)
  for templ in templs
    reso = dvc_resolution(lid, templ[3], core)  
    if typeof(reso) == CForm2
+     if isrepeatproof(reso.cid,core)
+@show :isrepeatproof
+        continue
+      end
      push!(rids, reso.cid)
  #    println(reso)
    else
@@ -212,6 +251,15 @@ function prodm(tmpls)
   mtempl=prod(mtempl, rtmpl)
  end
  return mtempl
+end
+
+function rotate(lids, i=0)
+ i >= length(lids) && error("required: 0<=$i<length($lids)")
+ if i == 0 
+   lids
+ else
+   vcat(lids[i+1:end], lids[1:i])
+ end
 end
 
 """
@@ -243,10 +291,15 @@ end
  goal = [L1,L2,...]
 """
 function dostepagoal1(goal, core)
- newlids = []
+ nlids = []
  if isempty(goal); return [] end
- lid = goal[1]
- nlids = applytemp(lid, core)
+ for shift in 0:length(goal)-1
+  wgoal = rotate(goal,shift)
+  lid = wgoal[1]
+  nlids = applytemp(lid, core)
+  if !isempty(nlids); break end
+ end
+ if isempty(nlids); return :FAIL end
  return nlids
 end
 
@@ -257,6 +310,7 @@ function dostepgoals1(goals, core)
  nextg = []
  for g in goals
   ngs = dostepagoal1(g, core)
+  if ngs == :FAIL; continue end
   append!(nextg, ngs)
  end
 println("$goals => $nextg")
@@ -284,8 +338,55 @@ end
 function findrepeat(proof)
  for i in 1:(length(proof)-1)
   for j in (i+1):length(proof)
-   find(x->pairwiseeq(proof[i], proof[j])) && return true
+   (pairwiseeq(proof[i], proof[j])) && return true
   end
  end
  return false
 end
+
+isresolvent(cid) = isrid(cid)
+
+function proofstep(cid, core)
+  step = core.proof[cid]
+  return [step.leftp, step.rightp]
+end
+
+function prooftree(cid, core)
+  if !isresolvent(cid);return [] end
+
+  step = core.proof[cid]
+  lefttree  = prooftree(cidof(step.leftp,core), core)
+  righttree = prooftree(cidof(step.rightp,core), core)
+
+  parenttree = []
+  !isempty(lefttree) && append!(parenttree, lefttree)
+  !isempty(righttree) && append!(parenttree, righttree)
+  append!(parenttree, [proofstep(cid, core)])
+  return parenttree
+end
+
+function isrepeatproof(cid, core)
+  aproof = prooftree(cid, core)
+  findrepeat(aproof) 
+end
+
+
+### prover
+"""
+simple prover find some contracictions, but not all
+"""
+function simpleprover(wff)
+ cdx=readcore(wff)
+ tdx=alltemplateof(cdx)
+ gb=[lidsof(:C1, cdx)]
+ conds = []
+ while true 
+  ga=dostepgoals1(gb, cdx)
+  conds = contradictionsof(cdx)
+@show conds
+  if !isempty(conds); break end
+  gb = ga
+ end
+ return conds,cdx
+end
+

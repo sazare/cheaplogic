@@ -146,6 +146,10 @@ cidof(num::Int) = Symbol(:C, num)
 lidof(num::Int) = Symbol(:L, num)
 ridof(num::Int) = Symbol(:R, num)
 
+iscid(sym) = ('C' == string(sym)[1])
+isrid(sym) = ('R' == string(sym)[1])
+islid(sym) = ('L' == string(sym)[1])
+
 function newlid(xid, lid)
   Symbol(lid,xid)
 end

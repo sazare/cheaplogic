@@ -72,8 +72,38 @@ end
 
 end
 
+@testset "fitting" begin
+ @test fitting_vars_term([:x,:y], parse("a")) == []
+ @test fitting_vars_term([:x,:y], parse("x")) == [:x]
+ @test fitting_vars_term([:x,:y], parse("f(x,y)")) == [:x,:y]
+ @test fitting_vars_term([:x,:y], parse("f(x,a)")) == [:x]
+ @test fitting_vars_term([:x,:y], parse("f(x,g(y))")) == [:x,:y]
+ @test fitting_vars_lit([:x,:y], parse("(+P(x,g(y)))")) == [:x,:y]
+ @test fitting_vars_lit([:x,:y], parse("(+P(x,g(x)))")) == [:x]
+ @test fitting_vars_lit([:x,:y], parse("(+P(y,g(x)))")) == [:y,:x]
+
+end
+
+
 @testset "inverseof" begin
  @test inverseof(:+) == :-
  @test inverseof(:-) == :+
 end
+
+@testset "rotate" begin
+ @test rotate([1,2,3]) == [1,2,3]
+ @test rotate([1,2,3],0) == [1,2,3]
+ @test rotate([1,2,3],1) == [2,3,1]
+ @test rotate([1,2,3],2) == [3,1,2]
+ @test_throws ErrorException rotate([1,2,3],3)
+
+end
+
+
+@testset "findrepeat in proof" begin
+ @test !findrepeat([[:L1_C1,:L2_R1],[:L3_C3,:L4_R12],[:L1_C3,:L3_R4]])
+ @test findrepeat([[:L1_C1,:L2_R1],[:L3_C3,:L4_R12],[:L1_C3,:L2_R4]])
+
+end
+
 
