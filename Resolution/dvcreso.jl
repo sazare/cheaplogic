@@ -349,7 +349,7 @@ end
 function findrepeat(proof)
  for i in 1:(length(proof)-1)
   for j in (i+1):length(proof)
-   find(x->pairwiseeq(proof[i], proof[j])) && return true
+   (pairwiseeq(proof[i], proof[j])) && return true
   end
  end
  return false

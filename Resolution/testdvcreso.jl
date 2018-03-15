@@ -99,3 +99,11 @@ end
 
 end
 
+
+@testset "findrepeat in proof" begin
+ @test !findrepeat([[:L1_C1,:L2_R1],[:L3_C3,:L4_R12],[:L1_C3,:L3_R4]])
+ @test findrepeat([[:L1_C1,:L2_R1],[:L3_C3,:L4_R12],[:L1_C3,:L2_R4]])
+
+end
+
+
