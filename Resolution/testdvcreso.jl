@@ -72,6 +72,19 @@ end
 
 end
 
+@testset "fitting" begin
+ @test fitting_vars_term([:x,:y], parse("a")) == []
+ @test fitting_vars_term([:x,:y], parse("x")) == [:x]
+ @test fitting_vars_term([:x,:y], parse("f(x,y)")) == [:x,:y]
+ @test fitting_vars_term([:x,:y], parse("f(x,a)")) == [:x]
+ @test fitting_vars_term([:x,:y], parse("f(x,g(y))")) == [:x,:y]
+ @test fitting_vars_lit([:x,:y], parse("(+P(x,g(y)))")) == [:x,:y]
+ @test fitting_vars_lit([:x,:y], parse("(+P(x,g(x)))")) == [:x]
+ @test fitting_vars_lit([:x,:y], parse("(+P(y,g(x)))")) == [:y,:x]
+
+end
+
+
 @testset "inverseof" begin
  @test inverseof(:+) == :-
  @test inverseof(:-) == :+

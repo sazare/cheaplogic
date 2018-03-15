@@ -120,14 +120,14 @@ g1=dostepagoal(g0[1], tnp, cd010)
 ==#
 function doit(wff)
  cdx=readcore(wff)
- printcore(cdx)
+# printcore(cdx)
  tdx=alltemplateof(cdx)
  g0=[lidsof(:C1, cdx)]
  #gn=dostepgoals(g0, cdx)
  gn=dostepgoals1(g0, cdx)
  return cdx,tdx,g0,gn
 end
-
+#==
 @testset "data011" begin
  cd,td,g0,g1=doit("data/data011.wff")
  g2=dostepgoals1(g1, cd)
@@ -136,7 +136,6 @@ end
  @test length(g3[1]) == 4
  @test_skip isempty(g4)
 end
-
 @testset "data012" begin
  cd,td,g0,g1=doit("data/data012.wff")
  g2=dostepgoals1(g1, cd)
@@ -167,14 +166,13 @@ end
  cf2=clause2of(:R3,cd)
  @test satisfiable(cf2.vars, cf2.body)
 end
+==#
 #==
  cd,td,g0,g1=doit("data/data010.wff")
  g2=dostepgoals1(g1, cd)
  g3=dostepgoals1(g2, cd)
  g4=dostepgoals1(g3, cd)
 ==#
-
 rids,cd = simpleprover("data/data010.wff")
 printaproof1(rids[1], cd)
 printaproof0(rids[1], cd)
-

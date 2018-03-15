@@ -65,6 +65,43 @@ function rename_lids(rid, lids, core)
  return nlids
 end
 
+#fitting vars in literal
+function fitting_vars_term(vars, term)
+@show term
+  if typeof(term) == Symbol
+    if term in vars
+      return [term]
+    else
+      return []
+    end
+  else
+    return fitting_vars_args(vars, term.args[2:end])
+  end
+end
+
+function fitting_vars_args(vars, args)
+@show args
+  nvars=[]
+  for term in args
+    append!(nvars, fitting_vars_term(vars, term))
+  end
+  union(nvars, nvars)
+end
+
+function fitting_vars_lit(vars, lit)
+@show lit
+  fitting_vars_term(vars, lit.args[2])
+end
+
+function fitting_vars(vars, lids, core)
+@show lids
+ evars = []
+ for lid in lids
+   append!(evars, fitting_vars_lit(vars, literalof(lid, core).body))
+ end
+ union(evars, evars)
+end
+
 ## resolution
 function dvc_resolution(l1,l2,core)
  vars1 = varsof(cidof(l1, core), core)
@@ -86,10 +123,11 @@ function dvc_resolution(l1,l2,core)
    rem1 = setdiff(rem1, [l1])
    rem2 = lidsof(cidof(l2, core),core)
    rem2 = setdiff(rem2, [l2])
-   vars = ovars
+
+   rem = vcat(rem1, rem2)
+   vars = fitting_vars(ovars, rem, core)
    
 # rename rlid
-   rem = vcat(rem1, rem2)
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
    body = rename_clause(rid, vars, nbody)
@@ -115,6 +153,7 @@ function dvc_resolution(l1,l2,core)
   core.proof[rid] = STEP(rid, l1, l2, sigmai)
   return CForm2(rid, body.vars, body.body)
   catch e 
+@show e
     return :FAIL
   end
 end
@@ -181,9 +220,12 @@ end
 function applytemp(lid, core)
  (sign, psym) = psymof(lid, core)
  templs = templateof(sign, psym, core)
+@show templs
  rids = []
  for templ in templs
+@show templ
    reso = dvc_resolution(lid, templ[3], core)  
+@show reso
    if typeof(reso) == CForm2
      push!(rids, reso.cid)
  #    println(reso)
@@ -253,13 +295,18 @@ end
 """
 function dostepagoal1(goal, core)
  nlids = []
+@show goal
  if isempty(goal); return [] end
  for shift in 0:length(goal)-1
+@show shift
   wgoal = rotate(goal,shift)
   lid = wgoal[1]
+@show lid
   nlids = applytemp(lid, core)
+@show nlids
   if !isempty(nlids); break end
  end
+@show nlids
  if isempty(nlids); return :FAIL end
  return nlids
 end
@@ -270,9 +317,12 @@ end
 function dostepgoals1(goals, core)
  nextg = []
  for g in goals
+@show g
   ngs = dostepagoal1(g, core)
+@show ngs
   if ngs == :FAIL; continue end
   append!(nextg, ngs)
+@show nextg
  end
 println("$goals => $nextg")
  nextg
