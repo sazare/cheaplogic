@@ -67,7 +67,6 @@ end
 
 #fitting vars in literal
 function fitting_vars_term(vars, term)
-@show term
   if typeof(term) == Symbol
     if term in vars
       return [term]
@@ -80,7 +79,6 @@ function fitting_vars_term(vars, term)
 end
 
 function fitting_vars_args(vars, args)
-@show args
   nvars=[]
   for term in args
     append!(nvars, fitting_vars_term(vars, term))
@@ -89,12 +87,10 @@ function fitting_vars_args(vars, args)
 end
 
 function fitting_vars_lit(vars, lit)
-@show lit
   fitting_vars_term(vars, lit.args[2])
 end
 
 function fitting_vars(vars, lids, core)
-@show lids
  evars = []
  for lid in lids
    append!(evars, fitting_vars_lit(vars, literalof(lid, core).body))
@@ -220,13 +216,14 @@ end
 function applytemp(lid, core)
  (sign, psym) = psymof(lid, core)
  templs = templateof(sign, psym, core)
-@show templs
  rids = []
  for templ in templs
-@show templ
    reso = dvc_resolution(lid, templ[3], core)  
-@show reso
    if typeof(reso) == CForm2
+     if isrepeatproof(reso.cid,core)
+@show :isrepeatproof
+        continue
+      end
      push!(rids, reso.cid)
  #    println(reso)
    else
@@ -295,18 +292,13 @@ end
 """
 function dostepagoal1(goal, core)
  nlids = []
-@show goal
  if isempty(goal); return [] end
  for shift in 0:length(goal)-1
-@show shift
   wgoal = rotate(goal,shift)
   lid = wgoal[1]
-@show lid
   nlids = applytemp(lid, core)
-@show nlids
   if !isempty(nlids); break end
  end
-@show nlids
  if isempty(nlids); return :FAIL end
  return nlids
 end
@@ -317,12 +309,9 @@ end
 function dostepgoals1(goals, core)
  nextg = []
  for g in goals
-@show g
   ngs = dostepagoal1(g, core)
-@show ngs
   if ngs == :FAIL; continue end
   append!(nextg, ngs)
-@show nextg
  end
 println("$goals => $nextg")
  nextg
@@ -354,6 +343,33 @@ function findrepeat(proof)
  end
  return false
 end
+
+isresolvent(cid) = isrid(cid)
+
+function proofstep(cid, core)
+  step = core.proof[cid]
+  return [step.leftp, step.rightp]
+end
+
+function prooftree(cid, core)
+  if !isresolvent(cid);return [] end
+
+  step = core.proof[cid]
+  lefttree  = prooftree(cidof(step.leftp,core), core)
+  righttree = prooftree(cidof(step.rightp,core), core)
+
+  parenttree = []
+  !isempty(lefttree) && append!(parenttree, lefttree)
+  !isempty(righttree) && append!(parenttree, righttree)
+  append!(parenttree, [proofstep(cid, core)])
+  return parenttree
+end
+
+function isrepeatproof(cid, core)
+  aproof = prooftree(cid, core)
+  findrepeat(aproof) 
+end
+
 
 ### prover
 """

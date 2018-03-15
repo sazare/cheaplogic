@@ -30,6 +30,14 @@ end
  @test newrid(ctest) == :R2
  @test newrid(ctest) == :R3
 
-
+ @test isrid(:R23_C22)
+ @test !isrid(:C23_C22)
+ @test !isrid(:L23_C22)
+ @test iscid(:C23_C22)
+ @test !iscid(:R23_C22)
+ @test !iscid(:L23_C22)
+ @test !islid(:R23_C22)
+ @test !islid(:C23_C22)
+ @test islid(:L23_C22)
 end
 

@@ -116,8 +116,8 @@ td010=alltemplateof(cd010)
 tnp=td10[Symbol("-P")]
 g0=[[:L7]]
 g1=dostepagoal(g0[1], tnp, cd010)
-
 ==#
+
 function doit(wff)
  cdx=readcore(wff)
 # printcore(cdx)
@@ -127,28 +127,29 @@ function doit(wff)
  gn=dostepgoals1(g0, cdx)
  return cdx,tdx,g0,gn
 end
+#==
 @testset "data011" begin
- cd,td,g0,g1=doit("data/data011.wff")
- g2=dostepgoals1(g1, cd)
- g3=dostepgoals1(g2, cd)
- g4=dostepgoals1(g3, cd)
+ cdx,td,g0,g1=doit("data/data011.wff")
+ g2=dostepgoals1(g1, cdx)
+ g3=dostepgoals1(g2, cdx)
+ g4=dostepgoals1(g3, cdx)
  @test length(g3[1]) == 4
  @test_skip isempty(g4)
 end
 @testset "data012" begin
- cd,td,g0,g1=doit("data/data012.wff")
- g2=dostepgoals1(g1, cd)
- g3=dostepgoals1(g2, cd)
- g4=dostepgoals1(g3, cd)
+ cdx,td,g0,g1=doit("data/data012.wff")
+ g2=dostepgoals1(g1, cdx)
+ g3=dostepgoals1(g2, cdx)
+ g4=dostepgoals1(g3, cdx)
  @test length(g3[1]) == 4
  @test_skip isempty(g4)
 end
 
 @testset "data013" begin
- cd,td,g0,g1=doit("data/data013.wff")
- g2=dostepgoals1(g1, cd)
- g3=dostepgoals1(g2, cd)
- g4=dostepgoals1(g3, cd)
+ cdx,td,g0,g1=doit("data/data013.wff")
+ g2=dostepgoals1(g1, cdx)
+ g3=dostepgoals1(g2, cdx)
+ g4=dostepgoals1(g3, cdx)
  @test length(g3) == 2 
  @test length(g3[1]) == 4
  @test length(g3[2]) == 4
@@ -156,21 +157,23 @@ end
 end
 
 @testset "resolvent was satisfiable" begin
- cd,td,g0,g1=doit("data/data014.wff")
- g2=dostepgoals1(g1, cd)
- g3=dostepgoals1(g2, cd)
+ cdx,td,g0,g1=doit("data/data014.wff")
+ g2=dostepgoals1(g1, cdx)
+ g3=dostepgoals1(g2, cdx)
  @test length(g1[1]) == 2
  @test length(g2[1]) == 3
  @test length(g3[1]) == 4
- cf2=clause2of(:R3,cd)
+ cf2=clause2of(:R3,cdx)
  @test satisfiable(cf2.vars, cf2.body)
 end
-#==
- cd,td,g0,g1=doit("data/data010.wff")
- g2=dostepgoals1(g1, cd)
- g3=dostepgoals1(g2, cd)
- g4=dostepgoals1(g3, cd)
 ==#
-rids,cd = simpleprover("data/data010.wff")
-printaproof1(rids[1], cd)
-printaproof0(rids[1], cd)
+#==
+ cdx,td,g0,g1=doit("data/data010.wff")
+ g2=dostepgoals1(g1, cdx)
+ g3=dostepgoals1(g2, cdx)
+ g4=dostepgoals1(g3, cdx)
+==#
+rids,cdx = simpleprover("data/data010.wff")
+printaproof1(rids[1], cdx)
+printaproof0(rids[1], cdx)
+
