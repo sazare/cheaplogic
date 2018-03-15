@@ -167,4 +167,14 @@ end
  cf2=clause2of(:R3,cd)
  @test satisfiable(cf2.vars, cf2.body)
 end
+#==
+ cd,td,g0,g1=doit("data/data010.wff")
+ g2=dostepgoals1(g1, cd)
+ g3=dostepgoals1(g2, cd)
+ g4=dostepgoals1(g3, cd)
+==#
+
+rids,cd = simpleprover("data/data010.wff")
+printaproof1(rids[1], cd)
+printaproof0(rids[1], cd)
 

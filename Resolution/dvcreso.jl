@@ -214,6 +214,15 @@ function prodm(tmpls)
  return mtempl
 end
 
+function rotate(lids, i=0)
+ i >= length(lids) && error("required: 0<=$i<length($lids)")
+ if i == 0 
+   lids
+ else
+   vcat(lids[i+1:end], lids[1:i])
+ end
+end
+
 """
  goal = [L1,L2,...]
 """
@@ -243,10 +252,15 @@ end
  goal = [L1,L2,...]
 """
 function dostepagoal1(goal, core)
- newlids = []
+ nlids = []
  if isempty(goal); return [] end
- lid = goal[1]
- nlids = applytemp(lid, core)
+ for shift in 0:length(goal)-1
+  wgoal = rotate(goal,shift)
+  lid = wgoal[1]
+  nlids = applytemp(lid, core)
+  if !isempty(nlids); break end
+ end
+ if isempty(nlids); return :FAIL end
  return nlids
 end
 
@@ -257,6 +271,7 @@ function dostepgoals1(goals, core)
  nextg = []
  for g in goals
   ngs = dostepagoal1(g, core)
+  if ngs == :FAIL; continue end
   append!(nextg, ngs)
  end
 println("$goals => $nextg")
@@ -289,3 +304,23 @@ function findrepeat(proof)
  end
  return false
 end
+
+### prover
+"""
+simple prover find some contracictions, but not all
+"""
+function simpleprover(wff)
+ cdx=readcore(wff)
+ tdx=alltemplateof(cdx)
+ gb=[lidsof(:C1, cdx)]
+ conds = []
+ while true 
+  ga=dostepgoals1(gb, cdx)
+  conds = contradictionsof(cdx)
+@show conds
+  if !isempty(conds); break end
+  gb = ga
+ end
+ return conds,cdx
+end
+

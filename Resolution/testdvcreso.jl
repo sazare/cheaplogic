@@ -77,3 +77,12 @@ end
  @test inverseof(:-) == :+
 end
 
+@testset "rotate" begin
+ @test rotate([1,2,3]) == [1,2,3]
+ @test rotate([1,2,3],0) == [1,2,3]
+ @test rotate([1,2,3],1) == [2,3,1]
+ @test rotate([1,2,3],2) == [3,1,2]
+ @test_throws ErrorException rotate([1,2,3],3)
+
+end
+
