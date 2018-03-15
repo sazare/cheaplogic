@@ -1,4 +1,6 @@
 ## real data
+using Base.Test
+
 include("loadall.jl")
 
 #==
@@ -126,12 +128,43 @@ function doit(wff)
  return cdx,tdx,g0,gn
 end
 
-cd,td,g0,g1=doit("data/data012.wff")
-g1
+@testset "data011" begin
+ cd,td,g0,g1=doit("data/data011.wff")
+ g2=dostepgoals1(g1, cd)
+ g3=dostepgoals1(g2, cd)
+ g4=dostepgoals1(g3, cd)
+ @test length(g3[1]) == 4
+ @test_skip isempty(g4)
+end
 
+@testset "data012" begin
+ cd,td,g0,g1=doit("data/data012.wff")
+ g2=dostepgoals1(g1, cd)
+ g3=dostepgoals1(g2, cd)
+ g4=dostepgoals1(g3, cd)
+ @test length(g3[1]) == 4
+ @test_skip isempty(g4)
+end
 
+@testset "data013" begin
+ cd,td,g0,g1=doit("data/data013.wff")
+ g2=dostepgoals1(g1, cd)
+ g3=dostepgoals1(g2, cd)
+ g4=dostepgoals1(g3, cd)
+ @test length(g3) == 2 
+ @test length(g3[1]) == 4
+ @test length(g3[2]) == 4
+ @test_skip isempty(g4)
+end
 
-
-
-
+@testset "resolvent was satisfiable" begin
+ cd,td,g0,g1=doit("data/data014.wff")
+ g2=dostepgoals1(g1, cd)
+ g3=dostepgoals1(g2, cd)
+ @test length(g1[1]) == 2
+ @test length(g2[1]) == 3
+ @test length(g3[1]) == 4
+ cf2=clause2of(:R3,cd)
+ @test satisfiable(cf2.vars, cf2.body)
+end
 

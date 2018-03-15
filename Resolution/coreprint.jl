@@ -116,14 +116,15 @@ function printaproof1(rid, core, shift=0)
     printaproof1(cidof(step.rightp,core), core, shift+1)
 
     println()
-    printns(shift)
+#    printns(shift)
+    print("  ")
     print("<$(step.leftp):")
     print("$(step.rightp)>=")
-    printns(shift)
+#    printns(shift)
     printclause(rid, core)
   else
     println()
-    printns(shift)
+#    printns(shift)
     printclause(rid, core)
   end
 end
@@ -212,6 +213,7 @@ function printtemplates1(eqs,core)
   end
 end
 
+##  print goal
 function printgoal(goal, core)
   for lid in goal
     printliteral(lid, core)
