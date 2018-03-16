@@ -221,7 +221,7 @@ function applytemp(lid, core)
    reso = dvc_resolution(lid, templ[3], core)  
    if typeof(reso) == CForm2
      if isrepeatproof(reso.cid,core)
-@show :isrepeatproof
+println(":isrepeatproof $(reso.cid)")
         continue
       end
      push!(rids, reso.cid)
@@ -338,7 +338,10 @@ end
 function findrepeat(proof)
  for i in 1:(length(proof)-1)
   for j in (i+1):length(proof)
-   (pairwiseeq(proof[i], proof[j])) && return true
+   if pairwiseeq(proof[i], proof[j])
+     println("$(proof[i]) is upon is repeated")
+     return true
+   end
   end
  end
  return false
@@ -375,16 +378,21 @@ end
 """
 simple prover find some contracictions, but not all
 """
-function simpleprover(wff)
+function simpleprover(wff, steplimit, contralimit)
+ println("simpleproover: $wff")
  cdx=readcore(wff)
  tdx=alltemplateof(cdx)
  gb=[lidsof(:C1, cdx)]
  conds = []
+ nstep = 0;
+ 
  while true 
   ga=dostepgoals1(gb, cdx)
+  nstep += 1
   conds = contradictionsof(cdx)
-@show conds
-  if !isempty(conds); break end
+ # if !isempty(conds); break end
+  if length(conds) >= contralimit;break end
+  if nstep >= steplimit;return :NOCONT, cdx end
   gb = ga
  end
  return conds,cdx

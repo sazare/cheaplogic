@@ -173,7 +173,16 @@ end
  g3=dostepgoals1(g2, cdx)
  g4=dostepgoals1(g3, cdx)
 ==#
-rids,cdx = simpleprover("data/data010.wff")
+rids,cdx = simpleprover("data/data011.wff", 5, 1)
+@test rids == :NOCONT
+rids,cdx = simpleprover("data/data012.wff", 5, 1)
+@test rids == :NOCONT
+rids,cdx = simpleprover("data/data013.wff", 5, 1)
+@test rids == :NOCONT
+rids,cdx = simpleprover("data/data014.wff", 5, 1)
+@test rids == :NOCONT
+
+rids,cdx = simpleprover("data/data010.wff", 5, 1)
 printaproof1(rids[1], cdx)
 printaproof0(rids[1], cdx)
 
