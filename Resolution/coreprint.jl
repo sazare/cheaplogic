@@ -57,6 +57,7 @@ end
 function printclauses(core)
   for cid in sort(collect(keys(core.cdb)))
     printclause(cid, core)
+println()
   end
 end
 
