@@ -12,6 +12,3 @@
 3. factorgame	
  An experimental refutation to my proposition about factorization of numbers.
  
-4. primes
- Something of prime numbers
- 
