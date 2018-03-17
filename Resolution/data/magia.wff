@@ -1,4 +1,13 @@
 @ Madoka
+query
+[].[-H(Kamijo)]
+ [].[-H(Sayaka)]
+
+ [x].[-Love(x, Kamijo)]
+
+This question assumes QB is the answer. It asks what is the non human.
+ [x].[+H(x)]
+
 Fact
 [].[+B(Kamijo)]
 [].[+G(Hitomi)]
@@ -19,14 +28,6 @@ Theory
 [x].[-G(x),+H(x)]
 
 
-query
- [].[-H(Kamijo)]
- [].[-H(Sayaka)]
-
- [x].[-Love(x, Kamijo)]
-
-This question assumes QB is the answer. It asks what is the non human.
- [x].[+H(x)]
 
 
 

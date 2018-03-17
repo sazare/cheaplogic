@@ -42,7 +42,7 @@ end
 
 #### readcore
 function readcore(fname)
-@show fname
+ println("readcore fname=$fname")
  cls = readclausefromfile(fname)
  createcore(cls)
 end

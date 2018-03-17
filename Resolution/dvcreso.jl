@@ -121,12 +121,14 @@ function dvc_resolution(l1,l2,core)
    rem2 = setdiff(rem2, [l2])
 
    rem = vcat(rem1, rem2)
+
    vars = fitting_vars(ovars, rem, core)
-   
+ 
 # rename rlid
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
-   body = rename_clause(rid, vars, nbody)
+   nbody1 = apply(ovars, nbody, sigmai)
+   body = rename_clause(rid, vars, nbody1)
  ## settlement
 
 # cdb[rid] to vars
@@ -379,7 +381,6 @@ end
 simple prover find some contracictions, but not all
 """
 function simpleprover(wff, steplimit, contralimit)
- println("simpleproover: $wff")
  cdx=readcore(wff)
  tdx=alltemplateof(cdx)
  gb=[lidsof(:C1, cdx)]
@@ -392,7 +393,7 @@ function simpleprover(wff, steplimit, contralimit)
   conds = contradictionsof(cdx)
  # if !isempty(conds); break end
   if length(conds) >= contralimit;break end
-  if nstep >= steplimit;return :NOCONT, cdx end
+  if nstep >= steplimit;break end
   gb = ga
  end
  return conds,cdx
