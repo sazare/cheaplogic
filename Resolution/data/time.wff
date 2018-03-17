@@ -1,4 +1,16 @@
-@ time is comming
+@ time is comming(intended but not written)
+query
+[].[-H(Sayaka)]
+
+@ I'm not sure how to write
+ [x,t1,t2].[-G(x,t1),-Sup(QB,x,z),+WT(x,t2)]
+ [x,y].[Sup(QB,x,x)]
+ [x].[-Love(x, Kamijo)]
+
+query 
+ [x].[+MG(x,t1),-GT(t2,t1),+WT(x,t2)]
+
+
 
 Fact
 [].[+G(Madoka)]
@@ -17,17 +29,5 @@ Theory
 [x].[-B(x),+H(x)]
 [x].[-G(x),+H(x)]
 [x,t1,t2].[-MG(x,t1),+WT(x,t2),+GT(t2,t1)]
-
-
-query
- [].[-H(Sayaka)]
-
-@ I'm not sure how to write
- [x,t1,t2].[-G(x,t1),-Sup(QB,x,z),+WT(x,t2)]
- [x,y].[Sup(QB,x,x)]
- [x].[-Love(x, Kamijo)]
-
-query 
- [x].[+MG(x,t1),-GT(t2,t1),+WT(x,t2)]
 
 
