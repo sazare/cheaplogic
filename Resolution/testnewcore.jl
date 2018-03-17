@@ -41,3 +41,29 @@ end
  @test islid(:L23_C22)
 end
 
+@testset "analyze" begin
+ @test analyze_term([], parse("a")) == ([], [:a], [])
+ @test analyze_term([:a], parse("a")) == ([:a], [], [])
+ @test analyze_term([], parse("a()")) == ([], [], [:a])
+ @test analyze_term([], parse("a(b)")) == ([], [:b], [:a])
+ @test analyze_term([], parse("a(b,c)")) == ([], [:b,:c], [:a])
+ @test analyze_term([:c], parse("a(b,c)")) == ([:c], [:b], [:a])
+ @test analyze_term([], parse("a(b())")) == ([], [], [:a,:b])
+ @test analyze_term([], parse("a(b(c))")) == ([], [:c], [:a,:b])
+ @test analyze_term([:d,:g], parse("a(b(c),d,e(f,g))")) == ([:d,:g], [:c,:f], [:a,:b,:e])
+
+ @test analyze_term([:x,:y,:z], parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:P,:f])
+
+ @test analyze_lit([:x,:y,:z], parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:f],:P)
+
+ wff = "[x].[+P(x,f(x))]
+[x].[-P(x,f(h(x)))]
+[x,y,z].[+P(h(y),pi, f(k(x))),-Q(e,g(x,y))]"
+ cwff = readcore(IOBuffer(wff))
+
+ @test analyze_sym(cwff) == (Set([:y_C3, :x_C3, :x_C1, :x_C2]), Set([:e, :pi]), Set([:f,:h,:k,:g]), Set([:P,:Q]))
+
+
+
+end
+

@@ -203,6 +203,79 @@ function literalsof(lids, core)
  map(lid->literalof(lid, core).body, lids)
 end
 
+#### analyzer of wff
+function analyze_term(vars, term)
+ v = []
+ c = []
+ f = []
+ if isa(term, Symbol)
+  isvar(term, vars) && push!(v, term)
+  isconst(term, vars) && push!(c, term)
+ else
+  push!(f, term.args[1])
+  nv, nc, nf = analyze_args(vars, term.args[2:end])
+  append!(v, nv)
+  append!(c, nc)
+  append!(f, nf)
+ end
+ return v,c,f
+end
+
+function analyze_args(vars, args)
+ v = []
+ c = []
+ f = []
+ for term in args
+   nv, nc, nf = analyze_term(vars, term)
+   append!(v, nv)
+   append!(c, nc)
+   append!(f, nf) 
+ end
+ return v,c,f
+end
+
+function analyze_lit(vars, atom)
+ (v,c,f) = analyze_args(vars, atom.args[2:end])
+ return v, c, f, atom.args[1]
+end
+
+function analyze_sym(core)
+ ldb = core.ldb
+ vpool = []
+ cpool = []
+ fpool = []
+ ppool = []
+
+ for lid in keys(ldb)
+  atom = ldb[lid].body.args[2] ## remove sign of lit
+  cid = cidof(lid, core)
+  vars = varsof(cid, core)
+
+  (v,c,f,p) = analyze_lit(vars, atom)
+  append!(vpool, v)
+  append!(cpool, c)
+  append!(fpool, f)
+  push!(ppool, p)
+ end
+ return Set(vpool), Set(cpool), Set(fpool), Set(ppool)
+end
+
+function print_coreinfo(core)
+
+println("core info...")
+
+(v,c,f,p) = analyze_sym(core)
+println("vars   = $v")
+println("consts = $c")
+println("funcs  = $f")
+println("preds  = $p")
+println("clauses  = $(length(keys(core.cdb))): $(keys(core.cdb))")
+println("literals = $(length(keys(core.ldb))): $(keys(core.ldb))")
+
+end
+
+
+
 #### resolvent
 ## proof information in resolvent 
 
@@ -217,6 +290,7 @@ end
 
 
 ### new resolution
+#==
 function resolution(lid1, lid2, core)
 @show "insufficient yet"
 # clause c1,c2 is an array.
@@ -242,4 +316,4 @@ function resolution(lid1, lid2, core)
  end 
  return :NAP
 end
-
+==#

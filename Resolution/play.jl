@@ -185,3 +185,8 @@ printaproof0(rids[1], cdx)
 rids,cdx = simpleprover("data/magia.wff", 5, 1)
 printaproof1(rids[1], cdx)
 printaproof0(rids[1], cdx)
+
+cdy = readcore("data/data003.wff")
+println("core: data/data003.wff")
+print_coreinfo(cdy)
+
