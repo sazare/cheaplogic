@@ -151,7 +151,7 @@ function dvc_resolution(l1,l2,core)
   core.proof[rid] = STEP(rid, l1, l2, sigmai)
   return CForm2(rid, body.vars, body.body)
   catch e 
-@show e
+    println("FAIL = $e")
     return :FAIL
   end
 end
