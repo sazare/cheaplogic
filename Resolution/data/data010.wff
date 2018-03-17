@@ -1,6 +1,6 @@
 @ test data for general templates(general)
-
 [x].[-P(x)]
+
 [x].[+P(x),-Q(a),-R(b)]
 [x].[+P(x),-Q(c),-R(d)]
 [x].[+P(x),-S(x),-T(x)]
