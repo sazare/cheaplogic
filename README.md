@@ -9,6 +9,3 @@
  A proof system based on resolution principle. 
  This code is made from scrach.
  
-3. factorgame	
- An experimental refutation to my proposition about factorization of numbers.
- 
