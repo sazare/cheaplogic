@@ -260,21 +260,6 @@ function analyze_sym(core)
  return Set(vpool), Set(cpool), Set(fpool), Set(ppool)
 end
 
-function print_coreinfo(core)
-
-println("core info...")
-
-(v,c,f,p) = analyze_sym(core)
-println("vars   = $v")
-println("consts = $c")
-println("funcs  = $f")
-println("preds  = $p")
-println("clauses  = $(length(keys(core.cdb))): $(keys(core.cdb))")
-println("literals = $(length(keys(core.ldb))): $(keys(core.ldb))")
-
-end
-
-
 
 #### resolvent
 ## proof information in resolvent 

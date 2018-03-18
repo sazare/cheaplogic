@@ -228,3 +228,23 @@ function printgoals(goals, core)
   end   
 end
 
+function print_list(set)
+ for e in set
+  print(" $e")
+ end
+ println()
+end
+
+function print_coreinfo(core)
+println("core info...")
+
+(v,c,f,p) = analyze_sym(core)
+print("vars     = #$(length(collect(v))):"); print_list(v)
+print("consts   = #$(length(collect(c))):"); print_list(c)
+print("funcs    = #$(length(collect(f))):"); print_list(f)
+print("preds    = #$(length(collect(p))):"); print_list(p)
+print("clauses  = #$(length(keys(core.cdb))):"); print_list(keys(core.cdb))
+print("literals = #$(length(keys(core.ldb))):"); print_list(keys(core.ldb))
+
+end
+
