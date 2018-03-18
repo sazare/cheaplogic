@@ -43,11 +43,11 @@ printcore(sc1)
 
 # templates
 println("make all templates")
-aeq = alltemplateof(cd001)
+tmpl = alltemplateof(cd001)
 printcore(cd001)
 
 printtemplates0(cd001.level0, cd001)
-printtemplates1(aeq, cd001)
+printtemplates1(tmpl, cd001)
 
 
 # resolution
@@ -189,4 +189,7 @@ printaproof0(rids[1], cdx)
 cdy = readcore("data/data003.wff")
 println("core: data/data003.wff")
 print_coreinfo(cdy)
+
+### estimate wff
+atl=alltemplateof(cdy)
 
