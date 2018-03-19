@@ -121,6 +121,10 @@ function printaproof1(rid, core, shift=0)
     print("  ")
     print("<$(step.leftp):")
     print("$(step.rightp)>=")
+    print_list(ovarsof(step.leftp, step.rightp, core))
+    print("←")
+    print_list(step.sigma)
+    println()
 #    printns(shift)
     printclause(rid, core)
   else
@@ -229,22 +233,25 @@ function printgoals(goals, core)
 end
 
 function print_list(set)
- for e in set
-  print(" $e")
+ print("[")
+ for ei in 1:length(set)
+  e = set[ei]
+  if ei != 1; print(",") end
+  print("$e")
  end
- println()
+ print("]")
 end
 
 function print_coreinfo(core)
 println("core info...")
 
 (v,c,f,p) = analyze_sym(core)
-print("vars     = #$(length(collect(v))):"); print_list(v)
-print("consts   = #$(length(collect(c))):"); print_list(c)
-print("funcs    = #$(length(collect(f))):"); print_list(f)
-print("preds    = #$(length(collect(p))):"); print_list(p)
-print("clauses  = #$(length(keys(core.cdb))):"); print_list(keys(core.cdb))
-print("literals = #$(length(keys(core.ldb))):"); print_list(keys(core.ldb))
+print("vars     = #$(length(collect(v))):"); print_list(collect(v));println()
+print("consts   = #$(length(collect(c))):"); print_list(collect(c));println()
+print("funcs    = #$(length(collect(f))):"); print_list(collect(f));println()
+print("preds    = #$(length(collect(p))):"); print_list(collect(p));println()  
+print("clauses  = #$(length(keys(core.cdb))):"); print_list(collect(keys(core.cdb)));println()
+print("literals = #$(length(keys(core.ldb))):"); print_list(collect(keys(core.ldb)));println()
 
 end
 

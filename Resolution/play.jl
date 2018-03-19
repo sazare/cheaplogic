@@ -193,3 +193,8 @@ print_coreinfo(cdy)
 ### estimate wff
 atl=alltemplateof(cdy)
 
+rd3, cd3 = simpleprover("data/data003.wff", 10, 3)
+printclauses(cd3)
+printaproof1(:R1, cd3)
+
+

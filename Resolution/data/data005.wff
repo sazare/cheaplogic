@@ -1,9 +1,11 @@
 @ test for DVC(2)
+
 [x,y].[+P(x,y)]
-[x,y].[+P(x,f(x)],-Q(x,y)]
+[x,y].[+P(x,f(x)),-Q(x,y)]
 [x,y,z].[+Q(x,y),-R(x,y),-S(f(y),z)]
 [x].[-S(x,h(x))]
 [x,y].[+R(x,k(y)),-S(x,y)]
-[x].[+R(x,r(x))
+[x].[+R(x,r(x))]
+
 
 
