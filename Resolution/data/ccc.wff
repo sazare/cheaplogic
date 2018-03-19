@@ -1,0 +1,7 @@
+@ I have functions
+
+[x].[+P(x,f(x))]
+
+[x].[-P(x,f(h(x)))]
+[x,y].[+P(h(y),pi, f(h(x))),-Q(e,g(x,y))]
+
