@@ -1,9 +1,9 @@
 @ Madoka
 query
-[].[-H(Kamijo)]
+ [].[-H(Kamijo)]
  [].[-H(Sayaka)]
 
- [x].[-Love(x, Kamijo)]
+[x].[-Love(x, Kamijo)]
 
 This question assumes QB is the answer. It asks what is the non human.
  [x].[+H(x)]
