@@ -1,0 +1,12 @@
+@ arity test
+# intended 2 proofs
+
+[x].[-P(x)]
+
+[x].[+P(x),-P(x,a)]
+[x].[+P(x),-P(x,b)]
+[].[+P(a,1)]
+[].[+P(b,2)]
+[].[+P(3,b)]
+
+# in the point of veiw, 2 arity ok ?

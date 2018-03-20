@@ -4,4 +4,13 @@
 [x].[+Z(x),-P(x),-Q(x)]
 [x].[+P(x),-R(x),-S(x)]
 [x].[+Q(x),+R(x),-U(x)]
+[].[+R(a)]
+[].[+S(a)]
+[].[-R(a)]
+[].[-U(a)]
+[].[-R(b)]
+[].[-U(b)]
+
+
+# expect a success, b fail
 

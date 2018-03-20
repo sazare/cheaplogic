@@ -1,0 +1,9 @@
+@ Number test
+[x].[-P(x)]
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+P(1)]
+[].[+P(2.3)]
+
+# expect 4 contraditions

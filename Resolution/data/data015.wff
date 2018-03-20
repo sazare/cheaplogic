@@ -1,0 +1,12 @@
+@ test of evaluation
+# intended 2 proofs
+
+[x].[-Z(x)]
+
+[x].[+Z(x),-R(x),+>=(x,0)]
+[x].[+Z(x),-R(minus(x)),+<(x,0)]
+[].[+R(55)]
+[].[+R(23)]
+
+# ->=(x,y) is inhivitable in Julia
+#  uum.
