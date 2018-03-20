@@ -22,9 +22,7 @@ function printlids(lids, core)
 end
 
 function printbody(cls)
- if isempty(cls)
-  print("□")
- else
+ if !isempty(cls)
   for i in 1:length(cls)
    println()
    print(" ")
@@ -53,6 +51,8 @@ print(".")
  printlids(lidsof(cid,core), core)
  #printbody(cls.body)
 end
+
+printclauseof(lid, core) = printclause(cidof(lid, core),core)
 
 function printclauses(core)
   for cid in sort(collect(keys(core.cdb)))

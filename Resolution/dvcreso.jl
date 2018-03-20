@@ -7,7 +7,7 @@ include("primitives.jl")
 
 const SEPSYM='_'
 
-issym(x) = typeof(x)==Symbol
+issym(x) = isa(x, Symbol) || isa(x, Number)
 iscid(x) = issym(x) && string(x)[1] == 'C'
 isrid(x) = issym(x) && string(x)[1] == 'R'
 hasid(x) = search(string(x), SEPSYM) != 0
@@ -98,6 +98,22 @@ function fitting_vars(vars, lids, core)
  union(evars, evars)
 end
 
+## evaluation 
+
+function evaluate_lits(lits)
+ rlits=[]
+ for lit in lits
+   try 
+     if eval(lit)
+       return true;
+     end 
+   catch
+     push!(rlits, lit)
+   end
+ end
+ rlits
+end
+
 ## resolution
 ovarsof(l1,l2,core)=vcat(varsof(cidof(l1, core), core), varsof(cidof(l2, core), core))
 
@@ -129,7 +145,11 @@ function dvc_resolution(l1,l2,core)
 # rename rlid
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
-   nbody1 = apply(ovars, nbody, sigmai)
+   nbody0 = apply(ovars, nbody, sigmai)
+
+#   nbody1 = nbody0 
+   nbody1 = evaluate_lits(nbody0)
+   
    body = rename_clause(rid, vars, nbody1)
  ## settlement
 

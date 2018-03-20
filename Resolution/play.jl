@@ -3,7 +3,6 @@ using Base.Test
 
 include("loadall.jl")
 
-#==
 cmagi=readcore("data/magia.wff")
 printcore(cmagi)
 
@@ -13,10 +12,8 @@ printcore(cd001)
 cd002=readcore("data/data002.wff")
 printcore(cd002)
 
-
 ctime=readcore("data/time.wff")
 printcore(ctime)
-
 
 ## rename steps
 c6=clause2of(:C6, cd001)
@@ -62,15 +59,10 @@ printclause(:C1, cd001)
 r2= dvc_resolution(:L7_R1, :L2, cd001)
 printclause(:R2, cd001)
 
-print("\n\nstep1 R3 = <L8_R2, L10>")
-printclause(:C4, cd001)
-r3= dvc_resolution(:L8_R2, :L10, cd001)
-printclause(:R3, cd001)
-
 println("\n\n final core")
 printcore(cd001)
 
-println(proofcof(:R3, cd001))
+println(proofcof(:R2, cd001))
 
 itemp1 = alltemplateof(cd001)
 applytemp(:L1, cd001)
@@ -83,7 +75,6 @@ for g1 in goal1
  push!(gs1, applytemp(g1, cd002))
 end
 
-#goal2 = lidsof(:R1, cd002)
 
 
 ##### friend3
@@ -94,9 +85,9 @@ tf03=alltemplateof(cf03)
 tnf=tf03[Symbol("-F")]
 
 g0 = [lidsof(:C1, cf03)]
-g1 = dostepgoals(g0, tf03, cf03)
-g2 = dostepgoals(g1, tf03, cf03)
-g3 = dostepgoals(g2, tf03, cf03)
+g1 = dostep1goals(g0, cf03)
+g2 = dostep1goals(g1, cf03)
+g3 = dostep1goals(g2, cf03)
 
 conds = contradictionsof(cf03)
 
@@ -105,7 +96,7 @@ printaproof0(:R20, cf03)
 
 tpr=templateof(:+, :R, cd002)
  g0=[:L12]
- g1=dostepagoal(g0, tpr, cd002)
+ g1=dostepagoal(g0, cd002)
  printaproof0(:R3, cd002)
  printaproof0(:R4, cd002)
  printaproof1(:R3, cd002)
@@ -113,10 +104,9 @@ tpr=templateof(:+, :R, cd002)
 cd010=readcore("data/data010.wff")
 printcore(cd010)
 td010=alltemplateof(cd010)
-tnp=td10[Symbol("-P")]
+tnp=td010[Symbol("-P")]
 g0=[[:L7]]
-g1=dostepagoal(g0[1], tnp, cd010)
-==#
+g1=dostepagoal(g0[1], cd010)
 
 function doit(wff)
  cdx=readcore(wff)
@@ -127,7 +117,6 @@ function doit(wff)
  gn=dostepgoals1(g0, cdx)
  return cdx,tdx,g0,gn
 end
-#==
 @testset "data011" begin
  cdx,td,g0,g1=doit("data/data011.wff")
  g2=dostepgoals1(g1, cdx)
@@ -166,35 +155,35 @@ end
  cf2=clause2of(:R3,cdx)
  @test satisfiable(cf2.vars, cf2.body)
 end
-==#
-#==
+
  cdx,td,g0,g1=doit("data/data010.wff")
- g2=dostepgoals1(g1, cdx)
- g3=dostepgoals1(g2, cdx)
- g4=dostepgoals1(g3, cdx)
-==#
-rids,cdx = simpleprover("data/data011.wff", 5, 1)
-rids,cdx = simpleprover("data/data012.wff", 5, 1)
-rids,cdx = simpleprover("data/data013.wff", 5, 1)
-rids,cdx = simpleprover("data/data014.wff", 5, 1)
+ g2=dostep1goals(g1, cdx)
+ g3=dostep1goals(g2, cdx)
+ g4=dostep1goals(g3, cdx)
 
-rids,cdx = simpleprover("data/data010.wff", 5, 1)
-printaproof1(rids[1], cdx)
-printaproof0(rids[1], cdx)
+r11,c11 = simpleprover("data/data011.wff", 5, 1)
+r12,c12 = simpleprover("data/data012.wff", 5, 1)
+r13,c13 = simpleprover("data/data013.wff", 5, 1)
+r14,c14 = simpleprover("data/data014.wff", 5, 1)
+r15,c15 = simpleprover("data/data015.wff", 5, 1)
+r16,c16 = simpleprover("data/data016.wff", 5, 1)
+r17,c17 = simpleprover("data/data017.wff", 5, 1)
 
-rids,cdx = simpleprover("data/magia.wff", 5, 1)
-printaproof1(rids[1], cdx)
-printaproof0(rids[1], cdx)
+r10,c10 = simpleprover("data/data010.wff", 5, 1)
+printaproof1(r10[1], c10)
+printaproof0(r10[1], c10)
 
-cdy = readcore("data/data003.wff")
+rm,cm = simpleprover("data/magia.wff", 5, 1)
+printaproof1(rm[1], cm)
+printaproof0(rm[1], cm)
+
+c3 = readcore("data/data003.wff")
 println("core: data/data003.wff")
-print_coreinfo(cdy)
+print_coreinfo(c3)
 
 ### estimate wff
-atl=alltemplateof(cdy)
+atl=alltemplateof(c3)
 
-rd3, cd3 = simpleprover("data/data003.wff", 10, 3)
-printclauses(cd3)
-printaproof1(:R1, cd3)
-
-
+r3, c3 = simpleprover("data/data003.wff", 10, 3)
+printclauses(c3)
+printaproof1(:R1, c3)
