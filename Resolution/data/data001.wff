@@ -7,7 +7,7 @@ Fact
 [y].[+P(a,y)]
 [y].[+P(b,y)]
 [x].[+R(x,x)]
-[x].[+R(a,c)]
+[].[+R(a,c)]
 
 
 Theory

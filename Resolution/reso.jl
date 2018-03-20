@@ -100,34 +100,34 @@ end
 
 function unify0(vars::Vlist, t1::Number, t2::Number)
  if t1==t2; return () end
- throw(ICMP(t1,t2,:unify0))
+ throw(ICMP(t1,t2,:unify0nn))
 end
 
 function unify0(vars::Vlist, t1::Number, t2::Symbol)
  if isvar(t1,vars); return (t1,t2) end
  if isvar(t2,vars); return (t2,t1) end
- throw(ICMP(t1,t2,:unify0))
+ throw(ICMP(t1,t2,:unify0ns))
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Number)
  if isvar(t1,vars); return (t1,t2) end
  if isvar(t2,vars); return (t2,t1) end
- throw(ICMP(t1,t2,:unify0))
+ throw(ICMP(t1,t2,:unify0sn))
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Symbol)
  if t1==t2; return () end
  if isvar(t1,vars); return (t1,t2) end
  if isvar(t2,vars); return (t2,t1) end
- if t1!=t2; throw(ICMP(t1,t2,:unify0)) end
+ if t1!=t2; throw(ICMP(t1,t2,:unify0ss)) end
 end
 
 function inside(vt::Symbol, et::Expr)::Bool
   for arg in et.args
    if typeof(arg) == Symbol
-    if vt == arg; throw(Loop(vt,et,:inside)) end
+    if vt == arg; throw(Loop(vt,et,:insidese)) end
    else
-    if inside(vt, arg);return throw(Loop(vt,et,:inside)) end
+    if inside(vt, arg);return throw(Loop(vt,et,:insidese)) end
    end
   end
   return false
@@ -135,12 +135,12 @@ end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Expr)
  isvar(t1,vars) && !inside(t1,t2) && return (t1,t2) 
- if t1!=t2; throw(ICMP(t1,t2,:unify0)) end
+ if t1!=t2; throw(ICMP(t1,t2,:unify0se)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Symbol)
  isvar(t2,vars)&&!inside(t2,t1)&&return(t2,t1)
- if t1!=t2; throw(ICMP(t1,t2,:unify0)) end
+ if t1!=t2; throw(ICMP(t1,t2,:unify0es)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Expr)
@@ -175,7 +175,7 @@ function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
  if isvar(t1,vars)
   ix = find(x->x==t1,vars)[1]
   if isvar(subst[ix],vars)
-    if t2!=subst[ix];throw(ICMPIn(t1,t2,subst,:unify1))end 
+    if t2!=subst[ix];throw(ICMPIn(t1,t2,subst,:unify1ss1))end 
     subst[ix] = t2
   end
   return subst
@@ -183,17 +183,17 @@ function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
  if isvar(t2,vars)
   ix = find(x->x==t2,vars)[1]
   if isvar(subst[ix],vars)
-    if t1!=subst[ix];throw(ICMPIn(t1,t2,subst,:unify1))end 
+    if t1!=subst[ix];throw(ICMPIn(t1,t2,subst,:unify1ss2))end 
     subst[ix] = t1
   end
   return subst
  end
- throw(ICMP(t1,t2,:unify1))
+ throw(ICMP(t1,t2,:unify1ss3))
 end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Expr, subst::Tlist)
  if isvar(t1,vars);return t2 end
- throw(ICMP(t1,t2,:unify1))
+ throw(ICMP(t1,t2,:unify1se))
 end
 
 function unify1(vars::Vlist, t1::Expr, t2::Symbol, subst::Tlist)

@@ -100,7 +100,7 @@ end
 
 ## evaluation 
 
-function evaluation_lits(lits)
+function evaluate_lits(lits)
  rlits=[]
  for lit in lits
    try 
@@ -111,7 +111,7 @@ function evaluation_lits(lits)
      push!(rlits, lit)
    end
  end
- rlists
+ rlits
 end
 
 ## resolution
@@ -147,7 +147,8 @@ function dvc_resolution(l1,l2,core)
    nbody = literalsof(rem, core)
    nbody0 = apply(ovars, nbody, sigmai)
 
-   nbody1 = nbody0 #evaluate_lits(nbody0)
+#   nbody1 = nbody0 
+   nbody1 = evaluate_lits(nbody0)
    
    body = rename_clause(rid, vars, nbody1)
  ## settlement

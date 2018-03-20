@@ -52,6 +52,8 @@ print(".")
  #printbody(cls.body)
 end
 
+printclauseof(lid, core) = printclause(cidof(lid, core),core)
+
 function printclauses(core)
   for cid in sort(collect(keys(core.cdb)))
     printclause(cid, core)
