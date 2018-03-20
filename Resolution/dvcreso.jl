@@ -128,6 +128,7 @@ function dvc_resolution(l1,l2,core)
 
  if sign1 == sign2; return :FAIL end
  if psym1 != psym2; return :FAIL end
+ if length(lit1.args[2].args) != length(lit2.args[2].args); return :FAIL end
  try 
    sigmai = unify(ovars, lit1.args[2], lit2.args[2])
 
