@@ -51,6 +51,10 @@ end
 """
 apply substitution to a term, substitution
 """
+function apply(vars::Vlist, sym::Number, subst::Tlist)
+ return sym
+end
+
 function apply(vars::Vlist, sym::Symbol, subst::Tlist)
  if !isvar(sym, vars); return sym end
  for i in 1:length(vars)
@@ -92,6 +96,23 @@ putasubst puts a pair of v,t to a substituion
 """
 function putasubst(vars::Vlist, vt::Symbol, tm::Term, subst::Tlist)
  rs = map(x->if x==vt;tm else x end, subst)
+end
+
+function unify0(vars::Vlist, t1::Number, t2::Number)
+ if t1==t2; return () end
+ throw(ICMP(t1,t2,:unify0))
+end
+
+function unify0(vars::Vlist, t1::Number, t2::Symbol)
+ if isvar(t1,vars); return (t1,t2) end
+ if isvar(t2,vars); return (t2,t1) end
+ throw(ICMP(t1,t2,:unify0))
+end
+
+function unify0(vars::Vlist, t1::Symbol, t2::Number)
+ if isvar(t1,vars); return (t1,t2) end
+ if isvar(t2,vars); return (t2,t1) end
+ throw(ICMP(t1,t2,:unify0))
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Symbol)

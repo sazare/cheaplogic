@@ -22,9 +22,7 @@ function printlids(lids, core)
 end
 
 function printbody(cls)
- if isempty(cls)
-  print("□")
- else
+ if !isempty(cls)
   for i in 1:length(cls)
    println()
    print(" ")
