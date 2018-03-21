@@ -109,6 +109,14 @@ function unify0(vars::Vlist, t1::Number, t2::Symbol)
  throw(ICMP(t1,t2,:unify0ns))
 end
 
+function unify0(vars::Vlist, t1::Number, t2::Expr)
+ throw(ICMP(t1,t2,:unify0ne))
+end
+
+function unify0(vars::Vlist, t1::Expr, t2::Number)
+ throw(ICMP(t1,t2,:unify0en))
+end
+
 function unify0(vars::Vlist, t1::Symbol, t2::Number)
  if isvar(t1,vars); return (t1,t2) end
  if isvar(t2,vars); return (t2,t1) end
