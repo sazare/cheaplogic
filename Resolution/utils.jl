@@ -40,6 +40,15 @@ function readclausefromfile(fname)
  return clss
 end
 
+function printwff(fname)
+ wffs=readclausefromfile(fname)
+ 
+ for ix in 1:length(wffs)
+   wff = wffs[ix]
+   println("$(cidof(ix)): $wff")
+ end
+end
+
 #### readcore
 function readcore(fname)
  println("readcore fname=$fname")
