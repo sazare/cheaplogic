@@ -36,6 +36,7 @@ struct STEP
 end
 
 struct CORE
+ name
  maxcid
  maxrid
  ldb
@@ -110,12 +111,12 @@ function vform2ofclause(cdb)
  vcl
 end
 
-function createcore(clss)
+function createcore(name, clss)
  (maxcid, cdb) = cform2ofclause(clss)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= Dict()
- CORE([numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict())
+ CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict())
 end
 
 # proof operation

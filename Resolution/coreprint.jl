@@ -135,6 +135,7 @@ function printaproof1(rid, core, shift=0)
 end
 
 function printcore(core)
+println("name = $(core.name)")
 println("max cid = $(core.maxcid)")
 println("max rid = $(core.maxrid)")
 println("Psyms = $(core.allpsym)")
