@@ -3,10 +3,18 @@
 
 [x].[-Z(x)]
 
-[x].[+Z(x),-R(x),+>=(x,0)]
-[x].[+Z(x),-R(minus(x)),+<(x,0)]
+! ge(x,y) = x>=y
+! lt(x,y) = x<y
+
+[x].[+Z(x),-R(x),+ge(x,0)]
+[x].[+Z(x),-R(minus(x)),+lt(x,0)]
+ [x].[+Z(x),-R(minus(x)),-ge(x,0)]
 [].[+R(55)]
 [].[+R(23)]
 
 # ->=(x,y) is inhivitable in Julia
-#  uum.
+# in Expr, >=, < become infix. so, rename it.
+
+
+## this direction is bad!!
+

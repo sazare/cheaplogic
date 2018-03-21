@@ -27,3 +27,12 @@ isvar(term, vars::Vlist)=false
 isconst(sym::Symbol, vars::Vlist)=!(sym in vars)
 isconst(sym::Number, vars::Vlist)=true
 
+# function 
+macro isdefined(x)
+  try
+    eval(x)
+  catch 
+    return false
+  end
+  return true
+end

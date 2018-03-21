@@ -67,8 +67,8 @@ end
 
 #fitting vars in literal
 function fitting_vars_term(vars, term)
-  if typeof(term) == Symbol
-    if term in vars
+  if issym(term) #typeof(term) == Symbol
+    if isvar(term, vars)
       return [term]
     else
       return []
@@ -104,9 +104,10 @@ function evaluate_lits(lits)
  rlits=[]
  for lit in lits
    try 
-     if eval(lit)
-       return true;
-     end 
+     val = eval(lit.args[2])
+     if val && lit.args[1] == :+; return true end
+     if !val && lit.args[1] == :-; return true end
+     push!(rlits, lit)
    catch
      push!(rlits, lit)
    end
@@ -131,25 +132,26 @@ function dvc_resolution(l1,l2,core)
  if length(lit1.args[2].args) != length(lit2.args[2].args); return :FAIL end
  try 
    sigmai = unify(ovars, lit1.args[2], lit2.args[2])
-
-   rid =  newrid(core)
-
    rem1 = lidsof(cidof(l1, core),core)
    rem1 = setdiff(rem1, [l1])
    rem2 = lidsof(cidof(l2, core),core)
    rem2 = setdiff(rem2, [l2])
 
-   rem = vcat(rem1, rem2)
+   rem0 = vcat(rem1, rem2)
+
+   # rem = rem0
+   rem = evaluate_lits(rem0)
+   if rem == true
+     println("Valid")
+     return :FAIL 
+   end
 
    vars = fitting_vars(ovars, rem, core)
- 
 # rename rlid
+   rid =  newrid(core)
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
-   nbody0 = apply(ovars, nbody, sigmai)
-
-#   nbody1 = nbody0 
-   nbody1 = evaluate_lits(nbody0)
+   nbody1 = apply(ovars, nbody, sigmai)
    
    body = rename_clause(rid, vars, nbody1)
  ## settlement

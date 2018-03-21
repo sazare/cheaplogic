@@ -165,6 +165,7 @@ r11,c11 = simpleprover("data/data011.wff", 5, 1)
 r12,c12 = simpleprover("data/data012.wff", 5, 1)
 r13,c13 = simpleprover("data/data013.wff", 5, 1)
 r14,c14 = simpleprover("data/data014.wff", 5, 1)
+ge(x,y) = x>=y
 r15,c15 = simpleprover("data/data015.wff", 5, 1)
 r16,c16 = simpleprover("data/data016.wff", 5, 1)
 r17,c17 = simpleprover("data/data017.wff", 5, 1)
