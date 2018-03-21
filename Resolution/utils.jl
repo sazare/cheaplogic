@@ -44,7 +44,7 @@ end
 function readcore(fname)
  println("readcore fname=$fname")
  cls = readclausefromfile(fname)
- createcore(cls)
+ createcore(fname, cls)
 end
 
 function readcoredir(dirname)
