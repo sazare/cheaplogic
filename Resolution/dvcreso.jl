@@ -130,6 +130,7 @@ function dvc_resolution(l1,l2,core)
  if sign1 == sign2; return :FAIL end
  if psym1 != psym2; return :FAIL end
  if length(lit1.args[2].args) != length(lit2.args[2].args); return :FAIL end
+
  try 
    sigmai = unify(ovars, lit1.args[2], lit2.args[2])
    rem1 = lidsof(cidof(l1, core),core)
@@ -139,13 +140,17 @@ function dvc_resolution(l1,l2,core)
 
    rem0 = vcat(rem1, rem2)
 
-   # rem = rem0
-   rem = evaluate_lits(rem0)
-   if rem == true
-     println("Valid")
-     return :FAIL 
+   if evalon 
+     # rem = rem0
+     rem = evaluate_lits(rem0)
+     if rem == true
+       println("Valid")
+       return :FAIL 
+     end
+   else
+     rem = rem0
    end
-
+  
    vars = fitting_vars(ovars, rem, core)
 # rename rlid
    rid =  newrid(core)

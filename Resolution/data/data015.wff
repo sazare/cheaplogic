@@ -1,16 +1,16 @@
 @ test of evaluation
 # intended 2 proofs
 
-[x].[-Z(x)]
+[x,z].[-Z(x,z)]
 
 ! ge(x,y) = x>=y
 ! lt(x,y) = x<y
 
-[x].[+Z(x),-R(x),+ge(x,0)]
-[x].[+Z(x),-R(minus(x)),+lt(x,0)]
- [x].[+Z(x),-R(minus(x)),-ge(x,0)]
-[].[+R(55)]
-[].[+R(23)]
+[x,z].[+Z(x,z),-R(x,z),+ge(x,0)]
+[x,z].[+Z(x,z),-R(x,z),+lt(x,0)]
+ [x,z].[+Z(x,f(z)),-R(x,z),-ge(x,0)]
+[].[+R(55,20)]
+[].[+R(23,10)]
 
 # ->=(x,y) is inhivitable in Julia
 # in Expr, >=, < become infix. so, rename it.
