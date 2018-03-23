@@ -192,4 +192,8 @@ printaproof1(:R1, c3)
 t空海,c空海=simpleprover("data/空海.wff",5,1)
 printaproof1(:R2,c空海)
 
+ted,ced=simpleprover("data/everyonedie.wff",8,1)
+
+tt2,ct2=simpleprover("data/time2.wff",6,1)
+
 

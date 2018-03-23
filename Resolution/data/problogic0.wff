@@ -1,0 +1,9 @@
+@ (not valid) simple examples for Probablistic Logic
+# probability [0,1]
+
+[x].[-R(x),+R(x,1.0)]
+[x].[-R(x,1.0),+R(x)]
+[x,p].[-R(x,p),-R(x),+R(x,1.0)]
+[x,p,q].[-R(x,p),-R(x,q),+R(x,maximum(p,q))]
+ x [x,p,q].[-R(x,p),+R(x,q),-R(x,min(p,q))]
+

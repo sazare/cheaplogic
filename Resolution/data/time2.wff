@@ -1,0 +1,41 @@
+@ time is comming2(intended but not written)
+# tt2,ct2=simpleprover("data/time2.wff",6,1)
+# makes contradictions
+
+query 
+[x,t2].[-WT(x,t2)]
+
+Fact
+[].[+G(Madoka)]
+[].[+G(Mami)]
+[].[+G(Sayaka)]
+[].[+G(Homura)]
+[].[+G(Kyoko)]
+[].[+MG(Mami)]
+[].[+MG(Sayaka)]
+[].[+MG(Homura)]
+[].[+MG(Kyoko)]
+[].[+C(QB)]
+
+Event
+ !ge(x,y)=x<y
+
+[].[+Meet(Mami,QB,at1)]
+[].[+Meet(Kyoko,QB,at1)]
+[].[+Meet(Sayaka,QB,at2)]
+[].[+Meet(Madoka,QB,at4)]
+[].[+gt(at1,at2)]
+[].[+gt(at2,at4)]
+[].[+gt(at1,at4)]
+
+# Homura is out of the natual line
+[].[+Meet(Homura,QB,at3)]
+[t].[+gt(at3,t)]
+[t].[+gt(t,at3)]
+
+
+Theory
+[x].[-MG(x),+G(x)]
+[x,t1,t2].[-G(x),-Meet(x,QB,t1),-gt(t2,t1),+MG(x,t2)]
+[x,t1,t2].[-MG(x,t1),-gt(t1,t2),+WT(x,t2)]
+
