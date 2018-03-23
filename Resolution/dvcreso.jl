@@ -417,6 +417,8 @@ function simpleprover(wff, steplimit, contralimit)
  conds = []
  nstep = 0;
  
+ evalon && evalproc(cdx.proc)
+
  while true 
   ga=dostepgoals1(gb, cdx)
   nstep += 1

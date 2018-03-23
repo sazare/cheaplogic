@@ -3,14 +3,14 @@
 
 [x,z].[-Z(x,z)]
 
-! ge(x,y) = x>=y
-! lt(x,y) = x<y
+!ge(x,y) = x>=y
+!lt(x,y) = x<y
 
 [x,z].[+Z(x,z),-R(x,z),+ge(x,0)]
 [x,z].[+Z(x,z),-R(x,z),+lt(x,0)]
  [x,z].[+Z(x,f(z)),-R(x,z),-ge(x,0)]
 [].[+R(55,20)]
-[].[+R(23,10)]
+[].[+R(-23,10)]
 
 # ->=(x,y) is inhivitable in Julia
 # in Expr, >=, < become infix. so, rename it.

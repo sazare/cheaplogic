@@ -25,7 +25,7 @@ end
  @test numof(:L22) == 22
  @test numof(:R2333) == 2333
 
- ctest = CORE("test", 0,[0],0,0,0,0,0,0,0)
+ ctest = CORE("test", 0,[0],0,0,0,0,0,0,0,[])
  @test ctest.name == "test"
  @test newrid(ctest) == :R1
  @test newrid(ctest) == :R2
@@ -63,8 +63,12 @@ end
  cwff = readcore(IOBuffer(wff))
 
  @test analyze_sym(cwff) == (Set([:y_C3, :x_C3, :x_C1, :x_C2]), Set([:e, :pi]), Set([:f,:h,:k,:g]), Set([:P,:Q]))
+end
 
-
+@testset "core proc" begin
+ evalproc(["x=12"])
+ @test x==12
 
 end
+
 
