@@ -1,0 +1,16 @@
+@everyone die: get all info from the facts
+
+# does everyone die?
+ \exists x .[-Life(x),+Die(x)]
+[x].[-Die(x)]
+
+
+[].[+Life(I)]
+[].[+Life(Sazare)]
+[].[+Life(Kuukai)]
+[].[-Undead(Zombi)]
+[].[-Undead(QB)]
+
+[x].[-Life(x),+Die(x)]
+[x].[+Life(x),-Die(x)]
+
