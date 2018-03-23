@@ -28,21 +28,28 @@ end
 function readclausefromfile(fname)
  lines=readlines(fname)
  clss = []
+ proc = []
  for line in lines
   if length(line)>0
     if line[1]=='['
       push!(clss,parse(line))
+    elseif line[1] == '!'
+      push!(proc,line[2:end])
     elseif line[1] == '<'
       append!(clss, readclausefromfile(strip(line[2:end],[' ','\t'])))
     end
   end
  end
- return clss
+ return clss, proc
 end
 
 function printwff(fname)
- wffs=readclausefromfile(fname)
- 
+ wffs, proc=readclausefromfile(fname)
+ @show proc
+ for p in proc
+   println("!$p")
+ end
+println()
  for ix in 1:length(wffs)
    wff = wffs[ix]
    println("$(cidof(ix)): $wff")
@@ -52,8 +59,8 @@ end
 #### readcore
 function readcore(fname)
  println("readcore fname=$fname")
- cls = readclausefromfile(fname)
- createcore(fname, cls)
+ cls,proc = readclausefromfile(fname)
+ createcore(fname, cls, proc)
 end
 
 function readcoredir(dirname)

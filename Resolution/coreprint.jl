@@ -134,11 +134,19 @@ function printaproof1(rid, core, shift=0)
   end
 end
 
+function printproc(proc)
+ for p in proc
+  println("!$p")
+ end
+end
+
 function printcore(core)
 println("name = $(core.name)")
 println("max cid = $(core.maxcid)")
 println("max rid = $(core.maxrid)")
 println("Psyms = $(core.allpsym)")
+println("Proc")
+printproc(core.proc)
 println()
 println("CDB")
  printcdb(core.cdb)

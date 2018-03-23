@@ -65,6 +65,7 @@ function rename_lids(rid, lids, core)
  return nlids
 end
 
+## for renamed vars explosion
 #fitting vars in literal
 function fitting_vars_term(vars, term)
   if issym(term) #typeof(term) == Symbol
@@ -417,6 +418,8 @@ function simpleprover(wff, steplimit, contralimit)
  conds = []
  nstep = 0;
  
+ evalon && evalproc(cdx.proc)
+
  while true 
   ga=dostepgoals1(gb, cdx)
   nstep += 1

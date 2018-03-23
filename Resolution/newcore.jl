@@ -46,6 +46,7 @@ struct CORE
  allpsym
  level0
  proof
+ proc
 end
 
 function stringtoclause(cid, cls)
@@ -111,12 +112,12 @@ function vform2ofclause(cdb)
  vcl
 end
 
-function createcore(name, clss)
+function createcore(name, clss, proc)
  (maxcid, cdb) = cform2ofclause(clss)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= Dict()
- CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict())
+ CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict(), proc)
 end
 
 # proof operation
@@ -202,6 +203,18 @@ end
 
 function literalsof(lids, core)
  map(lid->literalof(lid, core).body, lids)
+end
+
+function evalproc(proc)
+@show proc
+  for p in proc
+    eval(parse(p))
+  end
+end
+
+function evalcore(core)
+@show :evalproc
+  evalproc(core.proc)
 end
 
 #### analyzer of wff
