@@ -1,0 +1,14 @@
+@ total order: simply prove the instance's relation
+# axiom of distance is in the axiom
+
+ ok (a) [].[-O(a,c)]
+ ok (b) [x].[-O(x,x)]
+# can' find (c)
+[x,y].[-O(x,y)]
+
+[].[+O(a,b)]
+[].[+O(b,c)]
+[].[+O(a,a)]
+[].[+O(b,b)]
+[].[+O(c,c)]
+[x,y,Z].[-O(x,Z),-O(Z,y),+O(x,y)]

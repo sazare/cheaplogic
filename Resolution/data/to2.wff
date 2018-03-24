@@ -1,0 +1,16 @@
+@ total order: a trial
+# intension: prove the rule hold on the Facts
+ [x].[-O(x,!z),-O(!z,y),-O(x,y)]
+ [x,y].[-O(x,m(x,y)),-O(m(x,y),y),-O(x,y)]
+ [x,y].[-I(x,y,m),-O(x,m),-O(m,y),-O(x,y)]
+
+[x,y].[-O(x,y)]
+
+[x,y].[-O(x,z(x,y))]
+[x,y].[-O(z(x,y),y)]
+
+[].[+O(a,b)]
+[].[+O(b,c)]
+[].[+O(a,a)]
+[].[+O(b,b)]
+[].[+O(c,c)]

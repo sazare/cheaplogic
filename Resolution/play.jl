@@ -193,7 +193,14 @@ t空海,c空海=simpleprover("data/空海.wff",5,1)
 printaproof1(:R2,c空海)
 
 ted,ced=simpleprover("data/everyonedie.wff",8,1)
+printproofs1(ced)
 
 tt2,ct2=simpleprover("data/time2.wff",6,1)
+printproofs1(ct2)
 
+# (a) ok but not (c) maybe loop check
+to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
+
+# ofcouse function z() can't be found
+to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
 

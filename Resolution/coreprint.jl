@@ -134,6 +134,20 @@ function printaproof1(rid, core, shift=0)
   end
 end
 
+function printproofs0(core)
+ for rid in contradictionsof(core)
+  printaproof0(rid, core)
+  println("\n---")
+ end
+end
+
+function printproofs1(core)
+ for rid in contradictionsof(core)
+  printaproof1(rid, core)
+  println("\n---")
+ end
+end
+
 function printproc(proc)
  for p in proc
   println("!$p")
