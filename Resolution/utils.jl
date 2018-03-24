@@ -72,3 +72,8 @@ function readcoredir(dirname)
  end
  cores
 end
+
+
+#### 
+iscap(x) = isupper(x[1])
+

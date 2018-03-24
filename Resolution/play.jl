@@ -189,8 +189,10 @@ printclauses(c3)
 printaproof1(:R1, c3)
 
 
-t空海,c空海=simpleprover("data/空海.wff",5,1)
-printaproof1(:R2,c空海)
+tk,ck=simpleprover("data/kuukai.wff",5,1)
+printaproof1(:R2,ck)
+tk2,ck2=simpleprover("data/kuukai2.wff",5,1)
+printaproof1(:R2,ck2)
 
 ted,ced=simpleprover("data/everyonedie.wff",8,1)
 printproofs1(ced)
@@ -203,4 +205,6 @@ to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
 
 # ofcouse function z() can't be found
 to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
+to2,ct2=simpleprover("data/to2.wff",10,1);printproofs1(ct2)
+to3,ct3=simpleprover("data/to3.wff",10,1);printproofs1(ct3)
 

@@ -1,0 +1,10 @@
+@ partial: total order: -conj is transition. wff is anded
+
+[x,y,z].[-O(x,z),-O(z,y),-O(x,y)]
+
+ [].[+O(a,a)]
+ [].[+O(b,b)]
+ [].[+O(c,c)]
+[].[+O(a,b)]
+[].[+O(b,c)]
+

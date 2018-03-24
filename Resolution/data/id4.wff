@@ -1,0 +1,10 @@
+@ identity: 
+# all constant hold E(x,x)?
+
+[x,y].[-E(x,y)]
+
+[].[+E(a,a)]
+[].[+E(b,b)]
+[].[+E(c,c)]
+[].[+E(d,e)]
+[x].[+E(x,x)]
