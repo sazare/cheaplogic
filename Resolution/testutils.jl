@@ -21,3 +21,11 @@ end
  @test sortcls([:y, :x], parse("[-R(b),+P(a),-Q(x,y),+R(a)]").args) == ([:y,:x],parse("[+P(a), +R(a), -Q(x,y), -R(b)]").args)
 
 end
+
+@testset  "iscap" begin
+ @test iscap("abc") == false
+ @test iscap("aBC") == false
+ @test iscap("Abc")
+ @test iscap("ABC")
+end
+

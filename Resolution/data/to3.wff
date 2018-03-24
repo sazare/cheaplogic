@@ -1,0 +1,11 @@
+@ partial: total order: (a) of to1
+
+[].[-O(a,c)]
+
+[].[+O(a,b)]
+[].[+O(b,c)]
+[].[+O(a,a)]
+[].[+O(b,b)]
+[].[+O(c,c)]
+
+[x,y,Z].[-O(x,Z),-O(Z,y),+O(x,y)]

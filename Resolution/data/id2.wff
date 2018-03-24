@@ -1,0 +1,13 @@
+@ identity: existance counter example?
+# all constant hold E(x,x)? 
+# not exist -E(x,x)
+
+[x].[+E(x,x)]
+
+[].[+E(a,a)]
+[].[+E(b,b)]
+[].[+E(c,c)]
+[].[+E(d,e)]
+
+# this make no []
+

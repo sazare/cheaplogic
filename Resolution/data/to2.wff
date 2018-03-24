@@ -1,4 +1,4 @@
-@ total order: a trial
+@ NG: total order: a trial
 # intension: prove the rule hold on the Facts
  [x].[-O(x,!z),-O(!z,y),-O(x,y)]
  [x,y].[-O(x,m(x,y)),-O(m(x,y),y),-O(x,y)]
