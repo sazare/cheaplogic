@@ -208,3 +208,5 @@ to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
 to2,ct2=simpleprover("data/to2.wff",10,1);printproofs1(ct2)
 to3,ct3=simpleprover("data/to3.wff",10,1);printproofs1(ct3)
 
+td1,cd1=simpleprover("data/db1.wff",7,2);printproofs1(cd1)
+
