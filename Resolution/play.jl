@@ -210,3 +210,5 @@ to3,ct3=simpleprover("data/to3.wff",10,1);printproofs1(ct3)
 
 td1,cd1=simpleprover("data/db1.wff",7,2);printproofs1(cd1)
 
+tq1,cq1=simpleprover("data/20Q01.wff",20,2);printproofs1(cq1)
+
