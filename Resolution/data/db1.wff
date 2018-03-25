@@ -1,0 +1,12 @@
+@ something like a DB: buy lower and sell higher is a good
+
+[x,y].[-G(x)]
+
+[x,y].[-HS(x),+G(x),-LB(x)]
+[].[+HS(gold)]
+[].[+HS(oil)]
+[].[-HS(water)]
+[].[+LB(water)]
+[].[+LB(oil)]
+[].[-LB(gold)]
+

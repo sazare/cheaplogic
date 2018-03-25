@@ -222,7 +222,7 @@ function analyze_term(vars, term)
  v = []
  c = []
  f = []
- if isa(term, Symbol)
+ if issym(term)
   isvar(term, vars) && push!(v, term)
   isconst(term, vars) && push!(c, term)
  else

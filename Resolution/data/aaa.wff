@@ -2,6 +2,9 @@
 
 [x].[+P(x,x)]
 [x,Z].[-P(x,Z)]
-[x,@z].[-P(x,@z)]
 [x,!z].[-P(x,!z)]
+[x,?z].[-P(x,?z)]
+[x,@z].[-P(x,@z)]
+[x,_zeta_].[-P(x,_zeta_)]
+[x,_zeta].[-P(x,_zeta)]
 
