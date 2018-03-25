@@ -1,0 +1,9 @@
+@ 1st order language sample(in progress)
+
+ ∀.x,y.∃.z.P(a,x)∧E(x)⇒ Q(x,y)
+ ∀.x,y.∃.z.P(a,x)∧¬E(x)⇒ Q(x,y)
+
+ A[x,y].E[z].[P(a,x)∧R(x)⇒ Q(x,y)]
+
+[A x y].[[E z].[+P(a,x) & R(x) ⇨ Q(x,y)]]
+

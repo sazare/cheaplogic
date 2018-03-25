@@ -1,0 +1,20 @@
+@ 20 questions sample
+
+[x].[-Q(x)]
+
+[x].[+Q(x),-Plant(x),+CanEat(x),-Small(x),-hasThorn(x)]
+[].[+hasThorn(rose)]
+[].[+hasThorn(Harinezumi)]
+[].[+Small(bean)]
+[].[+Small(girl)]
+[].[+Small(rose)]
+[].[-Small(tree)]
+[].[-Small(Elephant)]
+[].[+CanEat(banana)]
+[].[+CanEat(meat)]
+[].[-CanEat(rose)]
+[].[-CanEat(girl)]
+[].[-CanEat(Harinezumi)]
+[].[+Plant(rose)]
+[].[+Plant(tree)]
+
