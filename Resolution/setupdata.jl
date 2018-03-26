@@ -1,12 +1,12 @@
 include("loadall.jl")
 
-magia=readclausefromfile("data/magia.wff")
+magia=readclausefromfile("data/magia.cnf")
 cmagi=createcore(magia)
 
-data001=readclausefromfile("data/data001.wff")
+data001=readclausefromfile("data/data001.cnf")
 cd001=createcore(data001)
 
-ctime=readcore("data/time.wff")
+ctime=readcore("data/time.cnf")
 printcore(ctime)
 
 

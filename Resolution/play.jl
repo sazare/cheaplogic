@@ -3,16 +3,16 @@ using Base.Test
 
 include("loadall.jl")
 
-cmagi=readcore("data/magia.wff")
+cmagi=readcore("data/magia.cnf")
 printcore(cmagi)
 
-cd001=readcore("data/data001.wff")
+cd001=readcore("data/data001.cnf")
 printcore(cd001)
 
-cd002=readcore("data/data002.wff")
+cd002=readcore("data/data002.cnf")
 printcore(cd002)
 
-ctime=readcore("data/time.wff")
+ctime=readcore("data/time.cnf")
 printcore(ctime)
 
 ## rename steps
@@ -28,7 +28,7 @@ printcore(cc)
 
 ## read entire file and create core
 
-dd1=readstring("data/data001.wff")
+dd1=readstring("data/data001.cnf")
 cc1=readcore(IOBuffer(dd1))
 printcore(cc1)
 
@@ -78,7 +78,7 @@ end
 
 
 ##### friend3
-cf03=readcore("data/friend3.wff")
+cf03=readcore("data/friend3.cnf")
 printcore(cf03)
 
 tf03=alltemplateof(cf03)
@@ -101,15 +101,15 @@ tpr=templateof(:+, :R, cd002)
  printaproof0(:R4, cd002)
  printaproof1(:R3, cd002)
 
-cd010=readcore("data/data010.wff")
+cd010=readcore("data/data010.cnf")
 printcore(cd010)
 td010=alltemplateof(cd010)
 tnp=td010[Symbol("-P")]
 g0=[[:L7]]
 g1=dostepagoal(g0[1], cd010)
 
-function doit(wff)
- cdx=readcore(wff)
+function doit(cnf)
+ cdx=readcore(cnf)
 # printcore(cdx)
  tdx=alltemplateof(cdx)
  g0=[lidsof(:C1, cdx)]
@@ -118,7 +118,7 @@ function doit(wff)
  return cdx,tdx,g0,gn
 end
 @testset "data011" begin
- cdx,td,g0,g1=doit("data/data011.wff")
+ cdx,td,g0,g1=doit("data/data011.cnf")
  g2=dostepgoals1(g1, cdx)
  g3=dostepgoals1(g2, cdx)
  g4=dostepgoals1(g3, cdx)
@@ -126,7 +126,7 @@ end
  @test_skip isempty(g4)
 end
 @testset "data012" begin
- cdx,td,g0,g1=doit("data/data012.wff")
+ cdx,td,g0,g1=doit("data/data012.cnf")
  g2=dostepgoals1(g1, cdx)
  g3=dostepgoals1(g2, cdx)
  g4=dostepgoals1(g3, cdx)
@@ -135,7 +135,7 @@ end
 end
 
 @testset "data013" begin
- cdx,td,g0,g1=doit("data/data013.wff")
+ cdx,td,g0,g1=doit("data/data013.cnf")
  g2=dostepgoals1(g1, cdx)
  g3=dostepgoals1(g2, cdx)
  g4=dostepgoals1(g3, cdx)
@@ -146,7 +146,7 @@ end
 end
 
 @testset "resolvent was satisfiable" begin
- cdx,td,g0,g1=doit("data/data014.wff")
+ cdx,td,g0,g1=doit("data/data014.cnf")
  g2=dostepgoals1(g1, cdx)
  g3=dostepgoals1(g2, cdx)
  @test length(g1[1]) == 2
@@ -156,59 +156,59 @@ end
  @test satisfiable(cf2.vars, cf2.body)
 end
 
- cdx,td,g0,g1=doit("data/data010.wff")
+ cdx,td,g0,g1=doit("data/data010.cnf")
  g2=dostep1goals(g1, cdx)
  g3=dostep1goals(g2, cdx)
  g4=dostep1goals(g3, cdx)
 
-r11,c11 = simpleprover("data/data011.wff", 5, 1)
-r12,c12 = simpleprover("data/data012.wff", 5, 1)
-r13,c13 = simpleprover("data/data013.wff", 5, 1)
-r14,c14 = simpleprover("data/data014.wff", 5, 1)
-r15,c15 = simpleprover("data/data015.wff", 5, 1)
-r16,c16 = simpleprover("data/data016.wff", 5, 1)
-r17,c17 = simpleprover("data/data017.wff", 5, 1)
+r11,c11 = simpleprover("data/data011.cnf", 5, 1)
+r12,c12 = simpleprover("data/data012.cnf", 5, 1)
+r13,c13 = simpleprover("data/data013.cnf", 5, 1)
+r14,c14 = simpleprover("data/data014.cnf", 5, 1)
+r15,c15 = simpleprover("data/data015.cnf", 5, 1)
+r16,c16 = simpleprover("data/data016.cnf", 5, 1)
+r17,c17 = simpleprover("data/data017.cnf", 5, 1)
 
-r10,c10 = simpleprover("data/data010.wff", 5, 1)
+r10,c10 = simpleprover("data/data010.cnf", 5, 1)
 printaproof1(r10[1], c10)
 printaproof0(r10[1], c10)
 
-rm,cm = simpleprover("data/magia.wff", 5, 1)
+rm,cm = simpleprover("data/magia.cnf", 5, 1)
 printaproof1(rm[1], cm)
 printaproof0(rm[1], cm)
 
-c3 = readcore("data/data003.wff")
-println("core: data/data003.wff")
+c3 = readcore("data/data003.cnf")
+println("core: data/data003.cnf")
 print_coreinfo(c3)
 
-### estimate wff
+### estimate cnf
 atl=alltemplateof(c3)
 
-r3, c3 = simpleprover("data/data003.wff", 10, 3)
+r3, c3 = simpleprover("data/data003.cnf", 10, 3)
 printclauses(c3)
 printaproof1(:R1, c3)
 
 
-tk,ck=simpleprover("data/kuukai.wff",5,1)
+tk,ck=simpleprover("data/kuukai.cnf",5,1)
 printaproof1(:R2,ck)
-tk2,ck2=simpleprover("data/kuukai2.wff",5,1)
+tk2,ck2=simpleprover("data/kuukai2.cnf",5,1)
 printaproof1(:R2,ck2)
 
-ted,ced=simpleprover("data/everyonedie.wff",8,1)
+ted,ced=simpleprover("data/everyonedie.cnf",8,1)
 printproofs1(ced)
 
-tt2,ct2=simpleprover("data/time2.wff",6,1)
+tt2,ct2=simpleprover("data/time2.cnf",6,1)
 printproofs1(ct2)
 
 # (a) ok but not (c) maybe loop check
-to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
+to1,ct1=simpleprover("data/to1.cnf",10,1);printproofs1(ct1)
 
 # ofcouse function z() can't be found
-to1,ct1=simpleprover("data/to1.wff",10,1);printproofs1(ct1)
-to2,ct2=simpleprover("data/to2.wff",10,1);printproofs1(ct2)
-to3,ct3=simpleprover("data/to3.wff",10,1);printproofs1(ct3)
+to1,ct1=simpleprover("data/to1.cnf",10,1);printproofs1(ct1)
+to2,ct2=simpleprover("data/to2.cnf",10,1);printproofs1(ct2)
+to3,ct3=simpleprover("data/to3.cnf",10,1);printproofs1(ct3)
 
-td1,cd1=simpleprover("data/db1.wff",7,2);printproofs1(cd1)
+td1,cd1=simpleprover("data/db1.cnf",7,2);printproofs1(cd1)
 
-tq1,cq1=simpleprover("data/20Q01.wff",20,2);printproofs1(cq1)
+tq1,cq1=simpleprover("data/20Q01.cnf",20,2);printproofs1(cq1)
 

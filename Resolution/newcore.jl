@@ -217,7 +217,7 @@ function evalcore(core)
   evalproc(core.proc)
 end
 
-#### analyzer of wff
+#### analyzer of cnf
 function analyze_term(vars, term)
  v = []
  c = []

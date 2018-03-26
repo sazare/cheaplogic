@@ -43,16 +43,16 @@ function readclausefromfile(fname)
  return clss, proc
 end
 
-function printwff(fname)
- wffs, proc=readclausefromfile(fname)
+function printcnf(fname)
+ cnfs, proc=readclausefromfile(fname)
  @show proc
  for p in proc
    println("!$p")
  end
 println()
- for ix in 1:length(wffs)
-   wff = wffs[ix]
-   println("$(cidof(ix)): $wff")
+ for ix in 1:length(cnfs)
+   cnf = cnfs[ix]
+   println("$(cidof(ix)): $cnf")
  end
 end
 
