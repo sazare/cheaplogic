@@ -57,12 +57,12 @@ end
 
  @test analyze_lit([:x,:y,:z], parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:f],:P)
 
- wff = "[x].[+P(x,f(x))]
+ cnf = "[x].[+P(x,f(x))]
 [x].[-P(x,f(h(x)))]
 [x,y,z].[+P(h(y),pi, f(k(x))),-Q(e,g(x,y))]"
- cwff = readcore(IOBuffer(wff))
+ ccnf = readcore(IOBuffer(cnf))
 
- @test analyze_sym(cwff) == (Set([:y_C3, :x_C3, :x_C1, :x_C2]), Set([:e, :pi]), Set([:f,:h,:k,:g]), Set([:P,:Q]))
+ @test analyze_sym(ccnf) == (Set([:y_C3, :x_C3, :x_C1, :x_C2]), Set([:e, :pi]), Set([:f,:h,:k,:g]), Set([:P,:Q]))
 end
 
 @testset "core proc" begin

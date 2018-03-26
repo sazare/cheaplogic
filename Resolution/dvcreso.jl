@@ -411,8 +411,8 @@ end
 """
 simple prover find some contracictions, but not all
 """
-function simpleprover(wff, steplimit, contralimit)
- cdx=readcore(wff)
+function simpleprover(cnf, steplimit, contralimit)
+ cdx=readcore(cnf)
  tdx=alltemplateof(cdx)
  gb=[lidsof(:C1, cdx)]
  conds = []
