@@ -15,6 +15,15 @@ form   = atom | sign atom
 Qform  = any.vars form | all.vars form
 vars   = variable |variable, vars
 
+#ordinal simple
+form   = prefix form | (form) |
+         ¬form | form ⇒ form |
+         form ∧ form | form ∨ form
+prefix = quntifier | sign
+quantifier = Qsym symlist
+Qsym       = A. | E.
+symlist    = symbol | symbol, symlist
+
 
 # excentric
 
