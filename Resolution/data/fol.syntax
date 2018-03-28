@@ -1,0 +1,36 @@
+# ordinal
+symbol :: constant | variable
+term   = symbol | fterm
+fterm  = symbol(args)
+args   = term | term, args
+atom   = symbol(args)
+sign   = +|-
+form   = atom | sign atom
+         atom and from |
+         atom or form |
+         (form) | 
+         form imply form |
+         form equiv form |
+         Qform
+Qform  = any.vars form | all.vars form
+vars   = variable |variable, vars
+
+
+# excentric
+
+symbol :: constant | variable
+term   = symbol | tuple
+tuple  = () | (terms) 
+terms  = term | term, terms
+
+atom   = tuple
+sign   = +|-
+form   = sign atom
+         atom and from |
+         atom or form |
+         (form) | 
+         form imply form |
+         form equiv form |
+         Qform
+Qform  = any.vars form | all.vars form
+vars   = variable |variable, vars

@@ -2,6 +2,7 @@
 # all constant hold E(x,x)?
 
 [x].[-E(d,x)]
+ [].[+E(a,a)] holds trivial
 
 [].[+E(a,a)]
 [].[+E(b,b)]
