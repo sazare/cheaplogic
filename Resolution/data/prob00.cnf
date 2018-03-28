@@ -1,0 +1,16 @@
+@ probablistic logic axioms imaginaly
+
+[].[+R(a,b,0.5)]
+[].[+R(a,c,0.5)]
+[].[+R(b,d,1.0)]
+[].[+R(c,d,1.0)]
+
+
+[].[-R(a,b,1.0),-R(b,c,1.0),+R(a,c,1.0)]
+
+! time(x,y) = x*y
+[p1,p2].[-R(a,b,p1),-R(b,c,p2),+R(a,c,time(p1,p2))]
+
+
+[x,y,p].[-R(x,y,p1),-R(x,z,p2)
+
