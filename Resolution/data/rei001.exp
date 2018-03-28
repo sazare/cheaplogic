@@ -1,0 +1,20 @@
+@ formula 1
+P(a)
+¬P(a)
+∀x P(a,x)
+∀x P(abc,fix(delt))
+∀x,y P(x,f(y))
+∀x,y Piano(x,key(x,y))
+∀x,y (Piano(x,key(x,y)))
+∀x Q(x)∧¬P(x,x)
+∀x (Q(x)∧¬P(x,x))
+∀x,y ¬Q(x,y)∧¬P(y,x)
+∀x ∃y Q(x,y)∨¬Q(y,x)
+
+∀x (Q(x)∧¬P(x,x))⇒ R(x,a)
+∀x (Q(x)∧¬P(x,x))⇒ (R(x,a)∧R(b,c))
+∀x,z (Q(x)≡¬P(x,x)∨R(z,x))⇒ (R(x,a)∧R(b,c))
+
+∃z,w ∀x,y ∃p P(z,x,y)⇒ R(p,y)
+
+

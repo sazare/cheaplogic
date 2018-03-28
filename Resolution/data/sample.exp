@@ -7,3 +7,6 @@
 
 [A x y].[[E z].[+P(a,x) & R(x) ⇨ Q(x,y)]]
 
+# this can be parsed.but not good for .imp
+A[x,y],E[z].P(x,z).imp.Q(y,z)
+A[x,y],E[z].P(x,z).eqv.Q(y,z)
