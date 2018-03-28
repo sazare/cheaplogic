@@ -212,3 +212,7 @@ td1,cd1=simpleprover("data/db1.cnf",7,2);printproofs1(cd1)
 
 tq1,cq1=simpleprover("data/20Q01.cnf",20,2);printproofs1(cq1)
 
+# friends law
+tf7,cf7=simpleprover("data/friend7.cnf",3,1);printproofs1(cf7)
+tf8,cf8=simpleprover("data/friend8.cnf",3,1);printproofs1(cf8)
+
