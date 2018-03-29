@@ -14,6 +14,7 @@ function repl()
  print("> ")
  vars = Dict()
  for line in eachline()
+ try
   if line == "end"; return
   elseif line == "?"; help()
   elseif line == "help"; help()
@@ -36,6 +37,9 @@ function repl()
    printcore(vars[name])
   else
    println(line)
+  end
+  catch e
+   println(e)
   end
   print("> ")
  end
