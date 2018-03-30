@@ -43,3 +43,5 @@ form   = sign atom
          Qform
 Qform  = any.vars form | all.vars form
 vars   = variable |variable, vars
+
+
