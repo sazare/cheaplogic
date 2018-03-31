@@ -1,0 +1,31 @@
+@ friend law(multi goal) imaginally
+
+# I want to know the rule hold on all constants
+ for x,y assing {a,b,c} all statement should make contradiction
+
+ # symmetric is simple. just enumeration
+ [x,y].[-F(x,y),+F(y,x)]
+
+ [].[+F(a,a)]
+ [].[-F(a,a)]
+ [].[+F(a,b)]
+ [].[-F(a,b)]
+ [].[+F(a,c)]
+ [].[-F(a,c)]
+ [].[+F(b,c)]
+ [].[-F(b,c)]
+ ... and so on
+
+ # then transitional law
+ [x,y,z].[-F(x,y),-F(y,z),-F(x,z)]
+ 
+
+[].[-F(a,c)]
+[].[+F(a,b)]
+[].[+F(b,c)]
+
+
+# Really I want to know such things?
+
+# incomplete Hyposesys, and find a new result is it??
+
