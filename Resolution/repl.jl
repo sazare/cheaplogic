@@ -10,6 +10,28 @@ function help()
  println("--- end of help")
 end
 
+
+function lsfn(args, cores)
+ if args == ""
+  run(`ls`)
+ else 
+  run(`ls $args`)
+ end
+end
+
+function corefn(args, cores)
+  eqix=search(args,'=')
+  name=strip(args[1:(eqix-1)])
+  cnf=strip(args[(eqix+1):end])
+  print("cnf=$cnf => $name")
+  core = readcore(cnf)
+  cores[name] = core
+end
+
+function showfn(args, cores)
+  printcore(cores[args])
+end
+
 commandmap = Dict(
  "help"=> :help,
  "ls"  => :lsfn,
@@ -17,32 +39,9 @@ commandmap = Dict(
  "show"=> :showfn
 )
 
-function lsfn(line,vars)
- if strip(line) == "ls"
-  run(`ls`)
- else 
-  dir=strip(line[3:end])
-  run(`ls $dir`)
- end
-end
-
-function corefn(line,vars)
-  eqix=search(line,'=')
-  cnf=strip(line[(eqix+1):end])
-  name=strip(line[5:(eqix-1)])
-  print("cnf=$cnf => $name")
-  core = readcore(cnf)
-  vars[name] = core
-end
-
-function showfn(line,vars)
-  name=strip(line[length("show")+1:end])
-  printcore(vars[name])
-end
-
 function repl()
  print("> ")
- vars = Dict()
+ cores = Dict()
  for line in eachline()
  try
   if line == "end"; return
@@ -50,16 +49,23 @@ function repl()
   elseif line == "?"; help()
   elseif line == "help"; help()
   else
-   println(line)
    cix = search(line, ' ')
    if cix == 0
      cmd = strip(line)
+     args = ""
    else
      cmd = strip(line[1:cix])
+     if cix == length(line)
+       args = ""
+     else
+       args = strip(line[(cix+1):end])
+     end
    end
+
    if cmd != ""
-     eval(Expr(:call, commandmap[cmd], line, vars))
+     eval(Expr(:call, commandmap[cmd], args, cores))
    end
+
   end
   catch e
    println(e)
@@ -68,6 +74,7 @@ function repl()
  end
 end
 
+#==
 function repl0()
  print("> ")
  vars = Dict()
@@ -102,4 +109,4 @@ function repl0()
   print("> ")
  end
 end
-
+==#
