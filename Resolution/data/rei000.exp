@@ -1,0 +1,28 @@
+# natual statement like
+# investigating
+# I don't like to investigate this area.
+
+forall x,y exist z (x is not Red) and (y is live) then (x and y are z).
+z is BrownBear.
+
+forall x,y exist z, x is not Red and y is living then x and y are z.
+
+forall x,y exist z,w (not isRed(x) and isLive(y)) then isBrownBear(x,y,z,w)
+
+forall x,y exist z,w (not isRed(x) and isLive(y)) then isBrownBear(z) or isTheWorld(w)
+
+forall x,y exist z,w (not isRed(x) and isLive(y)) then (isBrownBear(z) or isTheWorld(w))
+
+forall x,y exist z,w forall p (isGang(x) iff (Abc(x,z) or Def(y,w) and Prime(p)))
+forall x,y exist z,w forall p (isGang(f(x)) iff (Abc(x,z) or Def(g(y,w)) and Prime(p)))
+
+
+#parsed
+
+((forall x,y)((exist z,w)(then (and (not (isRed x)) (isLive y)) (or (isBrownBear z)(isTheWorld x)))))
+((forall x,y)((exist z,w)((forall p)(iff (isGang x) (or (Abc x z) (and (Def y w)(Prime p)))))))
+
+[[:forall :x :y],[[:exist :z :w],[[:forall :p][:iff [:isGang :x] [:or [:abc :x :z] [:and [:def :y :w] [:prime :p]]]]]]]
+
+
+

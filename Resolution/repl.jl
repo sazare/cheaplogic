@@ -40,6 +40,10 @@ commandmap = Dict(
 )
 
 function repl()
+ println("Now repl is an experimental.")
+ println("help show what commands are available")
+ println("end exist the loop")
+ println()
  print("> ")
  cores = Dict()
  for line in eachline()
@@ -76,6 +80,7 @@ end
 
 #==
 function repl0()
+
  print("> ")
  vars = Dict()
  for line in eachline()
