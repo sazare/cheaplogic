@@ -1,0 +1,9 @@
+# prop axiom example
+ inprogress template as SAT
+
+[].[+P(),-Q()]
+[].[-P(),+R()]
+[].[-P(),-R()]
+[].[-P(),-Q()]
+[].[+Q()]
+
