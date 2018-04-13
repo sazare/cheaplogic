@@ -1,61 +1,83 @@
 # parser trial
 
-SEPRS = [' ',',','.','(',')']
+PUNCTS = [',']
+ispunc(x) = x in PUNCTS
+
+DELIMS = ['.','(',')']
+isdelim(x) = x in DELIMS
+delimDict=Dict('.' => :dot, '('=>:lpar, ')'=>:rpar)
+
 islpar(x) = x == '('
 isrpar(x) = x == ')'
-isdot(x) = x == '.'
+isdot(x)  = x == '.'
 
-issepr(x) = x in SEPRS
-isforall(x) = x == "forall"
-isexist(x) = x == "exist"
-isor(x) = x == "or"
-isand(x) = x=="and"
-isthen(x) = x=="then"
-isiff(x) = x=="iff"
-isnot(x) = x=="not"
+LSYMS = ['∀','∃','∨','∧','⇒','¬','≡']
+islsym(x) = x in LSYMS
 
+lsymDict=Dict(
+'¬'=>:not,
+'∀'=>:all,
+'∃'=>:some,
+'∨'=>:or,
+'∧'=>:and,
+'⇒'=>:imply,
+'≡'=>:eqv
+)
+
+isforall(x) = x=="∀"
+isexist(x)  = x=="∃"
+isor(x)     = x=="∨"
+isand(x)    = x=="∧"
+isthen(x)   = x=="⇒"
+isiff(x)    = x=="≡"
+isnot(x)    = x=="¬"
+
+function breaksym(str)
+ ix = 1
+ while ix <= endof(str)
+  println(str[ix])
+  ix = nextind(str, ix)
+ end
+end
+
+function findsym(str, six)
+  ix = six
+  while ix<=endof(str)    &&
+    	!isspace(str[ix]) &&
+	!isdelim(str[ix]) &&
+	!ispunc(str[ix])  &&
+	!islsym(str[ix])
+   ix = nextind(str, ix)
+  end
+  if ix == six; error("usage") end
+  return(str[six:ix-1], ix-1)
+end
 
 # sample code for tokenizer
 function tokenizer(str)
- @show str
- strn = str
  ix = 1 
-
  toklist = []
- while ix < length(str)
-   nx = search(str, SEPRS, ix)
-   if nx == 0
-     tok=strip(str[ix:end])
-     println("$(tok)")
-     push!(toklist,Symbol(tok))
-     return toklist
+ nx = 0
+ while ix <= endof(str)
+   c = str[ix]
+   if isspace(c);
+   elseif ispunc(c);
+   elseif isdelim(c)
+     push!(toklist,delimDict[c])
+   elseif islsym(c)
+     push!(toklist,lsymDict[c])
+   else
+     sym,ix = findsym(str, ix)
+     push!(toklist,Symbol(sym))
    end
-   tok=strip(str[ix:(nx-1)])
-   if !all(isspace, tok)
-     println("$(tok)")
-     push!(toklist,Symbol(tok))
-   end
-   sep=str[nx]
-   if islpar(sep); 
-     println("(")
-     push!(toklist, :lpar)
-   end
-   if isrpar(sep)
-     println(")")
-     push!(toklist, :rpar)
-   end
-   if isdot(sep)
-     println(".")
-     push!(toklist, :dot)
-   end
-#   println("sep=$(str[nx])")
-   ix = nx+1
+
+   ix = nextind(str, ix)
+
  end
  return toklist
 end
 
 function parser(str)
- @show str
  strn = str
  ix = 1 
 
@@ -76,9 +98,7 @@ function parser(str)
    sep=str[nx]
    if islpar(sep); 
      println("(")
-@show nx
      block,nnx = parser(str[nx+1:end])
-@show block,nx,nnx
      nx = nx + nnx + 1
      push!(toklist, block)
    end
