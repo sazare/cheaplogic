@@ -217,7 +217,17 @@ function evalcore(core)
   evalproc(core.proc)
 end
 
+
+
 #### analyzer of cnf
+struct COREINFO
+ vsyms
+ csyms
+ fsyms
+ psyms
+
+end
+
 function analyze_term(vars, term)
  v = []
  c = []
@@ -271,7 +281,7 @@ function analyze_sym(core)
   append!(fpool, f)
   push!(ppool, p)
  end
- return Set(vpool), Set(cpool), Set(fpool), Set(ppool)
+ return COREINFO(Set(vpool), Set(cpool), Set(fpool), Set(ppool))
 end
 
 
