@@ -16,7 +16,17 @@ include("parser.jl")
 end
 ==#
 
-@testset "tokenizer" begin
+@testset "tokenizer prop" begin
+
+ @test tokenizer("P") == [:P]
+ @test tokenizer("¬P") == [:not, :P]
+ @test tokenizer("(P)") == [:lpar, :P, :rpar]
+ @test tokenizer("P⇒ Q") == [:P, :imply, :Q]
+ @test tokenizer("P≡Q") == [:P,:eqv, :Q]
+ @test tokenizer("P⇒(¬Q∨R)") == [:P, :imply, :lpar, :not, :Q, :or, :R, :rpar]
+end
+
+@testset "tokenizer pred" begin
 
  @test tokenizer("P(x)") == [:P, :lpar, :x, :rpar]
  @test tokenizer("∀.x.P(x)") == [:all, :dot, :x, :dot,:P, :lpar, :x, :rpar]

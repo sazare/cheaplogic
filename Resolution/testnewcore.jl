@@ -42,7 +42,7 @@ end
  @test islid(:L23_C22)
 end
 
-@testset "analyze" begin
+@testset "analyze core" begin
  @test analyze_term([], parse("a")) == ([], [:a], [])
  @test analyze_term([:a], parse("a")) == ([:a], [], [])
  @test analyze_term([], parse("a()")) == ([], [], [:a])
@@ -62,7 +62,12 @@ end
 [x,y,z].[+P(h(y),pi, f(k(x))),-Q(e,g(x,y))]"
  ccnf = readcore(IOBuffer(cnf))
 
- @test analyze_sym(ccnf) == (Set([:y_C3, :x_C3, :x_C1, :x_C2]), Set([:e, :pi]), Set([:f,:h,:k,:g]), Set([:P,:Q]))
+asm = analyze_sym(ccnf) 
+
+ @test asm.vsyms == Set(Any[:y_C3, :x_C3, :x_C1, :x_C2])
+ @test asm.csyms == Set(Any[:e, :pi])
+ @test asm.fsyms == Set(Any[:f,:k,:h,:g])
+ @test asm.psyms == Set(Any[:P,:Q])
 end
 
 @testset "core proc" begin
@@ -70,5 +75,4 @@ end
  @test x==12
 
 end
-
 
