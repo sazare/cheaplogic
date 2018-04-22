@@ -1,4 +1,4 @@
-#finally -S double 
+@finally -S double 
 #Goal
 [x,y].[-P(x,y)]
 

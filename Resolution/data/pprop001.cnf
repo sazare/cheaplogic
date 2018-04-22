@@ -1,4 +1,4 @@
-# prop axiom example
+@ prop axiom example
   pure prop format
   leftmost [] means pred, none means prop, I define it  now
 
