@@ -1,4 +1,4 @@
-# prop axiom example
+@ prop axiom example
  inprogress template as SAT
 
 [].[+P(),-Q()]

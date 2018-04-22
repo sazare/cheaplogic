@@ -1,0 +1,10 @@
+@ test [-P,+P]. OK because the clause doesn't immediately resolved itself.
+  I'm not certain the rename in self resolution.
+
+[x].[-P(f(f(a)))]
+[x].[-P(x),+P(f(x))]
+[].[+P(a)]
+
+# r18,c18=simpleprover("data/data018.cnf",10,4)
+# printproof1(c18)
+
