@@ -1,0 +1,14 @@
+@ 5 proofs
+
+[x].[-P(x)]
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+P(c)]
+[].[+P(d)]
+[].[+P(e)]
+
+
+# r19,c19=simpleprover("data/data019.cnf",5,5)
+# printproofs1(c19)
+
