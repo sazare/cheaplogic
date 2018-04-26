@@ -1,0 +1,13 @@
+@ order skiped P(a,e) is ok? 
+
+[].[-P(a,e)]
+ [].[-P(a,d)]
+
+[x,y,z].[-P(x,y),-P(y,z),+P(x,z)]
+[].[+P(a,b)]
+[].[+P(b,c)]
+[].[+P(c,d)]
+[].[+P(d,e)]
+
+# r21,c21=simpleprover("data/data021.cnf",5,2)
+
