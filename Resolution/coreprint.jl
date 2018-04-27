@@ -91,7 +91,7 @@ function printstep(step)
 end
 
 function printproof(proof)
- for rid in keys(proof)
+ for rid in sort(collect(keys(proof)))
    step = proof[rid]
    printstep(step)
    println()
@@ -111,7 +111,7 @@ function printns(shift)
 end
 
 function printaproof1(rid, core, shift=0)
-  if rid in keys(core.proof)
+  if rid in sort(collect(keys(core.proof)))
     step = core.proof[rid]
     printaproof1(cidof(step.leftp,core), core, shift+1)
     printaproof1(cidof(step.rightp,core), core, shift+1)
@@ -135,15 +135,50 @@ function printaproof1(rid, core, shift=0)
 end
 
 function printproofs0(core)
- for rid in contradictionsof(core)
+ for rid in sort(contradictionsof(core))
   printaproof0(rid, core)
   println("\n---")
  end
 end
 
 function printproofs1(core)
- for rid in contradictionsof(core)
+ for rid in sort(contradictionsof(core))
   printaproof1(rid, core)
+  println("\n---")
+ end
+end
+
+function printmgu0(ovars, sigma, orig)
+  for i in 1:length(ovars)
+    if orig 
+      if ovars[i] != sigma[i]
+        print("$(ovars[i])/$(sigma[i]); ")
+      end
+    else
+      if origof(ovars[i]) != origof(sigma[i])
+        print("$(origof(ovars[i]))/$(origof(sigma[i])); ")
+      end
+    end
+  end
+end
+
+function printmgu(rid, core, orig)
+  if rid in keys(core.proof)
+    step = core.proof[rid]
+    printmgu(cidof(step.leftp,core), core, orig)
+    printmgu(cidof(step.rightp,core), core, orig)
+
+    println()
+    print("  ")
+    print("<$(step.leftp):")
+    print("$(step.rightp)>=")
+    printmgu0(ovarsof(step.leftp, step.rightp, core), step.sigma, orig)
+  end
+end
+
+function printmgus(core, orig=false)
+ for rid in contradictionsof(core)
+  printmgu(rid, core, orig)
   println("\n---")
  end
 end

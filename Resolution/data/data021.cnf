@@ -1,7 +1,7 @@
 @ order skiped P(a,e) is ok? 
 
-[].[-P(a,e)]
- [].[-P(a,d)]
+ [].[-P(a,e)]
+[].[-P(a,d)]
 
 [x,y,z].[-P(x,y),-P(y,z),+P(x,z)]
 [].[+P(a,b)]
