@@ -26,3 +26,12 @@ tactu.jl     -- tactical unit resolution  obsolete
 testcgop.jl
 testtact.jl
 testtactu.jl
+
+
+-- cnf format
+first character's meaning
+1) [    : a clause whole line
+2) !    : a form except ! will be evaluated.
+3) <    : a filename excpet < is readclausefromfile()'ed
+4) o.w. : comment/no special meaning
+

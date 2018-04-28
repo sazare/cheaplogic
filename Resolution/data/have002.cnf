@@ -1,0 +1,33 @@
+@ have, give relation, with time, changed: t2,t0 is a range of time, and any t2 means any one of t2.
+# t1 is a event time
+
+# rh1, ch1=simpleprover("data/have001.cnf",7,1)
+
+# neg conj(I suppose conjunction)
+[t2,t1].[-Have(I, orange, t2),-After(t2,t1)]
+
+[].[+Give(You, I, orange, T1)]
+
+# Facts
+# befor t1, You have orange.
+[t0,t1].[+Have(You, orange, t0),-After(t1,t0)]
+
+
+# relation of Have and Give
+[a,b,t0,t1,t2,x].[-Have(a, x, t0),-Give(a, b, x, t1),+Have(b, x, t2),-After(t2, t1),-After(t1, t0)]
+
+# Time's axiom
+ [t0,t1,t2].[-After(t2,t1),-After(t1,t0),+After(t2,t0)]
+
+
+
+## In a proof, there is a time only T1. In axioms, I imagine t1,T2 as different times from T1.
+## What is this?
+
+## for existing axioms. There are times different from T0.
+[].[+After(T2,T1)]
+[].[+After(T1,T0)]
+
+
+## using this axiom, the proof becomes unique.
+## What this means?
