@@ -10,4 +10,5 @@ Theory
 [x].[+R(x),-S(x)]
 [x].[+P(x),-Q(x),-S(x)]
 
-
+# r2,c2=simpleprover("data/data002.cnf",3,5)
+# no []

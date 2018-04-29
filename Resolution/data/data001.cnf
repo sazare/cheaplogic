@@ -1,7 +1,10 @@
-@ 1st example
+@ 1st example: const, func and var
+# r1,c1=simpleprover("data/data001.cnf",3,5)
 Goal
 [y].[-Q(a,y)]
+# 2 []
  [x,y].[-Q(x,y)]
+# 3 []
 
 Fact
 [y].[+P(a,y)]
@@ -13,3 +16,5 @@ Fact
 Theory
 [x,y].[-P(x,y),+Q(x,y),-R(x,y)]
 [x,y].[-P(x,f(y)),+Q(x,y),-R(x,y)]
+
+

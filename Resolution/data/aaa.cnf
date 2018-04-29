@@ -1,4 +1,4 @@
-@ temporal working
+@ temporal working: how can i write vars
 
 [x].[+P(x,x)]
 [x,Z].[-P(x,Z)]
