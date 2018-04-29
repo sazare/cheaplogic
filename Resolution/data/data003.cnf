@@ -1,4 +1,7 @@
-@ Arithmetic sample
+@ 1-1-2 pattern: nested function parsed
+#  r3,c3=simpleprover("data/data003.cnf",3,5)
+# 2 []
+
 Goal
 [x,y].[-P(x,y)]
 

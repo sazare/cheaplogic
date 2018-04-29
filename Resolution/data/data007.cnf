@@ -1,10 +1,14 @@
 @finally -S double 
+# r7,c7=simpleprover("data/data007.cnf",15,5)
+# just 1 []...
+# is it correct??
+
 #Goal
 [x,y].[-P(x,y)]
 
 #Axioms
 [x,y].[+P(x,f(y)),-Q(x,y)]
 [x,y,z].[+Q(x,z),-R(x,y),-S(f(y),z)]
-[x].[-S(x,h(x))]
+[x].[+S(x,h(x))]
 [x,y].[+R(x,y),-S(x,y)]
 
