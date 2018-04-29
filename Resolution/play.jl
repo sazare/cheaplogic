@@ -177,14 +177,10 @@ rm,cm = simpleprover("data/magia.cnf", 5, 1)
 printaproof1(rm[1], cm)
 printaproof0(rm[1], cm)
 
-c3 = readcore("data/data003.cnf")
-println("core: data/data003.cnf")
-print_coreinfo(c3)
-
 ### estimate cnf
-atl=alltemplateof(c3)
 
 r3, c3 = simpleprover("data/data003.cnf", 10, 3)
+atl=alltemplateof(c3)
 printclauses(c3)
 printaproof1(:R1, c3)
 
