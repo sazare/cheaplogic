@@ -1,8 +1,13 @@
 @ have some tautology
+# r8,c8=simpleprover("data/data008.cnf",3,5)
+# 1[]
+# +R-R or +Q-Q becomes taut. so, the [] should be 1
+
 [x].[-P(x)]
 
-[].[+P(a)]
+[].[+P(a),-R(a,a)]
 [x].[+P(x),+Q(x),-Q(a)]
 [x].[+R(x,y),-R(y,x)]
+[x].[+R(x,x)]
 
 #only 2 clause should be alive 
