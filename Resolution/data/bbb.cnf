@@ -1,6 +1,6 @@
 @ test for <
 
 [y].[+P(y,f(y))]
-< aaa.wff
+< aaa.cnf
 [z].[+P(z,z)]
 

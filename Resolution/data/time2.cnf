@@ -1,5 +1,5 @@
 @ time is comming2(intended but not written)
-# tt2,ct2=simpleprover("data/time2.wff",6,1)
+# tt2,ct2=simpleprover("data/time2.cnf",6,1)
 # makes contradictions
 
 query 
