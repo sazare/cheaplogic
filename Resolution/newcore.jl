@@ -169,6 +169,16 @@ function origof(xid)
  return Symbol(string(xid)[1:(search(string(xid),'_')-1)])
 end
 
+function origtermof(term)
+ if isa(term, Symbol); return origof(term) end
+ if isa(term, Expr)
+  for aix in 2:length(term.args)
+   term.args[aix] = origtermof(term.args[aix])
+  end
+ end
+ term
+end
+
 numof(xid) = parse(string(xid)[2:end])
 
 function varsof(cid, core)

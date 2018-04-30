@@ -3,6 +3,7 @@
 using Base.Test
 
 include("newcore.jl")
+include("utils.jl")
 
 @testset "stringtoclause" begin
  sc = stringtoclause(:C10, parse("[x].[-P(x),+Q(x,f(x))]")) 
@@ -20,6 +21,11 @@ end
  @test origof(:xy_C12) == :xy
  @test origof(:xy_C12_JJ) == :xy
  @test origof(:xy) == :xy
+
+ @test origtermof(parse("xy_C12")) == :xy
+ @test origtermof(parse("xy")) == :xy
+ @test origtermof(parse("f(xy_C12,x)")) == parse("f(xy, x)")
+ @test origtermof(parse("f(g(xy_C12,y),h(u_C12R22),g(x))")) == parse("f(g(xy,y),h(u),g(x))")
 
  @test numof(:C123) == 123
  @test numof(:L22) == 22
