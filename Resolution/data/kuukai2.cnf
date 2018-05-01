@@ -1,10 +1,18 @@
 @空海は死ぬ 2
 # does Kukai die?
  \exists x .[-空海(x),+死ぬ(x)]
-[].[-死ぬ(kuukai)]
 
+[].[-WillDie(kuukai)]
+
+[].[+isKukai(kuukai)]
+[x].[-isKukai(x),+isHuman(x)]
+[x].[-isHuman(x),+WillDie(x)]
+
+
+## 日本語だめみたい
+ [].[-死ぬ(kuukai)]
 
  [].[+空海(kuukai)]
-[x].[-空海(x),+人(x)]
-[x].[-人(x),+死ぬ(x)]
+ [x].[-空海(x),+人(x)]
+ [x].[-人(x),+死ぬ(x)]
 

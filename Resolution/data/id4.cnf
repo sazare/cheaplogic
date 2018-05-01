@@ -1,13 +1,13 @@
 @ identity: imaginaly conjunctive goal
 # 
  this is the goal, I beleave hold on Facts
- [x].[+E(x,x)]
+ [x].[-E(x,x)]
 
  from this goal, the goals may be generated with Facts' constants
  [x,y].{[-E(a,a)],[-E(b,b)],[-E(c,c)],[-E(d,d)],[-E(e,e)]}
 
 # one of it
-[].[+E(e,e)]
+[].[-E(e,e)]
 
 # Facts
 [].[+E(a,a)]
