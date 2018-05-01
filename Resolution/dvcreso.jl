@@ -101,16 +101,27 @@ end
 
 ## evaluation 
 
-function evaluate_lits(lits)
+function evaluate_lits(lits, core)
  rlits=[]
- for lit in lits
+ for lid in lits
+   lit=literalof(lid, core).body
    try 
      val = eval(lit.args[2])
-     if val && lit.args[1] == :+; return true end
-     if !val && lit.args[1] == :-; return true end
-     push!(rlits, lit)
-   catch
-     push!(rlits, lit)
+     if val 
+       if lit.args[1] == :+
+         return true
+       else
+         continue
+       end
+     else 
+       if lit.args[1] == :-
+         return true
+       else
+         continue
+       end
+     end
+   catch e
+     push!(rlits, lid)
    end
  end
  rlits
@@ -143,7 +154,7 @@ function dvc_resolution(l1,l2,core)
 
    if evalon 
      # rem = rem0
-     rem = evaluate_lits(rem0)
+     rem = evaluate_lits(rem0, core)
      if rem == true
        println("Valid")
        return :FAIL 

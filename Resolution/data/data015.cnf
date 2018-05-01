@@ -1,13 +1,14 @@
 @ test of evaluation dont work
 # intended 2 proofs
 
-[x,z].[-Z(x,z)]
+[x,z].[-Z(55,z)]
+ [x,z].[-Z(x,z)]
 
 !ge(x,y) = x>=y
 !lt(x,y) = x<y
 
-[x,z].[+Z(x,z),-R(x,z),+ge(x,0)]
-[x,z].[+Z(x,z),-R(x,z),+lt(x,0)]
+[x,z].[+Z(x,z),-R(x,z),-ge(x,0)]
+[x,z].[+Z(x,z),-R(x,z),-lt(x,0)]
  [x,z].[+Z(x,f(z)),-R(x,z),-ge(x,0)]
 [].[+R(55,20)]
 [].[+R(-23,10)]

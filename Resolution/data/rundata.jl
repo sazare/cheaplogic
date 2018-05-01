@@ -12,6 +12,7 @@ rdata011,cdata011=simpleprover("data/data011.cnf",5,2) #0
 rdata012,cdata012=simpleprover("data/data012.cnf",5,2) #0
 rdata013,cdata013=simpleprover("data/data013.cnf",5,2) #0
 rdata014,cdata014=simpleprover("data/data014.cnf",5,2) #0
+# if config.jl has evalon=true, then 15 make 1[], else 0[]
 rdata015,cdata015=simpleprover("data/data015.cnf",5,2)
 rdata016,cdata016=simpleprover("data/data016.cnf",5,2)
 rdata017,cdata017=simpleprover("data/data017.cnf",5,2)

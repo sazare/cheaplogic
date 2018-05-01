@@ -216,14 +216,12 @@ function literalsof(lids, core)
 end
 
 function evalproc(proc)
-@show proc
   for p in proc
     eval(parse(p))
   end
 end
 
 function evalcore(core)
-@show :evalproc
   evalproc(core.proc)
 end
 
