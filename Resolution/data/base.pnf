@@ -1,0 +1,13 @@
+@ basic form of proc
+
+[x,y].[-Pre(x),[Proc(x;z)],+Post(x,z)]
+
+#julia> p1.args[2].args[1].args[2].args[1].args
+#3-element Array{Any,1}:
+# :Proc                      
+# :($(Expr(:parameters, :z)))
+# :x         
+
+[x,y].[-Pre(x),[],+Post(x,z)]
+[x,y].[-Pre(x),+Post(x,z)]
+
