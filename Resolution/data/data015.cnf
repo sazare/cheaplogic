@@ -4,6 +4,12 @@
 [x,z].[-Z(55,z)]
  [x,z].[-Z(x,z)]
 
+# this line is not effective. sorry.
+# !global evalon = true
+
+# don't work
+# < data/common.jl
+
 !ge(x,y) = x>=y
 !lt(x,y) = x<y
 
