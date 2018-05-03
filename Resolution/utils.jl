@@ -36,8 +36,9 @@ function readclausefromfile(fname)
     elseif line[1] == '!'
       push!(proc,line[2:end])
     elseif line[1] == '<'
-@show strip(line[2:end],[' ','\t'])
-      append!(clss, readclausefromfile(strip(line[2:end],[' ','\t'])))
+      iclss, iproc = readclausefromfile(strip(line[2:end],[' ','\t']))
+      append!(clss, iclss)
+      append!(proc, iproc)
     end
   end
  end
