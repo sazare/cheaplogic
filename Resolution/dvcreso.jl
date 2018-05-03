@@ -13,7 +13,9 @@ isrid(x) = issym(x) && string(x)[1] == 'R'
 hasid(x) = search(string(x), SEPSYM) != 0
 
 function newvar(xid, var) 
- if hasid(var)
+ if isupper(string(var)[1])
+   return var
+ elseif hasid(var)
    return Symbol(var, xid)
  else
    return Symbol(var, SEPSYM, xid)
@@ -27,7 +29,9 @@ end
 # Resolvent
 function rename_term(xid, vars, term::Term)
   if issym(term)
-    if isvar(term, vars)
+    if isevar(term, vars)
+      return term
+    elseif isvar(term, vars)
       return newvar(xid, term)
     else
       return term 
