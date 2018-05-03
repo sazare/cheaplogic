@@ -1,0 +1,12 @@
+@ a sample for an exist-var should not be removed
+
+ [X1,X2].[-P(X1,X2)]
+[].[-P(a,c)]
+
+[x,Y0,z].[-P(x,Y0),-P(Y0,z),+P(x,z)]
+[].[+P(a,b)]
+[].[+P(b,c)]
+[].[+P(c,d)]
+[].[+P(d,e)]
+
+

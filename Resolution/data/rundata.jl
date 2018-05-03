@@ -20,6 +20,7 @@ rdata018,cdata018=simpleprover("data/data018.cnf",10,4)
 rdata019,cdata019=simpleprover("data/data019.cnf",5,5)
 rdata020,cdata020=simpleprover("data/data020.cnf",5,1)
 rdata021,cdata021=simpleprover("data/data021.cnf",5,2)
+rdata022,cdata022=simpleprover("data/data022.cnf",3,1) #1
 rdb1,cdb1=simpleprover("data/db1.cnf",5,2)
 reveryonedie,ceveryonedie=simpleprover("data/everyonedie.cnf",5,2)
 #rfriend1,cfriend1=simpleprover("data/friend1.cnf",5,2) # incorrect
