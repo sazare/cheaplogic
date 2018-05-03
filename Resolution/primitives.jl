@@ -24,7 +24,10 @@ Tlist = Array
 isvar(sym::Symbol, vars::Vlist)=sym in vars
 isvar(term, vars::Vlist)=false
 
-isevar(sym::Symbol, vars::Vlist)= isvar(sym, vars) && isupper(string(sym)[1])
+function isevar(sym::Symbol, vars::Vlist)
+ isvar(sym, vars) && isupper(string(sym)[1])
+end
+isevar(sym, vars::Vlist)=false
 
 isconst(sym::Symbol, vars::Vlist)=!(sym in vars)
 isconst(sym::Number, vars::Vlist)=true
