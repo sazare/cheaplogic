@@ -7,11 +7,10 @@
 # this line is not effective. sorry.
 # !global evalon = true
 
-# don't work
-# < data/common.jl
+< data/common.jl
 
-!ge(x,y) = x>=y
-!lt(x,y) = x<y
+#!ge(x,y) = x>=y
+#!lt(x,y) = x<y
 
 [x,z].[+Z(x,z),-R(x,z),-ge(x,0)]
 [x,z].[+Z(x,z),-R(x,z),-lt(x,0)]

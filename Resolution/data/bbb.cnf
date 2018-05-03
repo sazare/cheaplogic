@@ -1,6 +1,6 @@
 @ test for <
 
 [y].[+P(y,f(y))]
-< data/aaa.cnf
+< data/ccc.cnf
 [z].[+P(z,z)]
 
