@@ -8,7 +8,8 @@
 
 [].[-R(a,b,1.0),-R(b,c,1.0),+R(a,c,1.0)]
 
-! time(x,y) = x*y
+<data/common.fun
+
 [p1,p2].[-R(a,b,p1),-R(b,c,p2),+R(a,c,time(p1,p2))]
 
 

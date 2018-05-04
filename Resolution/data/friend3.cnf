@@ -1,7 +1,9 @@
 @ friend world qurey with axiom
+@@ When the theorem was already in axioms... it is too simple
+
 [].[-F(a,c)]
 
 [].[+F(a,b)]
 [].[+F(b,c)]
-#this is satisfiable ...
+#this should be satisfiable ...
 [x,y,z].[-F(x,y),-F(y,z),+F(x,z)]

@@ -1,5 +1,6 @@
-@ prop axiom example
- inprogress template as SAT
+@ propositional axiom example(2 different type of proofs)
+@@ one proof contain -Q,-Q with +Q twice(dont use reduction)
+@@ one proof contain not linear ... (no -Q-Q happened)
 
 [].[+P(),-Q()]
 [].[-P(),+R()]

@@ -1,11 +1,17 @@
 @ partial: total order: (a) of to1
+@@ use evars
 
-[].[-O(a,c)]
+[].[-O(a,c)] # 1
+ [x,y,Z].[-O(x,Z),-O(Z,y),+O(x,y)] #2
+[X,Y,Z].[-O(X,Z),-O(Z,Y),+O(X,Y)]  #2'
 
 [].[+O(a,b)]
 [].[+O(b,c)]
-[].[+O(a,a)]
 [].[+O(b,b)]
-[].[+O(c,c)]
+ [].[+O(a,a)] #3
+ [].[+O(c,c)] #3
 
-[x,y,Z].[-O(x,Z),-O(Z,y),+O(x,y)]
+## #2' uses exist-var. printmgus(-,true) show the X,Y,Z don't changed.
+## if #3 used, a-> #'2 used twice, deduct O(a,a) to []
+## if don't use #3, simply proved [] with X,Y,Z <- a,c,b
+

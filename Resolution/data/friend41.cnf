@@ -1,6 +1,6 @@
 @ friend world infering
-@@ Can I gather all combination of answer?
-@@ case a->b->{c,d,e}
+@@ Can I gather all combination of answer? more complicated than 4.
+@@ case a->b->{c,d,e}, but not g,h of #1
 
 [x,y,z].[-F(x,y),-F(y,z),-F(x,z)]
 
@@ -13,4 +13,7 @@
 [].[+F(b,e)]
 [].[+F(a,d)]
 [].[+F(a,e)]
+
+[].[+F(g,h)] #1
+[].[+F(a,h)] #1
 

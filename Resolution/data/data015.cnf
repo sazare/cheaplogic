@@ -1,5 +1,5 @@
 @ test of evaluation dont work
-# intended 2 proofs
+@@ intended 2 proofs
 
 [x,z].[-Z(55,z)]
  [x,z].[-Z(x,z)]
@@ -7,7 +7,7 @@
 # this line is not effective. sorry.
 # !global evalon = true
 
-< data/common.jl
+< data/common.fun
 
 #!ge(x,y) = x>=y
 #!lt(x,y) = x<y

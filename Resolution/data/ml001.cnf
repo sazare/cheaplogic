@@ -1,13 +1,13 @@
-@ a trial ML to MP
+@ a trial ML to MP -- nonsence
+
 # MP is Mechanical Proving
 # ML is Machine Learning
 
 # given pictures a,b,c with description, A,B,C with probability
-[]
 
-!times(x,y) = x*y
+<data/common.fun
 
-[a,p,b,q].[-Before(a,p),-After(b,q),+Prob(b,times(p,q))]
+[a,p,b,q].[-Before(a,p),-After(b,q),+Prob(b,time(p,q))]
 [X,x].[-X(x,1.0),+X(x)]
 [X,x].[-X(x),-X(x,1.0)]
 [].[+A1(a,0.5)]
