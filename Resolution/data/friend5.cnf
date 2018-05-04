@@ -1,8 +1,10 @@
 @ friend world qurey with axiom
-[].[-F(b,a)]
+@@ find all cyclic nodes.
 
+[x,y].[-F(x,y),-F(y,x)]
+
+[].[+F(b,a)]
 [].[+F(a,b)]
 [].[+F(b,c)]
 
-[x,y].[-F(x,y),+F(y,x)]
 

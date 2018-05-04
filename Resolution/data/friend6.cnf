@@ -1,12 +1,14 @@
-@ friend law(Full Facts)
+@ gather all cycles x<->y
+@@ 
 
 # 
- [x,y].[-F(x,y),+F(y,x)]
- [x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+[x,y].[-F(x,y),-F(y,x)]
 
-[].+F(a,b)
-[].+F(b,a)
-[].+F(b,c)
-[].+F(c,b)
-[].+F(a,c)
-[].+F(c,a)
+[].[+F(a,b)]
+[].[+F(b,a)]
+[].[+F(b,c)]
+[].[+F(c,b)]
+[].[+F(a,c)]
+[].[+F(c,a)]
+[].[+F(a,a)]
+[].[+F(d,a)]

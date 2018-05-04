@@ -1,3 +1,3 @@
-#global evalon = true
-global evalon = false
+global evalon = true
+#global evalon = false
 

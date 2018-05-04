@@ -1,0 +1,7 @@
+first char
+@  -- what is written
+@@ -- how to write
+
+
+
+common.fun -- common func

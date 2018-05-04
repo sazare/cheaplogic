@@ -1,7 +1,19 @@
-@ friend world simple
-# incorrect Th.
-[x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+@ friend world can I prove a theorem from given facts.
+@@ when use 3#2, simply find 1 [] and finished(all proofs aren't gotten!!)
+@@ #3 is a good neg theorem for my intension. 
 
+# Theorem
+ [x,y,z].[-F(x,y),-F(y,z),+F(x,z)] #1
+
+# neg Theorem
+ [X,Y].[+F(X,Y)] #2
+ [Y,Z].[+F(Y,Z)] #2
+ [X,Z].[-F(X,Z)] #2
+
+# alteranate neg
+[X,Y,Z].[-F(X,Y),-F(Y,Z),-F(X,Z)] #3
+
+# Facts
 [].[+F(a,b)]
 [].[+F(b,c)]
 [].[+F(a,c)]

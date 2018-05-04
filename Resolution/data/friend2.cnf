@@ -1,6 +1,11 @@
 @ friend world 2 groups
-# incorrect Th.
-[x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+@ from a lesson from friend1
+
+# Theorem should be derived from the axioms...
+ [x,y,z].[-F(x,y),-F(y,z),+F(x,z)]
+
+# neg theorem
+[X,Y,Z].[-F(X,Y),-F(Y,Z),-F(X,Z)]
 
 [].[+F(a,b)]
 [].[+F(b,c)]
