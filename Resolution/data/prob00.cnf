@@ -1,17 +1,18 @@
 @ probablistic logic axioms imaginaly
-
-[].[+R(a,b,0.5)]
-[].[+R(a,c,0.5)]
-[].[+R(b,d,1.0)]
-[].[+R(c,d,1.0)]
-
-
-[].[-R(a,b,1.0),-R(b,c,1.0),+R(a,c,1.0)]
+@@ one way to goal. P or p is not different.
 
 <data/common.fun
 
-[p1,p2].[-R(a,b,p1),-R(b,c,p2),+R(a,c,time(p1,p2))]
+# times(1,2) cant be computed yet.
 
+[PAC].[-R(a,c,PAC)]
+[x,y,z,p1,p2].[-R(x,y,p1),-R(y,z,p2),+R(x,z,times(p1,p2))]
 
-[x,y,p].[-R(x,y,p1),-R(x,z,p2)
+# same results in P1,P2 
+ [x,y,z,P1,P2].[-R(x,y,P1),-R(y,z,P2),+R(x,z,times(P1,P2))]
+
+[].[+R(a,b,0.2)]
+[].[+R(a,c,0.5)]
+[].[+R(b,c,0.9)]
+[].[+R(c,d,1.0)]
 

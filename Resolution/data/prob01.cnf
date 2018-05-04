@@ -1,0 +1,19 @@
+@ probablistic logic axioms imaginaly
+@@ I have 2 ways to goal(d). P make only result.
+
+<data/common.fun
+
+# times(1,2) cant be computed yet.
+
+[PAC].[-R(a,d,PAC)]
+# repeated #4, p1,p2 should be lower var
+[x,y,z,p1,p2].[-R(x,y,p1),-R(y,z,p2),+R(x,z,times(p1,p2))] #4
+
+# while P1,P2, the result is only. why??
+ [x,y,z,P1,P2].[-R(x,y,P1),-R(y,z,P2),+R(x,z,times(P1,P2))] #4
+
+[].[+R(a,b,0.2)]
+[].[+R(a,c,0.5)]
+[].[+R(b,c,0.9)]
+[].[+R(c,d,1.0)]
+
