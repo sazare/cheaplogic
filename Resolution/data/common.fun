@@ -3,6 +3,7 @@
 !ge(x,y)   = x>=y
 !lt(x,y)   = x<y
 !eq(x,y)   = x==y
-!times(x,y) = x*y
+!between(x,low,high) = (low<=x && x<high)
 
+!times(x,y) = x*y
 !add(x,y)  = x+y
