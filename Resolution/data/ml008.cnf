@@ -1,0 +1,51 @@
+@ distinguish party or violent more complicate than ml005
+@@ Can I get all proofs? img3 is still ambiguous.... why?
+
+# MP is Mechanical Proving
+# ML is Machine Learning
+
+# given pictures a,b,c with description, A,B,C with probability
+
+<data/common.fun
+
+# nc
+[IMG, WHAT].[-State(IMG, WHAT)]
+
+
+# Intension
+[im,p1,p2,p3].[-ManyPeople(im,p1),-Eating(im,p2),-Weapons(im,p3),-ge(p1,0.8),-ge(p2,0.8),-lt(p3,0.2),+State(im, party)]
+[im,p1,p2,p3].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-between(p2,0.5,0.8),-Fallen(im,p3),-lt(p3,0.7),+State(im, violent)]
+[im,p1,p2,p3].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-ge(p2,0.8),-Fallen(im,p3),-ge(p3,0.7),+State(im, battle)]
+
+
+# ML's output of facts
+# img1 is an image processed by ML
+# Facts 
+# many fallen are slept.
+[].[+ManyPeople(img1,0.9)]
+[].[+Eating(img1,0.85)]
+[].[+Fallen(img1,0.8)]
+[].[+Weapons(img1,0.1)]
+
+# little fallen
+[].[+ManyPeople(img2,0.99)]
+[].[+Eating(img2,0.9)]
+[].[+Fallen(img2,0.2)]
+[].[+Weapons(img2,0.15)]
+
+# seems many wepons, many fallens. This is the battle.
+[].[+ManyPeople(img3,0.98)]
+[].[+Eating(img3,0.9)]
+[].[+Fallen(img3,0.9)]
+[].[+Weapons(img3,0.95)]
+
+# seems many fallens, but lesser wepons. This is a violent. 
+[].[+ManyPeople(img4,0.98)]
+[].[+Eating(img4,0.2)]
+[].[+Fallen(img4,0.5)]
+[].[+Weapons(img4,0.6)]
+
+
+
+ [].[+Laughter(img1,0.8)]
+
