@@ -49,6 +49,7 @@ rmagia,cmagia=simpleprover("data/magia.cnf",5,2)
 rml002,cml002=simpleprover("data/ml002.cnf",5,2)  # evalon
 rml003,cml003=simpleprover("data/ml003.cnf",5,2)  # evalon
 rml004,cml004=simpleprover("data/ml004.cnf",5,2)  # evalon
+rml005,cml005=simpleprover("data/ml005.cnf",5,2)  # evalon
 #rpprop001,cpprop001=simpleprover("data/pprop001.cnf",5,2)
 rprob00,cprob00=simpleprover("data/prob00.cnf",5,2) # 2[] 2ways found
 rprob01,cprob01=simpleprover("data/prob01.cnf",5,4) # intrinsic 3[]in 7  2ways found
