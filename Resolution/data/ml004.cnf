@@ -1,0 +1,54 @@
+@ distinguish party or violent
+@@ not predicate, but term for distinguish
+
+# MP is Mechanical Proving
+# ML is Machine Learning
+
+# given pictures a,b,c with description, A,B,C with probability
+
+<data/common.fun
+
+# nc
+[IMG, WHAT].[-State(IMG, WHAT)]
+
+# inference rule
+ [im,p1].[-Party(im,p1),-ge(p1,0.9),+State(im, party)]
+ [im,p1].[-Violent(im,p1),-ge(p1,0.9),+State(im, battle)]
+ [im,p1].[-Violent(im,p1),-ge(p1,0.7),-le(p1,0.9),+State(im, violent)]
+ [im,p1].[-Violent(im,p1),-le(p1,0.9),+State(im, violent)]
+
+# range cant be written? cant be and...
+# dicided predicate don't appear in + and -
+[im,p1,p2].[-ManyPeople(im,p1),-Eating(im,p2),-ge(p1,0.8),-ge(p2,0.8),+State(im, party)]
+[im,p1,p2].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-ge(p2,0.7),+State(im, battle)]
+ [im,p1,p2].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-ge(p1,0.4),-lt(p2,0.7),+State(im, violent)]
+
+
+# ML's output of facts
+# img1 is an image processed by ML
+# 
+[].[+ManyPeople(img1,0.9)]
+[].[+Eating(img1,0.85)]
+ [].[+Fallen(img1,0.1)]
+[].[+Weapons(img1,0.35)]
+
+[].[+ManyPeople(img2,0.99)]
+[].[+Eating(img2,0.9)]
+ [].[+Fallen(img2,0.5)]
+[].[+Weapons(img2,0.3)]
+
+# cant distinguish img3, because both prob is high
+[].[+ManyPeople(img3,0.98)]
+[].[+Eating(img3,0.9)]
+ [].[+Fallen(img3,0.9)]
+[].[+Weapons(img3,0.9)]
+
+[].[+ManyPeople(img4,0.98)]
+[].[+Eating(img4,0.2)]
+ [].[+Fallen(img4,0.9)]
+[].[+Weapons(img4,0.5)]
+
+
+
+[].[+Laughter(img1,0.8)]
+

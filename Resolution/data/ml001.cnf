@@ -8,8 +8,13 @@
 <data/common.fun
 
 [a,p,b,q].[-Before(a,p),-After(b,q),+Prob(b,time(p,q))]
+
+# predicate variable may be required.
+# These says probability=1.0 is same without probability.
 [X,x].[-X(x,1.0),+X(x)]
 [X,x].[-X(x),-X(x,1.0)]
+
+
 [].[+A1(a,0.5)]
 [].[+A2(a,0.5)]
 [].[+B(b,0.9)]

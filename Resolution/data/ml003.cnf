@@ -1,0 +1,60 @@
+@ distinguish party or violent
+@@ 
+
+# MP is Mechanical Proving
+# ML is Machine Learning
+
+# given pictures a,b,c with description, A,B,C with probability
+
+<data/common.fun
+
+# nc
+ [].[-Party0(img1)] # ask img1 is party or violent?
+ [IMG].[-Party0(IMG)] # ask what is IMG
+
+ [IMG].[-Party0(IMG),-Violent1(IMG)]
+[IMG].[-Party0(IMG)]
+[IMG].[-Violent1(IMG)]
+[IMG].[-Violent0(IMG)]
+
+# inference rule
+[im,p1].[-Party(im,p1),-ge(p1,0.9),+Party0(im)]
+[im,p1].[-Violent(im,p1),-ge(p1,0.9),+Violent0(im)]
+[im,p1].[-Violent(im,p1),-ge(p1,0.7),+Violent1(im)]
+
+# in progress
+ [im,p1,p2].[-Party(im,p1),-Violent(im,p2),-ge(p1,p2),+Party0(im)]
+ [im,p1,p2].[-Party(im,p1),-Violent(im,p2),-ge(p2,p1),+Violent0(im)]
+
+[im,p1,p2].[-ManyPeople(im,p1),-Eating(im,p2),-ge(p1,0.8),-ge(p2,0.8),+Party(im,0.9)]
+[im,p1,p2].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-ge(p2,0.7),+Violent(im,0.9)]
+[im,p1,p2].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-ge(p2,0.4),+Violent(im,0.71)]
+
+
+# ML's output of facts
+# img1 is an image processed by ML
+# 
+[].[+ManyPeople(img1,0.9)]
+[].[+Eating(img1,0.85)]
+ [].[+Fallen(img1,0.1)]
+[].[+Weapons(img1,0.5)]
+
+[].[+ManyPeople(img2,0.99)]
+[].[+Eating(img2,0.9)]
+ [].[+Fallen(img2,0.5)]
+[].[+Weapons(img2,0.6)]
+
+[].[+ManyPeople(img3,0.98)]
+[].[+Eating(img3,0.9)]
+ [].[+Fallen(img3,0.9)]
+[].[+Weapons(img3,0.9)]
+
+[].[+ManyPeople(img4,0.98)]
+[].[+Eating(img4,0.2)]
+ [].[+Fallen(img4,0.9)]
+[].[+Weapons(img4,0.5)]
+
+
+
+[].[+Laughter(img1,0.8)]
+
