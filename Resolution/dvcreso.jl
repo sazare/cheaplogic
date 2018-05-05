@@ -105,28 +105,45 @@ end
 
 ## evaluation 
 
+function leval(lit)
+  try
+    val=eval(lit.args[2])
+    if val==true
+      if lit.args[1] == :+; return true end
+      if lit.args[1] == :-; return false end
+    elseif val==false
+      if lit.args[1] == :-; return true end
+      if lit.args[1] == :+; return false end
+    end
+    return lit
+  catch
+    return lit
+  end
+end
+
+function evaluate_literals(lids, lits)
+ rlits=[]
+ rlids=[]
+ for lix in 1:length(lids) 
+   lid=lids[lix]
+   lit=lits[lix]
+   val = leval(lit)
+   if val == true; return true end
+   if val == false; continue end
+   push!(rlits,lit)
+   push!(rlids,lid)
+ end
+ return rlids,rlits
+end
+
 function evaluate_lits(lits, core)
  rlits=[]
  for lid in lits
    lit=literalof(lid, core).body
-   try 
-     val = eval(lit.args[2])
-     if val 
-       if lit.args[1] == :+
-         return true
-       else
-         continue
-       end
-     else 
-       if lit.args[1] == :-
-         return true
-       else
-         continue
-       end
-     end
-   catch e
-     push!(rlits, lid)
-   end
+   val = leval(lit)
+   if val == true; return true end
+   if val == false; continue end
+   push!(rlits,lid)
  end
  rlits
 end
@@ -173,15 +190,18 @@ function dvc_resolution(l1,l2,core)
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
    nbody1 = apply(ovars, nbody, sigmai)
-   
+   if evalon
+     nrem, nbody1 = evaluate_literals(nrem, nbody1) 
+   end
+
    body = rename_clause(rid, vars, nbody1)
+
  ## settlement
 
 # cdb[rid] to vars
   core.cdb[rid] = VForm2(rid, body.vars)
 
 # clmap[rid] to rlid* = nrem
- 
   core.clmap[rid] = nrem
 
 # ldb[rlid] to full
