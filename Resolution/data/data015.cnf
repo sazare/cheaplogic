@@ -1,8 +1,9 @@
 @ test of evaluation dont work
 @@ intended 2 proofs
 
-[x,z].[-Z(55,z)]
+ [x,z].[-Z(55,z)]
  [x,z].[-Z(x,z)]
+[X,Z1].[-Z(X,Z1)]
 
 # this line is not effective. sorry.
 # !global evalon = true

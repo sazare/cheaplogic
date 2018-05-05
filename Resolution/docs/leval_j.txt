@@ -1,0 +1,45 @@
+evaluation of clause
+
+eval(+(12 >= 3)) = true は 自然数の上ではなりたつ。
+eval(+(s(x) >= x)) = true でありかつ y >= x ならば s(y) >= x とか s(y) >= s(x)とか
+
+clauseの集合をΣとして、
+eval(L, Σ)　を Σ からLが証明できればtrue、-Lが証明できればfalseとする。
+
+eval(+P(x); -P(a)) = false :
+eval(+P(a); -P(b)) = +P(a)
+eval(+P(x); -P(y)) = false
+eval(+P(f(x)); -P(f(g(x)))) = false
+eval(+P(x); +P(y)) = true
+eval(+P(a); +P(y)) = true
+eval(+P(f(x)); +P(y)) = true
+eval(+P(f(x)); +P(g(y))) = +P(f(x))
+など
+
+つまり、eval(+P(s); -P(t))で、[s]∧[t]=0 ならば = +P(s)
+[s]∧[t]!=0ならば falseであり矛盾
+eval(+P(s); +P(t))で、[s]<=[t]ならば = trueであり、そうでなければ =+P(s)
+
+S,Tをliteralとしたとき
+
+eval(+S, -T) = false where [S]∧[T]!=0
+               +S    where o.w.
+
+eval(+S, +T) = true where [S]<=[T]
+               +S   where o.w.
+
+
+[S]は、Herbrand Universe上の形の集合だとすると
+[+S]と[-S]はcomplementになるのかな
+
+
+Sがclauseのときは、Tはaxiomの集合で
+eval(S, T) = 0  where exist L in S, eval(L, T) = true
+　　　　　　　　[] where all L in S, eval(L, T) = false
+　　　　　　　　R  where all L in R, eval(L, T) != false and != true
+
+
+
+このようなeval()が機械証明に役立つのかどうか??
+
+

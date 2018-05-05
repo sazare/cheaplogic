@@ -171,19 +171,8 @@ function dvc_resolution(l1,l2,core)
    rem2 = lidsof(cidof(l2, core),core)
    rem2 = setdiff(rem2, [l2])
 
-   rem0 = vcat(rem1, rem2)
+   rem = vcat(rem1, rem2)
 
-   if evalon 
-     # rem = rem0
-     rem = evaluate_lits(rem0, core)
-     if rem == true
-       println("Valid")
-       return :FAIL 
-     end
-   else
-     rem = rem0
-   end
-  
    vars = fitting_vars(ovars, rem, core)
 # rename rlid
    rid =  newrid(core)
@@ -191,9 +180,13 @@ function dvc_resolution(l1,l2,core)
    nbody = literalsof(rem, core)
    nbody1 = apply(ovars, nbody, sigmai)
    if evalon
-     nrem, nbody1 = evaluate_literals(nrem, nbody1) 
+     rb = evaluate_literals(nrem, nbody1) 
+     if rb == true
+       println("Valid")
+       return :FAIL 
+     end
+     nrem, nbody1 = rb
    end
-
    body = rename_clause(rid, vars, nbody1)
 
  ## settlement

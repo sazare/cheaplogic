@@ -1,0 +1,49 @@
+evaluation of clause
+
+In the below, 0 denotes the empty set.
+
+leval(+(12 >= 3)) = true is hold on N.
+leval(+(s(x) >= x)) = true andy >= x thens(y) >= x or s(y) >= s(x)...
+
+Let Σ is a set of clauses.
+
+Define leval(L, Σ) is true when L is proved from Σ, false when -L is proved from Σ.
+
+Examples
+leval(+P(x); -P(a)) = false :
+leval(+P(a); -P(b)) = +P(a)
+leval(+P(x); -P(y)) = false
+leval(+P(f(x)); -P(f(g(x)))) = false
+leval(+P(x); +P(y)) = true
+leval(+P(a); +P(y)) = true
+leval(+P(f(x)); +P(y)) = true
+leval(+P(f(x)); +P(g(y))) = +P(f(x))
+etc.
+
+Namely,
+leval(+P(s); -P(t)) and [s]∧[t]=0 then leval()=+P(s) itself.
+
+if [s]∧[t]!=0 then leval() has false domain, it means it has contradiction.
+
+leval(+P(s); +P(t)) and [s]<=[t] then leval() = true, otherwise leval() = +P(s)
+
+Let S,T is literal,
+
+leval(+S, -T) = false where [S]∧[T]!=0
+               +S    where o.w.
+
+leval(+S, +T) = true where [S]<=[T]
+               +S   where o.w.
+
+
+Define notation [-], [S] means a set of syntactical forms on Herbrand Universe
+It may be complements [+S] and [-S].??
+
+If S is a clause, and T is a set of axioms(facts),
+
+leval(S, T) = 0  where exist L in S, leval(L, T) = true
+　　　　　　　　[] where all L in S, leval(L, T) = false
+　　　　　　　　R  where all L in R, leval(L, T) != false and != true
+
+
+
