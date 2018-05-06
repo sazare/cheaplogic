@@ -1,5 +1,5 @@
 @ distinguish party or violent more complicate than ml005
-@@ add final decisions with State,State0
+@@ add final decisions with State,State0, if use 'not comparing', the solution from 'comparing' can't be gotten.
 
 # MP is Mechanical Proving
 # ML is Machine Learning
@@ -11,9 +11,11 @@
 # nc
 [IMG, WHAT].[-State0(IMG, WHAT)]
 
-# compairing
+# comparing
 [im,p1,p2].[-State(im,party,p1),-State(im,battle,p2),-ge(p1,p2),+State0(im,party)]
 [im,p1,p2].[-State(im,party,p1),-State(im,battle,p2),-ge(p2,p1),+State0(im,battle)]
+
+# not comparing
  [im,p1,p2].[-State(im,party,p1),+State0(im,party)]
  [im,p1,p2].[-State(im,battle,p2),+State0(im,battle)]
  [im,p1,p2].[-State(im,violent,p2),+State0(im,violent)]
