@@ -136,17 +136,6 @@ function evaluate_literals(lids, lits)
  return rlids,rlits
 end
 
-function evaluate_lits(lits, core)
- rlits=[]
- for lid in lits
-   lit=literalof(lid, core).body
-   val = leval(lit)
-   if val == true; return true end
-   if val == false; continue end
-   push!(rlits,lid)
- end
- rlits
-end
 
 ## resolution
 ovarsof(l1,l2,core)=vcat(varsof(cidof(l1, core), core), varsof(cidof(l2, core), core))
