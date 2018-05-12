@@ -1,5 +1,5 @@
 @ Madoka world
-@@ add when the greefseed made of Majo.
+@@ add when the griefseed made of Majo.
 
 # I don't use ge evaluatable
  <data/common.fun
@@ -11,19 +11,19 @@
 # Who is MG, what SoulGem of them
  [X,SJ,T2].[-MG(X,SG,T2)]
 
-# How maho syojo becomes majo. greef has when it made. 
-# greef works as a tuple not a function in role here. function in thought.
+# How maho syojo becomes majo. grief has when it made. 
+# grief works as a tuple not a function in role here. function in thought.
 # the relation of t1 and WEHN2 is not important here. removed the -ge() below
-[x,soul,t1,WHEN2].[-MG(x,soul,t1),-Greef(x,WHEN2),+MJ(x,greef(x, soul, WHEN2))]
+[x,soul,t1,WHEN2].[-MG(x,soul,t1),-Grief(x,WHEN2),+MJ(x,grief(x, soul, WHEN2))]
 
 # this makes many solution of 2 types.
- [x,soul,t1,WHEN2].[-MG(x,soul,t1),-ge(WHEN2,t1),-Greef(x,WHEN2),+MJ(x,greef(x, soul, WHEN2))]
+ [x,soul,t1,WHEN2].[-MG(x,soul,t1),-ge(WHEN2,t1),-Grief(x,WHEN2),+MJ(x,grief(x, soul, WHEN2))]
 
 # ge make too many proofs with solutions of 2 types.
- [x,soul,t1,WHEN2].[-MG(x,soul,t1),-ge(WHEN2,t1),-Greef(x,WHEN2),+MJ(x,greef(x,WHEN2))]
+ [x,soul,t1,WHEN2].[-MG(x,soul,t1),-ge(WHEN2,t1),-Grief(x,WHEN2),+MJ(x,grief(x,WHEN2))]
 
 # not yet tested
- [x,s,t1,t2].[-MG(x,s,t1),-ge(t2,t1),+MJ(x,greef(x))]
+ [x,s,t1,t2].[-MG(x,s,t1),-ge(t2,t1),+MJ(x,grief(x))]
 
 
 # Timeline
@@ -76,8 +76,8 @@
 
 
 # Kyoko and Sayaka became MJ 
-[].[+Greef(Kyoko,BT2)]
-[].[+Greef(Sayaka,BT1)]
+[].[+Grief(Kyoko,BT2)]
+[].[+Grief(Sayaka,BT1)]
 
 
  Theory
