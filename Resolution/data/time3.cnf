@@ -1,0 +1,87 @@
+@ Madoka world
+@@ add when the greefseed made of Majo.
+
+# I don't use ge evaluatable
+ <data/common.fun
+
+ query 
+# Who is MJ ant when they become. WHEN2 is the time.
+[X,G].[-MJ(X,G)]
+
+# Who is MG, what SoulGem of them
+ [X,SJ,T2].[-MG(X,SG,T2)]
+
+# How maho syojo becomes majo. greef has when it made. 
+# greef works as a tuple not a function in role here. function in thought.
+# the relation of t1 and WEHN2 is not important here. removed the -ge() below
+[x,soul,t1,WHEN2].[-MG(x,soul,t1),-Greef(x,WHEN2),+MJ(x,greef(x, soul, WHEN2))]
+
+# this makes many solution of 2 types.
+ [x,soul,t1,WHEN2].[-MG(x,soul,t1),-ge(WHEN2,t1),-Greef(x,WHEN2),+MJ(x,greef(x, soul, WHEN2))]
+
+# ge make too many proofs with solutions of 2 types.
+ [x,soul,t1,WHEN2].[-MG(x,soul,t1),-ge(WHEN2,t1),-Greef(x,WHEN2),+MJ(x,greef(x,WHEN2))]
+
+# not yet tested
+ [x,s,t1,t2].[-MG(x,s,t1),-ge(t2,t1),+MJ(x,greef(x))]
+
+
+# Timeline
+# When they become MS, in order of time
+# Mami,Kyoko  at AT1
+# Sayaka at AT2
+# Madoka at AT4
+# Homura at ATX
+
+# ATX is out of time line. ATX can't compare with other times.
+
+# Time is order
+[t1,t2,t3].[-ge(t2,t1),-ge(t3,t2),+ge(t3,t1)]
+
+# When someone become MJ
+#
+# Sayaka at BT1
+# Kyoko  at BT2
+
+# order of times
+
+[].[+ge(AT2,AT1)]
+[].[+ge(AT4,AT2)]
+[].[+ge(BT1,AT2)]
+[].[+ge(BT2,BT1)]
+
+
+ Fact
+[t].[-lt(t,AT1),+G(Mami)]
+[t].[-lt(t,AT1),+G(Kyoko)]
+[t].[-lt(t,AT2),+G(Sayaka)]
+[t].[-lt(t,AT4),+G(Madoka)]
+[t].[-lt(t,ATX),+G(Homura)]
+
+[t].[-ge(t,AT1),+MG(Mami,soul(Mami),t)]
+[t].[-ge(t,AT1),+MG(Kyoko,soul(Kyoko),t)]
+[t].[-ge(t,AT2),+MG(Sayaka,soul(Sayaka),t)]
+[t].[-ge(t,AT4),+MG(Madoka,soul(Madoka),t)]
+[t].[-ge(t,ATX),+MG(Madoka,soul(Madoka),t)]
+
+[t].[+C(QB,t)]
+
+ Events
+
+[].[+Meet(Mami,QB,AT1)]
+[].[+Meet(Kyoko,QB,AT1)]
+[].[+Meet(Sayaka,QB,AT2)]
+[].[+Meet(Madoka,QB,AT4)]
+[].[+Meet(Homura,QB,ATX)]
+
+
+# Kyoko and Sayaka became MJ 
+[].[+Greef(Kyoko,BT2)]
+[].[+Greef(Sayaka,BT1)]
+
+
+ Theory
+[x,t1,t2].[-G(x),-Meet(x,QB,t1),-ge(t2,t1),+MG(x,t2)]
+
+
+
