@@ -1,41 +1,59 @@
-@ time is comming2(intended but not written)
-# tt2,ct2=simpleprover("data/time2.cnf",6,1)
-# makes contradictions
+@ Madoka world
+@@ When Mahosyojo becomes Majo
 
-query 
-[x,t2].[-WT(x,t2)]
+# I don't use ge evaluatable
+ <data/common.fun
 
-Fact
-[].[+G(Madoka)]
-[].[+G(Mami)]
-[].[+G(Sayaka)]
-[].[+G(Homura)]
-[].[+G(Kyoko)]
-[].[+MG(Mami)]
-[].[+MG(Sayaka)]
-[].[+MG(Homura)]
-[].[+MG(Kyoko)]
-[].[+C(QB)]
+ query 
+[X,T2].[-MJ(X,T2)]
 
-Event
- !ge(x,y)=x<y
+# How maho syojo becomes majo
+ [x,sj,gs,t1,t2].[-MG(x,t1),-Have(x,sj,t1),-ge(t2,t1),+Have(x,gs,t2),+MJ(x,t2)]
+[x,sj,gs,t1,WHEN2].[-MG(x,t1),-ge(t2,t1),-Greef(x,WHEN2),+MJ(x,WHEN2)]
 
-[].[+Meet(Mami,QB,at1)]
-[].[+Meet(Kyoko,QB,at1)]
-[].[+Meet(Sayaka,QB,at2)]
-[].[+Meet(Madoka,QB,at4)]
-[].[+gt(at1,at2)]
-[].[+gt(at2,at4)]
-[].[+gt(at1,at4)]
+ Fact
+[t].[-lt(t,AT1),+G(Mami)]
+[t].[-lt(t,AT1),+G(Kyoko)]
+[t].[-lt(t,AT2),+G(Sayaka)]
+[t].[-lt(t,AT4),+G(Madoka)]
+ [t].[-lt(t,ATX),+G(Homura)]
 
-# Homura is out of the natual line
-[].[+Meet(Homura,QB,at3)]
-[t].[+gt(at3,t)]
-[t].[+gt(t,at3)]
+[t].[-ge(t,AT1),+MG(Mami,t)]
+[t].[-ge(t,AT1),+MG(Kyoko,t)]
+[t].[-ge(t,AT1),+MG(Sayaka,t)]
+[t].[-ge(t,AT1),+MG(Madoka,t)]
+
+[t].[+C(QB,t)]
+ [t].[+MG(Homura,t)]
+
+[x,sj].[-G(x),+Have(x,sj)]
 
 
-Theory
-[x].[-MG(x),+G(x)]
-[x,t1,t2].[-G(x),-Meet(x,QB,t1),-gt(t2,t1),+MG(x,t2)]
-[x,t1,t2].[-MG(x,t1),-gt(t1,t2),+WT(x,t2)]
+ Events
+
+[].[+Meet(Mami,QB,AT1)]
+[].[+Meet(Kyoko,QB,AT1)]
+[].[+Meet(Sayaka,QB,AT2)]
+[].[+Meet(Madoka,QB,AT4)]
+[].[+ge(AT2,AT1)]
+[].[+ge(AT4,AT2)]
+[t1,t2,t3].[-ge(t2,t1),-ge(t3,t2),+ge(t3,t1)]
+
+[].[+Greef(Kyoko,BT1)]
+[].[+Greef(Sayaka,BT2)]
+[].[+ge(BT1,BT2)]
+
+[].[+ge(BT1,AT1)]
+
+
+# Homura is out of the natual time line
+ [].[+Meet(Homura,QB,ATX)]
+ [t].[+ge(ATX,t)]
+ [t].[+ge(t,ATX)]
+
+
+ Theory
+[x,t1,t2].[-G(x),-Meet(x,QB,t1),-ge(t2,t1),+MG(x,t2)]
+
+
 
