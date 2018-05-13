@@ -51,7 +51,10 @@ rml003,cml003=simpleprover("data/ml003.cnf",5,2)  # evalon
 rml004,cml004=simpleprover("data/ml004.cnf",5,2)  # evalon
 rml005,cml005=simpleprover("data/ml005.cnf",5,2)  # evalon
 rml006,cml006=simpleprover("data/ml006.cnf",6,2)  # evalon #1[] determined img3 battle. but no others. 
-rml007,cml007=simpleprover("data/ml007.cnf",50,2)  # evalon #5[] can't determin img3. 50 steps no effect.
+rml007,cml007=simpleprover("data/ml007.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml007a,cml007a=simpleprover("data/ml007a.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml007b,cml007b=simpleprover("data/ml007b.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml007c,cml007c=simpleprover("data/ml007c.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
 rml008,cml008=simpleprover("data/ml008.cnf",15,2)  # evalon 
 #rpprop001,cpprop001=simpleprover("data/pprop001.cnf",5,2)
 rprob00,cprob00=simpleprover("data/prob00.cnf",5,2) # 2[] 2ways found

@@ -1,8 +1,6 @@
 @ distinguish party or violent more complicate than ml005
 @@ when only #1 make a solution battle. add one of #2, solution contain battle, but both, only battle2
-@@ removed unimportant literals from ml007a.cnf
-
-## rml007,cml007=simpleprover("data/ml007.cnf",50,20)
+@@ cheanged order of axioms from ml007.cnf
  
 
 # MP is Mechanical Proving
@@ -14,7 +12,6 @@
 
 # nc
 [IMG, WHAT].[-State0(IMG, WHAT)]
- [IMG, WHAT, PROB].[-State(IMG, WHAT, PROB)]
 
 
 # ML's output of facts
@@ -28,14 +25,14 @@
 [].[+Eating(img2,0.9)]
 [].[+Weapons(img2,0.3)]
 
-[].[+ManyPeople(img4,0.98)]
-[].[+Eating(img4,0.2)]
-[].[+Weapons(img4,0.8)]
-
 # cant distinguish img3, because both prob is high
 [].[+ManyPeople(img3,0.98)]
 [].[+Eating(img3,0.9)]
 [].[+Weapons(img3,0.95)]
+
+[].[+ManyPeople(img4,0.98)]
+[].[+Eating(img4,0.2)]
+[].[+Weapons(img4,0.8)]
 
 # cant distinguish img5, because both prob is high
 [].[+ManyPeople(img5,0.98)]
@@ -44,21 +41,18 @@
 
 
 # compairing
-[im,p1,p2].[-State(im,battle,p1),-State(im,party,p2),-ge(p1,p2),+State0(im,battle1)]  #1
-[im,p1,p2].[-State(im,battle,p1),-State(im,party,p2),-ge(p2,p1),+State0(im,party1)] #1
+[im,p1,p2].[-State(im,battle,p1),-State(im,party,p2),-ge(p1,p2),+State0(im,party1)]  #1
+[im,p1,p2].[-State(im,battle,p1),-State(im,party,p2),-ge(p2,p1),+State0(im,battle1)] #1
+
 
 # 2 or 2,3 or 2,3,4 make only 2 ... why
-# 2,3 and nstep=10, then battle1, party1 appear
 # without 2 make balanced
 [im,p1].[-State(im,party,p1),+State0(im,party2)]     #2
 [im,p1].[-State(im,battle,p1),+State0(im,battle2)]   #3
 [im,p1].[-State(im,violent,p1),+State0(im,violent2)] #4
 
 # Intension
-[im,p1].[-Eating(im,p1),-ge(p1,0.8),+State(im, party, p1)]
-[im,p1].[-Weapons(im,p1),-ge(p1,0.8),+State(im, battle, p1)]
- [im,p1].[-Weapons(im,p1),-ge(p1,0.89),+State(im, battle, p1)]
- [im,p1].[-Weapons(im,p1),-between(p1,0.7,0.89),+State(im, violent, p1)]
-
-
+[im,p1,p2].[-ManyPeople(im,p1),-Eating(im,p2),-ge(p1,0.8),-ge(p2,0.8),+State(im, party, p2)]
+[im,p1,p2].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-ge(p2,0.89),+State(im, battle, p2)]
+[im,p1,p2].[-ManyPeople(im,p1),-Weapons(im,p2),-ge(p1,0.8),-between(p2,0.7,0.9),+State(im, violent, p2)]
 
