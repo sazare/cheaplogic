@@ -1,8 +1,5 @@
 @ distinguish party or violent more complicate than ml005
 @@ when only #1 make a solution battle. add one of #2, solution contain battle, but both, only battle2
-@@ removed unimportant literals from ml007a.cnf
-
-## rml007,cml007=simpleprover("data/ml007.cnf",50,20)
  
 
 # MP is Mechanical Proving
@@ -20,18 +17,18 @@
 # ML's output of facts
 # img1 is an image processed by ML
 # Facts 
-[].[+ManyPeople(img1,0.9)]
-[].[+Eating(img1,0.85)]
-[].[+Weapons(img1,0.35)]
-
-[].[+ManyPeople(img2,0.99)]
-[].[+Eating(img2,0.9)]
-[].[+Weapons(img2,0.3)]
-
-[].[+ManyPeople(img4,0.98)]
-[].[+Eating(img4,0.2)]
-[].[+Weapons(img4,0.8)]
-
+ [].[+ManyPeople(img1,0.9)]
+ [].[+Eating(img1,0.85)]
+ [].[+Weapons(img1,0.35)]
+ 
+ [].[+ManyPeople(img2,0.99)]
+ [].[+Eating(img2,0.9)]
+ [].[+Weapons(img2,0.3)]
+ 
+ [].[+ManyPeople(img4,0.98)]
+ [].[+Eating(img4,0.2)]
+ [].[+Weapons(img4,0.8)]
+ 
 # cant distinguish img3, because both prob is high
 [].[+ManyPeople(img3,0.98)]
 [].[+Eating(img3,0.9)]
