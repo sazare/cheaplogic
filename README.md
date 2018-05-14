@@ -5,7 +5,7 @@
  The system is very restricted first order.
  Key concepts: axioms x model matrix, mgu vector is a model.
  
-2. Resolution
+2. Prover
  A simple prover based on resolution principle. 
  Intended to get all proofs from given axioms.
  
