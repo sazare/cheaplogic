@@ -128,7 +128,7 @@ function evaluate_literals(lids, lits)
    lid=lids[lix]
    lit=lits[lix]
    val = leval(lit)
-   if val == true; return true end
+   if val == true; return true,true end
    if val == false; continue end
    push!(rlits,lit)
    push!(rlids,lid)
@@ -170,7 +170,7 @@ function dvc_resolution(l1,l2,core)
    nbody1 = apply(ovars, nbody, sigmai)
    if evalon
      rb = evaluate_literals(nrem, nbody1) 
-     if rb == true
+     if rb[1] == true
        println("Valid")
        return :FAIL 
      end
