@@ -68,3 +68,6 @@ rto1,cto1=simpleprover("data/to1.cnf",5,2)
 rto2,cto2=simpleprover("data/to2.cnf",5,2)
 rto3,cto3=simpleprover("data/to3.cnf",5,2)
 rto4,cto4=simpleprover("data/to4.cnf",5,2)
+
+rserial001,cserial001=simpleprover("data/serial001.cnf",5,2)
+

@@ -1,4 +1,5 @@
 README
+
 misc.jl       -- nyi() ... something like this
 
 primitives.jl -- primitive difinitions and functions
@@ -13,9 +14,9 @@ play.jl       -- playgound
 
 #tests
 testall.jl    -- run test below tests
-testreso.jl
-testnewcore.jl
-testdvcreso.jl
+ testreso.jl
+ testnewcore.jl
+ testdvcreso.jl
 
 # obsoletes
 cgop.jl      -- graphic representation ... almost obsolete
@@ -27,6 +28,14 @@ testcgop.jl
 testtact.jl
 testtactu.jl
 
+# data
+*.cnf       -- test sets cnf form
+
+common.fun  -- executable literal definition which included by < in cnf
+rundata.jl  -- run simpleprover() with all *.cnf
+allconds.jl -- get all contradictions after rundata.jl
+fol.syntax  -- fol syntax idea not filan
+*.exp       -- fol format formula ideas
 
 -- cnf format
 first character's meaning
@@ -34,4 +43,13 @@ first character's meaning
 2) !    : a form except ! will be evaluated.
 3) <    : a filename excpet < is readclausefromfile()'ed
 4) o.w. : comment/no special meaning
+
+you can browse by following one liner
+ $ grep -H '^@ ' *.cnf  # first line with @ is an general meaning
+ $ grep -H '^@@' *.cnf   # leftmost @@ means something technical information
+ $ grep -H '^#' *.cnf    # # is used usual comments. this may be tedious
+ $ grep -H '^<' *.cnf    # < means include other cnf
+ $ grep -H '^<data/common.fun' *.cnf   # It may use executable literals.
+
+For these grep effective, when write a cnf, follow the such style.
 

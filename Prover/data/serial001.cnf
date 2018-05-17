@@ -1,0 +1,11 @@
+@ axioms with serial connection
+
+[x,Z].[-Goal(x,Z)]
+
+[x,y].[-First(x,y),+Goal(x,f(y))]
+[x,y].[-Second(x,y),+First(x,g(y))]
+[x,y].[-Third(x,y),+Second(x,h(y))]
+
+[x].[+Third(x,j(x))]
+[x].[+Third(x,k(x))]
+[x].[+Third(x,p)]
