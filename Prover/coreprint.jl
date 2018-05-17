@@ -155,8 +155,9 @@ function printmgu0(ovars, sigma, orig)
         print("$(ovars[i])/$(sigma[i]); ")
       end
     else
-      if origof(ovars[i]) != origtermof(sigma[i])
-        print("$(origof(ovars[i]))/$(origtermof(sigma[i])); ")
+      oterm = deepcopy(sigma[i])
+      if origof(ovars[i]) != oterm
+        print("$(origof(ovars[i]))/$oterm;")
       end
     end
   end
