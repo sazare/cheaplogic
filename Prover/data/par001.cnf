@@ -1,0 +1,15 @@
+@ Family definition
+@@ parallel axioms. should x,x. INTERESTING RESULT.
+
+[x,Z].[-R(x,Z)]
+
+[x,y].[-P(x),-Q(y),+R(x,x)] #1 
+#1 generate proofs of y free
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+P(c)]
+[].[+Q(a)]
+[].[+Q(b)]
+[].[+Q(d)]
+[].[+Q(e)]

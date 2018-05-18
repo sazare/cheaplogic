@@ -1,0 +1,15 @@
+@ F10mily definition
+@@ p10r10llel 10xioms. should x,x 
+<data/common.fun
+
+[x,Z].[-R(x,Z)]
+
+[x,y].[-P(x),-Q(y),-eq(x,y),+R(x,y)]
+
+[].[+P(10)]
+[].[+P(20)]
+[].[+P(30)]
+[].[+Q(10)]
+[].[+Q(20)]
+[].[+Q(40)]
+[].[+Q(50)]
