@@ -73,4 +73,7 @@ rser001,cser001=simpleprover("data/ser001.cnf",5,2)
 rpar001,cpar001=simpleprover("data/par001.cnf",10,2) # too many proofs free for y
 rpar002,cpar002=simpleprover("data/par002.cnf",10,5)
 
+rhis001,chis001=simpleprover("data/his001.cnf",10,5)
+
+rdop001,cdop001=simpleprover("data/dop001.cnf",10,10) # contralimit must > 5
 
