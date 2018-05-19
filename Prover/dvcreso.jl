@@ -269,13 +269,17 @@ function applytemp(lid, core)
  rids = []
  for templ in templs
    reso = dvc_resolution(lid, templ[3], core)  
-   if typeof(reso) == CForm2
+   if isa(reso, CForm2)
+#==
+### in working
      if isrepeatproof(reso.cid,core)
 println(":isrepeatproof $(reso.cid)")
         continue
       end
      push!(rids, reso.cid)
  #    println(reso)
+==#
+     push!(rids, reso.cid)
    else
      continue
    end

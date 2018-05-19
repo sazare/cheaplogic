@@ -1,15 +1,15 @@
 @ time is comming(intended but not written)
 query
- [].[-H(Sayaka)]
+[].[-H(Sayaka)]
  
 
-@ I'm not sure how to write these
+ I'm not sure how to write these
  [x,t1,t2].[-G(x,t1),-Sup(QB,x,z),+WT(x,t2)]
  [x,y].[Sup(QB,x,x)]
  [x].[-Love(x, Kamijo)]
 
 query 
-[x].[+MG(x,t1),-GT(t2,t1),+WT(x,t2)]
+ [x].[+MG(x,t1),-GT(t2,t1),+WT(x,t2)]
 
 
 
@@ -29,6 +29,6 @@ Theory
 [x].[-MG(x),+G(x)]
 [x].[-B(x),+H(x)]
 [x].[-G(x),+H(x)]
-[x,t1,t2].[-MG(x,t1),+WT(x,t2),+GT(t2,t1)]
+ [x,t1,t2].[-MG(x,t1),+WT(x,t2),+GT(t2,t1)]
 
 

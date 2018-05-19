@@ -1,27 +1,43 @@
 @ historical tree of something
-@@ Ancient is defined by Parent
+@@ simpleprover didn't do repeat applicaion of an axiom. It is the cause.
+@@ when no loop check, #10 cause infinite loop...Of cause I don't know infinite.
+
+@@ order is checked in to3.cnf, but not been enough.
+@@ Ancient is defined by Parent, then no proof a->e
+@@ is defined by Ancient, then many proofs a->e but all proofs seems be insufficient
+@@ Both can find a->b->c->d
+@@ but not a->b->c->d->e. 
+@@@ try #1 for too long inference
+@@@ when #4 without #3, no []
+@@@ both #3,#4 make many []s, but contains [] dont continue from a to e.
+@@@@ a->c imply a->e why?
+@@@@ both may make loop.
 
 # following neg conjs are all ok.
-# => b,c,d,e,f
-[Y].[-A(a,Y)] 
-#=> d,f ok
- [Y].[-A(c,Y)]  
-#=> none  ok
- [Y].[-A(e,Y)] 
+ [].[-A(a,b)] 
+ [].[-A(a,c)] 
+ [].[-A(a,d)] 
+ [].[-A(b,e)] 
+# below is cant proved with #4 without #3
+# but ok with #3,4
+ [].[-A(a,e)]  #1
 
-[x,y].[-P(x,y),+A(x,y)]
+# => b,c,d,e,f
+ [Y].[-A(a,Y)] 
+#=> d,f ok
+[Y].[-A(c,Y)]  
+#=> none  ok
+ [Y].[-A(e,Y)] #10
+
+[x,y].[-P(x,y),+A(x,y)] #2
  [x,y,z].[-A(x,y),-A(y,z),+A(x,z)]
 
 # shuld be same
-[x,y,z].[-A(x,y),-P(y,z),+A(x,z)] 
+[x,y,z].[-A(x,y),-P(y,z),+A(x,z)] #3
+ [x,y,z].[-P(x,y),-A(y,z),+A(x,z)] #4
 
 [].[+P(a,b)]
 [].[+P(b,c)]
 [].[+P(c,d)]
-[].[+P(b,e)]
-[].[+P(b,f)]
-
-#additional nodes
-[].[+P(c,f)]
-[].[+P(k,c)]
-
+[].[+P(d,e)]
+[].[+P(e,f)]

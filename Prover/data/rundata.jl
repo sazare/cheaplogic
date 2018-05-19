@@ -61,7 +61,9 @@ rprob00,cprob00=simpleprover("data/prob00.cnf",5,2) # 2[] 2ways found
 rprob01,cprob01=simpleprover("data/prob01.cnf",5,4) # intrinsic 3[]in 7  2ways found
 #rproblogic0,cproblogic0=simpleprover("data/problogic0.cnf",5,2)
 rprop001,cprop001=simpleprover("data/prop001.cnf",5,2)
-rtime,ctime=simpleprover("data/time.cnf",5,2)
+
+rtime,ctime=simpleprover("data/time.cnf",5,2) # unless repeat check, infinitely loop
+
 rtime2,ctime2=simpleprover("data/time2.cnf",50,2)
 rtime3,ctime3=simpleprover("data/time3.cnf",50,2)
 rto1,cto1=simpleprover("data/to1.cnf",5,2)
@@ -74,6 +76,7 @@ rpar001,cpar001=simpleprover("data/par001.cnf",10,2) # too many proofs free for 
 rpar002,cpar002=simpleprover("data/par002.cnf",10,5)
 
 rhis001,chis001=simpleprover("data/his001.cnf",10,5)
+rhis002,chis002=simpleprover("data/his002.cnf",10,5)
 
 rdop001,cdop001=simpleprover("data/dop001.cnf",10,10) # contralimit must > 5
 
