@@ -270,15 +270,6 @@ function applytemp(lid, core)
  for templ in templs
    reso = dvc_resolution(lid, templ[3], core)  
    if isa(reso, CForm2)
-#==
-### in working
-     if isrepeatproof(reso.cid,core)
-println(":isrepeatproof $(reso.cid)")
-        continue
-      end
-     push!(rids, reso.cid)
- #    println(reso)
-==#
      push!(rids, reso.cid)
    else
      continue

@@ -25,19 +25,22 @@
 # => b,c,d,e,f
  [Y].[-A(a,Y)] 
 #=> d,f ok
-[Y].[-A(c,Y)]  
-#=> none  ok
+ [Y].[-A(c,Y)]  
+#=> f
  [Y].[-A(e,Y)] #10
+#=> none
+[Y].[-A(f,Y)] #11
 
 [x,y].[-P(x,y),+A(x,y)] #2
  [x,y,z].[-A(x,y),-A(y,z),+A(x,z)]
 
 # shuld be same
-[x,y,z].[-A(x,y),-P(y,z),+A(x,z)] #3
- [x,y,z].[-P(x,y),-A(y,z),+A(x,z)] #4
+[x,y,z].[-A(x,y),-P(y,z),+A(x,z)] #3 -- no []
+ [x,y,z].[-P(x,y),-A(y,z),+A(x,z)] #4 solutions are ?
 
 [].[+P(a,b)]
 [].[+P(b,c)]
 [].[+P(c,d)]
 [].[+P(d,e)]
 [].[+P(e,f)]
+
