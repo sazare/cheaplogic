@@ -291,6 +291,7 @@ function printgoals(goals, core)
   end   
 end
 
+## Analyzer
 function print_list(set)
  print("[")
  for ei in 1:length(set)
@@ -312,7 +313,7 @@ end
 function print_coreinfo(core)
 println("core info...")
 
-cinfo = analyze_sym(core)
+ci = analyze_sym(core)
 print("vars     = #$(length(ci.vsyms)):"); print_set(ci.vsyms);println()
 print("consts   = #$(length(ci.csyms)):"); print_set(ci.csyms);println()
 print("funcs    = #$(length(ci.fsyms)):"); print_set(ci.fsyms);println()
