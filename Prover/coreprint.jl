@@ -301,14 +301,22 @@ function print_list(set)
  print("]")
 end
 
+function print_set(set)
+ print("[")
+ for e in set
+  print("$e ")
+ end
+ print("]")
+end
+
 function print_coreinfo(core)
 println("core info...")
 
-(v,c,f,p) = analyze_sym(core)
-print("vars     = #$(length(collect(v))):"); print_list(collect(v));println()
-print("consts   = #$(length(collect(c))):"); print_list(collect(c));println()
-print("funcs    = #$(length(collect(f))):"); print_list(collect(f));println()
-print("preds    = #$(length(collect(p))):"); print_list(collect(p));println()  
+cinfo = analyze_sym(core)
+print("vars     = #$(length(ci.vsyms)):"); print_set(ci.vsyms);println()
+print("consts   = #$(length(ci.csyms)):"); print_set(ci.csyms);println()
+print("funcs    = #$(length(ci.fsyms)):"); print_set(ci.fsyms);println()
+print("preds    = #$(length(ci.psyms)):"); print_set(ci.psyms);println()  
 print("clauses  = #$(length(keys(core.cdb))):"); print_list(collect(keys(core.cdb)));println()
 print("literals = #$(length(keys(core.ldb))):"); print_list(collect(keys(core.ldb)));println()
 
