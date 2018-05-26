@@ -3,6 +3,7 @@ using Base.Test
 
 include("loadall.jl")
 
+#==
 cmagi=readcore("data/magia.cnf")
 printcore(cmagi)
 
@@ -211,4 +212,8 @@ tq1,cq1=simpleprover("data/20Q01.cnf",20,2);printproofs1(cq1)
 # friends law
 tf7,cf7=simpleprover("data/friend7.cnf",3,1);printproofs1(cf7)
 tf8,cf8=simpleprover("data/friend8.cnf",3,1);printproofs1(cf8)
+
+==#
+
+cdop001, mdop001=pairmakefromcore("data/dop001.cnf")
 

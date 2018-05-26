@@ -445,34 +445,3 @@ function simpleprover(cnf, steplimit, contralimit)
  return conds,cdx
 end
 
-
-## Pairing
-
-struct LIDPAIR
-  plid
-  nlid
-end
-
-function pairing(plist, nlist)
-  pairs=[]
-  for ps in plist
-  for ns in nlist
-    push!(pairs, LIDPAIR(ps, ns))    
-  end
-  end
-  pairs
-end
-
-function pairmaker(core)
- pairs = []
- for psym in core.allpsym
-  pos = oppositof(:-, psym, core)
-  neg = oppositof(:+, psym, core)
-
-  append!(pairs, pairing(pos, neg)) 
-
- end
- pairs
-end
-
-

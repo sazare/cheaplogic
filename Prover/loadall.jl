@@ -5,5 +5,6 @@ include("reso.jl")
 include("newcore.jl")
 include("coreprint.jl")
 include("dvcreso.jl")
+include("analyzer.jl")
 include("repl.jl")
 

@@ -3,7 +3,7 @@
 
 <data/common.fun
 
-[s,x,p].[-S(s,x,p)]
+[S,X,P].[-S(S,X,P)]
 
 [x,p1,p2].[-A(x,p1),-B(x,p2),-ge(p1,p2),+S(c1,x,p2)]
 [x,p1,p2].[-A(x,p1),-B(x,p2),-gt(p2,p1),+S(c2,x,p2)]

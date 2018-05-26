@@ -280,6 +280,7 @@ function analyze_sym(core)
 
  for lid in keys(ldb)
   atom = ldb[lid].body.args[2] ## remove sign of lit
+  if isdefined(atom.args[1]); continue end
   cid = cidof(lid, core)
   vars = varsof(cid, core)
 
