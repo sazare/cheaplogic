@@ -47,3 +47,42 @@ function pairmakefromcore(path)
  pairs = pairmaker(core)
  core, map(pn->resolvepair(pn,core), pairs)
 end 
+
+function printvm(vs, ts)
+  cflag=false
+  for ix in 1:length(vs)
+    v = vs[ix]
+    t = ts[ix]
+    if v==t; continue end
+    cflag && print(",")
+    cflag=true
+    print("$v/$t")
+  end
+  println()
+end
+
+function printlform2(lfm)
+  print("$(lfm.lid):$(lfm.body)")
+end
+
+function printpair(pair, core)
+ if cidof(pair.plid,core) == cidof(pair.nlid,core) 
+   print("*")
+ else
+   print(" ")
+ end
+ print("<")
+ printlform2(literalof(pair.plid, core))
+ print("; ")
+ printlform2(literalof(pair.nlid, core))
+ println(">")
+end
+
+function printpvms(pvms, core)
+  for pvm in pvms
+    println("---")
+    printpair(pvm[1], core)
+    printvm(pvm[2], pvm[3])
+  end
+end
+
