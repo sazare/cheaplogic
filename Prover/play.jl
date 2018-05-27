@@ -216,5 +216,8 @@ tf8,cf8=simpleprover("data/friend8.cnf",3,1);printproofs1(cf8)
 ==#
 
 cdop001, mdop001=pairmakefromcore("data/dop001.cnf")
+printpvms(mdop001, cdop001)
+
 chis001, mhis001=pairmakefromcore("data/his001.cnf")
+printpvms(mhis001, chis001)
 
