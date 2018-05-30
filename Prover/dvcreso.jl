@@ -161,8 +161,9 @@ function dvc_resolution(l1,l2,core)
    rem2 = setdiff(rem2, [l2])
 
    rem = vcat(rem1, rem2)
-
+@show ovars
    vars = fitting_vars(ovars, rem, core)
+@show vars
 # rename rlid
    rid =  newrid(core)
    nrem = rename_lids(rid, rem, core)

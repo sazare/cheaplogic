@@ -4,5 +4,5 @@ include("testutils.jl")
 include("testnewcore.jl")
 include("testdvcreso.jl")
 include("testparser.jl")
-
+include("testprover.jl")
 
