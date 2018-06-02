@@ -229,4 +229,7 @@ ccdop001, mdop001=pairmakefromcore(cdop001)
 printpvms(mdop001, cdop001)
 printatrace1(:R9, varsof(:C1, cdop001), cdop001)
 inf = traceof(cdop001)
+inf[1]
+inf[2]
+
 

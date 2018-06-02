@@ -23,7 +23,7 @@
  [].[-A(a,e)]  #1
 
 # => b,c,d,e,f  
-[Y].[-A(a,Y)] #?? 
+ [Y].[-A(a,Y)] #?? 
 
 #=> d,f ok
  [Y].[-A(c,Y)] #?? d,e
@@ -33,7 +33,7 @@
  [Y].[-A(f,Y)] #11
 
 # most general
- [X,Y].[-A(X,Y)] #12
+[X,Z].[-A(X,Z)] #12
 
 ## Axioms
 
@@ -41,7 +41,8 @@
  [x,y,z].[-A(x,y),-A(y,z),+A(x,z)]
 
 # shuld be same
-[x,y,z].[-A(x,y),-P(y,z),+A(x,z)] #3 -- no []
+[x,Y,z].[-A(x,Y),-P(Y,z),+A(x,z)] #3 -- no []
+ [x,y,z].[-A(x,y),-P(y,z),+A(x,z)] #3 -- no []
  [x,y,z].[-P(x,y),-A(y,z),+A(x,z)] #4 solutions are ?
 
 [].[+P(a,b)]

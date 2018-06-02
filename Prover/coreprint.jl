@@ -1,5 +1,32 @@
 #print
 
+#
+
+function printterm(tm)
+ if isa(tm, Symbol)
+   print(tm)
+ else # term
+   print(tm.args[1])
+   print_listterm(tm.args[2:end])
+ end
+end
+
+function print_termlist(tl)
+ if length(tl)==0; print("()")
+ elseif length(tl)==1; print("(");printterm(tl[1]); print(")")
+ else
+  print("(")
+  printterm(tl[1])
+  for tm in tl[2:end]
+   print(",")
+   printterm(tm)
+  end
+  print(")")
+ end
+end
+
+#
+
 function printliteral(lit)
  print(lit)
 end
@@ -368,7 +395,8 @@ function printatrace1(rid, vars, core)
     print("   unify:")
     print_list(ovarsof(step.leftp, step.rightp, core))
     print("←")
-    print_list(step.sigma)
+    print_listterm(step.sigma)
+    #print_list(step.sigma)
     println()
     vars = apply(ovarsof(step.leftp, step.rightp, core), vars, step.sigma)
     println(vars)
@@ -384,15 +412,17 @@ function printatrace1(rid, vars, core)
   else
     println()
     printclause(rid, core)
+    println()
   end
+  print("    VARS: ");print_termlist(vars)
   return vars
 end
 
 function traceofaproof(rid, vars, core)
   if rid in keys(core.proof)
     step = core.proof[rid]
-    vars = traceof(cidof(step.leftp,core), vars, core)
-    vars = traceof(cidof(step.rightp,core), vars, core)
+    vars = traceofaproof(cidof(step.leftp,core), vars, core)
+    vars = traceofaproof(cidof(step.rightp,core), vars, core)
     # print("<$(step.leftp):")
     # println("$(step.rightp)>")
     vars = apply(ovarsof(step.leftp, step.rightp, core), vars, step.sigma)
@@ -401,15 +431,28 @@ function traceofaproof(rid, vars, core)
   return vars
 end
 
+function getBigvars(ci)
+ bvars = []
+ for x in ci.vsyms
+  isupper(string(x)[1]) && push!(bvars, x)
+ end 
+ bvars
+end
+
+function getVARS(core)
+ ci = analyze_sym(core)
+ getBigvars(ci)
+end
+
 function traceof(core)
-  vars = varsof(:C1, core)
+  #vars = varsof(:C1, core)
+  vars = getVARS(core)
   infos = []
   for rid in contradictionsof(core)
     inf = traceofaproof(rid, vars, core)
 #    println("$vars = $inf")
-    push!(infos, inf)
+    push!(infos, [rid, inf])
   end
   [vars, infos]
 end
-
 
