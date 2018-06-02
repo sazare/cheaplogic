@@ -7,7 +7,7 @@ function printterm(tm)
    print(tm)
  else # term
    print(tm.args[1])
-   print_listterm(tm.args[2:end])
+   print_termlist(tm.args[2:end])
  end
 end
 
@@ -395,7 +395,7 @@ function printatrace1(rid, vars, core)
     print("   unify:")
     print_list(ovarsof(step.leftp, step.rightp, core))
     print("←")
-    print_listterm(step.sigma)
+    print_termlist(step.sigma)
     #print_list(step.sigma)
     println()
     vars = apply(ovarsof(step.leftp, step.rightp, core), vars, step.sigma)
