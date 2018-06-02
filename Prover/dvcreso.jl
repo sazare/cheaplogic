@@ -23,7 +23,7 @@ function newvar(xid, var)
 end
 
 function newvarlist(xid, varlist)
- map(var->newvar(xid, var), varlist)
+ nvars = map(var->newvar(xid, var), varlist)
 end
 
 # Resolvent
@@ -72,7 +72,7 @@ end
 ## for renamed vars explosion
 #fitting vars in literal
 function fitting_vars_term(vars, term)
-  if issym(term) #typeof(term) == Symbol
+  if issym(term) 
     if isvar(term, vars)
       return [term]
     else
@@ -161,9 +161,8 @@ function dvc_resolution(l1,l2,core)
    rem2 = setdiff(rem2, [l2])
 
    rem = vcat(rem1, rem2)
-@show ovars
    vars = fitting_vars(ovars, rem, core)
-@show vars
+
 # rename rlid
    rid =  newrid(core)
    nrem = rename_lids(rid, rem, core)
@@ -178,6 +177,8 @@ function dvc_resolution(l1,l2,core)
      nrem, nbody1 = rb
    end
    body = rename_clause(rid, vars, nbody1)
+
+ rename_subst = [vars, body.vars]
 
  ## settlement
 
@@ -197,8 +198,9 @@ function dvc_resolution(l1,l2,core)
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
-  core.proof[rid] = STEP(rid, l1, l2, sigmai)
+  core.proof[rid] = STEP(rid, l1, l2, sigmai, rename_subst)
   return CForm2(rid, body.vars, body.body)
+
   catch e 
     println("FAIL = $e")
     return :FAIL

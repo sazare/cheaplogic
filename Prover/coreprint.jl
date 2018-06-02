@@ -88,6 +88,10 @@ end
 function printstep(step)
   print("$(step.rid):<$(step.leftp):$(step.rightp)>=")
   printvars(step.sigma)
+  print(":")
+  printvars(step.rename[1])
+  print("<-")
+  printvars(step.rename[2])
 end
 
 function printproof(proof)
@@ -312,15 +316,100 @@ function print_set(set)
 end
 
 function print_coreinfo(core)
-println("core info...")
-
-ci = analyze_sym(core)
-print("vars     = #$(length(ci.vsyms)):"); print_set(ci.vsyms);println()
-print("consts   = #$(length(ci.csyms)):"); print_set(ci.csyms);println()
-print("funcs    = #$(length(ci.fsyms)):"); print_set(ci.fsyms);println()
-print("preds    = #$(length(ci.psyms)):"); print_set(ci.psyms);println()  
-print("clauses  = #$(length(keys(core.cdb))):"); print_list(collect(keys(core.cdb)));println()
-print("literals = #$(length(keys(core.ldb))):"); print_list(collect(keys(core.ldb)));println()
-
+ println("core info...")
+ 
+ ci = analyze_sym(core)
+ print("vars     = #$(length(ci.vsyms)):"); print_set(ci.vsyms);println()
+ print("consts   = #$(length(ci.csyms)):"); print_set(ci.csyms);println()
+ print("funcs    = #$(length(ci.fsyms)):"); print_set(ci.fsyms);println()
+ print("preds    = #$(length(ci.psyms)):"); print_set(ci.psyms);println()  
+ print("clauses  = #$(length(keys(core.cdb))):"); print_list(collect(keys(core.cdb)));println()
+ print("literals = #$(length(keys(core.ldb))):"); print_list(collect(keys(core.ldb)));println()
+ 
 end
+
+#### DYNAMIC Analysis
+
+function printtracestep(vars, step)
+  print("$(step.rid):<$(step.leftp):$(step.rightp)>=")
+  printvars(step.sigma)
+  print(" : ")
+  printvars(step.rename[1])
+
+  print("<-")
+  printvars(step.rename[2])
+end
+
+function printprooftrace(rid, vars, proof)
+
+ for rid in sort(collect(keys(proof)))
+   step = proof[rid]
+   printtracestep(vars, step)
+   println()
+ end
+end
+
+
+function printtrace(rid, vars, core)
+ println("trace...$id with $vars")
+ step = proof[rid]
+ printprooftrace(vars, core.proof)
+end
+
+function printatrace1(rid, vars, core)
+  if rid in keys(core.proof)
+    step = core.proof[rid]
+    vars = printatrace1(cidof(step.leftp,core), vars, core)
+    vars = printatrace1(cidof(step.rightp,core), vars, core)
+    println()
+    print("  ")
+    print("<$(step.leftp):")
+    println("$(step.rightp)>")
+    print("   unify:")
+    print_list(ovarsof(step.leftp, step.rightp, core))
+    print("←")
+    print_list(step.sigma)
+    println()
+    vars = apply(ovarsof(step.leftp, step.rightp, core), vars, step.sigma)
+    println(vars)
+    print("   rename:")
+    print_list(step.rename[1])
+    print("⇦")
+    print_list(step.rename[2])
+    println()
+    vars = apply(step.rename[1], vars, step.rename[2])
+    println(vars)
+    printclause(rid, core)
+    println()
+  else
+    println()
+    printclause(rid, core)
+  end
+  return vars
+end
+
+function traceofaproof(rid, vars, core)
+  if rid in keys(core.proof)
+    step = core.proof[rid]
+    vars = traceof(cidof(step.leftp,core), vars, core)
+    vars = traceof(cidof(step.rightp,core), vars, core)
+    # print("<$(step.leftp):")
+    # println("$(step.rightp)>")
+    vars = apply(ovarsof(step.leftp, step.rightp, core), vars, step.sigma)
+    vars = apply(step.rename[1], vars, step.rename[2])
+  end
+  return vars
+end
+
+function traceof(core)
+  vars = varsof(:C1, core)
+  infos = []
+  for rid in contradictionsof(core)
+    inf = traceofaproof(rid, vars, core)
+#    println("$vars = $inf")
+    push!(infos, inf)
+  end
+  [vars, infos]
+end
+
 

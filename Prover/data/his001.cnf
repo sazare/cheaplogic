@@ -22,14 +22,20 @@
 # but ok with #3,4
  [].[-A(a,e)]  #1
 
-# => b,c,d,e,f
- [Y].[-A(a,Y)] 
+# => b,c,d,e,f  
+[Y].[-A(a,Y)] #?? 
+
 #=> d,f ok
- [Y].[-A(c,Y)]  
+ [Y].[-A(c,Y)] #?? d,e
 #=> f
  [Y].[-A(e,Y)] #10
 #=> none
-[Y].[-A(f,Y)] #11
+ [Y].[-A(f,Y)] #11
+
+# most general
+ [X,Y].[-A(X,Y)] #12
+
+## Axioms
 
 [x,y].[-P(x,y),+A(x,y)] #2
  [x,y,z].[-A(x,y),-A(y,z),+A(x,z)]

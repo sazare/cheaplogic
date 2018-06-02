@@ -16,7 +16,7 @@ include("loadall.jl")
  r002,c002=simpleprover(IOBuffer(
 "[X].[-P(X)]
 [x].[+P(x),-Q(x)]
-[x].[+Q(a)]",
+[].[+Q(a)]",
 ), 5,1)
 
  @test length(contradictionsof(c002))==1

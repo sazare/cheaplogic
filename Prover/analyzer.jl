@@ -1,5 +1,6 @@
 # analyzer analyze proof space in core
 
+##### STATIC Analysis
 ## Pairing
 
 struct LIDPAIR
@@ -42,8 +43,13 @@ function resolvepair(pn, core)
 
 end
 
-function pairmakefromcore(path)
+function pairmakefromcore(path::String)
  core = readcore(path)
+ pairs = pairmaker(core)
+ core, map(pn->resolvepair(pn,core), pairs)
+end 
+
+function pairmakefromcore(core::CORE)
  pairs = pairmaker(core)
  core, map(pn->resolvepair(pn,core), pairs)
 end 
@@ -85,4 +91,5 @@ function printpvms(pvms, core)
     printvm(pvm[2], pvm[3])
   end
 end
+
 

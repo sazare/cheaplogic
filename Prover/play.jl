@@ -215,9 +215,18 @@ tf8,cf8=simpleprover("data/friend8.cnf",3,1);printproofs1(cf8)
 
 ==#
 
+## Before prooving
 cdop001, mdop001=pairmakefromcore("data/dop001.cnf")
 printpvms(mdop001, cdop001)
 
 chis001, mhis001=pairmakefromcore("data/his001.cnf")
 printpvms(mhis001, chis001)
+
+## After proving
+rdop001,cdop001=simpleprover("data/dop001.cnf",20,5)
+ccdop001, mdop001=pairmakefromcore(cdop001)
+# ccdop001 == cdop001
+printpvms(mdop001, cdop001)
+printatrace1(:R9, varsof(:C1, cdop001), cdop001)
+inf = traceof(cdop001)
 

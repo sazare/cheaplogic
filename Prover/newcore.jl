@@ -33,6 +33,7 @@ struct STEP
  leftp
  rightp
  sigma
+ rename
 end
 
 struct CORE
