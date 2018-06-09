@@ -406,13 +406,13 @@ function printatrace1(rid, vars, core)
     vars = apply(step.rename[1], vars, step.rename[2])
     print("    VARS: "); print_termlist(vars);println()
     printclause(rid, core)
-    println()
+    println();println("----")
   else
     println()
     printclause(rid, core)
-    println()
   end
-  print("    VARS: ");print_termlist(vars);println()
+  println()
+  print("    VARS: ");print_termlist(vars)
   return vars
 end
 
