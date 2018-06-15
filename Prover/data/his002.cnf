@@ -1,0 +1,29 @@
+@ historical tree of something
+@@ Ancient is defined by Ancient or Parent. It is failed. 
+@@ Because a->b and c->e assure
+
+# following neg conjs are all ok.
+# => b,c,d,e,f
+ [Y].[-A(a,e)] 
+ [Y].[-A(a,Y)] 
+#=> d,f ok
+[Y].[-A(c,Y)]  
+#=> none  ok
+ [Y].[-A(e,Y)] 
+
+[x,y].[-P(x,y),+A(x,y)]
+ [x,y,z].[-A(x,y),-A(y,z),+A(x,z)]
+
+# shuld be same
+[x,y,z].[-A(x,y),-P(y,z),+A(x,z)] 
+
+[].[+P(a,b)]
+[].[+P(b,c)]
+[].[+P(c,d)]
+[].[+P(b,e)]
+[].[+P(b,f)]
+
+#additional nodes
+[].[+P(c,f)]
+[].[+P(k,c)]
+

@@ -201,7 +201,7 @@ function printmgu(rid, core, orig)
     printmgu(cidof(step.rightp,core), core, orig)
 
     println()
-    print("  ")
+    print("$rid:")
     print("<$(step.leftp):")
     print("$(step.rightp)>=")
     printmgu0(ovarsof(step.leftp, step.rightp, core), step.sigma, orig)
@@ -221,11 +221,11 @@ function printproc(proc)
  end
 end
 
-function printcore(core)
+function printcore(core, showinfo=false)
 println("name = $(core.name)")
 println("max cid = $(core.maxcid)")
 println("max rid = $(core.maxrid)")
-print_coreinfo(core)
+showinfo && print_coreinfo(core)
 #println("Psyms = $(core.allpsym)")
 println("Proc")
 printproc(core.proc)
@@ -378,8 +378,8 @@ end
 
 
 function printtrace(rid, vars, core)
- println("trace...$id with $vars")
- step = proof[rid]
+ println("trace...$rid with $vars")
+ step = core.proof[rid]
  printprooftrace(vars, core.proof)
 end
 
