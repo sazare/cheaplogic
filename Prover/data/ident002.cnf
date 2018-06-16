@@ -1,0 +1,29 @@
+@ between looks like and identical with time
+@@ Dedeuction on Meta predicates(ML, Info)
+@@ ML(x,y,p) <=> y(x,p) and Info(x,y,z,t) <=> yzt(x) in image.
+
+[X,Y].[-Ident(X,Y)]
+
+<data/common.fun
+
+# assume ML learned and be able to distinguish Tama and Mike.
+# and ML can distinguish some difference of these cats pictures
+
+# 1 in pic a, the cat and the kitten run
+[].[+ML(a,tama1,0.9)]
+[].[+ML(a,mike1,0.8)] 
+
+# 2. in pic b,c, the cat sleeps
+[].[+ML(b,tama2,0.9)]
+[].[+ML(c,mike2,0.9)]
+[].[+ML(d,tama3,0.9)]
+
+# 3. additional info
+[].[+Info(a,here,0.1)]
+[].[+Info(b,here,0.2)]
+[].[+Info(d,here,0.7)]
+[].[+Info(c,here,-1.0)]
+
+# What in two picutures whose when and where are same, it may identical object's picutre.
+[x,y,z1,z2,t1,t2,p1,p2].[-Info(x,here,t1),-Info(y,here,t2),-ML(x,z1,p1),-ML(y,z2,p2),-le(abs(-(t2,t1)),0.5),-ge(p1,0.9),-ge(p2,0.9),+Ident(z1,z2)]
+
