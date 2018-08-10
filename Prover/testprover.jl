@@ -1,7 +1,5 @@
 #test for simpleprover(now in dvcreso.jl)
-
-using Base.Test
-
+using Test
 include("loadall.jl")
 
 @testset "basic prover" begin

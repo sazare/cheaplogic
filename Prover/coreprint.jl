@@ -5,6 +5,8 @@
 function printterm(tm)
  if isa(tm, Symbol)
    print(tm)
+ elseif isa(tm, Number)
+   print(tm)
  else # term
    print(tm.args[1])
    print_termlist(tm.args[2:end])
@@ -432,7 +434,7 @@ end
 function getBigvars(ci)
  bvars = []
  for x in ci.vsyms
-  isupper(string(x)[1]) && push!(bvars, x)
+  isuppercase(string(x)[1]) && push!(bvars, x)
  end 
  bvars
 end

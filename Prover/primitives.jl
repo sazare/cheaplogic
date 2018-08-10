@@ -25,7 +25,7 @@ isvar(sym::Symbol, vars::Vlist)=sym in vars
 isvar(term, vars::Vlist)=false
 
 function isevar(sym::Symbol, vars::Vlist)
- isvar(sym, vars) && isupper(string(sym)[1])
+ isvar(sym, vars) && isuppercase(string(sym)[1])
 end
 isevar(sym, vars::Vlist)=false
 

@@ -1,6 +1,6 @@
 include("merge.jl")
 
-using Base.Test
+using Test
 
 @testset "merge 2 subst" begin
 # @test_throws Comparative merge([],:x,:a) 

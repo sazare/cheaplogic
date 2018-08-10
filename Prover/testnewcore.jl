@@ -1,15 +1,14 @@
 # test new core
-
-using Base.Test
+using Test
 
 include("newcore.jl")
 include("utils.jl")
 
 @testset "stringtoclause" begin
- sc = stringtoclause(:C10, parse("[x].[-P(x),+Q(x,f(x))]")) 
+ sc = stringtoclause(:C10, Meta.parse("[x].[-P(x),+Q(x,f(x))]")) 
  @test sc.cid  == :C10
  @test sc.vars ==  [:x_C10]
- @test sc.body ==  [parse("-P(x_C10)"), parse("+Q(x_C10,f(x_C10))")]
+ @test sc.body ==  [Meta.parse("-P(x_C10)"), Meta.parse("+Q(x_C10,f(x_C10))")]
 
 end
 
@@ -22,10 +21,10 @@ end
  @test origof(:xy_C12_JJ) == :xy
  @test origof(:xy) == :xy
 
- @test origtermof(parse("xy_C12")) == :xy
- @test origtermof(parse("xy")) == :xy
- @test origtermof(parse("f(xy_C12,x)")) == parse("f(xy, x)")
- @test origtermof(parse("f(g(xy_C12,y),h(u_C12R22),g(x))")) == parse("f(g(xy,y),h(u),g(x))")
+ @test origtermof(Meta.parse("xy_C12")) == :xy
+ @test origtermof(Meta.parse("xy")) == :xy
+ @test origtermof(Meta.parse("f(xy_C12,x)")) == Meta.parse("f(xy, x)")
+ @test origtermof(Meta.parse("f(g(xy_C12,y),h(u_C12R22),g(x))")) == Meta.parse("f(g(xy,y),h(u),g(x))")
 
  @test numof(:C123) == 123
  @test numof(:L22) == 22
@@ -49,19 +48,19 @@ end
 end
 
 @testset "analyze core" begin
- @test analyze_term([], parse("a")) == ([], [:a], [])
- @test analyze_term([:a], parse("a")) == ([:a], [], [])
- @test analyze_term([], parse("a()")) == ([], [], [:a])
- @test analyze_term([], parse("a(b)")) == ([], [:b], [:a])
- @test analyze_term([], parse("a(b,c)")) == ([], [:b,:c], [:a])
- @test analyze_term([:c], parse("a(b,c)")) == ([:c], [:b], [:a])
- @test analyze_term([], parse("a(b())")) == ([], [], [:a,:b])
- @test analyze_term([], parse("a(b(c))")) == ([], [:c], [:a,:b])
- @test analyze_term([:d,:g], parse("a(b(c),d,e(f,g))")) == ([:d,:g], [:c,:f], [:a,:b,:e])
+ @test analyze_term([], Meta.parse("a")) == ([], [:a], [])
+ @test analyze_term([:a], Meta.parse("a")) == ([:a], [], [])
+ @test analyze_term([], Meta.parse("a()")) == ([], [], [:a])
+ @test analyze_term([], Meta.parse("a(b)")) == ([], [:b], [:a])
+ @test analyze_term([], Meta.parse("a(b,c)")) == ([], [:b,:c], [:a])
+ @test analyze_term([:c], Meta.parse("a(b,c)")) == ([:c], [:b], [:a])
+ @test analyze_term([], Meta.parse("a(b())")) == ([], [], [:a,:b])
+ @test analyze_term([], Meta.parse("a(b(c))")) == ([], [:c], [:a,:b])
+ @test analyze_term([:d,:g], Meta.parse("a(b(c),d,e(f,g))")) == ([:d,:g], [:c,:f], [:a,:b,:e])
 
- @test analyze_term([:x,:y,:z], parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:P,:f])
+ @test analyze_term([:x,:y,:z], Meta.parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:P,:f])
 
- @test analyze_lit([:x,:y,:z], parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:f],:P)
+ @test analyze_lit([:x,:y,:z], Meta.parse("+P(x,c,f(x,c))").args[2]) == ([:x,:x], [:c,:c], [:f],:P)
 
  cnf = "[x].[+P(x,f(x))]
 [x].[-P(x,f(h(x)))]

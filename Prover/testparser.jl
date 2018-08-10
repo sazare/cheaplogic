@@ -1,5 +1,5 @@
 # testparser.jl
-using Base.Test
+using Test
 include("parser.jl")
 
 #==

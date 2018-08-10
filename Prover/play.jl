@@ -1,5 +1,4 @@
 ## real data
-using Base.Test
 
 include("loadall.jl")
 
@@ -227,9 +226,9 @@ rdop001,cdop001=simpleprover("data/dop001.cnf",20,5)
 ccdop001, mdop001=pairmakefromcore(cdop001)
 # ccdop001 == cdop001
 printpvms(mdop001, cdop001)
-printatrace1(:R9, varsof(:C1, cdop001), cdop001)
-inf = traceof(cdop001)
-inf[1]
-inf[2]
+#printatrace1(:R9, varsof(:C1, cdop001), cdop001)
+#inf = traceof(cdop001)
+#inf[1]
+#inf[2]
 
 

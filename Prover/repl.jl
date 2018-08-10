@@ -20,7 +20,7 @@ function lsfn(args, cores)
 end
 
 function corefn(args, cores)
-  eqix=search(args,'=')
+  eqix=findfirst(isequal('='), args)
   name=strip(args[1:(eqix-1)])
   cnf=strip(args[(eqix+1):end])
   print("cnf=$cnf => $name")
@@ -53,7 +53,7 @@ function repl()
   elseif line == "?"; help()
   elseif line == "help"; help()
   else
-   cix = search(line, ' ')
+   cix = findfirst(isequal(' '), line)
    if cix == 0
      cmd = strip(line)
      args = ""
@@ -96,7 +96,7 @@ function repl0()
     run(`ls $dir`)
    end
   elseif line[1:4] == "core"
-   eqix=search(line,'=')
+   eqix=findfirst(isequal('='), line)
    cnf=strip(line[(eqix+1):end])
    name=strip(line[5:(eqix-1)])
    print("cnf=$cnf => $name")

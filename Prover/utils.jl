@@ -32,7 +32,7 @@ function readclausefromfile(fname)
  for line in lines
   if length(line)>0
     if line[1]=='['
-      push!(clss,parse(line))
+      push!(clss,Meta.parse(line))
     elseif line[1] == '!'
       push!(proc,line[2:end])
     elseif line[1] == '<'
@@ -77,5 +77,5 @@ end
 
 
 #### 
-iscap(x) = isupper(x[1])
+iscap(x) = isuppercase(x[1])
 

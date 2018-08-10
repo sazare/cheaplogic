@@ -34,7 +34,7 @@ isnot(x)    = x=="¬"
 
 function breaksym(str)
  ix = 1
- while ix <= endof(str)
+ while ix <= lastindex(str)
   println(str[ix])
   ix = nextind(str, ix)
  end
@@ -42,7 +42,7 @@ end
 
 function findsym(str, six)
   ix = six
-  while ix<=endof(str)    &&
+  while ix<=lastindex(str)    &&
     	!isspace(str[ix]) &&
 	!isdelim(str[ix]) &&
 	!ispunc(str[ix])  &&
@@ -58,7 +58,7 @@ function tokenizer(str)
  ix = 1 
  toklist = []
  nx = 0
- while ix <= endof(str)
+ while ix <= lastindex(str)
    c = str[ix]
    if isspace(c);
    elseif ispunc(c);
@@ -83,7 +83,7 @@ function parser(str)
 
  toklist = []
  while ix < length(str)
-   nx = search(str, SEPRS, ix)
+   nx = findnext(SEPRS, str, ix)
    if nx == 0
      tok=strip(str[ix:end])
      println("$(tok)")

@@ -10,10 +10,10 @@ const SEPSYM='_'
 issym(x) = isa(x, Symbol) || isa(x, Number)
 iscid(x) = issym(x) && string(x)[1] == 'C'
 isrid(x) = issym(x) && string(x)[1] == 'R'
-hasid(x) = search(string(x), SEPSYM) != 0
+hasid(x) = occursin(SEPSYM, string(x))
 
 function newvar(xid, var) 
- if isupper(string(var)[1])
+ if isuppercase(string(var)[1])
    return var
  elseif hasid(var)
    return Symbol(var, xid)

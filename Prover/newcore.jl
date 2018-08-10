@@ -3,7 +3,7 @@
 include("dvcreso.jl") # for eename_clause() means a cycle dependency happend
 
 # clause format
-# parse("[x,y].[+P(x,f(x),-Q(x,y)]")
+# Meta.parse("[x,y].[+P(x,f(x),-Q(x,y)]")
 # as readclausesfromfile()
 
 struct CForm2
@@ -164,10 +164,11 @@ function newrid(core)
 end
 
 function origof(xid)
- pix = search(string(xid), SEPSYM)
-
- pix == 0 && return xid
- return Symbol(string(xid)[1:(search(string(xid),'_')-1)])
+ pix = findfirst(isequal(SEPSYM), string(xid))
+ pix == nothing && return xid
+ ix = findfirst(isequal('_'), string(xid))
+ ix == nothing && return xid
+ return Symbol(string(xid)[1:(ix -1 )])
 end
 
 function origtermof(term)
@@ -180,7 +181,7 @@ function origtermof(term)
  term
 end
 
-numof(xid) = parse(string(xid)[2:end])
+numof(xid) = Meta.parse(string(xid)[2:end])
 
 function varsof(cid, core)
  core.cdb[cid].vars
@@ -218,7 +219,7 @@ end
 
 function evalproc(proc)
   for p in proc
-    eval(parse(p))
+    eval(Meta.parse(p))
   end
 end
 
@@ -281,7 +282,7 @@ function analyze_sym(core)
 
  for lid in keys(ldb)
   atom = ldb[lid].body.args[2] ## remove sign of lit
-  if isdefined(atom.args[1]); continue end
+  if @isdefined(atom.args[1]); continue end
   cid = cidof(lid, core)
   vars = varsof(cid, core)
 
