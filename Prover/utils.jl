@@ -4,6 +4,7 @@ include("misc.jl")
 # for equalclause, they should be sorted.
 
 function renamevarinlit(vars, lit)
+# dont complete
  for v in vars
   lit = replace(lit, string(v), "*")
  end

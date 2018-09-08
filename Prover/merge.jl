@@ -1,4 +1,6 @@
 ## merge substitutions
+include("reso.jl")
+
 
 # this will be used in proving with graph
 # not yet implemented

@@ -35,6 +35,18 @@ youcan readline(from console) and Meta.parse it to get the Expr
 
 end
 
+@testset "apply subst" begin
+ @test apply([],:(P(x)),[]) == :(P(x))
+ @test apply([:x],:x,[:a]) == :a
+ @test apply([:x],:(x),[:a]) == :(a)
+ @test apply([:x],:(P(x)),[:a]) == :(P(a))
+ @test apply([:x,:y],:(P(x,f(y))),[:a,:b]) == :(P(a,f(b)))
+
+ @test_skip apply([:x,:y],:(P(x,y)),[:a,:x]) == :(P(a,a))
+ @test_skip apply([:x,:y],:(P(x,y)),[:y,:a]) == :(P(a,a))
+
+end
+
 @testset "inside check" begin
  @test inside(:x,:(g(y)))==false
 ## not happen case: @test inside(:x,:x)==false

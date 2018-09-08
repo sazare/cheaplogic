@@ -9,18 +9,6 @@ using Test
  @test merge([:x],:x,:a) == :a
 end
 
-@testset "apply subst" begin
- @test apply([],:(P(x)),[]) == :(P(x))
- @test apply([:x],:x,[:a]) == :a
- @test apply([:x],:(x),[:a]) == :(a)
- @test apply([:x],:(P(x)),[:a]) == :(P(a))
- @test apply([:x,:y],:(P(x,f(y))),[:a,:b]) == :(P(a,f(b)))
-
- @test_skip apply([:x,:y],:(P(x,y)),[:a,:x]) == :(P(a,a))
- @test_skip apply([:x,:y],:(P(x,y)),[:y,:a]) == :(P(a,a))
-
-end
-
 @testset "merge arged" begin
  @test merge([:x,:y],[:x,:y],[:x,:y]) == [:x,:y]
  @test merge([:x,:y],[:x,:y],[:a,:b]) == [:a,:b]
