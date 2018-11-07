@@ -42,8 +42,9 @@ end
  @test apply([:x],:(P(x)),[:a]) == :(P(a))
  @test apply([:x,:y],:(P(x,f(y))),[:a,:b]) == :(P(a,f(b)))
 
- @test_skip apply([:x,:y],:(P(x,y)),[:a,:x]) == :(P(a,a))
- @test_skip apply([:x,:y],:(P(x,y)),[:y,:a]) == :(P(a,a))
+# [:x,:y] <- [:a,:x] is incorrect. 
+ @test apply([:x,:y],:(P(x,y)),[:a,:x]) == :(P(a,x))
+ @test apply([:x,:y],:(P(x,y)),[:a,:x]) != :(P(a,a))
 
 end
 
