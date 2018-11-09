@@ -255,6 +255,10 @@ println()
 println("PROOFS")
  printproof(core.proof)
  println("\n-- end of core --")
+println()
+println("MEASURE")
+ println("#trial   = $(core.trycnt[1])")
+ println("#success = $(core.succnt[1])")
 end
 
 #### resolvent

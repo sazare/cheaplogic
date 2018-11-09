@@ -48,6 +48,8 @@ struct CORE
  level0
  proof
  proc
+ trycnt
+ succnt
 end
 
 function stringtoclause(cid, cls)
@@ -118,7 +120,7 @@ function createcore(name, clss, proc)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= Dict()
- CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict(), proc)
+ CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict(), proc, [0], [0])
 end
 
 # proof operation

@@ -154,6 +154,7 @@ function dvc_resolution(l1,l2,core)
  if length(lit1.args[2].args) != length(lit2.args[2].args); return :FAIL end
 
  try 
+	 core.trycnt[1] += 1
    sigmai = unify(ovars, lit1.args[2], lit2.args[2])
    rem1 = lidsof(cidof(l1, core),core)
    rem1 = setdiff(rem1, [l1])
@@ -181,6 +182,8 @@ function dvc_resolution(l1,l2,core)
  rename_subst = [vars, body.vars]
 
  ## settlement
+
+ core.succnt[1] += 1
 
 # cdb[rid] to vars
   core.cdb[rid] = VForm2(rid, body.vars)

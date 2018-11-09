@@ -6,3 +6,5 @@ end
 global evalon = true
 #global evalon = false
 
+global trycount = 0
+global succount = 0
