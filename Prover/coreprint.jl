@@ -93,7 +93,9 @@ function printcdb(cdb)
  if isempty(cdb)
   println("empty")
  else
-  map(cid->println("$(cid): $(cdb[cid])"), keys(cdb))
+  for cid in keys(cdb)
+    println("$(cid): $(cdb[cid])")
+  end
  end
 end
 
@@ -101,7 +103,9 @@ function printldb(ldb)
  if isempty(ldb)
   println("empty")
  else
-  map(lid->println("$(lid): $(ldb[lid].body)"),keys(ldb))
+   for lid in keys(ldb)
+     println("$(lid): $(ldb[lid].body)")
+   end
  end
 end
 
@@ -109,7 +113,9 @@ function printamap(amap)
  if isempty(keys(amap))
   println("empty")
  else
-  map(key->println("$key=>$(amap[key])"), keys(amap))
+  for key in keys(amap)
+    println("$key=>$(amap[key])")
+  end
  end
 end
 
