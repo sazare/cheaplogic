@@ -1,0 +1,31 @@
+@experiment for 2 layers
+
+[x,Z].[-R(x,Z)]
+
+
+[x,y].[-P(x),-Q(y),-eq(x,y),+R(x,y)]
+
+[].[+P(10)]
+[].[+P(20)]
+[].[+P(30)]
+[].[+Q(10)]
+[].[+Q(20)]
+[].[+Q(40)]
+[].[+Q(50)]
+
+!ge(x,y)   = x>=y
+!gt(x,y)   = x>y
+!le(x,y)   = x<=y
+!lt(x,y)   = x<y
+!eq(x,y)   = x==y
+
+!between(x,low,high) = (low<=x && x<high)
+!times(x,y) = x*y
+!add(x,y)  = x+y
+
+
+[x,y].[+Def(executable, ge(x,y))]
+[x,y].[+Def(executable, eq(x,y))]
+[x,y,z].[+Def(executable, betweeen(x,y,z))]
+
+[x].[+Def(executable, x), +x()]
