@@ -25,3 +25,16 @@ function represent_as(b, exp)
   return nexp
 end
 
+function mapexpr(fn, term::Symbol) 
+  fn(term)
+end
+
+function mapexpr(fn, expr::Expr)
+  rexpr = expr
+  for ix in 1:length(expr.args)
+    rexpr.args[ix] = mapexpr(fn, expr.args[ix])
+  end
+  return rexpr
+end
+
+

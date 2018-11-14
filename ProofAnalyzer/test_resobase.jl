@@ -40,3 +40,13 @@ end
 #
 #end
 
+@testset "mapexpr" begin
+ fn0(x) = x
+ @test mapexpr(fn0, Meta.parse("P(x,f(y))")) == Meta.parse("P(x,f(y))")
+
+ b1 = make_binding2([:x,:y],[:a,:b])
+ fn1(x) = get(b1,x,x)
+ @test mapexpr(fn1, Meta.parse("P(x,f(y))")) == Meta.parse("P(a,f(b))")
+
+end
+
