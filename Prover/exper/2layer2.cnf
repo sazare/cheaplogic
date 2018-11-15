@@ -1,0 +1,25 @@
+@experiment for 2 layers
+
+[x,Z,a1,a2].[-R(x,Z,a1,a2)]
+
+[x,y,sp,sq].[-P(x,sp),-Q(y,sq),-eq(x,y),+R(x,y,sp,sq)]
+
+[].[+P(10,a)]
+[].[+P(20,b)]
+[].[+P(30,c)]
+
+[].[+Q(10,d)]
+[].[+Q(20,e)]
+[].[+Q(40,f)]
+[].[+Q(50,g)]
+
+!eq(x,y)   = x==y
+
+# !between(x,low,high) = (low<=x && x<high)
+
+
+[x,y].[+Def3(EXEC, ge,x,y)]
+[x,y].[+Def3(EXEC, eq,x,y)]
+#[x,y,z].[+Def4(EXEC, betweeen,x,y,z)]
+
+[x].[-Def3(EXEC, x,y,z), +x(y,z)]

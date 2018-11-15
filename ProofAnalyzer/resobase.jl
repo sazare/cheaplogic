@@ -1,7 +1,7 @@
 # basics for resolution
 #
 function make_binding2(vl1, vl2)
-	if length(vl1) != length(vl2); return end
+  if length(vl1) != length(vl2); return end
   b = Dict()
   for ix in 1:length(vl1)
     v1 = vl1[ix] 
@@ -11,10 +11,15 @@ function make_binding2(vl1, vl2)
   return b
 end
 
+#function represent_term(b, tm)
+#  ix = get(b, tm, 0)
+#  if ix == 0; return tm end
+#  return ix
+#end
+
 function represent_term(b, tm)
-  ix = get(b, tm, 0)
-  if ix == 0; return tm end
-  return ix
+  fn(x) = get(b, x, x)
+  mapexpr(fn, tm)
 end
 
 function represent_as(b, exp)

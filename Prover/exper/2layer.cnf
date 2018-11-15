@@ -28,4 +28,4 @@
 [x,y].[+Def(executable, eq(x,y))]
 [x,y,z].[+Def(executable, betweeen(x,y,z))]
 
-[x].[+Def(executable, x), +x()]
+[x].[-Def(executable, x), +x()]
