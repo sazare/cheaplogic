@@ -24,8 +24,8 @@
 !add(x,y)  = x+y
 
 
-[x,y].[+Def(executable, ge(x,y))]
-[x,y].[+Def(executable, eq(x,y))]
-[x,y,z].[+Def(executable, betweeen(x,y,z))]
+[x,y].[+Def3(executable, ge,x,y)]
+[x,y].[+Def3(executable, eq,x,y)]
+[x,y,z].[+Def4(executable, betweeen,x,y,z)]
 
-[x].[-Def(executable, x), +x()]
+[x].[-Def3(executable, x,y,z), +x(y,z)]
