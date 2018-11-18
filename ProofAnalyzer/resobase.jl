@@ -1,5 +1,6 @@
 # basics for resolution
-#
+
+# make_binding2#
 function make_binding2(vl1, vl2)
   if length(vl1) != length(vl2); return end
   b = Dict()
@@ -11,25 +12,7 @@ function make_binding2(vl1, vl2)
   return b
 end
 
-#function represent_term(b, tm)
-#  ix = get(b, tm, 0)
-#  if ix == 0; return tm end
-#  return ix
-#end
-
-function represent_term(b, tm)
-  fn(x) = get(b, x, x)
-  mapexpr(fn, tm)
-end
-
-function represent_as(b, exp)
-  nexp = []
-  for tm in exp
-    push!(nexp, represent_term(b, tm))
-  end
-  return nexp
-end
-
+# mapexpr
 function mapexpr(fn, term::Symbol) 
   fn(term)
 end
@@ -42,4 +25,24 @@ function mapexpr(fn, expr::Expr)
   return rexpr
 end
 
+# represent_*
+function represent_term(b, tm)
+  fn(x) = get(b, x, x)
+  mapexpr(fn, tm)
+end
+
+
+function represent_as(b, exp)
+  nexp = []
+  for tm in exp
+    push!(nexp, represent_term(b, tm))
+  end
+  return nexp
+end
+
+### subst
+function subst(b, exp)
+  fn(x) = get(b, x, x)
+  mapexpr(fn, exp)
+end
 
