@@ -46,3 +46,25 @@ function subst(b, exp)
   mapexpr(fn, exp)
 end
 
+### unify
+function fp_subst(sigma::Dict)
+  sig = sigma
+  for k in keys(sigma)
+    sig[k] = subst(sig, sig[k])
+  end
+  return sig
+end
+
+function unify(sigma::Dict, exp1::Symbol, exp2::Symbol)
+  if exp1 == exp2
+    return sigma
+  else
+    if exp1 in keys(sigma)
+      if sigma[exp1] == exp2; return sigma end
+    end      
+    return Dict(exp1 => exp2)
+  end
+  return Dict()
+end
+
+
