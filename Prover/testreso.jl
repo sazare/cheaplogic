@@ -105,10 +105,33 @@ end
  @test unify([:x,:y],:(P(x,f(x))),:(P(a,f(y)))) == [:a,:a]
  @test unify([:x,:y],:(P(x,y)),:(P(y,f(a)))) == [:(f(a)),:(f(a))]
 
+ @testset "fixed point of subst" begin
+   @test fp_subst([:x,:y],[:x,:y]) == [:x,:y]
+   @test fp_subst([:x,:y],[:a,:x]) == [:a,:a]
+   @test fp_subst([:x,:y,:z],[:a,:(f(x,z)),:b]) == [:a,:(f(a,b)),:b]
+   @test fp_subst([:x,:y,:z,:w],[:x,:(f(g(z,w),h(w))),:(k(w)),:(m(a))]) == [:x,:(f(g(k(m(a)),m(a)),h(m(a)))),:(k(m(a))),:(m(a))]
+
+
+ end
+
+ @testset "unify intervention" begin
+  @test unify([:x,:y],:(P(f(x),x)),:(P(y,a))) == [:a,:(f(a))]
+
+  @test unify([:x,:y,:w],:(P(f(w,x),w,x)),:(P(y,h(b),g(a)))) == [:(g(a)),:(f(h(b),g(a))),:(h(b))]
+
+  @test unify([:x,:y,:w,:u,:z,:n],:(P(f(w,z),w,g(n),z)),:(P(y,h(b),u,h(u)))) == [:x,:(f(h(b),h(g(n)))),:(h(b)),:(g(n)),:(h(g(n))),:n]
+
+  @test unify([:x,:y,:z,:w,:u,:n,:v],:((P(f(x),y,h(y,z),z,k(n)))),:((P(w,g(w),u,q(v),v)))) == [:x,:(g(f(x))),:(q(k(n))),:(f(x)),:(h(g(f(x)),q(k(n)))),:n,:(k(n))]
+
+  @test unify([:x,:y,:z,:w,:u,:n,:v],:((P(f(y,z),y,h(z),z,k(n)))),:((P(w,g(u,v),u,q(v),v)))) == [:x,:(g(h(q(k(n))),k(n))),:(q(k(n))),:(f(g(h(q(k(n))),k(n)),q(k(n)))),:(h(q(k(n)))),:n,:(k(n))]
+
+ end
+
  @testset "unify inside test fail" begin
   @test_throws Loop unify([:x,:y],:(P(x)),:(P(f(x))))
   @test_throws Loop unify([:x,:y],:(P(x,y)),:(P(y,f(y))))
  end
+
 end
 
 @testset "genvars" begin
