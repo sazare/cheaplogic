@@ -1,4 +1,4 @@
-include("config.jl")
+include("loadall.jl")
 
 include("testreso.jl")
 include("testutils.jl")

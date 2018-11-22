@@ -56,3 +56,20 @@ end
   @test subst(Dict(:x=>:a,:y=>:x),:(P(x,y))) != :(P(a,a))
 end
 
+@testset "fp_subst" begin
+  @test fp_subst(Dict(:x=>:x, :y=>:y)) == Dict(:x=>:x,:y=>:y)
+  @test fp_subst(Dict(:x=>:x, :y=>:a)) == Dict(:x=>:x,:y=>:a)
+  @test fp_subst(Dict(:x=>:(f(y)), :y=>:a)) == Dict(:x=>:(f(a)),:y=>:a)
+  @test fp_subst(Dict(:x=>:a, :y=>:(f(x)))) == Dict(:x=>:a,:y=>:(f(a)))
+  @test fp_subst(Dict(:x=>:a,:y=>:(f(x,z)),:z=>:b)) == Dict(:x=>:a,:y=>:(f(a,b)),:z=>:b)
+  @test fp_subst(Dict(:x=>:x,:y=>:(f(g(z,w),h(w))),:z=>:(k(w)),:w=>:(m(a)))) == Dict(:x=>:x,:y=>:(f(g(k(m(a)),m(a)),h(m(a)))),:z=>:(k(m(a))),:w=>:(m(a)))
+   
+end
+
+
+#@testset "unify" begin
+#  @test unify(Dict(:x=>:x, :y=>:y), :x, :x) == Dict(:x=>:x, :y=>:y)
+#  @test unify(Dict(:x=>:x, :y=>:y), :x, :y) == Dict(:x=>:x, :y=>:x)
+#
+#end
+

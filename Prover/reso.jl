@@ -208,6 +208,7 @@ function unify1(vars::Vlist, t1::Expr, t2::Symbol, subst::Tlist)
  if isvar(t2,vars);return t2 end
  throw(ICMP(t1,t2,:unify1))
 end
+
 """
 unify1 has a var subst for internal use
 """
@@ -233,8 +234,31 @@ end
 """
 unify is a main interface for unification
 """
+
+function inside_sigma(vars::Vlist, subst::Tlist)
+  for ix in 1:length(vars)
+    if typeof(subst[ix]) != Symbol
+      inside(vars[ix], subst[ix])
+    end
+  end
+  return false
+end
+
+function fp_subst(vars::Vlist, subst::Tlist)
+## make a fixed point of sigma(ss)
+ sb = subst
+ sa = apply(vars, subst, subst)
+ while sb != sa
+   inside_sigma(vars, sa)
+   sb, sa = sa, apply(vars, sa, sa)
+ end
+ return sa
+end
+
 function unify(vars::Vlist, t1::Expr, t2::Expr)
- unify1(vars, t1, t2, vars)
+ ss = unify1(vars, t1, t2, vars)
+ fs = fp_subst(vars, ss)
+ return fs 
 end
 
 ## resolution of 2 clauses
