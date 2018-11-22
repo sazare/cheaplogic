@@ -111,7 +111,11 @@ end
    @test fp_subst([:x,:y,:z],[:a,:(f(x,z)),:b]) == [:a,:(f(a,b)),:b]
    @test fp_subst([:x,:y,:z,:w],[:x,:(f(g(z,w),h(w))),:(k(w)),:(m(a))]) == [:x,:(f(g(k(m(a)),m(a)),h(m(a)))),:(k(m(a))),:(m(a))]
 
-
+   @testset "inside check for fixed point of subst" begin
+     @test_throws Loop fp_subst([:x,:y],[:(f(y)),:x])
+     @test_throws Loop fp_subst([:x,:y,:z],[:a,:(f(x,z)),:(g(y))]) == [:a,:(f(a,b)),:b]
+     @test_throws Loop fp_subst([:x,:y,:z,:w],[:a,:(f(x,z)),:(g(w)),:(h(z))]) == [:a,:(f(a,b)),:b]
+   end
  end
 
  @testset "unify intervention" begin

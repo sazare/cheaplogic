@@ -234,11 +234,22 @@ end
 """
 unify is a main interface for unification
 """
+
+function inside_sigma(vars::Vlist, subst::Tlist)
+  for ix in 1:length(vars)
+    if typeof(subst[ix]) != Symbol
+      inside(vars[ix], subst[ix])
+    end
+  end
+  return false
+end
+
 function fp_subst(vars::Vlist, subst::Tlist)
 ## make a fixed point of sigma(ss)
  sb = subst
  sa = apply(vars, subst, subst)
  while sb != sa
+   inside_sigma(vars, sa)
    sb, sa = sa, apply(vars, sa, sa)
  end
  return sa
