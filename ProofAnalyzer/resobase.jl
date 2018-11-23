@@ -55,16 +55,51 @@ function fp_subst(sigma::Dict)
   return sig
 end
 
-function unify(sigma::Dict, exp1::Symbol, exp2::Symbol)
-  if exp1 == exp2
-    return sigma
-  else
-    if exp1 in keys(sigma)
-      if sigma[exp1] == exp2; return sigma end
-    end      
-    return Dict(exp1 => exp2)
-  end
-  return Dict()
+struct Fail
+ left
+ right
+ op
 end
 
+function insidep(sigma::Dict, var::Symbol, term::Expr)
+
+end
+
+isSymbol(x) = typeof(x) == Symbol
+
+isvar(simga::Dict, sym::Expr)::Bool = false
+isconst(simga::Dict, sym::Expr)::Bool = false
+
+function isvar(sigma::Dict, sym::Symbol)::Bool
+  if !isSymbol(sym); return false end
+  return sym in keys(sigma)
+end
+
+function isconst(sigma::Dict, sym::Symbol)::Bool
+  if !isSymbol(sym); return false end
+  return !(sym in keys(sigma))
+end
+
+function unify(sigma::Dict, exp1::Symbol, exp2::Symbol)
+  if exp1 == exp2  # anyway same
+    return sigma
+  else
+    if exp1 in keys(sigma) # exp1 is a var
+      if sigma[exp1] == exp2; return sigma
+      else
+        sigma[exp1] = exp2 
+        return sigma 
+      end
+    elseif exp2 in keys(sigma) # exp1 is const and exp2 is a var
+      if sigma[exp2] == exp1; return sigma
+      else
+        sigma[exp2] = exp1
+        return sigma 
+      end
+    else   # both const and not same
+      throw(Fail(exp1, exp2, :unifySS))
+    end      
+@show exp1,exp2
+  end
+end
 

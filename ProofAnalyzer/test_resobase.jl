@@ -66,10 +66,32 @@ end
    
 end
 
+@testset "is" begin
+  @test isconst(Dict(:x=>:x, :y=>:y), :a)
+  @test isvar(Dict(:x=>:x, :y=>:y), :x)
+  @test isvar(Dict(:x=>:x, :y=>:y), :y)
+  @test !isvar(Dict(:x=>:x, :y=>:y), :(f(x,y)))
+  @test !isconst(Dict(:x=>:x, :y=>:y), :(f(x,y)))
+  
 
-#@testset "unify" begin
-#  @test unify(Dict(:x=>:x, :y=>:y), :x, :x) == Dict(:x=>:x, :y=>:y)
-#  @test unify(Dict(:x=>:x, :y=>:y), :x, :y) == Dict(:x=>:x, :y=>:x)
-#
-#end
+end
+
+
+@testset "unify" begin
+  @test_throws Fail(:a,:b,:unifySS)  unify(Dict(:x=>:x,:y=>:y),:a, :b)
+#  @test_throws Fail  unify(Dict(:x=>:x,:y=>:y),:a, :b)
+
+  @test unify(Dict(:x=>:x, :y=>:y), :x, :x) == Dict(:x=>:x, :y=>:y)
+  @test unify(Dict(:x=>:x, :y=>:y), :x, :y) == Dict(:x=>:y, :y=>:y)
+  @test unify(Dict(:x=>:x, :y=>:y), :a, :y) == Dict(:x=>:x, :y=>:a)
+  @test unify(Dict(:x=>:x, :y=>:y), :x, :a) == Dict(:x=>:a, :y=>:y)
+
+#  @test unify(Dict(:x=>:x, :y=>:y), :(f(x,b)), :y) == Dict(:x=>:x, :y=>:(f(x,b)))
+#  @test unify(Dict(:x=>:x, :y=>:y), :x, :(f(x,b))) == Dict(:x=>:(f(x,b)),:y=>:y)
+#  @test unify(Dict(:x=>:x, :y=>:y), :(f(x,y)), :(f(x,y))) == Dict(:x=>:x, :y=>:y)
+#  @test unify(Dict(:x=>:x, :y=>:y), :(f(a,y)), :(f(x,b))) == Dict(:x=>:a, :y=>:b)
+#  @test unify(Dict(:x=>:x, :y=>:y), :(f(g(a)),y)), :(f(x,b))) == Dict(:x=>:(g(a)), :y=>:b)
+#  @test unify(Dict(:x=>:x, :y=>:y), :(f(g(y)),y)), :(f(x,b))) == Dict(:x=>:a, :y=>:b)
+
+end
 
