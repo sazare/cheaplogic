@@ -1,0 +1,21 @@
+@ 
+# r1,c1=simpleprover("data/dataf/extf001.cnf",3,5)
+Goal
+[X].[-Q(X,f(X))]
+# 2 []
+ [X,Y].[-Q(X,Y)]
+# 3 []
+
+Fact
+[].[+Q(a,f(a))]
+[].[+Q(b,f(b))]
+[x].[+Q(g(x),f(g(x)))]
+ [x].[+Q(x,f(x))]
+ [x].[+Q(a,f(x)]
+ [x].[+Q(x,f(g(a))]
+ [].[+Q(a,f(b))]
+
+
+Theory
+none
+
