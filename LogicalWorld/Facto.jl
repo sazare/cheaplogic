@@ -70,8 +70,6 @@ function unifyqf(N,q,f)
    if (os != t2) && (os != vs)
     return false
    end
-@show N,nt,vix(N,nt)
-@show R,t2,R[vix(N,nt)]
    R[vix(N,nt)[1]]=t2
   end
  end
