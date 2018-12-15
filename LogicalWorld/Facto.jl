@@ -1,7 +1,7 @@
 # Facto.jl
 # Like a Herbrand Universe and Quereis on it
 
-global flog = STDOUT
+global flog = stdout
 
 """
 is t a var?
@@ -12,7 +12,7 @@ isvar(N, t)= t in N
 index of var in N
 """
 function vix(N,t)
-    find(x->x==t,N)
+    findall(map(x->x==t,N))
 end
 
 """
@@ -70,7 +70,9 @@ function unifyqf(N,q,f)
    if (os != t2) && (os != vs)
     return false
    end
-   R[vix(N,nt)]=t2
+@show N,nt,vix(N,nt)
+@show R,t2,R[vix(N,nt)]
+   R[vix(N,nt)[1]]=t2
   end
  end
  return R
@@ -190,7 +192,7 @@ end
 make all models of qxf
 """
 function makemodels(N,Q,K)
- MQ = Array{Any}(length(K),length(Q))
+ MQ = Array{Any,2}(undef,length(K),length(Q))
  for ki in 1:length(K)
  for qi in 1:length(Q)
   MQ[ki,qi] = unifyqf(N,Q[qi],K[ki])
