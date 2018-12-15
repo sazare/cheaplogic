@@ -1,0 +1,7 @@
+1. cd cheaplogic/Prover; julia; 
+2. include("loadall.jl")
+3. cd("../LogicalWorld")
+4. include("Facto.jl")
+5. include("playMadoka.jl")
+
+
