@@ -1,0 +1,14 @@
+### finite axioms
+## case conj = E.x.(P(x)->P(f(x))
+# when axiom has P(b), b is not in dom(P)
+
+[x].[-P(f(x)),-P(x)] 
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+P(f(a))]
+[].[+P(f(f(a)))]
+ [].[+P(f(f(f(a))))]
+
+
+

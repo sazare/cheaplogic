@@ -1,0 +1,11 @@
+### finite axioms
+## CASE conj = E.x.(+P(x) and +P(f(x))
+
+[x].[-P(x),-P(f(x))]
+
+[].[+P(a)]
+[].[+P(f(a))]
+[].[+P(f(f(a)))]
+ [].[+P(f(f(f(a))))]
+
+

@@ -1,0 +1,16 @@
+### finite axioms
+## CASE conj = A.x,y.(+P(x,y))
+
+# but conj should be refuted because P(a,4), P(c,1),P(c,2) not in Axioms
+
+## *** conj should be E.x,y.(P(x,y))
+
+[x,y].[-P(x,y)]
+
+[].[+P(a,1)]
+[].[+P(a,2)]
+[].[+P(b,1)]
+[].[+P(b,4)]
+[].[+P(c,4)]
+
+
