@@ -1,0 +1,15 @@
+### finite axioms
+## case conj = E.x.(P(x)->P(f(x))
+
+[x].[-P(f(x))]
+ [x].[+P(x)]  # this is not used 
+
+[].[+P(a)]
+[].[+P(f(a))]
+[].[+P(f(f(a)))]
+ [].[+P(f(f(f(a))))]
+
+# I don't like this.
+# because, this nconj can be refuted only 1st clause.
+
+

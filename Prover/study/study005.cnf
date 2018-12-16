@@ -1,0 +1,11 @@
+### finite and rule in axiom set
+## CASE conj = 
+
+[y].[-P(f(y))]
+ ng [y].[-P(f(f(y)))]
+ ng [y].[-P(f(f(f(y))))]
+
+[].[+P(a)]
+[x].[-P(x),+P(f(x))]
+
+

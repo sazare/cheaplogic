@@ -1,5 +1,5 @@
 # testEmadoka.jl
-using Base.Test
+using Test
 
 include("Facto.jl")
 include("playEmadoka.jl")

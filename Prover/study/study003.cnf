@@ -1,0 +1,13 @@
+## finite axioms
+# A={P(a),P(b),Q(c)} then conj = A.x.P(x) should be invalid
+# but prooved valid
+# refuted at a,b to x, but should not at c
+# x of A.x. don't runs over a,b,c, just over a,b
+
+
+[x].[-P(x)]
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+Q(c)]
+

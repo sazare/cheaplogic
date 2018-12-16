@@ -1,9 +1,9 @@
-using Base.Test
+using Test
 
 include("LogicoW.jl")
 
-@testset "substw"
- @test substw([:x,:y],[:P :x :y],[[:x,:y]) == [:P :x :y]
+@testset "substw" begin
+ @test substw([:x,:y],[:P :x :y],[[:x,:y]]) == [:P :x :y]
  @test substw([:x,:y],[:P :x :y],[[:x],[:y]]) == [:P :x :y]
  @test substw([:x,:y],[:P :x :y],[:a,:b]) == [:P :a :b]
  @test substw([:x,:y],[:P :x :y],[[:a],[:b]]) == [:P :a :b]

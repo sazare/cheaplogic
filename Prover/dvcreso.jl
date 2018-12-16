@@ -145,7 +145,10 @@ function dvc_resolution(l1,l2,core)
  vars2 = varsof(cidof(l2, core), core)
  lit1  = literalof(l1, core).body
  lit2  = literalof(l2, core).body
+@show lit1
+@show lit2
  ovars = vcat(vars1,vars2)
+@show ovars
  (sign1, psym1) = psymof(l1, core)
  (sign2, psym2) = psymof(l2, core)
 
@@ -155,7 +158,9 @@ function dvc_resolution(l1,l2,core)
 
  try 
 	 core.trycnt[1] += 1
+@show lit1.args[2],lit2.args[2]
    sigmai = unify(ovars, lit1.args[2], lit2.args[2])
+@show sigmai
    rem1 = lidsof(cidof(l1, core),core)
    rem1 = setdiff(rem1, [l1])
    rem2 = lidsof(cidof(l2, core),core)
@@ -177,9 +182,13 @@ function dvc_resolution(l1,l2,core)
      end
      nrem, nbody1 = rb
    end
+@show rid, vars, nbody1
    body = rename_clause(rid, vars, nbody1)
+@show body
 
  rename_subst = [vars, body.vars]
+@show vars,rename_subst
+
 
  ## settlement
 
@@ -202,7 +211,9 @@ function dvc_resolution(l1,l2,core)
     core.lcmap[rlid] = rid
   end
   core.proof[rid] = STEP(rid, l1, l2, sigmai, rename_subst)
-  return CForm2(rid, body.vars, body.body)
+rcf2=CForm2(rid, body.vars, body.body)
+@show rcf2
+  return rcf2
 
   catch e 
     println("FAIL = $e")

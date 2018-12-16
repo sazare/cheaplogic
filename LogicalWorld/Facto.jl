@@ -70,7 +70,10 @@ function unifyqf(N,q,f)
    if (os != t2) && (os != vs)
     return false
    end
-   R[vix(N,nt)[1]]=t2
+   for i in vix(N,nt)
+     R[i] = t2
+   end
+#   R[vix(N,nt)[1]]=t2
   end
  end
  return R

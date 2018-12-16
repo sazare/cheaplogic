@@ -1,0 +1,16 @@
+### finite axioms
+## case conj = E.x.(P(x)->P(f(x))
+## P(b) but not P(f(b)) in Axioms, 
+## rule should not hold. may incorrect conj
+
+[x].[-P(f(x))]
+[x].[+P(x)]
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+P(f(a))]
+[].[+P(f(f(a)))]
+ [].[+P(f(f(f(a))))]
+
+
+

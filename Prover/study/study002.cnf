@@ -1,0 +1,10 @@
+## finite axioms
+# A={P(a),P(b),P(c)} then conj = A.x.P(x) should be valid
+# refuted at a,b,c to x
+
+[x].[-P(x)]
+
+[].[+P(a)]
+[].[+P(b)]
+[].[+P(c)]
+
