@@ -1,4 +1,4 @@
-using Base.Test
+using Test
 
 global flog=open("log.testFacto","a+")
 

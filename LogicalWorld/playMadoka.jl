@@ -1,5 +1,7 @@
 # playMadoka.jl
 
+#global flog=open("log.playMadoka","a+")
+
 ##文法
 include("grammer.jl")
 

@@ -1,6 +1,6 @@
 # playLogicalWorld.jl
 
-using Base.Test
+using Test
 
 ##english grammer
 include("egrammer.jl")

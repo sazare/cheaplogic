@@ -1,5 +1,7 @@
 # playTime.jl
 
+#global flog=open("log.playTime","a+")
+
 ##文法
 include("grammer.jl")
 
