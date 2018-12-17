@@ -10,6 +10,6 @@ rstudy003,cstudy003=simpleprover("study/study003.cnf",4,3)
 
 #
 rstudy004,cstudy004=simpleprover("study/study004.cnf",10,3)
-rstudy005,cstudy005=simpleprover("study/study005.cnf",3,3)
+rstudy005,cstudy005=simpleprover("study/study005.cnf",5,5)
 #rstudy005,cstudy005=simpleprover("study/study005.cnf",20,15)
 

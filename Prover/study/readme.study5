@@ -1,0 +1,26 @@
+>include("loadall.jl")
+>rstudy005,cstudy005=simpleprover("study/study005.cnf",5,5)
+>printcore(cstudy005)
+>printproofs1(cstudy005)
+
+> printmgus(cstudy005,true)
+
+R1:<L2:L4>=x_C3/f(Y); 
+R2:<L3_R1:L4>=Y/x_C3; 
+R4:<L3_R2:L1>=x_C3R2/a; 
+---
+
+R1:<L2:L4>=x_C3/f(Y); 
+R2:<L3_R1:L4>=Y/x_C3; 
+R3:<L3_R2:L4>=x_C3R2/f(x_C3); 
+R6:<L3_R3:L1>=x_C3R3/a; 
+---
+
+R1:<L2:L4>=x_C3/f(Y); 
+R2:<L3_R1:L4>=Y/x_C3; 
+R3:<L3_R2:L4>=x_C3R2/f(x_C3); 
+R5:<L3_R3:L4>=x_C3R3/f(x_C3); 
+R8:<L3_R5:L1>=x_C3R5/a; 
+---
+
+
