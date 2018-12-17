@@ -141,8 +141,6 @@ end
 ovarsof(l1,l2,core)=vcat(varsof(cidof(l1, core), core), varsof(cidof(l2, core), core))
 
 function dvc_resolution(l1,l2,core)
-println()
-
  vars1 = varsof(cidof(l1, core), core)
  vars2 = varsof(cidof(l2, core), core)
  lit1  = literalof(l1, core).body
