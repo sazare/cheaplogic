@@ -95,12 +95,13 @@ function fitting_vars_lit(vars, lit)
   fitting_vars_term(vars, lit.args[2])
 end
 
-function fitting_vars(vars, lids, core)
+function fitting_vars(vars, lits, core)
  evars = []
- for lid in lids
-   append!(evars, fitting_vars_lit(vars, literalof(lid, core).body))
+ for lit in lits
+   append!(evars, fitting_vars_lit(vars, lit))
  end
- union(evars, evars)
+ nvars=union(evars, evars)
+ return nvars
 end
 
 ## evaluation 
@@ -162,7 +163,6 @@ function dvc_resolution(l1,l2,core)
    rem2 = setdiff(rem2, [l2])
 
    rem = vcat(rem1, rem2)
-#   vars = fitting_vars(ovars, rem, core)
    vars = ovars
 
 # rename rlid
@@ -178,6 +178,8 @@ function dvc_resolution(l1,l2,core)
      end
      nrem, nbody1 = rb
    end
+
+   vars = fitting_vars(ovars, nbody1, core)
    body = rename_clause(rid, vars, nbody1)
 
  rename_subst = [vars, body.vars]
