@@ -54,7 +54,25 @@
 
 \section{何を書きたいか}
 \subsection{意図}
+ニューラルネット(NN)などの学習システムによって、世界の様々な情報を分類できたとする。
+そのカテゴリーを述語に対応させ、一階論理などの命題にできれば、証明システムを用いて、推論できる。
 
+論理は、人間が何千年もかけて生み出した方法ではあるが、機械学習がそれを必要とするかどうかははっきりしない。
+おそらく、推論の効率化の役に立つのではないかと思うが、確かではない。
+しかし、ここでは、そのような対応づけが可能であり、役に立つと考える。
+
+その場合、NNが作り出す命題は、事実の記述になるだろう。
+限定された観測データに基づく記述なので、真実とは言えないが、様々なセンスデータから高い確率でそうだと思われる事実が、論理式の形で構成される。
+
+それらの事実の間に成り立つ法則であるとか、仮説であるとかを、機械学習で構成できるのかどうかもつまびらかではないが、それができれば、それも事実の言明に加えていけばよいだろう。
+
+そのとき、機械証明の側から何ができるのかが知りたい。
+
+この「法則や仮説を構成する」が機械学習だけででなくても、機械証明と機械学習が協力すればできるのかどうかも知りたい。
+
+このような動機から、では、一階論理で事実を書くとき、どう書くべきなのか、であるとか、観測した命題の有限集合に対して、法則を命題で表現したとき、それが証明できるものなのかどうか、であるとか、いろいろ考えていきたいというのがもともとの意図である。
+
+書いているうちに、他にもテーマがみつかるのかもしれない。
 
 \subsection{用語あるいは定義}
 \begin{description}
@@ -66,6 +84,11 @@
 \item[エルブラン宇宙] エルブランドメインと呼ぶかも。特定の述語記号に対するエルブランドメインについても書くかもしれない。
 \end{description}
 
+
+観測命題はポジティブのみである。
+なぜなら、否定された状態というものは、直接、観測できず、何らかの推論によってのみ得られる状態だから。
+
+
 \subsection{定義}
 
 $\cont$は 矛盾を示す。
@@ -75,6 +98,8 @@ $\mathcal{H_{\mathcal{A}}}$は、観測集合$\mathcal{A}$に対するエルブ�
 $\clos{A} := \{x | \mathcal{A} \vdash x\}$
 
 
+
+\newpage
 
 \section{有限の場合}
 \subsection{基本的な検討}
@@ -119,7 +144,7 @@ NNでそのような命題が構成できるのかは未知。
    8 & $\eset{P(a)}$ & $\forall x P(x)$ & $T  \, \because P(a) $ a  is all of  H \\ \hline
  \end{tabular}
  \caption{集合と仮説の関係(有限の場合1)}
- \label{tab:ex1}
+ \label{tab:ex0101}
 \end{table}
 
 ただし、$H_{\mathcal{A}} = \eset{a}$
@@ -180,7 +205,7 @@ $\eset{P(a), P(a)} \vdash \cont$
    8 & $\eset{P(a), P(b)}$ & $\forall x P(x)$ & $T \because  P(a) and P(b) hold$ \\ \hline
  \end{tabular}
  \caption{集合と仮説の関係(有限の場合2)}
- \label{tab:ex2}
+ \label{tab:ex0102}
 \end{table}
 
 観測集合で$P(b)$が増えたので、3も真偽値はTになった。
@@ -227,7 +252,7 @@ $\{P(a), P(b), \bar P(b)\} \vdash \cont$
    6 & $\eset{P(a), Q(b)}$ & $\forall x P(x)$ & $F \because b \in H \land \bar P(b)$ \\ \hline
  \end{tabular}
  \caption{集合と仮説の関係(有限の場合2)}
- \label{tab:ex3}
+ \label{tab:ex0103}
 \end{table}
 
 ここではエルブラン宇宙に b が存在するが、P(b) というリテラルが観測集合にでていないので、未定義としている。
@@ -265,7 +290,7 @@ $\{P(a), Q(b), \bar P(b)\} \vdash \cont$
    8 & $\{P(a), \bar P(a)Q(b)\}$ & $\forall x P(x)$ & $F \because \bar P(b) \notin \clos{A}$ \\ \hline
  \end{tabular}
  \caption{集合と仮説の関係(有限の場合2)}
- \label{tab:ex4}
+ \label{tab:ex0104}
 \end{table}
 
 %%% ちょっと混乱してきた
@@ -296,27 +321,295 @@ conjecture が$\exists x $のprefixを持つ場合、resolution refutationによ
 
 $\forall x$のprefixを持つconjectureの場合、反例がみつかると、それはこのconjectureのどこが違っているのかの情報になる。その情報が必要であれば、エルブラン宇宙のすべての要素について、矛盾のチェックが必要であり、そのような制御をすると$\forall x$と同じことになりそう。
 
+(心の声　おわり)
 
-\section{無限の場合}
 
-$\clos{A}$が無限集合の場合について考える。
+\newpage
+
+\section{$\clos{A}$が無限の場合}
 
 無限の観測集合$\mathcal{A}$は、有限時間で書くことはできないが、ここではそれを含めて検討する。
 
-というのも、三つの場合を想定している。
+3つの場合を想定している。
 \begin{enumerate}
-\item $\mathcal{A}$が無限集合。仮想の状況を考えることで、思考実験として、無限の観測命題が書かれていると考える
-\item $\mathcal{A}$は有限集合。観測命題の中に、induction definitionの形のものがあり、$\mathcal{A}$は有限だが$\clos{A}$が無限になる場合。
-\item 
+\item $\mathcal{A}$は有限集合だが$\mathcal{H}$が無限になる場合。観測命題の中に関数記号が出現する場合。
+\item $\mathcal{A}$が無限集合。無限の観測命題が書かれていると想定した場合。
+\item $\mathcal{A}$は有限集合だが$\clos{A}$が無限になる場合。観測命題の中に、induction definitionの形のものがある場合。
 \end{enumerate}
 
+\subsection{$\mathcal{A}$は有限集合だが$\mathcal{H}$が無限になる場合}
+\subsubsection{$\mathcal{A}=\eset{P(a), P(f(a))}$}
+$\mathcal{H}$は、$\eset{a, f(a), \dots}$ となる。
+ただし、観測集合では述語Pについてポジティブなものしかない。
 
-\subsection{無限集合の場合}
-\subsection{有限集合でルールが書かれている場合}
+\begin{table}[htbp]
+ \centering
+ \begin{tabular}{|c|c|c|c|}\hline
+   No & 観測 & $\Psi$ & 真偽値 \\ \hline
+   1 & $\eset{P(a), P(f(a))}$ & $P(a)$ & T \\ \hline
+   2 & $\eset{P(a), P(f(a))}$ & $P(f(f(a)))$ & $\undet $\\ \hline
+   3 & $\eset{P(a), P(f(a))}$ & $P(a) \lor P(f(a))$ & T \\ \hline
+   4 & $\eset{P(a), P(f(a))}$ & $P(a) \land P(f(a))$ & T\\ \hline
+   
+   5 & $\eset{P(a), P(f(a))}$ & $P(a) \lor P(f(f(a)))$ & $\undet$ \\ \hline
+   6 & $\eset{P(a), P(f(a))}$ & $P(a) \land P(f(f(a)))$ & $\undet$ \\ \hline
 
+   7 & $\eset{P(a), P(f(a))}$ & $\forall x P(x)$ & T \\ \hline
+   8 & $\eset{P(a), P(f(a))}$ & $\exists x P(x)$ & T \\ \hline
+ \end{tabular}
+ \caption{集合と仮説の関係(Hが無限の場合1)}
+ \label{tab:ex0201}
+\end{table}
+
+\subsubsection{$\mathcal{A}=\eset{P(a), P(f(b))}$}
+関数記号が増えたため$\mathcal{H}$は、$\eset{a, f(a), \dots}$ となる。
+
+\begin{table}[htbp]
+ \centering
+ \begin{tabular}{|c|c|c|c|}\hline
+   No & 観測 & $\Psi$ & 真偽値 \\ \hline
+   1 & $\eset{P(a), P(f(b))}$ & $P(a)$ & T \\ \hline
+   2 & $\eset{P(a), P(f(b))}$ & $P(b)$ & F \\ \hline
+   3 & $\eset{P(a), P(f(b))}$ & $P(f(f(a)))$ & $\undet $\\ \hline
+   4 & $\eset{P(a), P(f(b))}$ & $P(f(f(b)))$ & $\undet $\\ \hline
+   5 & $\eset{P(a), P(f(b))}$ & $P(a) \lor P(f(a))$ & $\undet$ \\ \hline
+   6 & $\eset{P(a), P(f(b))}$ & $P(a) \land P(f(a))$ &  $\undet$ \\ \hline
+   7 & $\eset{P(a), P(f(b))}$ & $\forall x P(x)$ & T \\ \hline
+   8 & $\eset{P(a), P(f(b))}$ & $\exists x P(x)$ & T \\ \hline
+ \end{tabular}
+ \caption{集合と仮説の関係(Hが無限の場合2)}
+ \label{tab:ex0202}
+\end{table}
+
+\subsubsection{$\mathcal{A}=\eset{P(a), Q(f(a))}$}
+
+述語記号にQが増え、関数fが増えている場合。
+関数記号fが使われているので、$\mathcal{H}$は、$eset{a, f(a), \dots}$ となるが、
+関数記号はQでしか使われていない。
+その意味では、エルブラン宇宙の無限の部分はQでのみ意味があるのかもしれない。
+しかし、それは表現されない。
+
+\begin{table}[htbp]
+ \centering
+ \begin{tabular}{|c|c|c|c|}\hline
+   No & 観測 & $\Psi$ & 真偽値 \\ \hline
+   1 & $\eset{P(a), Q(f(a))}$ & $P(a)$ & T \\ \hline
+   2 & $\eset{P(a), Q(f(a))}$ & $P(f(f(a)))$ & $\undet$ \\ \hline
+   3 & $\eset{P(a), Q(f(a))}$ & $P(a) \lor P(f(a))$ & T \\ \hline
+   4 & $\eset{P(a), Q(f(a))}$ & $P(a) \land P(f(a))$ & T\\ \hline
+   5 & $\eset{P(a), Q(f(a))}$ & $\forall x P(x)$ & F $\because x=f(a)$ \\ \hline
+   6 & $\eset{P(a), Q(f(a))}$ & $\exists x P(x)$ & T \\ \hline
+   7 & $\eset{P(a), Q(f(a))}$ & $\forall x Q(f(x))$ & F $\because x=f(a)$\\ \hline
+   8 & $\eset{P(a), Q(f(a))}$ & $\exists x Q(f(x))$ & T \\ \hline
+ \end{tabular}
+ \caption{集合と仮説の関係(Hが無限の場合3)}
+ \label{tab:ex0203}
+\end{table}
+
+\subsubsection{$\mathcal{A}=\eset{P(a), Q(f(b))}$}
+さらに、定数bはQでしか使われていないので、PのエルブランドメインとQのエルブランドメインを
+分けて考えれば、$\forall x P(x)$は成り立っているのだが、エルブランドメインを分ける仕組みはないので
+以下のようになる。
+
+\begin{table}[htbp]
+ \centering
+ \begin{tabular}{|c|c|c|c|}\hline
+   No & 観測 & $\Psi$ & 真偽値 \\ \hline
+   1 & $\eset{P(a), Q(f(b))}$ & $P(a)$ & T \\ \hline
+   2 & $\eset{P(a), Q(f(b))}$ & $P(f(f(a)))$ & $\undet$ \\ \hline
+   3 & $\eset{P(a), Q(f(b))}$ & $Q(b)$ & $\undet$ \\ \hline
+   4 & $\eset{P(a), Q(f(b))}$ & $Q(f(f(a)))$ & $\undet$ \\ \hline
+   
+   5 & $\eset{P(a), Q(f(b))}$ & $P(a) \lor Q(f(b))$ & T \\ \hline
+   6 & $\eset{P(a), Q(f(b))}$ & $P(a) \land Q(f(b))$ & T\\ \hline
+   
+   7 & $\eset{P(a), Q(f(b))}$ & $\forall x P(x)$ & F $\because x=f(a)$ \\ \hline
+   8 & $\eset{P(a), Q(f(b))}$ & $\exists x P(x)$ & T \\ \hline
+   9 & $\eset{P(a), Q(f(b))}$ & $\forall x Q(f(x))$ & F $\because x=f(a)$\\ \hline
+   10 & $\eset{P(a), Q(f(b))}$ & $\exists x Q(f(x))$ & T \\ \hline
+ \end{tabular}
+ \caption{集合と仮説の関係(Hが無限の場合4)}
+ \label{tab:ex0204}
+\end{table}
+
+\subsubsection{$\mathcal{H}$が無限集合の場合のまとめ}
+エルブラン宇宙が無限になっても、観測集合が有限なので、観測集合だけを見ていると
+成立する$\forall$の法則が、エルブラン宇宙のもとでは成り立たなくなる。
+
+このために、各述語記号のエルブランドメインを考えることもできるだろう。
+
+だがそれはモデルの話であり、エルブラン宇宙が無限になってしまうと証明で扱うのは難しい。
+
+\newpage
+
+\subsection{$\mathcal{A}$が無限集合。無限の観測命題が書かれていると想定した場合}
+\subsubsection{$\mathcal{A}=\eset{P(a), \dots, P(f^k(a)), \dots}$}
+自然数と同じ構造なので、conjectureとしてペアノの公理を持って来れば、全部真になるのだろうか。
+
+\begin{table}[htbp]
+ \centering
+ \begin{tabular}{|c|c|c|c|}\hline
+   No & 観測 & $\Psi$ & 真偽値 \\ \hline
+   1 & $\eset{P(a), P(f(a)), \dots}$ & $P(a)$ & T \\ \hline
+   2 & $\eset{P(a), P(f(a)), \dots}$ & $\bar{P}(a)$ & $\undet$ \\ \hline %? F
+   3 & $\eset{P(a), P(f(a)), \dots}$ & $\forall x P(x)$ & $T $ \\ \hline
+   4 & $\eset{P(a), P(f(a)), \dots}$ & $\forall x \bar{P}(x) \lor P(f(x))$ & T \\ \hline
+   5 & $\eset{P(a), P(f(a)), \dots}$ & $\forall x \bar{P}(x) \land P(f(x))$ & T \\ \hline
+   
+   6 & $\eset{P(a), P(f(a)), \dots}$ & $P(f(f(a)))$ & $T \because P(f(f(a))) \in \clos{A}$ \\ \hline
+   7 & $\eset{P(a), P(f(a)), \dots}$ & $\bar{P}(a)\lor P(f(f(a)))$ & T \\ \hline
+   8 & $\eset{P(a), P(f(a)), \dots}$ & $\bar{P}(a) \land P(f(f(a)))$ & T \\ \hline
+   
+   9 & $\eset{P(a), P(f(a)), \dots}$ & $\exists x P(f(f(x)))$ & $T \because P(f(f(a))) \in \clos{A}$ \\ \hline
+   10 & $\eset{P(a), P(f(a)), \dots}$ & $\exists x P(f(f(x)))$ & $T \because P(f(f(f(a)))) \in \clos{A}$ \\ \hline
+   
+   11 & $\eset{P(a), P(f(a)), \dots}$ & $\forall x \bar P(x) \lor P(f(f(f(x))))$ & $F \because P(a) \land \bar P(f(f(f(a)))) \notin \clos{A}$ \\ \hline
+   12 & $\eset{P(a), P(f(a)), \dots}$ & $\forall x \bar P(x) \land P(f(f(f(x))))$ & $F \because P(a) \land  \bar P(b) \notin \clos{A}$ \\ \hline
+ \end{tabular}
+ \caption{集合と仮説の関係($\mathcal{A}$が無限集合1)}
+ \label{tab:ex0301}
+\end{table}
+
+\subsection{$\mathcal{A}$が無限集合の場合のまとめ}
+conjectureとして、変数を含むものが、観測集合について成り立つ法則を表している。
+
+定数のみの式は法則ではなく、Factとして正しいかどうかのqueryである。
+
+$\P(\phi(x))$の形のものは、Pのドメインに対するqueryである。
+
+queryの場合のprefixは$\exists x$であり、反証するため否定して $\forall x$となって、clauseに変数が残る。
+
+conjectureのprefixが$\forall x$だと、エルブラン宇宙のすべての要素(定数)をxに代入してできるconjectureのインスタンスを否定したものをすべて反証しなくてはならない。
+
+
+\newpage
+\subsection{ $\mathcal{A}$は有限集合だが$\clos{A}$が無限になる場合}
+\subsubsection{$\mathcal{A}=\eset{P(a),  \bar{P}(x)P(f(x))}$}
+これは、$\bar{P}(x)P(f(x))$を適用することで、$\clos{A}$が無限の場合の例の観測集合を生成する。
+
+\begin{table}[htbp]
+ \centering
+ \begin{tabular}{|c|c|c|c|}\hline
+   No & 観測 & $\Psi$ & 真偽値 \\ \hline
+   1 & $\eset{P(a), \bar{P}(x)P(f(x))}$ & $P(f(a))$ & T \\ \hline
+   2 & $\eset{P(a), \bar{P}(x)P(f(x))}$ & $P(f(f(a)))$ & T \\ \hline
+   3 & $\eset{P(a), \bar{P}(x)P(f(x))}$ & $\bar{P}(x) \lor P(f(x))$ & T \\ \hline
+   4 & $\eset{P(a), \bar{P}(x)P(f(x))}$ & $P(x) \land \bar{P}(f(x))$ & T \\ \hline
+   5 & $\eset{P(a), \bar{P}(x)P(f(x))}$ & $P(f(f(a)))$ & T \\ \hline
+   6 & $\eset{P(a), \bar{P}(x)P(f(x))}$ & $\bar{P}(x)P(f(f(a)))$ & T \\ \hline
+ \end{tabular}
+ \caption{集合と仮説の関係($\clos{A}$が無限になる場合1)}
+ \label{tab:ex0401}
+\end{table}
+
+conjectureが、観測集合に含まれる$\bar{P}(x)P(f(x))$と同じ形をしていると、conjectureの否定が観測集合に含まれる$\bar{P}(x)P(f(x))$と打ち消しあって自明な$\cont$の証明が構成される。
+
+その場合はそのようなconjectureの反証に意味はなく、観測集合のその式を使えば良い。
+
+その式を観測集合に含める段階で、それを含まない観測集合と矛盾しないかどうかを確認する必要はあるだろう。
+
+だから、問題は、$\bar{P}(x)P(f(x))$を誰がどこで見つけるかということになる。
+
+たとえば、$P(a),P(f(a)),...,P(f^k(a))$までを観測したとき、そこから、高い確度で任意のkについて$P(f^k(a))$だという結論を、観測システムで導けるか、そのような帰納推論を行うシステムを構築できるか。
+
+
+\subsubsection{$\mathcal{A}=\eset{P(a), \bar{P}(x)Q(f(x)), \bar{Q}(x)P(g(x))}$}
+前の例は、無限生成のルールがPのみの式で書かれていたが、間にQが介入する例。
+未稿
+
+\subsection{$\mathcal{A}$は有限集合で$\clos{A}$が無限集合になる場合のまとめ}
+
+NNと機械証明を連携させたい場合、NNは事実を(確率がはいるにせよ)言語化するだけであり、そこからどうやって法則を作り出すかが、問題になる。
+
+機械証明自体に帰納の能力はない。
+
+機械証明の分野で、帰納の研究があったと思う。無関係ではない。
+
+また、NNで、学習プロセス自体を学習するようなことをして、法則を発見することができないのだろうか。
+
+
+
+\subsection{無限の場合のまとめ}
+NNでFactを収集したとして、個々の変数にはいるデータのサイズや、述語の引数の数がかなり大きなものになると思われる。
+
+法則の発見がなければ、それでも観測集合は有限であり、$\forall x$が気をぬくと無限のドメインを仮定してしまうため、有限ではなかなか正しい結論がでないように思う。
+
+無限は、扱いが難しいけれど、表現を簡単にする力がある。
+ここで扱おうとしている論理式では、Factは巨大かもしれないが必ず有限であり、$\forall x$がときどき無限の側にはみだすことに気をつけなくてはならない。
+
+NNでは、膨大なデータに基づく関連付けによって結論を出す(本当は結論を出しているのは、NNではなくそれを使うプログラムのほう)。機械証明によって、その計算をスキップすることができるのではないかという期待を持っている。
+そのためには、まだ明白になっていないギャップがいろいろある。
+
+
+\newpage
 \section{付録: 計算過程}
 \subsection{関数やプログラムの定義が書かれている場合}
-\subsubsection{計算過程と関数定義}
+プログラムの入出力条件は、一般的にはこのように書ける。
+
+$\forall x \exists z \Phi(x) \{ z \leftarrow \sigma(x) \} \Psi(x,z)$
+
+ただし、n変数の場合はxをベクトルにするなどの一般化はあるが、ここでは基本的な仕組みのみ検討する。
+
+この $\{\dots\}$の部分が論理記号の何に変換されるのかは自明ではない。
+
+おそらく2つの選択肢がある。
+
+\begin{eqnarray}
+ \forall x \exists z \Phi(x) \supset \Psi(x,z) \\
+ \forall x \exists z \Phi(x) \land \Psi(x,z)
+\end{eqnarray}
+
+どちらが適切なのかは、この後で検討する。
+
+
+
+いずれにせよ、入力であるxに特定の定数を代入し、次の形の論理式をconjectureとして証明を構成すると、それは$sigma(x)$の計算過程に対応する。
+\begin{eqnarray} 
+ \exists z \Phi(a) \supset \Psi(a,z) \\
+ \exists z \Phi(a) \land \Psi(a,z)
+\end{eqnarray}
+
+だから、定数を代入せず変数のままで証明を構成すると、それらの証明全体がプログラムの構造に対応する。
+
+1つの証明は、場合分けなどで同じパスを通る計算過程の集合に対応している。
+(量子計算の場合は、場合分けだけではない条件(エンタングルされた状態ではないか)で同じパス(?)を通る計算を一つの計算過程として記述できるのではないか?)
+
+
+\subsubsection{$\supset$か$\land$か}
+一般形の場合、clause形式での否定は次のようになる。
+\begin{eqnarray}
+ \exists x \forall z \Phi(x) \land \bar{\Psi}(x,z) \\
+ \exists x \forall z \bar{\Phi}(x) \lor \bar{\Psi}(x,z)
+\end{eqnarray}
+
+となる。
+
+$\and$で2つのclauseに分かれる場合、反証するには$\clos{A)}$には、対応する1つのclauseが存在する必要がある。つまり、1行目の場合は次の形のclauseが必要になる。
+\begin{equation}
+ \bar{\Phi}(w)\Psi(w,z)
+\end{equation}
+
+ただし、wは任意の$\mathcal{H}$の要素(定数)である。
+
+2行目の場合は、次の形の2つのclauseが必要になる。
+\begin{equation}
+ \eset{\Phi(x), \Psi(x,z)}
+\end{equation}
+
+これらが$\mathcal{A}$に書かれているとすると、どういう意味になるか・・・
+
+ $\bar{\Phi}(w)\Psi(w,z)$はルールが書かれているということであり、$\bar{\Phi}(w)$が成り立っているかどうかは書かれていない。
+ 
+ 故に、この場合の反証では、$\Phi(x)$の証明は不要あるいは不能であり、$\Psi(x,z)$だけで$\cont$が証明される。
+ 
+ 一方で、$ \eset{\Phi(x), \Psi(x,z)}$の場合は、それぞれポジティブに、xが$\Phi$を満たすことと、入力と出力(x,z)が$\Psi$を満たすことだけを主張している。
+これは、Factとして記述できる。
+
+故に、後者の方が妥当と思われる。
+
+前者は、入力条件が満たされることの帰結として、出力条件が成り立つと言っているのに対し、後者は入力条件と出力条件の間に論理的帰結という関係はなく、同時に成り立っているということだけを仮定している。
+
+
 
 \end{document}
 
