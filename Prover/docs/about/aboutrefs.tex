@@ -1,0 +1,67 @@
+\documentclass[10pt, oneside]{jarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{version}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+
+\usepackage[dvipdfmx]{graphicx}
+
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\include{"texdefinition"}
+
+\title{$\forall$の場合の反証について}
+\author{H2nI3sc}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{何を書きたいか}
+\subsection{意図}
+conjectureが$\exists x P(x)$の場合は、$\mathcal{A} \cup P(x)$から$\cont$を1つ証明すればよい。
+しかし、conjectureが$\forall x P(x)$の場合は、必ずしもそうとはいえない。
+そのことについて書く。
+
+\include{"definition"}
+
+\newpage
+
+\section{反証では何をする必要があるのか}
+観測集合$\mathcal{A}$のconjectureとして $\forall x P(x)$を証明するには
+conjectureの否定から $\mathcal{A} \cup \eset{\exists x \bar{P}(x)}$から$\cont$を証明することになる。
+
+この$\exists x$の$x$は、引数となる$forall $変数がないので、どこかから定数をとってくることになる。
+その定数は、$\herbrand$でなければ、resolutionが適用できないので、$\mathcal{H}$から持ってくることになるだろう。
+
+故に、反証の対象となるconjectureの否定は$\herbrand$の要素のそれぞれについて作る必要がある。
+つまり、すべての $ c \in \herbrand$ について次の観測集合から$\cont$を証明しなくてはならない。
+
+\begin{equation}
+ \mathcal{A} \cup \{ \bar{P}(c) \} 
+\end{equation}
+
+もしも$\clos{A}$にconjecureのgeneralな式が含まれていれば、conjectureはそこから証明できるので、このような反証さがしは必要ない。
+つまり
+
+\begin{description}
+\item $\mathcal{A}$にconjecture自身が書かれているか、さもなければ
+\item $\herbrand$のすべての要素について反証を行う
+\end{description}
+
+ことになる。
+
+\end{document}
+
+
