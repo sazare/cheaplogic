@@ -1,0 +1,137 @@
+\documentclass[10pt, oneside]{jarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{version}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+
+\usepackage[dvipdfmx]{graphicx}
+
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\include{"texdefinition"}
+
+\title{NNから述語への変換}
+\author{H2nI3sc}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{何を書きたいか}
+\subsection{意図}
+Neural Network(NN)の学習したモデルから述語表現への変換をどうするか。
+
+単純な場合について考える。
+
+\section{NNをどうみるか}
+NNと言っているが、考えているのはCNN。複雑なのはまだ理解不足。
+
+\subsection{ことばの定義}
+\begin{description}
+\item[$\bar{x}$: ] データを長さ$M$のビットベクトルと考える。1ビットはtrueともみなす。たとえば、$100\times 100$の画像なら10000ビットのベクトルになる。$\bar{x}$全体の集合を$\hat{X}$と書く。$\bar{x}$のサイズはMとする。
+\item[$C_i$:] 教師データとして与えるカテゴリー。全体は$\hat{C}$と書く。カテゴリーの数はKとする。
+\item[$P_i$:] $C_i$に対応する述語を$P_i$と書く。全体は$\hat{P}$と書く。
+\item[$D: \hat{X} \rightarrow \hat{C}$:] $D(\bar{x}) \in \hat{C}$は、$\bar{x}$が$C_i$であると判定されることと定義する。実際にはこんなに簡単ではない。
+\item[$\pi: \hat{X} \times \hat{C} \rightarrow Bool$: ] $\pi(\bar{x}, C_i)$は、データ$\bar{x}$が$C_i$である確率を示す。つまり$\Sigma_{i=1,K} \pi(\bar{x},C_i) = 1.0$。
+\end{description}
+
+手書き文字を'0'から'9'までにカテゴライズする話では、たとえばある画像 $n$が$P_i$にも$P_j$にも高い確率で仕分けされてしまう場合もある。そんなときは$D(n)$は値を二つ持つので、Dは関数ではなく、ただの対応である。
+
+述語の観点からは$D(n) \in C_i$のとき、$P_i(n)$が真であると考える。これがFactになる。\footnote{時間まで考えると、Factは変化する}
+
+あるいは、$\tau$を閾値として、$P_i(\bar{x}) \iff \pi(\bar{x}, i) \ge \tau$という定義もありうる。
+
+\section{フラグメント}
+$x \sqsubseteq y \iff x \land y = x$と定義する。
+
+画像の一部のようなフラグメントを取り出す1ベクトルを$\bar{f}$で示す。
+
+$\bar{f} \sqsubseteq \bar{x}$であり、
+$\bar{f}(\bar{x}) \iff \bar{f} \land \bar{x}$
+とする。
+
+$\bar{f}(\bar{b}) \sqsubseteq \bar{b}$である。
+
+$\bar{a}$と$\bar{b}$が与えられた時、
+
+$f(\bar{a}) = f(\bar(b))$ ならば、
+$\bar{a}$と$\bar{b}$は$f$において同じ特徴を持っているといい
+
+$\bar{a} \sim_{f} \bar{b}$
+
+と書くことにする。
+
+\section{$\land$と$\lor$}
+
+あるデータ$\bar{x}$について、$P_i(\bar{x})$ と$P_j(\bar{x})$ が成り立っている場合、$P_i \land P_j$と$P_i \lor P_j$を区別できるわけではない。
+
+たとえば、$P_i \land P_j$は、述語記号の一種であり、$\bar{X}$の部分集合への関数に名前をつけることになる。
+
+すでに定義された$\bar{X}$の部分集合を組み合わせて新しい集合を作る操作が$\land$や$\lor$
+なので、たとえば
+$$\forall x (P_i(x) \supset (P_i(x) \lor P_j(x)))$$
+や
+$$\forall x ((P_i(x) \and P_j(x)) \supset P_i(x)) $$
+がなりたつことをNNではどう学習するのか?
+
+そもそも、出力層に$P_i\and P_j$などというカテゴリーはないので、教師あり学習ではそのような分類はできない。
+NNの外側で、論理を扱う仕組みを持つということだろうか。
+
+それがどう役に立つのか、まだ想像がつかない(20181231)
+
+
+\section{中間層の概念}
+ある層$i$のノードが表す何かと、それよりも出力層に近い層$j$のノードが表す何かの間の関係も考えられる。
+
+それぞれの層のノードに述語を対応づけられれば、できるだろう。
+
+$P^i_p(x) \supset P^j_q(x)$
+
+のような関係。
+
+しかし、これも難しい。出力層の場合は、カテゴリーが確定しているのでまだ考えられるが
+中間層は入力も出力も変わっていくのでどう考えればいいのか。
+
+
+
+\section{成長}
+NNでは、グラフの構造はあらかじめ与えられている。
+
+ノードのリンクは、重みを0にすることで切り離すがことができるが、
+増やすことはできない。
+
+増やすことは、脳の成長に相当すると思う。
+
+勿論、最初から余分にノードを与えておけばシミュレーションできるかもしれない。
+
+生物として、もともと脳は無制限に成長しないので、それでもいいのかもしれないが
+サイズと機能の関係を整理しないといけないような気がする。
+
+\section{場と考える}
+あるNNのグラフを場の表現と考えたらどうなるか。
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
