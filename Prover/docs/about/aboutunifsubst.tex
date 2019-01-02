@@ -1,0 +1,100 @@
+\documentclass[10pt, oneside]{jarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{version}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+
+\usepackage[dvipdfmx]{graphicx}
+
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\include{"texdefinition"}
+
+\title{代入の新しい操作について}
+\author{H2nI3sc}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{何を書きたいか}
+\subsection{意図}
+代入は、$\bar{v}$を変数のベクトル、$\bar{t}$をtermのベクトルとするとき、 $\{\bar{v} \leftarrow \bar{t}\}$である。
+ここのベクトルは記号の並びということ。代入は$\sigma$で表す。
+
+面倒なので上の線は略すと、代入の演算は、
+$$t_0 \apply \sigma$$
+で、$t_0$に出現する$v$を$t$で置き換えた記号列を作る操作である。
+
+この定義を自然に拡張して
+$$\sigma_1 \apply \sigma_2$$
+が定義できる。
+これは、任意の$t_0$に対して、
+$$t_0 \apply (\sigma_1 \apply \sigma_2) = (t_0\apply \sigma_1)\apply \sigma_2$$
+となるような演算になる。
+
+この$\apply$は、$\sigma_1$と$\sigma_2$に共通の変数がある場合、$\sigma_2$のその変数への代入は無視される。
+
+$$\{x\leftarrow t\} \apply \{x \leftarrow s, y \leftarrow u\} = \{x \leftarrow t, y \leftarrow u\}$$
+
+%\include{"definition"}
+
+\section{代入のunification}
+mguは代入の一種だが、二つのterm$t_1,t_2$があったとき、それを同じにする代入の中で最も一般的なものである。
+この操作をtermの間のunificationと呼ぶ。
+ここでは、次のように表記する。
+$$<t_1:t_2> \iff \sup\{\mu \bar \,t_1\apply \mu = t_2\apply \mu\}$$
+
+さらに、2つの代入の間のunification操作を次のように定義する。これは例であり、完全な定義は未。
+
+$$<\{x\leftarrow t\}: \{x \leftarrow s\}> \iff \{x \leftarrow <t:s>\}$$
+
+これによると
+$$<\{x \leftarrow f(y), y \leftarrow y \}: \{x \leftarrow f(a)\} >= \{x \leftarrow f(a), y \leftarrow a\}$$
+
+となる。
+
+\section{の意味}
+代入のunificationは、代入の間の$\apply$操作と型は同じだが、その意味は異なる。
+
+まず、代入への代入と異なり、同じ変数への代入があったとき、片方の代入を無視しない。
+
+また、termの変化というものについて考える。
+
+時間を$t_1,t_2,t_3,t_4$とし、termのシーケンスがあるとする。
+$$s_{t_1}, s_{t_2}, s_{t_3}, s_{t_4}$$
+
+ このとき、隣り合うtermのmguは、2つのtermの差を表している。
+\begin{eqnarray*}
+ \sigma_{1,2} = <s_{t_1}:s_{t_2}>\\
+ \sigma_{2,3}= <s_{t_2}:s_{t_3}>\\
+ \sigma_{3,4}= <s_{t_3}:s_{t_4}>\\
+\end{eqnarray*}
+
+そして、これらのmguの間のmguを求めると、それは差の差を表していると考えられる。
+\begin{eqnarray*}
+ \mu_{1,2,3} = <\sigma_{1,2}:\sigma_{2,3}>\\
+ \mu_{2,3,4} = <\sigma_{2,3}:\sigma_{3,4}>\\ 
+\end{eqnarray*}
+
+\subsection{メモ}
+時系列のtermの並びにおいて、時間経過によるtermの変化をこの代入のunificationで求めたmguで捉えることができるのではないか??
+
+これを繰り返すと、代入のmguのmguといったものも考えられる。
+
+resolutionによるproofの構成において、mguのmguを観察することで、ループの判定はできないだろうか。
+
+\end{document}
+
+
