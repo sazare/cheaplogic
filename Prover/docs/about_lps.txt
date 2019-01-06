@@ -1,0 +1,163 @@
+directory lps には、Logical Program Systhesis(LPS)(*1)の単純な実装を置いた。
+また、Proverのテンプレートと呼んでいるものは、(*2)の論理構造グラフを参考にしている。
+
+[意図]
+Proverができたので、LPSの合成プログラムを実装してみた。
+簡単にできない部分については作っていない。
+Proverも、簡単にできる部分だけを作っている。それがcheaplogicのcheapたる所以である。
+
+Juliaコードを生成するようにした。
+
+サンプルとして、FactorialとFibonacci関数のスペックをつけた。
+spec/fact.spec, spec/fibo.specがそれである。
+この2つのspecからプログラムを合成するスクリプトはspec/runspec.jlとして作成している。
+
+実行すると、spec/fact.jlとspec/fibo.jlが出力される。
+
+[使い方]
+
+1) Proverのコードのあるディレクトリで Julia(Julia 1.0.2で開発)を起動する。
+2) LPSプログラムのロード
+> include("loadlps.jl")
+
+3) specがspec/fact.specにある場合、次のように実行する。
+
+df,cf,bf,eisf,insf,onsf=lps("fact.jl", "spec/fact.spec", :fact, 3,3)
+
+=の左辺は書かなくても良い。
+
+一般形は次の通り。
+
+lps(出力ファイル名, specファイル名、合成関数名(Symbol)、証明のステップ数のmax、矛盾の数のmax)
+
+実行が成功すれば、Juliaコードを出力ファイル名のファイルとして出力する。
+
+factorialプログラムのspecファイルは次のとおり。
+
+===
+# spec of factorial    ## コメント
+# gt(x,y), pred(x), prod(x,y)のJulia関数を定義している。Proverの機能。
+!gt(x,y)   = x>y       
+!pred(x) = x-1
+!prod(x,y) = x*y
+
+# 次のINVARSとOUTVARSは合成に必要な情報であり、Proverは関与しない。
+# このあとでは変数X!とZとして使っているが、
+# ここではリスト(Array)の前に : をつけて、Symbolの配列であることを示している。
+!INVARS=:[X!]  ## 入力変数は大文字で末尾に!をつける。
+!OUTVARS=:[Z]  ## 出力変数は大文字で末尾に!をつけない。
+
+# 以下はProverの対象なるclauseの集合
+[X!,Z].[-Fact(X!,Z)]   ## conjectureの否定
+
+## このようにvariable bindingは先頭に[]で指定する。
+## ClauseはLieralのリスト(Array)として書く。否定は-、否定しないものは+をつける。
+## 数字はそのまま書いて良い。
+## 以下の2行はfactorialの定義
+[].[+Fact(0,1)]
+[i,w].[-Fact(pred(i),w),+Fact(i, prod(i,w)),-gt(i,0)]
+
+## IDaxiom
+[x].[+Fact(x,fact(x))]
+
+====
+
+
+
+[実装のポイント]
+実装の詳細は参考文献*1の方法と異なる。
+1) *1では、証明と合成が融合した方法になっていたが、ここではProverがすでに作成されていたので、Proverによって見つけ出した複数の矛盾の証明から、プログラムを合成するのに必要な情報を取り出す方法にし、証明とプログラム合成をできるだけ分離している。
+
+2) S-ruleは、入力clauseに対して実行している。S-ruleによってリテラルの少なくなったclause集合から矛盾を求めている。これは証明探索を容易にしている。
+
+3) しかし、元の方法では、証明の仮定で条件リテラルにmguが代入されて、合成の処理が容易になっている。
+　今回は証明がすべて終わったあとに、矛盾の証明で得られた代入を情報抽出のため適用している。
+　Proverは、証明の各ステップで発生するmguを管理しているので、これが可能である。
+
+4) 入出力変数については、Proverで大文字変数をrenameしないようにしていたので、入出力変数が証明の中に残っているという点では、ある程度実現できていた。それに加えて、入力変数を残すようなunificationをするように変更した。
+
+5) プログラム情報を抽出するため、入出力変数はINVARSとOUTVARSにSymbolの配列として指定するようにした。
+　この指定自体は、Proverが行頭に!があるとき、その行の残りをJuliaコードとして実行するので、その機能を用いておりProverは変更(上記4以外)していない。
+
+6) IDaxiomについては、通常のaxiomとしてProverは処理している。
+　　Juliaコードへの変換時に、作成する関数(fとすると)定義がf(...)の形の定義のときIDAxiomとみなし、Juliaコードの定義から除外している(コメントにしている)。
+   f(x) = f(x-1)のような定義だと、これではIDAxiomとみなされるのでだめ。IDaxiomを特別あつかいするような処理にする必要がある。
+
+7) 入出力変数のリストに対して、矛盾の証明木をもとにmguを適用する仕組みはprinttrace1()として作っていたので、これを用い、最初の変数リストとこのリストに対して矛盾の代入を適用したリストを比較して定義情報を取り出している。
+  S-ruleの条件リテラルを入力時にわけてしまったので、条件リテラルにはこのmguが適用されていないので、ひとつ手間がかかっている。
+
+8. この入力変数と矛盾のmguがかけられた入力変数のtermリストを比較し、termリストが定数や関数形をしているときは、入力変数=xxx の形の条件とした。
+
+
+[注意点]
+Proverのパラメタの、step数のmaxと矛盾の数のmaxは正確ではなく、より長いstep数の証明も作ろうとするかもしれない。
+
+参考文献での実装とは違い、この2つのパラメタの制約条件の中で証明を作って、そこからプログラム情報を抽出するので、この2つのパラメタによっては、十分なプログラム情報が取り出せなかったり、余分の不要な情報がとりだされ、実行できないプログラムになったりする。
+
+
+
+[参考文献]
+*1 
+@techreport{weko_31570_1,
+   author	 = "琴野実 and 大村伸一 and 宮沢君江 and 謝章文",
+   title	 = "Logical Program SynthesisのImplementation（pilot1）について",
+   year 	 = "1978",
+   institution	 = "京産大・理, 京産大・理, 京産大・理, 京産大・計科研",
+   number	 = "43(1977-PRO-003)",
+   month	 = "feb"
+}
+*2
+@techreport{weko_22760_1,
+   author	 = "謝章文",
+   title	 = "論理的プログラム合成と構造的反証原理",
+   year 	 = "1979",
+   institution	 = "京都産大・計科研",
+   number	 = "49(1978-SE-009)",
+   month	 = "mar"
+}
+
+関連する論文
+@techreport{weko_22775_1,
+   author	 = "謝章文",
+   title	 = "Foundations of Logical Program Synthesis",
+   year 	 = "1977",
+   institution	 = "京都産業大学計算機科学研究所",
+   number	 = "30(1977-SE-004)",
+   month	 = "nov"
+}
+@techreport{weko_22759_1,
+   author	 = "謝章文",
+   title	 = "構造的反証原理について",
+   year 	 = "1979",
+   institution	 = "京都産大・計科研",
+   number	 = "49(1978-SE-009)",
+   month	 = "mar"
+}
+
+
+@techreport{weko_22761_1,
+   author	 = "琴野実 and 大村伸一 and 東本謙治 and 馬渡幸夫 and 謝章文",
+   title	 = "OL - resolutionにもとづく論理的プログラム合成系・Pilot II",
+   year 	 = "1979",
+   institution	 = "京産大・理, 京産大・理, 京産大・理, 京産大・理, 京産大・計科研",
+   number	 = "49(1978-SE-009)",
+   month	 = "mar"
+}
+@techreport{weko_22762_1,
+   author	 = "大村伸一 and 琴野実 and 馬渡幸夫 and 東本謙治 and 謝章文",
+   title	 = "構造的反証原理に基づく論理的プログラム合成系・Pilot III",
+   year 	 = "1979",
+   institution	 = "京産大・理, 京産大・理, 京産大・理, 京産大・理, 京産大・計科研",
+   number	 = "49(1978-SE-009)",
+   month	 = "mar"
+}
+
+@techreport{weko_22693_1,
+   author	 = "大村伸一 and 謝章文",
+   title	 = "自動合成系LPSのあるプログラミング環境",
+   year 	 = "1982",
+   institution	 = "京都産大・理, 京都産大・計科研",
+   number	 = "48(1981-SE-022)",
+   month	 = "feb"
+}
+

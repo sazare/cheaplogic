@@ -125,9 +125,21 @@ end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Symbol)
  if t1==t2; return () end
+ if isvar(t1,vars) && isvar(t2,vars)
+   if isinvar(t1); return (t2,t1) end
+   if isinvar(t2); return (t1,t2) end
+ end
  if isvar(t1,vars); return (t1,t2) end
  if isvar(t2,vars); return (t2,t1) end
  if t1!=t2; throw(ICMP(t1,t2,:unify0ss)) end
+end
+
+function inside(vt::Symbol, et::Number)::Bool
+  return false
+end
+
+function inside(vt::Symbol, et::Symbol)::Bool
+  return false
 end
 
 function inside(vt::Symbol, et::Expr)::Bool

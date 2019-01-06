@@ -36,7 +36,7 @@ struct STEP
  rename
 end
 
-struct CORE
+mutable struct CORE
  name
  maxcid
  maxrid
