@@ -79,4 +79,6 @@ end
 
 #### 
 iscap(x) = isuppercase(x[1])
+isinvar(x) = '!' == String(x)[end]
+
 
