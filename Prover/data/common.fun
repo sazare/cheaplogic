@@ -12,3 +12,6 @@
 
 !times(x,y) = x*y
 !add(x,y)  = x+y
+!pred(x) = x-1
+!succ(x) = x+1
+
