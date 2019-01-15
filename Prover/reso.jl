@@ -267,6 +267,13 @@ function fp_subst(vars::Vlist, subst::Tlist)
  return sa
 end
 
+function fp_subst2(vars::Vlist, subst::Tlist)
+## make a fixed point of sigma(ss)
+ sb = subst
+ sa = apply(vars, subst, subst)
+ return sa
+end
+
 function unify(vars::Vlist, t1::Expr, t2::Expr)
  ss = unify1(vars, t1, t2, vars)
  fs = fp_subst(vars, ss)
