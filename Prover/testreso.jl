@@ -48,14 +48,14 @@ end
 
 end
 
-@testset "inside check" begin
- @test inside(:x,:(g(y)))==false
-## not happen case: @test inside(:x,:x)==false
- @test_throws Loop inside(:x,:(g(x)))
- @test_throws Loop inside(:x,:(f(a,g(x))))
- @test inside(:x,:(f(g(y),g(h(y)))))==false
- @test_throws Loop inside(:x,:(f(g(a),g(x))))
- @test_throws Loop inside(:x,:(f(g(x),g(x))))
+@testset "loop check" begin
+ @test loopcheck(:x,:(g(y)))==false
+## not happen case: @test loopcheck(:x,:x)==false
+ @test_throws Loop loopcheck(:x,:(g(x)))
+ @test_throws Loop loopcheck(:x,:(f(a,g(x))))
+ @test loopcheck(:x,:(f(g(y),g(h(y)))))==false
+ @test_throws Loop loopcheck(:x,:(f(g(a),g(x))))
+ @test_throws Loop loopcheck(:x,:(f(g(x),g(x))))
 end
 
 @testset "unify0 find a pair unifiable" begin
@@ -116,7 +116,7 @@ end
    @test unify([:x,:y,:z,:u],:(P(x,y,z,u)),:(P(f(y),g(z),h(u),k(a)))) == [:(f(g(h(k(a))))),:(g(h(k(a)))),:(h(k(a))),:(k(a))]
 
 
-   @testset "inside check for fixed point of subst" begin
+   @testset "loop check for fixed point of subst" begin
      @test_throws Loop fp_subst([:x,:y],[:(f(y)),:x])
      @test_throws Loop fp_subst([:x,:y,:z],[:a,:(f(x,z)),:(g(y))]) == [:a,:(f(a,b)),:b]
      @test_throws Loop fp_subst([:x,:y,:z,:w],[:a,:(f(x,z)),:(g(w)),:(h(z))]) == [:a,:(f(a,b)),:b]
@@ -136,7 +136,7 @@ end
 
  end
 
- @testset "unify inside test fail" begin
+ @testset "unify loop test fail" begin
   @test_throws Loop unify([:x,:y],:(P(x)),:(P(f(x))))
   @test_throws Loop unify([:x,:y],:(P(x,y)),:(P(y,f(y))))
  end

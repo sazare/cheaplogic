@@ -1,5 +1,5 @@
 cheaplogicは、2018年に作成したproverに関するProjectの名前。
-dvc_resolution()がぬresolutionを行い, simpleprover()が可能なproofを作る。
+dvc_resolution()がresolutionを行い, simpleprover()が可能なproofを作る。
 
 特徴:
 1) resolution

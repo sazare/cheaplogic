@@ -134,32 +134,32 @@ function unify0(vars::Vlist, t1::Symbol, t2::Symbol)
  if t1!=t2; throw(ICMP(t1,t2,:unify0ss)) end
 end
 
-function inside(vt::Symbol, et::Number)::Bool
+function loopcheck(vt::Symbol, et::Number)::Bool
   return false
 end
 
-function inside(vt::Symbol, et::Symbol)::Bool
+function loopcheck(vt::Symbol, et::Symbol)::Bool
   return false
 end
 
-function inside(vt::Symbol, et::Expr)::Bool
+function loopcheck(vt::Symbol, et::Expr)::Bool
   for arg in et.args
    if typeof(arg) == Symbol
-    if vt == arg; throw(Loop(vt,et,:insidese)) end
+    if vt == arg; throw(Loop(vt,et,:loopse)) end
    else
-    if inside(vt, arg);return throw(Loop(vt,et,:insidese)) end
+    if loopcheck(vt, arg);return throw(Loop(vt,et,:loopse)) end
    end
   end
   return false
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Expr)
- isvar(t1,vars) && !inside(t1,t2) && return (t1,t2) 
+ isvar(t1,vars) && !loopcheck(t1,t2) && return (t1,t2) 
  if t1!=t2; throw(ICMP(t1,t2,:unify0se)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Symbol)
- isvar(t2,vars)&&!inside(t2,t1)&&return(t2,t1)
+ isvar(t2,vars)&&!loopcheck(t2,t1)&&return(t2,t1)
  if t1!=t2; throw(ICMP(t1,t2,:unify0es)) end
 end
 
@@ -247,10 +247,10 @@ end
 unify is a main interface for unification
 """
 
-function inside_sigma(vars::Vlist, subst::Tlist)
+function loopcheck_sigma(vars::Vlist, subst::Tlist)
   for ix in 1:length(vars)
     if typeof(subst[ix]) != Symbol
-      inside(vars[ix], subst[ix])
+      loopcheck(vars[ix], subst[ix])
     end
   end
   return false
@@ -261,7 +261,7 @@ function fp_subst(vars::Vlist, subst::Tlist)
  sb = subst
  sa = apply(vars, subst, subst)
  while sb != sa
-   inside_sigma(vars, sa)
+   loopcheck_sigma(vars, sa)
    sb, sa = sa, apply(vars, sa, sa)
  end
  return sa
