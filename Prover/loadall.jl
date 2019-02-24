@@ -7,4 +7,5 @@ include("coreprint.jl")
 include("dvcreso.jl")
 include("analyzer.jl")
 include("repl.jl")
+include("merge.jl")
 

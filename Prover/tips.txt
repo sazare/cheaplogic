@@ -1,0 +1,63 @@
+■ 直接文字列でcoreを入力する場合
+ julia> r002,c002=simpleprover(IOBuffer(
+"[X].[-P(X)]
+[x].[+P(x),-Q(x)]
+[x].[+Q(a)]",
+), 5,1)
+
+■coreのclauseを見たいとき (readcore後)
+julia> printclauses(ceveryonedie)
+C1:[x_C1]. L4.-(Die(x_C1))
+C2:[]. L3.+(Life(I))
+C3:[]. L7.+(Life(Sazare))
+C4:[]. L8.+(Life(Kuukai))
+C5:[]. L11.+(Life(ClarkKent))
+C6:[]. L5.-(Undead(Zombi))
+C7:[]. L6.-(Undead(QB))
+C8:[x_C8]. L1.-(Life(x_C8)), L2.+(Die(x_C8))
+C9:[x_C9]. L9.+(Life(x_C9)), L10.-(Die(x_C9))
+R1:[x_C8R1]. L1_R1.-(Life(x_C8R1))
+R2:[].□
+R3:[].□
+R4:[x_C9R4]. L10_R4.-(Die(x_C9R4))
+R5:[].□
+R6:[].□
+
+
+■ 証明のprint
+julia> printaproof1(:R2, c002)
+
+C1:[X]. L3.-(P(X))
+C2:[x_C2]. L1.+(P(x_C2)), L2.-(Q(x_C2))
+  <L3:L1>=[X,x_C2]←[x_C2,x_C2]
+R1:[x_C2R1]. L2_R1.-(Q(x_C2R1))
+C3:[x_C3]. L4.+(Q(a))
+  <L2_R1:L4>=[x_C2R1,x_C3]←[a,x_C3]
+R2:[].□
+julia> cidof(:L4,c002)
+:C3
+
+■リテラルからクローズ
+julia> cidof(:L2_R1,c002)
+:R1
+
+■??
+julia> ovarsof(:L2_R1, :L4, c002)
+2-element Array{Symbol,1}:
+ :x_C2R1
+ :x_C3  
+
+■proofのsigmaを参照する 
+julia> c002.proof[:R2].sigma
+2-element Array{Symbol,1}:
+ :a   
+ :x_C3
+
+■ :R1までの証明木
+ printaproof1(:R1, c002)
+ printaproof1(:R2, c002)
+
+■ :R2の証明ステップ
+ stepof(:R2, c002)
+
+

@@ -69,12 +69,10 @@ function apply(vars::Vlist, subst1::Tlist, subst2::Tlist)
   narg = apply(vars, arg, subst2)
   if isempty(nterm)
    nterm = [narg]
-  else
-   if ndims(subst1) == 1
+  elseif ndims(subst1) == 1
      nterm = vcat(nterm, [narg])
-   else
+  else
      nterm = hcat(nterm, [narg])
-   end
   end
  end
  nterm
@@ -134,20 +132,20 @@ function unify0(vars::Vlist, t1::Symbol, t2::Symbol)
  if t1!=t2; throw(ICMP(t1,t2,:unify0ss)) end
 end
 
-function loopcheck(vt::Symbol, et::Number)::Bool
+function loopcheck(vt::Symbol, et::Number; istop=false)::Bool
   return false
 end
 
-function loopcheck(vt::Symbol, et::Symbol)::Bool
+function loopcheck(vt::Symbol, et::Symbol; istop=false)::Bool
   return false
 end
 
-function loopcheck(vt::Symbol, et::Expr)::Bool
+function loopcheck(vt::Symbol, et::Expr; istop=true)::Bool
   for arg in et.args
    if typeof(arg) == Symbol
     if vt == arg; throw(Loop(vt,et,:loopse)) end
    else
-    if loopcheck(vt, arg);return throw(Loop(vt,et,:loopse)) end
+    if loopcheck(vt, arg, istop=false);return throw(Loop(vt,et,:loopse)) end
    end
   end
   return false
@@ -176,32 +174,43 @@ end
 ### unify do unification
 # t1,t2 are literal(without sign, without or/and.
 
-function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
-  if t1!=t2; throw(ICMP(t1,t2,:unify1)) end
-  σb=vars
-  while(true)
-   σa=unify0(vars,t1,t2)
-   if σa==(); break end
-   σi = merge(vars, σb, σa) 
-   t1 = apply(t1,σi)
-   t2 = apply(t2,σi)
-   σb=σa
-  end
- σb
+function maketlist(vars::Vlist, t1::Symbol, t2::Symbol)::Tlist
+@show vars, t1, t2
+  map(x->if x==t1;t2 else t1 end, vars)
 end
+
+#function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
+##  if t1!=t2; throw(ICMP(t1,t2,:unify1)) end
+#  σb=vars
+#  while(true)
+#   σa0=unify0(vars,t1,t2)
+#   if σa0==(); break end
+#   σa = maketlist(vars, σa0[1], σa0[2]) 
+#@show σa
+#   σi::Tlist = merge(vars, σb, σa)
+#@show σi
+#   t1 = apply(t1,σi,σb)
+#   t2 = apply(t2,σi,σb)
+#   σb=σa
+#  end
+# σb
+#end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
  if t1==t2;return subst end
  if isvar(t1,vars)
-  ix = find(x->x==t1,vars)[1]
-  if isvar(subst[ix],vars)
-    if t2!=subst[ix];throw(ICMPIn(t1,t2,subst,:unify1ss1))end 
+  ix = findfirst(x->x==t1,vars)
+  if t1 == subst[ix] # t1 is var and havn't substituted yet. 
+    subst[ix] = t2
+  elseif isvar(subst[ix],vars)
+    if t2!=subst[ix]; throw(ICMPIn(t1,t2,subst,:unify1ss1))end 
     subst[ix] = t2
   end
   return subst
  end
+
  if isvar(t2,vars)
-  ix = find(x->x==t2,vars)[1]
+  ix = findfirst(x->x==t2,vars)
   if isvar(subst[ix],vars)
     if t1!=subst[ix];throw(ICMPIn(t1,t2,subst,:unify1ss2))end 
     subst[ix] = t1
