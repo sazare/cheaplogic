@@ -56,7 +56,6 @@ function apply(vars::Vlist, sym::Number, subst::Tlist)
 end
 
 function apply(vars::Vlist, sym::Symbol, subst::Tlist)
- if !isvar(sym, vars); return sym end
  for i in 1:length(vars)
   if sym == vars[i]; return subst[i] end
  end
@@ -103,7 +102,7 @@ end
 
 function unify0(vars::Vlist, t1::Number, t2::Symbol)
  if isvar(t1,vars); return (t1,t2) end
- if isvar(t2,vars); return (t2,t1) end
+# if isvar(t2,vars); return (t2,t1) end
  throw(ICMP(t1,t2,:unify0ns))
 end
 
@@ -116,7 +115,7 @@ function unify0(vars::Vlist, t1::Expr, t2::Number)
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Number)
- if isvar(t1,vars); return (t1,t2) end
+# if isvar(t1,vars); return (t1,t2) end
  if isvar(t2,vars); return (t2,t1) end
  throw(ICMP(t1,t2,:unify0sn))
 end
