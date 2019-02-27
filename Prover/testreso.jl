@@ -77,12 +77,34 @@ end
  @test_throws ICMP unify0([:x],:(P(a)), :(P(f(b)))) 
 end
 
+@testset "unify1" begin
+ @test unify1([], :(f()), :(f()), []) == []
+ @test unify1([:x], :x, :x, [:x]) == [:x]
+ @test unify1([:x], :x, :a, [:x]) == [:a]
+ @test unify1([:x], :x, :x, [:x]) == [:x]
+ @test unify1([:x], :x, :x, [:x]) == [:x]
+
+ @test unify1([:x], :(f(x)), :(f(x)), [:x]) == [:x]
+ @test unify1([:x], :(f(x)), :(f(a)), [:x]) == [:a]
+ @test unify1([:x], :(f(x)), :(f(x)), [:b]) == [:b]
+
+ @test_throws ICMP unify1([:x], :(f(x)), :(f(a)), [:b])
+
+ @test unify1([:x,:y], :(f(x)), :(f(x)), [:x,:a]) == [:x,:a]
+ @test unify1([:x,:y], :(f(x)), :(f(b)), [:x,:a]) == [:b,:a]
+
+ @test unify1([:x,:y], :(f(b)), :(f(x)), [:x,:a]) == [:b,:a]
+ @test unify1([:x,:y], :(f(g(b))), :(f(x)), [:x,:a]) == [:(g(b)),:a]
+
+ @test unify1([:x,:y], :(f(g(b,y))), :(f(x)), [:x,:(h(a))]) == [:(g(b,y)),:(h(a))]
+end
+
 @testset "unify" begin
- @test unify([],:(P()),:(Q())) == []
+ @test_throws ICMP unify([],:(P()),:(Q()))
 
  @test unify([:x],:(),:())== [:x]
  @test unify([:x],:(P()),:(P())) == [:x]
- @test unify([:x],:(P()),:(Q())) == [:x]
+ @test_throws ICMP unify([:x],:(P()),:(Q()))
 
 
  @test unify([:x],:(P(x)), :(P(x))) == [:x]
@@ -104,6 +126,8 @@ end
  @test unify([:x,:y],:(P(x,f(a,x))),:(P(y,f(a,y)))) == [:y,:y]
  @test unify([:x,:y],:(P(x,f(x))),:(P(a,f(y)))) == [:a,:a]
  @test unify([:x,:y],:(P(x,y)),:(P(y,f(a)))) == [:(f(a)),:(f(a))]
+
+ @test unify([:x,:y], :(f(g(b,y),h(a))), :(f(x,y))) == [:(g(b,h(a))),:(h(a))]
 
  @testset "fixed point of subst" begin
    @test fp_subst([:x,:y],[:x,:y]) == [:x,:y]
