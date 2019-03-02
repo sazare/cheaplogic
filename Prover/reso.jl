@@ -213,13 +213,72 @@ function unify1(vars::Vlist, t1::Number, t2::Expr, subst::Tlist)
  throw(ICMP(t1,t2,:unify1ne))
 end
 
-function putsubst(vars, v::Symbol, t::Any, subst::Tlist)
+"""
+replace the ix'th element of tlist with t
+without typechecking
+"""
+function putarray(tlist::Array, ix::Number, t::Any)
+  map(i->if i==ix; t else tlist[i] end, 1:length(tlist))
+end
+
+function vindex(vars::Vlist, v::Symbol)
  ix = findfirst(x->x==v,vars)
- if ix == nothing; println("unknown var $v in putsubst");return subst end
+ if ix == nothing; return 0 end
+ return ix
+end
+
+"""
+replace v with t in σ when v is var. and fixed point of σ.
+if v<-s in σ, and s is var, replace v with t.
+otherwise exception
+"""
+function putsubst(vars, v::Symbol, t::Any, subst::Tlist)
+ if v == t; return subst end
+
+ ix = vindex(vars, v)
+ if ix == 0; println("unknown var $v in putsubst");return subst end
+
  ot = subst[ix]
- if isvar(ot, vars); subst[ix] = t end
- if t == ot; return subst end
- throw(ICMP(t1,t2,:unify1ne))
+ if ot == t; return subst end
+#@show :before_fp_subst, vars, subst
+ if !isvar(ot, vars)
+#@show :notvar,ot,vars
+  if ot == t; return subst
+  elseif isvar(t, vars)
+@show "isvar $t"
+    v = t
+    t = ot
+    ix = vindex(vars, v)
+    if ix == 0; throw(ICMP(ot,t,:putsubst)) end
+  else
+@show ot,t
+   throw(ICMP(ot,t,:putsubst)) 
+  end
+
+  subst=putarray(subst, ix, t)
+  return subst
+ else
+  subst=putarray(subst, ix, t)
+
+  rsubst=[]
+  while subst != rsubst
+   ix = vindex(vars, ot)
+   if ix == 0; println("unknown var $v in putsubst")
+     throw(ICMP(ot,t,:unify1ss3))
+   end
+#@show ix
+   rsubst=putsubst(vars, ot, t, subst) # backward subst
+   subst=rsubst
+#@show subst,rsubst
+   ot = subst[ix]
+  end
+  fsubst = fp_subst(vars, rsubst) # forward subst
+#@show fsubst
+  return fsubst
+ end
+#@show "$ot is not ovar"
+ if t == ot; return fp_subst(vars, subst) end
+ throw(ICMP(v,t,:unify1ne))
 end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Number, subst::Tlist)
@@ -237,37 +296,47 @@ function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
  if t1==t2;return subst end
 
  if isvar(t1,vars)
-  ix = findfirst(x->x==t1,vars)
-  if t1 == subst[ix] # t1 is var and havn't substituted yet. 
-    subst[ix] = t2
-  elseif isvar(subst[ix],vars)
-#@show :unify1vss1, vars, t1, t2, subst[ix], vars
-#    if t2!=subst[ix]; throw(ICMPIn(t1,t2,subst,:unify1ss1))end 
-    subst[ix] = t2
-  end
-  return subst
+   return putsubst(vars, t1, t2, subst)
+ end
+ if isvar(t2,vars)
+   return putsubst(vars, t2, t1, subst)
  end
 
- if isvar(t2,vars)
-  ix = findfirst(x->x==t2,vars)
-  if isvar(subst[ix], vars)
-#@show :unify1vss2, vars, t1, t2, subst[ix], vars
-    subst[ix] = t1
-  end
-  return subst
- end
  throw(ICMP(t1,t2,:unify1ss3))
+# if isvar(t1,vars)
+#  ix = findfirst(x->x==t1,vars)
+#  if t1 == subst[ix] # t1 is var and havn't substituted yet. 
+#    subst[ix] = t2
+#  elseif isvar(subst[ix],vars)
+#@show :unify1vss1, vars, t1, t2, subst[ix], vars
+##    if t2!=subst[ix]; throw(ICMPIn(t1,t2,subst,:unify1ss1))end 
+#    subst[ix] = t2
+#  end
+#  return subst
+# end
+#
+# if isvar(t2,vars)
+#  ix = findfirst(x->x==t2,vars)
+#  if isvar(subst[ix], vars)
+#@show :unify1vss2, vars, t1, t2, subst[ix], vars
+#    subst[ix] = t1
+#  end
+#  return subst
+# end
+# throw(ICMP(t1,t2,:unify1ss3))
 end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Expr, subst::Tlist)
 #@show :unify1vse,t1,t2,subst
- if isvar(t1,vars);return t2 end
+ if isvar(t1,vars);return putsubst(vars, t1, t2, subst) end
+# if isvar(t1,vars);return t2 end
  throw(ICMP(t1,t2,:unify1se))
 end
 
 function unify1(vars::Vlist, t1::Expr, t2::Symbol, subst::Tlist)
 #@show :unify1ves,t1,t2,subst
- if isvar(t2,vars);return t2 end
+ if isvar(t2,vars);return putsubst(vars, t2, t1, subst) end
+# if isvar(t2,vars);return t2 end
  throw(ICMP(t1,t2,:unify1))
 end
 
