@@ -63,7 +63,6 @@ end
 
 # ksubst
 function kpapply(vars::Vlist, args::Dict{Symbol,Any}, sigma::Tlist)
-@show "kapply VDσ"
  for k in keys(args)
   args[k] = apply(vars, args[k], sigma)
  end 
@@ -71,14 +70,12 @@ function kpapply(vars::Vlist, args::Dict{Symbol,Any}, sigma::Tlist)
 end
 
 function kpapply(vars::Vlist, form::KPExpr, sigma::Tlist)
-@show "kapply VKσ"
   form.args=kpapply(vars, form.args, sigma)
   form
 end
 
 ### kpunify
 function apply(terms::Tlist, sym::Symbol, t::Any)
-@show "apply LSA"
  tms = terms
  for t in terms
    if sym == t; append!(tms, [sym]) end
@@ -87,17 +84,14 @@ function apply(terms::Tlist, sym::Symbol, t::Any)
 end
 
 function kpunify(vars::Vlist, exp1::Symbol, exp2::Number)
-@show "kpunify vsn"
  unify1(vars, exp1, exp2, vars)
 end
 
 function kpunify(vars::Vlist, exp1::Number, exp2::Symbol)
-@show "kpunify vns"
  unify1(vars, exp1, exp2, vars)
 end
 
 function kpunify(vars::Vlist, exp1::Symbol, exp2::Symbol)
-@show "kpunify vss",exp1,exp2
  if exp1 == exp2; return [] end
 
 # left is a var
@@ -131,34 +125,26 @@ function applysubst(vars::Vlist, sig::Tlist, sv::Var, ss::Term)
 end
 
 function kpunify(vars::Vlist, args1::Dict{Symbol, Any}, args2::Dict{Symbol, Any})
-@show "kpunify vdd", args1, args2
  ks = intersect(keys(args1), keys(args2))
  sigma = vars
  for k in ks
   t1 = args1[k]
   t2 = args2[k]
   if t1==t2; continue end
-@show t1,t2,sigma
   ws = unify1(vars, t1, t2, sigma)
-@show ws
-  if !isa(ws, Array); ws = [ws] end
-@show vars, sigma, ws
   sigma = apply(vars, sigma, ws)
-@show sigma
  end
  sigma 
 end
 
 
 function kpunify(vars::Vlist, exp1::KPExpr, exp2::KPExpr)
-@show "kpunify vkk"
  if kpequal(exp1, exp2); return vars end
  if exp1.op != exp2.op; throw(ICMP(exp1.op, exp2.op, :kpunify)) end
  fp_subst(vars, kpunify(vars, exp1.args, exp2.args))
 end
 
 function kpunify(vars::Vlist, exp1::Expr, exp2::Expr)
-@show "kpunify vee"
  unify(vars, exp1, exp2)
 end
 

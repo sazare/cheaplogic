@@ -1,8 +1,5 @@
 using Test
 
-#include("load_cheaplogic.jl")
-#include("kpbase.jl")
-
 @testset "kpconv" begin
  @test kpequal(KPExpr(:f, Dict{Symbol,Any}(:a=>:b)), kpconv(:(f(a=b))))
  @test kpequal(KPExpr(:f, Dict{Symbol,Any}(:a=>:b,:c=>:(f(x)))), kpconv(:(f(c=f(x),a=b))))
