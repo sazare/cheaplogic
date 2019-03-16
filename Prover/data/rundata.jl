@@ -83,3 +83,5 @@ rdop001,cdop001=simpleprover("data/dop001.cnf",10,10) # contralimit must > 5
 rident001,cident001=simpleprover("data/ident001.cnf",5,5) # identity 
 rident002,cident002=simpleprover("data/ident002.cnf",5,5) # identity with near time 
 
+rjp1,cjp1=simpleprover("data/jp001.cnf",2,2)
+
