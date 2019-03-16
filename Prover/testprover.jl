@@ -1,6 +1,6 @@
 #test for simpleprover(now in dvcreso.jl)
 using Test
-include("loadall.jl")
+include("load_cheaplogic.jl")
 
 @testset "basic prover" begin
  r001,c001=simpleprover(IOBuffer(

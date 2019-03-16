@@ -1,4 +1,4 @@
-include("loadall.jl")
+include("load_cheaplogic.jl")
 
 magia=readclausefromfile("data/magia.cnf")
 cmagi=createcore(magia)

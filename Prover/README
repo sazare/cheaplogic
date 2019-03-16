@@ -1,5 +1,6 @@
 README
 
+### cheaplogic prover
 misc.jl       -- nyi() ... something like this
 
 primitives.jl -- primitive difinitions and functions
@@ -13,22 +14,16 @@ setupdata.jl  -- just setup data
 play.jl       -- playgound
 
 #tests
-testall.jl    -- run test below tests
+test_cheaplogic.jl -- run tests for cheaplogic
  testreso.jl
+ testutils.jl
+ testmerge.jl
  testnewcore.jl
  testdvcreso.jl
+ testparser.jl
+ testprover.jl
 
-# obsoletes
-cgop.jl      -- graphic representation ... almost obsolete
-                todo make a type for (pgr, cdb, ldb) 
-
-tact.jl      -- tactical common obsolete 
-tactu.jl     -- tactical unit resolution  obsolete
-testcgop.jl
-testtact.jl
-testtactu.jl
-
-# data
+# data basic axiom sets
 *.cnf       -- test sets cnf form
 
 common.fun  -- executable literal definition which included by < in cnf
@@ -52,4 +47,17 @@ you can browse by following one liner
  $ grep -H '^<data/common.fun' *.cnf   # It may use executable literals.
 
 For these grep effective, when write a cnf, follow the such style.
+
+### spec for LPS
+load_lps.jl : load lps 
+spec/runspec.jl demo lps with some examples
+
+### KP logic is keyword-parameter unification and resolution based on it.
+kptype.jl
+kpbase.jl
+
+load_kplogic.jl
+test_kplogic.jl -- run tests for KP logic
+
+play_kp.jl : demo for print as Japanese from KP formula
 
