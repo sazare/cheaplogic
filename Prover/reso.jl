@@ -245,13 +245,11 @@ function putsubst(vars, v::Symbol, t::Any, subst::Tlist)
 #@show :notvar,ot,vars
   if ot == t; return subst
   elseif isvar(t, vars)
-@show "isvar $t"
     v = t
     t = ot
     ix = vindex(vars, v)
     if ix == 0; throw(ICMP(ot,t,:putsubst)) end
   else
-@show ot,t
    throw(ICMP(ot,t,:putsubst)) 
   end
 

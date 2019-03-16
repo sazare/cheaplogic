@@ -1,8 +1,14 @@
 @ 20 questions sample
 
+# neg conj formally
 [x].[-Q(x)]
 
+# 4 of 20 questions are
 [x].[+Q(x),-Plant(x),+CanEat(x),-Small(x),-hasThorn(x)]
+
+# knowledges
+# These negs are the conflict of concept of predicate and the individuals
+
 [].[+hasThorn(rose)]
 [].[+hasThorn(Harinezumi)]
 [].[+Small(bean)]

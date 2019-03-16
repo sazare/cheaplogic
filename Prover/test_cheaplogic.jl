@@ -1,4 +1,4 @@
-include("loadall.jl")
+include("load_cheaplogic.jl")
 
 include("testreso.jl")
 include("testutils.jl")
