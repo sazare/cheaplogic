@@ -60,6 +60,34 @@ function kpconv(expr::Expr)::BigExpr
  end
 end
 
+### kpparse
+function kpparse(::Expr)
+
+
+end
+
+function kpparselit(sexpr::Expr)
+#  sign = sexpr.args[1]
+  atom = kpconv(sexpr.args[2])
+  sexpr.args[2] = atom
+  sexpr
+end
+
+function kpparsebody(body::Expr)
+  lits = body.args[1].args
+  for lix in 1:length(lits)
+    lits[lix] = kpparselit(lits[lix])
+  end
+  return body
+end
+
+function kpparse(line::String)::BigExpr
+ expr = Meta.parse(line)
+# vars = expr.args[1]
+ body = kpparsebody(expr.args[2])
+ expr.args[2] = body
+ expr
+end
 
 # ksubst
 function kpapply(vars::Vlist, args::Dict{Symbol,Any}, sigma::Tlist)
