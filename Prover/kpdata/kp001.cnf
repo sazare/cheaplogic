@@ -1,0 +1,15 @@
+# rd1,cd1=ksimpleprover("kpdata/kp001.cnf",3,5)
+
+Goal
+[W].[-R(ga=W,wo=C)]
+# 2 []
+
+Fact
+[who].[-P(ga=who,wo=wound),+R(ga=who,wo=C)]
+[who].[-P(ha=who,wo=wound),+R(ga=who,wo=C)]
+
+[].[+P(ga=s,wo=wound)]
+[].[+P(ga=q,wo=wound)]
+[].[+P(ha=s,wo=help)]
+
+

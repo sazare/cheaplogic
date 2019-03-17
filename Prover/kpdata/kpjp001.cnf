@@ -1,0 +1,15 @@
+# r1,c1=ksimpleprover("kpdata/kpjp001.cnf",3,5)
+Goal
+[W].[-休む(ga=W,wo=会社)]
+# 2 []
+ [x,y].[-Q(ga=x,wo=y)]
+# 3 []
+
+Fact
+[who].[-する(ga=who,wo=怪我),+休む(ga=妹,wo=会社)]
+[who].[-する(ha=who,wo=怪我),+休む(ga=私,wo=会社)]
+
+[].[+する(ga=妹,wo=怪我)]
+[].[+する(ha=妹,wo=怪我)]
+
+

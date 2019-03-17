@@ -46,6 +46,26 @@ function readclausefromfile(fname)
  return clss, proc
 end
 
+function readkpclausefromfile(fname)
+ lines=readlines(fname)
+ clss = []
+ proc = []
+ for line in lines
+  if length(line)>0
+    if line[1]=='['
+      push!(clss,kpparse(line))
+    elseif line[1] == '!'
+      push!(proc,line[2:end])
+    elseif line[1] == '<'
+      iclss, iproc = readkpclausefromfile(strip(line[2:end],[' ','\t']))
+      append!(clss, iclss)
+      append!(proc, iproc)
+    end
+  end
+ end
+ return clss, proc
+end
+
 function printcnf(fname)
  cnfs, proc=readclausefromfile(fname)
  @show proc
