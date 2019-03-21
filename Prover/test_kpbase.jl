@@ -48,6 +48,7 @@ end
  @test [:(g(p)),:(g(p))] == kpunify([:x,:y], kpconv(:(f(a=g(x),b=h(x)))), kpconv(:(f(a=g(g(p)),b=h(y)))))
  @test [:p,:p] == kpunify([:x,:y], kpconv(:(f(a=x,b=x))), kpconv(:(f(a=y,b=p))))
  @test [:p,:p] == kpunify([:x,:y], kpconv(:(f(a=y,b=y))), kpconv(:(f(b=p, a=x))))
+
  @test [:p,:p] == kpunify([:x,:y], kpconv(:(f(a=x,b=x))), kpconv(:(f(b=p, a=y))))
 
  @test [:k, :k, :(h(k,k)), :(p(k))] == kpunify([:x,:y,:z,:w], kpconv(:(f(a=x, b=g(h(x,y),y), c=p(y)))), kpconv(:(f(a=k, b=g(z,k),c=w))))

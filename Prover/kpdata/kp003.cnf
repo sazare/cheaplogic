@@ -1,0 +1,16 @@
+# rk003,ck003=ksimpleprover("kpdata/kp003.cnf",2,2)
+# DONT WORK YET
+# 
+# swap args 
+# refer kpdata/kp002.cnf and data/data000a.cnf
+
+Goal
+[x,y].[-R(ga=x,wo=y)]
+ [X,Y].[-R(ga=X,wo=Y)]
+
+Fact
+[x,y].[-P(give=x,have=y),+R(wo=x, ga=y)]
+[].[+P(have=a, give=b)]
+ [].[+R(wo=one, ga=two)]
+ [].[+R(ga=two, wo=one)]
+
