@@ -1,3 +1,5 @@
+rdata000,cdata000=simpleprover("data/data000.cnf",2,2)
+rdata000a,cdata000a=simpleprover("data/data000a.cnf",2,2)
 r20Q01,c20Q01=simpleprover("data/20Q01.cnf",5,2)
 rdata001,cdata001=simpleprover("data/data001.cnf",3,5)
 rdata002,cdata002=simpleprover("data/data002.cnf",3,5)
