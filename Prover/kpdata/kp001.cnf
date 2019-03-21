@@ -1,4 +1,4 @@
-# rd1,cd1=ksimpleprover("kpdata/kp001.cnf",3,5)
+# rk001,ck001=ksimpleprover("kpdata/kp001.cnf",3,5)
 
 Goal
 [W].[-R(ga=W,wo=C)]

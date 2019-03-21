@@ -436,7 +436,7 @@ end
 """
 simple prover find some contracictions, but not all
 """
-function simpleprover(cnf, steplimit, contralimit)
+function ksimpleprover(cnf, steplimit, contralimit)
  cdx=readcore(cnf)
  tdx=alltemplateof(cdx)
  gb=[lidsof(:C1, cdx)]

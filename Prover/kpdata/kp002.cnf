@@ -1,0 +1,14 @@
+# rk002,ck002=ksimpleprover("kpdata/kp002.cnf",2,2)
+# 
+# input variable X should be a constant. nc2 make an unsatisfiable result.
+# refer data/data000.cnf and data/data000a.cnf
+
+Goal
+[Y].[-R(ga=X,wo=Y)]
+
+#nc2 [X,Y].[-R(ga=X,wo=Y)]
+
+Fact
+
+[x].[+R(ga=x,wo=f(x))]
+

@@ -1,0 +1,14 @@
+# rdata000,cdata000=simpleprover("data/data000.cnf",2,2)
+# simplest axioms
+
+# input variable X should be a constant. nc2 make an unsatisfiable result.
+# But it causes unify fail with some type of axioms as P(a, b).
+
+Goal
+[Y].[-P(X,Y)]
+
+Fact
+
+[x].[+P(x,f(x))]
+
+

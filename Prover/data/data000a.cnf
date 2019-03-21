@@ -1,0 +1,20 @@
+# rdata000a,cdata000a=simpleprover("data/data000a.cnf",2,2)
+# simplest axioms
+
+# Following data000.cnf
+# Input variables can't be constatns for completeness
+# In this case, x in Goal disapeared.
+# printmgus(core, true) shows the history.
+# If I want to keep the input variables in printmgus,
+# I need some substitution control.
+# What I need will make how I do.
+
+
+Goal
+[x,y,Z].[-P(x,y,Z)]
+
+Fact
+
+[x].[+P(x,a,f(x,a))]
+
+
