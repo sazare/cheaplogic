@@ -1,4 +1,4 @@
-# rk003,ck003=ksimpleprover("kpdata/kp003.cnf",2,2)
+# rk003,ck003=kpsimpleprover("kpdata/kp003.cnf",2,2)
 # DONT WORK YET
 # 
 # swap args 
@@ -6,11 +6,9 @@
 
 Goal
 [x,y].[-R(ga=x,wo=y)]
- [X,Y].[-R(ga=X,wo=Y)]
+ [X,Y].[-R(wo=X,ga=Y)]
 
 Fact
 [x,y].[-P(give=x,have=y),+R(wo=x, ga=y)]
 [].[+P(have=a, give=b)]
- [].[+R(wo=one, ga=two)]
- [].[+R(ga=two, wo=one)]
 

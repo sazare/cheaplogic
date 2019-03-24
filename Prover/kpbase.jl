@@ -1,19 +1,11 @@
+#kpbase.jl 
 
 include("kptype.jl")
 
 ## 
-# a. all args to be Dict
-# b. use args as parsed array
-# Which do you like?
+# Literal with keywords to KPLiteral
 
-# for a, I make a perser to make a predicate something like
-#  kpred = struct op::Symbol, args::Dict{Symbol, All} end
-# and print() for it.
-
-# when I make a predicate, it keep Dict for args.
-
-# it is not an Expr.
-
+## krprint show a litral like japanese with joshi. toy
 function krprint(args::Dict{Symbol,Any})
   ks = collect(keys(args))
   for i in 1:length(ks)
@@ -22,7 +14,7 @@ function krprint(args::Dict{Symbol,Any})
   end
 end
 
-function krprint(expr::KPExpr)
+function krprint(expr::KPLiteral)
  krprint(expr.args)
  print("$(expr.op).")
 end
@@ -36,12 +28,13 @@ function kprint(args::Dict{Symbol,Any})
   end
 end
 
-function kprint(expr::KPExpr)
+function kprint(expr::KPLiteral)
  print("$(expr.op)(")
  kprint(expr.args)
  print(")")
 end
 
+### kpconv:Expr => KPAtom or Expr in case of term
 function kpconv(arr::Array{Any,1})::Dict{Symbol,Any}
  na = Dict{Symbol, Any}()
  for a in arr
@@ -50,22 +43,37 @@ function kpconv(arr::Array{Any,1})::Dict{Symbol,Any}
  na
 end
 
-function kpconv(expr::Expr)::BigExpr
+function kpconv(expr::Expr)
  if length(expr.args) >= 2 && all(x->isa(x,Expr), expr.args[2:end])
   args = kpconv(expr.args[2:end])
-  kexp = KPExpr(expr.args[1], args)
-  return kexp
+  katom = KPAtom(expr.args[1], args)
+  return katom
  else
-  return expr
+  return KPAtom(expr.args[1], KParam())
  end
 end
 
-### kpparse
-function kpparse(::Expr)
-
-
+### convert a lit::Expr to a KPLiteral
+function lit2kplit(lits::Array)
+ rlits = []
+ for lit in lits
+  push!(rlits, lit2kplit(lit))
+ end
+ return rlits
 end
 
+function lit2kplit(lit::Expr)::KPLiteral
+ if lit.args[1] == :+ || lit.args[1] == :-
+   return KPLiteral(lit.args[1], kpconv(lit.args[2]))
+ end
+end
+
+## literal compare
+kplitequal(x::KPLiteral, y::KPLiteral) = x.sign == y.sign && kpatomequal(x.atom, y.atom)
+
+kpatomequal(x::KPAtom, y::KPAtom) = x.Psym == y.Psym && x.args == y.args
+
+### kpparse
 function kpparselit(sexpr::Expr)
 #  sign = sexpr.args[1]
   atom = kpconv(sexpr.args[2])
@@ -90,6 +98,14 @@ function kpparse(line::String)::BigExpr
 end
 
 # ksubst
+function kpapply(vars::Vlist, lits::Array, sigma::Tlist)
+  rlits = []
+  for lit in lits
+    push!(rlits, kpapply(vars, lit, sigma))
+  end
+  rlits
+end
+
 function kpapply(vars::Vlist, args::Dict{Symbol,Any}, sigma::Tlist)
  for k in keys(args)
   args[k] = apply(vars, args[k], sigma)
@@ -97,12 +113,16 @@ function kpapply(vars::Vlist, args::Dict{Symbol,Any}, sigma::Tlist)
  return args
 end
 
-function kpapply(vars::Vlist, form::KPExpr, sigma::Tlist)
+function kpapply(vars::Vlist, form::KPLiteral, sigma::Tlist)
+  form.atom=kpapply(vars, form.atom, sigma)
+  form
+end
+
+function kpapply(vars::Vlist, form::KPAtom, sigma::Tlist)
   form.args=kpapply(vars, form.args, sigma)
   form
 end
 
-### kpunify
 function apply(terms::Tlist, sym::Symbol, t::Any)
  tms = terms
  for t in terms
@@ -111,6 +131,7 @@ function apply(terms::Tlist, sym::Symbol, t::Any)
  tms
 end
 
+### kpunify
 function kpunify(vars::Vlist, exp1::Symbol, exp2::Number)
  unify1(vars, exp1, exp2, vars)
 end
@@ -166,9 +187,9 @@ function kpunify(vars::Vlist, args1::Dict{Symbol, Any}, args2::Dict{Symbol, Any}
 end
 
 
-function kpunify(vars::Vlist, exp1::KPExpr, exp2::KPExpr)
- if kpequal(exp1, exp2); return vars end
- if exp1.op != exp2.op; throw(ICMP(exp1.op, exp2.op, :kpunify)) end
+function kpunify(vars::Vlist, exp1::KPAtom, exp2::KPAtom)
+ if kpatomequal(exp1, exp2); return vars end
+ if exp1.Psym != exp2.Psym; throw(ICMP(exp1.Psym, exp2.Psym, :kpunify)) end
  fp_subst(vars, kpunify(vars, exp1.args, exp2.args))
 end
 

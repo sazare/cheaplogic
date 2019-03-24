@@ -54,7 +54,8 @@ end
 
 function stringtoclause(cid, cls)
  vars = cls.args[1].args
- body = cls.args[2].args[1].args
+ body = lit2kplit(cls.args[2].args[1].args)
+# body = cls.args[2].args[1].args
  rcls = rename_clause(cid, vars, body)
  return CForm2(cid, rcls.vars, rcls.body)
 end
@@ -80,12 +81,17 @@ function numberingliterals(ncls, lno0, ldb, lcmap, clmap, allpsym)
  nlno0=0
  for lno in 1:length(ncls.body)
   cls=ncls.body[lno]
-  lit = ncls.body[lno]
+  if isa(cls, KPLiteral)
+    lit = cls
+  else
+    lit = lit2kplit(ncls.body[lno])
+  end
   lno = lno+lno0-1 
   nlno0 = lno+1
   lid = lidof(lno)
   lcmap[lid] = cid
-  push!(allpsym, lit.args[2].args[1])
+  push!(allpsym, lit.atom.Psym)
+#  push!(allpsym, lit.args[2].args[1])
   push!(lids, lid) 
   ldb[lid] = LForm2(lid, lit)
  end
@@ -175,7 +181,7 @@ end
 
 function origtermof(term)
  if isa(term, Symbol); return origof(term) end
- if isa(term, KPExpr)
+ if isa(term, Expr)
   for aix in 2:length(term.args)
    term.args[aix] = origtermof(term.args[aix])
   end
