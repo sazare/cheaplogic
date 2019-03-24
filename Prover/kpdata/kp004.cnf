@@ -1,0 +1,12 @@
+# rk004,ck004=kpsimpleprover("kpdata/kp004.cnf",2,2)
+# DONT WORK YET
+# 
+# swap args 
+# refer kpdata/kp002.cnf and data/data000a.cnf
+
+Goal
+[x,y].[-R(ga=x,wo=y)]
+
+Fact
+[].[+R(wo=a, ga=b)]
+

@@ -1,20 +1,25 @@
 using Test
 
 @testset "kpconv" begin
- @test kpequal(KPExpr(:f, Dict{Symbol,Any}(:a=>:b)), kpconv(:(f(a=b))))
- @test kpequal(KPExpr(:f, Dict{Symbol,Any}(:a=>:b,:c=>:(f(x)))), kpconv(:(f(c=f(x),a=b))))
+ @test kpatomequal(KPAtom(:f, Dict{Symbol,Any}(:a=>:b)), kpconv(:(f(a=b))))
+ @test kpatomequal(KPAtom(:f, Dict{Symbol,Any}(:a=>:b,:c=>:(f(x)))), kpconv(:(f(c=f(x),a=b))))
 
- @test :(f()) == kpconv(:(f()))
- @test :(f(x)) == kpconv(:(f(x)))
+ @test kpatomequal(KPAtom(:f, KParam()), kpconv(:(f())))
 end
 
+@testset "kptype" begin
+ @test kplitequal(KPLiteral(:+, KPAtom(:P, Dict{Symbol,Any}())), lit2kplit(Meta.parse("+P()")))
+ @test kplitequal(KPLiteral(:+, KPAtom(:P, Dict{Symbol,Any}(:b=>:(f(x))))), lit2kplit(Meta.parse("+P(b=f(x))")))
+ @test kplitequal(KPLiteral(:+, KPAtom(:P, Dict{Symbol,Any}(:a=>:x,:b=>:(f(x))))), lit2kplit(Meta.parse("+P(a=x,b=f(x))")))
+
+end
 
 @testset "kpapply" begin
- @test kpequal(kpconv(:(好き(ha=僕, ga=君))), kpapply([:x], kpconv(:(好き(ha=僕, ga=君))), [:誰]))
- @test kpequal(kpconv(:(好き(ha=僕, ga=誰))), kpapply([:x], kpconv(:(好き(ha=僕, ga=x ))), [:誰]))
+ @test kpatomequal(kpconv(:(好き(ha=僕, ga=君))), kpapply([:x], kpconv(:(好き(ha=僕, ga=君))), [:誰]))
+ @test kpatomequal(kpconv(:(好き(ha=僕, ga=誰))), kpapply([:x], kpconv(:(好き(ha=僕, ga=x ))), [:誰]))
 
- @test kpequal(kpconv(:(好き(ha=僕, ga=f(誰)))), kpapply([:x], kpconv(:(好き(ha=僕, ga=x ))), [:(f(誰))]))
- @test kpequal(kpconv(:(好き(ha=僕(h(花子)), ga=f(誰)))), kpapply([:x,:y], kpconv(:(好き(ha=僕(y), ga=x ))), [:(f(誰)),:(h(花子))]))
+ @test kpatomequal(kpconv(:(好き(ha=僕, ga=f(誰)))), kpapply([:x], kpconv(:(好き(ha=僕, ga=x ))), [:(f(誰))]))
+ @test kpatomequal(kpconv(:(好き(ha=僕(h(花子)), ga=f(誰)))), kpapply([:x,:y], kpconv(:(好き(ha=僕(y), ga=x ))), [:(f(誰)),:(h(花子))]))
 
 end
 

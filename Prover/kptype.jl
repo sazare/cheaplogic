@@ -1,14 +1,16 @@
 # basics for keyword system
 
-
-# KPExpr
-mutable struct KPExpr
- op   :: Symbol
- args :: Dict{Symbol, Any}
+KParam = Dict{Symbol,Any}
+ 
+# KPAtom
+mutable struct KPAtom
+ Psym :: Symbol
+ args :: KParam
 end
 
-kpequal(x::KPExpr, y::KPExpr) = x.op == y.op && x.args == y.args
-
-# MyExpr
-BigExpr = Union{Expr, KPExpr, Symbol, Number}
+# KPLiteral
+mutable struct KPLiteral
+ sign :: Any
+ atom :: KPAtom
+end
 

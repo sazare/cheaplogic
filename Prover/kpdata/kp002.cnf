@@ -1,4 +1,4 @@
-# rk002,ck002=ksimpleprover("kpdata/kp002.cnf",2,2)
+# rk002,ck002=kpsimpleprover("kpdata/kp002.cnf",2,2)
 # 
 # input variable X should be a constant. nc2 make an unsatisfiable result.
 # refer data/data000.cnf and data/data000a.cnf
