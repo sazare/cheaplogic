@@ -1,0 +1,11 @@
+# rk005,ck005=kpsimpleprover("kpdata/kp005.cnf",2,2)
+# 
+
+Goal
+ [x,y].[-R(ga=x,wo=y)]
+[X,Y].[-R(wo=X,ga=Y)]
+
+Fact
+[x,y].[-P(give=x,have=y),+R(wo=x, ga=y)]
+[].[+P(have=a, give=b)]
+
