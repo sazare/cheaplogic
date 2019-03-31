@@ -9,3 +9,8 @@ testall:
 	@echo "TEST LPS is not implemented"
 
 
+lps:
+	julia --load load_lps.jl spec/runspec.jl
+
+clean:
+	make -C spec clean

@@ -61,3 +61,13 @@ test_kplogic.jl -- run tests for KP logic
 
 play_kp.jl : demo for print as Japanese from KP formula
 
+#### make
+1. make testall -- run tests for cheaplogic, kplogic
+2. make lps     -- run spec/runspec.jl for lps demo
+3. make clean   -- remove temporal files
+
+#### howtocode
+experimantal codes
+1. investigae Helbrand Model for clauses Sets and it's meaning...
+
+
