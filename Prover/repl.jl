@@ -40,7 +40,7 @@ commandmap = Dict(
 )
 
 function repl()
- println("Now repl is an experimental.")
+ println("Now repl is experimental.")
  println("help show what commands are available")
  println("end exist the loop")
  println()
