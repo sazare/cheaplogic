@@ -4,12 +4,54 @@ function help()
  println("--- help")
  println("?   :shows help")
  println("end :finish this loop")
- println("core xx=cnf : read core")
- println("show xx     : show core")
- println("ls   xx     : ls xx")
+ println("core xx=cnf  : read core")
+ println("prove xx n m : simpleprove(xx, n, m)")
+ println("show xx      : show core")
+ println("ls   xx      : ls xx")
+ println("proofs xx    : show proofs of core")
+ println("mgu   xx     : show mgus of core")
+
  println("--- end of help")
 end
 
+function proofsfn(args, core)
+ name=separate(args)[1]
+ printproofs1(core[name])
+end
+
+function mgusfn(args, core)
+ no=separate(args)
+ name = no[1]
+ if length(no) == 2
+   printmgus(core[name], true)
+ else
+   printmgus(core[name])
+ end
+end
+
+function separate(str)
+ sps = findall(isspace, str)
+ s = 1
+ tokens = []
+ for e in sps
+   push!(tokens, strip(str[s:e]))
+   s=e
+ end
+ push!(tokens, strip(str[s:end]))
+ tokens 
+end
+
+function provefn(args, cores)
+ name,sns,snc =separate(args)
+ ns, nc = parse(Int, sns), parse(Int, snc)
+ if ns == 0 || nc == 0; reuturn end
+ try 
+  rcore = simpleprovercore(cores[name], ns, nc)[2]
+  cores[name] = rcore
+ catch 
+  println("error in proving")
+ end
+end
 
 function lsfn(args, cores)
  if args == ""
@@ -33,10 +75,13 @@ function showfn(args, cores)
 end
 
 commandmap = Dict(
- "help"=> :help,
- "ls"  => :lsfn,
- "core"=> :corefn,
- "show"=> :showfn
+ "help"  => :help,
+ "ls"    => :lsfn,
+ "core"  => :corefn,
+ "show"  => :showfn,
+ "prove" => :provefn,
+ "proof" => :proofsfn,
+ "mgu"   => :mgusfn
 )
 
 function repl()
