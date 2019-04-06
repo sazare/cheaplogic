@@ -434,8 +434,7 @@ end
 """
 simple prover find some contracictions, but not all
 """
-function simpleprover(cnf, steplimit, contralimit)
- cdx=readcore(cnf)
+function simpleprovercore(cdx, steplimit, contralimit)
  tdx=alltemplateof(cdx)
  gb=[lidsof(:C1, cdx)]
  conds = []
@@ -455,3 +454,7 @@ function simpleprover(cnf, steplimit, contralimit)
  return conds,cdx
 end
 
+function simpleprover(cnf, steplimit, contralimit)
+ cdx=readcore(cnf)
+ simpleprovercore(cdx, steplimit, contralimit)
+end
