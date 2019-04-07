@@ -1,6 +1,7 @@
 # sample code for the future
 
 function usage(args, core)
+ println("julia> repl()")
  println(" > core c1 data/his001.cnf   # readcore from file to c1")
  println(" > core c2 data/his002.cnf")
  println(" > core c3 data/his001.cnf")
@@ -10,6 +11,12 @@ function usage(args, core)
  println(" > proof c1                  # show proofs of c1")
  println(" > mgu c1                    # show mgus of c1")
  println(" > mgu c1 t                  # show mgus of c1 with input vars")
+ println()
+ println("or script f1 or string f1 already made.")
+ println("julia> io = open(f1, read=true) or ")
+ println("julia> io = IOBuffer(\"core c1 data/his001.cnf\\nprove c1 5 5\")")
+ println("julia> repl(io)")
+ println("... and so on...")
  println("--- end of usage")
 end
 
@@ -104,7 +111,8 @@ commandmap = Dict(
  "mgu"   => :mgusfn
 )
 
-function repl()
+function repl(io=stdin)
+#function repl()
  println("Now repl is exerimental.")
  println("help show what commands are available")
  println("end exist the loop")
@@ -113,7 +121,7 @@ function repl()
  print("> ")
  
  cores = Dict()
- for line in eachline()
+ for line in eachline(io)
  try
   cmdline = separate(line)
   if cmdline[1] == "end"; return
