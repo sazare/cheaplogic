@@ -1,33 +1,32 @@
 # sample code for the future
 
+function usage(args, core)
+ println(" > core c1 data/his001.cnf   # readcore from file to c1")
+ println(" > core c2 data/his002.cnf")
+ println(" > core c3 data/his001.cnf")
+ println(" > prcore c1                 # printcore c1")
+ println(" > prove c1 15 5             # simpleprove c1 with ns=15 and nc=5")
+ println(" > prove c3 15 5")
+ println(" > proof c1                  # show proofs of c1")
+ println(" > mgu c1                    # show mgus of c1")
+ println(" > mgu c1 t                  # show mgus of c1 with input vars")
+ println("--- end of usage")
+end
+
 function help()
- println("--- help")
- println("?   :shows help")
- println("end :finish this loop")
+ println("help,?       : shows help")
+ println("end          : finish this loop")
  println("core xx=cnf  : read core")
  println("prove xx n m : simpleprove(xx, n, m)")
- println("show xx      : show core")
  println("ls   xx      : ls xx")
  println("proofs xx    : show proofs of core")
  println("mgu   xx     : show mgus of core")
-
+ println("cores        : show loaded core names")
+ println("prcore xx    : print core")
+ println("usage        : show sample command sequence")
  println("--- end of help")
 end
 
-function proofsfn(args, core)
- name=separate(args)[1]
- printproofs1(core[name])
-end
-
-function mgusfn(args, core)
- no=separate(args)
- name = no[1]
- if length(no) == 2
-   printmgus(core[name], true)
- else
-   printmgus(core[name])
- end
-end
 
 function separate(str)
  sps = findall(isspace, str)
@@ -41,10 +40,28 @@ function separate(str)
  tokens 
 end
 
+function proofsfn(args, cores)
+ name=args[1]
+ printproofs1(cores[name])
+end
+
+function mgusfn(args, cores)
+ name = args[1]
+ if length(args) == 2
+   printmgus(cores[name], true)
+ else
+   printmgus(cores[name])
+ end
+end
+
 function provefn(args, cores)
- name,sns,snc =separate(args)
+ if length(args) >= 3
+   name,sns,snc = args
+ else 
+   println("no max num of step and max num of contradictions")
+   return
+ end
  ns, nc = parse(Int, sns), parse(Int, snc)
- if ns == 0 || nc == 0; reuturn end
  try 
   rcore = simpleprovercore(cores[name], ns, nc)[2]
   cores[name] = rcore
@@ -54,109 +71,69 @@ function provefn(args, cores)
 end
 
 function lsfn(args, cores)
- if args == ""
+ if 0 == length(args)
   run(`ls`)
  else 
-  run(`ls $args`)
+  run(`ls $(args[1])`)
  end
 end
 
 function corefn(args, cores)
-  eqix=findfirst(isequal('='), args)
-  name=strip(args[1:(eqix-1)])
-  cnf=strip(args[(eqix+1):end])
-  print("cnf=$cnf => $name")
+  name=args[1]
+  cnf=args[2]
+  println("cnf=$cnf => $name")
   core = readcore(cnf)
   cores[name] = core
 end
 
-function showfn(args, cores)
-  printcore(cores[args])
+# direct called functions
+function prcore(args, cores)
+  printcore(cores[args[1]])
+end
+
+function cores(args, cores)
+  println(keys(cores))
 end
 
 commandmap = Dict(
  "help"  => :help,
  "ls"    => :lsfn,
  "core"  => :corefn,
- "show"  => :showfn,
  "prove" => :provefn,
  "proof" => :proofsfn,
  "mgu"   => :mgusfn
 )
 
 function repl()
- println("Now repl is experimental.")
+ println("Now repl is exerimental.")
  println("help show what commands are available")
  println("end exist the loop")
  println()
+
  print("> ")
+ 
  cores = Dict()
  for line in eachline()
  try
-  if line == "end"; return
-  elseif line == ""; 
-  elseif line == "?"; help()
-  elseif line == "help"; help()
+  cmdline = separate(line)
+  if cmdline[1] == "end"; return
+  elseif cmdline[1] == ""; 
+  elseif cmdline[1] == "#"; 
+  elseif cmdline[1] == "?"; help()
+  elseif cmdline[1] == "help"; help()
   else
-   cix = findfirst(isequal(' '), line)
-   if cix == 0
-     cmd = strip(line)
-     args = ""
-   else
-     cmd = strip(line[1:cix])
-     if cix == length(line)
-       args = ""
-     else
-       args = strip(line[(cix+1):end])
-     end
-   end
-
-   if cmd != ""
+   args = cmdline[2:end]
+   cmd = strip(cmdline[1])
+   if cmd in keys(commandmap)
      eval(Expr(:call, commandmap[cmd], args, cores))
+   else
+     eval(Expr(:call, Symbol(cmd), args, cores))
    end
-
   end
   catch e
    println(e)
   end
-  print("> ")
- end
-end
-
-#==
-function repl0()
-
  print("> ")
- vars = Dict()
- for line in eachline()
- try
-  if line == "end"; return
-  elseif line == "?"; help()
-  elseif line == "help"; help()
-  elseif line[1:2] == "ls"
-   if strip(line) == "ls"
-    run(`ls`)
-   else 
-    dir=strip(line[3:end])
-    run(`ls $dir`)
-   end
-  elseif line[1:4] == "core"
-   eqix=findfirst(isequal('='), line)
-   cnf=strip(line[(eqix+1):end])
-   name=strip(line[5:(eqix-1)])
-   print("cnf=$cnf => $name")
-   core = readcore(cnf)
-   vars[name] = core
-  elseif line[1:4] == "show"
-   name=strip(line[5:end])
-   printcore(vars[name])
-  else
-   println(line)
-  end
-  catch e
-   println(e)
-  end
-  print("> ")
  end
 end
-==#
+
