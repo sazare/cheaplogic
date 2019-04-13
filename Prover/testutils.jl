@@ -2,7 +2,7 @@ include("utils.jl")
 #include("setdata.jl")
 
 using Test
-
+#==
 @testset "dont used compare literals" begin
  @test_skip gelit([],Meta.parse("-P(x)"),[],Meta.parse("-P(x)")) == true
  @test_skip gelit([:x],Meta.parse("-P(x)"),[:x],Meta.parse("-P(x)")) == true
@@ -20,6 +20,7 @@ end
  @test_skip sortcls([:y, :x], Meta.parse("[-R(b),+P(a),-Q(x,y),-R(a)]").args) == ([:y,:x],Meta.parse("[+P(a),-Q(x,y),-R(a),-R(b)]").args)
  @test_skip sortcls([:y, :x], Meta.parse("[-R(b),+P(a),-Q(x,y),+R(a)]").args) == ([:y,:x],Meta.parse("[+P(a), +R(a), -Q(x,y), -R(b)]").args)
 end
+==#
 
 @testset  "iscap" begin
  @test iscap("abc") == false

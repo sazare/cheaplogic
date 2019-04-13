@@ -64,6 +64,9 @@ function apply(vars::Vlist, sym::Symbol, subst::Tlist)
  return sym
 end
 
+"""
+apply: ΣxΣ → Σ
+"""
 function apply(vars::Vlist, subst1::Tlist, subst2::Tlist)
 #@show :applytt, subst1, subst2
  nterm = []
@@ -240,9 +243,7 @@ function putsubst(vars, v::Symbol, t::Any, subst::Tlist)
 
  ot = subst[ix]
  if ot == t; return subst end
-#@show :before_fp_subst, vars, subst
  if !isvar(ot, vars)
-#@show :notvar,ot,vars
   if ot == t; return subst
   elseif isvar(t, vars)
     v = t
@@ -271,7 +272,6 @@ function putsubst(vars, v::Symbol, t::Any, subst::Tlist)
    ot = subst[ix]
   end
   fsubst = fp_subst(vars, rsubst) # forward subst
-#@show fsubst
   return fsubst
  end
 #@show "$ot is not ovar"

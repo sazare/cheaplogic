@@ -2,7 +2,7 @@
 include("misc.jl")
 
 # for equalclause, they should be sorted.
-
+#==
 function renamevarinlit(vars, lit)
 # dont complete
  for v in vars
@@ -23,6 +23,7 @@ function sortcls(vars, cls)
  return vars, nargs
 end
 
+==#
 #### readclause
 
 #from a file
