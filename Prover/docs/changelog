@@ -1,0 +1,23 @@
+20190413
+I clearfed the concepts about substitution-apply-unify.
+
+1. Substitution(Σ) can have {x<-f(x)}
+   Σ=VxT
+
+2. apply(α) replaces a var with the corresponding term simulteniously.
+   Because it, the substituion can be express unambiguously as 
+    (v1,v2,v3) <- (t1,2,t3) without {}
+
+   α: T x Σ → T
+   α: Σ x Σ → Σ 
+
+3. <x:f(x)> fails. It is caused by inside check.
+   This doesn't except x<-f(x) from substitution.
+
+   <> : T x T → Σ
+
+I thought yesterday, this is not correctly implemented now.
+But today reso.jl should be correct. 
+I clearfy some tests around this.
+
+
