@@ -42,9 +42,12 @@ end
  @test apply([:x],:(P(x)),[:a]) == :(P(a))
  @test apply([:x,:y],:(P(x,f(y))),[:a,:b]) == :(P(a,f(b)))
 
-# [:x,:y] <- [:a,:x] is incorrect. 
+ @test apply([:x,:y],:(P(x,y)),[:y,:x]) == :(P(y,x))
  @test apply([:x,:y],:(P(x,y)),[:a,:x]) == :(P(a,x))
- @test apply([:x,:y],:(P(x,y)),[:a,:x]) != :(P(a,a))
+ @test apply([:x,:y],:(P(x,y)),[:a,:b]) == :(P(a,b))
+ @test apply([:x,:y,:z],:(P(x,y,z)),[:y,:z,:x]) == :(P(y,z,x))
+ @test apply([:x,:y,:z],:(P(x,y,z)),[:(f(y,z)),:(f(y,x)),:(f(g(x),h(y)))]) == :(P(f(y,z), f(y,x), f(g(x),h(y))))
+
 
 end
 
@@ -89,7 +92,6 @@ end
  @test unify1([:x], :x, :x, [:x]) == [:x]
  @test unify1([:x], :x, :a, [:x]) == [:a]
  @test unify1([:x], :x, :x, [:x]) == [:x]
- @test unify1([:x], :x, :x, [:x]) == [:x]
 
  @test unify1([:x], :(f(x)), :(f(x)), [:x]) == [:x]
  @test unify1([:x], :(f(x)), :(f(a)), [:x]) == [:a]
@@ -99,6 +101,7 @@ end
 
  @test unify1([:x,:y], :x , :(f(a)), [:x,:y]) == [:(f(a)), :y]
  @test unify1([:x,:y], :x , :(f(a)), [:x,:a]) == [:(f(a)), :a]
+
  @test unify1([:x,:y,:z], :a , :z, [:y,:z,:z]) == [:a,:a,:a]
  @test unify1([:x,:y,:z], :z , :a, [:y,:z,:z]) == [:a,:a,:a]
 
@@ -141,17 +144,20 @@ end
  @test unify([:x],:(P(x)), :(P(y))) == [:y]
  @test unify([:y],:(P(x)), :(P(y))) == [:x]
 
+# in this case, x and y are constants
  @test_throws ICMP unify([:z],:(P(x)), :(P(y)))
 
  @test unify([],:(P(a)), :(P(a))) == []
  @test_throws ICMP unify([],:(P(a)), :(P(b)))
 
- @test unify([:x,:y],:(P(x)),:(P(y))) == [:y,:y]
+ (σ=unify([:x,:y],:(P(x)),:(P(y))); @test σ==[:x,:x] || σ==[:y,:y])
+
  @test unify([:x,:y],:(P(x)),:(P(a))) == [:a,:y]
  @test unify([:x,:y],:(P(f(x))),:(P(f(a)))) == [:a,:y]
 
  @test unify([:x,:y],:(P(x)),:(P(f(a)))) == [:(f(a)),:y]
- @test unify([:x,:y],:(P(x,f(a,x))),:(P(y,f(a,y)))) == [:y,:y]
+ (σ = unify([:x,:y],:(P(x,f(a,x))),:(P(y,f(a,y)))); @test σ == [:y,:y] || σ == [:y,:y])
+
  @test unify([:x,:y],:(P(x,f(x))),:(P(a,f(y)))) == [:a,:a]
  @test unify([:x,:y],:(P(x,y)),:(P(y,f(a)))) == [:(f(a)),:(f(a))]
 
