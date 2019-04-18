@@ -1,6 +1,6 @@
 using Test
 
-include("dvcreso.jl")
+#include("dvcreso.jl")
 
 @testset "isid" begin
   @test iscid(:C12)

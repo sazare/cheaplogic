@@ -1,8 +1,8 @@
 # test new core
 using Test
 
-include("newcore.jl")
-include("utils.jl")
+#include("newcore.jl")
+#include("utils.jl")
 
 @testset "stringtoclause" begin
  sc = stringtoclause(:C10, Meta.parse("[x].[-P(x),+Q(x,f(x))]")) 

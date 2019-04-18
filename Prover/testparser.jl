@@ -1,6 +1,6 @@
 # testparser.jl
 using Test
-include("parser.jl")
+#include("parser.jl")
 
 #==
 @testset "tokenizer" begin
