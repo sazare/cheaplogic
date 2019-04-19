@@ -1,4 +1,4 @@
-include("merge.jl")
+#include("merge.jl")
 
 using Test
 
