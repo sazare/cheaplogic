@@ -77,3 +77,31 @@ original algorithmでは、
 applyされるのか?? ということ
 chang&leeで確認 
  
+**** では同じ結果になるもので比較
+[テスト方法]
+1時には1つのjuliaを起動し、include("load_xxx")でそれぞれをloadして実行する	
+両方ともにjulia起動直後に実行している。
+@time rhave002,chave002=simpleprover("data/have002.cnf",7,1)	
+
+
+	naivelogic	cheaplogic
+1	3.461726 seconds (5.88 M allocations: 294.410 MiB, 4.24% gc time)	3.451440 seconds (6.10 M allocations: 304.360 MiB, 4.17% gc time)
+2	0.032746 seconds (20.28 k allocations: 1.266 MiB)	0.030420 seconds (20.07 k allocations: 1.251 MiB)
+3	0.035396 seconds (20.28 k allocations: 1.266 MiB)	0.033770 seconds (20.07 k allocations: 1.251 MiB)
+4	0.033922 seconds (20.28 k allocations: 1.266 MiB)	0.034658 seconds (20.07 k allocations: 1.251 MiB)
+5	0.035275 seconds (20.28 k allocations: 1.266 MiB)	0.054522 seconds (20.07 k allocations: 1.251 MiB, 12.93% gc time)
+		
+	trial=40; success=24	は両方同じ。
+
+[比較]
+あまり時間が変わらないが、cheapははやい。
+5回目でcheapのほうが遅いのはgcがおきたからと思われる。
+メモリの使用量もcheapのほうが少なめ。
+cheapだけgcが起きているということは、メモリの使い方が違うから。
+		
+[処理の違いについて]
+naiveは毎回全Exprについてsubstをくりかえす。cheapは
+それはしないが、そのかわり余分なσ操作がはいっている。
+合計すると、cheapのほうがやや速いということだろう。
+メモリ使用量についてはdeepcopy()が関係するのかも"	
+		
