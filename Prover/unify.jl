@@ -1,11 +1,11 @@
 # unif.jl
 # types for dvc unify
 
-include("misc.jl")
-include("primitives.jl")
-include("types.jl")
-include("unifybase.jl")
-include("subst.jl")
+#include("misc.jl")
+#include("primitives.jl")
+#include("types.jl")
+#include("unifybase.jl")
+#include("subst.jl")
 
 
 ## unification

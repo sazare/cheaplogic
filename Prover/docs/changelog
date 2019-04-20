@@ -1,3 +1,18 @@
+20190420
+Problem: How about the original algorithm?
+Do for it.
+1) preparation: reso.jl to reso.jl, unify.jl and others
+2) test it
+3) make naiveunify.jl for the original algorithm
+4) test it
+
+1. First, I think test_unify.jl is enough for naiveunify.jl
+   But, some functions as fp_unify() should not need in naive,
+   I made test_naiveunify.jl. 
+   If I want to compare two unify(), I need common tests.
+ 
+
+
 20190413
 I clearfed the concepts about substitution-apply-unify.
 

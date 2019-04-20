@@ -1,17 +1,15 @@
 # apply is operations over substitution
 
-include("primitives.jl")
+#include("primitives.jl")
 
 """
 apply substitution to a term, substitution
 """
 function apply(vars::Vlist, sym::Number, subst::Tlist)
-#@show :applynt, sym, subst
  return sym
 end
 
 function apply(vars::Vlist, sym::Symbol, subst::Tlist)
-#@show :applyst, sym, subst
  for i in 1:length(vars)
   if sym == vars[i]; return subst[i] end
  end
@@ -22,7 +20,6 @@ end
 apply: ΣxΣ → Σ
 """
 function apply(vars::Vlist, subst1::Tlist, subst2::Tlist)
-#@show :applytt, subst1, subst2
  nterm = []
  for arg in subst1
   narg = apply(vars, arg, subst2)
@@ -38,7 +35,6 @@ function apply(vars::Vlist, subst1::Tlist, subst2::Tlist)
 end
 
 function apply(vars::Vlist, term::Expr, subst::Tlist)
-#@show :applyet, term, subst
  nterm = deepcopy(term)
  for i in 1:length(term.args)
   arg = term.args[i]
@@ -46,5 +42,13 @@ function apply(vars::Vlist, term::Expr, subst::Tlist)
   nterm.args[i] = narg
  end
  nterm
+end
+
+"""
+apply sigma2 to sigma1
+simply make v<-t in σ1 to v<-t*σ2
+"""
+function apply2(vars::Vlist, σ1::Tlist, σ2::Tlist)
+  map(s->apply(vars, s, σ2), σ1)
 end
 

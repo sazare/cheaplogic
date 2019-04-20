@@ -47,7 +47,10 @@ rkuukai,ckuukai=simpleprover("data/kuukai.cnf",5,2) #1
 rkuukai2,ckuukai2=simpleprover("data/kuukai2.cnf",5,2)
 ###
 rmagia,cmagia=simpleprover("data/magia.cnf",5,2)
+
+
 #rml001,cml001=simpleprover("data/ml001.cnf",5,2) # inpro
+### from here, cheaplogic and naivelogic are different 
 rml002,cml002=simpleprover("data/ml002.cnf",5,2)  # evalon
 rml003,cml003=simpleprover("data/ml003.cnf",5,2)  # evalon
 rml004,cml004=simpleprover("data/ml004.cnf",5,2)  # evalon
@@ -58,10 +61,9 @@ rml007a,cml007a=simpleprover("data/ml007a.cnf",50,20)  # evalon #5[] can't deter
 rml007b,cml007b=simpleprover("data/ml007b.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
 rml007c,cml007c=simpleprover("data/ml007c.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
 rml008,cml008=simpleprover("data/ml008.cnf",15,2)  # evalon 
-#rpprop001,cpprop001=simpleprover("data/pprop001.cnf",5,2)
-rprob00,cprob00=simpleprover("data/prob00.cnf",5,2) # 2[] 2ways found
-rprob01,cprob01=simpleprover("data/prob01.cnf",5,4) # intrinsic 3[]in 7  2ways found
+
 #rproblogic0,cproblogic0=simpleprover("data/problogic0.cnf",5,2)
+
 rprop001,cprop001=simpleprover("data/prop001.cnf",5,2)
 
 rtime,ctime=simpleprover("data/time.cnf",5,2) # unless repeat check, infinitely loop
@@ -75,15 +77,19 @@ rto4,cto4=simpleprover("data/to4.cnf",5,2)
 
 rser001,cser001=simpleprover("data/ser001.cnf",5,2)
 rpar001,cpar001=simpleprover("data/par001.cnf",10,2) # too many proofs free for y
-rpar002,cpar002=simpleprover("data/par002.cnf",10,5)
 
 rhis001,chis001=simpleprover("data/his001.cnf",10,5)
 rhis002,chis002=simpleprover("data/his002.cnf",10,5)
 
-rdop001,cdop001=simpleprover("data/dop001.cnf",10,10) # contralimit must > 5
+rjp1,cjp1=simpleprover("data/jp001.cnf",2,2)
 
+#rpprop001,cpprop001=simpleprover("data/pprop001.cnf",5,2)
+rprob00,cprob00=simpleprover("data/prob00.cnf",5,2) # 2[] 2ways found
+rprob01,cprob01=simpleprover("data/prob01.cnf",5,4) # intrinsic 3[]in 7  2ways found
+rpar002,cpar002=simpleprover("data/par002.cnf",10,5)
+
+rdop001,cdop001=simpleprover("data/dop001.cnf",10,10) # contralimit must > 5
 rident001,cident001=simpleprover("data/ident001.cnf",5,5) # identity 
 rident002,cident002=simpleprover("data/ident002.cnf",5,5) # identity with near time 
 
-rjp1,cjp1=simpleprover("data/jp001.cnf",2,2)
-
+#### end of dirrerent results

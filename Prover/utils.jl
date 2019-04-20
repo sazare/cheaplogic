@@ -1,5 +1,5 @@
 # sort clause
-include("misc.jl")
+#include("misc.jl")
 
 # for equalclause, they should be sorted.
 #==

@@ -1,6 +1,6 @@
 # new Core
 
-include("dvcreso.jl") # for eename_clause() means a cycle dependency happend
+#include("dvcreso.jl") # for eename_clause() means a cycle dependency happend
 
 # clause format
 # Meta.parse("[x,y].[+P(x,f(x),-Q(x,y)]")
