@@ -1,9 +1,9 @@
 # reso.jl
 
-include("misc.jl")
-include("primitives.jl")
-include("types.jl")
-include("unify.jl")
+#include("misc.jl")
+#include("primitives.jl")
+#include("types.jl")
+#include("unify.jl")
 
 # input form
 # "[x,y].[+P(x,f(x),-Q(x)]"

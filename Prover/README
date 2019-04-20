@@ -1,27 +1,61 @@
 README
 
-### cheaplogic prover
+#3 prover
+1. cheaplogic
+    my original prover
+2. naivelogic
+    a prover with an old fashion unification
+3. kplogic
+    a prover feat. with keyword predicates
+
+# usage
+1) include("load_cheaplogic.jl") or 
+   include("load_naivelogic.jl") or
+   include("load_kplogic.jl")
+
+2) running example script is
+   include("data/rundata.jl") for cheap and naive
+   include("kpdata/runkpdata.jl") for kplogic
+   these files call simpleprover(). 
+
+3) analyze with
+   1) printcore(core)
+   2) printproofs1(core)
+   3) printmgus(core)
+   4) printmgu(rid, core, true|false)
+
+*** namely, load a suitable prover, and run simpleprover
+
+# FILES
 misc.jl       -- nyi() ... something like this
 
-primitives.jl -- primitive difinitions and functions
+config.jl     -- config for prover. evalon enable executable predicates
+
 utils.jl      -- basic concepts and readclause/readcore
+types.jl      -- basic types for unify
+primitives.jl -- primitive difinitions and functions
+subst.jl      -- apply
+unifybase.jl  -- common functions for unify
+unify.jl      -- dvc unify
+naiveunify.jl -- naive unify
 reso.jl       -- resolution operations -- almost uncompatibles
 newcore.jl    -- new core concepts
 coreprint.jl  -- print over core
 dvcreso.jl    -- DVC based resolution and more
 
+analyzer.jl   -- 
+repl.jl       -- a experimental tool for repl 
+merge.jl      -- old sample codes
 setupdata.jl  -- just setup data 
 play.jl       -- playgound
 
 #tests
 test_cheaplogic.jl -- run tests for cheaplogic
- testreso.jl
- testutils.jl
- testmerge.jl
- testnewcore.jl
- testdvcreso.jl
- testparser.jl
- testprover.jl
+test_naivelogic.jl -- run tests for naivelogic
+test_kplogic.jl -- run tests for kplogic
+
+ other test*.jl's are tests for *.jl
+
 
 # data basic axiom sets
 *.cnf       -- test sets cnf form

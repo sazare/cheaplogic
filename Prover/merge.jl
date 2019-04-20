@@ -1,5 +1,5 @@
 ## merge substitutions
-include("reso.jl")
+#include("reso.jl")
 
 
 # this will be used in proving with graph

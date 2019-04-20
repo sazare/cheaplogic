@@ -1,9 +1,9 @@
 # unifbase.jl
 # common functions for unify on dvc or naive
 
-include("misc.jl")
-include("primitives.jl")
-include("types.jl")
+#include("misc.jl")
+#include("primitives.jl")
+#include("types.jl")
 
 ## unification
 """
@@ -24,9 +24,9 @@ end
 function loopcheck(vt::Symbol, et::Expr; istop=true)::Bool
   for arg in et.args
    if typeof(arg) == Symbol
-    if vt == arg; throw(Loop(vt,et,:loopse)) end
+    (vt == arg) && throw(Loop(vt,et,:loopcheckse))
    else
-    if loopcheck(vt, arg, istop=false);return throw(Loop(vt,et,:loopse)) end
+    loopcheck(vt, arg, istop=false)&& return throw(Loop(vt,et,:loopcheckse))
    end
   end
   return false

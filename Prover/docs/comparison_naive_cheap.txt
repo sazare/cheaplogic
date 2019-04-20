@@ -1,0 +1,79 @@
+方法
+juliaを起動し、
+include("load_naivelogic.jl")またはinclude("load_cheaplogic.jl")のあと
+次を5回実行し、それぞれの実行時間を計測した。
+初回はコンパイルがはしるので、2回目以降を比較する。
+
+@time simpleprover("data/ml007.cnf",50,20)
+元のデータの特徴
+input clause数=23
+input literal数=36
+述語数 = 6
+
+
+unit=seconds
+naive logic         cheaplogic
+3.010082            2.647374
+1.781970            1.478603
+1.773575            1.496474
+1.806115            1.560623
+1.798343            1.507890
+1.885338            1.517728
+
+cheapのほうが早いがその意味は??
+
+simpleprover実行後の状態
+- naivelogic
+resolvent数=49-23=26
+printcoreによると、resolvent数 = 37 になるのはなぜか?
+#trial   = 69
+#success = 26
+
+- cheaplogic
+resolvent数=34-23=11
+resolvent数=11
+#trial   = 49
+#success = 11
+
+naive: 1.813315 seconds (3.50 M allocations: 175.133 MiB, 1.90% gc time)
+cheap: 1.517728 seconds (3.33 M allocations: 165.713 MiB, 2.27% gc time)
+
+疑問点
+・なぜcheapのほうがtrialやsuccessが少ないのか??
+　まず、[]の含む情報が同じかどうかの確認が必要。
+
+-  successの数は[]の数。usccessの数=resolventの数。
+
+gc timeはcheaplogicのほうが多い
+
+違うのと同じのがある
+違うもの
+
+rml002,cml002=simpleprover("data/ml002.cnf",5,2)  # evalon
+rml003,cml003=simpleprover("data/ml003.cnf",5,2)  # evalon
+rml004,cml004=simpleprover("data/ml004.cnf",5,2)  # evalon
+rml005,cml005=simpleprover("data/ml005.cnf",5,2)  # evalon
+rml006,cml006=simpleprover("data/ml006.cnf",6,2)  # evalon #1[] determined img3 battle. but no others.
+rml007,cml007=simpleprover("data/ml007.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml007a,cml007a=simpleprover("data/ml007a.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml007b,cml007b=simpleprover("data/ml007b.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml007c,cml007c=simpleprover("data/ml007c.cnf",50,20)  # evalon #5[] can't determin img3. 50 steps no effect. contralimit=20 needed
+rml008,cml008=simpleprover("data/ml008.cnf",15,2)  # evalon
+#rpprop001,cpprop001=simpleprover("data/pprop001.cnf",5,2)
+rprob00,cprob00=simpleprover("data/prob00.cnf",5,2) # 2[] 2ways found
+rprob01,cprob01=simpleprover("data/prob01.cnf",5,4) # intrinsic 3[]in 7  2ways found
+rpar002,cpar002=simpleprover("data/par002.cnf",10,5)
+
+resolventの数が多くて同じものもある。
+
+
+不明点
+original algorithmでは、
+ unify([:x,:y],:(P(f(x),x)),:(P(y,a)))
+ がちゃんと
+ [  :a  ,   :(f(a))]
+ になるのか??
+あとで決まる代入(x:=a)が、先に求めた代入(y:=f(x))に
+applyされるのか?? ということ
+chang&leeで確認 
+ 
