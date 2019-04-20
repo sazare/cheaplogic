@@ -18,12 +18,27 @@ README
    include("kpdata/runkpdata.jl") for kplogic
    these files call simpleprover(). 
 
-3) analyze with
-   1) printcore(core)
-   2) printproofs1(core)
-   3) printmgus(core)
-   4) printmgu(rid, core, true|false)
-
+3) analyze with(coreprint.jl)
+   1) printcore(core)                           : print a core components as readable form
+       print_coreinfo(core)                   : print core info as readable form
+   
+   2) printproofs1(core)                      : print all proof trees pred level of all contradictions 
+       printproofs0(core)                      : print all proof trees prop level of all contradictions 
+       printaproof1(rid,core)                : print all proof trees pred level of rid 
+       printaproof0(rid,core)                : print all proof trees prop level of rid 
+       
+   3) printmgus(core, orig)               : print all mgus in proof trees of all contradiction (orig==false shows outvar only)
+       printmgu(rid, core, orig)           : print all mgus in proof trees of rid (orig==false shows outvar only)
+   
+   [misc]
+   - printclause(cid, core)
+   - printcdb(core.cdb)
+   - printldb(core.ldb)
+   - printproof(core.proof)
+   - printtemplates0(core.level0, core) print equation in prop level
+      printtemplates1(core.level0, core)  in pred level
+   - traceof(core) ??? what is this???
+   
 *** namely, load a suitable prover, and run simpleprover
 
 # FILES
