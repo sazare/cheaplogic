@@ -107,6 +107,7 @@ end
 ## evaluation 
 
 function leval(lit)
+@show :leval, lit
   try
     val=eval(lit.args[2])
     if val==true
@@ -123,12 +124,15 @@ function leval(lit)
 end
 
 function evaluate_literals(lids, lits)
+@show :evaluate_literals,lits
  rlits=[]
  rlids=[]
  for lix in 1:length(lids) 
    lid=lids[lix]
    lit=lits[lix]
+@show lid,lit
    val = leval(lit)
+@show val
    if val == true; return true,true end
    if val == false; continue end
    push!(rlits,lit)
@@ -171,7 +175,9 @@ function dvc_resolution(l1,l2,core)
    nbody = literalsof(rem, core)
    nbody1 = apply(ovars, nbody, sigmai)
    if evalon
+@show vars
      rb = evaluate_literals(nrem, nbody1) 
+@show rb
      if rb[1] == true
        println("Valid")
        return :FAIL 
@@ -369,7 +375,7 @@ function dostepgoals1(goals, core)
   if ngs == :FAIL; continue end
   append!(nextg, ngs)
  end
-println("$goals => $nextg")
+println("GOAL=>NEXT: $goals => $nextg")
  nextg
 end
 

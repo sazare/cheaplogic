@@ -1,3 +1,10 @@
+20190421
+1. check TPU of Chang&Lee
+   the definition of substitution is different.
+2. investigating ml007, what is different naive and cheap.
+   naiveでは9個の[]ができるのに、cheaplogicでは1つもできない
+   R10まではcheaplogicでもつくれているが、その先がないin cheaplogic.
+
 20190420
 Problem: How about the original algorithm?
 Do for it.

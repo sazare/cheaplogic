@@ -1,0 +1,28 @@
+20190421 
+Chang&LeeのTPUのソースをすこしみた。
+UNIFICATION関数をみると、<f(x,a):f(g(y,b),y)>は (x,y) <- (g(y,b), a) になるような気がする。
+(x,y) <- (g(a,b),a)ではない。
+これはUNIFICATIONで、変数Uに対してsustをしていないから。
+
+しかし、(REVERSE U) としているのは、代入をかける順序があるということで
+E σのとき、σの要素を順番にかけていくから、apply(=RENAME)がsequencialになっているということだ。
+RENAMEはσの要素を常にC全体にかけているので、そういうことだ。
+
+apply()はσの要素を毎回、E全体にsubstしている。
+disagree()では、最初の違いをみつける。
+unification()では、disagreeでみつかったペアをE全体にsubstしている。
+
+σの要素は適用順序があるので、{x<-f(y), y<-a}は、(x,y) <- (f(a),a)}に等価となっている。
+
+E1,E2全体にsubstしているのと、renameでC全体にsubstしているのが、そのあたりに関係する。
+
+性能どうでもよくて、シンプルなコードにしようとしているのだろう。
+
+LISPにsubstがあるのは有利かも。juliaにはない、はず。S-expというものがないので、そのような関数は意味がない。
+
+tpuをcommon lispに移して、動作確認に使うのもよいかも。
+substはtree構造をみていって、すべてのatomをおきかえる
+形: (subst new old tree)
+
+
+
