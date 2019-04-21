@@ -1,0 +1,107 @@
+20190421
+
+2.  investigating ml007, what is different naive and cheap.
+   naiveでは9個の[]ができるのに、cheaplogicでは1つもできない
+   R10まではcheaplogicでもつくれているが、その先がないin cheaplogic.
+　naiveでR10と付き合わされるのはC13で
+C13:[]. 
+        L15.+(Weapons(img3, 0.95))   
+R10:[p1_C23R6R10,p1_C22R10,im_C22R10]. 
+        L10_R10.-(ge(p1_C23R6R10, p1_C22R10)), 
+        L31_R10.-(Weapons(im_C22R10, p1_C23R6R10)), 
+        L32_R10.-(ge(p1_C23R6R10, 0.8)), 
+        L3_R10.-(Eating(im_C22R10, p1_C22R10)), 
+        L4_R10.-(ge(p1_C22R10, 0.8))
+
+naiveでC13 と R10でできるのはR24
+R24:[p1_C22R10R24].
+         L10_R24.-(ge(0.95, p1_C22R10R24)), 
+          L3_R24.-(Eating(img3, p1_C22R10R24)), 
+          L4_R24.-(ge(p1_C22R10R24, 0.8))
+
+ここで、
+L32_R10.-(ge(p1_C23R6R10, 0.8)), 
+が
+-(ge(0.95, 0.8))
+になり、これはfalseに評価されて、clauseから削除された。in naive。
+L10の第一は、0.95におきかわり、
+L3の第一は、img3におきかわっている。img3は定数。
+
+なぜcheapではR24ができないのか??
+
+
+このような調査に必要なツールは、1ステップごとの実行=debug
+
+なぜresolutionができなかったのか原因をしりたい。
+
+cidとlidを指定してresolutionをする。
+
+★ R24のp1_C22R10R24が0.95になっていないのはなぜ?
+
+★★★★★★
+simpleproverのログを比較すると
+cheaplogicではこうなっているのが
+FAIL = ICMP(:p1_C23R7, 0.8, :unify0sn)
+FAIL = ICMP(:p1_C23R7, 0.9, :unify0sn)
+FAIL = ICMP(:p1_C23R7, 0.95, :unify0sn)
+FAIL = ICMP(:p1_C23R7, 0.3, :unify0sn)
+FAIL = ICMP(:p1_C23R7, 0.35, :unify0sn)
+FAIL = ICMP(:p1_C22R8, 0.2, :unify0sn)
+FAIL = ICMP(:p1_C22R8, 0.9, :unify0sn)
+FAIL = ICMP(:p1_C22R8, 0.85, :unify0sn)
+FAIL = ICMP(:p1_C22R8, 0.95, :unify0sn)
+FAIL = ICMP(:p1_C22R8, 0.9, :unify0sn)
+FAIL = ICMP(:party, :battle, :unify0ss)
+Any[Any[:L9_R6, :L10_R6, :L31_R6, :L32_R6], Any[:L31_R7, :L32_R7], Any[:L3_R8, :L4_R8], Any[:L28_R9, :L29_R9, :L31_R9, :L32_R9]] => Any[Any[:L10_R10, :L31_R10, :L32_R10, :L3_R10, :L4_R10], Any[:L29_R11, :L31_R11, :L32_R11, :L3_R11, :L4_R11]]
+
+naiveでは
+FAIL = ICMP(:party, :battle, :directionaa)
+Valid
+Valid
+Valid
+FAIL = ICMP(:party, :battle, :directionaa)
+Any[Any[:L9_R6, :L10_R6, :L31_R6, :L32_R6], Any[:L31_R7, :L32_R7], Any[:L3_R8, :L4_R8], Any[:L28_R9, :L29_R9, :L31_R9, :L32_R9]] => Any[Any[:L10_R10, :L31_R10, :L32_R10, :L3_R10, :L4_R10], Any[], Any[], Any[], Any[], Any[], Any[], Any[], Any[:L29_R21, :L31_R21, :L32_R21, :L3_R21, :L4_R21]]
+
+★ unify0snで:p1_C22R8は変数ではないのか?? もしそうなら、failではなく代入では???
+★ Validとは?
+★ naive側のValidの後ろのろぐはどういう意味か???
+
+Validをprintする直前
+
+FAIL = ICMP(:party, :battle, :directionaa)
+rb = (Any[], Any[])
+rb = (Any[], Any[])
+rb = (Any[], Any[])
+rb = (true, true)
+Valid
+
+コードは
+# rename rlid
+   rid =  newrid(core)
+   nrem = rename_lids(rid, rem, core)
+   nbody = literalsof(rem, core)
+   nbody1 = apply(ovars, nbody, sigmai)
+   if evalon
+     rb = evaluate_literals(nrem, nbody1)
+@show rb
+     if rb[1] == true
+       println("Valid")
+       return :FAIL
+     end
+     nrem, nbody1 = rb
+   end
+
+   vars = fitting_vars(ovars, nbody1, core)
+   body = rename_clause(rid, vars, nbody1)
+
+ rename_subst = [vars, body.vars]
+
+ ## settlement
+ 
+ こんなかんじ
+ 
+ 
+
+
+
+
