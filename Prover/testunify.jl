@@ -88,6 +88,12 @@ end
  @test unify([:x],:(P(x)), :(P(y))) == [:y]
  @test unify([:y],:(P(x)), :(P(y))) == [:x]
 
+ @testset  "with number" begin
+  @test unify([], :(f(2)), :(f(2))) == []
+  @test unify([:x], :(f(x)), :(f(2))) == [2]
+  @test unify([:x], :(f(3)), :(f(x))) == [3]
+  @test unify([:x,:y], :(f(3,y)), :(f(x,23))) == [3,23]
+ end
 # in this case, x and y are constants
  @test_throws ICMP unify([:z],:(P(x)), :(P(y)))
 
