@@ -100,7 +100,15 @@ Valid
  
  こんなかんじ
  
- 
+
+20190422
+naiveでみると、R7と c13 のresolutionで
+p1_C23R7に0.95がはいるはずなのに、nativeでははいっているらしいが
+cheapでははいっていない
+
+20190423
+となると、unifyするliteralの順番かも
+executable以外を優先してresolution適用が必要なのか??
 
 
 

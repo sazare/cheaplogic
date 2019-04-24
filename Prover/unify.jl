@@ -14,12 +14,6 @@ function unify0(vars::Vlist, t1::Number, t2::Number)
  throw(ICMP(t1,t2,:unify0nn))
 end
 
-function unify0(vars::Vlist, t1::Number, t2::Symbol)
- if isvar(t1,vars); return (t1,t2) end
-# if isvar(t2,vars); return (t2,t1) end
- throw(ICMP(t1,t2,:unify0ns))
-end
-
 function unify0(vars::Vlist, t1::Number, t2::Expr)
  throw(ICMP(t1,t2,:unify0ne))
 end
@@ -28,13 +22,20 @@ function unify0(vars::Vlist, t1::Expr, t2::Number)
  throw(ICMP(t1,t2,:unify0en))
 end
 
-function unify0(vars::Vlist, t1::Symbol, t2::Number)
-# if isvar(t1,vars); return (t1,t2) end
+function unify0(vars::Vlist, t1::Number, t2::Symbol)
+##@show :unify0ns,vars,t1,t2
  if isvar(t2,vars); return (t2,t1) end
+ throw(ICMP(t1,t2,:unify0ns))
+end
+
+function unify0(vars::Vlist, t1::Symbol, t2::Number)
+#@show :unify0sn,vars,t1,t2
+ if isvar(t1,vars); return (t1,t2) end
  throw(ICMP(t1,t2,:unify0sn))
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Symbol)
+#@show :unify0ss,t1,t2
  if t1==t2; return () end
  if isvar(t1,vars) && isvar(t2,vars)
    if isinvar(t1); return (t2,t1) end
@@ -47,16 +48,19 @@ end
 
 
 function unify0(vars::Vlist, t1::Symbol, t2::Expr)
+#@show :unify0se,t1,t2
  isvar(t1,vars) && !loopcheck(t1,t2) && return (t1,t2) 
  if t1!=t2; throw(ICMP(t1,t2,:unify0se)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Symbol)
+#@show :unify0es,t1,t2
  isvar(t2,vars)&&!loopcheck(t2,t1)&&return(t2,t1)
  if t1!=t2; throw(ICMP(t1,t2,:unify0es)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Expr)
+#@show :unify0ee,t1,t2
  if t1==t2; return () end
  for i in 1:length(t1.args)
   if t1.args[i]==t2.args[i]; continue end
@@ -68,23 +72,6 @@ end
 
 ### unify do unification
 # t1,t2 are literal(without sign, without or/and.
-
-#function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
-##  if t1!=t2; throw(ICMP(t1,t2,:unify1)) end
-#  σb=vars
-#  while(true)
-#   σa0=unify0(vars,t1,t2)
-#   if σa0==(); break end
-#   σa = maketlist(vars, σa0[1], σa0[2]) 
-##@show σa
-#   σi::Tlist = merge(vars, σb, σa)
-##@show σi
-#   t1 = apply(t1,σi,σb)
-#   t2 = apply(t2,σi,σb)
-#   σb=σa
-#  end
-# σb
-#end
 
 function unify1(vars::Vlist, t1::Number, t2::Number, subst::Tlist)
 #@show :unify1vnn,t1,t2,subst
@@ -213,7 +200,7 @@ end
 unify1 has a var subst for internal use
 """
 function unify1(vars::Vlist, t1::Expr, t2::Expr, subst::Tlist)
-#@show :unify1vee,t1,t2,subst
+#@show :unifyvee,t1,t2,subst
  if t1==t2; 
   return subst
  end
@@ -224,6 +211,7 @@ function unify1(vars::Vlist, t1::Expr, t2::Expr, subst::Tlist)
 
  if length(t1.args) != length(t2.args); return vars end
  while true  
+#@show :unify0,vars,t1,t2
   pp = unify0(vars, t1, t2)
   if isempty(pp); break end
   subst = putasubst(vars, pp[1], pp[2], subst)

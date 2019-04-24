@@ -38,7 +38,7 @@ function direction(vars::Vlist, t1::Any, t2::Any)
     isa(t1, Expr) && loopcheck(t2, t1)
     return (t2, t1)
   end
-@show typeof(t1), typeof(t2)
+#@show typeof(t1), typeof(t2)
   throw(ICMP(t1,t2,:directionaa))
 end
 
