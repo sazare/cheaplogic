@@ -2,7 +2,6 @@
 
 include("loadall.jl")
 
-#==
 cmagi=readcore("data/magia.cnf")
 printcore(cmagi)
 
@@ -28,7 +27,7 @@ printcore(cc)
 
 ## read entire file and create core
 
-dd1=readstring("data/data001.cnf")
+dd1=read("data/data001.cnf", String)
 cc1=readcore(IOBuffer(dd1))
 printcore(cc1)
 
@@ -76,6 +75,7 @@ for g1 in goal1
 end
 
 
+#### dostepagoal のサンプル
 
 ##### friend3
 cf03=readcore("data/friend3.cnf")
@@ -212,7 +212,6 @@ tq1,cq1=simpleprover("data/20Q01.cnf",20,2);printproofs1(cq1)
 tf7,cf7=simpleprover("data/friend7.cnf",3,1);printproofs1(cf7)
 tf8,cf8=simpleprover("data/friend8.cnf",3,1);printproofs1(cf8)
 
-==#
 
 ## Before prooving
 cdop001, mdop001=pairmakefromcore("data/dop001.cnf")
