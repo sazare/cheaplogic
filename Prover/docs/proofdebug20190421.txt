@@ -111,5 +111,10 @@ cheapでははいっていない
 executable以外を優先してresolution適用が必要なのか??
 
 
+20190424
+unify0snまで@showをいれてみると、unify0snでvar, 0.8のときfailになっていた。
+unify0snとunify0nsのコードがでたらめだった。
 
+
+QED
 

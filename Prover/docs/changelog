@@ -1,3 +1,17 @@
+20190503
+ play.jlにあったreadstring()が未定義だったので、read(file, String)に変更した。
+ 1step proverを作ろうかと思ったかが、dostep1goalsがplay.jlで使われていて
+ それの使い方を調べていた。
+ テンプレートを一回適用する関数らしいので、だいたい目的にあっている。
+
+ commitしようとしたら、未commitのdocsがたくさんあった。
+
+
+
+20190424
+1. in cheaplogic, unify0snとunify0nsでisvarの判定する引数が逆だった
+naiveとcheapが同じ結果になる
+
 20190421
 1. check TPU of Chang&Lee
    the definition of substitution is different.
