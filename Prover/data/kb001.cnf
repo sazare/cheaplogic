@@ -1,0 +1,12 @@
+# kp001.cnf is a knowledge pool for test
+
+# intention: 
+
+[WHO, AGE, WHERE, WHATHAPPEN, SYSTEM].[-Complete(WHO, AGE, WHERE, WHATHAPPEN, SYSTEM)]
+
+[who,age,where,what,system].[+Complete(who, age, where, what, system),-User(who, age, where), -Incident(what, system)]
+
+# temporal events
+ [].[+User(omura, 63, Kanazawa)]
+ [].[+Incident(I100, myOS)]
+

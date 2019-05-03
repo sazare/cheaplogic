@@ -23,7 +23,7 @@ end
 function help()
  println("help,?       : shows help")
  println("end          : finish this loop")
- println("core xx=cnf  : read core")
+ println("core xx cnf  : read core")
  println("prove xx n m : simpleprove(xx, n, m)")
  println("ls   xx      : ls xx")
  println("proofs xx    : show proofs of core")
