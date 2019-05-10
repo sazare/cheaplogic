@@ -4,9 +4,9 @@
 
 [WHO, AGE, WHERE, WHATHAPPEN, SYSTEM].[-Complete(WHO, AGE, WHERE, WHATHAPPEN, SYSTEM)]
 
-[who,age,where,what,system].[+Complete(who, age, where, what, system),-User(who, age, where), -Incident(what, system)]
+[who,age,where,what,system].[+Complete(who, age, where, what, system),-User(who, age, where), -Page(what, system)]
 
 # temporal events
 [].[+User(omura, 63, Kanazawa)]
-[].[+Incident(I100, myOS)]
+[].[+Page(I100, myOS)]
 
