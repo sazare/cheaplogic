@@ -1,3 +1,117 @@
+20190512日
+{GoalKeeper- Genie- SQLite}
+ここ数日、webのViewとproverをつなぐ仕組みを考えていた。
+clauseの集合Baseと、アプリの目的を示すclause Goal(B+G)を与えて
+Viewで何かを決定すると、対応するFactが作られて
+それをつかってF+B+GでGoalを変化させていくというイメージ。
+
+外部でFactを作るという考えを試すのによいのではないか?
+
+考えたこと
+0. B+Gで、どの述語にViewを対応させるかは、あらかじめ定義しておく必要がある。
+　　動的にPageを作るというのであれば、ここは自由だが・・(*ここ不十分)
+
+1. Goalに対してBaseを適用して、Goalのリテラルが、Viewを持つものになるまで
+　 変形していく。
+
+2. すべてがViewを持つ=Factになりうる必要はないように思うが(*ここ不十分)
+　 複数のLiteral in GoalがFactableになるまで変形すると、(*ここ不十分)
+   FactableでないLiteralをのぞいて、
+   Goalに対してPageの集合が対応し、Web画面が起動する。
+
+*Factableは造語
+ (factorialと似ているので、似た言葉がすでにあるのかもしれない
+  ちょっと調べたがfactableは辞書にはなかった)
+
+3 Factはground unit clauseかどうか
+  -ViewでEntry Sheetみたいなものを考える。
+　 そのとき、入力の必要のない項目は、変数のままにしておけばいいはずなので
+　 GroundでないFact clauseがあってもいいのではないか。
+　 Partial Fact。
+　 Unit ClauseはPartial Factということか。
+
+4. Factable LiteralとViewの対応はvarsになる。
+　 FL と Vの間は、標準Literalを介してデータが相互に渡る。
+   標準Literalは、引数がすべて異なる変数のリテラル。
+　 Factable と標準をunifyすると、そのσはViewに表示すべき項目の値になる。
+　 Pageはvarsを持つので、そのσをPageに適用すると、計算できる。
+
+　 Pageで入力がconfirmされたときは、Pageのもつvarsに対する代入σも決まるので
+　 pageのvarsは標準literalのvarsと同じであり
+　 そのσをFactable≈標準に適用すれば、Viewから得たFactリテラルが作れる。
+
+課題
+・中間resolvent
+  BにはFactableでないリテラルがあると思う。
+
+  Viewから見ると、Logicに関連しており、画面遷移の論理ではあるが
+　見た目とは関係ないもの。
+
+・Viewの出現タイミング(Tabか遷移か)
+  Goalの変換で、どこまでproofを進めればよいか?
+
+  1) Goalに1つでもFactableがでてくるまで進めて、Factableに対応するViewを
+　　 UIで示す。
+     1Pageが遷移していくものになり、画面遷移をLogicで書きたくなるかもしれない。
+     それは望まない。証明の都合で、画面遷移が変わるとか・・・
+
+  2) GoalがすべてFactableになるまで証明を進めて、Goal単位でPageに変換する。
+　　　並列でPageがでるので、Tab切り替えのようなものになるのではないか。
+
+  3) Factの変換とViewの遷移のタイミング・・・
+
+　4) Pageのある変数が別のPageの変数として使われているかもしれない。
+　　そのとき、varsに対するσとして適用と反映をpageごとに行えば
+　　同期がとれる。
+　　この同期のとりかたは、Factとの同期と一致しているはず。
+
+　5) Goalが複数のclauseになるとき
+　　1 clause goalに対して、複数のclauseが適用でき、その結果
+　  goalが複数になることはありうる。
+
+　　Viewから見ると、tabで別れたPageが複数でてくる。
+　　利用者はそれらのPageのどれか一つを入力しきればいい・・・
+
+　6)条件のある場合、異なるPageになるはず。だがリテラルと条件の対応はわからない。
+
+　7)
+
+
+
+
+
+・executable literal に相当するのが factable.
+
+・
+
+
+▪️ Juliaで実装するとき、WebアプリのフレームワークとしてGenieというのがあって
+Railsみたいにつかえる。WebからJuliaの関数を呼び出せるのはよい。
+ということでGenieを調べている。
+
+GenieでSQLiteを使っていたので、SQLiteをインストールした。
+HPからとってきたファイルはsqlite3とsqldiff, analyzerのみ。
+これですべてらしい・・・Liteだ。
+
+DBは動くようなので、さらに、 Genieで, DB関連のものらしい
+SearchLiteというモジュールを使っていたので
+] add https://github.com/essenciary/SearchLight.jl
+したが、途中でエラーになり中断。
+LibPQで失敗しているらしい。
+
+DBはなくてもよいし、 面倒なのでやめ。
+
+きちんとドキュメントを読んでいないからかも。
+
+▪️ Genieは Rendrerが使えれば十分だと思う。
+
+View-Logicのお試し版はGoalkeeperという名前にした。
+Goalを[]にする目的でrefuteしていくので。
+
+### GoalKeeperについて
+
+方法
+まずは、単純な画面から作っていく。
 20190504
 Factを動的に追加してくシステムを作ろうかと思う。reactlogicと呼ぶことにする。
 
