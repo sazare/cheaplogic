@@ -189,6 +189,10 @@ function varsof(cid, core)
  core.cdb[cid].vars
 end
 
+function lvarsof(lid, core)
+ varsof(cidof(lid, core),core)
+end
+
 function bodyof(cid, core)
  clmap=core.clmap[cid]
  body = []

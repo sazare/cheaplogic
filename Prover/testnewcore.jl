@@ -81,3 +81,40 @@ end
 
 end
 
+
+@testset "varsof" begin
+ cnf = "[].[+P(x,f(x))]
+[x].[-P(x,f(h(x)))]
+[x,y,z].[+P(h(y),pi, f(k(x))),-Q(e,g(x,y))]"
+ cc = readcore(IOBuffer(cnf))
+
+ @test varsof(:C1, cc) == []
+ @test varsof(:C2, cc) == [:x_C2]
+ @test varsof(:C3, cc) == [:x_C3, :y_C3, :z_C3]
+end
+
+@testset "lvarsof" begin
+ cnf = "[].[+P(x,f(x))]
+[x].[-P(x,f(h(x)))]
+[x,y,z].[+P(h(y),pi, f(k(x))),-Q(e,g(x,y))]"
+ cc = readcore(IOBuffer(cnf))
+
+ @test lvarsof(:L1, cc) == [:x_C2]
+ @test lvarsof(:L2, cc) == []
+ @test lvarsof(:L3, cc) == [:x_C3, :y_C3, :z_C3]
+ @test lvarsof(:L4, cc) == [:x_C3, :y_C3, :z_C3]
+end
+
+@testset "atomof" begin
+ cnf = "[].[+P(x,f(x))]
+[x].[-P(x,f(h(x)))]
+[x,y,z].[+P(h(y),pi, f(k(x))),-Q(e,g(x,y))]"
+ cc = readcore(IOBuffer(cnf))
+
+ @test atomof(:L1, cc) == :(P(x_C2, f(h(x_C2))))
+ @test atomof(:L2, cc) == :(P(x, f(x)))
+ @test atomof(:L3, cc) == :(P(h(y_C3), pi, f(k(x_C3))))
+ @test atomof(:L4, cc) == :(Q(e, g(x_C3, y_C3)))
+end
+
+
