@@ -81,10 +81,10 @@ println()
 end
 
 #### readcore
-function readcore(fname)
+function readcore(fname, cid=1)
  println("readcore fname=$fname")
  cls,proc = readclausefromfile(fname)
- createcore(fname, cls, proc)
+ createcore(fname, cls, proc, cid)
 end
 
 function readcoredir(dirname)

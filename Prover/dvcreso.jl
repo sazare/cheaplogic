@@ -225,6 +225,11 @@ function psymof(lid, core)
  (lit.args[1], lit.args[2].args[1])
 end
 
+function atomof(lid, core)
+ lit = literalof(lid, core).body
+ lit.args[2]
+end
+
 lsym(sign, psym) = Symbol(sign, psym)
 
 function lsymof(lid, core)

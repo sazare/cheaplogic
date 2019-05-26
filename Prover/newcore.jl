@@ -115,8 +115,8 @@ function vform2ofclause(cdb)
  vcl
 end
 
-function createcore(name, clss, proc)
- (maxcid, cdb) = cform2ofclause(clss)
+function createcore(name, clss, proc, cid)
+ (maxcid, cdb) = cform2ofclause(clss, cid)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= Dict()
@@ -187,6 +187,10 @@ numof(xid) = Meta.parse(string(xid)[2:end])
 
 function varsof(cid, core)
  core.cdb[cid].vars
+end
+
+function lvarsof(lid, core)
+ varsof(cidof(lid, core),core)
 end
 
 function bodyof(cid, core)
