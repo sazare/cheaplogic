@@ -1,3 +1,10 @@
+function stringclauses(core)::String
+ rstr = ""
+ for cid in keys(core.cdb)
+  rstr *= stringclause(cid, core) * "\n"
+ end
+ rstr
+end
 
 function stringclause(cid, core)::String
  "$cid:$(stringvars(varsof(cid, core))).[$(stringlids(lidsof(cid,core), core))]"
