@@ -39,9 +39,9 @@ end
 function stringliteral(lit)::String
  rstr = ""
  if isa(lit, Number) || isa(lit, Symbol)
-   rstr *= String(lit)
+   rstr *= string(lit)
  else
-   rstr = String(lit.args[1]) * "("
+   rstr = string(lit.args[1]) * "("
    for ix in 2:length(lit.args)
     arg = lit.args[ix]
     rstr *= stringliteral(arg)
