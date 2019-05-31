@@ -1,3 +1,10 @@
+20190601土
+今週は、vlogic.jlとviewreso.jlをnavinavi/genieで作っていた。
+
+coreやclausesをhtmlで表示するためにcorestring.jlを作ったのは今週ではなかっただろうか。
+
+
+
 20190512日
 {GoalKeeper- Genie- SQLite}
 ここ数日、webのViewとproverをつなぐ仕組みを考えていた。
