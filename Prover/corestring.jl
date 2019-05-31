@@ -1,3 +1,16 @@
+function stringcore(core)::String
+
+"""
+CORE
+$(core.name)
+CLAUSES
+$(stringclauses(core))
+PSYM
+$(stringvars(core.allpsym))
+"""
+end
+
+
 function stringclauses(core)::String
  rstr = ""
  for cid in keys(core.cdb)
@@ -10,11 +23,13 @@ function stringclause(cid, core)::String
  "$cid:$(stringvars(varsof(cid, core))).[$(stringlids(lidsof(cid,core), core))]"
 end
 
-function stringvars(vars)::String
+stringvars(vars)::String = stringarray(vars)
+
+function stringarray(arr)::String
  rstr = "[" 
- for i in 1:length(vars)
-  rstr *= string(vars[i])
-  if i != length(vars) ; rstr *= "," end
+ for i in 1:length(arr)
+  rstr *= string(arr[i])
+  if i != length(arr) ; rstr *= "," end
  end
  rstr * "]"
 end
