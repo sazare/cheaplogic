@@ -40,7 +40,7 @@ function htmlform(action, fields, confirm, cancel)
 """
 <form action=\"$action\" method=\"get\">
 $(inputs)
-<input type=\"submit\" value=\"$confirm\">
+<input type=\"submit\" value=\"$confirm\"></br>
 <input type=\"reset\" value=\"$cancel\">
 </form>
 """

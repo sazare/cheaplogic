@@ -65,10 +65,17 @@ end
  <pre>GOAL</pre>
  <pre>$(sres)</pre>
  <pre>=======</pre>
- <pre>resulg: $(stringarray(goalsigma))</pre>
+ <pre>result info: $(stringarray(goalsigma))</pre>
 """
- form = htmlform("/viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel") 
- return htmlhtml(htmlheader("select next glit"), htmlbody("step goal", pres, form))
+
+ if 0 == length(lidsof(nrid, core))
+  global firstview=true
+  form = htmlform("/startlogic", [], "Confirm", "Cancel") 
+  return htmlhtml(htmlheader("proof completed"), htmlbody("completed", pres, form))
+ else
+  form = htmlform("/viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel") 
+  return htmlhtml(htmlheader("select next glit"), htmlbody("step goal", pres, form))
+ end
 end
 
 
