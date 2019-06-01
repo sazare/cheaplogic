@@ -1,8 +1,28 @@
+
 20190601土
 今週は、vlogic.jlとviewreso.jlをnavinavi/genieで作っていた。
 
 coreやclausesをhtmlで表示するためにcorestring.jlを作ったのは今週ではなかっただろうか。
 
+いちおう動くようになったので、vlogicをcheaplogicにコピーした。
+
+動かしかた
+@Prover
+$ julia
+> include("load_vlogic.jl")
+vdata/vl002.cnf だと、2回glitを使えば[]になる
+
+TODO:
+1) goal literalの消去の方法は3つある
+　(1) baseとのresolution
+  (2) executeしてfalseになるとき消去
+  (3) Viewで消滅させる
+　* 消していく順番を決定する方法
+
+1) もとのliteralの引数が定数の場合、その定数がviewに反映されない。
+2) cancelまたは ViewのFactが -Pであるような場合
+3) lvarsofがvarsofと同じになっている。
+　 変数をliteralにあわせるには、標準literalが必要
 
 
 20190512日

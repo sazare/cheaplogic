@@ -1,0 +1,16 @@
+# testdata for vlogic.jl
+
+[X,Y,Z].[-P(X,Y),-R(X,Y,Z)]
+
+# image input A
+ [X,Y].[+P(X,Y)] => [].[+P(a,b)]
+ [Z].[+R(a,b,c)] => anythin
+
+# image input B
+ [X,Y].[+P(X,Y)] => [X].[+P(X,b)]
+ [X,Z].[+R(X,b,Z)] => [].[+R(a,b,c)]
+
+# base
+# only +P needs fact with view.
+[].[+R(n,m,k)]
+
