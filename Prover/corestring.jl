@@ -1,12 +1,10 @@
 function stringcore(core)::String
 
 """
-CORE
-$(core.name)
+CORE: $(core.name)
 CLAUSES
 $(stringclauses(core))
-PSYM
-$(stringvars(core.allpsym))
+PSYM: $(stringarray(core.allpsym))
 """
 end
 

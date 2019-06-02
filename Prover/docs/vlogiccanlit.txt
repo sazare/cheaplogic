@@ -1,0 +1,61 @@
+[X,Y].P
+=>[ [X,Y], P(X,Y)]
+atomでいいのかリテラルか
+
+goal=[x,y,z].[-P(x,y),-Q(x,y,z)]
+
+  clit: [X,Y].+P(X,Y)
+o glit: [x,y].-P(x,y)
+
+[X,Y].<P(X,Y):P(x,y)> => [x,y]
+[X,Y]:=[x,y]
+
+makeView(cvars=[X,Y], σi=[x,y], gvars=[x,y])
+
+View = [[X:x]/ [Y:y]]
+
+<confirm>
+
+σo = [X,Y]:=[a,b]
+or
+σo = [x,y]:=[a,b]
+↑ ([X,Y].[x,y])[a,b] = [a,b] == [x,y]:=[a,b]
+
+
+clit*σo = [].+P(a,b)
+glit [x,y].-P(x,y)
+
+
+goal [x,y,z].[-Q(x,y,z)]
+
+
+iiiiii
+o glit: [y].-P(a,y)
+x glit: [x,y].-P(a,y)
+
+[X,Y].<P(X,Y):P(a,y)> => [a,y]
+[X,Y]:=[a,y]
+
+makeView(cvars=[X,Y], σi=[a,y], gvars=[y])
+
+View = [ [X:a]/ [Y:-]]
+
+
+σo = [X,Y]:=[a,b]
+
+clit σo = [].+P(a,b)
+glit [y].-P(a,y)
+
+
+goal [x,y,z].[-Q(x,y,z)]
+
+
+
+
+
+
+
+
+
+
+
