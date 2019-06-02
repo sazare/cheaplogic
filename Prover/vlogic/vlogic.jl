@@ -8,6 +8,7 @@ global gcid
 global goal
 global lvs
 global goalsigma
+global govars
 global firstview=true
 
 #########
@@ -62,10 +63,10 @@ end
 
  pres = """
  <pre>$(score)</pre>
- <pre>GOAL</pre>
- <pre>$(sres)</pre>
- <pre>=======</pre>
- <pre>result info: $(stringarray(goalsigma))</pre>
+ <pre>GOAL
+ $(sres)
+ =======</pre>
+ <pre>info: $(stringarray(govars)):=$(stringarray(goalsigma))</pre>
 """
 
  if 0 == length(lidsof(nrid, core))
@@ -101,6 +102,7 @@ route("/viewpage") do
 
  if firstview
    global goalsigma = varsof(gcid,core)
+   global govars = goalsigma
    global firstview = false
  end
 
@@ -120,9 +122,9 @@ route("/viewpage") do
  score = stringcore(core)
 
  pres = """
-<pre>$(score)</pre>
-<pre>gatom:$(svars).$(lgoal)</pre>
-<pre>glid: $(glid)</pre>
+<pre>$(score)
+GATOM:$(svars).$(lgoal)
+GLID: $(glid)</pre>
 
 """
  form = htmlform("/newgoal", inputs, "Confirm", "Cancel") 

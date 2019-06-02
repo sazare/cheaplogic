@@ -1,0 +1,30 @@
+1. 目的
+case A
+ (1) [x,y,z].[-P(x,y),-Q(x,y,z)]
+ (2) view [x,y].+P(a,b)
+ (3) [z].[-Q(a,b,z)]
+ (4) view [z].+Q(a,b,d) 
+ (5) [].[] [x,y,z]:=[a,b,d]
+
+case B
+ (1) [x,y,z].[-P(x,y),-Q(x,y,z)]
+ (2) view [x,y,z].+Q(a,b,c)
+ (3) [].[-P(a,b)]
+ (4) view [z].+P(a,b) nothing done
+ (5) [].[] [x,y,z]:=[a,b,c]
+
+case C
+ (1) [x,y,z].[-P(a,y),-Q(x,y,z)]
+ (2) view [y].+P(a,b) or [x,y].+P(a,b) ??
+ (3) [z].[-Q(a,b,z)]
+ (4) view [z].+Q(a,b,d) 
+ (5) [].[] [x,y,z]:=[a,b,d]
+
+2. 手順
+
+ (1) canonicl literalを作る
+  [X,Y].+P(X,Y)
+  [X,Y,Z].+Q(X,Y,Z)
+
+
+

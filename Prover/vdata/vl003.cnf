@@ -1,0 +1,20 @@
+@ have view and evaluation and resolution
+
+ Func
+!ge(x,y)   = x>=y
+
+ goal
+[name,id,age,id,card].[-P(name,id),-Q(name,age),-ge(age,20),-R(id),-Pay(id,card)]
+
+# ge is executable, R,Pay are resolved.
+# View for P, Q
+
+ Base
+
+[].[+R(1)]
+[].[+R(2)]
+
+[].[+Pay(1,5555)]
+[].[+Pay(2,0)]
+
+
