@@ -228,6 +228,15 @@ function printproc(proc)
  end
 end
 
+function printcano(cano)
+ for can in cano
+  printvars(can[1])
+  print(".")
+  printterm(can[2])
+  println()
+ end
+end
+
 function printcore(core, showinfo=false)
 println("name = $(core.name)")
 println("max cid = $(core.maxcid)")
@@ -248,6 +257,9 @@ println("LCMAP")
 println()
 println("CLMAP")
  printamap(core.clmap)
+println()
+println("CANONICAL")
+ printcano(core.cano)
 println()
 println("TEMPLATE(level0)")
  printtemplates0(core.level0,core)

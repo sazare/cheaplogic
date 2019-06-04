@@ -1,4 +1,4 @@
-@ have view and evaluation and resolution
+# have view and evaluation and resolution
 
  Func
 !ge(x,y)   = x>=y
@@ -17,4 +17,9 @@
 [].[+Pay(1,5555)]
 [].[+Pay(2,0)]
 
+
+&P(NAME, ID)
+&Q(NAME, AGE)
+&R(ID)
+&Pay(ID,CARD)
 

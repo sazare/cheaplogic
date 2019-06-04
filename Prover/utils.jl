@@ -25,26 +25,38 @@ end
 
 ==#
 #### readclause
+function adjustcano(cano)
+ vcano = []
+ for can in cano
+  push!(vcano, [can.args[2:end], can])
+ end
+ vcano
+end
 
 #from a file
 function readclausefromfile(fname)
  lines=readlines(fname)
  clss = []
  proc = []
+ cano = []
  for line in lines
   if length(line)>0
     if line[1]=='['
       push!(clss,Meta.parse(line))
+    elseif line[1] == '&'
+      push!(cano,Meta.parse(line[2:end]))
     elseif line[1] == '!'
       push!(proc,line[2:end])
     elseif line[1] == '<'
-      iclss, iproc = readclausefromfile(strip(line[2:end],[' ','\t']))
+      iclss, iproc, icano = readclausefromfile(strip(line[2:end],[' ','\t']))
       append!(clss, iclss)
       append!(proc, iproc)
+      append!(cano, icano)
     end
   end
  end
- return clss, proc
+ vcano = adjustcano(cano)
+ return clss, proc, vcano
 end
 
 function readkpclausefromfile(fname)
@@ -68,7 +80,7 @@ function readkpclausefromfile(fname)
 end
 
 function printcnf(fname)
- cnfs, proc=readclausefromfile(fname)
+ cnfs, proc, cano=readclausefromfile(fname)
  @show proc
  for p in proc
    println("!$p")
@@ -78,13 +90,17 @@ println()
    cnf = cnfs[ix]
    println("$(cidof(ix)): $cnf")
  end
+println("Canonical")
+ for can in cano
+   println("$(can)")
+ end
 end
 
 #### readcore
 function readcore(fname, cid=1)
  println("readcore fname=$fname")
- cls,proc = readclausefromfile(fname)
- createcore(fname, cls, proc, cid)
+ cls,proc,cano = readclausefromfile(fname)
+ createcore(fname, cls, proc, cid, cano)
 end
 
 function readcoredir(dirname)

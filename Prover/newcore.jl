@@ -50,6 +50,7 @@ mutable struct CORE
  proc
  trycnt
  succnt
+ cano
 end
 
 function stringtoclause(cid, cls)
@@ -115,12 +116,12 @@ function vform2ofclause(cdb)
  vcl
 end
 
-function createcore(name, clss, proc, cid)
+function createcore(name, clss, proc, cid, cano)
  (maxcid, cdb) = cform2ofclause(clss, cid)
  ldb, lcmap, clmap, allpsym =createLDB(cdb)
  cvdb = vform2ofclause(cdb)
  graph= Dict()
- CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict(), proc, [0], [0])
+ CORE(name, [numof(maxcid)], [0], ldb, cvdb, clmap, lcmap, sort(collect(allpsym)), graph, Dict(), proc, [0], [0], cano)
 end
 
 # proof operation
