@@ -20,6 +20,5 @@
 
 &P(NAME, ID)
 &Q(NAME, AGE)
-&R(ID)
 &Pay(ID,CARD)
 
