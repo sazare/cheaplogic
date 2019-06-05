@@ -1,3 +1,11 @@
+20190605水
+・unify(vars, array, array)を追加した。testも
+・testnewcoreが昨日の分未修正だったので修正した
+
+20190604火
+・COREにcanonicalを追加
+・printcore()の修正など
+
 20190602日
 ・goalの引数に定数があるときの処理を考えた。
 標準リテラルが必要になり、ややこしくなる。

@@ -30,7 +30,7 @@ end
  @test numof(:L22) == 22
  @test numof(:R2333) == 2333
 
- ctest = CORE("test", 0,[0],0,0,0,0,0,0,0,[],[0],[0])
+ ctest = CORE("test", 0,[0],0,0,0,0,0,0,0,[],[0],[0],[])
  @test ctest.name == "test"
  @test newrid(ctest) == :R1
  @test newrid(ctest) == :R2
