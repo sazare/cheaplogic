@@ -113,6 +113,14 @@ end
 
  @test unify([:x,:y], :(f(g(b,y),h(a))), :(f(x,y))) == [:(g(b,h(a))),:(h(a))]
 
+ @test unify([], [], []) == []
+ @test unify([:x], [:x], [:a]) == [:a]
+ @test unify([:x], [:x], [3]) == [3]
+ @test unify([:x], [:x], [:y]) == [:y]
+ @test unify([:x,:y], [:x,:y], [:a,:y]) == [:a,:y]
+ @test unify([:x,:y], [:x,:y], [:a,:b]) == [:a,:b]
+ @test unify([:x,:y], [:x,:y], [:y,:b]) == [:b,:b]
+
  @testset "fixed point of subst" begin
    @test fp_subst([:x,:y],[:x,:y]) == [:x,:y]
    @test fp_subst([:x,:y],[:a,:x]) == [:a,:a]

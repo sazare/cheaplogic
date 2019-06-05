@@ -305,3 +305,19 @@ function unify(vars::Vlist, t1::Expr, t2::Expr)
  return fs 
 end
 
+function unify(vars::Vlist, t1::Array, t2::Array)
+#@show :unifyaa,t1,t2
+ if length(t1) != length(t2); return throw(ICMP(t1,t2,:unify1aa)) end
+ fs = []
+ fs = vars
+ for ix in 1:length(t1)
+  e1,e2 = t1[ix],t2[ix]
+#@show e1,e2
+  ss = unify1(vars, e1, e2, fs)
+#@show vars,ss
+  fs = fp_subst(vars, ss)
+#@show fs
+ end
+ return fs 
+end
+

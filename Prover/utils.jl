@@ -28,7 +28,7 @@ end
 function adjustcano(cano)
  vcano = []
  for can in cano
-  push!(vcano, [can.args[2:end], can])
+  push!(vcano, (can.args[2:end], can))
  end
  vcano
 end
