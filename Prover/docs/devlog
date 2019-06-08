@@ -1,3 +1,13 @@
+20190609日
+・factify_clause()の関数名を昨日かえてしまったのだけれど
+  genieで動かすvloigc.jlで呼んでいたのでもどした。
+  viewreso.jlにこの関数だけはいっていたので、factify.jlという名前で
+　追加し、動くことを確認した。
+
+・Viewで入力した値は、fact literalを作っておくとproofに残るのでよいかも。
+
+
+
 20190608土
 みなおし
 
