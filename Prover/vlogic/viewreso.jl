@@ -1,6 +1,6 @@
 # chase goal with view
 
-function evalation(glid, core)
+function evalator(glid, core)
 # glidがfalseになったらそのglidをgoalから消したい・・・そうはなっていない
  glit  = literalof(glid, core)
  val = leval(glit)
