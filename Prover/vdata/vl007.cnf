@@ -1,23 +1,17 @@
-# have view and evaluation and resolution
-# this just resolution and evalutate
+# should be solved by view, eval, and reso
+# there are 2 reso paths. 
+# is this a correct description or not?
 
  Func
 !ge(x,y)   = x>=y
 
- goal
+ Goal
 [name,id,age,id,card].[-P(name,id),-Q(name,age),-ge(age,20),-R(id),-Pay(id,card)]
 
 # ge is executable, R,Pay are resolved.
 # View for P, Q
 
  Base
-
-[].[+P(Ben,1)]
-[].[+P(Chang,2)]
-
-[].[+Q(Ben,18)]
-[].[+Q(Chang,99)]
-
 [].[+R(1)]
 [].[+R(2)]
 

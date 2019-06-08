@@ -1,0 +1,18 @@
+# should be solved by view only
+
+ goal
+[name,id,age,id,card].[-P(name,id),-Q(name,age),-Pay(id,card)]
+
+# ge is executable, R,Pay are resolved.
+# View for P, Q
+
+ Base
+ [].[+P(Riz, 1)]
+ [].[+Q(Riz, 77)]
+ [].[+Pay(1,5555)]
+
+ Cano
+&P(NAME, ID)
+&Q(NAME, AGE)
+&Pay(ID,CARD)
+
