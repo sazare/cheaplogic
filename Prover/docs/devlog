@@ -1,3 +1,147 @@
+20190608土
+みなおし
+
+関数名をrefute_goal()とし、glidでなくgoal全体を対象として[]を目指す関数と
+とらえた。
+
+3つのステップ
+1. remove_false() or revmove_by_evaluation()
+ juliaの式としてevaluateし符号も含めてfalseならそのliteral=式を消す。
+ trueならclause全体がtrueとなるので、refutation全体が無効になる。
+　これを:FAILという名前の例外を飛ばしてよいのか???
+ 自然な前提として、このようなliteralはground literalである。
+ groundかどうかをチェックしてからevalするかどうか。同じようことを二度する
+　ことになるので、ground checkは不要。
+
+
+  1) 実行可能なliteralは定義のある述語のliteralなので、CORE.procにある関数は
+　　残りの述語として数えなくていい。その変数はresolutionがだめでも
+　　askyouで必ず消せるから。消せなかったらrefute失敗
+
+    残りのliteralがすべてproc述語で、groundなものが残っていれば
+　　refute失敗。(か、その条件を満たす変数を不定の解として) と考えられる。
+
+　　proc literalはoppositeにあっても、分岐条件なのでresolutionする必要がない。
+　　それは+P(x)と-P(x)のモデルが共有されないということ。つまり同じxが両方の
+　　clauseで存在できないので、resolutionする意味がない。
+
+　　resolutionするときliteralを消せるのは、共通のxのモデルがあるから。
+　　分岐では、それらのliteralには
+　　　1) 共通のモデルがない
+　　という条件を前提としていて、executableというのはまさにそういういみ。
+　　現実世界で、p(x)かつ!p(x)がないのだから、resolutionには意味がないということ。
+
+　　resolutionでは形式的にでもそのようなxがあるとして、矛盾すると言っている。
+　　しかしそのようなxが存在できないのなら、p(x)と!p(x)で分けてrefuteすればよい。
+　　・・・というようなことか。よくわからない。
+
+2. remove_with_base() or remove_by_resolution()
+ これは、goalのliteralをcoreのbaseで消す。
+　グラフでは、goalのpsymのopponentにぶら下がるノードがあれば実行できる。
+
+ いくつか問題
+ 1) ぶらさがるノードの中で1つだけが適用可能なら、安心してresolutionしてみればよいが
+　そうでない場合もありうる
+ 2) resolutionでglitを消すと、goalのliteralが増える場合もある。
+ 
+ 3) 複数のnodeがあると、それぞれについて新しいgoalがありうる。
+　・あるgoalのrefuteに失敗した場合、バックトラックして別のgoalを試す(Depth first)か
+　・ひととおりの新goalを作っておいて、順番にトライしていくか(breadth first)
+
+　・複数のgoalがあったとき、refuteできそうなgoalを優先して行う。という方法もあるかも。
+  　そのとき、「refuteできそうな」の評価方法は?
+
+  ・(literalが増えたとき、)ground literalでevaluateできるものがあれば、減らせる。
+　・グラフにoppositeがないliteralがあればaskyouで値を求める。
+　・
+
+ 4) どのliteralから消していくか
+
+
+ 5) 消す方法は、viewにすべきかresolutionにすべきか
+    判断基準はoppositeのリテラルの状態とclauseの状態が材料になりそう。
+    一番簡単な場合
+　　　oppositがground unit clauseでunifiable
+　　　oppositがunit clauseでunifiable
+
+　　そういうものが複数あったらどうなるか。
+　　　a) groundの場合、unifiableなら同一のliteralということなので
+　　　　そのliteralはviewにしても意味がない(つまりconfirnしか得られない)
+　　　　だから、そのliteralについてはresolutionしか必要ない。
+
+　　　b) 変数があるときは、標準形の変数が減るようなlitralがあったら
+　　　　resolutionは有望かもしれない。
+　　　　resolventができたときのlitral数は少ないにこしたことはないが
+　　　　evalで消えるものなら数えなくていい。
+
+
+
+
+
+
+　評価基準案
+  ・式に含まれる変数の数をみて、0に近いものはgroundに近い
+　・
+
+
+3. remove_with_askyou()
+ これは、goalのliteralをcoreでは消せないとき、Viewでexternalに問い合わせる。
+ externalが人間の場合のこと(AIプログラムが世界に対する判断をこのような形
+で受け取ることが一つのテーマだが、それは難しいのでこの方法で試している)
+
+ グラフでは、goalのpsymのopponentにぶら下がるノードがあれば実行できる。
+ opponentにぶら下がるノードがあっても実行して悪いわけではないとも思う。
+★　たとえば、resolutionで進展しないときに、人間に問い合わせるとか
+
+ この考え方はよいのだがコードについて。
+ literalからPageのhtmlを作り、そのurlをBrowserで開いて
+人間が入力し、confirmすると別のurlでその値を受け取る。
+
+htmlを作るところと、値を受け取るところは、同じ計算環境(session)
+だが、計算のブロックとしては別になってしまう。
+
+このような位相のπ/2のずれのようなことをわかりやすい形で記述できないか。
+htmlの前と後で分けた時、一連の処理なのにもかかわらず計算が
+分割されてしまう。
+
+schemeかlispで何かフレームワークがあったような気がする。
+具体的には知らないので、すこし考えてみよう。
+
+★そのほかの問題
+ 1) resolutionとaskyouの順番
+   removebyevaluation()はgroundに対してしか行われないので、この2つとは独立
+　 resolutionとaskyouの場合、どちらも変数をinstance化していく。
+
+   resolutionでいくつかの変数に定数が入った後にaskyouをすると、
+　わかっている項目に初期値が入るようなことに対応して、おもしろい
+
+　しかし、人間に聞いてわかることであれば、askyouで変数の値を決めて
+　おけば無駄にresolutionしなくてもよい。つまり、resolutionを効率よく適用
+　できたり、resolutionを回避できたりする。
+
+　
+
+
+
+
+
+20190606木
+applytemp()の
+map(rid->lidsof(rid, core),rids)
+の部分は正しいのか?
+ridのlidsof()をとるのはいいが、グラフのPにぶらさがっているliteral
+すべてにこれをしてどういう意味が??
+
+viewreso.jlに追加
+evalation(glid, core) を作ってみたが、この関数は何をすべきか。
+glidがevalしてfalseになったとき、goalからglidを消したい。
+その点はできていない。
+
+go_resolution()は、graphでglidの相手がいたら、resolutionで
+消去する。
+
+
+
 20190605水
 ・unify(vars, array, array)を追加した。testも
 ・testnewcoreが昨日の分未修正だったので修正した

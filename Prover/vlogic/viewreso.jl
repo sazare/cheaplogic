@@ -1,15 +1,69 @@
+# chase goal with view
 
-function factify_clause(glid,σo,core)
- ovars = vars = varsof(cidof(glid, core), core)
+function evalation(glid, core)
+# glidがfalseになったらそのglidをgoalから消したい・・・そうはなっていない
+ glit  = literalof(glid, core)
+ val = leval(glit)
+ if val == true
+  println("Valid")
+  return :VALID
+ else # val == false
+  return true
+ end 
+ return false
+end
 
- glit  = literalof(glid, core).body
+function go_resolution(glid, core)
+ nlid = applytemp(glid, core) ## ???なに??
+end
+
+function askyou(glid, core)
+ (sign, psym) = psymof(glid, core)
+
+ (λc, clit) = core.cano[psym]
+  λg, glit = lvarsof(glid, core), literalof(glid, core)
+
+ σi = unify(λc, clit, glit)
+ viewi = makeView(clit, σi0)
+### your input s
+
+# => λc, carray
+ σo = unify(λc, clit, vargs)
+ iσ = inverse(σi)
+ λσ = fitting_vars(λg, iσ)
+ σ = apply(λσ, iσ, σo)
+  
+ newgoal = apply(λgc, goal-glit, σ)
+ core = putgoal(newgoal, core) 
+ core
+end
+
+
+
+function refute_goal(gid,core)
+ gclause = clause2of(gid,core)
+
+ ovars = vars = goal.vars
+# is same as  ovars = vars = varsof(glid, core)
+
+ glits = goal.body
+ glids = lidsof(gid, core)
+# the order of glits and glids should be correspond
+# i.e. glids[ix] = glits[ix].lid  for all ix
+# This properties may be distructed in the following course...??
+# if the evaluation failed, the tempolally generated rid is abandoned???
+
+ glix  = 1
+ glid  = glids[glix]
+ glit  = glits[glix]
+ remids1 = glid
 
  try
    core.trycnt[1] += 1
-   rem1 = lidsof(cidof(glid, core),core)
-   rem = rem1 = setdiff(rem1, [glid])
+   remids = remids1 = setdiff(remids1, [glid])
 
 # rename rlid
+# 6/8 this action make the resolvent seems too hurry?
    rid =  newrid(core)
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
@@ -25,9 +79,7 @@ function factify_clause(glid,σo,core)
    end
 
    vars = fitting_vars(ovars, nbody1, core)
-@show vars
    body = rename_clause(rid, vars, nbody1)
-@show body
 
  rename_subst = [vars, body.vars]
 

@@ -229,10 +229,10 @@ function printproc(proc)
 end
 
 function printcano(cano)
- for can in cano
-  printvars(can[1])
+ for psym in keys(cano)
+  printvars(cano[psym][1])
   print(".")
-  printterm(can[2])
+  printterm(cano[psym][2])
   println()
  end
 end

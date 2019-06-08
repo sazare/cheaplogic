@@ -1,0 +1,21 @@
+# should be solved by View and 1 reso
+
+ goal
+[name,id,age,id,card].[-P(name,id),-Q(name,age),-R(id),-Pay(id,card)]
+
+# ge is executable, R,Pay are resolved.
+# View for P, Q
+
+ Base
+
+[].[+R(1)]
+ [].[+R(2)]
+
+ [].[+Pay(1,5555)]
+ [].[+Pay(2,0)]
+
+
+&P(NAME, ID)
+&Q(NAME, AGE)
+&Pay(ID,CARD)
+

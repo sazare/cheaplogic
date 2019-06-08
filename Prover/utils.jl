@@ -26,9 +26,9 @@ end
 ==#
 #### readclause
 function adjustcano(cano)
- vcano = []
+ vcano = Dict{Symbol, Any}()
  for can in cano
-  push!(vcano, (can.args[2:end], can))
+  vcano[can.args[1]] = (can.args[2:end], can)
  end
  vcano
 end
