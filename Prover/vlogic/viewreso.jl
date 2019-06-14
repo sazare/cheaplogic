@@ -1,6 +1,77 @@
 # chase goal with view
 
-function evalator(glid, core)
+#proc is a string of form "sym(...) = def"
+
+function isCano(lit::LForm2, core)
+ lit.body.args[2].args[1] in keys(core.cano)
+end
+
+function isProc(lit::LForm2)
+ lsym = lit.body.args[2].args[1]
+ try
+  return isa(eval(lsym), Function)
+ catch e
+  return false
+ end
+end
+
+#
+"""
+ add literals to core as an clause
+"""
+function addnewclause(vars, cid, lids, core)
+# rename rlid
+  rid =  newrid(core)
+  vars = cvarsof(cid, core)
+  nrem = rename_lids(rid, lids, core)
+  nbody = literalsof(lids, core)
+  vars = fitting_vars(ovars, nbody, core)
+  
+  body = rename_clause(rid, vars, nbody)
+  rename_subst = [vars, body.vars]
+
+ ## settlement
+  core.succnt[1] += 1
+  core.cdb[rid] = VForm2(rid, body.vars)
+  core.clmap[rid] = nrem
+# ldb[rlid] to full
+  for i in 1:length(nrem)
+    core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
+  end
+
+# lcmap[rlid] to rid
+  for rlid in nrem
+    core.lcmap[rlid] = rid
+  end
+
+  core.proof[rid] = STEP(rid, l1, l2, sigmai, rename_subst)
+
+  rcf2=CForm2(rid, body.vars, body.body)
+#  return rcf2
+  return rid
+end
+
+# goal is an array of literals
+function evaluategoal(gid, core)
+ gids = lidsof(gid, core)
+ rgids= []
+
+ for glid in gids
+  lit = literalof(glid, core)
+
+  if isProc(lit)
+   val = leval(lit) 
+   if val == true; throw(VALID(glid, :evaluategoal)) end
+   if val == false; continue end
+   push!(rgids, lid) #not true or false
+  end 
+ end 
+ ncore = addnewclause(vars, gid, rgids, core)
+ return ncore
+end
+
+
+function evaluator(glid, core)
 # glidがfalseになったらそのglidをgoalから消したい・・・そうはなっていない
  glit  = literalof(glid, core)
  val = leval(glit)

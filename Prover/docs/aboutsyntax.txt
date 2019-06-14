@@ -1,0 +1,9 @@
+主要な関数
+isvar(x,vars)   varとconstの区別よう
+isconst(x,vars) const判定
+isinvar()       unifyの方向決めるためにしよう
+iscap()         isevar()で直接uppercaseを使用(primitives.jl)。iscapは使っていない
+number          isNumberはない。isconst()はdispatchで区別している。isa(x,Number)はある。
+Symbol Expr     juliaのtypeだからか、とくにisxxxは作っていない
+
+

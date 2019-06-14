@@ -1,10 +1,36 @@
+20190615土
+viewreso.jlがsyntaxこわれていたので整理
+
+
+
+20190614金
+・isCano(x,core)を作るためcanoのlsymのリストを作っておくことにした
+　これはcoreにいれよう(なくてもなんとかなりそうだけど)
+
+・isProc(x,core)は、procがevalされているので
+　isa(lsym, Function)で判定する。このlsymはSymbolではなく関数名で
+　あり、未定義の名前だと例外が発生するのでtry-catchで補足する
+
+これらの関数をviewreso.jlに追加し、testviewreso.jlを作った
+load_viewprover.jlを作成した。
+
+・vlogic/vlogic.jlはviewとlogicが混じっているので分離したい
+とりあえず、geneを使わないバージョンを作ってそれに
+
+genieを組み合わせたい。
+ ファイルの再構成
+ vlogic.jl => vlogic0.jl (記念にのこす)
+ viewlogic.jl を新しいvlogic.jl相当にしたので、vlogic.jl == vlogic0.jlになった
+
+
 20190609日
 ・factify_clause()の関数名を昨日かえてしまったのだけれど
   genieで動かすvloigc.jlで呼んでいたのでもどした。
   viewreso.jlにこの関数だけはいっていたので、factify.jlという名前で
 　追加し、動くことを確認した。
 
-・Viewで入力した値は、fact literalを作っておくとproofに残るのでよいかも。
+・Viewで入力した値は、fact literalを作っておくとproofに残るという点が
+　メリット
 
 
 
@@ -15,7 +41,7 @@
 とらえた。
 
 3つのステップ
-1. remove_false() or revmove_by_evaluation()
+1. remove_false() or revmove_by_evaluation() or compIt()
  juliaの式としてevaluateし符号も含めてfalseならそのliteral=式を消す。
  trueならclause全体がtrueとなるので、refutation全体が無効になる。
 　これを:FAILという名前の例外を飛ばしてよいのか???
@@ -45,7 +71,7 @@
 　　しかしそのようなxが存在できないのなら、p(x)と!p(x)で分けてrefuteすればよい。
 　　・・・というようなことか。よくわからない。
 
-2. remove_with_base() or remove_by_resolution()
+2. remove_with_base() or remove_by_resolution() or inferIt()
  これは、goalのliteralをcoreのbaseで消す。
 　グラフでは、goalのpsymのopponentにぶら下がるノードがあれば実行できる。
 
@@ -76,7 +102,7 @@
 
 　　そういうものが複数あったらどうなるか。
 　　　a) groundの場合、unifiableなら同一のliteralということなので
-　　　　そのliteralはviewにしても意味がない(つまりconfirnしか得られない)
+　　　　そのliteralはviewにしても意味がない(つまりconfirmしか得られない)
 　　　　だから、そのliteralについてはresolutionしか必要ない。
 
 　　　b) 変数があるときは、標準形の変数が減るようなlitralがあったら
@@ -85,13 +111,22 @@
 　　　　evalで消えるものなら数えなくていい。
 
 
-
-
-
-
 　評価基準案
-  ・式に含まれる変数の数をみて、0に近いものはgroundに近い
-　・
+  ・案1) 式に含まれる変数の数をみて、0に近いものはgroundに近いとする。
+　・案2) Canonicalを情報1とし、ground clauseはすべて0とするのもある。
+    これを<:>で評価できるか??
+    空代入φは<P^c:P^c>=<P_g:P_g>=φ
+　　P_gはgroundliteralであり、同じliteralの場合
+　　ground literalは異なるものがいろいろあり、
+    <P_{g_1}:P_{g_1}>は常にφであり(これはなんでもこう)
+    <P_{g_1}:P_{g_2}>は失敗する。
+    canonをP^cと書くとすると、<P^c:P^c> = φであり、
+
+　　何かリテラルPが与えられたとき、
+
+　　<P^c:P> = φは必ず存在する。
+
+　 このφの形によって、[]に近いかどうかを判定できないか??
 
 
 3. remove_with_askyou()
@@ -136,7 +171,7 @@ schemeかlispで何かフレームワークがあったような気がする。
 
 
 20190606木
-applytemp()の
+applytemp()の末尾
 map(rid->lidsof(rid, core),rids)
 の部分は正しいのか?
 ridのlidsof()をとるのはいいが、グラフのPにぶらさがっているliteral
