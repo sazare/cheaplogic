@@ -1,7 +1,19 @@
-first char
-@  -- what is written
-@@ -- how to write
+readcore recognize the first char of each line
+
+! evaluate line[2:end]
+< include another cnf file(as common.fun)
+& canonicalform
 
 
+I use the other first char as below some days.
+Now I forgot about such rules.
 
+space -- any comment
+@     -- what is written
+@@    -- how to write
+#     -- 
+
+file for 
 common.fun -- common func
+
+

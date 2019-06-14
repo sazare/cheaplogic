@@ -25,3 +25,12 @@ struct Loop
  right
  op
 end
+
+"""
+Valid
+"""
+struct VALID
+ lid
+ op
+end
+

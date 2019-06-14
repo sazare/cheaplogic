@@ -1,4 +1,5 @@
 @ 20 questions sample
+# NO ANSWER EXITS
 
 # neg conj formally
 [x].[-Q(x)]

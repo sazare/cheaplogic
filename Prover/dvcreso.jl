@@ -51,6 +51,10 @@ end
 function entrylit(rid, nlid, lid, core)
   olit = literalof(lid, core).body
   ovars = varsof(cidof(lid,core),core)
+# may this be not right? where I should deepcopy??
+#  olit2 = deepcopy(olit)
+#  nlit=LForm2(nlid, rename_term(rid, ovars, olit2))
+#
   nlit=LForm2(nlid, rename_term(rid, ovars, olit))
   core.ldb[nlid] = nlit
 end
@@ -175,7 +179,7 @@ function dvc_resolution(l1,l2,core)
    if evalon
      rb = evaluate_literals(nrem, nbody1) 
      if rb[1] == true
-       println("Valid")
+       println("Valid:") # I want to show what is valid.
        return :FAIL 
      end
      nrem, nbody1 = rb
@@ -293,6 +297,7 @@ function applytemp(lid, core)
      continue
    end
  end
+# devlog20190606 Q
  map(rid->lidsof(rid, core),rids)
 end
 
@@ -376,7 +381,7 @@ function dostepgoals1(goals, core)
   if ngs == :FAIL; continue end
   append!(nextg, ngs)
  end
-println("GOAL=>NEXT: $goals => $nextg")
+#println("GOAL=>NEXT: $goals => $nextg")
  nextg
 end
 
