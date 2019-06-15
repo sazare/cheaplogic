@@ -24,8 +24,11 @@ Tlist = Array
 isvar(sym::Symbol, vars::Vlist)=sym in vars
 isvar(term, vars::Vlist)=false
 
+iscap(x) = isuppercase(String(x)[1])
+isinvar(x) = '!' == String(x)[end]
+
 function isevar(sym::Symbol, vars::Vlist)
- isvar(sym, vars) && isuppercase(string(sym)[1])
+ isvar(sym, vars) && iscap(sym)
 end
 isevar(sym, vars::Vlist)=false
 

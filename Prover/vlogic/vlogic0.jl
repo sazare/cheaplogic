@@ -2,6 +2,8 @@ using Genie
 import Genie.Router: route
 import Genie.Router: @params
 
+include("factify.jl")
+
 global core
 global glid
 global gcid
@@ -11,55 +13,71 @@ global goalsigma
 global govars
 global firstview=true
 
-#########
-route("/newgoal") do
+# url: http://localhost:8000/go?op=start
+function makeinputs(vars)
+# TODO: [X,Y] := [a,Y] then input of X has value a, of Y has none
+# TODO: standard lit needed when constant be a var
+ bb = ""
+ for v in vars
+   bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
+ end
+ bb
+end
+
+function restrictvars(lid, core)
+  fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
+end
+
+####
+
+route("/go") do
  pm = @params()
+ op = pm[:op]
+ if op == "start"
+  return gostarthtml()
+ elseif op == "readcore"
+  return goreadcore(pm)
+ elseif op == "viewpage"
+  return goviewpage(pm)
+ elseif op == "newgoal"
+  return gonewgoal(pm)
+ end
+end
+
+function gonewgoal(pm)
  global lvs = lvarsof(glid, core)
 # global lvs = restrictvars(glid, core)
+
  σo=[]
  for v in lvs
-  try 
+  try
     vr = pm[v]
     if v == vr
       push!(σo, v)
     elseif "" == vr
       push!(σo, v)
     else
-      push!(σo, Symbol(vr)) 
+      push!(σo, Symbol(vr))
     end
   catch
-    push!(σo, Symbol(v)) 
+    push!(σo, Symbol(v))
   end
  end
  if !firstview
    global goalsigma = apply(varsof(gcid,core), goalsigma, σo)
  end
 
-#TODO: 
-# 1. remove glid from lids of goal to newglids
-# 2. apply σo to newglids
-# 3. make the newglids a resolvent in the core with new rid
-# 4. show it clauseof(rid, core)
-#@show glid,σo,core
-nc = factify_clause(glid,σo,core)
+ nc = factify_clause(glid,σo,core)
 
-if nc == :FAIL
- nrid = :FAIL
- newres = "FAIL"
-else 
- nrid = nc[1]
- global core = nc[2]
- score = stringcore(core)
- sres = stringclause(nrid, core)
-end
-
-# TODO now, got the new goal
-# 1. ask the new glid 
-# 2. for the glid, go next step
-#  next step is...
-#   1) refute by base
-#   2) remove executables
-#   3) ask by view
+ if nc == :FAIL
+  nrid = :FAIL
+  newres = "FAIL"
+ else
+  nrid = nc[1]
+  global core = nc[2]
+  score = stringcore(core)
+  sres = stringclause(nrid, core)
+ end
 
  pres = """
  <pre>$(score)</pre>
@@ -71,35 +89,18 @@ end
 
  if 0 == length(lidsof(nrid, core))
   global firstview=true
-  form = htmlform("/startlogic", [], "Confirm", "Cancel") 
+  form = htmlform("start", [], "Confirm", "Cancel")
   return htmlhtml(htmlheader("proof completed"), htmlbody("completed", pres, form))
  else
-  form = htmlform("/viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel") 
+  form = htmlform("viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel")
   return htmlhtml(htmlheader("select next glit"), htmlbody("step goal", pres, form))
  end
 end
 
-
-function makeinputs(vars)
-# TODO: [X,Y] := [a,Y] then input of X has value a, of Y has none
-# TODO: standard lit needed when constant be a var 
- bb = ""
- for v in vars 
-   bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
- end
- bb
-end
-
-function restrictvars(lid, core)
-  fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
-end
-  
-
-route("/viewpage") do
- pm = @params()
+function goviewpage(pm)
+@show :goviewpage
  global glid = Symbol(pm[:glid])
  global gcid = cidof(glid, core)
-
  if firstview
    global goalsigma = varsof(gcid,core)
    global govars = goalsigma
@@ -125,16 +126,13 @@ route("/viewpage") do
 <pre>$(score)
 GATOM:$(svars).$(lgoal)
 GLID: $(glid)</pre>
-
 """
- form = htmlform("/newgoal", inputs, "Confirm", "Cancel") 
+ form = htmlform("newgoal", inputs, "Confirm", "Cancel")
  return htmlhtml(htmlheader("step goal"), htmlbody("step goal", pres, form))
-
 end
 
-
-route("/readcore") do
- pm = @params()
+function goreadcore(pm)
+@show :goreadcore
  corepath = pm[:corepath]
  global core = readcore(corepath)
  glid = lidsof(:C1, core)
@@ -150,13 +148,13 @@ route("/readcore") do
  end
 
  pres = "<pre>CLAUSES</pre>$(clist)"
- form = htmlform("/viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel") 
+ form = htmlform("viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Core"), htmlbody("which glit", pres, form))
 end
 
-
-route("/startlogic") do
- form = htmlform("/readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
+function gostarthtml()
+@show :gostarthtml
+ form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
  return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
 end
 

@@ -1,6 +1,19 @@
 20190615土
 viewreso.jlがsyntaxこわれていたので整理
 
+vlogic0.jlとvhtmls.jl はGenieで targetを/go一個にし
+targetの区別をopで行うようにした
+
+実質的には前のvlogic.jlと同じような気もするが、
+分岐を1つのrouteで表現できるのでましか。
+
+globalを使っている箇所をsessionID+sessionDataで表現すれば
+複数のcnfも扱える
+
+
+証明の分岐の解決ができていない。
+
+
 
 
 20190614金

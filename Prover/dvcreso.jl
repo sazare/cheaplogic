@@ -13,7 +13,7 @@ isrid(x) = issym(x) && string(x)[1] == 'R'
 hasid(x) = occursin(SEPSYM, string(x))
 
 function newvar(xid, var) 
- if isuppercase(string(var)[1])
+ if iscap(var) 
    return var
  elseif hasid(var)
    return Symbol(var, xid)

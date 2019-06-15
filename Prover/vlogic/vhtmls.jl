@@ -31,14 +31,15 @@ $form
 """
 end
 
-function htmlform(action, fields, confirm, cancel)
+function htmlform(op, fields, confirm, cancel)
  inputs = ""
  for f in fields
   inputs *= f
  end
 
 """
-<form action=\"$action\" method=\"get\">
+<form action=\"/go\" method=\"get\">
+<input type=\"hidden" name=\"op\" value=\"$op\"></br>
 $(inputs)
 <input type=\"submit\" value=\"$confirm\"></br>
 <input type=\"reset\" value=\"$cancel\">

@@ -5,27 +5,24 @@
 !ge(x,y)   = x>=y
 
  goal
-[name,id,age,id,card].[-P(name,id),-Q(name,age),-ge(age,20),-R(id),-Pay(id,card)]
+[name,id,age,card].[-Pers(name,age),-Adduser(name,id),-ge(age,20),-Pay(name,id,card)]
 
 # ge is executable, R,Pay are resolved.
 # View for P, Q
 
  Base
 
-[].[+P(Ben,1)]
-[].[+P(Chang,2)]
+[].[+Pers(Ben,18)]
+[].[+Pers(Chess,22)]
 
-[].[+Q(Ben,18)]
-[].[+Q(Chang,99)]
+[].[+Adduser(Ben,18)]
+[].[+Adduser(Chess,99)]
 
-[].[+R(1)]
-[].[+R(2)]
-
-[].[+Pay(1,5555)]
-[].[+Pay(2,0)]
+[].[+Pay(Ben,18,0)]
+[].[+Pay(Chess,99,99999999)]
 
 
-&P(NAME, ID)
-&Q(NAME, AGE)
-&Pay(ID,CARD)
+&Pers(NAME, AGE)
+&Adduser(NAME!, ID)
+&Pay(NAME!,ID!,CARD)
 
