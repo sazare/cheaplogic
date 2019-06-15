@@ -1,11 +1,11 @@
 # chase goal with view
 
-#proc is a string of form "sym(...) = def"
 
-function isCano(lit::LForm2, core)
- lit.body.args[2].args[1] in keys(core.cano)
-end
-
+"""
+isProc(lit) = lit is a Proc literal
+namely, lit is evalable.
+proc is a string of form "sym(...) = def" in cnf file
+"""
 function isProc(lit::LForm2)
  lsym = lit.body.args[2].args[1]
  try
@@ -22,10 +22,10 @@ end
 function addnewclause(vars, cid, lids, core)
 # rename rlid
   rid =  newrid(core)
-  vars = cvarsof(cid, core)
+  vars = varsof(cid, core)
   nrem = rename_lids(rid, lids, core)
   nbody = literalsof(lids, core)
-  vars = fitting_vars(ovars, nbody, core)
+  vars = fitting_vars(vars, nbody, core)
   
   body = rename_clause(rid, vars, nbody)
   rename_subst = [vars, body.vars]
@@ -44,16 +44,30 @@ function addnewclause(vars, cid, lids, core)
     core.lcmap[rlid] = rid
   end
 
-  core.proof[rid] = STEP(rid, l1, l2, sigmai, rename_subst)
-
   rcf2=CForm2(rid, body.vars, body.body)
 #  return rcf2
   return rid
+#  return core
+end
+
+function addstep(core, rid, l1, l2, σ, ρ, rule)
+  core.proof[rid] = STEP(rid, l1, l2, σ, ρ)
+  core
 end
 
 # goal is an array of literals
+"""
+evaluategoal eval all literals of goal(gid)
+ if it is false, remove it.
+ if it is true, valid and abort.
+ otherwise nothing happen
+
+ this function is destructive on core
+ so, can't use in parallel prover in multithreads
+"""
 function evaluategoal(gid, core)
  gids = lidsof(gid, core)
+ vars = varsof(gid, core)
  rgids= []
 
  for glid in gids
@@ -66,23 +80,28 @@ function evaluategoal(gid, core)
    push!(rgids, lid) #not true or false
   end 
  end 
- ncore = addnewclause(vars, gid, rgids, core)
+
+ rid = addnewclause(vars, gid, rgids, core)
+ ncore = addstep(core, rid, :eval, :eval, [], [], :eval)
+
  return ncore
 end
 
-
-function evaluator(glid, core)
-# glidがfalseになったらそのglidをgoalから消したい・・・そうはなっていない
- glit  = literalof(glid, core)
- val = leval(glit)
- if val == true
-  println("Valid")
-  return :VALID
- else # val == false
-  return true
- end 
- return false
+"""
+isCano(lit) == lit is a Canonical literal
+&[P(X,Y)] as X is caplital and no vars and no sign
+after readcore, cano is a Dict, psym => (vars, atom)
+vars is created by readcore
+atom is a literal without sign
+"""
+function isCano(lit::LForm2, core)
+ lit.body.args[2].args[1] in keys(core.cano)
 end
+
+function choose(vars, goal, cano, core)
+
+end
+
 
 function go_resolution(glid, core)
  nlid = applytemp(glid, core) ## ???なに??

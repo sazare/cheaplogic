@@ -120,12 +120,13 @@ function printamap(amap)
 end
 
 function printstep(step)
+
   print("$(step.rid):<$(step.leftp):$(step.rightp)>=")
   printvars(step.sigma)
   print(":")
-  printvars(step.rename[1])
+  length(step.rename)>1 && printvars(step.rename[1])
   print("<-")
-  printvars(step.rename[2])
+  length(step.rename)>2 && printvars(step.rename[2])
 end
 
 function printproof(proof)
@@ -455,7 +456,7 @@ end
 function getBigvars(ci)
  bvars = []
  for x in ci.vsyms
-  isuppercase(string(x)[1]) && push!(bvars, x)
+  iscap(x) && push!(bvars, x)
  end 
  bvars
 end
