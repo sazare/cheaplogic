@@ -1,3 +1,23 @@
+20190616日
+viewlogic.jlはvlogic.jlをコピーしたが、まだ作っていないので動かない。
+
+vlogic.jlが動く
+
+・Viewの初期値がはいっていない。(defaultvalue? value?)
+  修正した
+　isvar@goal でないとき初期値にする
+
+・viewreso.jlとvhtmls.jlを思に修正
+  viewを作るために、goalからCanoを抜き出して、invarの数(canoにて)が一番少ないものを
+　viewのliteralとする。
+・ただし、invarの数が0のものがあったら、即決でそれをViewにする。
+
+・askyouを作ろうとしているところ
+　ここでhtml作成関数を呼ぶことはできるが、表示はviewlogic.jlからなので
+　本当は、そこからaskyouを呼ぶようにする必要がある。ううむ
+
+
+
 20190615土
 viewreso.jlがsyntaxこわれていたので整理
 
@@ -6,6 +26,8 @@ targetの区別をopで行うようにした
 
 実質的には前のvlogic.jlと同じような気もするが、
 分岐を1つのrouteで表現できるのでましか。
+
+vlogic.jlはvhtmls.jlと整合しなくなったので、動かない
 
 globalを使っている箇所をsessionID+sessionDataで表現すれば
 複数のcnfも扱える

@@ -98,37 +98,87 @@ function isCano(lit::LForm2, core)
  lit.body.args[2].args[1] in keys(core.cano)
 end
 
-function choose(vars, goal, cano, core)
+function canoof(lid, core)
+ core.cano[psymof(lid,core)[2]]
+end
 
+function canovarsof(lid, core)
+ canoof(lid, core)[1]
+end
+
+function canolitof(sign, lid, core)
+ Expr(:call, sign, canoof(lid, core)[2])
+end
+
+function incount(glid, core)
+ try
+  glit  = literalof(glid, core).body
+  gargs = glit.args[2].args[2:end]
+  gvars = cvarsof(glid, core)
+  cavars= canovarsof(glid, core)
+ 
+  cin = 0
+  for ix in 1:length(cavars)
+   if isvar(gargs[ix],gvars)
+     if isinvar(cavars[ix])
+       cin += 1 
+     end
+   end
+  end
+  return cin
+ catch e
+  return Inf
+ end
+end
+
+function chooselid(gid, core)
+ lids = lidsof(gid, core)
+
+ ninvec = []
+ for lid in lids
+   nin = incount(lid, core)
+   nin == 0 && return(lid)
+   push!(ninvec, nin)
+ end
+ v,ix = findmin(ninvec)
+ return lids[ix]
+end
+
+# here, λ is vars
+
+function askyou(gid, glid, core)
+# goal part
+ sign, psym = psymof(glid, core)
+ glids = liidsof(glid, core)
+
+# cano part
+ λc, catom = core.cano[psym]
+ λg        = lvarsof(glid, core)
+ glit      = literalof(glid, core)
+
+# from here ... not certain 6/16
+ σi = unify(λc, catom, glit)
+
+### here is the view
+ viewi = makeView(catom, σi0)
+### your input s with viewi
+# => λc, carray
+
+ σo = unify(λc, catom, vargs)
+ iσ = inverse(σi)
+ λσ = fitting_vars(λg, iσ)
+ σ = apply(λσ, iσ, σo)
+  
+ newgoal = apply(λgc, setdiff(goal, [glid]), σ)
+
+ rid = addnewclause(vars, gid, newgoal, core)
+ rid
 end
 
 
 function go_resolution(glid, core)
  nlid = applytemp(glid, core) ## ???なに??
 end
-
-function askyou(glid, core)
- (sign, psym) = psymof(glid, core)
-
- (λc, clit) = core.cano[psym]
-  λg, glit = lvarsof(glid, core), literalof(glid, core)
-
- σi = unify(λc, clit, glit)
- viewi = makeView(clit, σi0)
-### your input s
-
-# => λc, carray
- σo = unify(λc, clit, vargs)
- iσ = inverse(σi)
- λσ = fitting_vars(λg, iσ)
- σ = apply(λσ, iσ, σo)
-  
- newgoal = apply(λgc, goal-glit, σ)
- core = putgoal(newgoal, core) 
- core
-end
-
-
 
 function refute_goal(gid,core)
  gclause = clause2of(gid,core)

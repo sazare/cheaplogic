@@ -14,19 +14,6 @@ global govars
 global firstview=true
 
 # url: http://localhost:8000/go?op=start
-function makeinputs(vars)
-# TODO: [X,Y] := [a,Y] then input of X has value a, of Y has none
-# TODO: standard lit needed when constant be a var
- bb = ""
- for v in vars
-   bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
- end
- bb
-end
-
-function restrictvars(lid, core)
-  fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
-end
 
 ####
 
