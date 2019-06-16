@@ -136,13 +136,46 @@ function chooselid(gid, core)
 
  ninvec = []
  for lid in lids
-   nin = incount(lid, core)
-   nin == 0 && return(lid)
-   push!(ninvec, nin)
+   if isCano(literalof(lid,core),core)
+    nin = incount(lid, core)
+    nin == 0 && return(lid)
+    push!(ninvec, nin)
+   else
+    push!(ninvec, Inf)
+   end
  end
  v,ix = findmin(ninvec)
- return lids[ix]
+ if v != Inf
+  return lids[ix]
+ else
+  return nothing
+ end
 end
+
+#==
+ the caller choose the lid by chooselid()
+ open view and get intpus from You.
+ and get σo
+ apply σo to goal-glid make new goal
+ add it to core
+==#
+
+#==
+
+  glit  = literalof(glid, core).body
+  gargs = glit.args[2].args[2:end]
+  gvars = cvarsof(glid, core)
+  cavars= canovarsof(glid, core)
+ 
+  cin = 0
+  for ix in 1:length(cavars)
+   if isvar(gargs[ix],gvars)
+     if isinvar(cavars[ix])
+       cin += 1 
+     end
+   end
+  end
+==#
 
 # here, λ is vars
 
