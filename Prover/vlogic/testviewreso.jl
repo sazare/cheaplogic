@@ -74,6 +74,21 @@ cnf2="""
 """
 c2=readcore(IOBuffer(cnf2))
 
+eee(x,y) = x==y
+
+cnf3="""
+[x].[-E(x,a)]                           #C1                
+[x,y,z].[+E(x,y),-F(a,b,z),-F(x,y,z)]   #C2
+[x,y,z].[+F(a,b,z),+F(x,y,z)]           #C3
+[x,y,z].[+eee(3,3),-F(x,y,z),-R(a,z,z)] #C4
+[x].[-S(x),-eee(2,2)]                   #C5
+[x,z].[-S(x),-Q(x,a,z),-P(x,y)]         #C6
+&P(NAME, AGE)
+&R(DOME!,ZOOM)
+&Q(W1!,W2!,W3)
+"""
+c3=readcore(IOBuffer(cnf3))
+
 @testset "chooselit" begin
  @test chooselid(:C1, c2) == :L4  ## only literal
  @test chooselid(:C2, c2) == :L2  ## L1 has 1 in, L2 has 0
@@ -81,6 +96,13 @@ c2=readcore(IOBuffer(cnf2))
  @test chooselid(:C4, c2) == :L10 ## L10 has 1, L11 has 2, L12 has 1 
  @test chooselid(:C5, c2) == :L14 ## L13 is not cano, L14 has 0
  @test chooselid(:C6, c2) == :L7  ## L5 is not cano, L6 has 1, L7 has 0
+
+ @test chooselid(:C1, c3) == nothing
+ @test chooselid(:C2, c3) == nothing
+ @test chooselid(:C3, c3) == nothing
+ @test chooselid(:C4, c3) == :L12
+ @test chooselid(:C5, c3) == nothing
+ @test chooselid(:C6, c3) == :L7
 end
 
 

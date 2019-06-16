@@ -1,4 +1,12 @@
 20190616日
+*** viewlogic uses a Web Page for a tool for getting FACT, 
+I assume the inputs from an human is a fact.
+Of cource, human may mistake. The reasonable treatment the input
+should be cross check it with Base(Axioms).
+
+*** The problem for an huge number of fact is not cleared.
+
+
 viewlogic.jlはvlogic.jlをコピーしたが、まだ作っていないので動かない。
 
 vlogic.jlが動く
