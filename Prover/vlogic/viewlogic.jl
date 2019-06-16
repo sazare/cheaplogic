@@ -4,19 +4,24 @@
 
 # targetを1つにしてsessionを作って、opcodeで分岐する
 # こうすれば、処理が近くにかけるのでは?
+
+# vlogic0.jl is it
+
+
 # 処理のloopをViewなしで実行できるようにする
 #  viewのかわりのaxiomが選べる
 #   canoのliteralをランダムに生成する
 #   その結果できるσoをランダムに生成する
 # 
 
+@show "This file should be rewritten based on vlogic0.jl"
 
 
 
 #using Genie
 #import Genie.Router: route
 #import Genie.Router: @params
-
+#
 #global core
 #global glid
 #global gcid
@@ -25,8 +30,6 @@
 #global goalsigma
 #global govars
 #global firstview=true
-
-
 
 
 #==

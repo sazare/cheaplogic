@@ -1,5 +1,12 @@
 # vhtmls.jl
 
+
+function restrictvars(lid, core)
+  fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
+end
+
+
+
 function htmlhtml(header, body)
 """
 <head xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ja\">
@@ -51,5 +58,45 @@ function htmlinput(key, name)
 """
 <div>$key : <input type=\"text\" name=\"$name\"></div>
 """
+end
+
+function makeinputs(vars)
+# TODO: [X,Y] := [a,Y] then input of X has value a, of Y has none
+ bb = ""
+ for v in vars
+   bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
+ end
+ bb
+end
+
+function makeinputs2(cavars, vars, gbody)
+ bb = ""
+@show cavars
+@show vars
+@show gbody
+ for ix in 1:length(cavars)
+   v  = cavars[ix]
+   tm = gbody[ix]
+
+# this is not enough. 
+   if isvar(tm, vars)
+    bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
+   else
+    bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" value=\"$(tm)\" size=\"40\"></p>"
+   end
+ end
+ bb
+end
+
+function makeView(glid, core)
+ (sign, psym) = psymof(glid, core)
+ glit         = literalof(glid, core).body
+ gvars        = cvarsof(glid, core)
+ if psym in keys(core.cano)
+  (cavars, catom) = core.cano[psym]
+  return makeinputs2(cavars,gvars,glit.args[2].args[2:end])
+ else
+  return "no View for $(psym)"
+ end
 end
 
