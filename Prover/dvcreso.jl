@@ -7,7 +7,7 @@
 
 const SEPSYM='_'
 
-issym(x) = isa(x, Symbol) || isa(x, Number)
+issym(x) = isa(x, Symbol) || isa(x, Number) || isa(x, String) || isa(x, Char)
 iscid(x) = issym(x) && string(x)[1] == 'C'
 isrid(x) = issym(x) && string(x)[1] == 'R'
 hasid(x) = occursin(SEPSYM, string(x))
