@@ -17,9 +17,9 @@ ggg(x) = x^2
 end
 
 cano="""
-&P(NAME, ID)
-&Q(NAME, AGE)
-&Pay(ID,CARD)
+&[NAME,ID].[P(NAME, ID)]
+&[NAME,AGE].[Q(NAME, AGE)]
+&[ID,CARD].[Pay(ID,CARD)]
 """
 cc = readcore(IOBuffer(cano))
 
@@ -40,9 +40,9 @@ cnf="""
 [x,y].[+R(x,y)] #L1
 [z].[-Q(a,b,z)] #L3
 [x,y,z].[-Q(x,y,z)] #L4
-&P(NAME, AGE)
-&R(DOME!,ZOOM)
-&Q(W1!,W2!,W3)
+&[NAME, AGE].[P(NAME, AGE)]
+&[DOME!,ZOOM].[R(DOME!,ZOOM)]
+&[W1!,W2!,W3].[Q(W1!,W2!,W3)]
 """
 c1=readcore(IOBuffer(cnf))
 
@@ -68,9 +68,9 @@ cnf2="""
 [x,y,z].[+R(x,y),-Q(x,y,z),-Q(a,z,z)] #C4=L10,L11,L12
 [x].[-S(x),-P(x,a)]                   #C5=L13,L14
 [x,z].[-S(x),-Q(x,a,z),-P(x,y)]       #C6=L5,L6,L7
-&P(NAME, AGE)
-&R(DOME!,ZOOM)
-&Q(W1!,W2!,W3)
+&[NAME, AGE].[P(NAME, AGE)]
+&[DOME!,ZOOM].[R(DOME!,ZOOM)]
+&[W1!,W2!,W3].[Q(W1!,W2!,W3)]
 """
 c2=readcore(IOBuffer(cnf2))
 
@@ -83,9 +83,9 @@ cnf3="""
 [x,y,z].[+eee(3,3),-F(x,y,z),-R(a,z,z)] #C4
 [x].[-S(x),-eee(2,2)]                   #C5
 [x,z].[-S(x),-Q(x,a,z),-P(x,y)]         #C6
-&P(NAME, AGE)
-&R(DOME!,ZOOM)
-&Q(W1!,W2!,W3)
+&[NAME, AGE].[P(NAME, AGE)]
+&[DOME!,ZOOM].[R(DOME!,ZOOM)]
+&[W1!,W2!,W3].[Q(W1!,W2!,W3)]
 """
 c3=readcore(IOBuffer(cnf3))
 
