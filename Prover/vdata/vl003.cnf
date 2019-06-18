@@ -22,7 +22,7 @@
 [].[+Pay(Chess,99,99999999)]
 
 
-&Pers(NAME, AGE)
-&Adduser(NAME!, ID)
-&Pay(NAME!,ID!,CARD)
+&[NAME,AGE].[Pers(NAME, AGE)]
+&[NAME!,ID].[Adduser(NAME!, ID)]
+&[NAME!,ID!,CARD].[Pay(NAME!,ID!,CARD)]
 

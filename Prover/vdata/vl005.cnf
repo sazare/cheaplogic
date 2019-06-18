@@ -15,7 +15,7 @@
  [].[+Pay(2,0)]
 
 
-&P(NAME, ID)
-&Q(NAME, AGE)
-&Pay(ID,CARD)
+&[NAME,ID].[P(NAME, ID)]
+&[NAME,AGE].[Q(NAME, AGE)]
+&[ID,CARD].[Pay(ID,CARD)]
 

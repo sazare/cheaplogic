@@ -28,7 +28,7 @@ end
 function adjustcano(cano)
  vcano = Dict{Symbol, Any}()
  for can in cano
-  vcano[can.args[1]] = (can.args[2:end], can)
+  vcano[can.args[2].args[1].args[1].args[1]] = (can.args[1].args, can.args[2].args[1].args[1])
  end
  vcano
 end
