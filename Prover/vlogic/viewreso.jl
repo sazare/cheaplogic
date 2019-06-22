@@ -15,25 +15,29 @@ function isProc(lit::LForm2)
  end
 end
 
-#
 """
  add literals to core as an clause
 """
-function addnewclause(vars, cid, lids, core)
+function addnewclause(vars, cid, lids, core, σo=[])
 # rename rlid
   rid =  newrid(core)
   vars = varsof(cid, core)
   nrem = rename_lids(rid, lids, core)
   nbody = literalsof(lids, core)
+
+# this apply is need for just view, not evaluategoal
+  if σo != []; nbody = apply(vars, nbody, σo) end
+
   vars = fitting_vars(vars, nbody, core)
   
   body = rename_clause(rid, vars, nbody)
-  rename_subst = [vars, body.vars]
+#  rename_subst = [vars, body.vars]
 
  ## settlement
   core.succnt[1] += 1
   core.cdb[rid] = VForm2(rid, body.vars)
   core.clmap[rid] = nrem
+
 # ldb[rlid] to full
   for i in 1:length(nrem)
     core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
@@ -50,7 +54,9 @@ function addnewclause(vars, cid, lids, core)
 #  return core
 end
 
+
 function addstep(core, rid, l1, l2, σ, ρ, rule)
+@show :addstep, rid, l1, l2, σ, ρ
   core.proof[rid] = STEP(rid, l1, l2, σ, ρ)
   core
 end
@@ -69,22 +75,27 @@ function evaluategoal(gid, core)
  gids = lidsof(gid, core)
  vars = varsof(gid, core)
  rgids= []
-
+ glid0 = :no
  for glid in gids
   lit = literalof(glid, core)
-
   if isProc(lit)
-   val = leval(lit) 
+   val = leval(lit.body) 
    if val == true; throw(VALID(glid, :evaluategoal)) end
-   if val == false; continue end
-   push!(rgids, lid) #not true or false
+   if val == false
+    glid0 = glid
+    continue 
+   end
+   push!(rgids, glid) #not true or false
   end 
  end 
+ if glid0 == :no
+   return gid, core
+ end
 
  rid = addnewclause(vars, gid, rgids, core)
- ncore = addstep(core, rid, :eval, :eval, [], [], :eval)
+ ncore = addstep(core, rid, glid0, glid0, [], [], :eval)
 
- return ncore
+ return rid,ncore
 end
 
 """
@@ -155,59 +166,56 @@ end
 #==
  the caller choose the lid by chooselid()
  open view and get intpus from You.
- and get σo
+ and get σo from the view
  apply σo to goal-glid make new goal
  add it to core
 ==#
 
-#==
+function askU(gid, core, op)
+ glid=chooselid(gid,core)
+ gvar=varof(gid,core)
+ gatm=literalof(glid,core).body.args[2:end]
+ varc=canovarsof(glid,core)
+ vatm=canoof(glid,core)[2]
+@show :askU1
+ σi = unify(varc, vatm, gatm)
 
-  glit  = literalof(glid, core).body
-  gargs = glit.args[2].args[2:end]
-  gvars = cvarsof(glid, core)
-  cavars= canovarsof(glid, core)
- 
-  cin = 0
-  for ix in 1:length(cavars)
-   if isvar(gargs[ix],gvars)
-     if isinvar(cavars[ix])
-       cin += 1 
-     end
-   end
-  end
-==#
+@show :askU2
+# example
+# vatm=[X,Y].P(X,Y), gatm=[y].P(a,y)
+# σi=[a,y] 
+# [X,Y].<[X,Y]:[a,y]> = [a,y] = [X,Y].[a,y] is an extension of gvar [y]
+# make a view with ([X,Y], [y], [a,y]) [y] determins var in [a,y]
 
-# here, λ is vars
-
-function askyou(gid, glid, core)
-# goal part
- sign, psym = psymof(glid, core)
- glids = liidsof(glid, core)
-
-# cano part
- λc, catom = core.cano[psym]
- λg        = lvarsof(glid, core)
- glit      = literalof(glid, core)
-
-# from here ... not certain 6/16
- σi = unify(λc, catom, glit)
-
-### here is the view
- viewi = makeView(catom, σi0)
-### your input s with viewi
-# => λc, carray
-
- σo = unify(λc, catom, vargs)
- iσ = inverse(σi)
- λσ = fitting_vars(λg, iσ)
- σ = apply(λσ, iσ, σo)
-  
- newgoal = apply(λgc, setdiff(goal, [glid]), σ)
-
- rid = addnewclause(vars, gid, newgoal, core)
- rid
+##
+# in this step, a web transition exists
+@show :askU3
+ return makeView2(op, glid, varc, gvar, σi)
+##
 end
 
+
+# after part of askU
+function listenU(params)
+
+ σo = getσo(varc, gvar, params)
+
+# confirm makes σo like as [X,Y].[a,b]
+# [y].<[a,y]:[a,b]> = [b] = the restriction to [y] of [a,b]=σo
+# gvar = [y], σi = [a,y]
+# [y].<[a,y]:[a,b]> = [b] namely [y].[b] this is  σo1 
+# σo1 is also be written as [y].[y]:[b]
+# σo1 is the mgu for goal's remain body.
+
+ σo1 = unify(gvar, σi, σo)
+
+ glids = lidsof(gid, core)
+ remids = setdiff(glids, glid)
+  
+#
+ newgid=addnewclause(gvar, gid, remids, core, σo1)
+ return newgid
+end
 
 function go_resolution(glid, core)
  nlid = applytemp(glid, core) ## ???なに??
@@ -254,7 +262,7 @@ function refute_goal(gid,core)
    vars = fitting_vars(ovars, nbody1, core)
    body = rename_clause(rid, vars, nbody1)
 
- rename_subst = [vars, body.vars]
+# rename_subst = [vars, body.vars]
 
 ## settlement
 

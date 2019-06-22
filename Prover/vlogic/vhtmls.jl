@@ -69,25 +69,6 @@ function makeinputs(vars)
  bb
 end
 
-function makeinputs2(cavars, vars, gbody)
- bb = ""
-@show cavars
-@show vars
-@show gbody
- for ix in 1:length(cavars)
-   v  = cavars[ix]
-   tm = gbody[ix]
-
-# this is not enough. 
-   if isvar(tm, vars)
-    bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
-   else
-    bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" value=\"$(tm)\" size=\"40\"></p>"
-   end
- end
- bb
-end
-
 function makeView(glid, core)
  (sign, psym) = psymof(glid, core)
  glit         = literalof(glid, core).body
@@ -99,4 +80,35 @@ function makeView(glid, core)
   return "no View for $(psym)"
  end
 end
+
+
+function makeinputs2(cavars, vars, gargs)
+ bb = ""
+ for ix in 1:length(cavars)
+   v  = cavars[ix]
+   tm = gargs[ix]
+
+# this is not enough. 
+   if isvar(tm, vars)
+    bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
+   else
+    bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" value=\"$(tm)\" size=\"40\"></p>"
+   end
+ end
+ bb
+end
+
+function makeView2(op, glid, ovarc, varg, argg)
+ inputs = makeinputs2(varc, varg, argg)
+"""
+<h2>GLID: $glid</h2>
+<form action=\"/go\" method=\"get\">
+<input type=\"hidden" name=\"op\" value=\"$op\"></br>
+$(inputs)
+<input type=\"submit\" value=\"$confirm\"></br>
+<input type=\"reset\" value=\"$cancel\">
+</form>
+"""
+end
+
 

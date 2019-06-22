@@ -160,7 +160,9 @@ function printaproof1(rid, core, shift=0)
     print("  ")
     print("<$(step.leftp):")
     print("$(step.rightp)>=")
-    print_list(ovarsof(step.leftp, step.rightp, core))
+    if :eval != step.leftp && :eval != step.rightp
+     print_list(ovarsof(step.leftp, step.rightp, core))
+    end
     print("←")
     print_list(step.sigma)
     println()

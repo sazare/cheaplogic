@@ -12,17 +12,17 @@
 
  Base
 
-[].[+Pers(Ben,18)]
-[].[+Pers(Chess,22)]
+ [].[+Pers(Ben,18)]
+ [].[+Pers(Chess,22)]
 
 [].[+Adduser(Ben,18)]
 [].[+Adduser(Chess,99)]
 
-[].[+Pay(Ben,18,0)]
-[].[+Pay(Chess,99,99999999)]
+ [].[+Pay(Ben,18,0)]
+ [].[+Pay(Chess,99,99999999)]
 
 
 &[NAME,AGE].[Pers(NAME, AGE)]
-&[NAME!,ID].[Adduser(NAME!, ID)]
+ &[NAME!,ID].[Adduser(NAME!, ID)]
 &[NAME!,ID!,CARD].[Pay(NAME!,ID!,CARD)]
 

@@ -111,7 +111,6 @@ end
 ## evaluation 
 
 function leval(lit)
-#@show :leval, lit
   try
     val=eval(lit.args[2])
     if val==true

@@ -1,11 +1,252 @@
 # viewlogic.jl
 
-# in considering the new style
+# from vlogic0.jl
+# url: http://localhost:8000/go?op=start
+#==
+# in program
+cmd=`open -a "Google Chrome.app" http://localhost:8000/go?op=start`
+run(cmd)
+==#
 
-# targetを1つにしてsessionを作って、opcodeで分岐する
-# こうすれば、処理が近くにかけるのでは?
+using Genie
+import Genie.Router: route
+import Genie.Router: @params
 
-# vlogic0.jl is it
+include("factify.jl")
+
+global core
+global glid
+global gcid
+global goal
+global lvs
+global goalsigma
+global govars
+global firstview=true
+
+global gvar
+global gatm
+global varc
+global vatm
+global σi
+
+
+####
+function getσo(cvars, gvars, pm)
+ σo=[]
+ for v in cvars
+  try
+    vr = pm[v]
+    if isconst(vr, gvars)
+      push!(σo, vr)
+    elseif "" == vr
+      push!(σo, v)
+    else
+      push!(σo, Symbol(vr))
+    end
+  catch
+    push!(σo, :none)
+    #push!(σo, Symbol(v))
+  end
+ end
+ σo
+end
+
+#==
+ start=>cnfpath=>
+ readcore(cnfpath)=>core=>
+# viewpage(gid)=>[view]=>
+ stepgoal(gid)=>evaluate&view=>{postview}
+ postview()=> 
+ stepgoal()=>evaluate&reso=>
+ confirmgoal()=>
+
+==#
+route("/go") do
+ pm = @params()
+ op = pm[:op]
+ if op == "start"
+  return gostarthtml()
+ elseif op == "readcore"
+  return goreadcore(pm)
+# elseif op == "viewpage"
+#  return goviewpage(pm)
+ elseif op == "stepgoal"
+  return gostepgoal(pm)
+ elseif op == "postview"
+  return postview(pm)
+ end
+end
+
+function gostepgoal(pm)
+ global gid = Symbol(pm[:gid])
+ 
+ try 
+  rico = evaluategoal(gid, core)
+  global core = rico[2]
+  rid = rico[1]
+@show stringcore(core)
+  glids=lidsof(rid, core)
+  nlids =  literalsof(glids, core) 
+@show :gostepgoal1
+
+  if length(nlids) == 0
+   return contraview(gid, core)
+  else
+ # after eval, choose view or resolve in goaftereval?
+   return askU(rid, core, "postview")
+  end
+ catch e
+  if isa(e, VALID)
+   return validview(gid, core)
+  else
+   return unknownview(gid, e, core)
+  end
+ end
+ 
+end
+
+function contraview(cid, core)
+   return htmlhtml(htmlheader("Contradiction"), 
+                  htmlbody("$cid Contradiction", "",""))
+end
+
+function validview(cid, core)
+   return htmlhtml(htmlheader("Valid"), 
+                  htmlbody("$cid is valid", "",""))
+end
+
+function unknownview(cid, except, core)
+   return htmlhtml(htmlheader("Exception occurs"), 
+                  htmlbody("$(except)", "",""))
+end
+
+function goaftereval(pm)
+
+end
+
+function postview(pm)
+#temporalily view only
+ global lvs = lvarsof(glid, core)
+# global lvs = restrictvars(glid, core)
+
+ σo=[]
+ for v in lvs
+  try
+    vr = pm[v]
+    if v == vr
+      push!(σo, v)
+    elseif "" == vr
+      push!(σo, v)
+    else
+      push!(σo, Symbol(vr))
+    end
+  catch
+    push!(σo, Symbol(v))
+  end
+ end
+ if !firstview
+   global goalsigma = apply(varsof(gcid,core), goalsigma, σo)
+ end
+
+ nc = factify_clause(glid,σo,core)
+
+ if nc == :FAIL
+  nrid = :FAIL
+  newres = "FAIL"
+ else
+  nrid = nc[1]
+  global core = nc[2]
+  score = stringcore(core)
+  sres = stringclause(nrid, core)
+ end
+
+ pres = """
+ <pre>$(score)</pre>
+ <pre>GOAL
+ $(sres)
+ =======</pre>
+ <pre>info: $(stringarray(govars)):=$(stringarray(goalsigma))</pre>
+"""
+
+ if 0 == length(lidsof(nrid, core))
+  global firstview=true
+  form = htmlform("start", [], "Confirm", "Cancel")
+  return htmlhtml(htmlheader("proof completed"), htmlbody("completed", pres, form))
+ else
+  form = htmlform("viewpage", [htmlinput("glid", "glid")], "Confirm", "Cancel")
+  return htmlhtml(htmlheader("select next glit"), htmlbody("step goal", pres, form))
+ end
+end
+
+#function goviewpage(pm)
+#@show :goviewpage
+# global gcid = Symbol(pm[:gid])
+# global glids = lidsof(gcid, core)
+#
+## if length(glid) == 1 
+##  lgoal = literalof(glid[1],core).body.args[2]
+## else
+##  lgoal = []
+## end 
+# if firstview
+#   global goalsigma = varsof(gcid,core)
+#   global govars = goalsigma
+#   global firstview = false
+# end
+#
+# global goal = stringclause(gcid, core)
+# global lgoals = stringlids(glids, core)
+#
+# inputs = makeinputs(lvarsof(glid,core))
+##TODO: lvars be only vars appear sn the literal.
+# lvs = restrictvars(glid, core)
+# svars = "["
+# for ix in 1:length(lvs)
+#  svars *= "$(lvs[ix])"
+#  ix != length(lvs) && (svars *=",")
+# end
+# svars *= "]"
+# score = stringcore(core)
+#
+# pres = """
+#<pre>$(score)
+#GOAL:$(svars).$(lgoals)
+#GLID: $(glid)</pre>
+#"""
+# form = htmlform("stepgoal", inputs, "Confirm", "Cancel")
+# return htmlhtml(htmlheader("select goal"), htmlbody("select goal", pres, form))
+#end
+
+function goreadcore(pm)
+@show :goreadcore
+ corepath = pm[:corepath]
+ global core = readcore(corepath)
+
+ evalon && evalproc(core.proc)
+
+ clauses = stringclauses(core)
+ clist = ""
+ for id in reverse(collect(keys(core.cdb)))
+   clist *= "$(stringclause(id, core))</br>"
+ end
+
+ pres = "<pre>CLAUSES</pre>$(clist)"
+ form = htmlform("stepgoal", [htmlinput("gid", "gid")], "Confirm", "Cancel") 
+# form = htmlform("viewpage", [htmlinput("gid", "gid")], "Confirm", "Cancel") 
+ return htmlhtml(htmlheader("Select GID"), htmlbody("which gid", pres, form))
+end
+
+function gostarthtml()
+@show :gostarthtml
+ form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
+ return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
+end
+
+Genie.AppServer.startup()
+
+#==
+##################################################
+# after all
 
 
 # 処理のloopをViewなしで実行できるようにする
@@ -14,9 +255,7 @@
 #   その結果できるσoをランダムに生成する
 # 
 
-@show "This file should be rewritten based on vlogic0.jl"
-
-
+#@show "This file should be rewritten based on vlogic0.jl"
 
 #using Genie
 #import Genie.Router: route
@@ -32,9 +271,8 @@
 #global firstview=true
 
 
-#==
 #########
-route("/newgoal") do
+route("/stepgoal") do
  pm = @params()
  global lvs = lvarsof(glid, core)
 # global lvs = restrictvars(glid, core)
@@ -102,21 +340,6 @@ end
 end
 
 
-function makeinputs(vars)
-# TODO: [X,Y] := [a,Y] then input of X has value a, of Y has none
-# TODO: standard lit needed when constant be a var 
- bb = ""
- for v in vars 
-   bb = bb * "<p><span>$(v):</span><input type=\"text\" name=\"$(string(v))\" size=\"40\"></p>"
- end
- bb
-end
-
-function restrictvars(lid, core)
-  fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
-end
-  
-
 route("/viewpage") do
  pm = @params()
  global glid = Symbol(pm[:glid])
@@ -149,7 +372,7 @@ GATOM:$(svars).$(lgoal)
 GLID: $(glid)</pre>
 
 """
- form = htmlform("/newgoal", inputs, "Confirm", "Cancel") 
+ form = htmlform("/stepgoal", inputs, "Confirm", "Cancel") 
  return htmlhtml(htmlheader("step goal"), htmlbody("step goal", pres, form))
 
 end

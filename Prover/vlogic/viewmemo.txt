@@ -1,0 +1,5 @@
+open -a "Google Chrome.app" http://localhost:8000/go?op=start
+open -a "Safari.app" http://localhost:8000/go?op=start
+
+cmd=`open -a "Google Chrome.app" http://localhost:8000/go?op=start`
+run(cmd)
