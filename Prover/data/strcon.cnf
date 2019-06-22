@@ -1,0 +1,15 @@
+@ example for string const or char const
+
+ Goal
+[x,y].[-R(x,y)]
+
+ Fact
+[y].[+R(a,y)]
+[y].[+R("str",y)]
+[x].[+R(x, "str")]
+[x].[+R(x,'c')]
+[y].[+R('x',y)]
+[].[+R(a,c)]
+
+
+
