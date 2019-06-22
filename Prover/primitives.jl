@@ -11,9 +11,9 @@
 ## Type declare
 
 FTerm=Expr
-Term=Union{Symbol, Number, Expr}
+Term=Union{Symbol, Number, String, Char, Expr}
 Var = Symbol
-Const = Union{Symbol, Number}
+Const = Union{Symbol, Number, String}
 
 Vlist = Array
 Tlist = Array
@@ -34,6 +34,8 @@ isevar(sym, vars::Vlist)=false
 
 isconst(sym::Symbol, vars::Vlist)=!(sym in vars)
 isconst(sym::Number, vars::Vlist)=true
+isconst(sym::String, vars::Vlist)=true
+isconst(sym::Char, vars::Vlist)=true
 
 # function 
 macro isdefined(x)
