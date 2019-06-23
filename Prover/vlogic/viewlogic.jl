@@ -182,8 +182,8 @@ function postview(pm)
 @show :before_factify_clause
  nid, ncore = factify_clause(glid,σo,core)
 
- gid = nid
- core = ncore
+ global gid = nid
+ global core = ncore
 
  score = stringcore(core)
  sres = stringclause(gid, core)

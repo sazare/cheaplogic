@@ -23,6 +23,18 @@ load_viewprover.jl
  gid = C6 -> exec + View => []
  gid = C7 -> exec + View with var => []
 
+global gidやcoreに設定していなかった
+
+それを直したらC4までうまくいった
+C5はviewがでてほしいのに、何もしなくても[]になった
+
+julia 再起動してやってみるも同じ
+PのViewがなぜかできている
+
+C6も同じ
+
+C7 は空白画面になってしまった
+
 
 20190616日
 *** viewlogic uses a Web Page for a tool for getting FACT, 
