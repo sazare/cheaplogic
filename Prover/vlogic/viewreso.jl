@@ -72,10 +72,12 @@ evaluategoal eval all literals of goal(gid)
  so, can't use in parallel prover in multithreads
 """
 function evaluategoal(gid, core)
+@show :evaluategoal
  gids = lidsof(gid, core)
  vars = varsof(gid, core)
  rgids= []
  glid0 = :no
+@show glid0
  for glid in gids
   lit = literalof(glid, core)
   if isProc(lit)
@@ -83,17 +85,20 @@ function evaluategoal(gid, core)
    if val == true; throw(VALID(glid, :evaluategoal)) end
    if val == false
     glid0 = glid
+@show glid0
     continue 
    end
    push!(rgids, glid) #not true or false
   end 
  end 
  if glid0 == :no
+# no evaluatable literal
+@show glid0
    return gid, core
  end
-
+@show :removeevaluatable gid core
  rid = addnewclause(vars, gid, rgids, core)
- ncore = addstep(core, rid, glid0, glid0, [], [], :eval)
+ ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
 
  return rid,ncore
 end
@@ -142,6 +147,11 @@ function incount(glid, core)
  end
 end
 
+"""
+chooselid() chooses a literal in Cano.
+should be called after evaluate
+doesnt choose a lit not Proc and not Cano
+"""
 function chooselid(gid, core)
  lids = lidsof(gid, core)
 
@@ -172,15 +182,18 @@ end
 ==#
 
 function askU(gid, core, op)
- glid=chooselid(gid,core)
- gvar=varof(gid,core)
- gatm=literalof(glid,core).body.args[2:end]
+@show :askU
+ global glid=chooselid(gid,core)
+ if glid == nothing ; return nothing end
+@show glid
+ global gvar=varsof(gid,core)
+@show gvar
+ gatm=literalof(glid,core).body.args[2]
  varc=canovarsof(glid,core)
  vatm=canoof(glid,core)[2]
-@show :askU1
  σi = unify(varc, vatm, gatm)
+@show σi
 
-@show :askU2
 # example
 # vatm=[X,Y].P(X,Y), gatm=[y].P(a,y)
 # σi=[a,y] 
@@ -189,7 +202,6 @@ function askU(gid, core, op)
 
 ##
 # in this step, a web transition exists
-@show :askU3
  return makeView2(op, glid, varc, gvar, σi)
 ##
 end

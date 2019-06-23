@@ -83,6 +83,7 @@ end
 
 
 function makeinputs2(cavars, vars, gargs)
+@show :makeinputs2
  bb = ""
  for ix in 1:length(cavars)
    v  = cavars[ix]
@@ -99,14 +100,15 @@ function makeinputs2(cavars, vars, gargs)
 end
 
 function makeView2(op, glid, ovarc, varg, argg)
- inputs = makeinputs2(varc, varg, argg)
+@show :makeView2
+ inputs = makeinputs2(ovarc, varg, argg)
 """
 <h2>GLID: $glid</h2>
 <form action=\"/go\" method=\"get\">
 <input type=\"hidden" name=\"op\" value=\"$op\"></br>
 $(inputs)
-<input type=\"submit\" value=\"$confirm\"></br>
-<input type=\"reset\" value=\"$cancel\">
+<input type=\"submit\" value=\"confirm\"></br>
+<input type=\"reset\" value=\"cancel\">
 </form>
 """
 end

@@ -1,0 +1,21 @@
+# sample for evaluation
+
+ Func
+!ge(x,y) = x>=y
+!eq(x,y) = x==y
+
+# 1=Valid, 2=E, 3=V, 4=V+V, 5=V+E, 6=E+V, 7=E+V with var
+ Goal
+[x,y].[-ge(2,5),-ge(4,55),-ge(5,9)]
+[x,y].[-ge(12,5),-ge(114,55),-ge(115,9)]
+[x,y].[-P(x,y)]
+[x,y,z,w].[-P(x,y),-R(z,w)]
+[x,y].[-P(x,y),-ge(2,1),-ge(4,2),-ge(5,2)]
+[x,y].[-ge(2,1),-ge(4,2),-ge(5,2),-P(x,y)]
+[x,y].[-ge(2,1),-ge(x,y),-ge(5,2),-P(x,y)]
+
+
+&[X,Y].[P(X,Y)]
+&[Z,W].[R(Z,W)]
+
+

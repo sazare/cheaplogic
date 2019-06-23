@@ -1,3 +1,29 @@
+20190623日
+load_viewprover.jl 
+ - vlogic
+  - viewlogic.jl -- html view を作る部分
+  - viewreso.jl  -- resolution の部分。logicと分けるのは難しいのか
+  - vhtmls.jl    -- html生成関数
+  - factify.jl   -- postviewでviewで消したclauseを作り登録する
+
+手順
+ include("load_viewprover.jl")
+
+ 一方
+
+ vdata/vev002.cnf
+ gid = C1 -> eval and => Valid
+ gid = C2 -> eval and == Contradiction
+ gid = C3 -> 1 Views and => Contradiction <= now here
+
+ after View, Exception occured...
+
+ gid = C4 -> 2 Views and => []
+ gid = C5 -> View + exec => []
+ gid = C6 -> exec + View => []
+ gid = C7 -> exec + View with var => []
+
+
 20190616日
 *** viewlogic uses a Web Page for a tool for getting FACT, 
 I assume the inputs from an human is a fact.
@@ -5,7 +31,6 @@ Of cource, human may mistake. The reasonable treatment the input
 should be cross check it with Base(Axioms).
 
 *** The problem for an huge number of fact is not cleared.
-
 
 viewlogic.jlはvlogic.jlをコピーしたが、まだ作っていないので動かない。
 

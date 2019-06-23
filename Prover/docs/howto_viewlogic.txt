@@ -1,0 +1,13 @@
+ include("load_viewprover.jl")
+
+ 一方
+
+ vdata/vev002.cnf
+ gid = C1 -> eval and => Valid
+ gid = C2 -> eval and == Contradiction
+ gid = C3 -> 1 Views and => Contradiction <= now here
+ gid = C4 -> 2 Views and => []
+ gid = C5 -> View + exec => []
+ gid = C6 -> exec + View => []
+ gid = C7 -> exec + View with var => []
+
