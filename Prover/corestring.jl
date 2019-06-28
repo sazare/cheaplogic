@@ -5,6 +5,7 @@ CORE: $(core.name)
 CLAUSES
 $(stringclauses(core))
 PSYM: $(stringarray(core.allpsym))
+CANO: $(core.cano)
 """
 end
 
