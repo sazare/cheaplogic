@@ -1,27 +1,32 @@
 
 function factify_clause(glid,σo,core)
+@show :factify_clause glid σo
  ovars = vars = varsof(cidof(glid, core), core)
 
  glit  = literalof(glid, core).body
 
+@show glit
  try
    core.trycnt[1] += 1
    rem1 = lidsof(cidof(glid, core),core)
    rem = rem1 = setdiff(rem1, [glid])
 
-# rename rlid
+# rename rlid rem
+
    rid =  newrid(core)
    nrem = rename_lids(rid, rem, core)
    nbody = literalsof(rem, core)
    nbody1 = apply(ovars, nbody, σo)
-
+@show nbody nbody1
    if evalon
+@show :evalon
      rb = evaluate_literals(nrem, nbody1)
      if rb[1] == true
        println("Valid")
        return :FAIL
      end
      nrem, nbody1 = rb
+@show nrem nbody1
    end
 
    vars = fitting_vars(ovars, nbody1, core)

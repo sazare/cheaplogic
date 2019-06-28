@@ -76,31 +76,32 @@ function evaluategoal(gid, core)
  gids = lidsof(gid, core)
  vars = varsof(gid, core)
  rgids= []
- glid0 = :no
-@show glid0
+ removedevalaute = false
  for glid in gids
   lit = literalof(glid, core)
   if isProc(lit)
    val = leval(lit.body) 
    if val == true; throw(VALID(glid, :evaluategoal)) end
    if val == false
-    glid0 = glid
-@show glid0
+    removedevalaute = true
     continue 
    end
    push!(rgids, glid) #not true or false
+  else
+    push!(rgids, glid) #not true or false
+@show :noexecutables rgids
   end 
  end 
- if glid0 == :no
-# no evaluatable literal
-@show glid0
-   return gid, core
- end
+@show rgids
 @show :removeevaluatable gid core
- rid = addnewclause(vars, gid, rgids, core)
- ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
-
- return rid,ncore
+ if removedevalaute
+  rid = addnewclause(vars, gid, rgids, core)
+  glid0 = rgids[1]
+  ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
+  return rid,ncore
+ else
+  return gid, core
+ end
 end
 
 """
