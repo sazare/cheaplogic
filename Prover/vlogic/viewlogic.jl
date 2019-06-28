@@ -12,7 +12,7 @@ using Genie
 import Genie.Router: route
 import Genie.Router: @params
 
-include("factify.jl")
+#include("factify.jl")
 
 global core
 global glid
@@ -26,7 +26,7 @@ global gatm
 global varc
 global vatm
 global σi
-
+global gid = :nogid
 
 ####
 function getσo(cvars, gvars, pm)
@@ -62,21 +62,30 @@ end
 route("/go") do
  pm = @params()
  op = pm[:op]
+@show op
  if op == "start"
-  return gostarthtml()
+@show :start
+  return gostart()
  elseif op == "readcore"
+@show :readcore
   return goreadcore(pm)
  elseif op == "stepgoal"
-  return gostepgoal(pm,1)
- elseif op == "stepngoal"
-  return gostepgoal(pm,2)
+  @show :stepgoal
+  if gid == :nogid
+@show :nogid
+   global gid = pm[:gid]
+   return goevaluate(pm,gid)
+  else
+@show gid
+   return goevaluate(pm,gid)
+  end
  elseif op == "postview"
   return postview(pm)
  end
 end
 
-function goalprover(pm, step, pres)
-@show :goalprover, step
+function goalprover(pm, pres)
+@show :goalprover
  try
 @show :after, gid
   rico = evaluategoal(gid, core)
@@ -98,7 +107,12 @@ function goalprover(pm, step, pres)
   else
  # after eval, choose view or resolve in goaftereval?
  # chooselid() in askU select a view literal
-   return askU(gid, core, "postview")
+   askpage =  askU(gid, core, "postview")
+   if askpage != nothing
+     return askpage
+   else
+     return failview(gid, core)
+   end
   end
  catch e
   if isa(e, VALID)
@@ -115,27 +129,25 @@ function goalprover(pm, step, pres)
 
 end
 
-function gostepgoal(pm,cnt)
-@show :gostepgoal, cnt
+function goevaluate(pm,gid0)
+@show :goevaluate, gid0
   score = stringcore(core)
  pres = """
  <pre>$(score)</pre>
  <pre>=======</pre>
 """
- if cnt==1
-@show :gostepgoal1
+@show :goevaluate1
 @show pm
 try
-  global gid = Symbol(pm[:gid])
+  global gid = Symbol(gid0)
 catch
   @show :continue
 end
+
 @show pres
-  return goalprover(pm, 1, pres)
- else
-@show :gostapgoal2
-  return goalprover(pm, 2, pres)
- end
+  page = goalprover(pm, pres)
+@show page
+  return page
 end
 
 function contraview(cid, core)
@@ -151,6 +163,12 @@ end
 function unknownview(cid, except, core)
    return htmlhtml(htmlheader("Exception occurs"), 
                   htmlbody("$(except)", "",""))
+end
+
+function failview(cid, core)
+@show failview
+   return htmlhtml(htmlheader("Fail attempt"), 
+                  htmlbody("cant progress", "",""))
 end
 
 function goaftereval(pm)
@@ -224,8 +242,8 @@ function goreadcore(pm)
  return htmlhtml(htmlheader("Select GID"), htmlbody("which gid", pres, form))
 end
 
-function gostarthtml()
-@show :gostarthtml
+function gostart()
+@show :gostart
  form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
  return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
 end

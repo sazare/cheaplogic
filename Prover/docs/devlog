@@ -1,3 +1,10 @@
+20190628金
+最初、何度やってもすぐにKeyerror(:R1)で終わった
+裏で別のload_viewprover.jlを実行していた。
+
+C7,C8で-ge(-,-)が消えなかった
+どうも先にaskUで消えたリテラルのσが残りのgoalにapplyされていないようにみえる
+
 20190623日
 load_viewprover.jl 
  - vlogic

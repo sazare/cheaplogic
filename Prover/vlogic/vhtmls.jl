@@ -6,10 +6,10 @@ function restrictvars(lid, core)
 end
 
 
+# <head xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ja\">
 
 function htmlhtml(header, body)
 """
-<head xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ja\">
 $header
 $body
 """

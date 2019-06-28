@@ -153,19 +153,24 @@ should be called after evaluate
 doesnt choose a lit not Proc and not Cano
 """
 function chooselid(gid, core)
+@show chooselid gid
  lids = lidsof(gid, core)
-
+@show lids
  ninvec = []
  for lid in lids
+@show lid
    if isCano(literalof(lid,core),core)
+@show :iscano
     nin = incount(lid, core)
     nin == 0 && return(lid)
     push!(ninvec, nin)
    else
+@show :nocano
     push!(ninvec, Inf)
    end
  end
  v,ix = findmin(ninvec)
+@show v ix
  if v != Inf
   return lids[ix]
  else
@@ -209,7 +214,6 @@ end
 
 # after part of askU
 function listenU(params)
-
  σo = getσo(varc, gvar, params)
 
 # confirm makes σo like as [X,Y].[a,b]
