@@ -1,3 +1,107 @@
+20190629土
+・xxxview()でstringclauseを表示するようにした
+・/startのところでglobal変数を初期化するようにした。
+　続けていると値がおかしくなっていたので(gidが残っているために
+　stepを続けているとみなしている)
+
+・lidの表示で、literalも表示しよう
+・xxxview()で/startに戻るようにしよう
+
+fixing
+・R1:[x_C7R1,y_C7R1].[L16_R1:-(ge(x_C7R1,y_C7R1))] cant progress more
+ということはProcリテラルは、viewやresoにかからない(resoはまだない)のと
+evaluateで変数が残っているから実行できないのでこうなる。
+
+?変数は置き換わらないのか
+
+C7:[x_C7,y_C7].[L15:-(ge(2,1)),L16:-(ge(x_C7,y_C7)),L17:-(ge(5,2)),L18:-(P(x_C7,y_C7))]
+なので、まずPのViewがでなくてはならない。
+なぜでないのか。
+evalauteだけで終わっているらしい。
+
+
+logをみると
+
+stringcore(core) = "CORE: vdata/vev002.cnf\nCLAUSES\nC2:[x_C2,y_C2].[L4:-(ge(12,5)),L5:-(ge(114,55)),L6:-(ge(115,9))]\nC10:[].[L10:+(S(1,2))]\nR1:[x_C7R1,y_C7R1].[L16_R1:-(ge(x_C7R1,y_C7R1))]\nC8:[x_C8,y_C8,z_C8,w_C8].[L1:-(ge(x_C8,y_C8)),L2:-(P(x_C8,y_C8)),L3:-(R(z_C8,w_C8))]\nC1:[x_C1,y_C1].[L7:-(ge(2,5)),L8:-(ge(4,55)),L9:-(ge(5,9))]\nC4:[x_C4,y_C4,z_C4,w_C4].[L20:-(P(x_C4,y_C4)),L21:-(R(z_C4,w_C4))]\nC5:[x_C5,y_C5].[L26:-(P(x_C5,y_C5)),L27:-(ge(2,1)),L28:-(ge(4,2)),L29:-(ge(5,2))]\nC9:[x_C9,y_C9,z_C9,w_C9].[L22:-(ge(x_C9,y_C9)),L23:-(P(x_C9,y_C9)),L24:-(R(z_C9,w_C9)),L25:-(S(y_C9,w_C9))]\nC6:[x_C6,y_C6].[L11:-(ge(2,1)),L12:-(ge(4,2)),L13:-(ge(5,2)),L14:-(P(x_C6,y_C6))]\nC7:[x_C7,y_C7].[L15:-(ge(2,1)),L16:-(ge(x_C7,y_C7)),L17:-(ge(5,2)),L18:-(P(x_C7,y_C7))]\nC3:[x_C3,y_C3].[L19:-(P(x_C3,y_C3))]\n\nPSYM: [P,R,S,ge]\nCANO: Dict{Symbol,Any}(:P=>(Any[:X, :Y], :(P(X, Y))),:R=>(Any[:Z, :W], :(R(Z, W))))\n"
+:goalprover1 = :goalprover1
+gid = :R1
+glids = Any[:L16_R1]
+nlids = Expr[:(-(ge(x_C7R1, y_C7R1)))]
+:askU = :askU
+chooselid = chooselid
+gid = :R1
+lids = Any[:L16_R1]
+lid = :L16_R1
+:nocano = :nocano
+v = Inf
+ix = 1
+
+なので
+R1:[x_C7R1,y_C7R1].[L16_R1:-(ge(x_C7R1,y_C7R1))]
+
+★canoのL18:-(P(x_C7,y_C7))が無視されている。
+
+C8は、Viewliteralを先頭に持ってきたが
+R1:[x_C8R1,y_C8R1].[L10_R1:-(ge(x_C8R1,y_C8R1))] cant progress more
+となり
+
+stringcore(core) = "CORE: vdata/vev002.cnf\nCLAUSES\nC2:[x_C2,y_C2].[L1:-(ge(12,5)),L2:-(ge(114,55)),L3:-(ge(115,9))]\nC10:[x_C10,y_C10,z_C10,w_C10].[L4:-(ge(x_C10,y_C10)),L5:-(P(x_C10,y_C10)),L6:-(R(z_C10,w_C10)),L7:-(S(y_C10,w_C10))]\nR1:[x_C8R1,y_C8R1].[L10_R1:-(ge(x_C8R1,y_C8R1))]\nC8:[x_C8,y_C8].[L8:-(P(x_C8,y_C8)),L9:-(ge(2,1)),L10:-(ge(x_C8,y_C8)),L11:-(ge(5,2))]\nC1:[x_C1,y_C1].[L12:-(ge(2,5)),L13:-(ge(4,55)),L14:-(ge(5,9))]\nC11:[].[L15:+(S(1,2))]\nC4:[x_C4,y_C4,z_C4,w_C4].[L16:-(P(x_C4,y_C4)),L17:-(R(z_C4,w_C4))]\nC5:[x_C5,y_C5].[L18:-(P(x_C5,y_C5)),L19:-(ge(2,1)),L20:-(ge(4,2)),L21:-(ge(5,2))]\nC9:[x_C9,y_C9,z_C9,w_C9].[L22:-(ge(x_C9,y_C9)),L23:-(P(x_C9,y_C9)),L24:-(R(z_C9,w_C9))]\nC6:[x_C6,y_C6].[L25:-(ge(2,1)),L26:-(ge(4,2)),L27:-(ge(5,2)),L28:-(P(x_C6,y_C6))]\nC7:[x_C7,y_C7].[L29:-(ge(2,1)),L30:-(ge(x_C7,y_C7)),L31:-(ge(5,2)),L32:-(P(x_C7,y_C7))]\nC3:[x_C3,y_C3].[L33:-(P(x_C3,y_C3))]\n\nPSYM: [P,R,S,ge]\nCANO: Dict{Symbol,Any}(:P=>(Any[:X, :Y], :(P(X, Y))),:R=>(Any[:Z, :W], :(R(Z, W))))\n"
+:goalprover1 = :goalprover1
+gid = :R1
+glids = Any[:L10_R1]
+nlids = Expr[:(-(ge(x_C8R1, y_C8R1)))]
+:askU = :askU
+chooselid = chooselid
+gid = :R1
+lids = Any[:L10_R1]
+lid = :L10_R1
+:nocano = :nocano
+v = Inf
+ix = 1
+
+であり
+R1:[x_C8R1,y_C8R1].[L10_R1:-(ge(x_C8R1,y_C8R1))]
+だからView リテラルが無視されている
+
+★★★ evaluateのあとでgoalを作るときに、Procリテラル以外のものを残すのを
+忘れているらしい
+
+evaluateの中でisProcでない場合のelseが抜けていた。
+修正したらViewがでるようになった
+
+今度は、
+1. R1にはview リテラルのみになった
+R1:[x_C8R1,y_C8R1]. L8_R1.-(P(x_C8R1, y_C8R1))
+
+evaluate => R1のとき、今度はevaluateですべて消された
+elseのときrgidsにgidをついかするように修正
+
+すると
+
+PSYM: [P,R,S,S2,ge]
+CANO: Dict{Symbol,Any}(:P=>(Any[:X, :Y], :(P(X, Y))),:R=>(Any[:Z, :W], :(R(Z, W))))
+GOAL
+ R2:[x_C8R1R2,y_C8R1R2].[L10_R2:-(ge(x_C8R1R2,y_C8R1R2))]
+
+X,Yへの代入がremにapplyされていない
+σoのあつかいがおかしい
+
+
+viewのσoがもどってきたとき、goalのremの変数名を新しいgidでrenameしているので
+canoのX,Yへの代入はヒットしないのだが、
+そこはvarsをこのremのvarsにすれば解決するはずでは??
+
+factify_clauseの冒頭で
+glid = :L8_R1
+σo = Any[:x_C8R1, :y_C8R1]
+glit = :(-(P(x_C8R1, y_C8R1)))
+
+σoは入力値の代入だから[5,3]みたいになるはずではないか
+R1のvarsもほしい
+
+
+
+
 20190628金
 最初、何度やってもすぐにKeyerror(:R1)で終わった
 裏で別のload_viewprover.jlを実行していた。

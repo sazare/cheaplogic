@@ -151,28 +151,31 @@ end
 end
 
 function contraview(cid, core)
+   cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Contradiction"), 
-                  htmlbody("$cid Contradiction", "",""))
+                  htmlbody("$cls is Contradiction", "",""))
 end
 
 function validview(cid, core)
+   cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Valid"), 
-                  htmlbody("$cid is valid", "",""))
+                  htmlbody("$cls is valid", "",""))
 end
 
 function unknownview(cid, except, core)
+   cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Exception occurs"), 
-                  htmlbody("$(except)", "",""))
+                  htmlbody("$cls makes  $(except)", "",""))
 end
 
 function failview(cid, core)
-@show failview
+   cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Fail attempt"), 
-                  htmlbody("cant progress", "",""))
+                  htmlbody("$cls cant progress more", "",""))
 end
 
 function goaftereval(pm)
-
+@show :goaftereval :nodef
 end
 
 function postview(pm)
@@ -244,9 +247,27 @@ end
 
 function gostart()
 @show :gostart
+ resetglobals()
  form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
  return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
 end
+
+function resetglobals()
+global core = nothing
+global glid = nothing
+global gcid = nothing
+global goal = nothing
+global lvs  = []
+global gvar = []
+global firstview=true
+
+global gatm = nothing
+global varc = nothing
+global vatm = nothing
+global σi   = []
+global gid = :nogid
+end
+
 
 Genie.AppServer.startup()
 

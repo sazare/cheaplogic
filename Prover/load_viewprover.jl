@@ -12,4 +12,4 @@ include("vlogic/viewlogic.jl")
 #include("vlogic/vlogic.jl")
 
 
-println("finished load_viewprover.jl")
+println("load_viewprover.jl done")
