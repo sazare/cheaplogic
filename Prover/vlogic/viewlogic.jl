@@ -153,25 +153,28 @@ end
 function contraview(cid, core)
    cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Contradiction"), 
-                  htmlbody("$cls is Contradiction", "",""))
+                  htmlbody("$cid:$cls is Contradiction", "",""))
 end
 
 function validview(cid, core)
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Valid"), 
-                  htmlbody("$cls is valid", "",""))
+  form = htmlform("start", [], "Confirm", "Cancel")
+  cls = stringclause(cid, core)
+  return htmlhtml(htmlheader("Valid"), 
+                  htmlbody("$cls is valid", "",form))
 end
 
 function unknownview(cid, except, core)
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Exception occurs"), 
-                  htmlbody("$cls makes  $(except)", "",""))
+  form = htmlform("start", [], "Confirm", "Cancel")
+  cls = stringclause(cid, core)
+  return htmlhtml(htmlheader("Exception occurs"), 
+                  htmlbody("$cls makes  $(except)", "",form))
 end
 
 function failview(cid, core)
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Fail attempt"), 
-                  htmlbody("$cls cant progress more", "",""))
+  form = htmlform("start", [], "Confirm", "Cancel")
+  cls = stringclause(cid, core)
+  return htmlhtml(htmlheader("Fail attempt"), 
+                  htmlbody("$cls cant progress more", "",form))
 end
 
 function goaftereval(pm)
@@ -183,9 +186,15 @@ function postview(pm)
 #temporalily view only
  global lvs = lvarsof(glid, core)
 # global lvs = restrictvars(glid, core)
+ global varc = canovarsof(glid,core)
+ global catm = canoof(glid,core)[2]
+
+@show :restlvs
 
  σo=[]
- for v in lvs
+@show pm
+@show lvs
+ for v in varc
   try
     vr = pm[v]
     if v == vr
@@ -193,15 +202,18 @@ function postview(pm)
     elseif "" == vr
       push!(σo, v)
     else
-      push!(σo, Symbol(vr))
+      !isa(vr, Symbol) && push!(σo, Meta.parse(vr))
     end
   catch
     push!(σo, Symbol(v))
   end
  end
+@show σo
 
 @show :before_factify_clause
+@show glid σo 
  nid, ncore = factify_clause(glid,σo,core)
+@show nid
 
  global gid = nid
  global core = ncore
@@ -219,7 +231,8 @@ function postview(pm)
  if 0 == length(lidsof(gid, core))
   global firstview=true
   form = htmlform("start", [], "Confirm", "Cancel")
-  return htmlhtml(htmlheader("proof completed"), htmlbody("completed", pres, form))
+  return htmlhtml(htmlheader("proof completed"), 
+          htmlbody("completed", pres, form))
  else
   form = htmlform("stepgoal", [], "Confirm", "Cancel")
   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))

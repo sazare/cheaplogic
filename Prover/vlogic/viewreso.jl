@@ -193,10 +193,11 @@ function askU(gid, core, op)
  if glid == nothing ; return nothing end
 @show glid
  global gvar=varsof(gid,core)
-@show gvar
  gatm=literalof(glid,core).body.args[2]
+@show gvar,gatm
  varc=canovarsof(glid,core)
  vatm=canoof(glid,core)[2]
+@show varc, vatm
  σi = unify(varc, vatm, gatm)
 @show σi
 
