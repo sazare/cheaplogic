@@ -76,6 +76,7 @@ end
 ## for renamed vars explosion
 #fitting vars in literal
 function fitting_vars_term(vars, term)
+@show :fitting_vars_term vars term
   if issym(term) 
     if isvar(term, vars)
       return [term]
@@ -100,6 +101,7 @@ function fitting_vars_lit(vars, lit)
 end
 
 function fitting_vars(vars, lits, core)
+@show :fitting_vars vars, lits
  evars = []
  for lit in lits
    append!(evars, fitting_vars_lit(vars, lit))

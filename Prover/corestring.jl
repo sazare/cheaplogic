@@ -12,7 +12,7 @@ end
 
 function stringclauses(core)::String
  rstr = ""
- for cid in keys(core.cdb)
+ for cid in sort(collect(keys(core.cdb)))
   rstr *= stringclause(cid, core) * "\n"
  end
  rstr

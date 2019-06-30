@@ -18,7 +18,7 @@ global core
 global glid
 global gcid
 global goal
-global lvs
+global varg
 global gvar
 global firstview=true
 
@@ -157,21 +157,24 @@ function contraview(cid, core)
 end
 
 function validview(cid, core)
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Valid"), 
-                  htmlbody("$cls is valid", "",""))
+  form = htmlform("start", [], "Confirm", "Cancel")
+  cls = stringclause(cid, core)
+  return htmlhtml(htmlheader("Valid"), 
+                  htmlbody("$cls is valid", "",form))
 end
 
 function unknownview(cid, except, core)
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Exception occurs"), 
-                  htmlbody("$cls makes  $(except)", "",""))
+  form = htmlform("start", [], "Confirm", "Cancel")
+  cls = stringclause(cid, core)
+  return htmlhtml(htmlheader("Exception occurs"), 
+                  htmlbody("$cls makes  $(except)", "",form))
 end
 
 function failview(cid, core)
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Fail attempt"), 
-                  htmlbody("$cls cant progress more", "",""))
+  form = htmlform("start", [], "Confirm", "Cancel")
+  cls = stringclause(cid, core)
+  return htmlhtml(htmlheader("Fail attempt"), 
+                  htmlbody("$cls cant progress more", "",form))
 end
 
 function goaftereval(pm)
@@ -181,11 +184,18 @@ end
 function postview(pm)
 @show :postview
 #temporalily view only
- global lvs = lvarsof(glid, core)
-# global lvs = restrictvars(glid, core)
+ global varg = lvarsof(glid, core)
+ global gatm = literalof(glid, core).body.args[2]
+# global varg = restrictvars(glid, core)
+ global varc = canovarsof(glid,core)
+ global catm = canoof(glid,core)[2]
+
+@show :restvarg
 
  σo=[]
- for v in lvs
+@show pm
+@show varg
+ for v in varc
   try
     vr = pm[v]
     if v == vr
@@ -193,36 +203,48 @@ function postview(pm)
     elseif "" == vr
       push!(σo, v)
     else
-      push!(σo, Symbol(vr))
+      !isa(vr, Symbol) && push!(σo, Meta.parse(vr))
     end
   catch
     push!(σo, Symbol(v))
   end
  end
+@show σo
+
+@show :beforeapply varc catm σo
+ catm2= apply(varc, catm, σo)
+@show :beforeunify varg gatm catm2
+ σg = unify(varg, gatm, catm2)
 
 @show :before_factify_clause
- nid, ncore = factify_clause(glid,σo,core)
+@show glid σo σg 
+ try
+  nid, ncore = factify_clause(glid,σg,core)
 
- global gid = nid
- global core = ncore
-
- score = stringcore(core)
- sres = stringclause(gid, core)
-
- pres = """
- <pre>$(score)</pre>
- <pre>GOAL
- $(sres)
- =======</pre>
-"""
-
- if 0 == length(lidsof(gid, core))
-  global firstview=true
-  form = htmlform("start", [], "Confirm", "Cancel")
-  return htmlhtml(htmlheader("proof completed"), htmlbody("completed", pres, form))
- else
-  form = htmlform("stepgoal", [], "Confirm", "Cancel")
-  return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
+  global gid = nid
+  global core = ncore
+ 
+  score = stringcore(core)
+  sres = stringclause(gid, core)
+ 
+  pres = """
+  <pre>$(score)</pre>
+  <pre>GOAL
+  $(sres)
+  =======</pre>
+ """
+ 
+  if 0 == length(lidsof(gid, core))
+   global firstview=true
+   form = htmlform("start", [], "Confirm", "Cancel")
+   return htmlhtml(htmlheader("proof completed"), 
+           htmlbody("completed", pres, form))
+  else
+   form = htmlform("stepgoal", [], "Confirm", "Cancel")
+   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
+  end
+ catch e
+  return validview(gid, core)
  end
 end
 
@@ -234,9 +256,8 @@ function goreadcore(pm)
 
  evalon && evalproc(core.proc)
 
- clauses = stringclauses(core)
  clist = ""
- for id in reverse(collect(keys(core.cdb)))
+ for id in sort(collect(keys(core.cdb)))
    clist *= "$(stringclause(id, core))</br>"
  end
 
@@ -257,8 +278,9 @@ global core = nothing
 global glid = nothing
 global gcid = nothing
 global goal = nothing
-global lvs  = []
+global varg = []
 global gvar = []
+
 global firstview=true
 
 global gatm = nothing

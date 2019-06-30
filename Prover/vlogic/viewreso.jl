@@ -93,13 +93,20 @@ function evaluategoal(gid, core)
   end 
  end 
 @show rgids
-@show :removeevaluatable gid core
+@show :beforeremoveevaluatable gid core
  if removedevalaute
+@show :removetrue vars, rgids
   rid = addnewclause(vars, gid, rgids, core)
-  glid0 = rgids[1]
-  ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
+  glid0 = gids[1]
+  if isempty(rgids)
+   ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
+  else 
+   ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
+  end
+@show ncore
   return rid,ncore
  else
+@show :removetrue gid
   return gid, core
  end
 end
@@ -193,10 +200,11 @@ function askU(gid, core, op)
  if glid == nothing ; return nothing end
 @show glid
  global gvar=varsof(gid,core)
-@show gvar
  gatm=literalof(glid,core).body.args[2]
+@show gvar,gatm
  varc=canovarsof(glid,core)
  vatm=canoof(glid,core)[2]
+@show varc, vatm
  σi = unify(varc, vatm, gatm)
 @show σi
 
