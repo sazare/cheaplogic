@@ -193,7 +193,6 @@ end
  apply σo to goal-glid make new goal
  add it to core
 ==#
-
 function askU(gid, core, op)
 @show :askU
  global glid=chooselid(gid,core)

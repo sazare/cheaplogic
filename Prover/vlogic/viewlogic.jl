@@ -80,24 +80,88 @@ route("/go") do
    return goevaluate(pm,gid)
   end
  elseif op == "postview"
+@show :postview
   return postview(pm)
+ elseif op == "resolve"
+@show :resolve
+  return goresolve(pm,gid)
  end
+end
+
+"""
+this function may be in viewreso.jl
+"""
+function resolvelit(lf2, core)
+ lid = lf2.lid
+ lit = lf2.body
+ sign, psym = psymof(lid, core)
+
+ 
+
+end
+"""
+resolve a lit no cano and no proc
+"""
+function goresolve(pm, gidl)
+@show :goresolve, gidl
+ glids = lidsof(gidl, core)
+ nlits = literalsof(glids, core)
+ if isempty(glids); return contraview(gidl, core) end
+ picktlid = nothing
+ for lid in glids 
+  lf2 = literalof(lid, core)
+  if !isProc(lf2) && !isCano(lf2,core)
+  # this may be resolved
+   picklid = lid
+   break
+  end
+ end
+
+
+ # time to resolve picklid
+ # when picktlid cant be resolved
+ # i do nothing... is it correct??
+ 
+ if picktlid == nothing
+  # nothing progressed
+  # view should not show or same as previous...
+  # what i should do???
+  score = stringcore(core)
+pres = """
+<pre>$(score)</pre>
+<pre>=======</pre>
+"""
+  form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
+ end
+
+ lf2 = literalof(picktlid, core)
+ σ=resolvelit(lf2, core)
+
+ gvar=varsof(gidl, core)
+ remids=setdiff(glids, [lf2.lid])
+
+ # after work
+ newgid=addnewclause(gvar, gidl, remids, core, σ)
+ global gid = newgid
+
+ # 
+ form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+ return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
 end
 
 function goalprover(pm, pres)
 @show :goalprover
  try
-@show :after, gid
   rico = evaluategoal(gid, core)
 @show :after :evaluategoal
   global core = rico[2]
   global gid = rico[1]
 ## here gid, core has evaluated clause
-## 
 @show gid 
 @show stringcore(core)
-  glids=lidsof(gid, core)
-  nlids =  literalsof(glids, core)
+  glids = lidsof(gid, core)
+  nlids = literalsof(glids, core)
 @show :goalprover1
 @show gid glids 
 @show nlids
@@ -124,7 +188,8 @@ function goalprover(pm, pres)
   end
  end
 
- form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+# form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+ form = htmlform("resolve", [], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
 
 end
@@ -151,9 +216,10 @@ end
 end
 
 function contraview(cid, core)
+  form = htmlform("start", [], "Confirm", "Cancel")
    cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Contradiction"), 
-                  htmlbody("$cls is Contradiction", "",""))
+                  htmlbody("$cls is Contradiction", "",form))
 end
 
 function validview(cid, core)
@@ -244,7 +310,11 @@ function postview(pm)
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
   end
  catch e
-  return validview(gid, core)
+  if isa(e, VALID)
+   return validview(gid, core)
+  else
+   return unknownview(gid, e, core)
+  end
  end
 end
 
