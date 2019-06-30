@@ -1,6 +1,6 @@
 
-function factify_clause(glid,σo,core)
-@show :factify_clause glid σo
+function factify_clause(glid,σg,core)
+@show :factify_clause glid σg
 @show cidof(glid, core)
  ovars = vars = varsof(cidof(glid, core), core)
 @show ovars
@@ -20,7 +20,8 @@ function factify_clause(glid,σo,core)
 @show nrem
    nbody = literalsof(rem, core)
 @show nbody
-   nbody1 = apply(ovars, nbody, σo)
+   σs = apply(varg, ovars, σg)
+   nbody1 = apply(ovars, nbody, σs)
 @show nbody1
    if evalon
 @show :evalon
@@ -60,7 +61,7 @@ function factify_clause(glid,σo,core)
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
-#  core.proof[rid] = STEP(rid, glid, :view, σo, rename_subst)
+#  core.proof[rid] = STEP(rid, glid, :view, σg||σo?, rename_subst)
   rcf2=CForm2(rid, body.vars, body.body)
 #  return rcf2
   return rid, core

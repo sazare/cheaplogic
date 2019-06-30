@@ -18,7 +18,7 @@ global core
 global glid
 global gcid
 global goal
-global lvs
+global varg
 global gvar
 global firstview=true
 
@@ -153,7 +153,7 @@ end
 function contraview(cid, core)
    cls = stringclause(cid, core)
    return htmlhtml(htmlheader("Contradiction"), 
-                  htmlbody("$cid:$cls is Contradiction", "",""))
+                  htmlbody("$cls is Contradiction", "",""))
 end
 
 function validview(cid, core)
@@ -184,16 +184,17 @@ end
 function postview(pm)
 @show :postview
 #temporalily view only
- global lvs = lvarsof(glid, core)
-# global lvs = restrictvars(glid, core)
+ global varg = lvarsof(glid, core)
+ global gatm = literalof(glid, core).body.args[2]
+# global varg = restrictvars(glid, core)
  global varc = canovarsof(glid,core)
  global catm = canoof(glid,core)[2]
 
-@show :restlvs
+@show :restvarg
 
  σo=[]
 @show pm
-@show lvs
+@show varg
  for v in varc
   try
     vr = pm[v]
@@ -210,32 +211,40 @@ function postview(pm)
  end
 @show σo
 
+@show :beforeapply varc catm σo
+ catm2= apply(varc, catm, σo)
+@show :beforeunify varg gatm catm2
+ σg = unify(varg, gatm, catm2)
+
 @show :before_factify_clause
-@show glid σo 
- nid, ncore = factify_clause(glid,σo,core)
-@show nid
+@show glid σo σg 
+ try
+  nid, ncore = factify_clause(glid,σg,core)
 
- global gid = nid
- global core = ncore
-
- score = stringcore(core)
- sres = stringclause(gid, core)
-
- pres = """
- <pre>$(score)</pre>
- <pre>GOAL
- $(sres)
- =======</pre>
-"""
-
- if 0 == length(lidsof(gid, core))
-  global firstview=true
-  form = htmlform("start", [], "Confirm", "Cancel")
-  return htmlhtml(htmlheader("proof completed"), 
-          htmlbody("completed", pres, form))
- else
-  form = htmlform("stepgoal", [], "Confirm", "Cancel")
-  return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
+  global gid = nid
+  global core = ncore
+ 
+  score = stringcore(core)
+  sres = stringclause(gid, core)
+ 
+  pres = """
+  <pre>$(score)</pre>
+  <pre>GOAL
+  $(sres)
+  =======</pre>
+ """
+ 
+  if 0 == length(lidsof(gid, core))
+   global firstview=true
+   form = htmlform("start", [], "Confirm", "Cancel")
+   return htmlhtml(htmlheader("proof completed"), 
+           htmlbody("completed", pres, form))
+  else
+   form = htmlform("stepgoal", [], "Confirm", "Cancel")
+   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
+  end
+ catch e
+  return validview(gid, core)
  end
 end
 
@@ -247,9 +256,8 @@ function goreadcore(pm)
 
  evalon && evalproc(core.proc)
 
- clauses = stringclauses(core)
  clist = ""
- for id in reverse(collect(keys(core.cdb)))
+ for id in sort(collect(keys(core.cdb)))
    clist *= "$(stringclause(id, core))</br>"
  end
 
@@ -270,8 +278,9 @@ global core = nothing
 global glid = nothing
 global gcid = nothing
 global goal = nothing
-global lvs  = []
+global varg = []
 global gvar = []
+
 global firstview=true
 
 global gatm = nothing

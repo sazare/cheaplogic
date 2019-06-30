@@ -93,7 +93,7 @@ function printcdb(cdb)
  if isempty(cdb)
   println("empty")
  else
-  for cid in keys(cdb)
+  for cid in sort(collect(keys(cdb)))
     println("$(cid): $(cdb[cid])")
   end
  end
@@ -103,7 +103,7 @@ function printldb(ldb)
  if isempty(ldb)
   println("empty")
  else
-   for lid in keys(ldb)
+   for lid in sort(collect(keys(ldb)))
      println("$(lid): $(ldb[lid].body)")
    end
  end
@@ -113,7 +113,7 @@ function printamap(amap)
  if isempty(keys(amap))
   println("empty")
  else
-  for key in keys(amap)
+  for key in collect(keys(amap))
     println("$key=>$(amap[key])")
   end
  end
@@ -205,7 +205,7 @@ function printmgu0(ovars, sigma, orig)
 end
 
 function printmgu(rid, core, orig)
-  if rid in keys(core.proof)
+  if rid in sort(collect(keys(core.proof)))
     step = core.proof[rid]
     printmgu(cidof(step.leftp,core), core, orig)
     printmgu(cidof(step.rightp,core), core, orig)
@@ -232,7 +232,7 @@ function printproc(proc)
 end
 
 function printcano(cano)
- for psym in keys(cano)
+ for psym in sort(collect(keys(cano)))
   printvars(cano[psym][1])
   print(".")
   printterm(cano[psym][2])
@@ -306,7 +306,7 @@ function printtemplate0(key, eq, core)
 end
 
 function printtemplates0(eqs, core)
-  for key in keys(eqs)
+  for key in sort(collect(keys(eqs)))
     eq = eqs[key]
     printtemplate0(key, eq, core)
     println()
@@ -328,7 +328,7 @@ function printtemplate1(key, eq, core)
 end
 
 function printtemplates1(eqs,core)
-  for key in keys(eqs)
+  for key in sort(collect(keys(eqs)))
     eq = eqs[key]
     printtemplate1(key, eq, core)
     println()

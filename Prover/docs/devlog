@@ -1,3 +1,107 @@
+ちなみに load_viewprover.jlで動かすと、readcoreしたものは変数coreにはいる。
+QEDは☕️でしめす。
+
+
+20190630日
+昨日のつづき。
+
+|gvars|=4で|cvars|=2 の差かな
+
+たしかにそうだ。
+varg.remにσoをかけようとするとvargとvarcの長さが違うのでこうなる。
+
+lvarの長さを持つσoをclauseのvarsのサイズに拡張しなくてはならない。
+
+σoはbindingまで含めると varc.(varc←σo)
+
+varcとσoの順番とlengthは同じ。(by cnf def)
+
+1. varc.σoをvarg.σgに変換する手順
+
+varcとvargは長さは違うかもしれない。
+一致しているものは
+
+gatmのargsをとってくると、|varc| = |gatm.args|
+∵ canoはそのように定義するから。
+
+まず順番をそろえる。
+(下のclitはcatm, glitはgatmでもよい)
+
+clit2 = varc.(clit*σo)
+σg = varg.<glit:clit2>
+
+bindingを示すと
+
+σg = varg.(varg←σg)
+
+
+ここでnew goalの形はこうなる
+
+vars.rems
+
+このことから
+
+varg ∈ vars なのでvars.σsは
+
+σs=varg.(vars*σg)
+
+と計算できる。
+これは、vargの範囲では
+varg.σs = vars.σs
+それ以外の範囲では等価代入
+ε=vars.σs
+という意味での拡張になる。
+
+
+さて、
+glitのbindingは varg.glit
+goalのgindingは vars.goal
+
+であり
+
+σg = varg.varg*σo
+
+となる。
+
+ここで、varg in vars なので
+
+σs=varg.(vars*σg)
+
+newgoal = vars.(rem*σs)
+
+である☕️
+
+C12は進んだが、reso作っていないようなので、[]まではいかない
+C2で例外・・・addstep()でglid0[1]はevalを除いたあとが[]のときindex Exceptionになる。
+親のgidl[1]をparentにした
+
+C1から確認
+C1 Valid OK
+C2 Contradiction OK
+C3 View入力でなんでも[] OK
+C4 2つのViewでなんでも[] OK
+C5 View先、残りevalで[] OK
+C6 evalで残り1Viewで[] OK
+C7 Viewは後出し。ViewPでx>=yなら[] OK
+C7 ViewPでx<yなら[]ができない => validview OK ... 入力が代入されていない
+   clauseがcoreに登録されていない
+C8 ViewPは先出し。ViewPで>=yなら[] OK
+C8 ViewPでx<yなら[]ができない => validview OK... 入力が代入されていない
+C9 ViewP{x,y}とViewR{z,w}があり、x>yなら[]、OK
+   そうでないならValid... OK 入力が代入されていない
+C10  {x>=y}、ViewP{x,y}, ViewR{z,w}, S(y,w) 
+　　　y = 1, w= 2, x >=1 なら[] NG Sのresoができず途中
+     それ以外はValid ... OK
+
+C12 {x>=w}、ViewP{x,y}, ViewR{z,w}, S2(1,2) 
+　　a x>=2, y=1, w=2 なら [] NG Sのresolutionできず。Viewとevaluate部分はOK
+    b それ以外はValie(かな) OK 
+
+ここまででいったんcommit
+
+ 
+
+
 20190629土
 ・xxxview()でstringclauseを表示するようにした
 ・/startのところでglobal変数を初期化するようにした。
