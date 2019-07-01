@@ -1,5 +1,11 @@
 # chase goal with view
 
+#==
+
+
+
+==#
+
 
 """
 isProc(lit) = lit is a Proc literal
@@ -156,12 +162,12 @@ function incount(glid, core)
 end
 
 """
-chooselid() chooses a literal in Cano.
+choosecanoid() chooses a literal in Cano.
 should be called after evaluate
 doesnt choose a lit not Proc and not Cano
 """
-function chooselid(gid, core)
-@show chooselid gid
+function choosecanoid(gid, core)
+@show choosecanoid gid
  lids = lidsof(gid, core)
 @show lids
  ninvec = []
@@ -187,7 +193,7 @@ function chooselid(gid, core)
 end
 
 #==
- the caller choose the lid by chooselid()
+ the caller choose the lid by choosecanoid()
  open view and get intpus from You.
  and get σo from the view
  apply σo to goal-glid make new goal
@@ -195,7 +201,7 @@ end
 ==#
 function askU(gid, core, op)
 @show :askU
- global glid=chooselid(gid,core)
+ global glid=choosecanoid(gid,core)
  if glid == nothing ; return nothing end
 @show glid
  global gvar=varsof(gid,core)

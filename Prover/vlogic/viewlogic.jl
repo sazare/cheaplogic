@@ -89,16 +89,53 @@ route("/go") do
 end
 
 """
+ divergence of level i 
+"""
+function divergence(lid, i, core)
+ if i == 0; return [lid] end
+ divlids = []
+ for lid2 in lidsof(cidof(lid, core),core)
+  nextids = divergence(lid2, i-1, core)
+  divlids  = union(nextids, divlids)
+ end
+ return  divlids
+end
+
+
+
+"""
+ priority function for resolve
+"""
+function chooseresolid(lids, core)
+ nlit = []
+  
+ for lid in lids
+  
+  cid = cidof(lid, core)
+  lids = lidsof(cid, core)
+  push!(nlit, length(lids))
+  
+ end
+
+
+end
+
+
+"""
 this function may be in viewreso.jl
 """
 function resolvelit(lf2, core)
+@show :resolvelit
  lid = lf2.lid
  lit = lf2.body
  sign, psym = psymof(lid, core)
 
- 
+ oppos = oppositeof(inverseof(sign),psym,core) 
+
+# glid = chooselid(oppos, core)
 
 end
+
 """
 resolve a lit no cano and no proc
 """
@@ -170,7 +207,7 @@ function goalprover(pm, pres)
    return contraview(gid, core)
   else
  # after eval, choose view or resolve in goaftereval?
- # chooselid() in askU select a view literal
+ # choosecanoid() in askU select a view literal
    askpage =  askU(gid, core, "postview")
    if askpage != nothing
      return askpage
