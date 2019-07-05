@@ -90,19 +90,19 @@ cnf3="""
 c3=readcore(IOBuffer(cnf3))
 
 @testset "chooselit" begin
- @test chooselid(:C1, c2) == :L4  ## only literal
- @test chooselid(:C2, c2) == :L2  ## L1 has 1 in, L2 has 0
- @test chooselid(:C3, c2) == :L8  ## L8 has 0
- @test chooselid(:C4, c2) == :L10 ## L10 has 1, L11 has 2, L12 has 1 
- @test chooselid(:C5, c2) == :L14 ## L13 is not cano, L14 has 0
- @test chooselid(:C6, c2) == :L7  ## L5 is not cano, L6 has 1, L7 has 0
+ @test choosecanoid(:C1, c2) == :L4  ## only literal
+ @test choosecanoid(:C2, c2) == :L2  ## L1 has 1 in, L2 has 0
+ @test choosecanoid(:C3, c2) == :L8  ## L8 has 0
+ @test choosecanoid(:C4, c2) == :L10 ## L10 has 1, L11 has 2, L12 has 1 
+ @test choosecanoid(:C5, c2) == :L14 ## L13 is not cano, L14 has 0
+ @test choosecanoid(:C6, c2) == :L7  ## L5 is not cano, L6 has 1, L7 has 0
 
- @test chooselid(:C1, c3) == nothing
- @test chooselid(:C2, c3) == nothing
- @test chooselid(:C3, c3) == nothing
- @test chooselid(:C4, c3) == :L12
- @test chooselid(:C5, c3) == nothing
- @test chooselid(:C6, c3) == :L7
+ @test choosecanoid(:C1, c3) == nothing
+ @test choosecanoid(:C2, c3) == nothing
+ @test choosecanoid(:C3, c3) == nothing
+ @test choosecanoid(:C4, c3) == :L12
+ @test choosecanoid(:C5, c3) == nothing
+ @test choosecanoid(:C6, c3) == :L7
 end
 
 
