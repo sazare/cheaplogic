@@ -1,14 +1,23 @@
 # chase goal with view
 
-#==
-
-
-
-==#
+"""
+numopplids(sign,psym,core) is for cid/lid to resolve the lsym.
+remark: this functions is static to the graph.\n
+value[4] is the |lits| of the opposits.\n
+sorted the num means top lid is near the [] if exits.
+this is not a perfect solution.
+"""
+function numopplids(sign, psym, core)
+@show :numopplids,sign,psym
+  oids=oppositof(sign,psym,core)
+  cids=map(y->cidof(y,core), oids)
+  lids=map(y->lidsof(y, core), cids)
+  sort(map((x,y,z)->[x,y,z,length(z)], oids, cids, lids), by=x->x[4])
+end
 
 
 """
-isProc(lit) = lit is a Proc literal
+isProc(lit::LForm2) : lit is a Proc literal
 namely, lit is evalable.
 proc is a string of form "sym(...) = def" in cnf file
 """
@@ -81,7 +90,7 @@ function evaluategoal(gid, core)
 @show :evaluategoal
  gids = lidsof(gid, core)
  vars = varsof(gid, core)
- rgids= []
+ rlids= []
  removedevalaute = false
  for glid in gids
   lit = literalof(glid, core)
@@ -90,35 +99,29 @@ function evaluategoal(gid, core)
    if val == true; throw(VALID(glid, :evaluategoal)) end
    if val == false
     removedevalaute = true
-    continue 
-   end
-   push!(rgids, glid) #not true or false
-  else
-    push!(rgids, glid) #not true or false
-@show :noexecutables rgids
-  end 
- end 
-@show rgids
-@show :beforeremoveevaluatable gid core
- if removedevalaute
-@show :removetrue vars, rgids
+    rlids = [glid]
+    break
+   end # if val == false
+  end # if isProc
+ end # for glid
+
+@show :afterforglid, gid, rlids, core
+ if removedevalaute && !isempty(rlids)
+  rgids = setdiff(gids, rlids)
+@show :removetrue,vars,gid,rgids
   rid = addnewclause(vars, gid, rgids, core)
-  glid0 = gids[1]
-  if isempty(rgids)
-   ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
-  else 
-   ncore = addstep(core, gid, glid0, glid0, [], [], :eval)
-  end
-@show ncore
-  return rid,ncore
- else
-@show :removetrue gid
-  return gid, core
- end
+@show rid
+  ncore = addstep(core, rid, rlids[1], rlids[1], [], [], :eval)
+  gid = rid
+ else #if removedvalueate
+  ncore = core
+ end #if removedvalueate
+@show gid, ncore
+ return gid,ncore
 end
 
 """
-isCano(lit) == lit is a Canonical literal
+isCano(LForm2,core) : lit is a Canonical literal
 &[P(X,Y)] as X is caplital and no vars and no sign
 after readcore, cano is a Dict, psym => (vars, atom)
 vars is created by readcore

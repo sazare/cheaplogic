@@ -14,7 +14,7 @@ import Genie.Router: @params
 
 #include("factify.jl")
 
-global core
+global core = nothing
 global glid
 global gcid
 global goal
@@ -62,6 +62,9 @@ end
 route("/go") do
  pm = @params()
  op = pm[:op]
+if core != nothing
+  @show gid
+end
 @show op
  if op == "start"
 @show :start
@@ -88,6 +91,7 @@ route("/go") do
  end
 end
 
+#==
 """
  divergence of level i 
 """
@@ -100,8 +104,7 @@ function divergence(lid, i, core)
  end
  return  divlids
 end
-
-
+==#
 
 """
  priority function for resolve
@@ -110,31 +113,86 @@ function chooseresolid(lids, core)
  nlit = []
   
  for lid in lids
-  
-  cid = cidof(lid, core)
-  lids = lidsof(cid, core)
-  push!(nlit, length(lids))
-  
- end
-
-
+  lit2 = literalof(lid,core)
+  if !isProc(lit2) && !isCano(lit2, core)
+# this choose one of lits, but it will be more complicate.
+   return lid
+  end # !isProc(lit2) && !isCano(lit2, core)
+ end #for lid
+ return nothing
 end
 
-
 """
-this function may be in viewreso.jl
+resolvelit(glid, core)
 """
-function resolvelit(lf2, core)
-@show :resolvelit
- lid = lf2.lid
- lit = lf2.body
- sign, psym = psymof(lid, core)
+function resolvelit(glid, core)
+# get a literal
+ glit = literalof(glid, core)
+ varsg = cvarsof(glid, core)
+ atomg = atomof(glid, core)
+ remg  = setdiff(lidsof(cidof(glid, core), core), [glid])
 
- oppos = oppositeof(inverseof(sign),psym,core) 
+# maching for all opposit
+ sign, psym = psymof(glid, core)
+ 
+ oppos = oppositof(sign, psym, core)
+ for olid in opos
+# try unify them
+# if sigma made, it should return
+  ovars = cvarsof(olid, core)
+  oatom = atomof(olid, core)
 
-# glid = chooselid(oppos, core)
+  ovars=vcat(varsg, ovars) 
 
-end
+  try
+   core.trycnt[1] += 1
+   σ = unify(ovars, atomg, oatom)
+    
+   orem = lidsof(olid, core)
+   grem = setdiff(vcat(orem, remg), [olid])
+
+#rename resolvent 
+   rid  = newrid(core)
+   nrem = rename_lids(rid, grem, core)
+   nbody = literalsof(grem, core)
+   nbody1 = apply(ovars, nbody, σ) ### ovars are renamed??
+   # no evaluation
+
+   vars = fitting_vars(ovars, nbody1, core)
+   body = rename_clause(rid, vars, nbody1)
+
+   renameσ = [vars, body.vars]
+@show renameσ
+
+ ## settlement
+
+   core.succnt[1] += 1
+
+   core.cdb[rid] = VForm2(rid, body.vars)
+   core.clmap[rid] = nrem
+   for i in 1:length(nrem)
+    core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
+   end
+   for rlid in nrem
+    core.lcmap[rlid] = rid
+   end
+   core.proof[rid] = STEP(rid, glid, olid, σ, renameσ)
+@show :after_core_proof, body, renameσ
+   rcf2=CForm2(rid, body.vars, body.body)
+
+   gid = rid
+   return gid, core
+
+  catch e
+   println("FAIL = $e")
+@show :quit_if_fail_is_it_correct
+@show :fail_and_next
+   next
+  end # try
+ end # for olid
+
+end # function resolvelit
+
 
 """
 resolve a lit no cano and no proc
@@ -142,27 +200,16 @@ resolve a lit no cano and no proc
 function goresolve(pm, gidl)
 @show :goresolve, gidl
  glids = lidsof(gidl, core)
- nlits = literalsof(glids, core)
  if isempty(glids); return contraview(gidl, core) end
- picktlid = nothing
- for lid in glids 
-  lf2 = literalof(lid, core)
-  if !isProc(lf2) && !isCano(lf2,core)
-  # this may be resolved
-   picklid = lid
-   break
-  end
- end
-
+ nlits = literalsof(glids, core)
+ glid = chooseresolvelit(nlits, core)
 
  # time to resolve picklid
  # when picktlid cant be resolved
  # i do nothing... is it correct??
  
- if picktlid == nothing
-  # nothing progressed
-  # view should not show or same as previous...
-  # what i should do???
+ if glid == nothing
+  # no lid for resolve
   score = stringcore(core)
 pres = """
 <pre>$(score)</pre>
@@ -170,38 +217,41 @@ pres = """
 """
   form = htmlform("stepgoal", [], "Confirm", "Cancel") 
   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
- end
-
- lf2 = literalof(picktlid, core)
- σ=resolvelit(lf2, core)
-
- gvar=varsof(gidl, core)
- remids=setdiff(glids, [lf2.lid])
-
- # after work
- newgid=addnewclause(gvar, gidl, remids, core, σ)
- global gid = newgid
+ end # if glid
+# now new goal born
+ gc==resolvelit(glid, core)
+ global glid = gc[1]
+ global core = gc[2]
 
  # 
  form = htmlform("stepgoal", [], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
 end
 
+"""
+goalprover
+"""
 function goalprover(pm, pres)
 @show :goalprover
  try
-  rico = evaluategoal(gid, core)
-@show :after :evaluategoal
-  global core = rico[2]
-  global gid = rico[1]
+  while true
+   ogid = gid
+   rico = evaluategoal(gid, core)
+ @show :after, :evaluategoal
+   global core = rico[2]
+   global gid = rico[1]
+   if gid == ogid
+     break
+   else
+     ogid = gid
+   end #if gid == ogid
+  end # while true
+
 ## here gid, core has evaluated clause
-@show gid 
-@show stringcore(core)
+@show gid, stringcore(core)
   glids = lidsof(gid, core)
   nlids = literalsof(glids, core)
-@show :goalprover1
-@show gid glids 
-@show nlids
+@show :goalprover1, gid, glids, nlids
 
   if length(nlids) == 0
    return contraview(gid, core)
@@ -238,8 +288,7 @@ function goevaluate(pm,gid0)
  <pre>$(score)</pre>
  <pre>=======</pre>
 """
-@show :goevaluate1
-@show pm
+@show :goevaluate1, pm
 try
   global gid = Symbol(gid0)
 catch
