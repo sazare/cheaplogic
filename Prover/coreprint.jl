@@ -170,6 +170,7 @@ function printaproof1(rid, core, shift=0)
     end
     print("←")
     print_list(step.sigma)
+    print(" by $(step.rule)")
     println()
 #    printns(shift)
     printclause(rid, core)
