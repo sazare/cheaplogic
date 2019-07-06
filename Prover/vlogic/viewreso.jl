@@ -72,7 +72,7 @@ end
 
 function addstep(core, rid, l1, l2, σ, ρ, rule)
 @show :addstep, rid, l1, l2, σ, ρ
-  core.proof[rid] = STEP(rid, l1, l2, σ, ρ)
+  core.proof[rid] = STEP(rid, l1, l2, σ, ρ, rule)
   core
 end
 
@@ -105,7 +105,7 @@ function evaluategoal(gid, core)
   end # if isProc
  end # for glid
 
-@show :afterforglid, gid, rlids, core
+@show :afterforglid, gid, rlids
  if removedevalaute && !isempty(rlids)
   rgids = setdiff(gids, rlids)
 @show :removetrue,vars,gid,rgids
@@ -116,7 +116,7 @@ function evaluategoal(gid, core)
  else #if removedvalueate
   ncore = core
  end #if removedvalueate
-@show gid, ncore
+@show gid
  return gid,ncore
 end
 
@@ -170,7 +170,7 @@ should be called after evaluate
 doesnt choose a lit not Proc and not Cano
 """
 function choosecanoid(gid, core)
-@show choosecanoid gid
+@show :choosecanoid gid
  lids = lidsof(gid, core)
 @show lids
  ninvec = []
@@ -187,7 +187,7 @@ function choosecanoid(gid, core)
    end
  end
  v,ix = findmin(ninvec)
-@show v ix
+@show v, ix
  if v != Inf
   return lids[ix]
  else
@@ -317,7 +317,7 @@ function refute_goal(gid,core)
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
-#  core.proof[rid] = STEP(rid, glid, :view, σo, rename_subst)
+#  core.proof[rid] = STEP(rid, glid, :view, σo, rename_subst, :reso)
   rcf2=CForm2(rid, body.vars, body.body)
 #  return rcf2
   return rid, core

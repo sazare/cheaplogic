@@ -17,6 +17,7 @@
 [x,y,z,w].[-ge(x,y),-P(x,y),-R(z,w)]
 [x,y,z,w].[-ge(x,y),-ge(z,w),-P(x,y),-R(z,w)]
 [x,y,z,w].[-ge(x,y),-P(x,y),-R(z,w),-S(y,w)]
+[x,y].[-P(x,y),-S(x,y)]
 [].[+S(1,2)]
  [x,y].[+S(x,y),-ge(y,x)]]
 [x,y,z,w].[-ge(x,w),-P(x,y),-R(z,w),-S2(y,w)]

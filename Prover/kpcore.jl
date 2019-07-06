@@ -34,6 +34,7 @@ struct STEP
  rightp
  sigma
  rename
+ rule
 end
 
 mutable struct CORE

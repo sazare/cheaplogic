@@ -61,7 +61,7 @@ function factify_clause(glid,σg,core)
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
-#  core.proof[rid] = STEP(rid, glid, :view, σg||σo?, rename_subst)
+#  core.proof[rid] = STEP(rid, glid, :view, σg||σo?, rename_subst, :factify)
   rcf2=CForm2(rid, body.vars, body.body)
 #  return rcf2
   return rid, core

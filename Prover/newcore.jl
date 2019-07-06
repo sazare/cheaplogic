@@ -22,18 +22,25 @@ struct LForm2
  body
 end
 
+"""
+STEPC is 2to1 step
+"""
 struct STEPC
  rid
  leftp
  rightp
 end
 
+"""
+STEP is 2 to 1 step with σ, renameσ with rulename
+"""
 struct STEP
  rid
  leftp
  rightp
  sigma
  rename
+ rule
 end
 
 mutable struct CORE
