@@ -430,6 +430,7 @@ end
 function goreadcore(pm)
 @show :goreadcore
  corepath = pm[:corepath]
+ resetglobals()
  global core = readcore(corepath)
 
  evalon && evalproc(core.proc)
@@ -446,7 +447,6 @@ end
 
 function gostart()
 @show :gostart
- resetglobals()
  form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
  return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
 end
