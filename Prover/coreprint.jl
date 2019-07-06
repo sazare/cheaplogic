@@ -123,10 +123,15 @@ function printstep(step)
 
   print("$(step.rid):<$(step.leftp):$(step.rightp)>=")
   printvars(step.sigma)
-  print(":")
-  length(step.rename)>1 && printvars(step.rename[1])
-  print("<-")
-  length(step.rename)>2 && printvars(step.rename[2])
+  if length(step.rename) > 1
+   print(":")
+   length(step.rename)>1 && printvars(step.rename[1])
+  end
+  if length(step.rename)>2
+   print("<-")
+   length(step.rename)>2 && printvars(step.rename[2])
+  end
+  println(" by $(step.rule)")
 end
 
 function printproof(proof)

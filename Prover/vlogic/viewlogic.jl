@@ -109,7 +109,8 @@ end
 """
  priority function for resolve
 """
-function chooseresolid(lids, core)
+function chooseresolvelid(lids, core)
+@show :chooseresolvelid
  nlit = []
   
  for lid in lids
@@ -119,44 +120,55 @@ function chooseresolid(lids, core)
    return lid
   end # !isProc(lit2) && !isCano(lit2, core)
  end #for lid
+@show :chooseresolvelid_nothing
  return nothing
 end
 
 """
-resolvelit(glid, core)
+resolvelid(glid, core)
 """
-function resolvelit(glid, core)
+function resolvelid(glid, core)
+@show :resolvelid
 # get a literal
  glit = literalof(glid, core)
  varsg = cvarsof(glid, core)
  atomg = atomof(glid, core)
  remg  = setdiff(lidsof(cidof(glid, core), core), [glid])
-
+@show glit, varsg, atomg, remg
 # maching for all opposit
  sign, psym = psymof(glid, core)
+@show sign, psym
  
  oppos = oppositof(sign, psym, core)
- for olid in opos
+ for olid in oppos
+@show olid
 # try unify them
 # if sigma made, it should return
   ovars = cvarsof(olid, core)
   oatom = atomof(olid, core)
-
+@show ovars, oatom
   ovars=vcat(varsg, ovars) 
+@show ovars
 
   try
    core.trycnt[1] += 1
+@show :before_unify, ovars, atomg, oatom
    σ = unify(ovars, atomg, oatom)
-    
-   orem = lidsof(olid, core)
+@show σ,olid
+   orem = lidsof(cidof(olid,core), core)
+@show orem,remg, olid
    grem = setdiff(vcat(orem, remg), [olid])
+@show grem
 
 #rename resolvent 
+@show :rename_resolvent
    rid  = newrid(core)
    nrem = rename_lids(rid, grem, core)
    nbody = literalsof(grem, core)
    nbody1 = apply(ovars, nbody, σ) ### ovars are renamed??
-   # no evaluation
+@show rid, nrem, nbody,nbody1
+@show :no_evaluation 
+# no evaluation
 
    vars = fitting_vars(ovars, nbody1, core)
    body = rename_clause(rid, vars, nbody1)
@@ -167,7 +179,6 @@ function resolvelit(glid, core)
  ## settlement
 
    core.succnt[1] += 1
-
    core.cdb[rid] = VForm2(rid, body.vars)
    core.clmap[rid] = nrem
    for i in 1:length(nrem)
@@ -176,9 +187,10 @@ function resolvelit(glid, core)
    for rlid in nrem
     core.lcmap[rlid] = rid
    end
-   core.proof[rid] = STEP(rid, glid, olid, σ, renameσ)
-@show :after_core_proof, body, renameσ
-   rcf2=CForm2(rid, body.vars, body.body)
+   core.proof[rid] = STEP(rid, glid, olid, σ, renameσ[2], :reso)
+@show :after_core_proof, body
+#   rcf2=CForm2(rid, body.vars, body.body)
+#@show rcf2
 
    gid = rid
    return gid, core
@@ -187,11 +199,10 @@ function resolvelit(glid, core)
    println("FAIL = $e")
 @show :quit_if_fail_is_it_correct
 @show :fail_and_next
-   next
   end # try
  end # for olid
 
-end # function resolvelit
+end # function resolvelid
 
 
 """
@@ -202,7 +213,7 @@ function goresolve(pm, gidl)
  glids = lidsof(gidl, core)
  if isempty(glids); return contraview(gidl, core) end
  nlits = literalsof(glids, core)
- glid = chooseresolvelit(nlits, core)
+ glid = chooseresolvelid(glids, core)
 
  # time to resolve picklid
  # when picktlid cant be resolved
@@ -211,7 +222,7 @@ function goresolve(pm, gidl)
  if glid == nothing
   # no lid for resolve
   score = stringcore(core)
-pres = """
+  pres = """
 <pre>$(score)</pre>
 <pre>=======</pre>
 """
@@ -219,13 +230,25 @@ pres = """
   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
  end # if glid
 # now new goal born
- gc==resolvelit(glid, core)
- global glid = gc[1]
+ gc=resolvelid(glid, core)
+@show gc
+ global gid = gc[1]
  global core = gc[2]
 
+ score = stringcore(core)
+pres = """
+<pre>$(score)</pre>
+<pre>=======</pre>
+"""
+
  # 
- form = htmlform("stepgoal", [], "Confirm", "Cancel") 
- return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
+ if isempty(lidsof(gid,core))
+ # form = htmlform("start", [], "Confirm", "Cancel") 
+  return contraview(gid, core)
+ else # isempty
+  form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
+ end # isempty
 end
 
 """
@@ -242,44 +265,45 @@ function goalprover(pm, pres)
    global gid = rico[1]
    if gid == ogid
      break
-   else
+   else # if gid == ogid
      ogid = gid
    end #if gid == ogid
   end # while true
 
 ## here gid, core has evaluated clause
-@show gid, stringcore(core)
+@show gid
   glids = lidsof(gid, core)
   nlids = literalsof(glids, core)
 @show :goalprover1, gid, glids, nlids
 
   if length(nlids) == 0
    return contraview(gid, core)
-  else
+  else # if length
  # after eval, choose view or resolve in goaftereval?
  # choosecanoid() in askU select a view literal
    askpage =  askU(gid, core, "postview")
    if askpage != nothing
      return askpage
-   else
-     return failview(gid, core)
-   end
-  end
+   end # if askpage
+@show :askpage_nothing
+  end # if length
  catch e
   if isa(e, VALID)
 @show validview
    return validview(gid, core)
-  else
-@show :unknownview
+  else # if isa
+@show :unknownview,e
    return unknownview(gid, e, core)
-  end
- end
+  end # if isa
+ end #try
 
+# no askpage
+@show :noaskpage
 # form = htmlform("stepgoal", [], "Confirm", "Cancel") 
  form = htmlform("resolve", [], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
 
-end
+end # goalprover
 
 function goevaluate(pm,gid0)
 @show :goevaluate, gid0
@@ -289,10 +313,8 @@ function goevaluate(pm,gid0)
  <pre>=======</pre>
 """
 @show :goevaluate1, pm
-try
+if gid != :nogid
   global gid = Symbol(gid0)
-catch
-  @show :continue
 end
 
 @show pres

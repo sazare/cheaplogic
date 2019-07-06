@@ -211,7 +211,7 @@ function dvc_resolution(l1,l2,core)
   for rlid in nrem
     core.lcmap[rlid] = rid
   end
-  core.proof[rid] = STEP(rid, l1, l2, sigmai, rename_subst)
+  core.proof[rid] = STEP(rid, l1, l2, sigmai, rename_subst, :reso)
   rcf2=CForm2(rid, body.vars, body.body)
   return rcf2
 
