@@ -19,10 +19,11 @@
 [x,y,z,w].[-ge(x,y),-P(x,y),-R(z,w),-S(y,w)]
 [x,y].[-P(x,y),-S(x,y)]
 [].[+S(1,2)]
- [x,y].[+S(x,y),-ge(y,x)]]
+ [x,y].[+S(x,y),-ge(y,x)]
 [x,y,z,w].[-ge(x,w),-P(x,y),-R(z,w),-S2(y,w)]
 [].[+S2(1,2)]
- [x,y].[+S2(x,y),-ge(y,x)]]
+[x,y].[-P(x,y),-S2(x,y)]
+[x,y].[+S2(x,y),-ge(x,y)]
 [x].[-P(x, 3)]
 
 &[X,Y].[P(X,Y)]
