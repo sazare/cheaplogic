@@ -181,10 +181,10 @@ function resolvelid(glid, core)
    core.clmap[rid] = nrem
    for i in 1:length(nrem)
     core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
-   end
+   end #for i
    for rlid in nrem
     core.lcmap[rlid] = rid
-   end
+   end # for rlid
    core.proof[rid] = STEP(rid, glid, olid, σ, renameσ[2], :reso)
 @info :after_core_proof, body
 #   rcf2=CForm2(rid, body.vars, body.body)
@@ -198,7 +198,9 @@ function resolvelid(glid, core)
 
    if isa(e, VALID)
     return validview(gid, core)
-   else # isa
+   elseif isa(e, ICMP)
+    continue
+   else 
 @info :quit_if_fail_is_it_correct
 @info :fail_and_next
     throw(e)
