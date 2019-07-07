@@ -12,8 +12,6 @@ using Genie
 import Genie.Router: route
 import Genie.Router: @params
 
-#include("factify.jl")
-
 global core = nothing
 global glid
 global gcid
@@ -63,30 +61,30 @@ route("/go") do
  pm = @params()
  op = pm[:op]
 if core != nothing
-  @show gid
+  @info gid
 end
-@show op
+@info op
  if op == "start"
-@show :start
+@info :start
   return gostart()
  elseif op == "readcore"
-@show :readcore
+@info :readcore
   return goreadcore(pm)
  elseif op == "stepgoal"
-  @show :stepgoal
+  @info :stepgoal
   if gid == :nogid
-@show :nogid
+@info :nogid
    global gid = pm[:gid]
    return goevaluate(pm,gid)
   else
-@show gid
+@info gid
    return goevaluate(pm,gid)
   end
  elseif op == "postview"
-@show :postview
+@info :postview
   return postview(pm)
  elseif op == "resolve"
-@show :resolve
+@info :resolve
   return goresolve(pm,gid)
  end
 end
@@ -110,7 +108,7 @@ end
  priority function for resolve
 """
 function chooseresolvelid(lids, core)
-@show :chooseresolvelid
+@info :chooseresolvelid
  nlit = []
   
  for lid in lids
@@ -120,7 +118,7 @@ function chooseresolvelid(lids, core)
    return lid
   end # !isProc(lit2) && !isCano(lit2, core)
  end #for lid
-@show :chooseresolvelid_nothing
+@info :chooseresolvelid_nothing
  return nothing
 end
 
@@ -128,53 +126,53 @@ end
 resolvelid(glid, core)
 """
 function resolvelid(glid, core)
-@show :resolvelid
+@info :resolvelid
 # get a literal
  glit = literalof(glid, core)
  varsg = cvarsof(glid, core)
  atomg = atomof(glid, core)
  remg  = setdiff(lidsof(cidof(glid, core), core), [glid])
-@show glit, varsg, atomg, remg
+@info glit, varsg, atomg, remg
 # maching for all opposit
  sign, psym = psymof(glid, core)
-@show sign, psym
+@info sign, psym
  
  oppos = oppositof(sign, psym, core)
  for olid in oppos
-@show olid
+@info olid
 # try unify them
 # if sigma made, it should return
   ovars = cvarsof(olid, core)
   oatom = atomof(olid, core)
-@show ovars, oatom
+@info ovars, oatom
   ovars=vcat(varsg, ovars) 
-@show ovars
+@info ovars
 
   try
    core.trycnt[1] += 1
-@show :before_unify, ovars, atomg, oatom
+@info :before_unify, ovars, atomg, oatom
    σ = unify(ovars, atomg, oatom)
-@show σ,olid
+@info σ,olid
    orem = lidsof(cidof(olid,core), core)
-@show orem,remg, olid
+@info orem,remg, olid
    grem = setdiff(vcat(orem, remg), [olid])
-@show grem
+@info grem
 
 #rename resolvent 
-@show :rename_resolvent
+@info :rename_resolvent
    rid  = newrid(core)
    nrem = rename_lids(rid, grem, core)
    nbody = literalsof(grem, core)
    nbody1 = apply(ovars, nbody, σ) ### ovars are renamed??
-@show rid, nrem, nbody,nbody1
-@show :no_evaluation 
+@info rid, nrem, nbody,nbody1
+@info :no_evaluation 
 # no evaluation
 
    vars = fitting_vars(ovars, nbody1, core)
    body = rename_clause(rid, vars, nbody1)
 
    renameσ = [vars, body.vars]
-@show renameσ
+@info renameσ
 
  ## settlement
 
@@ -188,17 +186,23 @@ function resolvelid(glid, core)
     core.lcmap[rlid] = rid
    end
    core.proof[rid] = STEP(rid, glid, olid, σ, renameσ[2], :reso)
-@show :after_core_proof, body
+@info :after_core_proof, body
 #   rcf2=CForm2(rid, body.vars, body.body)
-#@show rcf2
+#@info rcf2
 
    gid = rid
    return gid, core
 
   catch e
-   println("FAIL = $e")
-@show :quit_if_fail_is_it_correct
-@show :fail_and_next
+   println("e = $e")
+
+   if isa(e, VALID)
+    return validview(gid, core)
+   else # isa
+@info :quit_if_fail_is_it_correct
+@info :fail_and_next
+    throw(e)
+   end #if isa
   end # try
  end # for olid
 
@@ -209,7 +213,7 @@ end # function resolvelid
 resolve a lit no cano and no proc
 """
 function goresolve(pm, gidl)
-@show :goresolve, gidl
+@info :goresolve, gidl
  glids = lidsof(gidl, core)
  if isempty(glids); return contraview(gidl, core) end
  nlits = literalsof(glids, core)
@@ -231,7 +235,7 @@ function goresolve(pm, gidl)
  end # if glid
 # now new goal born
  gc=resolvelid(glid, core)
-@show gc
+@info gc
  global gid = gc[1]
  global core = gc[2]
 
@@ -255,12 +259,12 @@ end
 goalprover
 """
 function goalprover(pm, pres)
-@show :goalprover
+@info :goalprover
  try
   while true
    ogid = gid
    rico = evaluategoal(gid, core)
- @show :after, :evaluategoal
+ @info :after, :evaluategoal
    global core = rico[2]
    global gid = rico[1]
    if gid == ogid
@@ -271,10 +275,10 @@ function goalprover(pm, pres)
   end # while true
 
 ## here gid, core has evaluated clause
-@show gid
+@info gid
   glids = lidsof(gid, core)
   nlids = literalsof(glids, core)
-@show :goalprover1, gid, glids, nlids
+@info :goalprover1, gid, glids, nlids
 
   if length(nlids) == 0
    return contraview(gid, core)
@@ -285,20 +289,20 @@ function goalprover(pm, pres)
    if askpage != nothing
      return askpage
    end # if askpage
-@show :askpage_nothing
+@info :askpage_nothing
   end # if length
  catch e
   if isa(e, VALID)
-@show validview
+@info validview
    return validview(gid, core)
   else # if isa
-@show :unknownview,e
+@info :unknownview,e
    return unknownview(gid, e, core)
   end # if isa
  end #try
 
 # no askpage
-@show :noaskpage
+@info :noaskpage
 # form = htmlform("stepgoal", [], "Confirm", "Cancel") 
  form = htmlform("resolve", [], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
@@ -306,20 +310,20 @@ function goalprover(pm, pres)
 end # goalprover
 
 function goevaluate(pm,gid0)
-@show :goevaluate, gid0
+@info :goevaluate, gid0
   score = stringcore(core)
  pres = """
  <pre>$(score)</pre>
  <pre>=======</pre>
 """
-@show :goevaluate1, pm
+@info :goevaluate1, pm
 if gid != :nogid
   global gid = Symbol(gid0)
 end
 
-@show pres
+@info pres
   page = goalprover(pm, pres)
-@show page
+@info page
   return page
 end
 
@@ -339,24 +343,25 @@ end
 
 function unknownview(cid, except, core)
   form = htmlform("start", [], "Confirm", "Cancel")
-  cls = stringclause(cid, core)
   return htmlhtml(htmlheader("Exception occurs"), 
-                  htmlbody("$cls makes  $(except)", "",form))
+                  htmlbody("$cid makes  $(except)", "",form))
 end
 
 function failview(cid, core)
+@info cid
   form = htmlform("start", [], "Confirm", "Cancel")
   cls = stringclause(cid, core)
+@info cls
   return htmlhtml(htmlheader("Fail attempt"), 
                   htmlbody("$cls cant progress more", "",form))
 end
 
 function goaftereval(pm)
-@show :goaftereval :nodef
+@info :goaftereval :nodef
 end
 
 function postview(pm)
-@show :postview
+@info :postview
 #temporalily view only
  global varg = lvarsof(glid, core)
  global gatm = literalof(glid, core).body.args[2]
@@ -364,11 +369,11 @@ function postview(pm)
  global varc = canovarsof(glid,core)
  global catm = canoof(glid,core)[2]
 
-@show :restvarg
+@info :restvarg
 
  σo=[]
-@show pm
-@show varg
+@info pm
+@info varg
  for v in varc
   try
     vr = pm[v]
@@ -383,15 +388,15 @@ function postview(pm)
     push!(σo, Symbol(v))
   end
  end
-@show σo
+@info σo
 
-@show :beforeapply varc catm σo
+@info :beforeapply varc catm σo
  catm2= apply(varc, catm, σo)
-@show :beforeunify varg gatm catm2
+@info :beforeunify varg gatm catm2
  σg = unify(varg, gatm, catm2)
 
-@show :before_factify_clause
-@show glid σo σg 
+@info :before_factify_clause
+@info glid σo σg 
  try
   nid, ncore = factify_clause(glid,σg,core)
 
@@ -412,12 +417,13 @@ function postview(pm)
    global firstview=true
    form = htmlform("start", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("proof completed"), 
-           htmlbody("completed", pres, form))
+           htmlbody("refuted", pres, form))
   else
    form = htmlform("stepgoal", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
   end
  catch e
+@info e
   if isa(e, VALID)
    return validview(gid, core)
   else
@@ -428,7 +434,7 @@ end
 
 
 function goreadcore(pm)
-@show :goreadcore
+@info :goreadcore
  corepath = pm[:corepath]
  resetglobals()
  global core = readcore(corepath)
@@ -446,7 +452,7 @@ function goreadcore(pm)
 end
 
 function gostart()
-@show :gostart
+@info :gostart
  form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
  return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
 end

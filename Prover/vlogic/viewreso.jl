@@ -8,7 +8,7 @@ sorted the num means top lid is near the [] if exits.
 this is not a perfect solution.
 """
 function numopplids(sign, psym, core)
-@show :numopplids,sign,psym
+@info :numopplids,sign,psym
   oids=oppositof(sign,psym,core)
   cids=map(y->cidof(y,core), oids)
   lids=map(y->lidsof(y, core), cids)
@@ -71,7 +71,7 @@ end
 
 
 function addstep(core, rid, l1, l2, σ, ρ, rule)
-@show :addstep, rid, l1, l2, σ, ρ
+@info :addstep, rid, l1, l2, σ, ρ
   core.proof[rid] = STEP(rid, l1, l2, σ, ρ, rule)
   core
 end
@@ -87,7 +87,7 @@ evaluategoal eval all literals of goal(gid)
  so, can't use in parallel prover in multithreads
 """
 function evaluategoal(gid, core)
-@show :evaluategoal
+@info :evaluategoal
  gids = lidsof(gid, core)
  vars = varsof(gid, core)
  rlids= []
@@ -105,18 +105,18 @@ function evaluategoal(gid, core)
   end # if isProc
  end # for glid
 
-@show :afterforglid, gid, rlids
+@info :afterforglid, gid, rlids
  if removedevalaute && !isempty(rlids)
   rgids = setdiff(gids, rlids)
-@show :removetrue,vars,gid,rgids
+@info :removetrue,vars,gid,rgids
   rid = addnewclause(vars, gid, rgids, core)
-@show rid
+@info rid
   ncore = addstep(core, rid, rlids[1], rlids[1], [], [], :eval)
   gid = rid
  else #if removedvalueate
   ncore = core
  end #if removedvalueate
-@show gid
+@info gid
  return gid,ncore
 end
 
@@ -170,24 +170,24 @@ should be called after evaluate
 doesnt choose a lit not Proc and not Cano
 """
 function choosecanoid(gid, core)
-@show :choosecanoid gid
+@info :choosecanoid gid
  lids = lidsof(gid, core)
-@show lids
+@info lids
  ninvec = []
  for lid in lids
-@show lid
+@info lid
    if isCano(literalof(lid,core),core)
-@show :iscano
+@info :iscano
     nin = incount(lid, core)
     nin == 0 && return(lid)
     push!(ninvec, nin)
    else
-@show :nocano
+@info :nocano
     push!(ninvec, Inf)
    end
  end
  v,ix = findmin(ninvec)
-@show v, ix
+@info v, ix
  if v != Inf
   return lids[ix]
  else
@@ -203,18 +203,18 @@ end
  add it to core
 ==#
 function askU(gid, core, op)
-@show :askU
+@info :askU
  global glid=choosecanoid(gid,core)
  if glid == nothing ; return nothing end
-@show glid
+@info glid
  global gvar=varsof(gid,core)
  gatm=literalof(glid,core).body.args[2]
-@show gvar,gatm
+@info gvar,gatm
  varc=canovarsof(glid,core)
  vatm=canoof(glid,core)[2]
-@show varc, vatm
+@info varc, vatm
  σi = unify(varc, vatm, gatm)
-@show σi
+@info σi
 
 # example
 # vatm=[X,Y].P(X,Y), gatm=[y].P(a,y)
@@ -255,6 +255,7 @@ function go_resolution(glid, core)
 end
 
 function refute_goal(gid,core)
+@info :refute_goal
  gclause = clause2of(gid,core)
 
  ovars = vars = goal.vars
@@ -287,7 +288,7 @@ function refute_goal(gid,core)
      rb = evaluate_literals(nrem, nbody1)
      if rb[1] == true
        println("Valid")
-       return :FAIL
+       throw(VALID(gid, :refute_goal))
      end
      nrem, nbody1 = rb
    end
@@ -323,8 +324,82 @@ function refute_goal(gid,core)
   return rid, core
 
   catch e
-    println("FAIL = $e")
-    return :FAIL
+    println("refute_goal = $e")
+    throw(e)
+  end
+end
+
+
+function factify_clause(glid,σg,core)
+@info :factify_clause glid σg
+@info cidof(glid, core)
+ ovars = vars = varsof(cidof(glid, core), core)
+@info ovars
+ glit  = literalof(glid, core).body
+
+@info glit
+ try
+   core.trycnt[1] += 1
+   rem1 = lidsof(cidof(glid, core),core)
+@info rem1
+   rem = rem1 = setdiff(rem1, [glid])
+@info rem
+# rename rlid rem
+
+   rid =  newrid(core)
+   nrem = rename_lids(rid, rem, core)
+@info nrem
+   nbody = literalsof(rem, core)
+@info nbody
+   σs = apply(varg, ovars, σg)
+   nbody1 = apply(ovars, nbody, σs)
+@info nbody1
+   if evalon
+@info :evalon
+     rb = evaluate_literals(nrem, nbody1)
+     if rb[1] == true
+       println("Valid")
+       throw(VALID(gid, :factify))
+     end
+     nrem, nbody1 = rb
+@info nrem nbody1
+   end
+@info ovars nbody1
+   vars = fitting_vars(ovars, nbody1, core)
+@info vars
+   body = rename_clause(rid, vars, nbody1)
+@info body
+
+ rename_subst = [vars, body.vars]
+
+## settlement
+
+ core.succnt[1] += 1
+
+# cdb[rid] to vars
+  core.cdb[rid] = VForm2(rid, body.vars)
+
+# clmap[rid] to rlid* = nrem
+  core.clmap[rid] = nrem
+
+# ldb[rlid] to full
+
+  for i in 1:length(nrem)
+    core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
+  end
+
+# lcmap[rlid] to rid
+  for rlid in nrem
+    core.lcmap[rlid] = rid
+  end
+#  core.proof[rid] = STEP(rid, glid, :view, σg||σo?, rename_subst, :factify)
+  rcf2=CForm2(rid, body.vars, body.body)
+#  return rcf2
+  return rid, core
+
+  catch e
+    println("factify_clause = $e")
+    throw(e)
   end
 end
 

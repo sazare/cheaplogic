@@ -1,43 +1,43 @@
 
 function factify_clause(glid,σg,core)
-@show :factify_clause glid σg
-@show cidof(glid, core)
+@info :factify_clause glid σg
+@info cidof(glid, core)
  ovars = vars = varsof(cidof(glid, core), core)
-@show ovars
+@info ovars
  glit  = literalof(glid, core).body
 
-@show glit
+@info glit
  try
    core.trycnt[1] += 1
    rem1 = lidsof(cidof(glid, core),core)
-@show rem1
+@info rem1
    rem = rem1 = setdiff(rem1, [glid])
-@show rem
+@info rem
 # rename rlid rem
 
    rid =  newrid(core)
    nrem = rename_lids(rid, rem, core)
-@show nrem
+@info nrem
    nbody = literalsof(rem, core)
-@show nbody
+@info nbody
    σs = apply(varg, ovars, σg)
    nbody1 = apply(ovars, nbody, σs)
-@show nbody1
+@info nbody1
    if evalon
-@show :evalon
+@info :evalon
      rb = evaluate_literals(nrem, nbody1)
      if rb[1] == true
        println("Valid")
        return :FAIL
      end
      nrem, nbody1 = rb
-@show nrem nbody1
+@info nrem nbody1
    end
-@show ovars nbody1
+@info ovars nbody1
    vars = fitting_vars(ovars, nbody1, core)
-@show vars
+@info vars
    body = rename_clause(rid, vars, nbody1)
-@show body
+@info body
 
  rename_subst = [vars, body.vars]
 
