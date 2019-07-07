@@ -83,7 +83,7 @@ end
 
 
 function makeinputs2(cavars, vars, gargs)
-@show :makeinputs2
+@info :makeinputs2
  bb = ""
  for ix in 1:length(cavars)
    v  = cavars[ix]
@@ -100,7 +100,7 @@ function makeinputs2(cavars, vars, gargs)
 end
 
 function makeView2(op, glid, ovarc, varg, argg)
-@show :makeView2
+@info :makeView2
  inputs = makeinputs2(ovarc, varg, argg)
 """
 <h2>GLID: $glid</h2>

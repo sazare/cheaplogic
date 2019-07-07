@@ -76,7 +76,7 @@ end
 ## for renamed vars explosion
 #fitting vars in literal
 function fitting_vars_term(vars, term)
-@show :fitting_vars_term vars term
+@info :fitting_vars_term vars term
   if issym(term) 
     if isvar(term, vars)
       return [term]
@@ -101,7 +101,7 @@ function fitting_vars_lit(vars, lit)
 end
 
 function fitting_vars(vars, lits, core)
-@show :fitting_vars vars, lits
+@info :fitting_vars vars, lits
  evars = []
  for lit in lits
    append!(evars, fitting_vars_lit(vars, lit))
@@ -129,7 +129,7 @@ function leval(lit)
 end
 
 function evaluate_literals(lids, lits)
-#@show :evaluate_literals,lits
+#@info :evaluate_literals,lits
  rlits=[]
  rlids=[]
  for lix in 1:length(lids) 

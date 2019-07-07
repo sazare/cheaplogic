@@ -23,19 +23,19 @@ function unify0(vars::Vlist, t1::Expr, t2::Number)
 end
 
 function unify0(vars::Vlist, t1::Number, t2::Symbol)
-##@show :unify0ns,vars,t1,t2
+##@info :unify0ns,vars,t1,t2
  if isvar(t2,vars); return (t2,t1) end
  throw(ICMP(t1,t2,:unify0ns))
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Number)
-#@show :unify0sn,vars,t1,t2
+#@info :unify0sn,vars,t1,t2
  if isvar(t1,vars); return (t1,t2) end
  throw(ICMP(t1,t2,:unify0sn))
 end
 
 function unify0(vars::Vlist, t1::Symbol, t2::Symbol)
-#@show :unify0ss,t1,t2
+#@info :unify0ss,t1,t2
  if t1==t2; return () end
  if isvar(t1,vars) && isvar(t2,vars)
    if isinvar(t1); return (t2,t1) end
@@ -48,19 +48,19 @@ end
 
 
 function unify0(vars::Vlist, t1::Symbol, t2::Expr)
-#@show :unify0se,t1,t2
+#@info :unify0se,t1,t2
  isvar(t1,vars) && !loopcheck(t1,t2) && return (t1,t2) 
  if t1!=t2; throw(ICMP(t1,t2,:unify0se)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Symbol)
-#@show :unify0es,t1,t2
+#@info :unify0es,t1,t2
  isvar(t2,vars)&&!loopcheck(t2,t1)&&return(t2,t1)
  if t1!=t2; throw(ICMP(t1,t2,:unify0es)) end
 end
 
 function unify0(vars::Vlist, t1::Expr, t2::Expr)
-#@show :unify0ee,t1,t2
+#@info :unify0ee,t1,t2
  if t1==t2; return () end
  for i in 1:length(t1.args)
   if t1.args[i]==t2.args[i]; continue end
@@ -74,17 +74,17 @@ end
 # t1,t2 are literal(without sign, without or/and.
 
 function unify1(vars::Vlist, t1::Number, t2::Number, subst::Tlist)
-#@show :unify1vnn,t1,t2,subst
+#@info :unify1vnn,t1,t2,subst
  if t1==t2; return subst end
  throw(ICMP(t1,t2,:unify1nn))
 end
 
 function unify1(vars::Vlist, t1::Expr, t2::Number, subst::Tlist)
-#@show :unify1ven,t1,t2,subst
+#@info :unify1ven,t1,t2,subst
  throw(ICMP(t1,t2,:unify1en))
 end
 function unify1(vars::Vlist, t1::Number, t2::Expr, subst::Tlist)
-#@show :unify1vne,t1,t2,subst
+#@info :unify1vne,t1,t2,subst
  throw(ICMP(t1,t2,:unify1ne))
 end
 
@@ -123,32 +123,32 @@ function putsubst(vars, v::Symbol, t::Any, subst::Tlist)
    if ix == 0; println("unknown var $v in putsubst")
      throw(ICMP(ot,t,:unify1ss3))
    end
-#@show ix
+#@info ix
    rsubst=putsubst(vars, ot, t, subst) # backward subst
    subst=rsubst
-#@show subst,rsubst
+#@info subst,rsubst
    ot = subst[ix]
   end
   fsubst = fp_subst(vars, rsubst) # forward subst
   return fsubst
  end
-#@show "$ot is not ovar"
+#@info "$ot is not ovar"
  if t == ot; return fp_subst(vars, subst) end
  throw(ICMP(v,t,:unify1ne))
 end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Number, subst::Tlist)
-#@show :unify1vsn,t1,t2,subst
+#@info :unify1vsn,t1,t2,subst
  putsubst(vars, t1, t2, subst)
 end
 
 function unify1(vars::Vlist, t1::Number, t2::Symbol, subst::Tlist)
-#@show :unify1vns,t1,t2,subst
+#@info :unify1vns,t1,t2,subst
  putsubst(vars, t2, t1, subst)
 end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
-#@show :unify1vss,t1,t2,subst
+#@info :unify1vss,t1,t2,subst
  if t1==t2;return subst end
 
  if isvar(t1,vars)
@@ -164,7 +164,7 @@ function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
 #  if t1 == subst[ix] # t1 is var and havn't substituted yet. 
 #    subst[ix] = t2
 #  elseif isvar(subst[ix],vars)
-#@show :unify1vss1, vars, t1, t2, subst[ix], vars
+#@info :unify1vss1, vars, t1, t2, subst[ix], vars
 ##    if t2!=subst[ix]; throw(ICMPIn(t1,t2,subst,:unify1ss1))end 
 #    subst[ix] = t2
 #  end
@@ -174,7 +174,7 @@ function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
 # if isvar(t2,vars)
 #  ix = findfirst(x->x==t2,vars)
 #  if isvar(subst[ix], vars)
-#@show :unify1vss2, vars, t1, t2, subst[ix], vars
+#@info :unify1vss2, vars, t1, t2, subst[ix], vars
 #    subst[ix] = t1
 #  end
 #  return subst
@@ -183,14 +183,14 @@ function unify1(vars::Vlist, t1::Symbol, t2::Symbol, subst::Tlist)
 end
 
 function unify1(vars::Vlist, t1::Symbol, t2::Expr, subst::Tlist)
-#@show :unify1vse,t1,t2,subst
+#@info :unify1vse,t1,t2,subst
  if isvar(t1,vars);return putsubst(vars, t1, t2, subst) end
 # if isvar(t1,vars);return t2 end
  throw(ICMP(t1,t2,:unify1se))
 end
 
 function unify1(vars::Vlist, t1::Expr, t2::Symbol, subst::Tlist)
-#@show :unify1ves,t1,t2,subst
+#@info :unify1ves,t1,t2,subst
  if isvar(t2,vars);return putsubst(vars, t2, t1, subst) end
 # if isvar(t2,vars);return t2 end
  throw(ICMP(t1,t2,:unify1))
@@ -200,7 +200,7 @@ end
 unify1 has a var subst for internal use
 """
 function unify1(vars::Vlist, t1::Expr, t2::Expr, subst::Tlist)
-#@show :unifyvee,t1,t2,subst
+#@info :unifyvee,t1,t2,subst
  if t1==t2; 
   return subst
  end
@@ -211,7 +211,7 @@ function unify1(vars::Vlist, t1::Expr, t2::Expr, subst::Tlist)
 
  if length(t1.args) != length(t2.args); return vars end
  while true  
-#@show :unify0,vars,t1,t2
+#@info :unify0,vars,t1,t2
   pp = unify0(vars, t1, t2)
   if isempty(pp); break end
   subst = putasubst(vars, pp[1], pp[2], subst)
@@ -235,7 +235,7 @@ function loopcheck_sigma(vars::Vlist, subst::Tlist)
 end
 
 function fp_subst(vars::Vlist, subst::Tlist)
-#@show vars, subst
+#@info vars, subst
 ## make a fixed point of sigma(ss)
  sb = subst
  sa = apply(vars, subst, subst)
@@ -254,69 +254,69 @@ function fp_subst2(vars::Vlist, subst::Tlist)
 end
 
 function unify(vars::Vlist, t1::Number, t2::Number)
-#@show :unifynn,t1,t2
+#@info :unifynn,t1,t2
   if t1 != t2; throw(ICMP(t1,t2,:unify1nn))end
   vars
 end
 
 function unify(vars::Vlist, t1::Number, t2::Symbol)
-#@show :unifyns,t1,t2
+#@info :unifyns,t1,t2
   if t1 == t2; return vars end
   unify1(vars, t1, t2, vars)
 end
 
 function unify(vars::Vlist, t1::Symbol, t2::Number)
-#@show :unifysn,t1,t2
+#@info :unifysn,t1,t2
   if t1 == t2; return vars end
   unify1(vars, t1, t2, vars)
 end
 
 function unify(vars::Vlist, t1::Symbol, t2::Symbol)
-#@show :unifyss,t1,t2
+#@info :unifyss,t1,t2
   if t1 == t2; return vars end
   unify1(vars, t1, t2, deepcopy(vars))
 end
 
 function unify(vars::Vlist, t1::Number, t2::Expr)
-#@show :unifyne,t1,t2
+#@info :unifyne,t1,t2
   unify1(vars, t1, t2, vars)
 end
 
 function unify(vars::Vlist, t1::Symbol, t2::Expr)
-#@show :unifyse,t1,t2
+#@info :unifyse,t1,t2
   unify1(vars, t1, t2, vars)
 end
 
 function unify(vars::Vlist, t1::Expr, t2::Number)
-#@show :unifyen,t1,t2
+#@info :unifyen,t1,t2
   unify1(vars, t1, t2, vars)
 end
 
 function unify(vars::Vlist, t1::Expr, t2::Symbol)
-#@show :unifyes,t1,t2
+#@info :unifyes,t1,t2
   unify1(vars, t1, t2, vars)
 end
 
 function unify(vars::Vlist, t1::Expr, t2::Expr)
-#@show :unifyee,t1,t2
+#@info :unifyee,t1,t2
  ss = unify1(vars, t1, t2, vars)
-#@show vars, ss
+#@info vars, ss
  fs = fp_subst(vars, ss)
  return fs 
 end
 
 function unify(vars::Vlist, t1::Array, t2::Array)
-#@show :unifyaa,t1,t2
+#@info :unifyaa,t1,t2
  if length(t1) != length(t2); return throw(ICMP(t1,t2,:unify1aa)) end
  fs = []
  fs = vars
  for ix in 1:length(t1)
   e1,e2 = t1[ix],t2[ix]
-#@show e1,e2
+#@info e1,e2
   ss = unify1(vars, e1, e2, fs)
-#@show vars,ss
+#@info vars,ss
   fs = fp_subst(vars, ss)
-#@show fs
+#@info fs
  end
  return fs 
 end
