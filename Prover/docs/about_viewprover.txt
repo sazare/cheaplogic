@@ -1,0 +1,59 @@
+[[view prover]]
+this is a prover with the resolution and some human interactions through web views.
+
+the proving style is a goal reduction to contradiction(empty goal).
+
+this has 3 ways to reduct a goal.
+
+ 1) remove a literal evaluated to false
+ 2) remove a literal that ask a correspoinding query to a humanb and get an anser.
+ 3) remove a literal resolved with a clause in cnf.
+
+- a query view correspoinding a litral
+ for a literal as P(x, 2), i can make a view like [x:"", y:"2"]. 
+ a view has some headers, footers and some other components. 
+ [key:value,...] is an expression to focus a key/value part of the view.
+ 
+- a literal evaluated
+ a literal expression :(-(eq 2 3)) can be evaluated in Julia context.
+ (-(eq x y)) is a literal and may be resolved upon an other literal 
+ but evaluate eq(2,3) is the quickest way to resolve :(-(eq 2,3)).
+
+
+[How to use it]
+
+
+1. add a package Genie
+2. load view prover
+   include("load_viewprover.jl")
+3. run Chrome with 
+   http://localhost:8000/go?op=start
+
+* sample cnf for testing(belows are state of 2019/0713)
+ vdata/vev002.cnf 's following clause(id) can be a goal respectively.
+ -> show the operation and result.
+
+ cid 
+ C1 -> 3 evals => Valid
+ C2 -> 3 evals => Contradiction
+ C3 -> a View with any inputs => []
+ C4 -> 2 Views with any inputs => []
+ C5 -> a View with any inputs follow 3 evals => []
+ C6 -> 3 evals follow a View => []
+ C7 -> 2 ground evals and View follow 1 eval that is a constraint x>=y => []
+ C8 -> like C7 but different literals ordering => []
+ C9 -> simpler than C8. constraint x>=y => []
+ C10-> constraints on 2 views separetely x>=y and z>=w
+ C11+C13-> constraint over 1 view and independent view and resolve -S => []
+ C12+C13-> view follow a literal S with resolved => []
+ C14+(C15|C16)-> 2 views and a constraint follow a literal S2 with resolved =>
+   with 15: constraint y=1,w=2 and x>=2 =>[] others to Valid
+   with 16: constraint x>=y =>[]
+ C17+(C15|C16)-> a view and resolve => 
+   with C15 inputs should be x=1,y=2)
+   with C16 constraint x >= y
+ C18+(C15|C16)-> an eval and resolve 
+   with C15 => Valid
+   with C16 => []
+ C19 -> view with a default input value => []
+
