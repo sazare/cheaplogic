@@ -22,8 +22,10 @@ this has 3 ways to reduct a goal.
 
 [How to use it]
 
-
 1. add a package Genie
+    Genie => https://github.com/GenieFramework/Genie.jl
+    ] add https://github.com/genieframework/Genie.jl
+
 2. load view prover
    include("load_viewprover.jl")
 3. run Chrome with 

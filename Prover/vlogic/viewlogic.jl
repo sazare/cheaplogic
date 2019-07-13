@@ -376,6 +376,19 @@ function postview(pm)
  σo=[]
 @info pm
 @info varg
+@info :abort
+ if pm[:how] == "abort"
+  score = stringcore(core)
+  sres = stringclause(gid, core)
+  pres = """
+  <pre>$(score)</pre>
+  <pre>GOAL
+  $(sres)
+  =======</pre>
+ """
+   form = htmlform("stepgoal", [], "Confirm", "Cancel")
+   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
+ end
  for v in varc
   try
     vr = pm[v]

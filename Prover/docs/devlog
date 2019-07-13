@@ -3,6 +3,62 @@ QEDは☕️でしめす。
 バグは🕷でしめす。
 重要なことは🎂でしめす。
 
+20190713土
+
+1. about_viewprover.txt <- howto_viewlogic.txt
+  viewproverの概要説明とvev002.cnfのclauseの概要
+
+2. viewで失敗して次のviewにいくかresolveに進むかするような制御を考えようとしたが
+　自分の意図が不明確だった
+  ViewはFactを作るわけではないので、askU()をすると必ずliteralが消えてしまう。
+　C10でP-viewにx,y=10,100などといれると、結果goalはvalidになる。
+
+  ということはViewで中断した場合、literalを消す操作自体をやめなくてはならない。
+
+  askU()が作るhtml(in goalprover():viewlogic.jl)で cancelをしたとき
+  たどりつくtargetで、goalprover()のchoosecanoid()を再度実行して
+　次のcanoidをみつけられるとよい。
+　choosecanoid()をclosureにするか、どこまで確認したかのindexを持つか。
+　indexは、resolveに進んだときはresetする。
+
+　ややこしすぎ
+　たんにおわればよい
+
+  askUで次のtargetはpostviewになっているが、そこでcancelしたときの
+　処理をすればい。
+
+　cancelは、今は入力をなしにすることになっている。
+　abortみたいなのが必要かも。
+🎂🎂🎂 inputタグのtypeにabortはないか? value??
+
+　makeView2()にabortボタンを追加した。
+
+<input type=\"submit\" name=\"how\" value=\"confirm\"></br>
+<input type=\"submit\" name=\"how\" value=\"abort\"></br>
+
+ name属性は、サーバにname=>valueを送信する。
+
+ postview(pm)で、このpm[:how] == "abort"のとき
+　goalを変更せずに次のステップに進むようにした。
+ htmlは前のをコピーしただけ。
+
+🕷 C12でViewをabortしたら同じ画面にもどった。
+　resolveにすすむ予定。
+　全体制御を誤解しているかも
+🕷 入力に空があったらabortとみなすようにする
+
+
+
+  
+
+
+*** Genieがabandanされた場合にどうするか。
+ a) Genieのrepositoryをとっておく
+ b) route("/go") とGenie.AppServer.startup()だけ作り直す。
+    他のhttpサーバを使って、作れるか???
+ c) Genieのかわりのものを作る(bは一部だけ)
+
+
 20190707日
 🎂@showを@infoに変更
 🎂ValidのときExceptionににならないようにした

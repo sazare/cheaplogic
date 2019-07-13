@@ -107,8 +107,9 @@ function makeView2(op, glid, ovarc, varg, argg)
 <form action=\"/go\" method=\"get\">
 <input type=\"hidden" name=\"op\" value=\"$op\"></br>
 $(inputs)
-<input type=\"submit\" value=\"confirm\"></br>
-<input type=\"reset\" value=\"cancel\">
+<input type=\"submit\" name=\"how\" value=\"confirm\"></br>
+<input type=\"submit\" name=\"how\" value=\"abort\"></br>
+<input type=\"reset\"  value=\"cancel\">
 </form>
 """
 end
