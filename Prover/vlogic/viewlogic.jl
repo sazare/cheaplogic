@@ -358,9 +358,11 @@ function failview(cid, core)
                   htmlbody("$cls cant progress more", "",form))
 end
 
+#==
 function goaftereval(pm)
 @info :goaftereval :nodef
 end
+==#
 
 function postview(pm)
 @info :postview
