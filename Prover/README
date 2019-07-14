@@ -7,11 +7,16 @@ README
     a prover with an old fashion unification
 3. kplogic
     a prover feat. with keyword predicates
+4. viewprover
+    This prover uses views(Web page) for human interactions.
+    The view is corresponding to an unit clause which 
+    will be resolved upon a goal literal.
 
 # usage
-1) include("load_cheaplogic.jl") or 
-   include("load_naivelogic.jl") or
+1) include("load_cheaplogic.jl") 
+   include("load_naivelogic.jl")
    include("load_kplogic.jl")
+   include("load_viewprover.jl") see # viewprover section
 
 2) running example script is
    include("data/rundata.jl") for cheap and naive
@@ -119,4 +124,18 @@ play_kp.jl : demo for print as Japanese from KP formula
 experimantal codes
 1. investigae Helbrand Model for clauses Sets and it's meaning...
 
+
+# viewprover 
+ viewprover is a web server. 
+
+ 1 after include("load_viewprover.jl") in Prover directry.
+ 2 open http://localhost:8000/go?op=start, It requires the cnf file path.
+
+## files
+ vlogic/viewreso.jl
+ vlogic/viewlogic.jl
+ vlogic/vhtmls.jl
+
+## data
+ vdata/vev002.cnf
 
