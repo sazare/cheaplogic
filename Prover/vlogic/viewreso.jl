@@ -7,13 +7,15 @@ value[4] is the |lits| of the opposits.\n
 sorted the num means top lid is near the [] if exits.
 this is not a perfect solution.
 """
-function numopplids(sign, psym, core)
+#==
+#function numopplids(sign, psym, core)
 @info :numopplids,sign,psym
   oids=oppositof(sign,psym,core)
   cids=map(y->cidof(y,core), oids)
   lids=map(y->lidsof(y, core), cids)
   sort(map((x,y,z)->[x,y,z,length(z)], oids, cids, lids), by=x->x[4])
 end
+==#
 
 
 """
@@ -143,6 +145,11 @@ function canolitof(sign, lid, core)
  Expr(:call, sign, canoof(lid, core)[2])
 end
 
+"""
+inclunt() counts input vars(as :vvv!)
+
+the vars is identical the args of canonical literal
+"""
 function incount(glid, core)
  try
   glit  = literalof(glid, core).body
@@ -250,11 +257,14 @@ function listenU(params)
  return newgid
 end
 
-function go_resolution(glid, core)
+#==
+#function go_resolution(glid, core)
  nlid = applytemp(glid, core) ## ???なに??
 end
+==#
 
-function refute_goal(gid,core)
+#==
+#function refute_goal(gid,core)
 @info :refute_goal
  gclause = clause2of(gid,core)
 
@@ -328,7 +338,7 @@ function refute_goal(gid,core)
     throw(e)
   end
 end
-
+==#
 
 function factify_clause(glid,σg,core)
 @info :factify_clause glid σg
