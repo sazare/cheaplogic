@@ -93,7 +93,7 @@ end
 """
  divergence of level i 
 """
-function divergence(lid, i, core)
+#function divergence(lid, i, core)
  if i == 0; return [lid] end
  divlids = []
  for lid2 in lidsof(cidof(lid, core),core)
@@ -359,7 +359,7 @@ function failview(cid, core)
 end
 
 #==
-function goaftereval(pm)
+#function goaftereval(pm)
 @info :goaftereval :nodef
 end
 ==#

@@ -1,7 +1,8 @@
 ちなみに load_viewprover.jlで動かすと、readcoreしたものは変数coreにはいる。
 QEDは☕️でしめす。
-バグは🕷でしめす。
-重要なことは🎂でしめす。
+バグは🕷でしめす。「ばぐ」
+重要なことは🎂でしめす。「こう」
+何かの影響を🕸でしめす。「す」
 
 
 20190714日
@@ -9,6 +10,7 @@ QEDは☕️でしめす。
 2. 不要なコードをコメントアウト
 🕷 昨日の修正でViewのabortすると、次に他の処理に移らない。
    あるliteralのViewでabortしたら、次はviewでもresoでも別のliteralにしてほしい
+　 おなじliteralのresoに進む道もあるかも　要考
 🕷 項目に値を入れずにconfirmした場合どうなるべきか
 　　1) 今は、その値は無視してliteralが消える。それでいいような気もするが
 　　2) 値がないのに消えていいのか?
@@ -16,6 +18,11 @@ QEDは☕️でしめす。
 　　　　- かといって、その項目を理由にview literalを消さないと、すでに入力した
 　　　　　値が無駄になる。その場合は、literalを消さずに残すということになると
 　　　　　abortと同じ問題がある
+🕷 askUのあとのpostview->factify_clause()の中でevaluate_literals()を繰り返して
+　　いるがこれのproofを作っていない
+🎂 factify_clause()の367行以降はどこかでもやっていた
+　addnewclause()かな
+🕸 
 
 
 20190713土
