@@ -1,4 +1,4 @@
-# cheaplogic
+# cheaplogic(experimental)
 
 1. LogicalWorld
  A propositional logic system. I intended a query-answer system on the facts of the World.
