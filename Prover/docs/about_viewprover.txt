@@ -46,15 +46,16 @@ this has 3 ways to reduct a goal.
  C8 -> like C7 but different literals ordering => []
  C9 -> simpler than C8. constraint x>=y => []
  C10-> constraints on 2 views separetely x>=y and z>=w
- C11+C13-> constraint over 1 view and independent view and resolve -S => []
- C12+C13-> view follow a literal S with resolved => []
- C14+(C15|C16)-> 2 views and a constraint follow a literal S2 with resolved =>
+  {C13} : y=1,w=2
+ C11{C13}-> constraint over 1 view and independent view and resolve -S => []
+ C12{C13}-> view follow a literal S with resolved => []
+ C14{C1/Users/shin/Projects/github/cheaplogic/Prover/docs 5|C16}-> 2 views and a constraint follow a literal S2 with resolved =>
    with 15: constraint y=1,w=2 and x>=2 =>[] others to Valid
    with 16: constraint x>=y =>[]
- C17+(C15|C16)-> a view and resolve => 
+ C17+{C15|C16}-> a view and resolve => 
    with C15 inputs should be x=1,y=2)
    with C16 constraint x >= y
- C18+(C15|C16)-> an eval and resolve 
+ C18+{C15|C16}-> an eval and resolve 
    with C15 => Valid
    with C16 => []
  C19 -> view with a default input value => []

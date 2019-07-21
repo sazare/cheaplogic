@@ -1,22 +1,6 @@
-# chase goal with view
+#viewreso.jl has functions not concern to View
 
-"""
-numopplids(sign,psym,core) is for cid/lid to resolve the lsym.
-remark: this functions is static to the graph.\n
-value[4] is the |lits| of the opposits.\n
-sorted the num means top lid is near the [] if exits.
-this is not a perfect solution.
-"""
-#==
-#function numopplids(sign, psym, core)
-@info :numopplids,sign,psym
-  oids=oppositof(sign,psym,core)
-  cids=map(y->cidof(y,core), oids)
-  lids=map(y->lidsof(y, core), cids)
-  sort(map((x,y,z)->[x,y,z,length(z)], oids, cids, lids), by=x->x[4])
-end
-==#
-
+# I chase goal with view
 
 """
 isProc(lit::LForm2) : lit is a Proc literal
@@ -34,23 +18,30 @@ end
 
 """
  add literals to core as an clause
+ addnewclause(vars, cid, lids, core, σo=[])
 """
 function addnewclause(vars, cid, lids, core, σo=[])
+@info :addnewclause, vars,cid,lids,σo
 # rename rlid
   rid =  newrid(core)
   vars = varsof(cid, core)
   nrem = rename_lids(rid, lids, core)
+@show rid,vars,nrem
   nbody = literalsof(lids, core)
 
 # this apply is need for just view, not evaluategoal
   if σo != []; nbody = apply(vars, nbody, σo) end
 
+@show vars,nbody
   vars = fitting_vars(vars, nbody, core)
-  
+@show vars
   body = rename_clause(rid, vars, nbody)
-#  rename_subst = [vars, body.vars]
+
+  rename_subst = [vars, body.vars]
+@show rename_subst
 
  ## settlement
+
   core.succnt[1] += 1
   core.cdb[rid] = VForm2(rid, body.vars)
   core.clmap[rid] = nrem
@@ -66,14 +57,15 @@ function addnewclause(vars, cid, lids, core, σo=[])
   end
 
   rcf2=CForm2(rid, body.vars, body.body)
+
 #  return rcf2
-  return rid
+  return rid, rename_subst
 #  return core
 end
 
 
 function addstep(core, rid, l1, l2, σ, ρ, rule)
-@info :addstep, rid, l1, l2, σ, ρ
+@info :addstep, rid, l1, l2, σ, ρ, rule
   core.proof[rid] = STEP(rid, l1, l2, σ, ρ, rule)
   core
 end
@@ -111,9 +103,9 @@ function evaluategoal(gid, core)
  if removedevalaute && !isempty(rlids)
   rgids = setdiff(gids, rlids)
 @info :removetrue,vars,gid,rgids
-  rid = addnewclause(vars, gid, rgids, core)
+  rid,renameσ = addnewclause(vars, gid, rgids, core)
 @info rid
-  ncore = addstep(core, rid, rlids[1], rlids[1], [], [], :eval)
+  ncore = addstep(core, rid, rlids[1], rlids[1], [], renameσ, :eval)
   gid = rid
  else #if removedvalueate
   ncore = core
@@ -202,13 +194,6 @@ function choosecanoid(gid, core)
  end
 end
 
-#==
- the caller choose the lid by choosecanoid()
- open view and get intpus from You.
- and get σo from the view
- apply σo to goal-glid make new goal
- add it to core
-==#
 function askU(gid, core, op)
 @info :askU
  global glid=choosecanoid(gid,core)
@@ -236,175 +221,31 @@ function askU(gid, core, op)
 end
 
 
-# after part of askU
-function listenU(params)
- σo = getσo(varc, gvar, params)
-
-# confirm makes σo like as [X,Y].[a,b]
-# [y].<[a,y]:[a,b]> = [b] = the restriction to [y] of [a,b]=σo
-# gvar = [y], σi = [a,y]
-# [y].<[a,y]:[a,b]> = [b] namely [y].[b] this is  σo1 
-# σo1 is also be written as [y].[y]:[b]
-# σo1 is the mgu for goal's remain body.
-
- σo1 = unify(gvar, σi, σo)
-
- glids = lidsof(gid, core)
- remids = setdiff(glids, glid)
-  
-#
- newgid=addnewclause(gvar, gid, remids, core, σo1)
- return newgid
-end
-
-#==
-#function go_resolution(glid, core)
- nlid = applytemp(glid, core) ## ???なに??
-end
-==#
-
-#==
-#function refute_goal(gid,core)
-@info :refute_goal
- gclause = clause2of(gid,core)
-
- ovars = vars = goal.vars
-# is same as  ovars = vars = varsof(glid, core)
-
- glits = goal.body
- glids = lidsof(gid, core)
-# the order of glits and glids should be correspond
-# i.e. glids[ix] = glits[ix].lid  for all ix
-# This properties may be distructed in the following course...??
-# if the evaluation failed, the tempolally generated rid is abandoned???
-
- glix  = 1
- glid  = glids[glix]
- glit  = glits[glix]
- remids1 = glid
-
- try
-   core.trycnt[1] += 1
-   remids = remids1 = setdiff(remids1, [glid])
-
-# rename rlid
-# 6/8 this action make the resolvent seems too hurry?
-   rid =  newrid(core)
-   nrem = rename_lids(rid, rem, core)
-   nbody = literalsof(rem, core)
-   nbody1 = apply(ovars, nbody, σo)
-
-   if evalon
-     rb = evaluate_literals(nrem, nbody1)
-     if rb[1] == true
-       println("Valid")
-       throw(VALID(gid, :refute_goal))
-     end
-     nrem, nbody1 = rb
-   end
-
-   vars = fitting_vars(ovars, nbody1, core)
-   body = rename_clause(rid, vars, nbody1)
-
-# rename_subst = [vars, body.vars]
-
-## settlement
-
- core.succnt[1] += 1
-
-# cdb[rid] to vars
-  core.cdb[rid] = VForm2(rid, body.vars)
-
-# clmap[rid] to rlid* = nrem
-  core.clmap[rid] = nrem
-
-# ldb[rlid] to full
-
-  for i in 1:length(nrem)
-    core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
-  end
-
-# lcmap[rlid] to rid
-  for rlid in nrem
-    core.lcmap[rlid] = rid
-  end
-#  core.proof[rid] = STEP(rid, glid, :view, σo, rename_subst, :reso)
-  rcf2=CForm2(rid, body.vars, body.body)
-#  return rcf2
-  return rid, core
-
-  catch e
-    println("refute_goal = $e")
-    throw(e)
-  end
-end
-==#
-
 function factify_clause(glid,σg,core)
-@info :factify_clause glid σg
+@info :factify_clause, glid, σg
 @info cidof(glid, core)
- ovars = vars = varsof(cidof(glid, core), core)
+ cid = cidof(glid, core)
+ ovars = vars = varsof(cid, core)
 @info ovars
  glit  = literalof(glid, core).body
 
 @info glit
  try
    core.trycnt[1] += 1
-   rem1 = lidsof(cidof(glid, core),core)
+   rem1 = lidsof(cid,core)
 @info rem1
    rem = rem1 = setdiff(rem1, [glid])
 @info rem
-# rename rlid rem
 
-   rid =  newrid(core)
-   nrem = rename_lids(rid, rem, core)
-@info nrem
-   nbody = literalsof(rem, core)
-@info nbody
-   σs = apply(varg, ovars, σg)
-   nbody1 = apply(ovars, nbody, σs)
-@info nbody1
-   if evalon
-@info :evalon
-     rb = evaluate_literals(nrem, nbody1)
-     if rb[1] == true
-       println("Valid")
-       throw(VALID(gid, :factify))
-     end
-     nrem, nbody1 = rb
-@info nrem nbody1
-   end
-@info ovars nbody1
-   vars = fitting_vars(ovars, nbody1, core)
-@info vars
-   body = rename_clause(rid, vars, nbody1)
-@info body
+@info :addnewclause,cid,glid,σg
+  rid,renameσ = addnewclause(ovars,cid,rem1,core,σg) 
+@info :addstep,rid,glid,σg,[],:view
+  core = addstep(core,rid,glid,glid,σg,[],:view)
+  ncore = core
+#
 
- rename_subst = [vars, body.vars]
+  gid, ncore = rid,core
 
-## settlement
-
- core.succnt[1] += 1
-
-# cdb[rid] to vars
-  core.cdb[rid] = VForm2(rid, body.vars)
-
-# clmap[rid] to rlid* = nrem
-  core.clmap[rid] = nrem
-
-# ldb[rlid] to full
-
-  for i in 1:length(nrem)
-    core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
-  end
-
-# lcmap[rlid] to rid
-  for rlid in nrem
-    core.lcmap[rlid] = rid
-  end
-#  core.proof[rid] = STEP(rid, glid, :view, σg||σo?, rename_subst, :factify)
-  rcf2=CForm2(rid, body.vars, body.body)
-#  return rcf2
   return rid, core
 
   catch e
@@ -412,4 +253,54 @@ function factify_clause(glid,σg,core)
     throw(e)
   end
 end
+
+
+"""
+resolvelid(glid, core)
+"""
+function resolvelid(glid, core)
+@info :resolvelid
+# get a literal
+ glit = literalof(glid, core)
+ gid  = cidof(glid, core)
+ varsg = cvarsof(glid, core)
+ atomg = atomof(glid, core)
+ remg  = setdiff(lidsof(cidof(glid, core), core), [glid])
+@info :after_setdiff_in_resolvelid
+@show glit, varsg, atomg, remg
+# maching for all opposit
+ sign, psym = psymof(glid, core)
+@show sign, psym
+ 
+ oppos = oppositof(sign, psym, core)
+ for olid in oppos
+@show olid
+# try unify them
+# if sigma made, it should return
+  ovars = cvarsof(olid, core)
+  oatom = atomof(olid, core)
+@show ovars, oatom
+  ovars=vcat(varsg, ovars) 
+@show ovars
+  core.trycnt[1] += 1
+@info :before_unify, ovars, atomg, oatom
+  σ = unify(ovars, atomg, oatom)
+@show σ,olid
+  orem = lidsof(cidof(olid,core), core)
+@info orem,remg, olid
+  grem = setdiff(vcat(orem, remg), [olid])
+@info grem
+
+##################
+
+@info :addnewcore,gid,glid,olid,σ,renameσ,:reso
+  gid,renameσ = addnewclause(ovars,gid,grem,core)
+  core = addstep(core,gid,glid,olid,σ,renameσ[2],:reso)
+  ncore = core
+
+##################
+  return gid, core
+ end # for olid
+
+end # function resolvelid
 

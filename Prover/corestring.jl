@@ -1,14 +1,26 @@
 function stringcore(core)::String
-
 """
 CORE: $(core.name)
 CLAUSES
 $(stringclauses(core))
 PSYM: $(stringarray(core.allpsym))
-CANO: $(core.cano)
+CANO: 
+$(stringcanodef(core.cano))
 """
 end
 
+function stringcanodef(canodef::Dict)::String
+ rstr = ""
+ for akey in sort(collect(keys(canodef)))
+  rstr *= " "*stringcano(canodef[akey]) * "\n"
+ end
+ rstr
+end
+
+function stringcano(cano)::String
+# not a literal but an atom, but maybe ok
+  return stringarray(cano[1])*"."*stringliteral(cano[2])
+end
 
 function stringclauses(core)::String
  rstr = ""
