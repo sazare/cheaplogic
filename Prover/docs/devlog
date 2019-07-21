@@ -4,6 +4,61 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190721日
+1. 見てみるとおかしな点はすぐにわかった。修正する(20分)
+2. vev002.cnfで確認する
+
+🎂 ViewでだめなときにValidでうまくいったときContradictionはおかしいので
+　　UIとしては「証明不可能」とか「証明済」といったメッセージがよいはず。
+　　そうなるとHorn clause的な表現がよいことになる。まあそうか。
+
+🕷 vev002/C12 x=8,y=1
+[ Info: postview
+[ Info: postview
+[ Info: postview
+2019-07-21 09:19:40:ERROR:Main: type Char has no field lcmap
+2019-07-21 09:19:40:ERROR:Main: /go?op=postview&X=8&Y=1&how=confirm 500
+
+2019-07-21 09:19:40:CRITICAL:Main: type Char has no field lcmap
+getproperty(::Any, ::Symbol) at ./sysimg.jl:18
+cidof(::Nothing, ::Char) at /Users/shin/Projects/github/cheaplogic/Prover/newcore.jl:227
+lvarsof(::Nothing, ::Char) at /Users/shin/Projects/github/cheaplogic/Prover/newcore.jl:205
+postview(::Dict{Symbol,Any}) at /Users/shin/Projects/github/cheaplogic/Prover/vlogic/viewlogic.jl:322
+(::getfield(Main, Symbol("##79#80")))() at /Users/shin/Projects/github/cheaplogic/Prover/vlogic/viewlogic.jl:78
+
+☕️ resolvelid()の中でcatchしていたunifyのfail
+　　だがresolvelid()はgidとcoreを返すもので、failからfailview()::htmlが
+　　かえってきてもタイプミスマッチになっていた。
+    resolvelid()を読んでいる側でcatchするようにした。
+
+🕷 C18のビューがおかしい。
+
+GLID: L31_R1のビューで
+{X=x_C14, Y=y_C14}
+になり、値を入れてconfirmすると
+
+2019-07-21 10:08:45:ERROR:Main: ICMP(:x_C14, 8, :unify0sn)
+2019-07-21 10:08:45:ERROR:Main: /go?op=postview&X=8&Y=2&how=confirm 500
+
+2019-07-21 10:08:45:CRITICAL:Main: ICMP(:x_C14, 8, :unify0sn)
+unify0(::Array{Symbol,1}, ::Symbol, ::Int64) at /Users/shin/Projects/github/cheaplogic/Prover/unify.jl:34
+unify0(::Array{Symbol,1}, ::Expr, ::Expr) at /Users/shin/Projects/github/cheaplogic/Prover/unify.jl:67
+unify1(::Array{Symbol,1}, ::Expr, ::Expr, ::Array{Symbol,1}) at /Users/shin/Projects/github/cheaplogic/Prover/unify.jl:215
+unify(::Array{Symbol,1}, ::Expr, ::Expr) at /Users/shin/Projects/github/cheaplogic/Prover/unify.jl:302
+
+🎂 x_C14とかが変数になっていないのではないか
+
+
+
+
+
+
+20190720土
+1. addnewclauseなどの関数をみなおす
+2. addstepを各ruleについて作る(引数違うからできるのでは)
+3. 夜中にaddnewclause, addstepで全部書き換えたが、ちゃんと動かない
+　細部は明日にする
+
 
 20190714日
 1. 処理を見直す
