@@ -1,13 +1,20 @@
 # vhtmls.jl
+##
+# html template functions
+#
 
-
+"""
+ restrictvars(lid, core) makes vars really used
+"""
 function restrictvars(lid, core)
   fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
 end
 
 
 # <head xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ja\">
-
+"""
+htmlhtml(header, body) simply concatenates 2 htmls.
+"""
 function htmlhtml(header, body)
 """
 $header
@@ -15,6 +22,9 @@ $body
 """
 end
 
+"""
+htmlheader(title) makes head part with title
+"""
 function htmlheader(title)
 """
 <head xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"ja\">
@@ -29,6 +39,10 @@ input { width: 200pt; }
 """
 end
 
+
+"""
+htmlbody(h1, pres, form) makes <h1> and pres, form
+"""
 function htmlbody(h1, pres, form)
 """
 <h1>$h1</h1>
@@ -38,6 +52,12 @@ $form
 """
 end
 
+"""
+htmlform(op, fields, confirm, cancel) makes a simple form
+next target is op
+generates input tags by fields
+submit, reste with value confirm, cancel respectively
+"""
 function htmlform(op, fields, confirm, cancel)
  inputs = ""
  for f in fields
@@ -53,13 +73,19 @@ $(inputs)
 </form>
 """
 end
- 
+
+"""
+htmlinput(key, name) makes input tags
+""" 
 function htmlinput(key, name)
 """
 <div>$key : <input type=\"text\" name=\"$name\"></div>
 """
 end
 
+"""
+makeinputs(vars)
+"""
 function makeinputs(vars)
 # TODO: [X,Y] := [a,Y] then input of X has value a, of Y has none
  bb = ""
@@ -69,6 +95,9 @@ function makeinputs(vars)
  bb
 end
 
+"""
+makeView(glid, core) makes a view for a canonical literal for the glid is a cano
+"""
 function makeView(glid, core)
  (sign, psym) = psymof(glid, core)
  glit         = literalof(glid, core).body
@@ -81,7 +110,9 @@ function makeView(glid, core)
  end
 end
 
-
+"""
+makeinputs2(cavars, vars, gargs) makes a view for input with value dependent on vars
+"""
 function makeinputs2(cavars, vars, gargs)
 @info :makeinputs2
  bb = ""
@@ -99,6 +130,9 @@ function makeinputs2(cavars, vars, gargs)
  bb
 end
 
+"""
+makeView2(op, glid, ovarc, varg, argg) makes a view with values appropriate
+"""
 function makeView2(op, glid, ovarc, varg, argg)
 @info :makeView2
  inputs = makeinputs2(ovarc, varg, argg)
