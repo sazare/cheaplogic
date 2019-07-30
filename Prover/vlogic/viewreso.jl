@@ -1,4 +1,4 @@
-#viewreso.jl has functions not concern to View
+#viewreso.jl has functions not direct to View
 
 # I chase goal with view
 
@@ -13,8 +13,8 @@ function isProc(lit::LForm2)
   return isa(eval(lsym), Function)
  catch e
   return false
- end
-end
+ end # try
+end # isProc
 
 """
  add literals to core as an clause
@@ -28,20 +28,16 @@ function addnewclause(vars, cid, lids, core, σo=[])
   nrem = rename_lids(rid, lids, core)
 @show rid,vars,nrem
   nbody = literalsof(lids, core)
-
-# this apply is need for just view, not evaluategoal
+# this apply is need for just view
   if σo != []; nbody = apply(vars, nbody, σo) end
-
 @show vars,nbody
   vars = fitting_vars(vars, nbody, core)
 @show vars
   body = rename_clause(rid, vars, nbody)
-
   rename_subst = [vars, body.vars]
 @show rename_subst
 
- ## settlement
-
+  ## settlement
   core.succnt[1] += 1
   core.cdb[rid] = VForm2(rid, body.vars)
   core.clmap[rid] = nrem
@@ -49,19 +45,17 @@ function addnewclause(vars, cid, lids, core, σo=[])
 # ldb[rlid] to full
   for i in 1:length(nrem)
     core.ldb[nrem[i]] = LForm2(nrem[i], body.body[i])
-  end
+  end # i
 
 # lcmap[rlid] to rid
   for rlid in nrem
     core.lcmap[rlid] = rid
-  end
+  end # rlid
 
   rcf2=CForm2(rid, body.vars, body.body)
 
-#  return rcf2
   return rid, rename_subst
-#  return core
-end
+end # addnewclause
 
 
 function addstep(core, rid, l1, l2, σ, ρ, rule)
@@ -112,7 +106,7 @@ function evaluategoal(gid, core)
  end #if removedvalueate
 @info gid
  return gid,ncore
-end
+end # evaluategoal
 
 """
 isCano(LForm2,core) : lit is a Canonical literal
@@ -123,23 +117,22 @@ atom is a literal without sign
 """
 function isCano(lit::LForm2, core)
  lit.body.args[2].args[1] in keys(core.cano)
-end
+end # isCano
 
 function canoof(lid, core)
  core.cano[psymof(lid,core)[2]]
-end
+end # canoof
 
 function canovarsof(lid, core)
  canoof(lid, core)[1]
-end
+end # canovarsof
 
 function canolitof(sign, lid, core)
  Expr(:call, sign, canoof(lid, core)[2])
-end
+end # canolitof
 
 """
 inclunt() counts input vars(as :vvv!)
-
 the vars is identical the args of canonical literal
 """
 function incount(glid, core)
@@ -154,14 +147,14 @@ function incount(glid, core)
    if isvar(gargs[ix],gvars)
      if isinvar(cavars[ix])
        cin += 1 
-     end
-   end
-  end
+     end # isinvar
+   end # isvar
+  end # ix
   return cin
  catch e
   return Inf
- end
-end
+ end # try
+end # incount
 
 """
 choosecanoid() chooses a literal in Cano.
@@ -183,16 +176,16 @@ function choosecanoid(gid, core)
    else
 @info :nocano
     push!(ninvec, Inf)
-   end
- end
+   end # isCano
+ end # for
  v,ix = findmin(ninvec)
 @info v, ix
  if v != Inf
   return lids[ix]
- else
+ else # 
   return nothing
- end
-end
+ end # v!=Inf
+end # choosecanoid
 
 function askU(gid, core, op)
 @info :askU
@@ -218,7 +211,7 @@ function askU(gid, core, op)
 # in this step, a web transition exists
  return makeView2(op, glid, varc, gvar, σi)
 ##
-end
+end # askU
 
 
 function factify_clause(glid,σg,core)
@@ -236,23 +229,18 @@ function factify_clause(glid,σg,core)
 @info rem1
    rem = rem1 = setdiff(rem1, [glid])
 @info rem
-
 @info :addnewclause,cid,glid,σg
   rid,renameσ = addnewclause(ovars,cid,rem1,core,σg) 
 @info :addstep,rid,glid,σg,[],:view
   core = addstep(core,rid,glid,glid,σg,[],:view)
   ncore = core
-#
-
   gid, ncore = rid,core
-
   return rid, core
-
   catch e
     println("factify_clause = $e")
     throw(e)
-  end
-end
+  end # try
+end # fctify_clause
 
 
 """
@@ -271,7 +259,6 @@ function resolvelid(glid, core)
 # maching for all opposit
  sign, psym = psymof(glid, core)
 @show sign, psym
- 
  oppos = oppositof(sign, psym, core)
  for olid in oppos
 @show olid
@@ -290,15 +277,10 @@ function resolvelid(glid, core)
 @info orem,remg, olid
   grem = setdiff(vcat(orem, remg), [olid])
 @info grem
-
-##################
-
-@info :addnewcore,gid,glid,olid,σ,renameσ,:reso
+@info :addnewcore,ovars,gid,grem
   gid,renameσ = addnewclause(ovars,gid,grem,core)
   core = addstep(core,gid,glid,olid,σ,renameσ[2],:reso)
   ncore = core
-
-##################
   return gid, core
  end # for olid
 
