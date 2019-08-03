@@ -1,4 +1,4 @@
-#viewreso.jl has functions not direct to View
+#viewreso.jl has not direct to View
 
 # I chase goal with view
 
@@ -57,12 +57,14 @@ function addnewclause(vars, cid, lids, core, σo=[])
   return rid, rename_subst
 end # addnewclause
 
-
+"""
+addstep add a proof step to core
+"""
 function addstep(core, rid, l1, l2, σ, ρ, rule)
 @info :addstep, rid, l1, l2, σ, ρ, rule
   core.proof[rid] = STEP(rid, l1, l2, σ, ρ, rule)
   core
-end
+end # addstep
 
 # goal is an array of literals
 """
@@ -71,7 +73,7 @@ evaluategoal eval all literals of goal(gid)
  if it is true, valid and abort.
  otherwise nothing happen
 
- this function is destructive on core
+ this is destructive on core
  so, can't use in parallel prover in multithreads
 """
 function evaluategoal(gid, core)
@@ -119,14 +121,23 @@ function isCano(lit::LForm2, core)
  lit.body.args[2].args[1] in keys(core.cano)
 end # isCano
 
+"""
+canoof get a canonical form of lid
+"""
 function canoof(lid, core)
  core.cano[psymof(lid,core)[2]]
 end # canoof
 
+"""
+canovarsof get the vars of canonical lid
+"""
 function canovarsof(lid, core)
  canoof(lid, core)[1]
 end # canovarsof
 
+"""
+canolitof make a literal of canonical of lid
+"""
 function canolitof(sign, lid, core)
  Expr(:call, sign, canoof(lid, core)[2])
 end # canolitof
@@ -187,6 +198,10 @@ function choosecanoid(gid, core)
  end # v!=Inf
 end # choosecanoid
 
+"""
+askU make a view of first part of the view of gid
+the glid is choosed by choosecanoid
+"""
 function askU(gid, core, op)
 @info :askU
  global glid=choosecanoid(gid,core)
@@ -213,7 +228,9 @@ function askU(gid, core, op)
 ##
 end # askU
 
-
+"""
+factify_clause makes glid fact
+"""
 function factify_clause(glid,σg,core)
 @info :factify_clause, glid, σg
 @info cidof(glid, core)
@@ -244,7 +261,7 @@ end # fctify_clause
 
 
 """
-resolvelid(glid, core)
+resolvelid resolves glid with a opposit of it
 """
 function resolvelid(glid, core)
 @info :resolvelid
@@ -284,5 +301,5 @@ function resolvelid(glid, core)
   return gid, core
  end # for olid
 
-end # function resolvelid
+end # resolvelid
 

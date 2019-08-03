@@ -26,3 +26,25 @@ using Test
 
 end
 
+@testset "isground" begin
+ @test isground([], 123)
+ @test isground([], "abcd")
+ @test isground([], 'x')
+
+ @test isground([:x,:y], 123)
+ @test isground([:x,:y], "abcd")
+ @test isground([:x,:y], 'x')
+
+ @test isground([:x,:y], :x) == false
+ @test isground([:x,:y], :(f(x))) == false
+ @test isground([:x,:y], :(f(2,x))) == false
+ @test isground([:x,:y], :(f(2,4)))
+
+ @test isground([:x,:y], :(f(a,4)))   # is this useful?
+ @test isground([:x,:y], :(+(P(a,x)))) == false
+
+ @test isground([:x,:y], [:(+(P(2,3))),:(-(R(5,"abc"))),:(+(Q('c',"aaa")))])
+ @test isground([:x,:y], [:(+(P(2,3))),:(-(R(5,"abc"))),:(+(Q(x,"aaa")))]) == false
+
+end
+
