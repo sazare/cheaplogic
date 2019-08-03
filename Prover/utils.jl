@@ -118,3 +118,20 @@ end
 #iscap(x) = isuppercase(x[1])
 #isinvar(x) = '!' == String(x)[end]
 
+###
+"""
+ ltis "C2" < "C12"
+"""
+function ltid(id1::String, id2::String) 
+ if length(id1) == length(id2) 
+  return id1 < id2
+ else
+  return length(id1) < length(id2) 
+ end
+end
+
+function ltid(id1::Symbol, id2::Symbol) 
+ return ltid(string(id1), string(id2))
+end
+
+

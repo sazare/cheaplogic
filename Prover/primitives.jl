@@ -18,8 +18,6 @@ Const = Union{Symbol, Number, String}
 Vlist = Array
 Tlist = Array
 
-
-
 ## primitives
 isvar(sym::Symbol, vars::Vlist)=sym in vars
 isvar(term, vars::Vlist)=false
@@ -45,4 +43,28 @@ macro isdefined(x)
     return false
   end
   return true
+end
+
+function isground(vars::Vlist, tm::Number)
+ return true
+end
+
+function isground(vars::Vlist, tm::String)
+ return true
+end
+
+function isground(vars::Vlist, tm::Char)
+ return true
+end
+
+function isground(vars::Vlist, tm::Symbol)
+ return !isvar(tm, vars)
+end
+
+function isground(vars::Vlist, tm::Expr)
+ all(atm->isground(vars,atm), tm.args[2:end])
+end
+
+function isground(vars::Vlist, tms::Array{Expr,1})
+ all(atm->isground(vars,atm), tms)
 end

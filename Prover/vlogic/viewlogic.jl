@@ -1,9 +1,9 @@
 # viewlogic.jl
 
-# from vlogic0.jl
+# access from a browser
 # url: http://localhost:8000/go?op=start
 #==
-# in program
+# kick a browser by some program
 cmd=`open -a "Google Chrome.app" http://localhost:8000/go?op=start`
 run(cmd)
 ==#
@@ -11,6 +11,32 @@ run(cmd)
 using Genie
 import Genie.Router: route
 import Genie.Router: @params
+
+# global variables for an run the same
+# if you wish to these globals in a session,
+# keep them in a session object
+#==
+global core is the core read from a file
+
+the goal is set by the view user
+
+global glid is th focused lid of the goal
+global gcid is the cid of the goal
+global goal is the goal(=lids of gcid)
+
+ varg and gvar is different view's pre and post
+global varg is the vars of the goal
+global gvar is the goal's vars
+
+global firstview need gcid
+
+global gatm is the atom of the glid. canonical determins atom only.
+global varc  canonical's vars
+global vatm  ?
+global σi    the σ for the new view 
+global gid is the cid of the goal. before an input, it is :nogid 
+ ? gid is gcid?
+==#
 
 global core = nothing
 global glid
@@ -27,6 +53,11 @@ global σi
 global gid = :nogid
 
 ####
+"""
+getσo make a σ for after a view input.
+the vars of σ is cvars
+gvars is needed for a term in the context of glid
+"""
 function getσo(cvars, gvars, pm)
  σo=[]
  for v in cvars
@@ -42,20 +73,20 @@ function getσo(cvars, gvars, pm)
   catch
     push!(σo, :none)
     #push!(σo, Symbol(v))
-  end
- end
+  end # try
+ end # for
  σo
-end
+end # getσo
 
 #
-# the route /go
+# the route /go (Genie issue)
 #
 route("/go") do
  pm = @params()
  op = pm[:op]
-if core != nothing
+ if core != nothing
   @info gid
-end
+ end # if
 @info op
  if op == "start"
 @info :start
@@ -72,48 +103,51 @@ end
   else
 @info gid
    return goevaluate(pm,gid)
-  end
+  end #if gid
  elseif op == "postview"
 @info :postview
   return postview(pm)
  elseif op == "resolve"
 @info :resolve,gid
   return goresolve(pm,gid)
- end
-end
+ end # if op
+end # route
 
 """
- priority function for resolve
+ chooseresolvelid chooses a lid for resolve
+ the lid should be not Proc, not Cano
 """
 function chooseresolvelid(lids, core)
 @info :chooseresolvelid
  nlit = []
-  
  for lid in lids
   lit2 = literalof(lid,core)
   if !isProc(lit2) && !isCano(lit2, core)
 # this choose one of lits, but it will be more complicate.
    return lid
-  end # !isProc(lit2) && !isCano(lit2, core)
+  end # !isProc && !isCano
  end #for lid
 @info :chooseresolvelid_nothing
  return nothing
-end
-
+end # chooseresolvelid
 
 """
-resolve a lit no cano and no proc
+goresolve resolves a lit with oppos of it
+
 """
 function goresolve(pm, gidl)
 @info :goresolve, gidl
  glids = lidsof(gidl, core)
+# no lids, this is a contradiction
  if isempty(glids); return contraview(gidl, core) end
+
+# prepare a resolution
  nlits = literalsof(glids, core)
  glid = chooseresolvelid(glids, core)
 
- # time to resolve picklid
- # when picktlid cant be resolved
- # i do nothing... is it correct??
+ # time to resolve glid
+ # when glid cant be resolved
+ # I should backtrack. but now it is not clear 
  
  if glid == nothing
 @show :glid_eq_nothing
@@ -133,7 +167,7 @@ function goresolve(pm, gidl)
 @info gc
    global gid = gc[1]
    global core = gc[2]
-  end
+  end # if gc
 
   score = stringcore(core)
   pres = """
@@ -163,15 +197,15 @@ function goresolve(pm, gidl)
     throw(e)
    end #if isa
   end # try
-
-end
+end #goresolve
 
 """
-goalprover
+goalprover full control of view prover
 """
 function goalprover(pm, pres)
 @info :goalprover
  try
+# eval step
   while true
    ogid = gid
    rico = evaluategoal(gid, core)
@@ -185,22 +219,28 @@ function goalprover(pm, pres)
    end #if gid == ogid
   end # while true
 
+# after eval
 ## here gid, core has evaluated clause
 @info gid
   glids = lidsof(gid, core)
   nlids = literalsof(glids, core)
 @info :goalprover1, gid, glids, nlids
-
   if length(nlids) == 0
    return contraview(gid, core)
   else # if length
  # after eval, choose view or resolve in goaftereval?
+ # askU traverse postview after it
    askpage =  askU(gid, core, "postview")
+   
+ # askpage is generated 
    if askpage != nothing
      return askpage
    end # if askpage
+
+ # when no cano lid, askpage is nothing 
 @info :askpage_nothing
   end # if length
+
  catch e
   if isa(e, VALID)
 @info validview
@@ -211,7 +251,7 @@ function goalprover(pm, pres)
   end # if isa
  end #try
 
-# no askpage
+# no askpage, no cano lid, following resolve(not stepgoal)
 @info :noaskpage
 # form = htmlform("stepgoal", [], "Confirm", "Cancel") 
  form = htmlform("resolve", [], "Confirm", "Cancel") 
@@ -219,56 +259,76 @@ function goalprover(pm, pres)
 
 end # goalprover
 
+"""
+goevaluate is called from web
+
+"""
 function goevaluate(pm,gid0)
 @info :goevaluate, gid0
+# show core
   score = stringcore(core)
  pres = """
  <pre>$(score)</pre>
  <pre>=======</pre>
 """
 @info :goevaluate1, pm
-if gid != :nogid
+ if gid != :nogid
+# if not firstview, set gid to gid0
   global gid = Symbol(gid0)
-end
+ end
 
 @info pres
   page = goalprover(pm, pres)
 @info page
   return page
-end
+end # goevaluate
 
+"""
+contravie is the view for contradiction occured
+"""
 function contraview(cid, core)
-  form = htmlform("start", [], "Confirm", "Cancel")
-   cls = stringclause(cid, core)
-   return htmlhtml(htmlheader("Contradiction"), 
-                  htmlbody("$cls is Contradiction", "",form))
-end
-
-function validview(cid, core)
-  form = htmlform("start", [], "Confirm", "Cancel")
+ form = htmlform("start", [], "Confirm", "Cancel")
   cls = stringclause(cid, core)
-  return htmlhtml(htmlheader("Valid"), 
+  return htmlhtml(htmlheader("Contradiction"), 
+                  htmlbody("$cls is Contradiction", "",form))
+end # contraview
+
+"""
+validview is the view for valid occured
+"""
+function validview(cid, core)
+ form = htmlform("start", [], "Confirm", "Cancel")
+ cls = stringclause(cid, core)
+ return htmlhtml(htmlheader("Valid"), 
                   htmlbody("$cls is valid", "",form))
-end
+end # validview
 
+"""
+unknownview is the view for unknown state
+"""
 function unknownview(cid, except, core)
-  form = htmlform("start", [], "Confirm", "Cancel")
-  return htmlhtml(htmlheader("Exception occurs"), 
+ form = htmlform("start", [], "Confirm", "Cancel")
+ return htmlhtml(htmlheader("Exception occurs"), 
                   htmlbody("$cid makes  $(except)", "",form))
-end
+end # unknownview
 
+"""
+failview is the view fail occured
+"""
 function failview(cid, core)
 @info cid
-  form = htmlform("start", [], "Confirm", "Cancel")
-  cls = stringclause(cid, core)
+ form = htmlform("start", [], "Confirm", "Cancel")
+ cls = stringclause(cid, core)
 @info cls
-  return htmlhtml(htmlheader("Fail attempt"), 
+ return htmlhtml(htmlheader("Fail attempt"), 
                   htmlbody("$cls cant progress more", "",form))
-end
+end #failview
 
-
+"""
+postview is the last half of view input
+"""
 function postview(pm)
-@info :postview
+@info :postview, :SOURCETOOLONG
 #temporalily view only
  global varg = lvarsof(glid, core)
  global gatm = literalof(glid, core).body.args[2]
@@ -293,7 +353,7 @@ function postview(pm)
  """
    form = htmlform("stepgoal", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
- end
+ end # if "abort"
  for v in varc
   try
     vr = pm[v]
@@ -306,8 +366,8 @@ function postview(pm)
     end
   catch
     push!(σo, Symbol(v))
-  end
- end
+  end # try
+ end # for
 @info σo
 
 @info :beforeapply varc catm σo
@@ -343,18 +403,20 @@ function postview(pm)
   else
    form = htmlform("stepgoal", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
-  end
+  end # if
  catch e
 @info e
   if isa(e, VALID)
    return validview(gid, core)
   else
    return unknownview(gid, e, core)
-  end
- end
-end
+  end #if
+ end #try
+end # postview
 
-
+"""
+goreadcore do readcore(path is given by pm)
+"""
 function goreadcore(pm)
 @info :goreadcore
  corepath = pm[:corepath]
@@ -364,21 +426,27 @@ function goreadcore(pm)
  evalon && evalproc(core.proc)
 
  clist = ""
- for id in sort(collect(keys(core.cdb)))
+ for id in sort(collect(keys(core.cdb)),lt=ltid)
    clist *= "$(stringclause(id, core))</br>"
- end
+ end # for
 
  pres = "<pre>CLAUSES</pre>$(clist)"
  form = htmlform("stepgoal", [htmlinput("gid", "gid")], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Select GID"), htmlbody("which gid", pres, form))
 end
 
+"""
+gostart input the path of the core
+"""
 function gostart()
 @info :gostart
  form = htmlform("readcore", [htmlinput("CNF path", "corepath")], "Confirm", "Cancel")
  return htmlhtml(htmlheader("Core selection"), htmlbody("select core", "", form))
-end
+end #goreadcore
 
+"""
+resetglobals initialize the globals for new start
+"""
 function resetglobals()
 global core = nothing
 global glid = nothing
@@ -394,8 +462,8 @@ global varc = nothing
 global vatm = nothing
 global σi   = []
 global gid = :nogid
-end
+end #resetglobals
 
-#Genie accept requests
+#Genie issue
 Genie.AppServer.startup()
 
