@@ -426,7 +426,7 @@ function goreadcore(pm)
  evalon && evalproc(core.proc)
 
  clist = ""
- for id in sort(collect(keys(core.cdb)))
+ for id in sort(collect(keys(core.cdb)),lt=ltid)
    clist *= "$(stringclause(id, core))</br>"
  end # for
 
