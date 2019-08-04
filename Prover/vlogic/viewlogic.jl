@@ -3,7 +3,7 @@
 # access from a browser
 # url: http://localhost:8000/go?op=start
 #==
-# kick a browser by some program
+ kick a browser by some program
 cmd=`open -a "Google Chrome.app" http://localhost:8000/go?op=start`
 run(cmd)
 ==#
@@ -52,31 +52,6 @@ global vatm
 global σi
 global gid = :nogid
 
-####
-"""
-getσo make a σ for after a view input.
-the vars of σ is cvars
-gvars is needed for a term in the context of glid
-"""
-function getσo(cvars, gvars, pm)
- σo=[]
- for v in cvars
-  try
-    vr = pm[v]
-    if isconst(vr, gvars)
-      push!(σo, vr)
-    elseif "" == vr
-      push!(σo, v)
-    else
-      push!(σo, Symbol(vr))
-    end
-  catch
-    push!(σo, :none)
-    #push!(σo, Symbol(v))
-  end # try
- end # for
- σo
-end # getσo
 
 #
 # the route /go (Genie issue)
@@ -87,53 +62,27 @@ route("/go") do
  if core != nothing
   @info gid
  end # if
-@info op
+
  if op == "start"
-@info :start
   return gostart()
  elseif op == "readcore"
-@info :readcore
   return goreadcore(pm)
  elseif op == "stepgoal"
-  @info :stepgoal
   if gid == :nogid
-@info :nogid
    global gid = pm[:gid]
    return goevaluate(pm,gid)
   else
-@info gid
    return goevaluate(pm,gid)
   end #if gid
  elseif op == "postview"
-@info :postview
   return postview(pm)
  elseif op == "resolve"
-@info :resolve,gid
   return goresolve(pm,gid)
  end # if op
 end # route
 
 """
- chooseresolvelid chooses a lid for resolve
- the lid should be not Proc, not Cano
-"""
-function chooseresolvelid(lids, core)
-@info :chooseresolvelid
- nlit = []
- for lid in lids
-  lit2 = literalof(lid,core)
-  if !isProc(lit2) && !isCano(lit2, core)
-# this choose one of lits, but it will be more complicate.
-   return lid
-  end # !isProc && !isCano
- end #for lid
-@info :chooseresolvelid_nothing
- return nothing
-end # chooseresolvelid
-
-"""
 goresolve resolves a lit with oppos of it
-
 """
 function goresolve(pm, gidl)
 @info :goresolve, gidl
@@ -153,10 +102,8 @@ function goresolve(pm, gidl)
 @show :glid_eq_nothing
   # no lid for resolve
   score = stringcore(core)
-  pres = """
-<pre>$(score)</pre>
-<pre>=======</pre>
-"""
+  pres = makepres([score, "======="])
+
   form = htmlform("stepgoal", [], "Confirm", "Cancel") 
   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
  end # if glid==nothing
@@ -170,15 +117,12 @@ function goresolve(pm, gidl)
   end # if gc
 
   score = stringcore(core)
-  pres = """
-<pre>$(score)</pre>
-<pre>=======</pre>
-"""
- # 
+
   if isempty(lidsof(gid,core))
   # form = htmlform("start", [], "Confirm", "Cancel") 
    return contraview(gid, core)
   else # isempty
+   pres = makepres([score, "======="])
    form = htmlform("stepgoal", [], "Confirm", "Cancel") 
    return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
   end # isempty
@@ -200,46 +144,57 @@ function goresolve(pm, gidl)
 end #goresolve
 
 """
+doevals apply evaluate while applicable
+"""
+function doevals(gid, core)
+@info :doeval,gid
+ while true
+  ogid = gid
+@info :evaluategoal,gid
+  gid,core = evaluategoal(gid, core)
+@info :after, :evaluategoal
+  if gid == ogid
+    break
+  else # if gid == ogid
+    ogid = gid
+  end #if gid == ogid
+ end # while true
+ return gid, core
+end # doevals
+
+"""
 goalprover full control of view prover
 """
 function goalprover(pm, pres)
 @info :goalprover
  try
-# eval step
-  while true
-   ogid = gid
-   rico = evaluategoal(gid, core)
- @info :after, :evaluategoal
-   global core = rico[2]
-   global gid = rico[1]
-   if gid == ogid
-     break
-   else # if gid == ogid
-     ogid = gid
-   end #if gid == ogid
-  end # while true
+  rico = doevals(gid, core)
+  global core = rico[2]
+  global gid = rico[1]
 
-# after eval
-## here gid, core has evaluated clause
+## gid, core has evaluated clause
 @info gid
   glids = lidsof(gid, core)
   nlids = literalsof(glids, core)
 @info :goalprover1, gid, glids, nlids
-  if length(nlids) == 0
+
+  if length(glids) == 0 # when []
    return contraview(gid, core)
-  else # if length
- # after eval, choose view or resolve in goaftereval?
- # askU traverse postview after it
+  else # if  when not []
+# after eval, choose view or resolve in goaftereval?
+# askU traverse postview after it
    askpage =  askU(gid, core, "postview")
    
- # askpage is generated 
+# askpage is generated 
    if askpage != nothing
      return askpage
    end # if askpage
-
- # when no cano lid, askpage is nothing 
+  end # if []
+# when no cano lid, askpage is nothing 
 @info :askpage_nothing
-  end # if length
+# no askpage, no cano lid, following resolve(not stepgoal)
+  form = htmlform("resolve", [], "Confirm", "Cancel") 
+  return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
 
  catch e
   if isa(e, VALID)
@@ -250,13 +205,6 @@ function goalprover(pm, pres)
    return unknownview(gid, e, core)
   end # if isa
  end #try
-
-# no askpage, no cano lid, following resolve(not stepgoal)
-@info :noaskpage
-# form = htmlform("stepgoal", [], "Confirm", "Cancel") 
- form = htmlform("resolve", [], "Confirm", "Cancel") 
- return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
-
 end # goalprover
 
 """
@@ -267,10 +215,7 @@ function goevaluate(pm,gid0)
 @info :goevaluate, gid0
 # show core
   score = stringcore(core)
- pres = """
- <pre>$(score)</pre>
- <pre>=======</pre>
-"""
+ pres = makepres([score, "======="])
 @info :goevaluate1, pm
  if gid != :nogid
 # if not firstview, set gid to gid0
@@ -325,6 +270,30 @@ function failview(cid, core)
 end #failview
 
 """
+getσo make a σ for after a view input.
+the vars of σ is cvars
+gvars is needed for a term in the context of glid
+"""
+function getσo(cvars, gvars, pm)
+ σo = []
+ for v in varc
+  try
+    vr = pm[v]
+    if v == vr
+      push!(σo, v)
+    elseif "" == vr
+      push!(σo, v)
+    else
+      !isa(vr, Symbol) && push!(σo, Meta.parse(vr))
+    end
+  catch
+    push!(σo, Symbol(v))
+  end # try
+ end # for
+ return σo
+end # getσo
+
+"""
 postview is the last half of view input
 """
 function postview(pm)
@@ -345,15 +314,14 @@ function postview(pm)
  if pm[:how] == "abort"
   score = stringcore(core)
   sres = stringclause(gid, core)
-  pres = """
-  <pre>$(score)</pre>
-  <pre>GOAL
-  $(sres)
-  =======</pre>
- """
+  pres = makepres([score, "GOAL $(sres)", "======="])
+
    form = htmlform("stepgoal", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
  end # if "abort"
+
+ σo = getσo(varc, varg, pm)
+
  for v in varc
   try
     vr = pm[v]
@@ -387,19 +355,11 @@ function postview(pm)
  
   score = stringcore(core)
   sres = stringclause(gid, core)
- 
-  pres = """
-  <pre>$(score)</pre>
-  <pre>GOAL
-  $(sres)
-  =======</pre>
- """
+  pres = makepres([score, "GOAL $(sres)", "======="])
  
   if 0 == length(lidsof(gid, core))
    global firstview=true
-   form = htmlform("start", [], "Confirm", "Cancel")
-   return htmlhtml(htmlheader("proof completed"), 
-           htmlbody("refuted", pres, form))
+   return contraview(gid, core)
   else
    form = htmlform("stepgoal", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
@@ -409,7 +369,8 @@ function postview(pm)
   if isa(e, VALID)
    return validview(gid, core)
   else
-   return unknownview(gid, e, core)
+   @warn gid,e
+   return unknownview(gid, e, core) # remove this
   end #if
  end #try
 end # postview
@@ -430,7 +391,7 @@ function goreadcore(pm)
    clist *= "$(stringclause(id, core))</br>"
  end # for
 
- pres = "<pre>CLAUSES</pre>$(clist)"
+ pres = makepres(["CLAUSES", clist])
  form = htmlform("stepgoal", [htmlinput("gid", "gid")], "Confirm", "Cancel") 
  return htmlhtml(htmlheader("Select GID"), htmlbody("which gid", pres, form))
 end

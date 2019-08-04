@@ -148,4 +148,14 @@ $(inputs)
 """
 end
 
+"""
+makepres make <pre>sequence
+"""
+function makepres(pres::Array)::String
+ spres = ""
+ for pre in pres
+  spres *= "<pre>$pre</pre>"
+ end
+ return spres
+end
 

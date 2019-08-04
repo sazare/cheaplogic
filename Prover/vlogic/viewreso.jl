@@ -167,6 +167,25 @@ function incount(glid, core)
  end # try
 end # incount
 
+
+"""
+ chooseresolvelid chooses a lid for resolve
+ the lid should be not Proc, not Cano
+"""
+function chooseresolvelid(lids, core)
+@info :chooseresolvelid
+ nlit = []
+ for lid in lids
+  lit2 = literalof(lid,core)
+  if !isProc(lit2) && !isCano(lit2, core)
+# this choose one of lits, but it will be more complicate.
+   return lid
+  end # !isProc && !isCano
+ end #for lid
+@info :chooseresolvelid_nothing
+ return nothing
+end # chooseresolvelid
+
 """
 choosecanoid() chooses a literal in Cano.
 should be called after evaluate
