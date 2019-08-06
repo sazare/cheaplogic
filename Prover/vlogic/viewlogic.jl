@@ -202,6 +202,7 @@ function goalprover(pm, pres)
    return validview(gid, core)
   else # if isa
 @info :unknownview,e
+@info :thiscantbecontraandvalid
    return unknownview(gid, e, core)
   end # if isa
  end #try
@@ -316,28 +317,11 @@ function postview(pm)
   sres = stringclause(gid, core)
   pres = makepres([score, "GOAL $(sres)", "======="])
 
-   form = htmlform("stepgoal", [], "Confirm", "Cancel")
-   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
+  form = htmlform("stepgoal", [], "Confirm", "Cancel")
+  return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
  end # if "abort"
 
  σo = getσo(varc, varg, pm)
-
- for v in varc
-  try
-    vr = pm[v]
-    if v == vr
-      push!(σo, v)
-    elseif "" == vr
-      push!(σo, v)
-    else
-      !isa(vr, Symbol) && push!(σo, Meta.parse(vr))
-    end
-  catch
-    push!(σo, Symbol(v))
-  end # try
- end # for
-@info σo
-
 @info :beforeapply varc catm σo
  catm2= apply(varc, catm, σo)
 @info :beforeunify varg gatm catm2
@@ -347,9 +331,6 @@ function postview(pm)
 @info glid σo σg 
  try
   nid, ncore = factify_clause(glid,σg,core)
-
-@info ncore
-
   global gid = nid
   global core = ncore
  
@@ -358,6 +339,7 @@ function postview(pm)
   pres = makepres([score, "GOAL $(sres)", "======="])
  
   if 0 == length(lidsof(gid, core))
+   @warn :is_thisfirstview_need
    global firstview=true
    return contraview(gid, core)
   else
@@ -365,7 +347,7 @@ function postview(pm)
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
   end # if
  catch e
-@info e
+  @info e
   if isa(e, VALID)
    return validview(gid, core)
   else

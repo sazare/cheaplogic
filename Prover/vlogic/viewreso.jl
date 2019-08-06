@@ -268,11 +268,13 @@ function factify_clause(glid,σg,core)
 @info :addnewclause,cid,glid,σg
   rid,renameσ = addnewclause(ovars,cid,rem1,core,σg) 
 @info :addstep,rid,glid,σg,[],:view
+@info :should_define_addstep
   core = addstep(core,rid,glid,glid,σg,[],:view)
   ncore = core
   gid, ncore = rid,core
   return rid, core
   catch e
+    @info :what_this_exception
     println("factify_clause = $e")
     throw(e)
   end # try
