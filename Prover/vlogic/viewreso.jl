@@ -263,7 +263,11 @@ function factify_clause(glid,σg,core)
    core.trycnt[1] += 1
    rem1 = lidsof(cid,core)
 @info rem1
-   rem = rem1 = setdiff(rem1, [glid])
+   
+   if isground(ovars, glit) 
+    rem1 = setdiff(rem1, [glid])
+   end
+   rem = rem1
 @info rem
 @info :addnewclause,cid,glid,σg
   rid,renameσ = addnewclause(ovars,cid,rem1,core,σg) 

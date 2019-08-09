@@ -306,13 +306,11 @@ function postview(pm)
  global varc = canovarsof(glid,core)
  global catm = canoof(glid,core)[2]
 
-@info :restvarg
-
  σo=[]
 @info pm
 @info varg
-@info :abort
  if pm[:how] == "abort"
+@info :isabort
   score = stringcore(core)
   sres = stringclause(gid, core)
   pres = makepres([score, "GOAL $(sres)", "======="])
@@ -321,28 +319,27 @@ function postview(pm)
   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
  end # if "abort"
 
+@info :noabort
  σo = getσo(varc, varg, pm)
-@info :beforeapply varc catm σo
+ σo = apply(varc, σo, varg)
  catm2= apply(varc, catm, σo)
-@info :beforeunify varg gatm catm2
+@info :after_apply catm2,varc,catm,σo
  σg = unify(varg, gatm, catm2)
-
-@info :before_factify_clause
-@info glid σo σg 
+@info :after_unify σg,varg,gatm,catm2
  try
   nid, ncore = factify_clause(glid,σg,core)
+@info nid,glid,σo,σg 
   global gid = nid
   global core = ncore
- 
-  score = stringcore(core)
-  sres = stringclause(gid, core)
-  pres = makepres([score, "GOAL $(sres)", "======="])
  
   if 0 == length(lidsof(gid, core))
    @warn :is_thisfirstview_need
    global firstview=true
    return contraview(gid, core)
   else
+   score = stringcore(core)
+   sres = stringclause(gid, core)
+   pres = makepres([score, "GOAL $(sres)", "======="])
    form = htmlform("stepgoal", [], "Confirm", "Cancel")
    return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
   end # if
