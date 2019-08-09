@@ -4,6 +4,37 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190809金
+viewでかえりのとき、isgroundでなけれぱliteralを消さないようにした。
+1. 一部の値を入れてgoalは変化した。🎂
+2. 次も同じリテラルのviewになり、🕷
+3. 値の決まっていないところはcano変数がでていた。🕷
+4. そのcanoViewの値のはいっていなかったところに55を代入したら
+2019-08-09 19:24:59:ERROR:Main: ICMP(:Y, 55, :unify0sn)
+　となった。変数リストがうまくいっていない。
+ vargは[]。
+5. view後の新goal(R1のL50のvarsが[]になっている
+
+[ Info: noabort
+┌ Info: after_apply
+└   (catm2, varc, catm, σo) = (:(P(22, Y)), Any[:X, :Y], :(P(X, Y)), Any[22, :Y])
+┌ Info: after_unify
+└   (σg, varg, gatm, catm2) = (Any[22, :Y], Symbol[:x_C3, :y_C3], :(P(x_C3, y_C3)), :(P(22, Y)))
+[ Info: (:factify_clause, :L50, Any[22, :Y])
+
+applyはいいみたいだが、Yをy_C3に変える代入がない
+🎂σgをつくる前にσoにvarc.<catm:gatm>をかけておく
+
+うまくいった
+
+
+
+
+
+* 直接いけるか? 
+ http://localhost:8000/go?op=readcore&corepath=vdata%2Fvev002.cnf
+ いけるみたい。
+
 20190730火
 vlogicのソースの整理ができた
 
