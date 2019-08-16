@@ -29,3 +29,17 @@ end
  @test iscap("ABC") == true
 end
 
+@testset "ltid" begin
+ @test ltid(:C1, :C2) == true
+ @test ltid(:C1, :C12) == true
+ @test ltid(:C11, :C2) == false
+ @test ltid(:C11, :C12) == true
+ @test ltid(:C11, :C1) == false
+ @test ltid(:C113, :R1) == true
+ @test ltid(:C113, :R130) == true
+ @test ltid(:C1113, :R130) == true
+ @test ltid(:R3, :C130) == false
+
+
+end
+

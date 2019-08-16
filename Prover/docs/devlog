@@ -4,6 +4,90 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190816金
+1. viewでabortやpartialのとき、次は別のリテラルを選ぶようにしたい
+2. しかし、他に選択肢がないときはよい
+3. goalの各リテラルについてtouch valueをつける。
+　　基本は0。partialやabortやFailしたときはgoalのそのliteralのtouch valueを増やす。
+　　0でないものだけ管理すればよい。Dictで。
+　　次に対象とするliteralを選ぶとき、touch valueの一番小さいものから選ぶ。
+
+4. まず現状を調べる
+ 1) V+Rがないので、C21で作る
+ 2) まちがえて-P4,-R4と-R4(5),-R4(6)とやったが[]になった
+    CanoのP4について -P4()と+P4()-R4()という定義にしたためで、-R4にいっていなかった。
+　　-R4()と相手のいない場合の例を作った
+🕷 3) V[6,-] => viewlogic.jl:324でException varc,σo,varg = [W,Z],[8,Z],[y]
+    [W,Z]なのに[y]が1つしかないから。
+ 4) V[-,5] => これもループ。V[5,5]で[]。
+ 5) V[-,9] => これもループ。V[5,9]と入力するとcan't progress.
+ 6) abortするとずっと同じリテラルでループする
+
+5. choosecanoid()を修正した
+global DIL = Dict()
+global maxdil = 0
+を追加した。
+関数を追加した
+doitlater(glid) glidのカウントを設定する
+doitlater(glid, wdi) glidのカウントをwdi+1にする。
+どちらもmaxdilを最大値にする
+
+whendoit(gid) gidのカウントを参照する
+
+abortのときは、glidのカウントをupする。
+partialのときは、glidとridから新しいglidをもとめ、前のglidのカウント+1にする
+
+choosecanoid()では、lidsをsortするときby=whendoitを指定する。
+
+
+6. chooseresolveid()を修正する
+
+
+
+8. stringclause()でRがCの中にまじっていた。ltid()をRとCを区別するように修正した
+
+
+20190812月
+週末は、小説の整理をしていた。
+
+🎂証明の進展ではなく、proving attemptsについて変化を調べなくてはならない。
+
+証明とmguは対応するけれども、<L:R>がfailしたという情報は、proving attemptsが進んだ
+ということを意味するのであり、存在しないmguを見ているだけではわからない。
+
+input literalsのすべての組み合わせ以外に証明で使われるpairはない
+(axiomsが変化しない場合)
+だから、Lpairsを列挙すると、証明の全体像がみえるはず。
+命題とそれに制約をつけた述語。
+
+proving attempts=Lpairsの並びあるいはLpairsの木がprovingの進展状況を示している。
+
+
+🎂 NTPのワードベクトルのように、input literalでベクトルを作ってうれしいことがないか??
+どのようなベクトルを作れば良いか
+literalには変数を含むものがあるが、
+何で区別するのか
+
+述語記号
+リテラル記号
+input リテラル
+
+たとえばclauseが似ているということを定義できるか?
+
+literalは述語記号と符号が一致していれば似ているのか
+
+全input literalのベクトルというのが素朴な考えとしてありそう。
+
+変数はどうするか?
+
+cheaplogicの最初の頃に作ったproverもどきは似ているかも
+
+
+
+
+
+
+
 20190809金
 viewでかえりのとき、isgroundでなけれぱliteralを消さないようにした。
 1. 一部の値を入れてgoalは変化した。🎂
