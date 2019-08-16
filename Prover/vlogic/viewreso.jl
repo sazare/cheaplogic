@@ -195,8 +195,9 @@ function choosecanoid(gid, core)
 @info :choosecanoid gid
  lids = lidsof(gid, core)
 @info lids
+@info sort(lids, by=whendoit)
  ninvec = []
- for lid in lids
+ for lid in sort(lids, by=whendoit)
 @info lid
    if isCano(literalof(lid,core),core)
 @info :iscano
@@ -263,7 +264,6 @@ function factify_clause(glid,σg,core)
    core.trycnt[1] += 1
    rem1 = lidsof(cid,core)
 @info rem1
-   
    if isground(ovars, glit) 
     rem1 = setdiff(rem1, [glid])
    end
@@ -273,6 +273,11 @@ function factify_clause(glid,σg,core)
   rid,renameσ = addnewclause(ovars,cid,rem1,core,σg) 
 @info :addstep,rid,glid,σg,[],:view
 @info :should_define_addstep
+
+  wdi = whendoit(glid)
+@show wdi,rename_lid(rid, origof(glid), core)
+  doitlater(rename_lid(rid, origof(glid), core), wdi)
+
   core = addstep(core,rid,glid,glid,σg,[],:view)
   ncore = core
   gid, ncore = rid,core

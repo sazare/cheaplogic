@@ -36,6 +36,8 @@ global vatm  ?
 global σi    the σ for the new view 
 global gid is the cid of the goal. before an input, it is :nogid 
  ? gid is gcid?
+global DIL  DoItLater has lid's when it is used
+global maxdil max count of DIL
 ==#
 
 global core = nothing
@@ -52,6 +54,8 @@ global vatm
 global σi
 global gid = :nogid
 
+global DIL = Dict{Symbol, Int}()
+global maxdil = 0
 
 #
 # the route /go (Genie issue)
@@ -267,7 +271,7 @@ function failview(cid, core)
  cls = stringclause(cid, core)
 @info cls
  return htmlhtml(htmlheader("Fail attempt"), 
-                  htmlbody("$cls cant progress more", "",form))
+                  htmlbody("$cls can't progress", "",form))
 end #failview
 
 """
@@ -295,10 +299,36 @@ function getσo(cvars, gvars, pm)
 end # getσo
 
 """
+doitlater(gid) count the when tried
+"""
+function doitlater(gid)
+ global maxdil += 1
+ DIL[gid] = maxdil
+@show :doitlater,maxdil,DIL
+end
+
+function doitlater(gid,wdi)
+ global maxdil = max(wdi, maxdil)+1
+ DIL[gid] = maxdil
+@show :doitlater_wdi,maxdil,DIL
+end
+
+"""
+whendoit(gid) return the gid's count
+"""
+function whendoit(gid)
+@show :whendoit,maxdil,DIL
+ if haskey(DIL, gid)
+  return DIL[gid]
+ end
+ return 0
+end
+
+"""
 postview is the last half of view input
 """
 function postview(pm)
-@info :postview, :SOURCETOOLONG
+@info :postview, :SOURCElittleLONG
 #temporalily view only
  global varg = lvarsof(glid, core)
  global gatm = literalof(glid, core).body.args[2]
@@ -315,12 +345,15 @@ function postview(pm)
   sres = stringclause(gid, core)
   pres = makepres([score, "GOAL $(sres)", "======="])
 
+  doitlater(glid)
+
   form = htmlform("stepgoal", [], "Confirm", "Cancel")
   return htmlhtml(htmlheader("next glit"), htmlbody("step goal", pres, form))
  end # if "abort"
 
 @info :noabort
  σo = getσo(varc, varg, pm)
+@show varc,σo, varg
  σo = apply(varc, σo, varg)
  catm2= apply(varc, catm, σo)
 @info :after_apply catm2,varc,catm,σo
@@ -402,6 +435,8 @@ global varc = nothing
 global vatm = nothing
 global σi   = []
 global gid = :nogid
+global DIL = Dict{Symbol, Int}()
+global maxdil = 0
 end #resetglobals
 
 #Genie issue

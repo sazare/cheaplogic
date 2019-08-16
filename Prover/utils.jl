@@ -123,6 +123,7 @@ end
  ltis "C2" < "C12"
 """
 function ltid(id1::String, id2::String) 
+ if id1[1] != id2[1]; return id1[1] < id2[1] end
  if length(id1) == length(id2) 
   return id1 < id2
  else
