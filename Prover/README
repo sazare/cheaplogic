@@ -129,13 +129,14 @@ experimantal codes
  viewprover is a web server. 
 
  1 after include("load_viewprover.jl") in Prover directry.
- 2 open http://localhost:8000/go?op=start, It requires the cnf file path.
+ 2 open http://localhost:8000/go?op=start, It asks a cnf file path.
 
 ## files
- vlogic/viewreso.jl
- vlogic/viewlogic.jl
- vlogic/vhtmls.jl
+ vlogic/viewreso.jl  functions don't directly concern web flow
+ vlogic/viewlogic.jl functions concern web flow
+ vlogic/vhtmls.jl    html maker
 
 ## data
- vdata/vev002.cnf
+ vdata/vev002.cnf has all goals for important test 
+
 

@@ -43,6 +43,7 @@ function direction(vars::Vlist, t1::Any, t2::Any)
 end
 
 function unify1(vars::Vlist, t1::Expr, t2::Expr, σ::Tlist)::Tlist
+  if t1 == t2; return σ end
   if t1.args[1] != t2.args[1]; throw(ICMP(t1,t2,:unify1ee)) end
   while true
     Δ=disagreement(t1, t2)

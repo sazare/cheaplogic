@@ -37,6 +37,7 @@ struct STEP
  rule
 end
 
+#==
 mutable struct CORE
  name
  maxcid
@@ -52,6 +53,7 @@ mutable struct CORE
  trycnt
  succnt
 end
+==#
 
 function stringtoclause(cid, cls)
  vars = cls.args[1].args
