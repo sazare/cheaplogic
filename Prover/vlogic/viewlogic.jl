@@ -302,22 +302,21 @@ end # getσo
 doitlater(gid) count the when tried
 """
 function doitlater(gid)
- global maxdil += 1
- DIL[gid] = maxdil
-@show :doitlater,maxdil,DIL
+# global maxdil += 1
+# DIL[gid] = maxdil
+ DIL[gid] = whendoit(gid) + 1
 end
 
 function doitlater(gid,wdi)
- global maxdil = max(wdi, maxdil)+1
- DIL[gid] = maxdil
-@show :doitlater_wdi,maxdil,DIL
+# global maxdil = max(wdi, maxdil)+1
+# DIL[gid] = maxdil
+ DIL[gid] = wdi + 1
 end
 
 """
 whendoit(gid) return the gid's count
 """
 function whendoit(gid)
-@show :whendoit,maxdil,DIL
  if haskey(DIL, gid)
   return DIL[gid]
  end
@@ -352,16 +351,18 @@ function postview(pm)
  end # if "abort"
 
 @info :noabort
+@show varc,varg
  σo = getσo(varc, varg, pm)
-@show varc,σo, varg
- σo = apply(varc, σo, varg)
+@show varc,σo,gatm.args[2:end]
+ σo = apply(varc, σo, gatm.args[2:end])
+@show varc,catm,σo
  catm2= apply(varc, catm, σo)
 @info :after_apply catm2,varc,catm,σo
  σg = unify(varg, gatm, catm2)
 @info :after_unify σg,varg,gatm,catm2
  try
   nid, ncore = factify_clause(glid,σg,core)
-@info nid,glid,σo,σg 
+@info :after_factify,nid,glid,σo,σg 
   global gid = nid
   global core = ncore
  
