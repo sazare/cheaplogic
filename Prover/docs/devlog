@@ -4,6 +4,61 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190818日
+1. test_*.jlを確認する
+ 1) 🕷 test_kplogic.jl でCOREの再定義がおきた。
+　　　　COREの定義にいろいろ追加していたからだろう。
+    ☕️ kpcore.jlのCOREの定義が古いようだったので、コメントアウトしてみた
+       でtest_kplogicは正常にとおった
+
+ 2) test_naivelogic.jlは
+        kpcore.jlの意味は忘れたが、なぜこのような定義が必要なのか?
+
+###
+(vars, t1, t2, σ) = (Any[], :(P()), :(Q()), Any[])
+(vars, t1, t2, σ) = (Symbol[:x], :(()), :(()), Symbol[:x])
+naiveunify: Error During Test at /Users/shin/Projects/github/cheaplogic/Prover/test_naiveunify.jl:28
+  Test threw exception
+  Expression: unify([:x], $(Expr(:quote, :(()))), $(Expr(:quote, :(())))) == [:x]
+  BoundsError: attempt to access 0-element Array{Any,1} at index [1]
+  Stacktrace:
+   [1] getindex at ./array.jl:729 [inlined]
+   [2] unify1(::Array{Symbol,1}, ::Expr, ::Expr, ::Array{Symbol,1}) at /Users/shin/Projects/github/cheaplogic/Prover/naiveunify.jl:47
+   [3] unify(::Array{Symbol,1}, ::Expr, ::Expr) at /Users/shin/Projects/github/cheaplogic/Prover/unify.jl:302
+   [4] top-level scope at /Users/shin/Projects/github/cheaplogic/Prover/test_naiveunify.jl:28
+   [5] top-level scope at /Users/julia/buildbot/worker/package_macos64/build/usr/share/julia/stdlib/v1.1/Test/src/Test.jl:1083
+   [6] top-level scope at /Users/shin/Projects/github/cheaplogic/Prover/test_naiveunify.jl:26
+###
+
+   ☕️ unify1(v,t1,t2,σ)の冒頭でt1==t2のとき↑σとした。unify()から呼ぶときはt1==t2のときunify1にこないのだが
+　　　ほかのパスがあるらしい
+      
+2. メモ
+　↑X を書いてみたかった
+
+  macro ↑(v)
+   return :(return $v)
+  end
+
+　としたら
+
+  function a(x)
+    if x == 3; @↑8 end
+    @↑ 19
+  end
+  として
+  julia> a(3)
+  8
+  julia> a(23)
+  19
+
+とは書けた。
+
+
+
+
+
+　  
 20190817土
 1. maxでなく、そのリテラルの前のwhendoit+1にしてみた
 今の例では,partialもabortもうごく

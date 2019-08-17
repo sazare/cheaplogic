@@ -1,4 +1,7 @@
 # test for naiveunify.jl
+## this file is called by test_naivelogic.jl
+## not statndalone test
+
 using Test
 
 #include("naiveunify.jl")
