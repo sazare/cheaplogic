@@ -26,16 +26,12 @@ function addnewclause(vars, cid, lids, core, σo=[])
   rid =  newrid(core)
   vars = varsof(cid, core)
   nrem = rename_lids(rid, lids, core)
-@show rid,vars,nrem
   nbody = literalsof(lids, core)
 # this apply is need for just view
   if σo != []; nbody = apply(vars, nbody, σo) end
-@show vars,nbody
   vars = fitting_vars(vars, nbody, core)
-@show vars
   body = rename_clause(rid, vars, nbody)
   rename_subst = [vars, body.vars]
-@show rename_subst
 
   ## settlement
   core.succnt[1] += 1
@@ -275,7 +271,6 @@ function factify_clause(glid,σg,core)
 @info :should_define_addstep
 
   wdi = whendoit(glid)
-@show wdi,rename_lid(rid, origof(glid), core)
   doitlater(rename_lid(rid, origof(glid), core), wdi)
 
   core = addstep(core,rid,glid,glid,σg,[],:view)
