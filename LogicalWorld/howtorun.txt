@@ -1,6 +1,6 @@
 0. cd ../LogicalWorld"
 1. run julia
-2. include("../Prover/loadall.jl")
+#2. include("../Prover/loadall.jl")
 4. include("Facto.jl")
 4.5 global flog = open("log.playMadoca", "a+")
 5. include("playMadoka.jl")

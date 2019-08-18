@@ -66,7 +66,7 @@ route("/go") do
  if core != nothing
   @info gid
  end # if
-
+  @info op
  if op == "start"
   return gostart()
  elseif op == "readcore"
@@ -103,7 +103,7 @@ function goresolve(pm, gidl)
  # I should backtrack. but now it is not clear 
  
  if glid == nothing
-@show :glid_eq_nothing
+@show :glid_is_nothing
   # no lid for resolve
   score = stringcore(core)
   pres = makepres([score, "======="])
@@ -113,6 +113,7 @@ function goresolve(pm, gidl)
  end # if glid==nothing
 # now new goal born
  try
+@info :before_resolvelid, glid
   gc=resolvelid(glid, core)
   if gc != nothing
 @info gc
@@ -121,14 +122,15 @@ function goresolve(pm, gidl)
   end # if gc
 
   score = stringcore(core)
-
   if isempty(lidsof(gid,core))
   # form = htmlform("start", [], "Confirm", "Cancel") 
    return contraview(gid, core)
-  else # isempty
-   pres = makepres([score, "======="])
-   form = htmlform("stepgoal", [], "Confirm", "Cancel") 
-   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
+  else # !isempty
+   #find resolvent with lidsof(gid,core)
+
+ # no opponent to glid, means no progress
+   return ceaseview(gid, core)
+
   end # isempty
  catch e
   println("e = $e")
@@ -197,9 +199,13 @@ function goalprover(pm, pres)
 # when no cano lid, askpage is nothing 
 @info :askpage_nothing
 # no askpage, no cano lid, following resolve(not stepgoal)
+#==
+# can i go resolve
   form = htmlform("resolve", [], "Confirm", "Cancel") 
   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
-
+==#
+ goresolve(pm, gid)
+  
  catch e
   if isa(e, VALID)
 @info validview
@@ -271,8 +277,20 @@ function failview(cid, core)
  cls = stringclause(cid, core)
 @info cls
  return htmlhtml(htmlheader("Fail attempt"), 
-                  htmlbody("$cls can't progress", "",form))
+                  htmlbody("$cls Failed, can't progress", "",form))
 end #failview
+
+"""
+ceaseview is the view no progress
+"""
+function ceaseview(cid, core)
+@info cid
+ form = htmlform("start", [], "Confirm", "Cancel")
+ cls = stringclause(cid, core)
+@info cls
+ return htmlhtml(htmlheader("Clauses is incomplete"), 
+                  htmlbody("$cls can't progress", "",form))
+end #ceaseview
 
 """
 getσo make a σ for after a view input.

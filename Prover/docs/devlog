@@ -32,8 +32,36 @@ naiveunify: Error During Test at /Users/shin/Projects/github/cheaplogic/Prover/t
 
    ☕️ unify1(v,t1,t2,σ)の冒頭でt1==t2のとき↑σとした。unify()から呼ぶときはt1==t2のときunify1にこないのだが
 　　　ほかのパスがあるらしい
-      
-2. メモ
+🎂 printcore()よりもprint(stringcore(core))のほうが、cidの順番がみやすい。
+   print(stringclause(core))もよいがCanoがみえない。
+
+2. C24 in vev002.cnf, で、ループにおちいっていた。
+   C24のリテラルはCanoがなく、resolveだが、opposがない。 
+   resolvelid()でnothingをかえすようにしていたが、呼び出し側でloopするviewをつくっていた。
+　 failview()をだすようにして解決
+
+　 ただし、failview()の定義をみると、:Failのときに出すviewらしい。
+　 can't progressなので同じものを使ったがだめかも
+   
+3.🕷 C21 in vev002.cnfでViewの値を2つ指定しても、resolventにリテラルが残っている
+　そこでconfirmするとき消えるらしい
+
+  - isground(glit)をしていたが、このglitはσoをかけていなかったので変数があり、消されなくなる。
+　　factifyはσgをもってきていて、σoでなくσgをかけてground化し、解決
+    ☕️動作確認(V[8,6]でR1から-P4()が消えることを確認)
+
+  - V[7,6]とすると-Q(6)ができる。resoで相手をさがすとまず+Q(5)がみつかるがこれではFailになり
+　　そこであきらめてしまうのでFail can't progressになる。
+
+　　failになったら他の選択肢をさがすべき。opposがあるかぎり頑張る
+
+    resolvelid()の中のopposのloopで、unify()からICMPがかえってきたらcontinueをするようにした。
+
+    ☕️ 動作確認(V[8,6]で-Q4(6)で[]になることを確認)
+
+
+
+4. メモ
 　↑X を書いてみたかった
 
   macro ↑(v)
