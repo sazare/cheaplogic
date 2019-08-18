@@ -1,12 +1,14 @@
-[[view prover]]
+[[view prover]
 this is a prover with the resolution and some human interactions through web views.
 
 the proving style is a goal reduction to contradiction(empty goal).
 
 this has 3 ways to reduct a goal.
 
- 1) remove a literal evaluated to false
+ 1) remove a literal evaluated to false. this means the neg of the literal 
+    should be true by julia(computing system).
  2) remove a literal that ask a correspoinding query to a humanb and get an anser.
+    Namely a human's input make a literal, that should be true.
  3) remove a literal resolved with a clause in cnf.
 
 - a query view correspoinding a litral
@@ -35,6 +37,41 @@ this has 3 ways to reduct a goal.
  vdata/vev002.cnf 's following clause(id) can be a goal respectively.
  -> show the operation and result.
 
+C1:[x_C1,y_C1].[L13:-(ge(2,5)),L14:-(ge(4,55)),L15:-(ge(5,9))]
+C2:[x_C2,y_C2].[L1:-(ge(12,5)),L2:-(ge(114,55)),L3:-(ge(115,9))]
+C3:[x_C3,y_C3].[L60:-(P(x_C3,y_C3))]
+C4:[x_C4,y_C4,z_C4,w_C4].[L25:-(P(x_C4,y_C4)),L26:-(R(z_C4,w_C4))]
+C5:[x_C5,y_C5].[L27:-(P(x_C5,y_C5)),L28:-(ge(2,1)),L29:-(ge(4,2)),L30:-(ge(5,2))]
+C6:[x_C6,y_C6].[L52:-(ge(2,1)),L53:-(ge(4,2)),L54:-(ge(5,2)),L55:-(P(x_C6,y_C6))]
+C7:[x_C7,y_C7].[L56:-(ge(2,1)),L57:-(ge(x_C7,y_C7)),L58:-(ge(5,2)),L59:-(P(x_C7,y_C7))]
+C8:[x_C8,y_C8].[L9:-(P(x_C8,y_C8)),L10:-(ge(2,1)),L11:-(ge(x_C8,y_C8)),L12:-(ge(5,2))]
+C9:[x_C9,y_C9,z_C9,w_C9].[L42:-(ge(x_C9,y_C9)),L43:-(P(x_C9,y_C9)),L44:-(R(z_C9,w_C9))]
+C10:[x_C10,y_C10,z_C10,w_C10].[L4:-(ge(x_C10,y_C10)),L5:-(ge(z_C10,w_C10)),L6:-(P(x_C10,y_C10)),L7:-(R(z_C10,w_C10))]
+C11:[x_C11,y_C11,z_C11,w_C11].[L20:-(ge(x_C11,y_C11)),L21:-(P(x_C11,y_C11)),L22:-(R(z_C11,w_C11)),L23:-(S(y_C11,w_C11))]
+C12:[x_C12,y_C12].[L38:-(P(x_C12,y_C12)),L39:-(S(x_C12,y_C12))]
+C13:[].[L24:+(S(1,2))]
+C14:[x_C14,y_C14,z_C14,w_C14].[L33:-(ge(x_C14,w_C14)),L34:-(P(x_C14,y_C14)),L35:-(R(z_C14,w_C14)),L36:-(S2(y_C14,w_C14))]
+C15:[].[L31:+(S2(1,2))]
+C16:[x_C16,y_C16].[L32:-(P2(x_C16,y_C16))]
+C17:[x_C17,y_C17].[L16:+(P2(x_C17,y_C17)),L17:-(S2(x_C17,y_C17))]
+C18:[x_C18,y_C18].[L48:+(S2(x_C18,y_C18)),L49:-(ge(x_C18,y_C18))]
+C19:[x_C19].[L46:-(P(x_C19,3))]
+C20:[x_C20,y_C20].[L47:-(P4(x_C20,y_C20))]
+C21:[x_C21,y_C21].[L18:+(P4(x_C21,y_C21)),L19:-(Q4(y_C21))]
+C22:[].[L8:+(Q4(5))]
+C23:[].[L51:+(Q4(6))]
+C24:[y_C24].[L37:-(Q5(y_C24))]
+C25:[].[L45:-(Q5(5))]
+C26:[].[L50:-(Q5(6))]
+C27:[x_C27,y_C27,z_C27,w_C27].[L40:-(P2(x_C27,y_C27)),L41:-(P4(w_C27,z_C27))]
+
+PSYM: [P,P2,P4,Q4,Q5,R,S,S2,ge]
+CANO: 
+ [X,Y].P(X,Y)
+ [X,Y].P2(X,Y)
+ [W,Z].P4(W,Z)
+ [Z,W].R(Z,W)
+
  cid 
  C1 -> 3 evals => Valid
  C2 -> 3 evals => Contradiction
@@ -59,4 +96,11 @@ this has 3 ways to reduct a goal.
    with C15 => Valid
    with C16 => []
  C19 -> view with a default input value => []
-
+ C20 is a mistake. I intended to resolve P4 in C20 with C21. 
+     but P4() has cano, therefore the resolution never happen. 
+     This is an evidence such mechanism.
+ C21 shows view literal have common variable(y) with reso literal(Q4)
+  C22,C23 define +Q4(5) and +Q4(6). if y = 5 or 6, you will get [], and other value make can't progress result.
+ C24 this with C25, C26 check no oppents -Q5, into "can't progress"
+  C25,C26 can't hit -Q5 in C24
+ C27 2 view with different liteal. test for partial inputs, abort.

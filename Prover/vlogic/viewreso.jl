@@ -260,9 +260,11 @@ function factify_clause(glid,σg,core)
    core.trycnt[1] += 1
    rem1 = lidsof(cid,core)
 @info rem1
-   if isground(ovars, glit) 
+@show :isground,ovars,glid,apply(ovars,glit,σg)
+   if isground(ovars, apply(ovars,glit,σg)) 
     rem1 = setdiff(rem1, [glid])
    end
+@show rem1
    rem = rem1
 @info rem
 @info :addnewclause,cid,glid,σg
@@ -302,6 +304,8 @@ function resolvelid(glid, core)
  sign, psym = psymof(glid, core)
 @show sign, psym
  oppos = oppositof(sign, psym, core)
+ # no opponents means can't progress
+ if isempty(oppos); return nothing end
  for olid in oppos
 @show olid
 # try unify them
@@ -313,18 +317,23 @@ function resolvelid(glid, core)
 @show ovars
   core.trycnt[1] += 1
 @info :before_unify, ovars, atomg, oatom
-  σ = unify(ovars, atomg, oatom)
-@show σ,olid
-  orem = lidsof(cidof(olid,core), core)
+  try 
+   σ = unify(ovars, atomg, oatom)
+   orem = lidsof(cidof(olid,core), core)
 @info orem,remg, olid
-  grem = setdiff(vcat(orem, remg), [olid])
+   grem = setdiff(vcat(orem, remg), [olid])
 @info grem
 @info :addnewcore,ovars,gid,grem
-  gid,renameσ = addnewclause(ovars,gid,grem,core)
-  core = addstep(core,gid,glid,olid,σ,renameσ[2],:reso)
-  ncore = core
-  return gid, core
- end # for olid
+   gid,renameσ = addnewclause(ovars,gid,grem,core)
+   core = addstep(core,gid,glid,olid,σ,renameσ[2],:reso)
+   ncore = core
+   return gid, core
 
+  catch e
+   # one of oppos failed, try next opos
+   if isa(e,ICMP); continue end
+   return unknownview(gid,e, core)
+  end
+ end # for olid
 end # resolvelid
 
