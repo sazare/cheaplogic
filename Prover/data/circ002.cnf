@@ -1,0 +1,22 @@
+# A simple circuit problem
+#  sw -- lamp -- power -->{sw} -- is wire
+#  case: after sw:off and lamp:dark, let sw:on and lamp:dark
+#  wire is connect or broken
+#  what is the reason.
+
+# C(time, switch, power, lamp, wire)
+# time t -> s(t)
+# switch on/off
+# power  some,empty ; some > empty
+# lamp   glow,dark
+# wire   connect, broken
+
+# X is empty?
+#[t,X,z].[-C(s(t),on,X,dark,z)]
+[t,X,z].[-C(t,off,X,dark,z),-C(s(t),on,X,dark,z)]
+
+[t,x,y].[+C(t,x,y,dark,broken)]
+[t,y].[+C(t,off,y,dark,connect)]
+[t,x].[+C(t,x,empty,dark,connect)]
+[t].[+C(t,on,some,glow,connect)]
+

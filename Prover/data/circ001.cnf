@@ -1,0 +1,20 @@
+# A simple circuit problem
+#  sw -- lamp -- power -->{sw}
+#  case: after sw:off and lamp:dark, let sw:on and lamp:dark
+#  what is the reason.
+
+# X is empty?
+[t,X].[-C(t,off,X,dark),-C(s(t),on,X,dark)]
+# ↓ no[] 
+# [t,X].[-C(t,off,X,dark),+C(s(t),on,X,dark)]
+# ↓ This goal make no []
+#[t,X].[+C(s(t),on,X,dark)]
+#[t,X].[-C(t,off,X,dark)]
+# ↓ separated literal has no common
+#[t,X].[-C(t,off,X,dark)]
+#[t,X].[+C(s(t),on,X,dark)]
+
+[t,y].[+C(t,off,y,dark)]
+[t,x].[+C(t,x,empty,dark)]
+[t].[+C(t,on,some,glow)]
+
