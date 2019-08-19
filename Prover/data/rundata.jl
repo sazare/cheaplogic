@@ -93,3 +93,10 @@ rident001,cident001=simpleprover("data/ident001.cnf",5,5) # identity
 rident002,cident002=simpleprover("data/ident002.cnf",5,5) # identity with near time 
 
 #### end of dirrerent results
+
+# case: Circuit trouble
+# 001 answer the reason swich on but not lamp glow.
+rcirc001,ccirc001=simpleprover("data/circ001.cnf",2,2) # 
+# 002 this model swith, power, lamp and wire. same query
+rcirc002,ccirc002=simpleprover("data/circ002.cnf",3,3) # 
+

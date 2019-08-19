@@ -1,0 +1,11 @@
+using Logging
+io=open("vllog.txt", "w+")
+flush(io)
+logger=SimpleLogger(io)
+global_logger(logger)
+
+include("load_viewprover.jl")
+
+flush(io)するたびに vllog.txtにlogが出力される
+
+
