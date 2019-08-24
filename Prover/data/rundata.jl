@@ -99,4 +99,6 @@ rident002,cident002=simpleprover("data/ident002.cnf",5,5) # identity with near t
 rcirc001,ccirc001=simpleprover("data/circ001.cnf",2,2) # 
 # 002 this model swith, power, lamp and wire. same query
 rcirc002,ccirc002=simpleprover("data/circ002.cnf",3,3) # 
+# 003 knowledges are general
+rcirc003,ccirc003=simpleprover("data/circ003.cnf",3,3) # 
 
