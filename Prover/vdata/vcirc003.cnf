@@ -1,0 +1,33 @@
+# A simple circuit problem separate View and Reso
+# this show all reasons for your problem(goal)
+
+#  sw -- lamp -- power -->{sw} -- is wire
+
+# C(time, lamp,switch,power,wire)
+# lamp   light,black
+# switch on/off
+# power  charged,empty
+# wire   conn, cut
+
+# template: [sw,lamp,pow,wire].[-C(black,on,pow,wire)]
+
+# ask the problem
+[x,y,z,w].[-DC(x,y,z,w),-VQ(x,y)]
+
+# Knowledge/Premise
+[].[+KC(light,on,charged,conn)]
+[].[+KC(black,off,charged,conn)]
+
+[].[+KC(black,on,empty,conn)]
+[].[+KC(black,on,charg,disc)]
+[].[+KC(black,on,empty,disc)]
+
+# Rules
+# literal order? KC to last
+[x,y,z,w].[+DC(x,y,z,w),-VSW(y),-VPOW(z),-VWIRE(w),-KC(x,y,z,w)]
+
+# CANO
+&[LAMP0,SW0].[VQ(LAMP0,SW0)]
+&[SW0].[VSW(SW0)]
+&[POW0].[VPOW(POW0)]
+&[WIRE0].[VWIRE(WIRE0)]

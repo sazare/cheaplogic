@@ -7,6 +7,7 @@
  restrictvars(lid, core) makes vars really used
 """
 function restrictvars(lid, core)
+@show restrictvars
   fitting_vars(varsof(cidof(lid,core), core), [literalof(lid,core).body], core)
 end
 

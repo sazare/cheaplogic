@@ -4,6 +4,54 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190824土
+1. 回路問題のcnfを書いてみている(docs/about_circuit.txt)
+ はっきりと書き方がわからない
+　resoでresolventの変数がひとつもなくなっている。
+  ?) R1からR2にいくとき別の変数が同じになっているような
+  vdata/vcirc003.cnv
+proof
+R1:<L3:L3>=[black,on,z_C1,w_C1] by view
+R2:<L2_R1:L4>=[z_C6,w_C6,black,on,z_C6,w_C6] by reso
+
+julia> varsof(:R1,core)
+2-element Array{Symbol,1}:
+ :z_C1R1
+ :w_C1R1
+
+julia> lvarsof(:L4,core)
+4-element Array{Symbol,1}:
+ :x_C6
+ :y_C6
+ :z_C6
+ :w_C6
+
+julia> stringclause(:R1,core)
+"R1:[z_C1R1,w_C1R1].[L2_R1:-(DC(black,on,z_C1R1,w_C1R1))]"
+と
+julia> stringclause(:C6,core)
+"C6:[x_C6,y_C6,z_C6,w_C6].[L4:+(DC(x_C6,y_C6,z_C6,w_C6)),L5:-(VSW(y_C6)),L6:-(VPOW(z_C6)),L7:-(VWIRE(w_C6)),L8:-(KC(x_C6,y_C6,z_C6,w_C6))]"
+
+から
+
+julia> stringclause(:R2,core)
+"R2:[].[L5_R2:-(VSW(y_C6)),L6_R2:-(VPOW(z_C6)),L7_R2:-(VWIRE(w_C6)),L8_R2:-(KC(x_C6,y_C6,z_C6,w_C6))]"
+
+R2のvarsが[]なのはなぜか?
+
+[ Info: (:addnewclause, Symbol[:z_C1R1, :w_C1R1, :x_C6, :y_C6, :z_C6, :w_C6], :R1, Any[:L5, :L6, :L7, :L8], Any[])
+
+🎂 fitting_varsでresolutionの結果の変数がひたすら減っていくだけだ。
+   変数名のつけかえのあとにfittingをしているのだろうか??
+
+☕️ addstepのrenameσは右と左のσの[-,-]でなくてはならないのに、view proverのreso ではaddstepでそうしていなかった。
+
+
+
+
+
+
+
 20190819月
 1. 問題をどう書くか、どう問えるかを考える
   1) 簡単な電気回路(スイッチ、電源、ランプ)を考えて、

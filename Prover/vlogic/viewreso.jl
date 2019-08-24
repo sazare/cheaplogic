@@ -21,15 +21,18 @@ end # isProc
  addnewclause(vars, cid, lids, core, σo=[])
 """
 function addnewclause(vars, cid, lids, core, σo=[])
-@info :addnewclause, vars,cid,lids,σo
+@show :addnewclause, vars,cid,lids,σo
 # rename rlid
   rid =  newrid(core)
-  vars = varsof(cid, core)
+#  vars = varsof(cid, core)
+#@show :vars_in_addnewclause, vars
   nrem = rename_lids(rid, lids, core)
   nbody = literalsof(lids, core)
 # this apply is need for just view
   if σo != []; nbody = apply(vars, nbody, σo) end
+@show :addnewclause_fittingbefore, vars,nbody
   vars = fitting_vars(vars, nbody, core)
+@show :addnewclause, vars
   body = rename_clause(rid, vars, nbody)
   rename_subst = [vars, body.vars]
 
@@ -298,7 +301,7 @@ function resolvelid(glid, core)
  varsg = cvarsof(glid, core)
  atomg = atomof(glid, core)
  remg  = setdiff(lidsof(cidof(glid, core), core), [glid])
-@info :after_setdiff_in_resolvelid
+@show :after_setdiff_in_resolvelid
 @show glit, varsg, atomg, remg
 # maching for all opposit
  sign, psym = psymof(glid, core)
@@ -316,16 +319,16 @@ function resolvelid(glid, core)
   ovars=vcat(varsg, ovars) 
 @show ovars
   core.trycnt[1] += 1
-@info :before_unify, ovars, atomg, oatom
+@show :before_unify, ovars, atomg, oatom
   try 
    σ = unify(ovars, atomg, oatom)
    orem = lidsof(cidof(olid,core), core)
-@info orem,remg, olid
+@show :before_setdiff, orem,remg, olid
    grem = setdiff(vcat(orem, remg), [olid])
-@info grem
-@info :addnewcore,ovars,gid,grem
+@show grem
+@show :addnewcore,ovars,gid,grem
    gid,renameσ = addnewclause(ovars,gid,grem,core)
-   core = addstep(core,gid,glid,olid,σ,renameσ[2],:reso)
+   core = addstep(core,gid,glid,olid,σ,renameσ,:reso)
    ncore = core
    return gid, core
 
