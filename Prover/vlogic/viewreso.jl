@@ -91,7 +91,11 @@ function evaluategoal(gid, core)
     rlids = [glid]
     break
    end # if val == false
-  end # if isProc
+  elseif isground(vars, lit.body)  # ground literal
+    removedevalaute = true
+    rlids = [glid]
+    break
+  end # if isProc and isground
  end # for glid
 
 @info :afterforglid, gid, rlids
@@ -176,8 +180,10 @@ function chooseresolvelid(lids, core)
  nlit = []
  for lid in lids
   lit2 = literalof(lid,core)
+@show lit2
   if !isProc(lit2) && !isCano(lit2, core)
 # this choose one of lits, but it will be more complicate.
+@show :not_proc_and_cano,lid
    return lid
   end # !isProc && !isCano
  end #for lid
@@ -322,13 +328,16 @@ function resolvelid(glid, core)
 @show :before_unify, ovars, atomg, oatom
   try 
    σ = unify(ovars, atomg, oatom)
+@show ovars, σ
    orem = lidsof(cidof(olid,core), core)
 @show :before_setdiff, orem,remg, olid
    grem = setdiff(vcat(orem, remg), [olid])
-@show grem
-@show :addnewcore,ovars,gid,grem
-   gid,renameσ = addnewclause(ovars,gid,grem,core)
+@show :addnewclause,ovars,gid,grem, σ
+   gid,renameσ = addnewclause(ovars,gid,grem,core, σ)
+@show :after_new_clause, gid, renameσ
+@show :addstep, gid, glid,olid,σ,renameσ
    core = addstep(core,gid,glid,olid,σ,renameσ,:reso)
+
    ncore = core
    return gid, core
 
