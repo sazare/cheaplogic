@@ -4,6 +4,75 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190825日
+昨日のつづき
+
+R2でcan't progressになる
+1. can't progressの理由は??
+  glidのopponentがないため。
+　templateができていない。
+
+  goreadcore()でalltemplateof()をしていなかったためにlevel0ができていなかった。
+
+　修正した。templateはできたが、can't progressはかわらず。なぜか?
+
+  KCは+も-もあるので問題ないと思うがどうしてか
+  ↓が先か
+
+2. R2の変数にblackとonが代入されていない。R1にはあるので、resolventの作り方がおかしい
+　きのうはできていたような気もする。昨日の修正の影響か??
+  L2_R1をresolveすると、blackとonが消える。
+
+  addnewclauseのσに値を設定してみているが、間違っているかも。
+　一度、全体を見直す。
+
+  -VSW(on)というのができているが、これはgroundなので消せばいいようなきがする。
+　つまり、cannoでgroundだったら消して良い。
+  これはviewの前にやりたいので、evalの中でよい。
+
+　条件の時、literalを消して新しいgoalを作りたいのでevalでやるとめんどう。
+  似たような処理はviewでやっているから、viewでやりたい。
+
+　choosecanoidでは、isCano()判定しているのでisgroundをみればいいような気も
+　するが、それでidを残していっても消すときがいつかくる。
+
+  VSW()とVLAMP()はいらないけど、どういうふうにはずすか?
+
+  とりあえず-VSW()と-VLAMP()をはずしたが同じ。
+
+　もしかして-ではなく+限定か?
+
+　たぶん単純な間違いのような気がしてきた。cnfの間違いの可能性もある。
+
+  [+DC(),-KC()]にしてみたが同じ。
+
+R2:[z_C7R2,w_C7R2]. L6_R2.-(KC(black, off, z_C7R2, w_C7R2))
+ができていて
+C3:[]. L7.+(KC(black, off, charged, conn))
+があるのに
+ceaseview()にくるのはなぜか??
+
+R2ができたあと、なぜかそのままceaseview()にながれている
+
+goresolve()でresolvelid()のあとgidがかえってきたら
+contraかceaseのどちらかになってしまうが、
+resolutionが成功すればgidがかえってくるのでこの制御は
+おかしい
+
+ resolventができたときの処理が抜けていた。
+
+ 作ったら通った。
+
+3. [x,y,z,w].[+DC(x,y,z,w),-VPOW(z),-VWIRE(w),-KC(x,y,z,w)]
+のように書くと、POWとWIREのVIEWが両方聞かれる。
+たしかにそうかもしれないが、POW(emtpy)ならそれでlamp(black)ではある・・・
+原因をすべて確認するというやりかただと言えば、論理的でよい。
+
+同様に、sw=on & lamp=lightでも聞いてくる。
+
+ここらへんはcnfの書き方の問題なので、プログラムは一旦完成とする。
+
+
 20190824土
 1. 回路問題のcnfを書いてみている(docs/about_circuit.txt)
  はっきりと書き方がわからない

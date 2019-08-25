@@ -116,7 +116,7 @@ function goresolve(pm, gidl)
 @info :before_resolvelid, glid
   gc=resolvelid(glid, core)
   if gc != nothing
-@info gc
+@info :isnot_nothing,gc[1]
    global gid = gc[1]
    global core = gc[2]
   end # if gc
@@ -127,11 +127,15 @@ function goresolve(pm, gidl)
    return contraview(gid, core)
   else # !isempty
    #find resolvent with lidsof(gid,core)
+   score = stringcore(core)
+   pres = makepres([score, "======="])
 
- # no opponent to glid, means no progress
-   return ceaseview(gid, core)
-
+   form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
   end # isempty
+
+# ??? no opponent to glid, means no progress
+   return ceaseview(gid, core)
  catch e
   println("e = $e")
 
@@ -289,7 +293,7 @@ function ceaseview(cid, core)
  cls = stringclause(cid, core)
 @info cls
  return htmlhtml(htmlheader("Clauses is incomplete"), 
-                  htmlbody("$cls can't progress", "",form))
+                  htmlbody("$cls has no opposit, can't progress", "",form))
 end #ceaseview
 
 """
@@ -414,6 +418,7 @@ function goreadcore(pm)
  corepath = pm[:corepath]
  resetglobals()
  global core = readcore(corepath)
+ tcore = alltemplateof(core)
 
  evalon && evalproc(core.proc)
 

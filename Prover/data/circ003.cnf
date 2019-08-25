@@ -1,0 +1,26 @@
+# A simple circuit problem separate View and Reso
+# this show all reasons for your problem(goal)
+
+#  sw -- lamp -- power -->{sw} -- is wire
+
+# C(time, lamp,switch,power,wire)
+# time t -> s(t)
+# switch on/off
+# power  charged,empty
+# lamp   light,black
+# wire   conn, cut
+
+#[t,sw,lamp,pow,wire].[-C(t,lamp,sw,pow,wire)]
+# this is your problem fo solve
+# when i swhich on, but not lamp on. why?
+
+[t,sw,lamp,pow,wire].[-C(t,black,on,pow,wire)]
+
+# Knowledge/Premise
+[t].[+C(t,light,on,charged,conn)]
+
+[t,z,w].[+C(t,black,off,z,w)]
+[t,x,w].[+C(t,black,x,empty,w)]
+[t,x,y].[+C(t,black,x,y,disc)]
+
+
