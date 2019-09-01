@@ -4,6 +4,88 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190901日
+新しいcirc004.cnfを試してみた。内容はabout_circuit.txt
+
+正常な場合、cw=on & lamp=lightのときはすぐに[]になるので
+異常ではないことがわかる。
+
+sw=on, lamp=blackだと質問してくる
+pow=charged, wire=discで[]になる
+
+
+🕷 printmgu(:R1, core, true)で
+julia> printmgu(:R5,core,false)
+
+R1:<L3:L3>=x/black;y/on;ERROR: BoundsError: attempt to access 4-element Array{Symbol,1} at index [5]
+Stacktrace:
+ [1] getindex at ./array.jl:728 [inlined]
+ [2] printmgu0(::Array{Symbol,1}, ::Array{Symbol,1}, ::Bool) at /Users/shin/Projects/github/cheaplogic/Prover/coreprint.jl:214
+ [3] printmgu(::Symbol, ::CORE, ::Bool) at /Users/shin/Projects/github/cheaplogic/Prover/coreprint.jl:232
+ [4] printmgu(::Symbol, ::CORE, ::Bool) at /Users/shin/Projects/github/cheaplogic/Prover/coreprint.jl:225 (repeats 4 times)
+ [5] top-level scope at REPL[35]:1
+
+になる。
+debuggerでみると
+printmgu0の中で
+
+1] sigma: Symbol[:black, :on, :z_C1, :w_C1]
+3] ovars: Symbol[:x_C1, :y_C1, :z_C1, :w_C1, :x_C1, :y_C1, :z_C1, :w_C1]
+
+長さが違うので、overrunしている。
+
+単にくっつけたな。
+
+printmgu()でprintmgu0()を呼ぶときこの変数リストをovarsof()で作っているが
+leftとrightのovarsをくっつけているのが敗因。
+step.ruleが:evalと:viewのときはleftだけにする
+解決
+
+
+
+昨日考えたことをまとめた。
+about_circuit.txt
+
+cnfの中身をgoalを除いてdescriptionと呼ぼうかと思う。
+前はaxiomsと呼んでいたような事柄。
+
+descriptionのclauseはいまのところ次の3つに分かれる。
+もっとあるかもしれない。
+
+1. Fact
+
+2. Premise
+
+3. Unconfermed
+
+
+20190831土
+今日は成果なし
+
+eval-view-reso(EVR)の制御を明確にしようと考えた。
+まず、viewといっているものは全部、いわゆるDialogで、画面にメッセージを出して
+すぐに帰ってくるものだけ。
+
+だから、そのループが単独の関数としてかければよい。
+
+1つのtargetでWebループをまわしたとして、Webのデータの制御とEVRのループの
+間で同期をとる必要があるように思える。
+
+たとえばwebの最初のtargetまで制御がいくと、そこでWebはrequestがくるのを
+待ち続ける。
+そこで表示すべきhtmlをEVRで作ると、それが表示されるような制御になると考えている。
+
+結局、webの制御と平行した動作を書くことになる。
+Genieのappの仕組みが使えないかみてみたが、途中でgiveup。
+
+きれいな表現がないものか。
+
+きれいな表現にするということは、そのしたのレイヤーに複雑なことをまかせる
+ということになるが、そこはそこできれいになっていないといけない。
+
+今日は何も進展がない(12:30)
+
+
 20190825日
 昨日のつづき
 

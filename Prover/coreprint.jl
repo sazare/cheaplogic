@@ -134,7 +134,16 @@ function printstep(step)
   println(" by $(step.rule)")
 end
 
-function printproof(proof)
+function printproof(proof::Dict)
+ for rid in sort(collect(keys(proof)))
+   step = proof[rid]
+   printstep(step)
+   println()
+ end
+end
+
+function printproof(core::CORE)
+ proof=core.proof
  for rid in sort(collect(keys(proof)))
    step = proof[rid]
    printstep(step)
@@ -196,6 +205,7 @@ function printproofs1(core)
 end
 
 function printmgu0(ovars, sigma, orig)
+@show ovars, sigma
   for i in 1:length(ovars)
     if orig 
       if ovars[i] != sigma[i]
@@ -213,6 +223,7 @@ end
 function printmgu(rid, core, orig)
   if rid in sort(collect(keys(core.proof)))
     step = core.proof[rid]
+@show rid, step.rule
     printmgu(cidof(step.leftp,core), core, orig)
     printmgu(cidof(step.rightp,core), core, orig)
 
@@ -220,7 +231,11 @@ function printmgu(rid, core, orig)
     print("$rid:")
     print("<$(step.leftp):")
     print("$(step.rightp)>=")
-    printmgu0(ovarsof(step.leftp, step.rightp, core), step.sigma, orig)
+    if step.rule == :eval || step.rule == :view
+      printmgu0(ovarsof(step.leftp, core), step.sigma, orig)
+    else 
+      printmgu0(ovarsof(step.leftp, step.rightp, core), step.sigma, orig)
+    end
   end
 end
 
