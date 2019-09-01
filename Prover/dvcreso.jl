@@ -145,6 +145,7 @@ end
 
 ## resolution
 ovarsof(l1,l2,core)=vcat(varsof(cidof(l1, core), core), varsof(cidof(l2, core), core))
+ovarsof(l1,core)=vcat(varsof(cidof(l1, core), core))
 
 function dvc_resolution(l1,l2,core)
  vars1 = varsof(cidof(l1, core), core)
