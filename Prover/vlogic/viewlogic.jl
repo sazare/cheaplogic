@@ -72,12 +72,8 @@ route("/go") do
  elseif op == "readcore"
   return goreadcore(pm)
  elseif op == "stepgoal"
-  if gid == :nogid
-   global gid = pm[:gid]
-   return goevaluate(pm,gid)
-  else
-   return goevaluate(pm,gid)
-  end #if gid
+  if gid == :nogid; global gid = pm[:gid] end 
+  return goevaluate(pm,gid)
  elseif op == "postview"
   return postview(pm)
  elseif op == "resolve"
@@ -119,23 +115,25 @@ function goresolve(pm, gidl)
 @info :isnot_nothing,gc[1]
    global gid = gc[1]
    global core = gc[2]
-  end # if gc
 
-  score = stringcore(core)
-  if isempty(lidsof(gid,core))
-  # form = htmlform("start", [], "Confirm", "Cancel") 
-   return contraview(gid, core)
-  else # !isempty
-   #find resolvent with lidsof(gid,core)
    score = stringcore(core)
-   pres = makepres([score, "======="])
-
-   form = htmlform("stepgoal", [], "Confirm", "Cancel") 
-   return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
-  end # isempty
-
-# ??? no opponent to glid, means no progress
+   if isempty(lidsof(gid,core))
+   # form = htmlform("start", [], "Confirm", "Cancel") 
+    return contraview(gid, core)
+   else # !isempty
+    #find resolvent with lidsof(gid,core)
+    score = stringcore(core)
+    pres = makepres([score, "======="])
+ 
+    form = htmlform("stepgoal", [], "Confirm", "Cancel") 
+    return htmlhtml(htmlheader("Step Goal"), htmlbody("Next", pres, form))
+   end # isempty
+  else
+# when chooseresolit() return nothing = in lids, all are Proc, Cano
+# but then, already it should be [], never come here.
+@warn "goresolve: suppose never here. gid = $gid"
    return ceaseview(gid, core)
+  end # if gc
  catch e
   println("e = $e")
 
@@ -193,7 +191,7 @@ function goalprover(pm, pres)
   else # if  when not []
 # after eval, choose view or resolve in goaftereval?
 # askU traverse postview after it
-   askpage =  askU(gid, core, "postview")
+   askpage = askU(gid, core, "postview")
    
 # askpage is generated 
    if askpage != nothing

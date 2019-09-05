@@ -17,8 +17,8 @@ function isProc(lit::LForm2)
 end # isProc
 
 """
- add literals to core as an clause
  addnewclause(vars, cid, lids, core, σo=[])
+ add literals to core as an clause
 """
 function addnewclause(vars, cid, lids, core, σo=[])
 @show :addnewclause, vars,cid,lids,σo
