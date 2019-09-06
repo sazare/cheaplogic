@@ -4,12 +4,45 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20190907土
+1. argsof()を追加
+　Exprでリテラルとtermを表現しているために、この二種類を区別できない。
+　しいていえば+/-の有無が違うが、それをみてliteralかf-termかを判定するような
+　ことは書きたくない。不要な計算がはいるから。
+  tag をつければよいけれど、それはそれで単純でなくなる。
+
+2.　単純というのが、何についての単純なのかははっきりさせなくてはならない。
+　それが違うと話がかみあわなくなる。
+
+
+
+
 20190906金
-vlogic.jlのソースを見直した
+1. vlogic.jlのソースを見直した
 どうもgoalproverの処理が混線していると感じる。
 
-half 🕷 goresolve()でくるはずのないところでceaseview()を呼んでいるような気がする。
+2. half 🕷 goresolve()でくるはずのないところでceaseview()を呼んでいるような気がする。
 きたらわかるように@warnをいれておく
+
+3. 🎂 goal::list(lid) の各lidについて
+ - oppositがあるかどうか
+ - canoがあるか
+ - Procかどうか
+
+を判定したい
+
+3.1. その前に、Exprに関するprimitiveを作った。
+　signof(::Expr)とかlsymof(::Expr)みたいなもの。
+  e.args[1]とか書きたくない。
+　ひとそろい作ろうか・・・
+
+3.2 Exprは、LiteralだったりAtomだったりtermのリストだったりする
+clause2of()::CForm2
+CForm2=(cid, vars, body)のbodyはExprのArray
+
+literalof()::LForm2
+ LForm2=(lid, body)
+ bodyはExprのArray
 
 
 20190901日
