@@ -92,4 +92,22 @@ function printpvms(pvms, core)
   end
 end
 
+#############
+# 
+
+function emptylsyms(core::CORE)
+ psyms = core.allpsym
+ els = []
+ for psym in psyms
+  plsym = lsym(:+,psym)
+  nlsym = lsym(:-,psym)
+  if isempty(core.level0[plsym]) 
+   push!(els, plsym)
+  elseif isempty(core.level0[nlsym])
+   push!(els, nlsym)
+  end
+ end
+ return els
+end
+
 

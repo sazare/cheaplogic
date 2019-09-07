@@ -48,3 +48,20 @@ end
 
 end
 
+@testset "selector" begin
+ @test signof(:(+(ge(4,5)))) == :+
+ @test signof(:(-(ge(4,5)))) == :-
+
+ @test psymof(:(+(pico(x, x)))) == :pico
+ @test psymof(:(-(mega(x)))) == :mega
+
+ @test lsymof(:(+(pico(x, x)))) == Symbol("+pico")
+ @test lsymof(:(-(mega(x)))) == Symbol("-mega")
+
+ @test argsof(:(+(ge(x,5)))) == [:(ge(x,5))]
+ @test argsof(:(hh(kk(x,y),k))) == [:(kk(x,y)),:k]
+ @test argsof(:(hh(kk(x,y),k(u)))) == [:(kk(x,y)),:(k(u))]
+ @test argsof(:(fufu(y,5))) == [:y,5]
+
+end
+

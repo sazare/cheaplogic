@@ -68,3 +68,19 @@ end
 function isground(vars::Vlist, tms::Array{Expr,1})
  all(atm->isground(vars,atm), tms)
 end
+
+
+########## Expr op(these should be good features)
+function signof(e::Expr)
+ e.args[1]
+end
+function psymof(e::Expr)
+ e.args[2].args[1]
+end
+function lsymof(e::Expr)
+ lsym(e.args[1], e.args[2].args[1])
+end
+function argsof(e::Expr)
+ e.args[2:end]
+end
+
