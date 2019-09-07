@@ -11,10 +11,10 @@ islpar(x) = x == '('
 isrpar(x) = x == ')'
 isdot(x)  = x == '.'
 
-LSYMS = ['∀','∃','∨','∧','⇒','¬','≡']
-islsym(x) = x in LSYMS
+LOGSYMS = ['∀','∃','∨','∧','⇒','¬','≡']
+islogsym(x) = x in LOGSYMS
 
-lsymDict=Dict(
+logsymDict=Dict(
 '¬'=>:not,
 '∀'=>:all,
 '∃'=>:some,
@@ -65,7 +65,7 @@ function tokenizer(str)
    elseif isdelim(c)
      push!(toklist,delimDict[c])
    elseif islsym(c)
-     push!(toklist,lsymDict[c])
+     push!(toklist,logsymDict[c])
    else
      sym,ix = findsym(str, ix)
      push!(toklist,Symbol(sym))

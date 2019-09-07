@@ -93,8 +93,10 @@ function printpvms(pvms, core)
 end
 
 #############
-# 
-
+# Graphical properties
+"""
+emptylsyms(core::CORE) find lsyms no clause attached.
+"""
 function emptylsyms(core::CORE)
  psyms = core.allpsym
  els = []
@@ -108,6 +110,13 @@ function emptylsyms(core::CORE)
   end
  end
  return els
+end
+
+"""
+find reachable lsyms from literal
+"""
+functio reachable(lsym, core::CORE)
+
 end
 
 
