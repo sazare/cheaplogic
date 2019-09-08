@@ -1,6 +1,7 @@
 # test for primitives.jl
 using Test
 #include("primitives.jl")
+#include("common.jl")
 
 @testset "vars and const" begin
  @test isvar(:x, [:y,:x]) == true
@@ -62,6 +63,17 @@ end
  @test argsof(:(hh(kk(x,y),k))) == [:(kk(x,y)),:k]
  @test argsof(:(hh(kk(x,y),k(u)))) == [:(kk(x,y)),:(k(u))]
  @test argsof(:(fufu(y,5))) == [:y,5]
+end
+
+@testset "lsym ops" begin
+ @test compsign(:+) == :-
+ @test compsign(:-) == :+
+ @test_throws ArgumentError compsign(:*) 
+
+ @test complsym(Symbol("+Joo")) == Symbol("-Joo")
+ @test complsym(Symbol("-Zoo")) == Symbol("+Zoo")
+ @test_throws ArgumentError complsym(Symbol("Gozila"))
 
 end
+
 

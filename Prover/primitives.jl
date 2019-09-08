@@ -76,11 +76,32 @@ function signof(e::Expr)
 end
 function psymof(e::Expr)
  e.args[2].args[1]
-end
+end # signof
+
 function lsymof(e::Expr)
  lsym(e.args[1], e.args[2].args[1])
-end
+end #lsymof
+
 function argsof(e::Expr)
  e.args[2:end]
+end # argsof
+
+"""
+complsign(pn::Symbol) + to -, - to +
+"""
+function compsign(pn::Symbol)
+ if pn == :+ ; return(:-)
+ elseif pn == :- ; return(:+)
+ else throw(ArgumentError("compsign: notsign $(string(pn))"))
+ end #if
+end # compsign
+
+"""
+complsym(lsym) makes complement lsymbol
+"""
+function complsym(lsym)
+ pn = Symbol(string(lsym)[1])
+ npn = compsign(pn)
+ Symbol(npn,string(lsym)[2:end])
 end
 
