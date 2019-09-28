@@ -1,0 +1,63 @@
+# A simple circuit problem separate View and Reso
+# primitive cases are retten by +DC
+
+# this is 3 layerd descriptions
+
+#  sw -- lamp -- battery --> wire 
+
+# DC2(time, lamp, switch)
+# DC3(time, lamp, switch, battery)
+# DC4(time, lamp, switch, wire)
+# DC5(time, lamp, switch, battery, wire)
+# lamp   light,black
+# switch on/off
+# power  charged,empty
+# wire   conn, cut
+
+# template: [sw,lamp,pow,wire].[-C(black,on,pow,wire)]
+
+# goal
+[].[-DC2(on, black)]
+
+# if this is a partial, then go DC3 or DC4
+# [x].[-DC3(on, black, x)]
+# [y].[-DC4(on, black, y)]
+
+# answer this test, +DC3(on, black, charged). then go DC5
+# [y].[-DC5(on, black, chaged, y)]
+
+# answer this test, +DC4(on, black, cut). then go DC5
+# [x].[-DC5(on, black, x, cut)]
+
+# and find the [] means the cause of fail.
+## Can I these steps automatically?
+#
+
+# DC2
+[].[+DC2(on, light)]
+[].[+DC2(off, black)]
+
+# DC3
+[].[+DC3(on, light, charged)]
+[].[+DC3(on, black, empty)]
+[x].[+DC3(off, black, x)]
+# the last varible x overlap empty.
+
+# DC4
+[].[+DC4(on, light, conn)]
+[].[+DC4(on, black, cut)]
+[x].[+DC4(off, black, x)]
+# the last varible x overlap cut.
+
+# DC5
+[].[+DC5(on, light, charged, conn)]
+[x,y].[+DC5(off, black, x, y)]
+[y].[+DC5(on, black, empty, y)]
+[x].[+DC5(on, black, x, cut)]
+
+# transition
+[x].[-DC2(on, black),-DC3(on, black, x)]
+[x].[-DC2(on, black),-DC4(on, black, x)]
+[x].[-DC3(on, black, charged),-DC5(on, black, charged, x)]
+[x].[-DC4(on, black, conn),-DC5(on, black, x, conn)]
+

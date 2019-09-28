@@ -115,7 +115,7 @@ end
 """
 find reachable lsyms from literal
 """
-functio reachable(lsym, core::CORE)
+function reachable(lsym, core::CORE)
 end
 
 
