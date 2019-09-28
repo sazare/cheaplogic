@@ -91,10 +91,10 @@ function evaluategoal(gid, core)
     rlids = [glid]
     break
    end # if val == false
-  elseif isground(vars, lit.body)  # ground literal
-    removedevalaute = true
-    rlids = [glid]
-    break
+#  elseif isground(vars, lit.body)  # ground literal
+#    removedevalaute = true
+#    rlids = [glid]
+#    break
   end # if isProc and isground
  end # for glid
 

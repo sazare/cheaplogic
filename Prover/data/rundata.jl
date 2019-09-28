@@ -101,4 +101,6 @@ rcirc001,ccirc001=simpleprover("data/circ001.cnf",2,2) #
 rcirc002,ccirc002=simpleprover("data/circ002.cnf",3,3) # 
 # 003 knowledges are general
 rcirc003,ccirc003=simpleprover("data/circ003.cnf",3,3) # 
+# 004 knowledges are general
+rcirc004,ccirc004=simpleprover("data/circ004.cnf",4,4) # 
 

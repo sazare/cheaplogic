@@ -1,11 +1,14 @@
 # A simple circuit problem separate View and Reso
 # primitive cases are retten by +DC
-# this let no view in sw=on, lamp=light
-# but  sw=off, lamp=black make views... 
 
-#  sw -- lamp -- power -->{sw} -- is wire
+# this is 3 layerd descriptions
 
-# C(time, lamp,switch,power,wire)
+#  sw -- lamp -- battery --> wire 
+
+# DC2(lamp, switch)
+# DC3(lamp, switch, battery)
+# DC4(lamp, switch, wire)
+# DC5(lamp, switch, battery, wire)
 # lamp   light,black
 # switch on/off
 # power  charged,empty
@@ -13,30 +16,40 @@
 
 # template: [sw,lamp,pow,wire].[-C(black,on,pow,wire)]
 
-# ask the problem
-# 1st question is swich and lamp relation
-# VQ's view ask user about it
-# this goal convert the query to 4 tuple relation
-[x,y,z,w].[-DC(x,y,z,w),-VQ(x,y)]
+# goal
+[].[-DC2(on, black)]
 
-# Knowledge/Premise
-# thiese are the positive spec(intension) of the circuit 
-[].[+DC(light,on,charged,conn)]
-[].[+DC(black,off,charged,conn)]
+# DC2
+[].[+DC2(on, light)]
+[].[+DC2(off, black)]
 
-# these are primitive premise reasons for lamp=black when sw=on
-#[].[+KC(black,on,empty,conn)]
-#[].[+KC(black,on,charged,disc)]
-#[].[+KC(black,on,empty,disc)]
+# DC3
+[].[+DC3(on, light, charged)]
+[].[+DC3(on, black, empty)]
+[x].[+DC3(off, black, x)]
+# the last varible x overlap empty.
 
-# negative premises can be replace them
-# little general
-[y,w].[-KC(black,y,empty,w)]
-[y,z].[-KC(black,y,z,disc)]
+# DC4
+#[].[+DC4(on, light, conn)]
+#[].[+DC4(on, black, cut)]
+#[x].[+DC4(off, black, x)]
+# the last varible x overlap cut.
+
+# DC5
+[].[+DC5(on, light, charged, conn)]
+[x,y].[+DC5(off, black, x, y)]
+[y].[+DC5(on, black, empty, y)]
+[x].[+DC5(on, black, x, cut)]
+
+# transition
+[x].[+DC2(on, black),-DC3(on, black, x)]
+#[x].[+DC2(on, black),-DC4(on, black, x)]
+[x].[+DC3(on, black, charged),-DC5(on, black, charged, x)]
+#[x].[+DC4(on, black, conn),-DC5(on, black, x, conn)]
 
 # Rules
-# literal order? KC to last
-[x,y,z,w].[+DC(x,y,z,w),-VPOW(z),-VWIRE(w),-KC(x,y,z,w)]
+
+[x,y,z,w].[+DC5(x,y,z,w),-VPOW(z),-VWIRE(w)]
 
 # CANO
 &[LAMP0,SW0].[VQ(LAMP0,SW0)]
@@ -44,3 +57,5 @@
 &[L0].[VLAMP(L0)]
 &[P0].[VPOW(P0)]
 &[W0].[VWIRE(W0)]
+
+
