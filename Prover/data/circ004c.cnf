@@ -1,5 +1,6 @@
 # A simple circuit problem separate View and Reso
 # primitive cases are retten by +DC
+# DC2 -> DC3,4 -> DC5 determined
 
 # this is 3 layerd descriptions
 
@@ -53,6 +54,6 @@
 #[x].[+DC4(on, black, conn),-DC5(on, black, x, conn)]
 
 # additional fact
-[x].[+DC5(on, black, x, conn)]
+#[x].[+DC5(on, black, x, conn)]
 
 
