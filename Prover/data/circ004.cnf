@@ -53,6 +53,7 @@
 #[x].[+DC4(on, black, conn),-DC5(on, black, x, conn)]
 
 # additional fact
-[x].[+DC5(on, black, x, conn)]
+# What is this? 
+[x,y,z].[+DC5(x, y, z, conn)]
 
 
