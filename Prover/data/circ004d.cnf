@@ -1,4 +1,7 @@
 # A simple circuit problem separate View and Reso
+# DC3,DC4 make empty, cut simulteniously, so
+# added DC5 tests connection Fact
+# But, then this fact contains the [] as others already made..
 # primitive cases are retten by +DC
 
 # this is 3 layerd descriptions

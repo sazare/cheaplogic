@@ -1,5 +1,6 @@
 # A simple circuit problem separate View and Reso
 # primitive cases are retten by +DC
+# DC2 -> DC3 : determined
 
 # this is 3 layerd descriptions
 
@@ -26,33 +27,33 @@
 
 # DC3
 [].[+DC3(on, light, charged)]
-#[].[+DC3(on, black, empty)]
+[].[+DC3(on, black, empty)]
 [x].[+DC3(off, black, x)]
 # the last varible x overlap empty.
 
 # DC4
-[].[+DC4(on, light, conn)]
+#[].[+DC4(on, light, conn)]
 #[].[+DC4(on, black, cut)]
-[x].[+DC4(off, black, x)]
+#[x].[+DC4(off, black, x)]
 # the last varible x overlap cut.
 
 # DC5
-[].[+DC5(on, light, charged, conn)]
-[x,y].[+DC5(off, black, x, y)]
-[y].[+DC5(on, black, empty, y)]
-[x].[+DC5(on, black, x, cut)]
+#[].[+DC5(on, light, charged, conn)]
+#[x,y].[+DC5(off, black, x, y)]
+#[y].[+DC5(on, black, empty, y)]
+#[x].[+DC5(on, black, x, cut)]
 
 # transition
 [x,y,z].[+DC2(x, y),-DC3(x, y, z)]
 #[x].[+DC2(on, black),-DC3(on, black, x)]
-[x,y,z].[+DC2(x, y),-DC4(x, y, z)]
+#[x,y,z].[+DC2(x, y),-DC4(x, y, z)]
 #[x].[+DC2(on, black),-DC4(on, black, x)]
  [x,y,z,w].[+DC3(x, y, z),-DC5(x, y, z, w)]
 #[x,y,z].[+DC3(x, y, z),-DC5(x, y, charged, x)]
-[x,y,z,w].[+DC4(x, y, z),-DC5(x, y, z, w)]
+#[x].[+DC4(x, y, z),-DC5(x, y, z, conn)]
 #[x].[+DC4(on, black, conn),-DC5(on, black, x, conn)]
 
 # additional fact
-[x].[+DC5(on, black, x, conn)]
+#[x].[+DC5(on, black, x, conn)]
 
 

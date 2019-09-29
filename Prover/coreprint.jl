@@ -205,7 +205,6 @@ function printproofs1(core)
 end
 
 function printmgu0(ovars, sigma, orig)
-@show ovars, sigma
   for i in 1:length(ovars)
     if orig 
       if ovars[i] != sigma[i]
@@ -223,7 +222,6 @@ end
 function printmgu(rid, core, orig)
   if rid in sort(collect(keys(core.proof)))
     step = core.proof[rid]
-@show rid, step.rule
     printmgu(cidof(step.leftp,core), core, orig)
     printmgu(cidof(step.rightp,core), core, orig)
 
