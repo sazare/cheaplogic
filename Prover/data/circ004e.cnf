@@ -41,7 +41,7 @@
 [].[+DC5(on, light, charged, conn)]
 [x,y].[+DC5(off, black, x, y)]
 [y].[+DC5(on, black, empty, y)]
-[x].[+DC5(on, black, x, cut)]
+ [x].[+DC5(on, black, x, cut)]
 
 # transition
 [x,y,z].[+DC2(x, y),-DC3(x, y, z)]
@@ -56,6 +56,6 @@
 
 # additional fact
 # What is this? 
-#[x,y,z].[+DC5(on, light, z, conn)]
+ [x,y,z].[+DC5(on, light, z, conn)]
 
 

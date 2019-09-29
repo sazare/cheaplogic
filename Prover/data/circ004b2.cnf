@@ -1,6 +1,7 @@
 # A simple circuit problem separate View and Reso
 # primitive cases are retten by +DC
 # DC2->DC3,DC4 determined
+# removed DC5
 
 # this is 3 layerd descriptions
 
@@ -33,27 +34,16 @@
 
 # DC4
 [].[+DC4(on, light, conn)]
-[].[+DC4(on, black, cut)]
 [x].[+DC4(off, black, x)]
-# the last varible x overlap cut.
 
-# DC5
-[].[+DC5(on, light, charged, conn)]
-[x,y].[+DC5(off, black, x, y)]
-[y].[+DC5(on, black, empty, y)]
-[x].[+DC5(on, black, x, cut)]
+# the removement of the next statement may means it is not the case.
+# Expectに手をいれるのでなく、なんらかの証明手続きの結果として
+# これを消したい・・・
+ [].[+DC4(on, black, cut)]
+# the last varible x overlap cut.
 
 # transition
 [x,y,z].[+DC2(x, y),-DC3(x, y, z)]
-#[x].[+DC2(on, black),-DC3(on, black, x)]
- [x,y,z].[+DC2(x, y),-DC4(x, y, z)]
-#[x].[+DC2(on, black),-DC4(on, black, x)]
- [x,y,z,w].[+DC3(x, y, z),-DC5(x, y, z, w)]
-#[x,y,z].[+DC3(x, y, z),-DC5(x, y, charged, x)]
-#[x].[+DC4(x, y, z),-DC5(x, y, z, conn)]
-#[x].[+DC4(on, black, conn),-DC5(on, black, x, conn)]
-
-# additional fact
-#[x].[+DC5(on, black, x, conn)]
+[x,y,z].[+DC2(x, y),-DC4(x, y, z)]
 
 
