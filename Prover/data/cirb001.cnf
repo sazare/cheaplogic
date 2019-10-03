@@ -11,14 +11,31 @@
 # now forget wire for simplicity
 
 # goal
-# if switch off, how the lamp is?
-[d,lamp].[-D(d,lamp,on),+Work(lamp)]
- [d,lamp].[-D(d,lamp,off),+Work(lamp)]
+# if switch off, the lamp should be black, any other conditions.
+[d,lamp].[-D(d,lamp,off),-Work(lamp)]
+
+# then if switch on and lamp=black
+ [d,lamp].[-D(d,lamp,on),-Work(lamp)]
+
+# then if switch on and lamp=black
  [d].[-D(d,black, on)]
 
 # Structure
 [d,lamp].[-Work(lamp),+Br(d,lamp)]
 [d,lamp].[-Br(d,lamp),+F(d,lamp,on,charged)]
+
+# every compos work, d is the device and it may flow current
+[d,lamp,sw,bat].[-Work(lamp),-Work(sw),-Work(bat),+Dev(d,lamp,sw,bat)]
+
+[d,lamp,sw,bat].[-Dev(d,lamp,sw,bat),-Lamp(d,light),-On(d,sw),-Charged(d,bat)]
+
+[d,lamp,sw,bat].[-F(d,lamp,sw,bat),-Dev(d,lamp,sw,bat),+Dev(d,light,on,charged)]
+
+
+
+ -Dev(d,lamp,sw,bat),-On(d,sw),-Charged(d,bat),-Lamp(d,light)
+
+ -Lamp(d,lamp),-S(d,sw),-B(d,bat),+Flow(d,lamp,sw,bat)
 
 
  [d,lamp,sw,bat].[+F(d,lamp,sw,bat),-S(sw),-B(bat)]
@@ -34,8 +51,8 @@
  [d,lamp,sw].[+D(d,lamp,sw),-Br(d,lamp)]
 
 
- [sw].[+D(on,sw),-D(off,sw)]
- [sw].[-D(on,sw),+D(off,sw)]
+ [sw].[+D(d,on,sw),-D(d,off,sw)]
+ [sw].[-D(d,on,sw),+D(d,off,sw)]
 
 
 
