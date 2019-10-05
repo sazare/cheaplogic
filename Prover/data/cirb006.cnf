@@ -1,0 +1,63 @@
+# simple circuit
+## case goal is  sw=off
+## no proofs
+
+# i separete the function from structure and theory
+# cycle will be cut by empty mgu 
+
+# D is device swith and lamp
+# F is flow of electricity
+# S is sitch
+# B is battery
+# now forget wire for simplicity
+
+# goal
+# if switch off, the lamp should be black, any other conditions.
+[d,lamp].[-Dev(d,lamp,off,charged)]
+
+# then if switch on and lamp=black
+ [d,lamp,bat].[-Dev(d,lamp,on,bat)]
+
+# then if switch on and lamp=black
+ [d,bat].[-Dev(d,black, on,bat)]
+
+# Structure
+# every compos work, d is the device and it may flow current
+ [d,lamp,sw,bat].[-Work(lamp),-Work(sw),-Work(bat),+Work(d,lamp,sw,bat)]
+
+[d,lamp,sw,bat].[-Work(d,lamp,sw,bat),+Flow(d,light,on,bat)] # is this correct?
+[d,lamp,sw,bat].[-Work(d,lamp,sw,bat),+Flow(d,black,off,bat)] # is this correct?
+
+# answer: I should distinguish every device and it' function.
+# Work is about device.
+# Flow is about function.
+# they should not saied as same variable
+
+ [d,lamp,sw,bat].[-Flow(d,lamp,sw,bat),-Dev(d,lamp,sw,bat)]
+
+# Functions
+[d].[-Flow(d,light,on,charged),+Dev(d,light,on,charged)]   # 電流流れればライトはつく
+
+## a) if this removed loop reso occured
+ [d,lamp,sw,bat].[+Flow(d,lamp,sw,bat),-Dev(d,black,sw,bat)] # 電流が流れていないならライトはつかない
+
+# lamp/blackはFlowではlamp, Devではblack/lightになるはず
+# 名前の上では関係がないが、Devの引数位置で対応している。
+
+#では、電流が流れていないとは?
+
+[d,lamp,sw,bat].[-Work(lamp),-Work(sw),-Work(bat),+Flow(d,lamp,sw,bat)]
+[d,lamp,sw,bat].[+Work(lamp),-Flow(d,lamp,sw,bat)]
+[d,lamp,sw,bat].[+Work(sw),-Flow(d,lamp,sw,bat)]
+[d,lamp,sw,bat].[+Work(bat),-Flow(d,lamp,sw,bat)]
+
+
+# Theory
+ [d,lamp,sw,bat].[+Dev(d,lamp,sw,bat),-Br(d,lamp)]
+
+ [sw].[+Dev(d,on,sw,bat),-Dev(d,off,sw,bat)]
+ [sw].[-Dev(d,on,sw,bat),+Dev(d,off,sw,bat)]
+
+
+
+

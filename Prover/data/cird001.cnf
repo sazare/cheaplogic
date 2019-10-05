@@ -1,0 +1,43 @@
+# most simple circuit
+## case goal is  is lamp=light and sw=on and bat=charged
+
+## rcb1,ccb1=simpleprover("data/cird001.cnf",7,7)
+
+# > printmgu(:R6,ccb1,false)
+# R1:<L3:L2>=lamp/light;
+# R2:<L1_R1:L7>=bat/charged;
+# R3:<L6_R2:L11>=bat/charged;
+# R4:<L8_R3:L12>=
+# R5:<L9_R4:L4>=
+# R6:<L10_R5:L5>=bat/charged;
+
+# lamp=light, bat=charged is only solution
+# OK
+
+
+# i separete the function from structure and theory
+# cycle will be cut by empty mgu 
+
+# D is device swith and lamp
+# F is flow of electricity
+# S is sitch
+# B is battery
+# now forget wire for simplicity
+
+# goal
+# if switch off, the lamp should be black, any other conditions.
+[d,lamp].[-Dev(d,lamp,on,charged)]
+
+[d].[-Flow(d,light,on,charged),+Dev(d,light,on,charged)]   # 電流流れればライトはつく
+[d,lamp,sw,bat].[-Work(d,lamp,sw,bat),+Flow(d,light,on,bat)] # is this correct?
+
+# Structure
+## Work? -- ? is needed for not mix the domain
+# every compos work, d is the device and it may flow current
+[d,lamp,sw,bat].[-WorkL(lamp),-WorkS(sw),-WorkB(bat),+Work(d,lamp,sw,bat)]
+
+## Facts by experiments
+[lamp].[+WorkL(lamp)]
+[sw].[+WorkS(sw)]
+[bat].[+WorkB(bat)]
+
