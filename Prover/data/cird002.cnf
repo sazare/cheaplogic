@@ -1,13 +1,19 @@
 # most simple circuit
-## case goal is  sw=off
-## no proofs
+## case goal is  sw=off then?
 
-## rcb1,ccb1=simpleprover("data/cirb001.cnf",7,7)
+## rcb1,ccb1=simpleprover("data/cird002.cnf",5,5)
 
-# > printmgu(:R6,ccb1,false)
+# > printmgus(ccb1)
+# R1:<L4:L3>=lamp/black;
+# R2:<L2_R1:L11>=
+# R3:<L10_R2:L9>=lamp/black;
+# R6:<L8_R3:L5>=
+# ---
 
-# 
+# this shows when sw is off, the lamp is black
 #
+# but parameter 5,5 to 10,10 the simpleprover seems not finished soon.
+
 
 
 # i separete the function from structure and theory
@@ -21,8 +27,7 @@
 
 # goal
 # if switch off, the lamp should be black, any other conditions.
-[d,lamp,sw,bat].[-Dev(d,lamp,sw,bat)]
-#[d,lamp,bat].[-Dev(d,lamp,off,bat)]
+[d,lamp,bat].[-Dev(d,lamp,off,bat)]
 
 # [d].[-Flow(d,light,on,charged),+Dev(d,light,on,charged)]   # 電流流れればライトはつく
 [d,lamp,sw,bat].[+Flow(d,lamp,sw,bat),+Dev(d,black,sw,bat)]   # 電流流れればライトはつく

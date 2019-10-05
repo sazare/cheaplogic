@@ -1,0 +1,39 @@
+##XXX
+# A simple circuit problem 
+# alternate perspedtive
+### not yet work
+
+# i separete the function from structure and theory
+# cycle will be cut by empty mgu 
+
+# D is device swith and lamp
+# F is flow of electricity
+# S is sitch
+# B is battery
+# W is wire
+
+# goal
+# if switch off, how the lamp is?
+[lamp].[-D(lamp,off)]
+ [].[-D(black, on)]
+
+# Structure
+ [lamp,sw,bat,wire].[+F(lamp,wire,bat,wire),-S(wire),-B(bat),-W(wire)]
+[lamp,sw,bat,wire].[-F(lamp,sw,bat,wire),+S(sw)]
+[lamp,sw,bat,wire].[-F(lamp,sw,bat,wire),+B(bat)]
+[lamp,sw,bat,wire].[-F(lamp,sw,bat,wire),+W(wire)]
+
+# Function
+ [lamp,sw,bat,wire].[+F(lamp,sw,bat,wire),-Br(lamp)]
+[lamp,sw,bat,wire].[-F(lamp,sw,bat,wire),+Br(lamp)]
+
+# Theory
+[lamp,sw].[+D(lamp,sw),-Br(lamp)]
+
+
+ [sw].[+D(on,sw),-D(off,sw)]
+ [sw].[-D(on,sw),+D(off,sw)]
+
+
+
+
