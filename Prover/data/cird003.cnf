@@ -1,20 +1,12 @@
 # most simple circuit
-## case goal is  sw=off then?
+## case goal is  lamp=light, what precondition
 
-## rcb1,ccb1=simpleprover("data/cird002.cnf",5,5)
-## 6,6 make R999 too big
+## rcb1,ccb1=simpleprover("data/cird003.cnf",5,5)
 
 # > printmgus(ccb1)
-# R1:<L4:L3>=lamp/black;
-# R2:<L2_R1:L11>=
-# R3:<L10_R2:L9>=lamp/black;
-# R6:<L8_R3:L5>=
-# ---
 
-# this shows when sw is off, the lamp is black
+# this shows when the lamp is black, what is the condition
 #
-# but parameter 5,5 to 10,10 the simpleprover seems not finished soon.
-
 # i separete the function from structure and theory
 # cycle will be cut by empty mgu 
 
@@ -26,7 +18,7 @@
 
 # goal
 # if switch off, the lamp should be black, any other conditions.
-[d,lamp,bat].[-Dev(d,lamp,off,bat)]
+[d,sw,bat].[-Dev(d,black,sw,bat)]
 
 # [d].[-Flow(d,light,on,charged),+Dev(d,light,on,charged)]   # 電流流れればライトはつく
 [d,lamp,sw,bat].[+Flow(d,lamp,sw,bat),+Dev(d,black,sw,bat)]   # 電流流れなければライトは超える
@@ -44,11 +36,7 @@
 [d,lamp,sw,bat].[+WorkB(bat),-Work(d,lamp,sw,bat)]
 
 ## Facts by experiments
-## These facts need for [] anyway
-##### BUT IN PROOF, no information about battery no work... how?
-[bat].[-WorkB(bat)] # if this is commented out, no []
-[sw].[-WorkS(sw)]   # this makes more [] but no extra info
-
-# so, these are not neccessary
- [lamp].[+WorkL(lamp)]
+[lamp].[+WorkL(lamp)]
+[sw].[+WorkS(sw)]
+[bat].[-WorkB(bat)]
 
