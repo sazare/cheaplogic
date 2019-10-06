@@ -2,6 +2,7 @@
 ## case goal is  sw=off then?
 
 ## rcb1,ccb1=simpleprover("data/cird002.cnf",5,5)
+## 6,6 make R999 too big
 
 # > printmgus(ccb1)
 # R1:<L4:L3>=lamp/black;
@@ -39,9 +40,9 @@
 [d,lamp,sw,bat].[-WorkL(lamp),-WorkS(sw),-WorkB(bat),+Work(d,lamp,sw,bat)]
 
 #not and off tradeoff -- what is it?
-[d,lamp,sw,bat].[+WorkL(lamp),-Work(d,black,sw,bat)]
-[d,lamp,sw,bat].[+WorkS(sw),-Work(d,black,sw,bat)]
-[d,lamp,sw,bat].[+WorkB(bat),-Work(d,black,sw,bat)]
+[d,lamp,sw,bat].[+WorkL(lamp),-Work(d,lamp,sw,bat)]
+[d,lamp,sw,bat].[+WorkS(sw),-Work(d,lamp,sw,bat)]
+[d,lamp,sw,bat].[+WorkB(bat),-Work(d,lamp,sw,bat)]
 
 ## Facts by experiments
 [lamp].[+WorkL(lamp)]
