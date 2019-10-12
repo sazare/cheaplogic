@@ -1,0 +1,106 @@
+# most simple circuit and full description
+
+## rce1,cce1=simpleprover("data/cire001.cnf",7,7)
+
+# julia> printmgu(:R11,cce1,true)
+# 
+# R1:<L4:L6>=x_C10/white; y_C10/on; z_C10/b; 
+# R2:<L5_R1:L16>=l_C9/white; s_C9/on; b_C9/b; 
+# R3:<L13_R2:L18>=L/X; p1_C5/p1; p2_C5/p2; x_C5/white; 
+# R5:<L14_R3:L18>=S/X; p1_C5/p2; p2_C5/p3; x_C5/on; 
+# R7:<L15_R5:L18>=B/X; p1_C5/p3; p2_C5/p1; x_C5/b; 
+# R11:<L17_R7:L11>=X/B; x_C3/p3; y_C3/p1; 
+# julia> printmgu(:R12,cce1,true)
+# 
+# R1:<L4:L6>=x_C10/white; y_C10/on; z_C10/b; 
+# R2:<L5_R1:L16>=l_C9/white; s_C9/on; b_C9/b; 
+# R3:<L13_R2:L18>=L/X; p1_C5/p1; p2_C5/p2; x_C5/white; 
+# R5:<L14_R3:L18>=S/X; p1_C5/p2; p2_C5/p3; x_C5/on; 
+# R7:<L15_R5:L18>=B/X; p1_C5/p3; p2_C5/p1; x_C5/b; 
+# R12:<L17_R7:L12>=X/S; x_C4/p3; y_C4/p1; 
+# julia> printmgu(:R13,cce1,true)
+# 
+# R1:<L4:L6>=x_C10/white; y_C10/on; z_C10/b; 
+# R2:<L5_R1:L16>=l_C9/white; s_C9/on; b_C9/b; 
+# R3:<L13_R2:L18>=L/X; p1_C5/p1; p2_C5/p2; x_C5/white; 
+# R5:<L14_R3:L18>=S/X; p1_C5/p2; p2_C5/p3; x_C5/on; 
+# R7:<L15_R5:L18>=B/X; p1_C5/p3; p2_C5/p1; x_C5/b; 
+# R13:<L17_R7:L3>=X/L; x_C2/p3; y_C2/p1; 
+
+
+# i separete the function from structure and theory
+# cycle will be cut by empty mgu 
+
+# D is the device
+# C is the flow of electricity
+# S is a switch
+# L is a lamp
+# B is a battery
+
+# goal
+# if switch off, the lamp should be black, any other conditions.
+## workx describe about the part. Dev say the state of it.
+## they should be distinguished?
+[].[-Dev(L,white,S,on,B,b)]
+
+# other goals experimental
+#[d,l,s,b].[-Dev(D,d,L,white,S,on,B,b),-Workd(D,L,S,B)] # lamp is white when sw on. parts ok
+#[d,l,s,b].[-Dev(d,L,white,S,s,B,b),-Workd(d,l,s,b)]  # how lamp to white when parts ok
+#[d,l,s,b].[-Dev(d,L,black,S,on,B,b)]                 # how broken can be detected
+#[d,l,s,b].[-Dev(d,L,black,S,off,B,charged)]          # should be valid but if parts?
+
+
+
+# Facts about parts in the circuit
+# These caps are var? or const?
+# parts work or not depend on points of circuit.
+# L,B,S are identical parts name.
+# what type of parts are distinguished by the states of them.
+# But I don't know here.
+#  then p[123] are needed?
+[x,y].[+Work(x,L,y)]
+[x,y].[+Work(x,B,y)]
+[x,y].[+Work(x,S,y)]
+
+#[D,L,B,S].[-Work(p1,L,p2),-Work(p2,B,p3),-Work(p3,S,p1),+Workd(D,L,S,B)]
+
+[p1,p2,X,x].[-Work(p1,X,p2),+Curr(p1,p2,X,x)]
+
+
+#[d,L,S,B].[-Conn(p1,p2,L),-Conn(p2,p3,S),-Conn(p3,p1,B),+Connd(d,L,S,B)]
+
+# what happen when conn by a part
+[p1,p2].[-Conn(p1,p2,L),+Curr(p1,p2,L,light)]
+[p1,p2].[-Conn(p1,p2,S),+Curr(p1,p2,S,on)]
+[p1,p2].[-Conn(p1,p2,B),+Curr(p1,p2,B,charged)]
+
+[L,l,S,s,B,b].[-Curr(p1,p2,L,l),-Curr(p2,p3,S,s),-Curr(p3,p1,B,b),+Currd(L,l,S,s,B,b)]
+
+[L,x,S,y,B,z].[-Currd(L,x,S,y,B,z),+Dev(L,x,S,y,B,z)]
+
+
+# Relation of the parts and a current flow
+# try capital means the device, lower means it's state.
+
+# CurrX should be distinguish, states are different kinds.
+# when a device of type D worked,
+#  the voltage of p1 and p2 are diff, current flow between p1,p2
+# [p1,D,d,p2].[+Curr(p1,D,d,p2)]
+
+# [p1,p2].[-Work(p1,L,p2),+CurrL(p1,L,white,p2)]
+# [p1,L,p2].[-WorkL(p1,L,p2),-CurrL(p1,L,p2lack,p2)]
+# [p1,L,l,p2].[+WorkL(p1,L,p2),-CurrL(p1,L,l,p2)]
+# 
+# [p1,S,p2].[-WorkS(p1,S,p2),+CurrS(p1,S,on,p2)]
+# [p1,S,p2].[-WorkS(p1,S,p2),-CurrS(p1,S,off,p2)]
+# [p1,S,s,p2].[+WorkS(p1,S,p2),-CurrS(p1,S,s,p2)]
+# 
+# [p1,B,p2].[-WorkB(p1,B,p2),+CurrB(p1,B,charged,p2)]
+# [p1,B,p2].[-WorkB(p1,B,p2),-CurrB(p1,B,empty,p2)]
+# [p1,B,p2t,p2].[+WorkB(p1,B,p2),-CurrB(p1,B,p2t,p2)]
+
+# I want to write as this, but no Curr but CurrX
+#[d,p1,p2,p3,x,y,z].[-Curr(p1,p1,x,2),-Curr(2,p2,y,3),-Curr(3,p3,z,1),+CurrD(d,x,y,z)]
+#[d,p1,p2,p3,x,y,z].[-CurrL(1,p1,x,2),-CurrS(2,p2,y,3),-CurrB(3,p3,z,1),+CurrD(d,light,y,z)]
+
+
