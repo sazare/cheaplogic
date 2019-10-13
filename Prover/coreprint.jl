@@ -204,6 +204,16 @@ function proofdepth(rid, core)
 end
 
 """
+the depth of all resolvents 
+"""
+function proofdepths(core)
+  for rid in sort(collect(keys(core.proof)))
+    println("$rid: $(proofdepth(rid, core))") 
+  end
+  println("# of resolvents = $(length(keys(core.proof)))")
+end
+
+"""
 show contradiction's rid with the proof depth
 """
 function printcontradictions(core)
