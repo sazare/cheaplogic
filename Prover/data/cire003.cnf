@@ -1,6 +1,5 @@
 # most simple circuit and full description
-### goal is when not (switch on and lamp white with battery some), what the reason?
-### This concerns details. It is difficult to write clear.
+### goal is lamp is white which parts work
 
 ## rce3,cce3=simpleprover("data/cire003.cnf",10,10)
 ### 9,9 makes no proof
@@ -8,11 +7,7 @@
 # julia> printproofs1(cce3)
 ### Too many []. whan can i do:
 
-# julia> printmgu(:R10,cce2,true)
-
-# julia> printmgu(:R11,cce2,true)
- 
-# julia> printmgu(:R12,cce2,true)
+# julia> printmgu(:R10,cce3,true)
 
 
 # i separete the function from structure and theory
@@ -32,11 +27,11 @@
 # other goals experimental
 #[].[-Dev(L,white,S,on,B,b)]                   # cire001
 #[l,s,b].[-Dev(L,black,S,off,B,charged)]       # cire002 // should be valid but if parts?
-[l,s,b].[-Dev(L,white,S,on,B,b),-Workd(L,S,B)] # cire003 // lamp no white or sw not on when LSB worked
+[l,s,b].[-Dev(L,white,S,s,B,b),-WorkD(l,s,b)]  # how lamp to white when parts ok
 
 #[l,s,b].[-Dev(black,S,on,B,b)]                 # how broken can be detected
-#[l,s,b].[-Dev(L,white,S,on,B,b),-Workd(L,S,B)] # lamp is white when sw on. parts ok
-#[l,s,b].[-Dev(L,white,S,s,B,b),-Workd(l,s,b)]  # how lamp to white when parts ok
+
+#[l,s,b].[-Dev(L,white,S,on,B,b),-WorkD(L,S,B)] # cire003 // lamp no white or sw not on when LSB worked
 
 # Facts about parts in the circuit
 # These caps are var? or const?
@@ -46,26 +41,31 @@
 # But I don't know here.
 #  then p[123] are needed?
 
-# irrerevants ???
-#[x,y].[+Work(x,L,y)]
-#[x,y].[+Work(x,B,y)]
-#[x,y].[+Work(x,S,y)]
+# these are the fact by testing the circuit.
+[x,y].[+WorkL(x,L,y)]
+[x,y].[+WorkS(x,S,y)]
+[x,y].[+WorkB(x,B,y)]
 
-[D,L,B,S].[-Work(p1,L,p2),-Work(p2,B,p3),-Work(p3,S,p1),+Workd(L,S,B)]
+# all parts were working, the device works.
+[D,L,B,S].[-WorkL(p1,L,p2),-WorkB(p2,B,p3),-WorkS(p3,S,p1),+WorkD(L,S,B)]
 
-[p1,p2,X,x].[-Work(p1,X,p2),+Curr(p1,p2,X,x)]  # what is x, it's free!??
+# Work means current flow.
+[p1,p2,X,x].[-WorkL(p1,X,p2),+Curr(p1,p2,X,light)]   # Curr appears as light on lamp
+[p1,p2,X,x].[-WorkS(p1,X,p2),+Curr(p1,p2,X,on)]      # Curr appears as on on switch
+[p1,p2,X,x].[-WorkB(p1,X,p2),+Curr(p1,p2,X,charged)] # Curr appears as charged on battery
 
-
+# Conn is another concept of circuits
 #[d,L,S,B].[-Conn(p1,p2,L),-Conn(p2,p3,S),-Conn(p3,p1,B),+Connd(d,L,S,B)]
 
 # what happen when conn by a part
-[p1,p2].[-Conn(p1,p2,L),+Curr(p1,p2,L,light)]
-[p1,p2].[-Conn(p1,p2,S),+Curr(p1,p2,S,on)]
-[p1,p2].[-Conn(p1,p2,B),+Curr(p1,p2,B,charged)]
+#[p1,p2].[-Conn(p1,p2,L),+Curr(p1,p2,L,light)]
+#[p1,p2].[-Conn(p1,p2,S),+Curr(p1,p2,S,on)]
+#[p1,p2].[-Conn(p1,p2,B),+Curr(p1,p2,B,charged)]
 
 [L,l,S,s,B,b].[-Curr(p1,p2,L,l),-Curr(p2,p3,S,s),-Curr(p3,p1,B,b),+Currd(L,l,S,s,B,b)]
 
-[L,x,S,y,B,z].[-Currd(L,white,S,y,B,z),+Dev(L,white,S,y,B,z)]
+#[L,x,S,y,B,z].[-Currd(L,white,S,y,B,z),+Dev(L,white,S,y,B,z)]
+[L,x,S,y,B,z].[-Currd(L,x,S,y,B,z),+Dev(L,x,S,y,B,z)]
 
 
 # Relation of the parts and a current flow
