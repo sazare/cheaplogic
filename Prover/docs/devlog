@@ -4,6 +4,23 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20191013 日
+1. cire002.cnfで lamp=black, sw=off, bat=charged をやってみた。
+　証明できているが、よくわからない。
+  printproofs1()で証明の詳細、printmgu()で個別のproofのσをみられるようにした。
+
+2.cire003.cnf
+ 1) Dとdはいらないので消した
+ 2) resolventの数も増えてきたのでprintmgusにしろprintproofsにしろみにくいから
+　  printcontradictions()を作って[]の証明の深さ(depth)をprintするようにしてみたが
+　　全部10になって、区別がつかない。
+
+    printdepth(cid, core)はdepthを表示する。追加した。
+    printの最後に[]の数を表示するようにした
+
+
+
+
 20191012 土
 1. 回路を全部書いてみた cire001.cnf
 　部品とその状態をわけて書かなくてはならないのだが

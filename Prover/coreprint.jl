@@ -190,11 +190,35 @@ function printaproof1(rid, core, shift=0)
   end
 end
 
+"""
+the depth of the proof to rid
+"""
+function proofdepth(rid, core)
+
+  if !(rid in keys(core.proof)); return 0 end
+
+  step = core.proof[rid]
+  ld = proofdepth(cidof(step.leftp,core), core)
+  rd = proofdepth(cidof(step.rightp,core), core)
+  return max(ld,rd)+1  
+end
+
+"""
+show contradiction's rid with the proof depth
+"""
+function printcontradictions(core)
+ for rid in sort(contradictionsof(core))
+  println("$rid:depth=$(proofdepth(rid,core))")
+ end
+ println("# of contradictions = $(length(contradictionsof(core)))")
+end
+
 function printproofs0(core)
  for rid in sort(contradictionsof(core))
   printaproof0(rid, core)
   println("\n---")
  end
+ println("# of contradictions = $(length(contradictionsof(core)))")
 end
 
 function printproofs1(core)
@@ -202,6 +226,7 @@ function printproofs1(core)
   printaproof1(rid, core)
   println("\n---")
  end
+ println("# of contradictions = $(length(contradictionsof(core)))")
 end
 
 function printmgu0(ovars, sigma, orig)
@@ -413,7 +438,6 @@ function printtracestep(vars, step)
 end
 
 function printprooftrace(rid, vars, proof)
-
  for rid in sort(collect(keys(proof)))
    step = proof[rid]
    printtracestep(vars, step)

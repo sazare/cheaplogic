@@ -2,6 +2,72 @@
 
 ## rce1,cce1=simpleprover("data/cire001.cnf",7,7)
 
+# julia> printproofs1(cce1)
+# 
+# C1:[]. L4.-(Dev(L, white, S, on, B, b))
+# C10:[L,x_C10,S,y_C10,B,z_C10]. L5.-(Currd(L, x_C10, S, y_C10, B, z_C10)), L6.+(Dev(L, x_C10, S, y_C10, B, z_C10))
+#   <L4:L6>=[L,x_C10,S,y_C10,B,z_C10]←[L,white,S,on,B,b] by reso
+# R1:[L,S,B]. L5_R1.-(Currd(L, white, S, on, B, b))
+# C9:[L,l_C9,S,s_C9,B,b_C9]. L13.-(Curr(p1, p2, L, l_C9)), L14.-(Curr(p2, p3, S, s_C9)), L15.-(Curr(p3, p1, B, b_C9)), L16.+(Currd(L, l_C9, S, s_C9, B, b_C9))
+#   <L5_R1:L16>=[L,S,B,L,l_C9,S,s_C9,B,b_C9]←[L,S,B,L,white,S,on,B,b] by reso
+# R2:[L,S,B]. L13_R2.-(Curr(p1, p2, L, white)), L14_R2.-(Curr(p2, p3, S, on)), L15_R2.-(Curr(p3, p1, B, b))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L13_R2:L18>=[L,S,B,p1_C5,p2_C5,X,x_C5]←[X,S,B,p1,p2,X,white] by reso
+# R3:[S,B,X]. L14_R3.-(Curr(p2, p3, S, on)), L15_R3.-(Curr(p3, p1, B, b)), L17_R3.-(Work(p1, X, p2))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L14_R3:L18>=[S,B,X,p1_C5,p2_C5,X,x_C5]←[X,B,X,p2,p3,X,on] by reso
+# R5:[B,X]. L15_R5.-(Curr(p3, p1, B, b)), L17_R5.-(Work(p2, X, p3)), L17_R5.-(Work(p2, X, p3))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L15_R5:L18>=[B,X,p1_C5,p2_C5,X,x_C5]←[X,X,p3,p1,X,b] by reso
+# R7:[X]. L17_R7.-(Work(p3, X, p1)), L17_R7.-(Work(p3, X, p1))
+# C3:[x_C3,y_C3]. L11.+(Work(x_C3, B, y_C3))
+#   <L17_R7:L11>=[X,x_C3,y_C3]←[B,p3,p1] by reso
+# R11:[].□
+# ---
+# 
+# C1:[]. L4.-(Dev(L, white, S, on, B, b))
+# C10:[L,x_C10,S,y_C10,B,z_C10]. L5.-(Currd(L, x_C10, S, y_C10, B, z_C10)), L6.+(Dev(L, x_C10, S, y_C10, B, z_C10))
+#   <L4:L6>=[L,x_C10,S,y_C10,B,z_C10]←[L,white,S,on,B,b] by reso
+# R1:[L,S,B]. L5_R1.-(Currd(L, white, S, on, B, b))
+# C9:[L,l_C9,S,s_C9,B,b_C9]. L13.-(Curr(p1, p2, L, l_C9)), L14.-(Curr(p2, p3, S, s_C9)), L15.-(Curr(p3, p1, B, b_C9)), L16.+(Currd(L, l_C9, S, s_C9, B, b_C9))
+#   <L5_R1:L16>=[L,S,B,L,l_C9,S,s_C9,B,b_C9]←[L,S,B,L,white,S,on,B,b] by reso
+# R2:[L,S,B]. L13_R2.-(Curr(p1, p2, L, white)), L14_R2.-(Curr(p2, p3, S, on)), L15_R2.-(Curr(p3, p1, B, b))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L13_R2:L18>=[L,S,B,p1_C5,p2_C5,X,x_C5]←[X,S,B,p1,p2,X,white] by reso
+# R3:[S,B,X]. L14_R3.-(Curr(p2, p3, S, on)), L15_R3.-(Curr(p3, p1, B, b)), L17_R3.-(Work(p1, X, p2))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L14_R3:L18>=[S,B,X,p1_C5,p2_C5,X,x_C5]←[X,B,X,p2,p3,X,on] by reso
+# R5:[B,X]. L15_R5.-(Curr(p3, p1, B, b)), L17_R5.-(Work(p2, X, p3)), L17_R5.-(Work(p2, X, p3))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L15_R5:L18>=[B,X,p1_C5,p2_C5,X,x_C5]←[X,X,p3,p1,X,b] by reso
+# R7:[X]. L17_R7.-(Work(p3, X, p1)), L17_R7.-(Work(p3, X, p1))
+# C4:[x_C4,y_C4]. L12.+(Work(x_C4, S, y_C4))
+#   <L17_R7:L12>=[X,x_C4,y_C4]←[S,p3,p1] by reso
+# R12:[].□
+# ---
+# 
+# C1:[]. L4.-(Dev(L, white, S, on, B, b))
+# C10:[L,x_C10,S,y_C10,B,z_C10]. L5.-(Currd(L, x_C10, S, y_C10, B, z_C10)), L6.+(Dev(L, x_C10, S, y_C10, B, z_C10))
+#   <L4:L6>=[L,x_C10,S,y_C10,B,z_C10]←[L,white,S,on,B,b] by reso
+# R1:[L,S,B]. L5_R1.-(Currd(L, white, S, on, B, b))
+# C9:[L,l_C9,S,s_C9,B,b_C9]. L13.-(Curr(p1, p2, L, l_C9)), L14.-(Curr(p2, p3, S, s_C9)), L15.-(Curr(p3, p1, B, b_C9)), L16.+(Currd(L, l_C9, S, s_C9, B, b_C9))
+#   <L5_R1:L16>=[L,S,B,L,l_C9,S,s_C9,B,b_C9]←[L,S,B,L,white,S,on,B,b] by reso
+# R2:[L,S,B]. L13_R2.-(Curr(p1, p2, L, white)), L14_R2.-(Curr(p2, p3, S, on)), L15_R2.-(Curr(p3, p1, B, b))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L13_R2:L18>=[L,S,B,p1_C5,p2_C5,X,x_C5]←[X,S,B,p1,p2,X,white] by reso
+# R3:[S,B,X]. L14_R3.-(Curr(p2, p3, S, on)), L15_R3.-(Curr(p3, p1, B, b)), L17_R3.-(Work(p1, X, p2))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L14_R3:L18>=[S,B,X,p1_C5,p2_C5,X,x_C5]←[X,B,X,p2,p3,X,on] by reso
+# R5:[B,X]. L15_R5.-(Curr(p3, p1, B, b)), L17_R5.-(Work(p2, X, p3)), L17_R5.-(Work(p2, X, p3))
+# C5:[p1_C5,p2_C5,X,x_C5]. L17.-(Work(p1_C5, X, p2_C5)), L18.+(Curr(p1_C5, p2_C5, X, x_C5))
+#   <L15_R5:L18>=[B,X,p1_C5,p2_C5,X,x_C5]←[X,X,p3,p1,X,b] by reso
+# R7:[X]. L17_R7.-(Work(p3, X, p1)), L17_R7.-(Work(p3, X, p1))
+# C2:[x_C2,y_C2]. L3.+(Work(x_C2, L, y_C2))
+#   <L17_R7:L3>=[X,x_C2,y_C2]←[L,p3,p1] by reso
+# R13:[].□
+# ---
+
+
 # julia> printmgu(:R11,cce1,true)
 # 
 # R1:<L4:L6>=x_C10/white; y_C10/on; z_C10/b; 
