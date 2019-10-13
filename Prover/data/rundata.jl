@@ -111,3 +111,8 @@ rcirc004_5e,ccirc004_5e=simpleprover("data/circ004e.cnf",5,5) #
 
 rcirc004_5,ccirc004_5=simpleprover("data/circ004.cnf",5,5) # 
 
+# circuit problem 
+rce1,cce1=simpleprover("data/cire001.cnf",7,7)
+rce2,cce2=simpleprover("data/cire002.cnf",7,7)
+rce3,cce3=simpleprover("data/cire003.cnf",10,10) # not enough 9
+
