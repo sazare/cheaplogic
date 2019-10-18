@@ -2,16 +2,16 @@
 ### goal is lamp is white which parts work
 
 ## rce3,cce3=simpleprover("data/cire003.cnf",10,10)
-### 9,9 makes no proof
 
 # julia> printproofs1(cce3)
 ### Too many []. whan can i do:
 
 # julia> printmgu(:R10,cce3,true)
+### no contradictions
 
 
 # i separete the function from structure and theory
-# cycle will be cut by empty mgu 
+# cycle will be cut by empty mgu ******
 
 # D is the device
 # C is the flow of electricity
@@ -25,12 +25,11 @@
 ## they should be distinguished?
 
 # other goals experimental
-#[].[-Dev(L,white,S,on,B,b)]                   # cire001
+[].[-Dev(L,white,S,on,B,b)]                   # cire001
 #[l,s,b].[-Dev(L,black,S,off,B,charged)]       # cire002 // should be valid but if parts?
-[l,s,b].[-Dev(L,white,S,s,B,b),-WorkD(l,s,b)]  # how lamp to white when parts ok
+#[l,s,b].[-Dev(L,white,S,s,B,b),-WorkD(l,s,b)]  # how lamp to white when parts ok
 
 #[l,s,b].[-Dev(black,S,on,B,b)]                 # how broken can be detected
-
 #[l,s,b].[-Dev(L,white,S,on,B,b),-WorkD(L,S,B)] # cire003 // lamp no white or sw not on when LSB worked
 
 # Facts about parts in the circuit
@@ -50,9 +49,13 @@
 [D,L,B,S].[-WorkL(p1,L,p2),-WorkB(p2,B,p3),-WorkS(p3,S,p1),+WorkD(L,S,B)]
 
 # Work means current flow.
-[p1,p2,X,x].[-WorkL(p1,X,p2),+Curr(p1,p2,X,light)]   # Curr appears as light on lamp
+[p1,p2,X,x].[-WorkL(p1,X,p2),+Curr(p1,p2,X,white)]   # Curr appears as light on lamp
 [p1,p2,X,x].[-WorkS(p1,X,p2),+Curr(p1,p2,X,on)]      # Curr appears as on on switch
 [p1,p2,X,x].[-WorkB(p1,X,p2),+Curr(p1,p2,X,charged)] # Curr appears as charged on battery
+# when broken
+#[p1,p2,X,x].[-WorkL(p1,X,p2),+Curr(p1,p2,X,black)]   # Curr appears as light on lamp
+#[p1,p2,X,x].[-WorkS(p1,X,p2),+Curr(p1,p2,X,on)]      # Curr appears as on on switch
+#[p1,p2,X,x].[-WorkB(p1,X,p2),+Curr(p1,p2,X,charged)] # Curr appears as charged on battery
 
 # Conn is another concept of circuits
 #[d,L,S,B].[-Conn(p1,p2,L),-Conn(p2,p3,S),-Conn(p3,p1,B),+Connd(d,L,S,B)]
@@ -62,10 +65,10 @@
 #[p1,p2].[-Conn(p1,p2,S),+Curr(p1,p2,S,on)]
 #[p1,p2].[-Conn(p1,p2,B),+Curr(p1,p2,B,charged)]
 
-[L,l,S,s,B,b].[-Curr(p1,p2,L,l),-Curr(p2,p3,S,s),-Curr(p3,p1,B,b),+Currd(L,l,S,s,B,b)]
+[LM,l,SW,s,BT,b].[-Curr(p1,p2,LM,l),-Curr(p2,p3,SW,s),-Curr(p3,p1,BT,b),+Currd(LM,l,SW,s,BT,b)]
 
-#[L,x,S,y,B,z].[-Currd(L,white,S,y,B,z),+Dev(L,white,S,y,B,z)]
-[L,x,S,y,B,z].[-Currd(L,x,S,y,B,z),+Dev(L,x,S,y,B,z)]
+[LM,x,SW,y,BT,z].[-Currd(LM,white,SW,y,BT,z),+Dev(LM,white,SW,y,BTT,z)]
+#[L,x,S,y,B,z].[-Currd(L,x,S,y,B,z),+Dev(L,x,S,y,B,z)]
 
 
 # Relation of the parts and a current flow
@@ -89,7 +92,7 @@
 # [p1,B,p2t,p2].[+WorkB(p1,B,p2),-CurrB(p1,B,p2t,p2)]
 
 # I want to write as this, but no Curr but CurrX
-#[d,p1,p2,p3,x,y,z].[-Curr(p1,p1,x,2),-Curr(2,p2,y,3),-Curr(3,p3,z,1),+CurrD(d,x,y,z)]
-#[d,p1,p2,p3,x,y,z].[-CurrL(1,p1,x,2),-CurrS(2,p2,y,3),-CurrB(3,p3,z,1),+CurrD(d,light,y,z)]
+#[d,p1,p2,p3,x,y,z].[-Curr(p1,p1,x,2),-Curr(2,p2,y,3),-Curr(3,p3,z,1),+CurrD(x,y,z)]
+#[d,p1,p2,p3,x,y,z].[-CurrL(1,p1,x,2),-CurrS(2,p2,y,3),-CurrB(3,p3,z,1),+CurrD(light,y,z)]
 
 
