@@ -1,0 +1,87 @@
+# circuit problem level0
+# parts are switch, lamp, battery 
+
+# this also asks if good or malfunction on a calibration
+# this contains no inference significant.
+
+# goal
+## This goal ask it is malfunction or good
+
+[d,how].[-How(d,how)]
+
+## Fact: what state of the device(choose one of 3)
+ [d].[+Dev(d,on,white,charged)]
+ [d].[+Dev(d,on,black,empty)]
+ [d].[+Dev(d,off,black,empty)]
+[d].[+Dev(d,off,black,charged)]
+ [d,w].[+Dev(d,on,black,w)]
+
+# axioms of functions.
+[d].[-Dev(d,on,white,charged),+How(d,good)]
+[d,any].[-Dev(d,off,black,any),+How(d,good)]
+[d].[-Dev(d,on,black,empty),+How(d,good)]
+[d].[-Dev(d,on,black,charged),+How(d,mal)]
+
+
+# comments
+# 1. d has no significant role.
+#    but I think it is needed for what these about
+
+## rcf2,ccf2=simpleprover("data/cirf002.cnf",5,5)
+# julia> printproofs1(ccf2)
+# julia> printmgu(:R5,ccf2,true)
+# when (on,white,charged) or (off, black,charged)
+# , (off,black,empty), (on,black,empty)
+# (on,white,charged)
+# R2:<L2:L6>=d_C1/d_C3; how_C1/good; 
+# R5:<L5_R2:L1>=d_C3R2/d_C2; 
+
+# (on,black,empty) 
+# R1:<L2:L10>=d_C1/d_C5; how_C1/good; 
+# R5:<L9_R1:L1>=d_C5R1/d_C2; 
+
+# (off,black,empty) with any axiom
+# R4:<L2:L8>=d_C1/d_C4; how_C1/good; 
+# R5:<L7_R4:L1>=d_C4R4/d_C2; any_C4R4/empty; 
+
+# (off,black,charged) with any axiom
+# R4:<L2:L8>=d_C1/d_C4; how_C1/good; 
+# R5:<L7_R4:L1>=d_C4R4/d_C2; any_C4R4/charged; 
+
+# (on,black,w) w should be empty?
+#julia> printproofs1(ccf2)
+#
+#C1:[d_C1,how_C1]. L2.-(How(d_C1, how_C1))
+#C5:[d_C5]. L9.-(Dev(d_C5, on, black, empty)), L10.+(How(d_C5, good))
+#  <L2:L10>=[d_C1,how_C1,d_C5]←[d_C5,good,d_C5] by reso
+#R1:[d_C5R1]. L9_R1.-(Dev(d_C5R1, on, black, empty))
+#C2:[d_C2,w_C2]. L1.+(Dev(d_C2, on, black, w_C2))
+#  <L9_R1:L1>=[d_C5R1,d_C2,w_C2]←[d_C2,d_C2,empty] by reso
+#R5:[].□
+#---
+#> printmgu(:R5,ccf2,true)
+#R1:<L2:L10>=d_C1/d_C5; how_C1/good; 
+#R5:<L9_R1:L1>=d_C5R1/d_C2; w_C2/empty; 
+
+# empty makes black and it's ok
+
+#---
+#
+#C1:[d_C1,how_C1]. L2.-(How(d_C1, how_C1))
+#C6:[d_C6]. L3.-(Dev(d_C6, on, black, charged)), L4.+(How(d_C6, mal))
+#  <L2:L4>=[d_C1,how_C1,d_C6]←[d_C6,mal,d_C6] by reso
+#R3:[d_C6R3]. L3_R3.-(Dev(d_C6R3, on, black, charged))
+#C2:[d_C2,w_C2]. L1.+(Dev(d_C2, on, black, w_C2))
+#  <L3_R3:L1>=[d_C6R3,d_C2,w_C2]←[d_C2,d_C2,charged] by reso
+#R6:[].□
+#---
+#julia> printmgu(:R6,ccf2,true)
+#R3:<L2:L4>=d_C1/d_C6; how_C1/mal; 
+#R6:<L3_R3:L1>=d_C6R3/d_C2; w_C2/charged;
+
+# charged but black is malfunction
+
+### Correct answer!
+
+
+
