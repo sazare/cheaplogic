@@ -6,7 +6,7 @@
 # goal
 ## This goal ask it is malfunction or good
 
-[d,how].[-How(d,how)]
+[d,what].[-What(d,what)]
 
 ## Fact: what state of the device(choose one of 3)
 #[d].[+Dev(d,on,white)]
@@ -14,9 +14,9 @@
 [d].[+Dev(d,on,black)]
 
 # axioms of functions.
-[d].[-Dev(d,on,white),+How(d,good)]
-[d].[-Dev(d,off,black),+How(d,good)]
-[d].[-Dev(d,on,black),+How(d,mal)]
+[d].[-Dev(d,on,white),+What(d,good)]
+[d].[-Dev(d,off,black),+What(d,good)]
+[d].[-Dev(d,on,black),+What(d,mal)]
 
 # comments
 # 1. d has no significant role.
@@ -27,11 +27,11 @@
 # julia> printmgu(:R4,ccf1,true)
 # when (on,white) or (off, black)
 # >printmgu(:R4,ccf1,true)
-# R2:<L2:L4>=d_C1/d_C3; how_C1/good; 
+# R2:<L2:L4>=d_C1/d_C3; what_C1/good; 
 # R4:<L3_R2:L1>=d_C3R2/d_C2; 
 
 # when (on,black)
 # > printmgu(:R4,ccf1,true)
-# R3:<L2:L8>=d_C1/d_C5; how_C1/mal; 
+# R3:<L2:L8>=d_C1/d_C5; what_C1/mal; 
 # R4:<L7_R3:L1>=d_C5R3/d_C2; 
 

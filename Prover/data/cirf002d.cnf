@@ -1,0 +1,67 @@
+# circuit problem level0
+
+# THIS IS NOT WORK.
+# Cause cant be disappered
+
+# parts are switch, lamp, battery 
+# when malfunction, with the test of parts, 
+
+
+# this asks what tests are needed when malfunction
+
+# goal and facts pattern be changed to 1 clause from cirf002b.cnf
+
+## simple +/- conversion
+## Which is more fit to my intension?
+
+# goal
+## This goal ask it is malfunction or good
+## This proving do after malfunction detected.
+
+[d,w,cau].[-Cause(d,cau),-Dev(d,on,black,w)]
+
+## The conjecture is goal and the one of fact below
+## conj: +D -> +C
+## then neg conj is {+D and -C}
+## and choose -C as the goal
+## Fact: current state of the device
+ [d].[-Dev(d,on,white,charged)]
+ [d].[-Dev(d,on,black,empty)]
+ [d].[-Dev(d,off,black,empty)]
+ [d].[-Dev(d,off,black,charged)]
+ [d,w].[-Dev(d,on,black,w)]
+
+#### if conj is +D and +C
+#### neg conj is a clause -D,-C
+## it is cirf002c.cnf
+
+# axioms of functions.
+[d].[+Dev(d,on,white,charged),+What(d,good)]
+[d,any].[+Dev(d,off,black,any),+What(d,good)]
+[d].[+Dev(d,on,black,empty),+What(d,good)]
+[d].[+What(d,good)] 
+
+[d].[+Dev(d,on,black,charged),+Mal(d,on,black,charged)]
+
+# translate to Tests
+[d,s,l,b].[-Mal(d,s,l,b),-FailS(sw),+Cause(d,switch)]
+[d,s,l,b].[-Mal(d,s,l,b),-FailL(lamp),+Cause(d,lamp)]
+[d,s,l,b].[-Mal(d,s,l,b),-FailB(batt),+Cause(d,battery)]
+
+
+# Facts(test results) of parts.
+# all test clear or someone failed?
+[].[+FailS(sw)]
+[].[+FailL(lamp)]
+ [].[+FailB(batt)]
+
+
+
+## rcf2d,ccf2d=simpleprover("data/cirf002d.cnf",10,10)
+#==
+
+julia> printproofs1(ccf2d)
+
+julia> printmgus(ccf2d)
+
+==#
