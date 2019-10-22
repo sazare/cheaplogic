@@ -1,0 +1,90 @@
+# circuit problem level0
+# parts are switch, lamp, battery 
+# What to search the cause of mulfunction
+
+# this asks what tests are needed when malfunction
+
+## I want to make parts' tests clear
+
+## simple +/- conversion
+## Which is more fit to my intension?
+
+# goal
+## This goal ask it is malfunction or good
+## This proving do after malfunction detected.
+
+[d,cau].[-Cause(d,cau)]
+
+## The conjecture is goal and the one of fact below
+## conj: +D -> +C
+## then neg conj is {+D and -C}
+## and choose -C as the goal
+## Fact: current state of the device
+ [d].[-Dev(d,on,white,charged)]
+ [d].[-Dev(d,on,black,empty)]
+ [d].[-Dev(d,off,black,empty)]
+ [d].[-Dev(d,off,black,charged)]
+[d,w].[-Dev(d,on,black,w)]
+
+#### if conj is +D and +C
+#### neg conj is a clause -D,-C
+## it is cirf002c.cnf
+
+# axioms of functions.
+[d].[+Dev(d,on,white,charged),+What(d,good)]
+[d,any].[+Dev(d,off,black,any),+What(d,good)]
+[d].[+Dev(d,on,black,empty),+What(d,good)]
+[d].[+What(d,good)] 
+
+[d].[+Dev(d,on,black,charged),+Mal(d,on,black,charged)]
+
+# translate to Tests
+[d,s,l,b].[-Mal(d,s,l,b),-FailS(sw),+Cause(d,switch)]
+[d,s,l,b].[-Mal(d,s,l,b),-FailL(lamp),+Cause(d,lamp)]
+[d,s,l,b].[-Mal(d,s,l,b),-FailB(batt),+Cause(d,battery)]
+
+
+# Facts(test results) of parts.
+# all test clear or someone failed?
+ [].[+FailS(sw)]
+ [].[+FailL(lamp)]
+ [].[+FailB(batt)]
+
+# (A) if fail just lamp, then
+[].[-FailS(sw)]
+[].[+FailL(lamp)]
+[].[-FailB(batt)]
+
+
+## rcf2e,ccf2e=simpleprover("data/cirf002e.cnf",10,10)
+#==
+
+julia> printproofs1(ccf2e)
+julia> printproofs1(ccf2e)
+
+C1:[d_C1,cau_C1]. L8.-(Cause(d_C1, cau_C1))
+C9:[d_C9,s_C9,l_C9,b_C9]. L16.-(Mal(d_C9, s_C9, l_C9, b_C9)), L17.-(FailL(lamp)), L18.+(Cause(d_C9, lamp))
+  <L8:L18>=[d_C1,cau_C1,d_C9,s_C9,l_C9,b_C9]←[d_C9,lamp,d_C9,s_C9,l_C9,b_C9] by reso
+R2:[d_C9R2,s_C9R2,l_C9R2,b_C9R2]. L16_R2.-(Mal(d_C9R2, s_C9R2, l_C9R2, b_C9R2)), L17_R2.-(FailL(lamp))
+C7:[d_C7]. L20.+(Dev(d_C7, on, black, charged)), L21.+(Mal(d_C7, on, black, charged))
+  <L16_R2:L21>=[d_C9R2,s_C9R2,l_C9R2,b_C9R2,d_C7]←[d_C7,on,black,charged,d_C7] by reso
+R5:[d_C7R5]. L17_R5.-(FailL(lamp)), L20_R5.+(Dev(d_C7R5, on, black, charged))
+C12:[]. L15.+(FailL(lamp))
+  <L17_R5:L15>=[d_C7R5]←[d_C7R5] by reso
+R8:[d_C7R5R8]. L20_R8.+(Dev(d_C7R5R8, on, black, charged))
+C2:[d_C2,w_C2]. L1.-(Dev(d_C2, on, black, w_C2))
+  <L20_R8:L1>=[d_C7R5R8,d_C2,w_C2]←[d_C2,d_C2,charged] by reso
+R10:[].□
+---
+# of contradictions = 1
+
+julia> printmgus(ccf2e)
+
+R2:<L8:L18>=cau/lamp;
+R5:<L16_R2:L21>=s/on;l/black;b/charged;
+R8:<L17_R5:L15>=
+R10:<L20_R8:L1>=w/charged;
+
+
+
+==#
