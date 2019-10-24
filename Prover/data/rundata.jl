@@ -112,7 +112,19 @@ rcirc004_5e,ccirc004_5e=simpleprover("data/circ004e.cnf",5,5) #
 rcirc004_5,ccirc004_5=simpleprover("data/circ004.cnf",5,5) # 
 
 # circuit problem 
+
+#rcb1,ccb1=simpleprover("data/cirb001.cnf",7,7)
+rcb1,ccb1=simpleprover("data/cird001.cnf",7,7)
+rcb1,ccb1=simpleprover("data/cird002.cnf",5,5)
+rcb1,ccb1=simpleprover("data/cird003.cnf",5,5)
 rce1,cce1=simpleprover("data/cire001.cnf",7,7)
 rce2,cce2=simpleprover("data/cire002.cnf",7,7)
-rce3,cce3=simpleprover("data/cire003.cnf",10,10) # not enough 9
-
+rce3,cce3=simpleprover("data/cire003.cnf",10,10)
+rcf1,ccf1=simpleprover("data/cirf001.cnf",5,5)
+rcf2,ccf2=simpleprover("data/cirf002.cnf",5,5)
+rcf2a,ccf2a=simpleprover("data/cirf002a.cnf",5,5)
+rcf2b,ccf2b=simpleprover("data/cirf002b.cnf",10,10)
+rcf2c,ccf2c=simpleprover("data/cirf002c.cnf",10,10)
+#rcf2d,ccf2d=simpleprover("data/cirf002d.cnf",10,10)
+rcf2e,ccf2e=simpleprover("data/cirf002e.cnf",10,10)
+#rcf3,ccf3=simpleprover("data/cirf003.cnf",5,5)
