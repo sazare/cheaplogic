@@ -1,0 +1,8 @@
+# Hello world
+
+[m].[-Hello(m)]
+[m].[-Greeting(m),+Hello(Hello,m)]
+
+
+# CANO
+&[MSG].[Greeting(MSG)]

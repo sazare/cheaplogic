@@ -33,6 +33,13 @@ this has 3 ways to reduct a goal.
 3. run Chrome with 
    http://localhost:8000/go?op=start
 
+4. proving steps are...
+   0) choose the cnf file(with specifying path)
+   1) select goal clause in the core printing
+   2) after that, repeat core showed, select a clause...
+      sometime, prover just show the resolvent without choice.
+      then just ok.
+
 * sample cnf for testing(belows are state of 2019/0713)
  vdata/vev002.cnf 's following clause(id) can be a goal respectively.
  -> show the operation and result.
