@@ -1,0 +1,16 @@
+# Hello world
+
+[m].[-Hello(m)]
+[m].[+Hello(Hello_World)]
+
+# julia> rh,ch=simpleprover("data/hello.cnf",2,2)
+# readcore fname=data/hello.cnf
+# [ Info: (:C1, :(([m]).:([-(Hello(m))])))
+# [ Info: (:C2, :(([m]).:([+(Hello(Hello_World))])))
+# (Any[:R1], CORE("data/hello.cnf", [2], [1], Dict{Any,Any}(:L2 => LForm2(:L2, :(-(Hello(m_C1)))),:L1 => LForm2(:L1, :(+(Hello(Hello_World))))), Dict{Any,Any}(:C2 => VForm2(:C2, Symbol[:m_C2]),:C1 => VForm2(:C1, Symbol[:m_C1]),:R1 => VForm2(:R1, Any[])), Dict{Any,Any}(:C2 => Any[:L1],:C1 => Any[:L2],:R1 => Any[]), Dict{Any,Any}(:L2 => :C1,:L1 => :C2), Any[:Hello], Dict{Any,Any}(Symbol("+Hello") => Any[Any[:C1, Symbol[:m_C1], :L2, Any[]]],Symbol("-Hello") => Any[Any[:C2, Symbol[:m_C2], :L1, Any[]]]), Dict{Any,Any}(:R1 => STEP(:R1, :L2, :L1, Symbol[:Hello_World, :m_C2], Array{Any,1}[[], []], :reso)), Any[], [1], [1], Dict{Symbol,Any}()))
+# 
+# 
+# julia> printmgus(ch,true)
+# 
+# R1:<L2:L1>=m_C1/Hello_World; 
+# ---
