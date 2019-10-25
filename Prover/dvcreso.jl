@@ -154,7 +154,7 @@ end
 """
 simple prover find some contracictions, but not all
 """
-function simpleprovercore(cdx, steplimit, contralimit)
+function simpleprovercore(cdx, steplimit, contralimit, reslimit)
  tdx=alltemplateof(cdx)
  gb=[lidsof(:C1, cdx)]
  conds = []
@@ -167,6 +167,7 @@ function simpleprovercore(cdx, steplimit, contralimit)
   nstep += 1
   conds = contradictionsof(cdx)
  # if !isempty(conds); break end
+  if length(cdx.proof) >= reslimit; break end
   if length(conds) >= contralimit;break end
   if nstep >= steplimit;break end
   gb = ga
@@ -174,8 +175,8 @@ function simpleprovercore(cdx, steplimit, contralimit)
  return conds,cdx
 end
 
-function simpleprover(cnf, steplimit, contralimit)
+function simpleprover(cnf, steplimit, contralimit, reslimit=100)
  cdx=readcore(cnf)
- simpleprovercore(cdx, steplimit, contralimit)
+ simpleprovercore(cdx, steplimit, contralimit, reslimit)
 end
 

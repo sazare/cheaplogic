@@ -4,6 +4,11 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20191026土
+1. prover のlimitterとして成功した回数にしよう。
+　resolution以外もあるので、どう数えるか・・・
+  core.proofの要素数にしてみよう
+
 20191022火
 1. cirf001.cnfで、axiomsからmalの行をけしてみた
  [d].[-Dev(d,on,black,charged),+How(d,mal)]
