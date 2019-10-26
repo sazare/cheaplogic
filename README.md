@@ -9,3 +9,6 @@
  A simple prover based on resolution principle. 
  Intended to get all proofs from given axioms.
  
+ viewprover uses Genie.jl for Web Interface.
+ You can choose a clause to do something.
+ 
