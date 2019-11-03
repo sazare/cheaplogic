@@ -1,5 +1,5 @@
 [[view prover]
-this is a prover with the resolution and some human interactions through web views.
+this is a prover with Resolution and some human interactions(web views).
 
 the proving style is a goal reduction to contradiction(empty goal).
 
