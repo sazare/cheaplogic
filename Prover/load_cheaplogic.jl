@@ -15,6 +15,6 @@ include("dvcreso.jl")
 include("analyzer.jl")
 include("repl.jl")
 include("merge.jl")
-include("parser.jl")
+#include("parser.jl")
 
 println("... cheaplogic is loaded")

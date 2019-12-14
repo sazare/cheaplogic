@@ -9,7 +9,7 @@ include("testmerge.jl")
 include("testreso.jl")
 include("testnewcore.jl")
 include("testdvcreso.jl")
-include("testparser.jl")
+#include("testparser.jl")
 #include("testprover.jl")
 include("testcorestring.jl")
 
