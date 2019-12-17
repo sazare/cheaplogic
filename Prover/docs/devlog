@@ -4,6 +4,11 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20191217火
+1. Genieのaddはできてもusingでエラーになった
+　updateしてbuildしたら動くようになった
+
+
 20191214土
 1. testunify.jlにUnification theoryの例を追加した
    testunify.jlは動いた
