@@ -5,7 +5,10 @@ dvc_resolution()がresolutionを行い, simpleprover()が可能なproofを作る
 1) resolution
   dvcは、Disjoint Variable Conditionと名付けた条件で、resolution開始時に、ふたつのclauseの変数に共通部分がないという条件。
 DVCが成り立てば、resolution stepの最初に共通変数のrenameは不要になる。
-resolutionに成功した場合はそのrenameは意味があるが、失敗した場合は無駄になるので、できればpre renameをしたくなかった。
+resolutionに成功した場合はそのrenameは意味があるが、失敗した場合は無駄になるので、できればpre-renameをしたくなかった。
+
+いくつかの理由により、DVCは成り立っているが、cheaplogicは不完全
+
  
 [方法]
   DVCを満たすようにresolutionを行うには、resolventができたときに、そのresolventの変数が他のclauseの変数と同じにならないようにすればよい。
@@ -15,6 +18,17 @@ resolutionに成功した場合はそのrenameは意味があるが、失敗し�
 変数名が衝突しないようにするため、各変数名には、clause id(cid)を付加する。つまり
 元の変数名 x で、それがclause c10で使われていれば、x_c10 のような名前にする。
 resolventを作成した場合、そのresolvent id(rid)を追加する。r11ならば、x_c10r11とする。
+
+DVCを満たせない場合:
+ 1. 入力clauseにC1={+P,-P,α}がある場合、<C1:C1>で変数が混乱する。
+ 2. resolventに C1={+P,-P,α}がある場合。これは、入力clauseに C1={+P,+Q,α}, C2={-P,-Q,β}があると起きる。
+　このとき、σ=<C1[+Q]:C2[-Q]>として、resolventR1が{+P,-P,α,β}σ となるので、1の場合になる。
+
+これが発生するならば、DVCは満たせない。
+cheaplogicでは、次のようになる。
+ 1. goal(1clause)からの証明のみ
+ 2. input
+
 
 [検討]
 ・変数名が多くなるので、メモリを圧迫するかもしれない。変数名の数自体はどちらの方法でも同じである。

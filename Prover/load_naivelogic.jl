@@ -15,6 +15,6 @@ include("coreprint.jl")
 include("dvcreso.jl")
 include("analyzer.jl")
 include("repl.jl")
-include("parser.jl")
+#include("parser.jl")
 
 println("... naivelogic is loaded")

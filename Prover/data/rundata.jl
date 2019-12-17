@@ -128,3 +128,10 @@ rcf2c,ccf2c=simpleprover("data/cirf002c.cnf",10,10)
 #rcf2d,ccf2d=simpleprover("data/cirf002d.cnf",10,10)
 rcf2e,ccf2e=simpleprover("data/cirf002e.cnf",10,10)
 #rcf3,ccf3=simpleprover("data/cirf003.cnf",5,5)
+
+# simple recursion function
+
+rloop1,cloop1=simpleprover("data/loop001.cnf",10,10)
+
+
+
