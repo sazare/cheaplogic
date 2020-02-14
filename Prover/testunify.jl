@@ -162,7 +162,7 @@ end
   @test_throws Loop unify([:x,:y],:(P(x,y)),:(P(y,f(y))))
  end
 
- @testset "unification theory example" begin
+ @testset "unification theory example(for performance)" begin
   t1=:(h(x1,x2,x3,x4,f(y0,y0),f(y1,y1),f(y2,y2),f(y3,y3),y4))
   t2=:(h(f(x0,x0),f(x1,x1),f(x2,x2),f(x3,x3),y1,y2,y3,y4,x4))
   r0=[
