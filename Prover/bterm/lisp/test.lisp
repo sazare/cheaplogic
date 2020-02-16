@@ -15,14 +15,14 @@
        (force-output t)
        ,@body)))
 
-(defmacro test-equal (desc expv form)
+(defmacro expect-equal (desc expv form)
     `(let (var)
        (setf var ,form)  ;;; eval form just once
        (report-result ,desc (equal ,expv var) ,expv ',form var)
      )
   )
 
-(defmacro test-notequal (desc expv form)
+(defmacro expect-notequal (desc expv form)
     `(let (var)
        (setf var ,form)  ;;; eval form just once
        (report-result ,desc (not (equal ,expv var)) ,expv ',form var)
