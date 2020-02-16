@@ -5,3 +5,4 @@
 (format T "TEST START")
 (load "test-unify.lisp")
 (format T "TEST FINISHED")
+
