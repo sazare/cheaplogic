@@ -43,7 +43,7 @@
 )
 
 (deftest test-switcher ()
-  "how swictcher works"
+  "how swictcher works, but this should be an implementation"
 
    (expect-equal "" '(x . a) (switcher '(x y) '(x . a)))
    (expect-equal "" '(x . a) (switcher '(x y) '(a . x)))
@@ -65,6 +65,17 @@
   (expect-equal "fterm unify" '((x . (f y))(w . a)) (unify '(x y w) '(h x a) '(h (f y) w)))
 )
 
+(deftest test-insidep ()
+  (expect-equal "not x in x var" NIL (insidep '(x) 'x 'x))
+  (expect-equal "not x in x const" NIL (insidep '() 'x 'x))
+  (expect-equal "x in f(x)" T (insidep '(x) 'x '(f x)))
+  (expect-equal "x in f(g(x))" T (insidep '(x) 'x '(f (g x))))
+  (expect-equal "x in f(g(y),h(x))" T (insidep '(x y) 'x '(f (g y)(g x))))
+  (expect-equal "x in f(a, g(x))" T (insidep '(x) 'x '(f a (g x))))
+  (expect-equal "x in f(y,x)" T (insidep '(x y) 'x '(f y x)))
+  (expect-equal "x in f(a,b)" NIL (insidep '(x) 'x '(f a b)))
+)
+
 (deftest test-unify-complex ()
   "test unify complicated"
   (expect-equal "fterm unify" '((x . (f y))(w . (f y))) (unify '(x y w) '(h x x) '(h (f y) w)))
@@ -78,6 +89,7 @@
     (test-simplesubst*)
     (test-disagree)
     (test-switcher)
+    (test-insidep)
     (test-unify)
   )
 )

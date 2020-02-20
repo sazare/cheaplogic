@@ -59,6 +59,31 @@
   )
 )
 
+;; insidep
+(defun insidep* (vars v el)
+  (cond
+    ((null el) NIL)
+    ((equal v (car el)) T)
+    ((not (insidep1 vars v (car el))) (insidep* vars v (cdr el)))
+    (T T)
+  )
+)
+
+(defun insidep1 (vars v e)
+  (cond 
+    ((equal v e) T)
+    ((atom e) NIL)
+    (T (insidep* vars v e))
+  )
+)
+
+(defun insidep (vars v e)
+  (cond 
+    ((equal v e) NIL)
+    (T (insidep1 vars v e))
+  )
+)
+
 ;; make-unifier
 
 (defun unify (vars e1 e2)
