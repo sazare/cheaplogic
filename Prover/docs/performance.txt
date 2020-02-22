@@ -1,0 +1,15 @@
+
+ml007
+naive
+  2.959718 seconds (6.17 M allocations: 309.886 MiB, 4.08% gc time)
+   1.743288 seconds (3.18 M allocations: 159.440 MiB, 1.65% gc time)
+   1.693047 seconds (3.18 M allocations: 159.444 MiB, 1.87% gc time)
+   1.745494 seconds (3.18 M allocations: 159.452 MiB, 1.86% gc time)
+   1.780825 seconds (3.18 M allocations: 159.442 MiB, 1.75% gc time)
+   
+ cheap
+  2.961748 seconds (6.43 M allocations: 321.827 MiB, 4.18% gc time) 
+  1.753061 seconds (3.69 M allocations: 183.866 MiB, 2.27% gc time)
+  1.867333 seconds (3.69 M allocations: 183.869 MiB, 1.95% gc time)
+  1.911072 seconds (3.69 M allocations: 183.874 MiB, 2.03% gc time)
+   1.805504 seconds (3.69 M allocations: 183.870 MiB, 4.74% gc time)

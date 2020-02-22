@@ -1,0 +1,19 @@
+20190424
+0.030947 seconds (20.29 k allocations: 1.266 MiB, 36.12% gc time)@time rhave002,chave002=simpleprover("data/have002.cnf",7,1)
+
+cheap
+
+  3.109528 seconds (6.30 M allocations: 314.872 MiB, 6.81% gc time)
+  0.019134 seconds (20.07 k allocations: 1.250 MiB)
+  0.024115 seconds (20.07 k allocations: 1.250 MiB)
+  0.042529 seconds (20.07 k allocations: 1.250 MiB) ?
+  0.021865 seconds (20.07 k allocations: 1.250 MiB)
+  
+  naive
+ 2.910375 seconds (6.08 M allocations: 304.933 MiB, 4.18% gc time) 
+ 0.029374 seconds (20.29 k allocations: 1.266 MiB)
+ 0.033831 seconds (20.29 k allocations: 1.266 MiB)
+ 0.024850 seconds (20.29 k allocations: 1.266 MiB)
+ 0.024086 seconds (20.29 k allocations: 1.266 MiB)
+ 
+ 

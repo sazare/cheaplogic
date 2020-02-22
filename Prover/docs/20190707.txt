@@ -1,0 +1,36 @@
+20190707
+🎂VALIDのときの制御
+ resolveだったら、次の分岐に進むことができるかどうか
+ 
+ Viewの場合は、終わる
+ evalの場合は、終わる
+ 
+ VALIDの場合は終わるしかないのではないか
+ 
+ 🎂viewのproofが必要
+  人間の入力はclauseにしていない
+   literalもない
+   mguはある
+ 
+ evalのときproofはある
+ 
+ 
+ 🎂 stepのrenameσはpost renameのσだ
+ 
+ 🕷 C11で+Sと消えるはずなのにin progressになってしまう
+ :askU = :askU
+choosecanoid = choosecanoid
+gid = :R2
+lids = Any[:L18_R2]
+lid = :L18_R2
+:nocano = :nocano
+v = Inf
+ix = 1
+
+最後がcanoの
+
+なぜSかcanoの候補なのか?
+
+🕷例外をつぶしていって、resolutionのステップが通った。
+resolvelid()の復帰値はgidとcore
+

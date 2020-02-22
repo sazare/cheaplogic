@@ -1,0 +1,16 @@
+## A sample for Variable Conflict 
+# in this sample, ++ clause doesn't connect P
+## rvc1,cvc1 = simpleprover("data/varcon.cnf", 5,5)
+
+[X,Y].[-P(X,Y)]
+
+[x,y].[-Q(x,y),-R(x,y),+P(x,y)]
+[x,y].[+Q(x,y),+R(x,y),+S(x,y)]
+
+[u].[+Q(f(u),u)]
+[u].[+Q(g(u),u)]
+[v].[+R(f(b),b)]
+[w].[-S(a2,c)]
+[w].[-Q(a2,c)]
+[w].[-R(a2,c)]
+

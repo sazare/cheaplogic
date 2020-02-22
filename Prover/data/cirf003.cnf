@@ -1,0 +1,48 @@
+# circuit problem level0
+# parts are switch, lamp, battery 
+
+######## how to write? in 
+
+# this also asks if good or malfunction on a calibration
+# this contains no inference significant.
+
+# goal
+## This goal ask it is malfunction or good
+
+[d,how].[-How(d,how), -Dev(d,on,black,charged)]
+
+## Fact: state of the circuit
+ [d].[+Dev(d,on,white,charged)]
+ [d].[+Dev(d,on,black,empty)]
+ [d].[+Dev(d,off,black,charged)]
+ [d].[+Dev(d,off,black,empty)]
+ [d].[+Dev(d,on,black,charged)]
+
+# axioms of functions.
+ [d].[-Dev(d,on,white,charged),+How(d,good)]
+ [d,any].[-Dev(d,off,black,any),+How(d,good)]
+ [d].[-Dev(d,on,black,empty),+How(d,good)]
+ [d].[-Dev(d,on,black,charged),+How(d,mal)]
+
+## How parts work?
+######## how to write?
+
+[d].[+Dev(d,x,y,z),-Conn(d,a,x,b),-Conn(d,b,y,c),-Conn(d,c,a)]
+
+[d,p1,p2].[+Conn(d,p1,on,p2)]
+[d,p1,p2].[+Conn(d,p1,white,p2)]
+[d,p1,p2].[+Conn(d,p1,charged,p2)]
+
+[d,p1,p2].[+Conn(d,p1,off,p2),+How(d,mal)]
+[d,p1,p2].[+Conn(d,p1,black,p2),+How(d,mal)]
+[d,p1,p2].[+Conn(d,p1,empty,p2),+How(d,mal)]
+
+[].[+How(d,good),-SW(d,on),-Lamp(d,white),-Bat(d,charged)]
+
+# comments
+
+## rcf3,ccf3=simpleprover("data/cirf003.cnf",5,5)
+# julia> printproofs1(ccf3)
+# julia> printmgu(:R3,ccf3,true)
+#R3:<L4:L5>=d_C1/d; how_C1/good; 
+# dont work!

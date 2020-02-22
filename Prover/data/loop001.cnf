@@ -1,0 +1,13 @@
+# recursive definition simple
+# this must be used for a function definition on the data defined.
+
+# rlp1,clp1=simpleprover("data/loop001.cnf", 5,5)
+
+[x,y].[-P(x,y)]
+
+[].[+P(0,1)]
+[u,v].[+P(u,F(u,v))]
+
+[x,y].[-P(x,y),+P(s(x),f(x,y))]
+
+
