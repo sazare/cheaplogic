@@ -1,5 +1,32 @@
 (load "test.lisp")
 
+(test-set 
+	 "about expect true or false"
+	(expect-t "true" (eq 'a 'a))
+	(expect-f "false" (eq 'a 'b))
+) 
+
+(test-set
+	"about order of number integer"
+	(expect-> ">" 4 3)
+	(expect->= ">=" 4 3)
+	(expect->= ">=" 4 4)
+	(expect-< "<" 2 3)
+	(expect-<= "<=" 2 3)
+	(expect-<= "<=" 3 3)
+	(expect-= "=" 13 13)
+)
+(test-set
+	"about order of number float"
+	(expect-> ">" 4.0 3.9)
+	(expect->= ">=" 33.2 33.2)
+	(expect->= ">=" 4.5 4.5)
+	(expect-< "<" 2.99 3.0)
+	(expect-<= "<=" 3.0 5.2)
+	(expect-<= "<=" 3.0 3.0)
+	(expect-<= "=" 3.0 3.0)
+)
+
 (test-set
 	 "about plus"
 	 (expect-equal "three1" 3 (+ 1 2 ) )

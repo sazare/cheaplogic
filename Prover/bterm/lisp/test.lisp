@@ -15,17 +15,71 @@
        (force-output t)
        ,@body)))
 
+(defmacro expect-t (desc form)
+    `(let (val)
+       (setf val ,form)  ;;; eval form just once
+       (report-result ,desc val val ',form val)
+     )
+  )
+
+(defmacro expect-f (desc form)
+    `(let (val)
+       (setf val ,form)  ;;; eval form just once
+       (report-result ,desc (null val) NIL ',form val)
+     )
+  )
+
 (defmacro expect-equal (desc expv form)
-    `(let (var)
-       (setf var ,form)  ;;; eval form just once
-       (report-result ,desc (equal ,expv var) ,expv ',form var)
+    `(let (val)
+       (setf val ,form)  ;;; eval form just once
+       (report-result ,desc (equal ,expv val) ,expv ',form val)
      )
   )
 
 (defmacro expect-notequal (desc expv form)
-    `(let (var)
-       (setf var ,form)  ;;; eval form just once
-       (report-result ,desc (not (equal ,expv var)) ,expv ',form var)
+    `(let (val)
+       (setf val ,form)  ;;; eval form just once
+       (report-result ,desc (not (equal ,expv val)) ,expv ',form val)
+     )
+  )
+
+(defmacro expect->(desc form1 form2)
+    `(let (val1 val2)
+       (setf val1 ,form1)  ;;; eval form just once
+       (setf val2 ,form2)  ;;; eval form just once
+       (report-result ,desc (> val1 val2) T '(> ,form1 ,form2) T)
+     )
+  )
+
+(defmacro expect->=(desc form1 form2)
+    `(let (val1 val2)
+       (setf val1 ,form1)  ;;; eval form just once
+       (setf val2 ,form2)  ;;; eval form just once
+       (report-result ,desc (>= val1 val2) T '(>= ,form1 ,form2) T)
+     )
+  )
+
+(defmacro expect-<(desc form1 form2)
+    `(let (val1 val2)
+       (setf val1 ,form1)  ;;; eval form just once
+       (setf val2 ,form2)  ;;; eval form just once
+       (report-result ,desc (< val1 val2) T '(> ,form1 ,form2) T)
+     )
+  )
+
+(defmacro expect-<=(desc form1 form2)
+    `(let (val1 val2)
+       (setf val1 ,form1)  ;;; eval form just once
+       (setf val2 ,form2)  ;;; eval form just once
+       (report-result ,desc (<= val1 val2) T '(<= ,form1 ,form2) T)
+     )
+  )
+
+(defmacro expect-=(desc form1 form2)
+    `(let (val1 val2)
+       (setf val1 ,form1)  ;;; eval form just once
+       (setf val2 ,form2)  ;;; eval form just once
+       (report-result ,desc (= val1 val2) T '(= ,form1 ,form2) T)
      )
   )
 
