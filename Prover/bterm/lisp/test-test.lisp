@@ -46,6 +46,9 @@
 	 (expect-notequal "car is abc3" 'abc (car '(aaa abc abc)))
 	 )
 
+
+### sample test
+
 (deftest test-a ()
 	 "about plus"
 	 (expect-equal "three1" 3 (+ 1 2 ) )
@@ -53,11 +56,13 @@
 	 (expect-notequal "four" 9 (+ 2 2 ) )
 	 (expect-notequal "five" 9 (+ 4 2 ) )
 	 )
+
 (deftest test-b ()
 	 "about multi"
 	 (expect-equal "four"  4 (* 2 2) )
 	 (expect-notequal "two"   2 (* 1 1) )
 	 )
+
 (deftest test-car (x) ;; how this parameter is used?
 	 "about car"
 	 (expect-equal "car is abc1" 'abc (car x))

@@ -60,27 +60,28 @@
 )
 
 ;; insidep
-(defun insidep* (vars v el)
+;; v is just a symbol. not concern var or not.
+(defun insidep* (s el)
   (cond
     ((null el) NIL)
-    ((equal v (car el)) T)
-    ((not (insidep1 vars v (car el))) (insidep* vars v (cdr el)))
+    ((equal s (car el)) T)
+    ((not (insidep1 s (car el))) (insidep* s (cdr el)))
     (T T)
   )
 )
 
-(defun insidep1 (vars v e)
+(defun insidep1 (s e)
   (cond 
-    ((equal v e) T)
+    ((equal s e) T)
     ((atom e) NIL)
-    (T (insidep* vars v e))
+    ((not (insidep1 s (car e))) (insidep* s (cdr e)))
   )
 )
 
-(defun insidep (vars v e)
+(defun insidep (s e)
   (cond 
-    ((equal v e) NIL)
-    (T (insidep1 vars v e))
+    ((equal s e) NIL)
+    (T (insidep1 s e))
   )
 )
 
