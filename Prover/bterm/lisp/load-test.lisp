@@ -4,7 +4,7 @@
 (terpri t)
 (terpri t)
 (terpri t)
-(format t "HERE WE BO~%")
+(format t "HERE WE GO~%")
 
 
 (load "test.lisp")
