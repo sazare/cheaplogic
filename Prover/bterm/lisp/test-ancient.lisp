@@ -1,9 +1,6 @@
 ;; test unify for ancient
 
-(load "ancient.lisp")
-(format t "endof ancient.lisp~%")
-(load "ancient.lisp")
-(format t "endof ancient.lisp~%")
+(load "load-ancient.lisp")
 
 (load "test.lisp")
 ;; primitives
