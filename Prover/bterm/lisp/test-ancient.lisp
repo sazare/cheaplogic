@@ -75,14 +75,16 @@
   (expect-equal "fterm unify2" '((x . (f y))) (unify '(x y) '(f y) 'x))
   (expect-equal "fterm unify3" '((x . (f y))) (unify '(x y) '(h (f y)) '(h x)))
   (expect-equal "fterm unify4" '((x . (f y))) (unify '(x y) '(h x) '(h (f y))))
-  (expect-equal "fterm unify5" '((x . (f y))(w . a)) (unify '(x y w) '(h x a) '(h (f y) w)))
+  (expect-equal "fterm unify5" '((w . a)(x . (f y))) (unify '(x y w) '(h x a) '(h (f y) w)))
 )
 
 
 (deftest test-unify-complex ()
   "test unify complicated"
-  (expect-equal "fterm unify" '((x . (f y))(w . (f y))) (unify '(x y w) '(h x x) '(h (f y) w)))
-
+  (expect-equal "fterm unify" '((w . (f y))(x . (f y))) (unify '(x y w) '(h x x) '(h (f y) w)))
+  (expect-equal "right to left" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f (h w) x) '(f y (g y))))
+  (expect-equal "single step of unif for left to right" '((x . (g y))) (unify '(x y ) '(f x) '(f (g y))))
+  (expect-equal "left to right(need par subst)" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f x (h w)) '(f (g y) y)))
 )
 
 (deftest test-all ()

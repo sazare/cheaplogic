@@ -94,21 +94,21 @@
      (loop while T 
        do
        (let ((d ()))
-;    (format t "ee1:~a~%" ee1)
-;    (format t "ee2:~a~%" ee2)
          (setf d (disagree ee1 ee2))
-;    (format t "1d:~a~%" d)
          (setf d (switcher vars d))
-;    (format t "2d:~a~%" d)
          (when (eq d 'NO) (return 'NO))
-         (when (null d) (return (reverse sigma)))
-;    (format t "d:~a~%" d)
+;; sort for let be unique subst 
+;; time consumer
+         (when (null d) (return (sort sigma (lambda (x y) (string< (car x)(car y))))))
+;; the next line is for sigma commutative
+;; time consumer
+         (setf sigma (subst (cdr d)(car d) sigma))
          (push d sigma)
-         (setf ee1 (subst* sigma e1))
-         (setf ee2 (subst* sigma e2))
-;    (format t "aee1:~a~%" ee1)
-;    (format t "aee2:~a~%" ee2)
-;    (format t "sigma:~a~%" sigma)
+         (setf ee1 (subst (cdr d) (car d) ee1))
+         (setf ee2 (subst (cdr d) (car d) ee2))
+;;why the followings are incorrect?
+;         (setf ee1 (subst* sigma e1))
+;         (setf ee2 (subst* sigma e2))
         )
       )
     )
