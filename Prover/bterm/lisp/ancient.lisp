@@ -10,6 +10,9 @@
 ;; (subst t v expr)
 ;; (substitute t v expr)
 
+
+;; this subst* is a sequential substitution.
+;; it is OK. no parallel substitution.
 (defun subst* (sigma expr)
   (progn 
     (loop for s in sigma
@@ -45,7 +48,8 @@
   )
 )
 
-
+;; switcher make subst pair from DS
+;; this version just check which is variable, or 'NO
 (defun switcher (vars dis)
   (if (null dis) 
     '()
@@ -109,6 +113,26 @@
 ;;why the followings are incorrect?
 ;         (setf ee1 (subst* sigma e1))
 ;         (setf ee2 (subst* sigma e2))
+        )
+      )
+    )
+  )
+)
+
+(defun sunify (vars e1 e2)
+  (let ((sigma ())(ee1 e1) (ee2 e2))
+    (if (equal ee1 ee2) 
+     '()
+     (loop while T 
+       do
+       (let ((d ()))
+         (setf d (disagree ee1 ee2))
+         (setf d (switcher vars d))
+         (when (eq d 'NO) (return 'NO))
+         (when (null d) (return (reverse sigma)))
+         (push d sigma)
+         (setf ee1 (subst (cdr d) (car d) ee1))
+         (setf ee2 (subst (cdr d) (car d) ee2))
         )
       )
     )

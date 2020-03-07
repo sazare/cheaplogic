@@ -18,7 +18,6 @@
           '(f y y)
           (subst* '((x . y)) '(f x y))
   )
-
   (expect-equal "2 double sigma" '(g y (h (f y)))
 	    (subst* '((x . y)(z . (f y))) '(g x (h z)))
    )
@@ -30,6 +29,15 @@
   (expect-notequal "4 cyclic sigma fail" '(g (g x) (h (f (g x))))
 	    (subst* '((x . y)(y . (g x))(z . (f y))) '(g x (h z)))
    )
+
+  (expect-equal "5 seq subst depends on the order of sigma(after)"
+          '(g (f a) a)
+          (subst* '((x . (f y))(y . a)) '(g x y))
+  )
+  (expect-equal "6 subst depends on the order of sigma(before)"
+          '(g (f y) a)
+          (subst* '((y . a)(x . (f y))) '(g x y))
+  )
 
 )
 
@@ -87,6 +95,29 @@
   (expect-equal "4 left to right(need par subst)" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f x (h w)) '(f (g y) y)))
 )
 
+(deftest test-sunify ()
+  "test sunify"
+  (expect-equal "1 identical symbolv" '() (sunify '(x) 'x 'x))
+  (expect-equal "2 identical symbolc" '() (sunify '(x) 'a 'a))
+  (expect-equal "3 identical fterm" '() (sunify '(x) '(f x) '(f x)))
+  (expect-equal "4 symbol sunify" '((x . y)) (sunify '(x y) 'x 'y))
+  (expect-equal "5 fterm sunify1" '((x . (f y))) (sunify '(x y) 'x '(f y)))
+  (expect-equal "6 fterm sunify2" '((x . (f y))) (sunify '(x y) '(f y) 'x))
+  (expect-equal "7 fterm sunify3" '((x . (f y))) (sunify '(x y) '(h (f y)) '(h x)))
+  (expect-equal "8 fterm sunify4" '((x . (f y))) (sunify '(x y) '(h x) '(h (f y))))
+  (expect-equal "9 fterm sunify5" '((w . a)(x . (f y))) (sunify '(x y w) '(h a x) '(h w (f y))))
+  (expect-equal "10 fterm sunify5" '((x . (f y))(w . a)) (sunify '(x y w) '(h x a) '(h (f y) w)))
+)
+
+;; sunify is sequential unify. it needs sequential substitution
+(deftest test-sunify-complex ()
+  "test sunify complicated"
+  (expect-equal "1 fterm sunify" '((x . (f y))(w . (f y))) (sunify '(x y w) '(h x x) '(h (f y) w)))
+  (expect-equal "2 right to left" '((y . (h w))(x . (g (h w)))) (sunify '(x y w) '(f (h w) x) '(f y (g y))))
+  (expect-equal "3 single step of unif for left to right" '((x . (g y))) (sunify '(x y ) '(f x) '(f (g y))))
+  (expect-equal "4 left to right" '((x . (g y))(y . (h w))) (sunify '(x y w) '(f x (h w)) '(f (g y) y)))
+)
+
 (deftest test-all ()
   (test-set "ancient uification"
     (test-isvar)
@@ -96,6 +127,8 @@
     (test-insidep)
     (test-unify)
     (test-unify-complex)
+    (test-sunify)
+    (test-sunify-complex)
   )
 )
 
