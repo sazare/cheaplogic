@@ -5,29 +5,29 @@
 (load "test.lisp")
 ;; primitives
 (deftest test-isvar ()
-  (expect-notequal "isvar" NIL (isvar '(x y) 'x))
-  (expect-equal "not isvar" NIL (isvar '(x y) 'a))
-  (expect-equal "not isvar" NIL (isvar '(x y) '(f x)))
+  (expect-notequal "1 isvar" NIL (isvar '(x y) 'x))
+  (expect-equal "2 not isvar" NIL (isvar '(x y) 'a))
+  (expect-equal "3 not isvar" NIL (isvar '(x y) '(f x)))
 )
 
 ;; (subst t v expr)
 
 (deftest test-simplesubst*()
   "simple subst*"
-  (expect-equal "single sigma" 
+  (expect-equal "1 single sigma" 
           '(f y y)
           (subst* '((x . y)) '(f x y))
   )
 
-  (expect-equal "double sigma" '(g y (h (f y)))
+  (expect-equal "2 double sigma" '(g y (h (f y)))
 	    (subst* '((x . y)(z . (f y))) '(g x (h z)))
    )
 
-  (expect-equal "cyclic sigma" '(g (g x) (h (f (g x))))
+  (expect-equal "3 cyclic sigma" '(g (g x) (h (f (g x))))
 	    (subst* '((x . y)(z . (f y))(y . (g x))) '(g x (h z)))
    )
 
-  (expect-notequal "cyclic sigma fail" '(g (g x) (h (f (g x))))
+  (expect-notequal "4 cyclic sigma fail" '(g (g x) (h (f (g x))))
 	    (subst* '((x . y)(y . (g x))(z . (f y))) '(g x (h z)))
    )
 
@@ -35,56 +35,56 @@
 
 (deftest test-disagree()
   "how disagree works"
-  (expect-equal "identical atom" '() (disagree 'x 'x))
-  (expect-equal "identical " '() (disagree  '(f x y) '(f x y)))
-  (expect-equal "identical " '((h z) . x) (disagree '(f (h z) (g y)) '(f x (g z))))
-  (expect-equal "identical " '(x . (h x)) (disagree  '(f x (g y)) '(f (h x) (g z))))
-  (expect-equal "identical " '((g z) . (h x)) (disagree  '(f (g z) (g y)) '(f (h x) (g z))))
-  (expect-equal "identical " '(y . z) (disagree '(f (g y) (g z))  '(f (g z) (g z))))
+  (expect-equal "1 identical atom" '() (disagree 'x 'x))
+  (expect-equal "2 identical " '() (disagree  '(f x y) '(f x y)))
+  (expect-equal "3 identical " '((h z) . x) (disagree '(f (h z) (g y)) '(f x (g z))))
+  (expect-equal "4 identical " '(x . (h x)) (disagree  '(f x (g y)) '(f (h x) (g z))))
+  (expect-equal "5 identical " '((g z) . (h x)) (disagree  '(f (g z) (g y)) '(f (h x) (g z))))
+  (expect-equal "6 identical " '(y . z) (disagree '(f (g y) (g z))  '(f (g z) (g z))))
 )
 
 (deftest test-switcher ()
   "how swictcher works, but this should be an implementation"
 
-   (expect-equal "" '(x . a) (switcher '(x y) '(x . a)))
-   (expect-equal "" '(x . a) (switcher '(x y) '(a . x)))
-   (expect-equal "" '(x . (f z)) (switcher '(x y) '(x . (f z))))
-   (expect-equal "" '(x . (f z)) (switcher '(x y) '((f z) . x)))
+   (expect-equal "1 " '(x . a) (switcher '(x y) '(x . a)))
+   (expect-equal "2 " '(x . a) (switcher '(x y) '(a . x)))
+   (expect-equal "3 " '(x . (f z)) (switcher '(x y) '(x . (f z))))
+   (expect-equal "4 " '(x . (f z)) (switcher '(x y) '((f z) . x)))
 
 )
 
 (deftest test-insidep ()
-  (expect-equal "not x in x var" NIL (insidep  'x 'x))
-  (expect-equal "not x in x const" NIL (insidep  'a 'x))
-  (expect-equal "x in f(x)" T (insidep  'x '(f x)))
-  (expect-equal "x in f(y,x)" T (insidep  'x '(f y x)))
-  (expect-equal "x in f(a,b)" NIL (insidep  'x '(f a b)))
-  (expect-equal "x in f(g(x))" T (insidep  'x '(f (g x))))
-  (expect-equal "x in f(g(y),h(x))" T (insidep  'y '(f (g y)(g x))))
-  (expect-equal "x in f(g(y),h(x))" T (insidep  'x '(f (g y)(g x))))
-  (expect-equal "x in f(a, g(x))" T (insidep  'x '(f a (g x))))
+  (expect-equal "1 not x in x var" NIL (insidep  'x 'x))
+  (expect-equal "2 not x in x const" NIL (insidep  'a 'x))
+  (expect-equal "3 x in f(x)" T (insidep  'x '(f x)))
+  (expect-equal "4 x in f(y,x)" T (insidep  'x '(f y x)))
+  (expect-equal "5 x in f(a,b)" NIL (insidep  'x '(f a b)))
+  (expect-equal "6 x in f(g(x))" T (insidep  'x '(f (g x))))
+  (expect-equal "7 x in f(g(y),h(x))" T (insidep  'y '(f (g y)(g x))))
+  (expect-equal "8 x in f(g(y),h(x))" T (insidep  'x '(f (g y)(g x))))
+  (expect-equal "9 x in f(a, g(x))" T (insidep  'x '(f a (g x))))
 )
 
 (deftest test-unify ()
   "test unify"
-  (expect-equal "identical symbolv" '() (unify '(x) 'x 'x))
-  (expect-equal "identical symbolc" '() (unify '(x) 'a 'a))
-  (expect-equal "identical fterm" '() (unify '(x) '(f x) '(f x)))
-  (expect-equal "symbol unify" '((x . y)) (unify '(x y) 'x 'y))
-  (expect-equal "fterm unify1" '((x . (f y))) (unify '(x y) 'x '(f y)))
-  (expect-equal "fterm unify2" '((x . (f y))) (unify '(x y) '(f y) 'x))
-  (expect-equal "fterm unify3" '((x . (f y))) (unify '(x y) '(h (f y)) '(h x)))
-  (expect-equal "fterm unify4" '((x . (f y))) (unify '(x y) '(h x) '(h (f y))))
-  (expect-equal "fterm unify5" '((w . a)(x . (f y))) (unify '(x y w) '(h x a) '(h (f y) w)))
+  (expect-equal "1 identical symbolv" '() (unify '(x) 'x 'x))
+  (expect-equal "2 identical symbolc" '() (unify '(x) 'a 'a))
+  (expect-equal "3 identical fterm" '() (unify '(x) '(f x) '(f x)))
+  (expect-equal "4 symbol unify" '((x . y)) (unify '(x y) 'x 'y))
+  (expect-equal "5 fterm unify1" '((x . (f y))) (unify '(x y) 'x '(f y)))
+  (expect-equal "6 fterm unify2" '((x . (f y))) (unify '(x y) '(f y) 'x))
+  (expect-equal "7 fterm unify3" '((x . (f y))) (unify '(x y) '(h (f y)) '(h x)))
+  (expect-equal "8 fterm unify4" '((x . (f y))) (unify '(x y) '(h x) '(h (f y))))
+  (expect-equal "9 fterm unify5" '((w . a)(x . (f y))) (unify '(x y w) '(h x a) '(h (f y) w)))
 )
 
 
 (deftest test-unify-complex ()
   "test unify complicated"
-  (expect-equal "fterm unify" '((w . (f y))(x . (f y))) (unify '(x y w) '(h x x) '(h (f y) w)))
-  (expect-equal "right to left" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f (h w) x) '(f y (g y))))
-  (expect-equal "single step of unif for left to right" '((x . (g y))) (unify '(x y ) '(f x) '(f (g y))))
-  (expect-equal "left to right(need par subst)" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f x (h w)) '(f (g y) y)))
+  (expect-equal "1 fterm unify" '((w . (f y))(x . (f y))) (unify '(x y w) '(h x x) '(h (f y) w)))
+  (expect-equal "2 right to left" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f (h w) x) '(f y (g y))))
+  (expect-equal "3 single step of unif for left to right" '((x . (g y))) (unify '(x y ) '(f x) '(f (g y))))
+  (expect-equal "4 left to right(need par subst)" '((x . (g (h w)))(y . (h w))) (unify '(x y w) '(f x (h w)) '(f (g y) y)))
 )
 
 (deftest test-all ()

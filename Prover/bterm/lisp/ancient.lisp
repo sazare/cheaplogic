@@ -98,7 +98,7 @@
          (setf d (switcher vars d))
          (when (eq d 'NO) (return 'NO))
 ;; sort for let be unique subst 
-;; time consumer
+;; this is time consumer. for speedup, dont do sort, and dont check of equality of mgu.
          (when (null d) (return (sort sigma (lambda (x y) (string< (car x)(car y))))))
 ;; the next line is for sigma commutative
 ;; time consumer
