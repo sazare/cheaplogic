@@ -34,8 +34,8 @@
           '(g (f a) a)
           (subst* '((x . (f y))(y . a)) '(g x y))
   )
-  (expect-equal "6 subst depends on the order of sigma(before)"
-          '(g (f y) a)
+  (expect-notequal "6 subst depends on the order of sigma(before) never happen. but ok with unify"
+          '(g (f a) a)
           (subst* '((y . a)(x . (f y))) '(g x y))
   )
 
@@ -84,6 +84,10 @@
   (expect-equal "7 fterm unify3" '((x . (f y))) (unify '(x y) '(h (f y)) '(h x)))
   (expect-equal "8 fterm unify4" '((x . (f y))) (unify '(x y) '(h x) '(h (f y))))
   (expect-equal "9 fterm unify5" '((w . a)(x . (f y))) (unify '(x y w) '(h x a) '(h (f y) w)))
+
+;;; What I should test??
+  (expect-equal "10 order of e make y to a?" '((x . (f a))(y . a)) (unify '(x y) '(f a x) '(f y (f y))))
+  (expect-equal "11 order of e keep y?" '((x . (f a))(y . a)) (unify '(x y) '(f x a) '(f (f y) y)))
 )
 
 
@@ -116,6 +120,25 @@
   (expect-equal "2 right to left" '((y . (h w))(x . (g (h w)))) (sunify '(x y w) '(f (h w) x) '(f y (g y))))
   (expect-equal "3 single step of unif for left to right" '((x . (g y))) (sunify '(x y ) '(f x) '(f (g y))))
   (expect-equal "4 left to right" '((x . (g y))(y . (h w))) (sunify '(x y w) '(f x (h w)) '(f (g y) y)))
+
+;;; What I should test??
+  (expect-equal "5 order of e make y to a?" '((y . a)(x . (f a))) (sunify '(x y) '(f a x) '(f y (f y))))
+
+  (expect-equal "6 order of e keep y?" '((x . (f y))(y . a)) (sunify '(x y) '(f x a) '(f (f y) y)))
+
+;;; unify correct
+  (expect-equal "7 unify(5) correct" T (equal (subst* '((y . a)(x . (f a))) '(f a x))
+                                              (subst* '((y . a)(x . (f a))) '(f y (f y)))))
+  (expect-equal "8 unify(6) correct" T (equal (subst* '((x . (f y))(y . a)) '(f x a))
+                                               (subst* '((x . (f y))(y . a)) '(f (f y) y))))
+
+;;; args changed but be ok.
+  (expect-equal "9 2 different sigmas are same?" T (equal (subst* '((y . a)(x . (f a))) '(f a x))
+                                                          (subst* '((x . (f y))(y . a)) '(f a x))))
+
+  (expect-equal "10 2 different sigmas are same?" T (equal (subst* '((y . a)(x . (f a))) '(f y (f y)))
+                                                          (subst* '((x . (f y))(y . a)) '(f y (f y)))))
+
 )
 
 (deftest test-all ()
