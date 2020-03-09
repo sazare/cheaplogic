@@ -88,6 +88,9 @@
 ;;; What I should test??
   (expect-equal "10 order of e make y to a?" '((x . (f a))(y . a)) (unify '(x y) '(f a x) '(f y (f y))))
   (expect-equal "11 order of e keep y?" '((x . (f a))(y . a)) (unify '(x y) '(f x a) '(f (f y) y)))
+
+  (expect-equal "12 " '((x . (g a))(y . a)) (unify '(x y) '(f x a) '(f (g y) y)))
+  (expect-equal "13 " '((x . (g a))(y . a)) (unify '(x y) '(f a x) '(f y (g y))))
 )
 
 
@@ -139,6 +142,12 @@
   (expect-equal "10 2 different sigmas are same?" T (equal (subst* '((y . a)(x . (f a))) '(f y (f y)))
                                                           (subst* '((x . (f y))(y . a)) '(f y (f y)))))
 
+  (expect-notequal "11 " '((x . (g a))(y . a)) (sunify '(x y) '(f x a) '(f (g y) y)))
+  (expect-equal "11n " '((x . (g y))(y . a)) (sunify '(x y) '(f x a) '(f (g y) y)))
+  (expect-equal "12 " '((y . a)(x . (g a))) (sunify '(x y) '(f a x) '(f y (g y))))
+  (expect-equal "13 11's mgu is not 12's mgu. but it's a mgu" T 
+                             (equal (subst* '((x . (g y))(y . a)) '(f x a))
+                                    (subst* '((x . (g y))(y . a)) '(f (g y) y))))
 )
 
 (deftest test-all ()
