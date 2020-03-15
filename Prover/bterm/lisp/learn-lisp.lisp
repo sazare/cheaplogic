@@ -19,7 +19,7 @@
 
 ;;; property list
 (test-set "property list"
-  (defparameter *plist* ())
+  (defvar *plist* ())
   (setf (getf *plist* :a) 123)
   (expect-equal "get on a property list" 123 (getf *plist* :a))
 )
@@ -28,6 +28,19 @@
 (test-set "substitute"
   (defvar *lll* '(a b c))
   (expect-equal "atom to atom" '(a 2 c) (substitute 2 'b *lll*))
-  (expect-equal "atom to atom" '(a (f x) c) (substitute '(f x) 'b *lll*))
+  (expect-equal "atom to term" '(a (f x) c) (substitute '(f x) 'b *lll*))
+
+)
+;;
+(test-set "subst"
+  (defvar *eee* '(x y))
+  (expect-equal "atom to atom" '(y y) (subst 'y 'x *eee*))
+  (expect-equal "atom to term" '(x (f x)) (subst '(f x) 'y *eee*))
+
+  (expect-equal "try to make par subst" '((f y) a) (subst '(f y) 'x (subst 'a 'y *eee*)))
+  (expect-equal "i want to this" '((f a) a) (subst 'a 'y (subst '(f y) 'x *eee*)))
+
+  (defvar *fff* '((f x)(g y)))
+  (expect-equal "into subexp by subst" '((f (g z)) (g a)) (subst '(g z) 'x (subst 'a 'y *fff*)))
 )
 
