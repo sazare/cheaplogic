@@ -61,14 +61,6 @@
   (assoc e s)
 )
 
-;(defun findsig1 (e s)
-; (cond
-;  ((null s) ())
-;  ((eq e (vof (car s)))(car s))
-;  (t (findsig1 e (cdr s)))
-; )
-;)
-
 ;;;
 ; ssubst : E x S -> E
 (defun ssubst (e s)
@@ -81,7 +73,7 @@
 ;;; subsub* : S x S -> S
 
 ; subsub1 S x (v.e) -> S
-;; think something better
+;; ***think something better
 (defun subsub1 (s1 s2)
  (cond
   ((null s1) (cons s2 ()))
@@ -93,11 +85,12 @@
  )
 )
 
-(defun subsub1a (s1 s2) ;; s2 in s1 
+; subsub1a after s2 in s1 occur
+(defun subsub1a (s1 s2) 
  (cond
   ((null s1) ())
   (t (cons (sigma (vof (car s1)) (subst1 (exof (car s1)) s2))
-           (subsub1 (cdr s1) s2)))
+           (subsub1a (cdr s1) s2)))
  )
 )
 
@@ -113,7 +106,7 @@
 (defun diffsigma (s1 s2)
  (cond
   ((null s1) ())
-  ((insigma (vof s1) s2) (diffsigma (cdr s1) s2))
+  ((insigma (vof (car s1)) s2) (diffsigma (cdr s1) s2))
   (t (cons (car s1) (diffsigma (cdr s1) s2)))
  )
 )
