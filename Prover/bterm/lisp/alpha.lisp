@@ -130,21 +130,3 @@
 )
 
 
-
-;;; unification
-;; unify: E x E -> NO | S
-; when vs =(x) empty subst must be ((x . x))
-
-;(defun unify (vs e1 e2)
-; (cond
-;  ((equal e1 e2) ())
-;  (t 'NO)
-; )
-;)
-
-
-  
-
-   
-
-

@@ -113,23 +113,37 @@
 )
 
 (deftest test-ssubsub ()
- "ssubsub s2 affects s1's ex and added s2 to"
- (expect-equal "1 ssubsub s1,s2 empty " () (ssubst () ()))
- (expect-equal "2 ssubsub s1 empty" '((x . a)(y . (f x))) (ssubst () '((x . a)(y . (f x)))))
- (expect-equal "3 ssubsub s2 empty" '((x . a)(y . (f x))) (ssubst '((z . a)(y . (h a))) ()))
- (expect-equal "4 ssubsub disjoint var s1,s2" '((z . a)(w . (h a))(x . a)(y . (f x))) (ssubst '((z . a)(w . (h a))) '((x . a)(y . (f x)))))
+ "ssubsub s2 affects s1's ex and added s2 to. "
+ (expect-equal "1 ssubsub s1,s2 empty " () (ssubsub () ()))
+ (expect-equal "2 ssubsub s1 empty" '((x . a)(y . (f x))) (ssubsub () '((x . a)(y . (f x)))))
+ (expect-equal "3 ssubsub s2 empty" '((z . a)(y . (h a))) (ssubsub '((z . a)(y . (h a))) ()))
+ (expect-equal "4 ssubsub disjoint var s1,s2" '((z . a)(w . (h a))(x . a)(y . (f x))) (ssubsub '((z . a)(w . (h a))) '((x . a)(y . (f x)))))
 )
 
-;
-;(deftest test-unify ()
-; "tests for unify"
-; (expect-equal "equal make null sigma" () (unify '() 'a 'a))
-; (expect-equal "equal make null sigma" ((a . a)) (unify '(a) 'a 'a))
-; (expect-equal "equal make null sigma" ((x . x)) (unify '(x) 'a 'a))
-; (expect-equal "equal make null sigma" 'NO (unify '() 'a 'b))
-; (expect-equal "equal make null sigma" 'NO (unify '(x y) 'a 'b))
-;
-;)
+
+;;
+(deftest test-unify ()
+ "tests for unify"
+ (expect-equal "1 equal make null sigma" '(()()) (unify '() 'a 'a))
+ (expect-equal "2 equal make null sigma" '((a) . (a)) (unify '(a) 'a 'a))
+ (expect-equal "3 equal make null sigma" '((x) . (x)) (unify '(x) 'a 'a))
+ (expect-equal "4 equal make null sigma" 'NO (unify '() 'a 'b))
+ (expect-equal "5 equal make null sigma" 'NO (unify '(x y) 'a 'b))
+
+ (expect-equal "6 var to const s" '((x) . (a)) (unify '(x) 'x 'a))
+ (expect-equal "7 var to const with f" '((x) . (a)) (unify '(x) '(f x) '(f a)))
+ (expect-equal "8 var to const with f 2paths" '((x y) . (a a)) (unify '(x y) '(f x x) '(f a y)))
+
+ (expect-equal "9 var to const with f v2v after" '((x y z) . (a a b)) (unify '(x y z) '(f x x z) '(f a y b)))
+ (expect-equal "10 var to const with f v2v first" '((x y z) . (a a b)) (unify '(x y z) '(f x x z) '(f y a b)))
+ 
+ (expect-equal "11 go and back in 4" '((x y z w) . (x (k (g x))(g x) (k (g x)))) (unify '(x y z w) '(f (g x) y (h y)) '(f z (k z) (h w))))
+
+ (expect-equal "12 go and back in 4" '((x y z w n) . ( (k (g x)) (g x) (k (g x)) (p (g x)))) (unify '(x y z w n) '(f (g x) y (h y) (p y)) '(f z (k z) (h w) n)))
+
+ (expect-equal "equal make null sigma" 'NO (unify '(x y) '(f x x) '(f (h y) y)))
+
+)
 
 (deftest test-all()
  (test-set "alpha unification"
@@ -144,7 +158,7 @@
   (test-psubsub)
   (test-ssubsub)
 
-;  (test-unify)
+  (test-unify)
  )
 )
 
