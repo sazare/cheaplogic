@@ -4,7 +4,7 @@
 
 (load "test.lisp")
 
-(load "load-alpha-snot.lisp")
+(load "load-alpha-prim-snot.lisp")
 
 (format t "[alpha is a implementation of subst and subsub variations and snotation]~%")
 
@@ -122,31 +122,6 @@
 )
 
 
-;;
-(deftest test-unifys ()
- "tests for unifys"
- (expect-equal "1 equal make null sigma" '() (unifys '() 'a 'a))
- (expect-equal "2 equal make null sigma" '((a . a)) (unifys '(a) 'a 'a))
- (expect-equal "3 equal make null sigma" '((x . x)) (unifys '(x) 'a 'a))
- (expect-equal "4 equal make null sigma" 'NO (unifys '() 'a 'b))
- (expect-equal "5 equal make null sigma" 'NO (unifys '(x y) 'a 'b))
-
- (expect-equal "6 var to const s" '((x . a)) (unifys '(x) 'x 'a))
- (expect-equal "7 var to const with f" '((x . a)) (unifys '(x) '(f x) '(f a)))
- (expect-equal "8 var to const with f 2paths" '((x . a) (y . a)) (unifys '(x y) '(f x x) '(f a y)))
-
- (expect-equal "9 var to const with f v2v after" '((x . a)(y . a)(z . b)) (unifys '(x y z) '(f x x z) '(f a y b)))
- (expect-equal "10 var to const with f v2v first" '((x . a)(y . a)(z . b)) (unifys '(x y z) '(f x x z) '(f y a b)))
- 
- (expect-equal "11 go and back in 4" '((x . x)(y . (k (g x)))(z . (g x))(w . (k (g x)))) (unifys '(x y z w) '(f (g x) y (h y)) '(f z (k z) (h w))))
-
- (expect-equal "12 go and back in 4" '((x . (k (g x)))(y . (g x))(z . (k (g x)))(w . (p (g x)))(n . n)) (unifys '(x y z w n) '(f (g x) y (h y) (p y)) '(f z (k z) (h w) n)))
-
- (expect-equal "equal make null sigma" 'NO (unifys '(x y) '(f x x) '(f (h y) y)))
-)
-
-(deftest test-all ()
- (test-set "alpha unification"
   (test-isvar)
   (test-prims)
   (test-subst1s)
@@ -157,10 +132,4 @@
   (test-diffsigmas)
   (test-psubsubs)
   (test-ssubsubs)
-
-;  (test-unifys)
- )
-)
-
-(test-all)
 
