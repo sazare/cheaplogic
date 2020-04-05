@@ -93,19 +93,40 @@
  (expect-equal "9 var to const with f v2v after" '((x . a)(y . a)(z . b)) (unifys '(x y z) '(f x x z) '(f a y b)))
  (expect-equal "10 var to const with f v2v first" '((x . a)(y . a)(z . b)) (unifys '(x y z) '(f x x z) '(f y a b)))
  
- (expect-equal "11 go and back in 4" '((x . x)(y . (k (g x)))(z . (g x))(w . (k (g x)))) (unifys '(x y z w) '(f (g x) y (h y)) '(f z (k z) (h w))))
+ (expect-equal "11a go and back in 3" '((x . x)(y . (k (g x)))(z . (g x))(w . (k (g x)))) (unifys '(x y z w) '(f (g x) y (h y)) '(f z (k z) (h w))))
 
- (expect-equal "12 go and back in 4" '((x . (k (g x)))(y . (g x))(z . (k (g x)))(w . (p (g x)))(n . n)) (unifys '(x y z w n) '(f (g x) y (h y) (p y)) '(f z (k z) (h w) n)))
+ (expect-equal "11b go and back in 3" '((x . x)(y . (k (g x)))(z . (g x))(w . (k (g x)))) (unifys '(x y z w) '(f (h y) y (g x)) '(f (h w) (k z) z)))
 
- (expect-equal "equal make null sigma" 'NO (unifys '(x y) '(f x x) '(f (h y) y)))
+ (expect-equal "12a 4" 
+   '((x . (k (k (g w))))(y . (k (k (g w))))(z . (k (g w)))(w . w)(n . (g (k (k (g w))))))
+  (unifys '(x y z w n) 
+    '(f (g x) y    (h z)        (g y)) 
+    '(f n    (k z) (h (k (g w))) n))) 
+
+ (expect-equal "12b reverse in 4" 
+   '((x . (k (k (g w))))(y . (k (k (g w))))(z . (k (g w)))(w . w)(n . (g (k (k (g w))))))
+    (unifys '(x y z w n) '(f (g y) (h z) y (g x)) '(f n (h (k (g w))) (k z) n)))
+
+ (expect-equal "13 equal make null sigma" 'NO (unifys '(x y) '(f x x) '(f (h y) y)))
+
+ (expect-equal "14 x->z->y->n->x but not inside"
+   '((x . x)(y . (k (p x)))(z . (p x))(w . w)(n . (k (p x))))
+    (unifys '(x y z w n) 
+      '(f (g y) (h (p x)) y     (k (p x))) 
+      '(f (g n) (h z)     (k z) n))
+ )
 )
 
-
 ;;; all tests
-(test-disagree)
-(test-insidep)
-(test-unifiable)
-(test-emptysigma)
-(test-unifys)
+(deftest test-all ()
+  (test-set "test uification"
+    (test-disagree)
+    (test-insidep)
+    (test-unifiable)
+    (test-emptysigma)
+    (test-unifys)
+  )
+)
 
+(test-all)
 

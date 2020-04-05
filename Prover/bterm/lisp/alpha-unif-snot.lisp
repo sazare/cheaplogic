@@ -8,12 +8,12 @@
 ; naive version
 
 (defun unifys0 (vs e1 e2 mgu)
- (prog (ds s1)
+ (prog (ds s1 m1)
   (setf ds (disagree e1 e2))
   (cond 
     ((null ds) (return mgu))
-    (t (let ((e1 (car ds))(e2 (cdr ds)))
-      (setf s1 (unifiable vs e1 e2))
+    (t (let ((de1 (car ds))(de2 (cdr ds)))
+      (setf s1 (unifiable vs de1 de2))
 
       (cond ((equal s1 'NO)(return 'NO)))
 
@@ -21,11 +21,9 @@
       (setf e2 (subst1s e2 s1))
       (setf mgu (subsub1s mgu s1))
 
-      (setf s1 (unifys0 vs e1 e2 mgu))
+      (setf m1 (unifys0 vs e1 e2 mgu))
 
-      (if (equal s1 'NO) (return 'NO))
-
-      (setf mgu (ssubsubs mgu s1))
+      (return m1)
       )
     )
   )
