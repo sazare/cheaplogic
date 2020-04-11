@@ -15,6 +15,8 @@
 (test-set "assoc"
   (setf *sss* (pairlis '(a b c) '(1 2 3)))
   (expect-equal "test for assoc value" '(b . 2) (assoc 'b *sss*))
+
+;; inverse of pairlis exists??
 )
 
 ;;; property list
@@ -22,6 +24,8 @@
   (defvar *plist* ())
   (setf (getf *plist* :a) 123)
   (expect-equal "get on a property list" 123 (getf *plist* :a))
+  (setf (getf *plist* :b) '(f x))
+  (expect-equal "set on a property list" '(f x) (getf *plist* :b))
 )
 
 ;;

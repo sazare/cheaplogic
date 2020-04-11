@@ -1,4 +1,4 @@
-; alpha-unifys-snot.lisp
+; alpha-unif-snot.lisp
 ;; seq notation
 
 ;;; unification

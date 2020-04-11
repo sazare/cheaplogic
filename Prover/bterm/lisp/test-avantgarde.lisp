@@ -25,3 +25,26 @@
 (expect-equal "isvar is binding" T (isvar *bind* 'v1))
 (expect-notequal "not isvar unbinding " T (isvar *bind* 'x))
 
+(defun queen (sigma v e)
+  (cond 
+    ((null (assoc v sigma)) (cons sigma (cons v e)))
+    (t "how replace the element is difficult in assoc")
+;; and cant setf to replace it
+  )
+)
+
+(defun jack (sigma v e)
+  (if (null sigma) (setf sigma (make-hash-table)))
+  (setf (gethash v sigma) e)
+  sigma
+)
+
+(defvar s1 nil)
+
+(setf s1 (jack s1 'x 1))
+(expect-equal "1" 1 (gethash 'x s1))
+
+(setf s1 (jack s1 'y 2))
+(expect-equal "1" 1 (gethash 'x s1))
+(expect-equal "2" 2 (gethash 'y s1))
+
