@@ -1,5 +1,4 @@
 ;;
-(load "test.lisp")
 
 (defun isvar (vars sym)
   (member sym vars)
@@ -31,23 +30,24 @@
   )
 )
 
-(expect-equal "1 subst1" 'b (subst1 '(x) 'b '(x . a)))
-(expect-equal "2 subst1" 'a (subst1 '() 'x '(x . a)))
-(expect-equal "3 subst1" '(f a) (subst1 '(x) '(f x) '(x . a)))
-(expect-equal "4 subst1" '(f a (h a)) (subst1 '(x) '(f x (h x)) '(x . a)))
-
-(defun substp (vs e ss) 
+(defun substs (vs e ss) 
   (cond
     ((null ss) e)
-    (t (substp vs (subst1 vs e (car ss)) (cdr ss)))
+    (t (substs vs (subst1 vs e (car ss)) (cdr ss)))
   )
 )
 
-(expect-equal "1 substp" 'b (substp '(x) 'b '((x . a))))
-(expect-equal "2 substp" 'a (substp '() 'x '((x . a))))
-(expect-equal "3 substp" '(f a) (substp '(x) '(f x) '((x . a))))
-(expect-equal "4 substp" '(f a (h a)) (substp '(x) '(f x (h x)) '((x . a))))
-(expect-equal "5 substp" '(f b (h a)) (substp '(x) '(f y (h x)) '((x . a)(y . b))))
+
+(defun substp (vs e es) 
+  (psubst vs e (cons vs es))
+)
+
+(defun psubst (vs e ss)
+  (cond
+    ((null (car ss)) e)
+    (t (psubst vs (subst1 vs e (cons (caar ss)(cadr ss))) (cons (cdar ss)(cddr ss))))
+  )
+)
 
 
 ;;;;
@@ -89,16 +89,6 @@
 (disagree () '(f a) '(f b) #'showit)
 (disagree '(x) '(f x) '(f b) #'showit)
 
-(expect-equal "1 disagree" '() (disagree () 'a 'a #'collect))
-(expect-equal "2 disagree" '((a . b)) (disagree () 'a 'b #'collect))
-(expect-equal "3 disagree" 'NO (disagree () '(f a) '(g a) #'collect))
-(expect-equal "4 disagree" '((a . b)) (disagree () '(f a) '(f b) #'collect))
-(expect-equal "5 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) #'collect))
-(expect-equal "6 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) #'collect))
-(expect-equal "7 disagree" '((x . b)(y . a)) (disagree '(x y) '(f x (h y)) '(f b (h a)) #'collect))
-(expect-equal "8 disagree" '((x . (g a))(y . a)) (disagree '(x y) '(f x (h y)) '(f (g a) (h a)) #'collect))
-(expect-equal "9 disagree" '((x . (h y))(y . (g w))) (disagree '(x y) '(f (h y) (h y)) '(f x (h (g w))) #'collect))
-
 (defun unific (vs d1 d2 m)
 ;; assume d1!=d2
   (cond
@@ -108,10 +98,4 @@
   )
 )
 
-
-(expect-equal "010 disagree" '() (disagree () 'a 'a #'unific))
-(expect-equal "011 disagree" 'NO (disagree () 'a 'b #'unific))
-(expect-equal "012 disagree" 'NO (disagree '(x) 'a 'b #'unific))
-(expect-equal "013 disagree" '((x . (h b))) (disagree '(x) '(f x) '(f (h b)) #'unific))
-(expect-equal "014 disagree" '((x . (g a))(y . a)) (disagree '(x y) '(f x (g x)) '(f y (g a)) #'unific))
 
