@@ -75,19 +75,14 @@
 )
 
 (defun showit (vars e1 e2 m)
- (format t "~a ~a~%" e1 e2)
+ (format t "~a:~a ~a~%" vars e1 e2)
  m
 )
 
 (defun collect (vars e1 e2 m)
+ vars
  (append m (list(cons e1 e2)))
 )
-
-(disagree () 'a 'a #'showit)
-(disagree () 'a 'b #'showit)
-(disagree () '(f a) '(g a) #'showit)
-(disagree () '(f a) '(f b) #'showit)
-(disagree '(x) '(f x) '(f b) #'showit)
 
 (defun unific (vs d1 d2 m)
 ;; assume d1!=d2
