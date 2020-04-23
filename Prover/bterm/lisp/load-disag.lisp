@@ -1,6 +1,6 @@
 (load "play-disag.lisp")
-(format t "HERE WE GO~%")
+(format t "END OF 1ST LOADING~%")
 
 (load "play-disag.lisp")
-(format t "~%... end of loading play-disag.lisp~%")
+(format t "~%... END OF LOADING play-disag.lisp~%")
 
