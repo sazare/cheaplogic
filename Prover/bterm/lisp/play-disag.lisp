@@ -38,10 +38,22 @@
 )
 
 (defun subsubs1 (s v1 e1)
+  (subsubs1h s v1 e1 nil)
+)
+
+(defun subsubs1h (s v1 e1 has)
   (cond
-    ((null s) ())
+    ((null s)
+      (cond (has ()) (t (list (cons v1 e1)))))
     (t (cons (cons (caar s)(subst1 (cdar s) v1 e1))
-             (subsubs1 (cdr s) v1 e1)))
+             (subsubs1h (cdr s) v1 e1 (eq (caar s) v1))))
+  )
+)
+
+(defun subsubs (s1 s2)
+  (cond
+    ((null s2) s1)
+    (t (subsubs (subsubs1 s1 (caar s2)(cdar s2)) (cdr s2)))
   )
 )
 

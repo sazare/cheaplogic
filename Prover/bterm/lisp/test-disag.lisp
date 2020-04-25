@@ -18,7 +18,7 @@
   (expect-equal "3 substs" '(f a) (substs  '(f x) '((x . a))))
   (expect-equal "4 substs" '(f a (h a)) (substs  '(f x (h x)) '((x . a))))
   (expect-equal "5 substs" '(f b (h a)) (substs  '(f y (h x)) '((x . a)(y . b))))
-  (expect-equal "5 substs" '(f b (h a)) (substs  '(f y (h x)) '((x . a)(y . b))))
+  (expect-equal "6 substs" '(f b (h a)b) (substs  '(f y (h x)y) '((x . a)(y . b))))
 )
 
 ;; substp1 
@@ -57,10 +57,13 @@
   (expect-equal "5 subsubs1" '((z . (f a (h x)))(w . a)(y . a)) (subsubs1 '((z . (f y (h x)))(w . y)) 'y 'a))
 )
 
-;(deftest test-subsubs ()
-;  "subsubs s*((x . e)(y . f)) "
-;
-;)
+(deftest test-subsubs ()
+  "subsubs s*((x . e)(y . f)) "
+  (expect-equal "1 subsubs" '((x . b)) (subsubs  '((x . b)) '((x . a))))
+  (expect-equal "2 subsubs" '((x . b)(y . a)) (subsubs  '((x . b)) '((y . a))))
+  (expect-equal "3 subsubs" '((x . b)(y . c)(z . d)) (subsubs  '((x . b)(y . c)) '((y . a)(z . d))))
+
+)
 
 ;(deftest test-subsubp1 ()
 ;  "subsubp1 s*((x) . (e)) "
@@ -122,7 +125,7 @@
 (test-subst1)
 (test-substs)
 (test-subsubs1)
-;(test-subsubs)
+(test-subsubs)
 
 (test-psubst)
 (test-substp)
