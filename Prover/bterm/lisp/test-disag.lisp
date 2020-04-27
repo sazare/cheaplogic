@@ -21,32 +21,7 @@
   (expect-equal "6 substs" '(f b (h a)b) (substs  '(f y (h x)y) '((x . a)(y . b))))
 )
 
-;; substp1 
-;;(deftest test-substp1 ()
-;;  "substp1 is subst for primitive e*((x).(t))" 
-;;  (expect-equal "1 substp1" 'b (substp1 '(x) 'b '((x) . (a))))
-;;  (expect-equal "2 substp1" 'a (substp1 '() 'x '((x) . (a))))
-;;  (expect-equal "3 substp1" '(f a) (substp1 '(x) '(f x) '((x) . (a))))
-;;  (expect-equal "4 substp1" '(f a (h a)) (substp1 '(x) '(f x (h x)) '((x) . (a))))
-;;) 
 
-(deftest test-psubst ()
-  "substp is subst parallel e*s"
-  (expect-equal "1 psubst" 'b (psubst '(x) 'b '((x).(a))))
-  (expect-equal "2 psubst" 'a (psubst '(x) 'x '((x).(a))))
-  (expect-equal "3 psubst" '(f a) (psubst '(x) '(f x) '((x).(a))))
-  (expect-equal "4 psubst" '(f a (h a)) (psubst '(x) '(f x (h x)) '((x).(a))))
-  (expect-equal "5 psubst" '(f b (h a)) (psubst '(x y) '(f y (h x)) '((x y).(a b))))
-)
-
-(deftest test-substp ()
-  "psubst is subst parallel (x y).(e*(t d))"
-  (expect-equal "1 substp" 'b (substp '(x) 'b '(a)))
-  (expect-equal "2 substp" 'a (substp '(x) 'x '(a)))
-  (expect-equal "3 substp" '(f a) (substp '(x) '(f x) '(a)))
-  (expect-equal "4 substp" '(f a (h a)) (substp '(x) '(f x (h x)) '(a)))
-  (expect-equal "5 substp" '(f b (h a)) (substp '(x y) '(f y (h x)) '(a b)))
-)
 
 (deftest test-subsubs1 ()
   "subsubs1 s*(x . e) "
@@ -57,37 +32,95 @@
   (expect-equal "5 subsubs1" '((z . (f a (h x)))(w . a)(y . a)) (subsubs1 '((z . (f y (h x)))(w . y)) 'y 'a))
 )
 
+(deftest test-subsubs1h ()
+  "subsubs1h s*(x . e) "
+  (expect-equal "1 subsubs1h" '((x . b)) (subsubs1h  '((x . b)) 'x 'a nil))
+  (expect-equal "2 subsubs1h" '((x . b)(y . a)) (subsubs1h  '((x . b)) 'y 'a nil))
+  (expect-equal "3 subsubs1h" '((x . a)) (subsubs1h  '((x . x)) 'x 'a nil))
+  (expect-equal "4 subsubs1h" '((z . (f a y))(x . a)) (subsubs1h '((z . (f x y))) 'x 'a nil))
+  (expect-equal "5 subsubs1h" '((z . (f a (h x)))(w . a)(y . a)) (subsubs1h '((z . (f y (h x)))(w . y)) 'y 'a nil))
+  (expect-equal "6 subsubs1h" '((x . a)(y . b)(w . a)) (subsubs1h '((x . a)(y . b)(w . y)) 'y 'a nil))
+)
+
+
+(deftest test-subsubs1w ()
+  "subsubs1w s*(x . e) "
+  (expect-equal "1 subsubs1w" '((x . b)) (subsubs1w  '((x . b)) 'x 'a ))
+  (expect-equal "2 subsubs1w" '((x . b)(y . a)) (subsubs1w  '((x . b)) 'y 'a ))
+  (expect-equal "3 subsubs1w" '((x . a)) (subsubs1w  '((x . x)) 'x 'a))
+  (expect-equal "4 subsubs1w" '((z . (f a y))(x . a)) (subsubs1w '((z . (f x y))) 'x 'a ))
+  (expect-equal "5 subsubs1w" '((z . (f a (h x)))(w . a)(y . a)) (subsubs1w '((z . (f y (h x)))(w . y)) 'y 'a ))
+  (expect-equal "6 subsubs1h" '((x . a)(y . b)(w . a)) (subsubs1w '((x . a)(y . b)(w . y)) 'y 'a ))
+)
+
 (deftest test-subsubs ()
   "subsubs s*((x . e)(y . f)) "
   (expect-equal "1 subsubs" '((x . b)) (subsubs  '((x . b)) '((x . a))))
   (expect-equal "2 subsubs" '((x . b)(y . a)) (subsubs  '((x . b)) '((y . a))))
   (expect-equal "3 subsubs" '((x . b)(y . c)(z . d)) (subsubs  '((x . b)(y . c)) '((y . a)(z . d))))
+  (expect-equal "4 subsubs" '((x . (f a))(y . (g e))(z . d)) (subsubs  '((x . (f y))(y . (g x))) '((x . e)(y . a)(z . d))))
+
+)
+(deftest test-subsubsw ()
+  "subsubsw s*((x . e)(y . f)) "
+  (expect-equal "1 subsubsw" '((x . b)) (subsubsw  '((x . b)) '((x . a))))
+  (expect-equal "2 subsubsw" '((x . b)(y . a)) (subsubsw  '((x . b)) '((y . a))))
+  (expect-equal "3 subsubsw" '((x . b)(y . c)(z . d)) (subsubsw  '((x . b)(y . c)) '((y . a)(z . d))))
+  (expect-equal "4 subsubsw" '((x . (f a))(y . (g e))(z . d)) (subsubsw  '((x . (f y))(y . (g x))) '((x . e)(y . a)(z . d))))
 
 )
 
-;(deftest test-subsubp1 ()
-;  "subsubp1 s*((x) . (e)) "
-;; no  (expect-equal "1 subsubp1" '((x y).(a b)) (subsubp1 '(x y) '((x y).(x b)) '((x).(a))))
-;;  (expect-equal "1 subsubp1" '((x y).(b a)) (subsubp1 '(x y) '((x y).(x b)) '((x y).(a y))))
-;; too complicated  (expect-equal "1 subsubp1" '(a b) (subsubp1 '(x y) '(x b) '(x . a)))
-;
-;  (expect-equal "1 subsubp1" '(a b) (subsubp1 '(x y) '(x b) '(x . a)))
-;
-;;  (expect-equal "1 subsubp1" '((f c) b) (subsubp1 '(x y) '(x b) '(x . (f c))))
-;;  (expect-equal "1 subsubp1" '((f b) b) (subsubp1 '(x y) '(x b) '(x . (f y))))
-;
-;;  (expect-equal "1 subsubp1" 'b (subsubp1 '(x y) '((x y).(x x)) '(x . a)))
-;;  (expect-equal "1 subsubp1" 'b (subsubp1 '(x y) '((y).(x)) '(x).(a))))
-;;  (expect-equal "1 subsubp1" 'b (subsubp1 '(x y) '((x y).(x y)) '((y).(a))))
-;)
-;
-;(deftest test-subsubp ()
-;  "subsubp s*((x y) . (s t)) as (x y).(s*(s t)) "
-;
-;  (expect-equal "1 subsubp1" '(a b) (subsubp1 '(x y) '(x b) '(a y)))
-;)
-;
-;
+(deftest test-pnot ()
+  "pnot don7t change vars, put/get v.e, vars way"
+  (expect-equal "1 putpnot" '(b d d) (putpnot '(x y z) '(d d d)  'x 'b))
+  (expect-equal "2 putpnot" '(d b d) (putpnot '(x y z) '(d d d)  'y 'b))
+  (expect-equal "3 putpnot" '(d d b) (putpnot '(x y z) '(d d d)  'z 'b))
+  (expect-equal "4 putpnot" '(d d d) (putpnot '(x y z) '(d d d)  'w 'b))
+  (expect-equal "5 putpnot" '(d (f x) d) (putpnot '(x y z) '(d d d)  'y '(f x)))
+)
+
+(deftest test-substp1 ()
+  "substp1 pnot with vars."
+  (expect-equal "1 substp1" '(b d d) (substp1 '(x y z) '(d d d)  'x 'b))
+  (expect-equal "2 substp1" '(d b d) (substp1 '(x y z) '(d d d)  'y 'b))
+  (expect-equal "3 substp1" '(d d b) (substp1 '(x y z) '(d d d)  'z 'b))
+  (expect-equal "4 substp1" '(d d d) (substp1 '(x y z) '(d d d)  'w 'b))
+  (expect-equal "5 substp1" '(d (f x) d) (substp1 '(x y z) '(d d d)  'y '(f x)))
+)
+
+(deftest test-substp ()
+  "substp is subst parallel e*s"
+  (expect-equal "1 substp" 'b (substp '(x) 'b '(a)))
+  (expect-equal "2 substp" 'a (substp '(x) 'x '(a)))
+  (expect-equal "3 substp" '(f a) (substp '(x) '(f x) '(a)))
+  (expect-equal "4 substp" '(f a (h a)) (substp '(x) '(f x (h x)) '(a)))
+  (expect-equal "5 substp" '(f b (h a)) (substp '(x y) '(f y (h x)) '(a b)))
+)
+
+
+(deftest test-subsubp1 ()
+  "subsubp1 s*([x].[e]) "
+  (expect-equal "1 subsubp1" '(b y) (subsubp1 '(x y) '(x y) 'x 'b))
+  (expect-equal "2 subsubp1" '(x b) (subsubp1 '(x y) '(x y) 'y 'b))
+  (expect-equal "3 subsubp1" '(x y) (subsubp1 '(x y) '(x y) 'z 'b))
+
+  (expect-equal "4 subsubp1" '((f c) y) (subsubp1 '(x y) '(x y) 'x '(f c)))
+  (expect-equal "5 subsubp1" '((f c) b) (subsubp1 '(x y) '(x b) 'x '(f c)))
+  (expect-equal "6 subsubp1" '(b (f b)) (subsubp1 '(x y) '(x (f x)) 'x 'b))
+
+)
+
+(deftest test-subsubp ()
+  "subsubp s*((x y) . (s t)) as (x y).(s*(s t)) "
+
+  (expect-equal "1 subsubp" '(a b) (subsubp '(x y) '(x b) '(a y)))
+  (expect-equal "2 subsubp" '(a b) (subsubp '(x y) '(x b) '(a y)))
+  (expect-equal "3 subsubp" '((f a)(g b)) (subsubp '(x y) '((f x)(g y)) '(a b)))
+
+  (expect-equal "4 subsubp dubious" '((f x)(g x)) (subsubp '(x y) '((f x)(g y)) '(y x)))
+)
+
+
 ;(defun myfun ()
 ;  "for my fun"
 ;  (disagree () 'a 'a #'showit)
@@ -124,11 +157,20 @@
 (test-disagree-collect)
 (test-subst1)
 (test-substs)
+
+(test-subsubs1h)
 (test-subsubs1)
 (test-subsubs)
 
-(test-psubst)
+(test-subsubs1w)
+(test-subsubsw)
+
+(test-pnot)
+(test-substp1)
 (test-substp)
-;(test-subsubp1)
-;(test-subsubp)
+
+(test-subsubp1)
+(test-subsubp)
 ;(test-disagree-unific)
+
+

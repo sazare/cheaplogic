@@ -39,14 +39,30 @@
 
 (defun subsubs1 (s v1 e1)
   (subsubs1h s v1 e1 nil)
+;  (subsubs1w s v1 e1 ())
 )
 
+; i dont like this
 (defun subsubs1h (s v1 e1 has)
   (cond
     ((null s)
-      (cond (has ()) (t (list (cons v1 e1)))))
+      (cond (has ())(t (list (cons v1 e1)))))
     (t (cons (cons (caar s)(subst1 (cdar s) v1 e1))
-             (subsubs1h (cdr s) v1 e1 (eq (caar s) v1))))
+             (subsubs1h (cdr s) v1 e1 (or has (eq (caar s) v1)))))
+  )
+)
+
+;; alternative subsubs1
+(defun subsubs1w (s v1 e1)
+  (subsubs1w0 s v1 e1 (list (cons v1 e1)))
+)
+
+; keep as the subst will be added at the end
+(defun subsubs1w0 (s v1 e1 as)
+  (cond
+    ((null s) as)
+    (t (cons (cons (caar s)(subst1 (cdar s) v1 e1))
+             (subsubs1w0 (cdr s) v1 e1 (cond ((eq (caar s) v1) ())(t as)) )))
   )
 )
 
@@ -57,31 +73,59 @@
   )
 )
 
-(defun substp (vs e es) 
-  (psubst vs e (cons vs es))
-)
-
-(defun psubst (vs e ss)
+(defun subsubsw (s1 s2)
   (cond
-    ((null (car ss)) e)
-    (t (psubst vs (subst1 e (caar ss)(cadr ss)) (cons (cdar ss)(cddr ss))))
+    ((null s2) s1)
+    (t (subsubs (subsubs1w s1 (caar s2)(cdar s2)) (cdr s2)))
   )
 )
 
-;(defun substp1 (vs e s1)
-;  (cond
-;    ((atom e) 
-;      (cond 
-;        ((eq e (car s1)) (cdr s1))
-;        (t  e)))
-;     (t (cons (car e) (substp1* vs (cdr e) s1)))
-;  )
-;)
-;
-;(defun subsubp1 (vs ss v1 e1)
-;  (subst1 vs ss (cons v1 e1))
-;)
-;
+(defun putpnot (vs s v1 e1)
+  "basic operation on vars sigma"
+  (loop for v in vs for e in s collect
+    (cond ((eq v v1) e1)(t e))
+  )
+)
+
+(defun substp1 (vs s v1 e1)
+  (loop for v in vs for e in s collect
+    (cond ((eq v v1) e1)(t (subst1 e v1 e1)))
+  )
+)
+
+
+(defun substp (vs ex es)
+  (let ((nex ex))
+    (loop for v in vs for e in es do
+      (setf nex (subst1 nex v e))
+    )
+    nex
+  )
+)
+
+;; subsubp
+
+(defun subsubp1 (vs s1 v1 s2)
+  (loop for v in vs for e1 in s1 collect
+    (if (eq v v1)
+      (if (eq v e1)  ;; empty substitution
+          s2
+          (subst1 e1 v1 s2)
+      )
+      (subst1 e1 v1 s2)
+    )
+  )
+)
+
+(defun subsubp (vs s1 s2)
+  (let ((rs s1))
+    (loop for v2 in vs for e2 in s2 do 
+      (setf rs (subsubp1 vs rs v2 e2))
+    )
+    rs
+  )
+)
+
 ;;;;;
 ;
 (defun disagree (vs e1 e2 fn)
