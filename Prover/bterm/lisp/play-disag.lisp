@@ -80,17 +80,31 @@
   )
 )
 
-(defun putpnot (vs s v1 e1)
+;(defun putpnot (vs s v1 e1)
+;  "basic operation on vars sigma"
+;  (loop for v in vs for e in s collect
+;    (cond ((eq v v1) e1)(t e))
+;  )
+;)
+;(defun substp1 (vs s v1 e1)
+;  (loop for v in vs for e in s collect
+;    (cond ((eq v v1) e1)(t (subst1 e v1 e1)))
+;  )
+;)
+
+(defun normalf (e v1 e1)
+  e
+)
+
+(defun putpnot (vs s v1 e1 &optional (fn #'normalf))
   "basic operation on vars sigma"
   (loop for v in vs for e in s collect
-    (cond ((eq v v1) e1)(t e))
+    (cond ((eq v v1) e1)(t (funcall fn e v1 e1)))
   )
 )
 
 (defun substp1 (vs s v1 e1)
-  (loop for v in vs for e in s collect
-    (cond ((eq v v1) e1)(t (subst1 e v1 e1)))
-  )
+  (putpnot vs s v1 e1 #'subst1)
 )
 
 

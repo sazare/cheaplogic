@@ -171,6 +171,6 @@
 
 (test-subsubp1)
 (test-subsubp)
-;(test-disagree-unific)
+(test-disagree-unific)
 
 
