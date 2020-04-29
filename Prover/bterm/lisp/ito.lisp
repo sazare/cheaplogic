@@ -15,35 +15,35 @@
        (force-output t)
        ,@body)))
 
-(defmacro intent-t (desc form)
+(defmacro intend-t (desc form)
     `(let (val)
        (setf val ,form)  ;;; eval form just once
        (report-result ,desc val val ',form val)
      )
   )
 
-(defmacro intent-f (desc form)
+(defmacro intend-f (desc form)
     `(let (val)
        (setf val ,form)  ;;; eval form just once
        (report-result ,desc (null val) NIL ',form val)
      )
   )
 
-(defmacro intent-equal (desc expv form)
+(defmacro intend-equal (desc expv form)
     `(let (val)
        (setf val ,form)  ;;; eval form just once
        (report-result ,desc (equal ,expv val) ,expv ',form val)
      )
   )
 
-(defmacro intent-notequal (desc expv form)
+(defmacro intend-notequal (desc expv form)
     `(let (val)
        (setf val ,form)  ;;; eval form just once
        (report-result ,desc (not (equal ,expv val)) ,expv ',form val)
      )
   )
 
-(defmacro intent->(desc form1 form2)
+(defmacro intend->(desc form1 form2)
     `(let (val1 val2)
        (setf val1 ,form1)  ;;; eval form just once
        (setf val2 ,form2)  ;;; eval form just once
@@ -51,7 +51,7 @@
      )
   )
 
-(defmacro intent->=(desc form1 form2)
+(defmacro intend->=(desc form1 form2)
     `(let (val1 val2)
        (setf val1 ,form1)  ;;; eval form just once
        (setf val2 ,form2)  ;;; eval form just once
@@ -59,7 +59,7 @@
      )
   )
 
-(defmacro intent-<(desc form1 form2)
+(defmacro intend-<(desc form1 form2)
     `(let (val1 val2)
        (setf val1 ,form1)  ;;; eval form just once
        (setf val2 ,form2)  ;;; eval form just once
@@ -67,7 +67,7 @@
      )
   )
 
-(defmacro intent-<=(desc form1 form2)
+(defmacro intend-<=(desc form1 form2)
     `(let (val1 val2)
        (setf val1 ,form1)  ;;; eval form just once
        (setf val2 ,form2)  ;;; eval form just once
@@ -75,7 +75,7 @@
      )
   )
 
-(defmacro intent-=(desc form1 form2)
+(defmacro intend-=(desc form1 form2)
     `(let (val1 val2)
        (setf val1 ,form1)  ;;; eval form just once
        (setf val2 ,form2)  ;;; eval form just once

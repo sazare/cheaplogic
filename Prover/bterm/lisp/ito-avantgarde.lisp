@@ -16,14 +16,14 @@
 
 (defun isvar (b a) (not (null (gethash a b))))
 
-(load "test.lisp")
+(load "ito.lisp")
 (defparameter *bind* (make-hash-table))
 (setf (gethash 'v1 *bind*) '(f x y))
 (setf (gethash 'v2 *bind*) '(g x y))
 (setf (gethash 'v3 *bind*) 'v3)
 
-(expect-equal "isvar is binding" T (isvar *bind* 'v1))
-(expect-notequal "not isvar unbinding " T (isvar *bind* 'x))
+(intend-equal "isvar is binding" T (isvar *bind* 'v1))
+(intend-notequal "not isvar unbinding " T (isvar *bind* 'x))
 
 (defun queen (sigma v e)
   (cond 
@@ -42,9 +42,9 @@
 (defvar s1 nil)
 
 (setf s1 (jack s1 'x 1))
-(expect-equal "1" 1 (gethash 'x s1))
+(intend-equal "1" 1 (gethash 'x s1))
 
 (setf s1 (jack s1 'y 2))
-(expect-equal "1" 1 (gethash 'x s1))
-(expect-equal "2" 2 (gethash 'y s1))
+(intend-equal "1" 1 (gethash 'x s1))
+(intend-equal "2" 2 (gethash 'y s1))
 
