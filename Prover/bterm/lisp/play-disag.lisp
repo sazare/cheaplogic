@@ -142,13 +142,13 @@
 
 ;;;;;
 ;
-(defun disagree (vs e1 e2 fn)
-  (disag vs e1 e2 () fn)
+(defun disagree (vs e1 e2 se fn)
+  (disag vs e1 e2 se fn)
 )
 
 (defun disag (vs e1 e2 m fn)
   (cond
-    ((equal e1 e2) ())
+    ((equal e1 e2) m)
     ((atom e1) (funcall fn vs e1 e2 m))
     ((atom e2) (funcall fn vs e2 e1 m))
     ((not (eq (car e1)(car e2))) 'NO)
@@ -174,13 +174,60 @@
  (append m (list (cons e1 e2)))
 )
 
-(defun unific (vs d1 d2 m)
+;;
+(defun unifics (vs d1 d2 m)
 ;; assume d1!=d2
   (cond
-    ((isvar vs d1) (append m (list (cons d1 d2))))
-    ((isvar vs d2) (append m (list (cons d2 d1))))
+    ((isvar vs d1) (makesubsubs vs m (substs d1 m)(substs d2 m)))
+    ((isvar vs d2) (makesubsubs vs m (substs d1 m)(substs d2 m)))
+    ((or (atom d1)(atom d2)) 'NO)
+    ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m))
     (t 'NO)
   )
 )
 
+(defun unifics* (vs e1* e2* m)
+  (cond
+    ((null e1*) m)
+    (t (unifics* vs (cdr e1*)(cdr e2*) (unifics vs (car e1*)(car e2*) m)))
+  )
+)
+
+;;;
+(defun makesubsubs (vs s v e)
+  (subsubs1 s v e)
+)
+
+;;;
+
+(defun unifys (vs e1 e2)
+  (disagree vs e1 e2 () #'unifics)
+)
+
+;;
+(defun unificp (vs d1 d2 m)
+;; assume d1!=d2
+  (cond
+    ((isvar vs d1) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
+    ((isvar vs d2) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
+    ((or (atom d1)(atom d2)) 'NO)
+    ((eq (car d1)(car d2))(unificp* vs (cdr d1)(cdr d2) m))
+    (t 'NO)
+  )
+)
+
+(defun unificp* (vs e1* e2* m)
+  (cond
+    ((null e1*) m)
+    (t (unificp* vs (cdr e1*)(cdr e2*) (unificp vs (car e1*)(car e2*) m)))
+  )
+)
+
+(defun makesubsubp (vs s v e)
+  (subsubp1 vs s v e)
+)
+
+(defun unifyp (vs e1 e2)
+  (disagree vs e1 e2 vs #'unificp)
+)
 

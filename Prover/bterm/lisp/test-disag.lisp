@@ -108,6 +108,7 @@
   (expect-equal "5 subsubp1" '((f c) b) (subsubp1 '(x y) '(x b) 'x '(f c)))
   (expect-equal "6 subsubp1" '(b (f b)) (subsubp1 '(x y) '(x (f x)) 'x 'b))
 
+
 )
 
 (deftest test-subsubp ()
@@ -123,33 +124,57 @@
 
 ;(defun myfun ()
 ;  "for my fun"
-;  (disagree () 'a 'a #'showit)
-;  (disagree () 'a 'b #'showit)
-;  (disagree () '(f a) '(g a) #'showit)
-;  (disagree () '(f a) '(f b) #'showit)
-;  (disagree '(x) '(f x) '(f b) #'showit)
+;  (disagree () 'a 'a () #'showit)
+;  (disagree () 'a 'b () #'showit)
+;  (disagree () '(f a) '(g a) () #'showit)
+;  (disagree () '(f a) '(f b) () #'showit)
+;  (disagree '(x) '(f x) '(f b) () #'showit)
 ;)
 
 (deftest test-disagree-collect ()
   "disagree collect are tests for disagree"
-  (expect-equal "1 disagree" '() (disagree () 'a 'a #'collect))
-  (expect-equal "2 disagree" '((a . b)) (disagree () 'a 'b #'collect))
-  (expect-equal "3 disagree" 'NO (disagree () '(f a) '(g a) #'collect))
-  (expect-equal "4 disagree" '((a . b)) (disagree () '(f a) '(f b) #'collect))
-  (expect-equal "5 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) #'collect))
-  (expect-equal "6 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) #'collect))
-  (expect-equal "7 disagree" '((x . b)(y . a)) (disagree '(x y) '(f x (h y)) '(f b (h a)) #'collect))
-  (expect-equal "8 disagree" '((x . (g a))(y . a)) (disagree '(x y) '(f x (h y)) '(f (g a) (h a)) #'collect))
-  (expect-equal "9 disagree" '((x . (h y))(y . (g w))) (disagree '(x y) '(f (h y) (h y)) '(f x (h (g w))) #'collect))
+  (expect-equal "1 disagree" '() (disagree () 'a 'a () #'collect))
+  (expect-equal "2 disagree" '((a . b)) (disagree () 'a 'b () #'collect))
+  (expect-equal "3 disagree" 'NO (disagree () '(f a) '(g a) () #'collect))
+  (expect-equal "4 disagree" '((a . b)) (disagree () '(f a) '(f b) () #'collect))
+  (expect-equal "5 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) () #'collect))
+  (expect-equal "6 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) () #'collect))
+  (expect-equal "7 disagree" '((x . b)(y . a)) (disagree '(x y) '(f x (h y)) '(f b (h a)) () #'collect))
+  (expect-equal "8 disagree" '((x . (g a))(y . a)) (disagree '(x y) '(f x (h y)) '(f (g a) (h a)) () #'collect))
+  (expect-equal "9 disagree" '((x . (h y))(y . (g w))) (disagree '(x y) '(f (h y) (h y)) '(f x (h (g w))) ()  #'collect))
 ) 
 
 (deftest test-disagree-unific ()
   "disagree unific is a unify test"
-  (expect-equal "010 disagree" '() (disagree () 'a 'a #'unific))
-  (expect-equal "011 disagree" 'NO (disagree () 'a 'b #'unific))
-  (expect-equal "012 disagree" 'NO (disagree '(x) 'a 'b #'unific))
-  (expect-equal "013 disagree" '((x . (h b))) (disagree '(x) '(f x) '(f (h b)) #'unific))
-  (expect-equal "014 disagree" '((x . (g a))(y . a)) (disagree '(x y) '(f x (g x)) '(f y (g a)) #'unific))
+  (expect-equal "010 disagree" '() (disagree () 'a 'a () #'unifics))
+  (expect-equal "011 disagree" 'NO (disagree () 'a 'b () #'unifics))
+  (expect-equal "012 disagree" 'NO (disagree '(x) 'a 'b () #'unifics))
+  (expect-equal "013 disagree" '((x . (h b))) (disagree '(x) '(f x) '(f (h b)) () #'unifics))
+  (expect-equal "013b disagree" '((x . (h b))) (disagree '(x) '(f (h b)) '(f x) () #'unifics))
+  (expect-equal "014 disagree" '((x . a)(y . a)) (disagree '(x y) '(f x (g x)) '(f y (g a)) () #'unifics))
+  (expect-equal "015 disagree" '((x . (g a))(y . (g a))) (disagree '(x y) '(f x x) '(f y (g a)) () #'unifics))
+)
+
+(deftest test-unifys ()
+  "unifys is snot unify"
+  (expect-equal "010 unifys" '() (unifys () 'a 'a))
+  (expect-equal "011 unifys" 'NO (unifys () 'a 'b))
+  (expect-equal "012 unifys" 'NO (unifys '(x) 'a 'b))
+  (expect-equal "013 unifys" '((x . (h b))) (unifys '(x) '(f x) '(f (h b))))
+  (expect-equal "013b unifys" '((x . (h b))) (unifys '(x) '(f (h b)) '(f x)))
+  (expect-equal "014 unifys" '((x . a)(y . a)) (unifys '(x y) '(f x (g x)) '(f y (g a))))
+  (expect-equal "015 unifys" '((x . (g a))(y . (g a))) (unifys '(x y) '(f x x) '(f y (g a))))
+)
+
+(deftest test-unifyp ()
+  "unifys is pnot unify"
+  (expect-equal "010 unifyp" '() (unifyp () 'a 'a))
+  (expect-equal "011 unifyp" 'NO (unifyp () 'a 'b))
+  (expect-equal "012 unifyp" 'NO (unifyp '(x) 'a 'b))
+  (expect-equal "013 unifyp" '((h b)) (unifyp '(x) '(f x) '(f (h b))))
+  (expect-equal "013b unifyp" '((h b)) (unifyp '(x) '(f (h b)) '(f x)))
+  (expect-equal "014 unifyp" '(a a)  (unifyp '(x y) '(f x (g x)) '(f y (g a))))
+  (expect-equal "015 unifyp" '((g a) (g a)) (unifyp '(x y) '(f x x) '(f y (g a))))
 )
 
 
@@ -172,5 +197,7 @@
 (test-subsubp1)
 (test-subsubp)
 (test-disagree-unific)
+(test-unifys)
+(test-unifyp)
 
 
