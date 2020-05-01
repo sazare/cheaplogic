@@ -140,8 +140,8 @@
   )
 )
 
-;;;;;
-;
+;;;;; disgreee is a core of unify
+
 (defun disagree (vs e1 e2 se fn)
   (disag vs e1 e2 se fn)
 )
@@ -164,6 +164,7 @@
   )
 )
 
+; showit is a stub for testing disagree
 ;(defun showit (vs e1 e2 m)
 ; (format t "~a:~a ~a~%" vs e1 e2)
 ; m
@@ -174,7 +175,9 @@
  (append m (list (cons e1 e2)))
 )
 
-;;
+;; unify variation
+;; s for snot, p for pnot
+
 (defun unifics (vs d1 d2 m)
 ;; assume d1!=d2
   (cond
@@ -198,8 +201,7 @@
   (subsubs1 s v e)
 )
 
-;;;
-
+;;; 
 (defun unifys (vs e1 e2)
   (disagree vs e1 e2 () #'unifics)
 )
@@ -227,7 +229,38 @@
   (subsubp1 vs s v e)
 )
 
+;; unifyp
 (defun unifyp (vs e1 e2)
   (disagree vs e1 e2 vs #'unificp)
 )
+
+;;; unifysp
+;; s for subst e, p for compose mgu
+
+;; in substs m should be snot, insubsubp m should be pnot.
+;; it is not both valid.
+;;;; unifysp may be identical unifyp
+
+(defun unificsp (vs d1 d2 m)
+;; assume d1!=d2
+  (cond
+    ((isvar vs d1) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
+    ((isvar vs d2) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
+    ((or (atom d1)(atom d2)) 'NO)
+    ((eq (car d1)(car d2))(unificsp* vs (cdr d1)(cdr d2) m))
+    (t 'NO)
+  )
+)
+
+(defun unificsp* (vs e1* e2* m)
+  (cond
+    ((null e1*) m)
+    (t (unificsp* vs (cdr e1*)(cdr e2*) (unificsp vs (car e1*)(car e2*) m)))
+  )
+)
+
+(defun unifysp (vs e1 e2)
+  (disagree vs e1 e2 vs #'unificsp)
+)
+
 

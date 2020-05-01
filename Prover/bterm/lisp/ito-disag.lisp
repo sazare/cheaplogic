@@ -164,6 +164,7 @@
   (intend-equal "013b unifys" '((x . (h b))) (unifys '(x) '(f (h b)) '(f x)))
   (intend-equal "014 unifys" '((x . a)(y . a)) (unifys '(x y) '(f x (g x)) '(f y (g a))))
   (intend-equal "015 unifys" '((x . (g a))(y . (g a))) (unifys '(x y) '(f x x) '(f y (g a))))
+  (intend-equal "016 unifys" '((x . a)(y . a)) (unifys '(x y) '(f x x) '(f y a)))
 )
 
 (defito ito-unifyp ()
@@ -175,6 +176,19 @@
   (intend-equal "013b unifyp" '((h b)) (unifyp '(x) '(f (h b)) '(f x)))
   (intend-equal "014 unifyp" '(a a)  (unifyp '(x y) '(f x (g x)) '(f y (g a))))
   (intend-equal "015 unifyp" '((g a) (g a)) (unifyp '(x y) '(f x x) '(f y (g a))))
+  (intend-equal "016 unifyp" '(a a) (unifyp '(x y) '(f x x) '(f y a)))
+)
+
+(defito ito-unifysp ()
+  "unifys is pnot unify, in e*d1 is snot"
+  (intend-equal "010 unifysp" '() (unifysp () 'a 'a))
+  (intend-equal "011 unifysp" 'NO (unifysp () 'a 'b))
+  (intend-equal "012 unifysp" 'NO (unifysp '(x) 'a 'b))
+  (intend-equal "013 unifysp" '((h b)) (unifysp '(x) '(f x) '(f (h b))))
+  (intend-equal "013b unifysp" '((h b)) (unifysp '(x) '(f (h b)) '(f x)))
+  (intend-equal "014 unifysp" '(a a)  (unifysp '(x y) '(f x (g x)) '(f y (g a))))
+  (intend-equal "015 unifysp" '((g a) (g a)) (unifysp '(x y) '(f x x) '(f y (g a))))
+  (intend-equal "016 unifysp" '(a a) (unifysp '(x y) '(f x x) '(f y a)))
 )
 
 
@@ -199,5 +213,6 @@
 (ito-disagree-unific)
 (ito-unifys)
 (ito-unifyp)
+(ito-unifysp)
 
 
