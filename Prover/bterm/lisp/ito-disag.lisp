@@ -191,7 +191,16 @@
   (intend-equal "016 unifysp" '(a a) (unifysp '(x y) '(f x x) '(f y a)))
 )
 
-
+(defito ito-s2p ()
+  "convert snot to pnot"
+  (intend-equal "1 empty" '() (s2p () ()))
+  (intend-equal "2 single miss" '(x) (s2p '(x) '((y . a)) ))
+  (intend-equal "3 single match" '(a) (s2p '(x) '((x . a)) ))
+  (intend-equal "4 single match other" '(a) (s2p '(x) '((x . a)(y . b)) ))
+  (intend-equal "5 2vars" '(a b) (s2p '(x y) '((x . a)(y . b)) ))
+  (intend-equal "6" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
+  (intend-equal "7" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+)
 
 (ito-disagree-collect)
 (ito-subst1)
@@ -214,5 +223,5 @@
 (ito-unifys)
 (ito-unifyp)
 (ito-unifysp)
-
+(ito-s2p)
 

@@ -37,6 +37,13 @@
   )
 )
 
+(defun substs* (es ss) 
+  (cond
+    ((null es) ())
+    (t (cons (substs (car es) ss) (substs* (cdr es) ss)))
+  )
+)
+
 (defun subsubs1 (s v1 e1)
   (subsubs1h s v1 e1 nil)
 ;  (subsubs1w s v1 e1 ())
@@ -261,6 +268,11 @@
 
 (defun unifysp (vs e1 e2)
   (disagree vs e1 e2 vs #'unificsp)
+)
+
+;;;; snot to pnot
+(defun s2p (vs ss)
+  (substs* vs ss)
 )
 
 
