@@ -198,8 +198,19 @@
   (intend-equal "3 single match" '(a) (s2p '(x) '((x . a)) ))
   (intend-equal "4 single match other" '(a) (s2p '(x) '((x . a)(y . b)) ))
   (intend-equal "5 2vars" '(a b) (s2p '(x y) '((x . a)(y . b)) ))
-  (intend-equal "6" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
-  (intend-equal "7" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+  (intend-equal "6 in and in" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
+  (intend-equal "7 complex" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+)
+
+(defito ito-p2s ()
+  "convert snot to pnot"
+  (intend-equal "1 empty" '() (p2s () ()))
+  (intend-equal "2 single miss" '((x . x)(y . a)) (p2s '(x y) '(x a)))
+  (intend-equal "3 single match" '((x . a)) (p2s '(x) '(a)))
+  (intend-equal "4 single match other" '((x . x)) (p2s '(x) '(x)))
+  (intend-equal "5 2vars" '((x . a)(y . b)) (p2s '(x y) '(a b)))
+  (intend-equal "6 p2s don't s@s" '((x . y)(y . b)) (p2s '(x y) '(y b)))
+  (intend-equal "7 p2s don't s@s" '((x . (f w y))(y . (g w))(w . c)) (p2s '(x y w) '((f w y)(g w)c)) )
 )
 
 (ito-disagree-collect)
@@ -224,4 +235,5 @@
 (ito-unifyp)
 (ito-unifysp)
 (ito-s2p)
+(ito-p2s)
 

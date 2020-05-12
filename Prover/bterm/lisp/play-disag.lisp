@@ -37,10 +37,19 @@
   )
 )
 
-(defun substs* (es ss) 
+; substs* is more general than substsv. but not be used in others
+;(defun substs* (es ss) 
+;  (cond
+;    ((null es) ())
+;    (t (cons (substs (car es) ss) (substs* (cdr es) ss)))
+;  )
+;)
+
+;; substsv is called only s2p
+(defun substsv (vs ss) 
   (cond
-    ((null es) ())
-    (t (cons (substs (car es) ss) (substs* (cdr es) ss)))
+    ((null vs) ())
+    (t (cons (substs (car vs) ss)(substsv (cdr vs) ss)))
   )
 )
 
@@ -272,7 +281,12 @@
 
 ;;;; snot to pnot
 (defun s2p (vs ss)
-  (substs* vs ss)
+  (substsv vs ss)
 )
 
+;;;; pnot to snot
+(defun p2s (vs es)
+  (loop for v in vs for e in es
+    collect (cons v e))
+)
 
