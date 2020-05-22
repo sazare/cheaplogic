@@ -1,4 +1,5 @@
-;;
+;; disag.lisp = unify based on subst with p-notation, s-notation
+;;; unify/disagree  
 (load "ito.lisp")
 (load "load-disag.lisp")
 
@@ -213,27 +214,33 @@
   (intend-equal "7 p2s don't s@s" '((x . (f w y))(y . (g w))(w . c)) (p2s '(x y w) '((f w y)(g w)c)) )
 )
 
-(ito-disagree-collect)
-(ito-subst1)
-(ito-substs)
+(defito ito-all-disag ()
+  "tests for subst, unify based on disag-control and s-not, p-not"
+  (ito-disagree-collect)
+  (ito-subst1)
+  (ito-substs)
+  
+  (ito-subsubs1h)
+  (ito-subsubs1)
+  (ito-subsubs)
+  
+  (ito-subsubs1w)
+  (ito-subsubsw)
+  
+  (ito-pnot)
+  (ito-substp1)
+  (ito-substp)
+  
+  (ito-subsubp1)
+  (ito-subsubp)
+  (ito-disagree-unific)
+  (ito-unifys)
+  (ito-unifyp)
+  (ito-unifysp)
+  (ito-s2p)
+  (ito-p2s)
+)
 
-(ito-subsubs1h)
-(ito-subsubs1)
-(ito-subsubs)
 
-(ito-subsubs1w)
-(ito-subsubsw)
-
-(ito-pnot)
-(ito-substp1)
-(ito-substp)
-
-(ito-subsubp1)
-(ito-subsubp)
-(ito-disagree-unific)
-(ito-unifys)
-(ito-unifyp)
-(ito-unifysp)
-(ito-s2p)
-(ito-p2s)
+(ito-all-disag)
 
