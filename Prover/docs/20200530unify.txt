@@ -1,0 +1,48 @@
+20200530土曜
+・しばらく離れていた
+・itoを追加したところunifsはうまくいっていない
+逆にもどるところとか
+
+・unifypはunifysのあとにs2pをするのが速いのではないか?
+　と思ってソースをみているが、
+　・そもそも、unifypで、σをpにしているような・・・
+　・想定では、代入を集めるところはsで、最後にs2pでpnotにすればいいと思っていたのがそうなっていないようだ
+　・必要ないのだろうか
+　・すこし見直す必要あり。すこしでなくたくさん
+
+・検討点
+　unifypの017で、unifierの順番が逆になっている。これでいいのか。ソノまえにpでなくsからはじめるべき??
+
+
+・intend-skipとか必要かも
+・
+
+
+・今後の予定
+　0) disagの見直し　復習
+　1) unifys -> σs -> s2p -> σp 
+　2) insideしていただろうか
+　3) resolutionを作る: C1 x C2 -> C3
+　4) もしもproverのREPLを作ったら役に立つか?
+　　　自分の実験には使えるかも
+　　　そこでViewLogic化あるいはreplコマンドのパイプ渡しで一気にしたほうが速いのか
+　　　両方できればいいかな
+
+・repl
+ > id  => 表示
+ > load corefile
+ > set 作る C1 C2 C3... as S1
+ > reso C1 C2 as R1
+ > clauses clauseの表示
+ > ref S1 on C1  => C1 in S1で、C1をrefuteする
+
+corefileでclauseに名前をつける?
+corefile はこのreplへのinputでよくないか
+
+?? R = ref(C!, C2)なのかref C1, C2 as Rなのか?
+　Rという名前にclauseを設定するのか、できたclauseにRという名前をつけるだけか
+　assignとreferか
+
+ こんなことをしてもCoqみたいなものになるだけか
+
+

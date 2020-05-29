@@ -15,6 +15,10 @@
        (force-output t)
        ,@body)))
 
+(defmacro intend-skip (desc form);; not yet work
+    `(report-result ,desc :skip nil ',form nil)
+  )
+
 (defmacro intend-t (desc form)
     `(let (val)
        (setf val ,form)  ;;; eval form just once
