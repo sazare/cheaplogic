@@ -4,6 +4,32 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+20200530土
+disag版の作成中
+🕷 unifypの結果のσで、左に定数がきたりする・・・
+  makesubsubsで、d2が変数のときも、d1を左にしていた
+
+🕷 unifysで、変数リストでなく出現順にσが作られていく
+　これは🕷ではない。当然そうなる。
+
+🕷 追加意図 
+  017 unifyp: Ito Failed at (ITO-ALL-DISAG ITO-UNIFYP)
+   Expression: (UNIFYP '(X Y Z) '(F Z (H Y) (H (H B)))
+                       '(F A (H (G X)) (H (H X))))
+    Intented (B (G B) A)
+    Evaluated: (X (G X) A)
+　・Xへの代入が後だからか、YへのXの代入とか無視していて正解なのか???
+　　s2pの問題??
+  ・unifysをしてs2pで正解になる。
+　　unifypをそのように修正した
+　　テストok
+
+
+
+
+
+
+
 20191217火
 1. Genieのaddはできてもusingでエラーになった
 　updateしてbuildしたら動くようになった

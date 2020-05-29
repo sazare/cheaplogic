@@ -198,7 +198,7 @@
 ;; assume d1!=d2
   (cond
     ((isvar vs d1) (makesubsubs vs m (substs d1 m)(substs d2 m)))
-    ((isvar vs d2) (makesubsubs vs m (substs d1 m)(substs d2 m)))
+    ((isvar vs d2) (makesubsubs vs m (substs d2 m)(substs d1 m)))
     ((or (atom d1)(atom d2)) 'NO)
     ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m))
     (t 'NO)
@@ -247,7 +247,11 @@
 
 ;; unifyp
 (defun unifyp (vs e1 e2)
-  (disagree vs e1 e2 vs #'unificp)
+  (let ((s0 (unifys vs e1 e2)))
+    (cond ((eq s0 'NO) 'NO)
+          (t (s2p vs s0)))
+  )
+;  (disagree vs e1 e2 vs #'unificp)
 )
 
 ;;; unifysp
