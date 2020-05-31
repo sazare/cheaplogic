@@ -3,7 +3,7 @@
 (load "ito.lisp")
 (load "load-disag.lisp")
 
-
+;;; subst : expr x sigma -> expr
 (defito ito-subst1 ()
   "subst1 is subst for primitive e*x,t" 
   (intend-equal "1 subst1" 'b (subst1  'b 'x 'a))
@@ -22,8 +22,45 @@
   (intend-equal "6 substs" '(f b (h a)b) (substs  '(f y (h x)y) '((x . a)(y . b))))
 )
 
+;; subst on vs
+(defito ito-substv1 ()
+  "substv1 is subst for primitive e*x,t" 
+  (intend-equal "1 substv1" 'b (substv1  'b 'x 'a))
+  (intend-equal "2 substv1" 'a (substv1  'x 'x 'a))
+  (intend-equal "3 substv1" '(f a) (substv1  'x 'x '(f a)))
+  (intend-equal "4 substv1" '(f a (h a)) (substv1  'x 'x '(f a (h a))))
+  (intend-equal "5 substv1" 'x (substv1  'x 'y '(f a (h a))))
+) 
+
+(defito ito-substv ()
+  "substv apply raw sigma to v"
+  (intend-equal "1 substv" 'a (substv 'a '(x . b)))
+  (intend-equal "2 substv" 'b (substv 'a '(a . b)))
+  (intend-equal "3 substv" 'a (substv 'a '(x . (f b))))
+  (intend-equal "4 substv" '(f b) (substv 'a '(a . (f b))))
+)
 
 
+(defito ito-substvs ()
+  "substvs apply sigma to v"
+  (intend-equal "1 substvs" 'x (substvs 'x '((y . b))))
+  (intend-equal "2 substvs" 'b (substvs 'x '((x . b))))
+  (intend-equal "3 substvs" 'a (substvs 'x '((x . a)(y . b))))
+  (intend-equal "4 substvs" 'a (substvs 'y '((y . a)(x . b))))
+  (intend-equal "5 substvs" 'b (substvs 'y '((x . a)(y . b))))
+)
+
+(defito ito-substvs* ()
+  "substvs* apply sigma to v"
+  (intend-equal "1 substvs*" '(x) (substvs* '(x) '((y . b))))
+  (intend-equal "2 substvs*" '(b) (substvs* '(x) '((x . b))))
+  (intend-equal "3 substvs*" '(b y) (substvs* '(x y) '((x . b))))
+  (intend-equal "4 substvs*" '(x b) (substvs* '(x y) '((y . b))))
+  (intend-equal "5 substvs*" '(a b) (substvs* '(x y) '((x . a)(y . b))))
+  (intend-equal "5 substvs*" '(b a) (substvs* '(y x) '((x . a)(y . b))))
+)
+
+;;; subsub:sigma x sigma -> sigma
 (defito ito-subsubs1 ()
   "subsubs1 s*(x . e) "
   (intend-equal "1 subsubs1" '((x . b)) (subsubs1  '((x . b)) 'x 'a))
@@ -43,7 +80,6 @@
   (intend-equal "6 subsubs1h" '((x . a)(y . b)(w . a)) (subsubs1h '((x . a)(y . b)(w . y)) 'y 'a nil))
 )
 
-
 (defito ito-subsubs1w ()
   "subsubs1w s*(x . e) "
   (intend-equal "1 subsubs1w" '((x . b)) (subsubs1w  '((x . b)) 'x 'a ))
@@ -60,14 +96,6 @@
   (intend-equal "2 subsubs" '((x . b)(y . a)) (subsubs  '((x . b)) '((y . a))))
   (intend-equal "3 subsubs" '((x . b)(y . c)(z . d)) (subsubs  '((x . b)(y . c)) '((y . a)(z . d))))
   (intend-equal "4 subsubs" '((x . (f a))(y . (g e))(z . d)) (subsubs  '((x . (f y))(y . (g x))) '((x . e)(y . a)(z . d))))
-
-)
-(defito ito-subsubsw ()
-  "subsubsw s*((x . e)(y . f)) "
-  (intend-equal "1 subsubsw" '((x . b)) (subsubsw  '((x . b)) '((x . a))))
-  (intend-equal "2 subsubsw" '((x . b)(y . a)) (subsubsw  '((x . b)) '((y . a))))
-  (intend-equal "3 subsubsw" '((x . b)(y . c)(z . d)) (subsubsw  '((x . b)(y . c)) '((y . a)(z . d))))
-  (intend-equal "4 subsubsw" '((x . (f a))(y . (g e))(z . d)) (subsubsw  '((x . (f y))(y . (g x))) '((x . e)(y . a)(z . d))))
 
 )
 
@@ -180,6 +208,7 @@
   (intend-equal "015 unifys" '((x . (g a))(y . (g a))) (unifys '(x y) '(f x x) '(f y (g a))))
   (intend-equal "016 unifys" '((x . a)(y . a)) (unifys '(x y) '(f x x) '(f y a)))
   (intend-equal "017 unifys" '((z . a)(y . (g b))(x . b)) (unifys '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
+  (intend-equal "018 unifys" '((y . (g b))(w . a)(z . b)(x . a)) (unifys '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 )
 
 (defito ito-unifyp ()
@@ -193,6 +222,7 @@
   (intend-equal "015 unifyp" '((g a) (g a)) (unifyp '(x y) '(f x x) '(f y (g a))))
   (intend-equal "016 unifyp" '(a a) (unifyp '(x y) '(f x x) '(f y a)))
   (intend-equal "017 unifyp" '(b (g b) a) (unifyp '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
+  (intend-equal "018 unifyp" '(a (g b) b a) (unifyp '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 )
 
 (defito ito-unifysp ()
@@ -208,18 +238,23 @@
 )
 
 (defito ito-s2p ()
-  "convert snot to pnot"
+  "s2p converts snot to pnot"
   (intend-equal "1 empty" '() (s2p () ()))
   (intend-equal "2 single miss" '(x) (s2p '(x) '((y . a)) ))
   (intend-equal "3 single match" '(a) (s2p '(x) '((x . a)) ))
   (intend-equal "4 single match other" '(a) (s2p '(x) '((x . a)(y . b)) ))
   (intend-equal "5 2vars" '(a b) (s2p '(x y) '((x . a)(y . b)) ))
-  (intend-equal "6 in and in" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
-  (intend-equal "7 complex" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+
+
+  (intend-equal "6 in and in" '(y b) (s2p '(x y) '((x . y)(y . b)) ))
+  (intend-notequal "6n s2p don't make idemponent" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
+
+  (intend-equal "7 complex" '((f w y)(g w)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+  (intend-notequal "7n s2p don't make idemponent" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
 )
 
 (defito ito-p2s ()
-  "convert snot to pnot"
+  "p2s converts pnot to snot"
   (intend-equal "1 empty" '() (p2s () ()))
   (intend-equal "2 single miss" '((x . x)(y . a)) (p2s '(x y) '(x a)))
   (intend-equal "3 single match" '((x . a)) (p2s '(x) '(a)))
@@ -234,13 +269,17 @@
   (ito-disagree-collect)
   (ito-subst1)
   (ito-substs)
+
+  (ito-substv1)
+  (ito-substv)
+  (ito-substvs)
+  (ito-substvs*)
   
   (ito-subsubs1h)
   (ito-subsubs1)
   (ito-subsubs)
   
   (ito-subsubs1w)
-  (ito-subsubsw)
   
   (ito-pnot)
   (ito-substp1)
@@ -248,12 +287,15 @@
   
   (ito-subsubp1)
   (ito-subsubp)
-  (ito-disagree-unific)
-  (ito-unifys)
-  (ito-unifyp)
-  (ito-unifysp)
+
   (ito-s2p)
   (ito-p2s)
+
+  (ito-disagree-unific)
+  (ito-unifys)
+  (ito-unifysp)
+  (ito-unifyp)
+
 )
 
 

@@ -1,5 +1,6 @@
-;;
+;; disag and unify
 
+;; primitives
 (defun isvar (vars sym)
   (member sym vars)
 )
@@ -12,6 +13,10 @@
 (defun fof (e) (car e))
 (defun e*of (e) (cdr e))
 (defun form (f as) (cons f as))
+
+
+;;; common subst
+;; subst1 replace v1 with e1 on e
 
 (defun subst1 (e v1 e1)
   (cond
@@ -30,6 +35,8 @@
   )
 )
 
+;;; subst on snot, ss is snot
+;; substs digs on ss
 (defun substs (e ss) 
   (cond
     ((null ss) e)
@@ -37,38 +44,61 @@
   )
 )
 
-; substs* is more general than substsv. but not be used in others
-;(defun substs* (es ss) 
-;  (cond
-;    ((null es) ())
-;    (t (cons (substs (car es) ss) (substs* (cdr es) ss)))
-;  )
-;)
 
-;; substsv is called only s2p
-(defun substsv (vs ss) 
+;;; substv replace v1 with e1 of v
+;; substv1 is a restriceted function of subst1
+(defun substv1 (v v1 e1)
   (cond
-    ((null vs) ())
-    (t (cons (substs (car vs) ss)(substsv (cdr vs) ss)))
+    ((equal v v1) e1)
+    (t v)
   )
 )
 
-(defun subsubs1 (s v1 e1)
-  (subsubs1h s v1 e1 nil)
-;  (subsubs1w s v1 e1 ())
+;;; substv apply s=(v1.e1) to v
+(defun substv (v s)
+  (substv1 v (car s)(cdr s))
 )
 
-; i dont like this
+;;; substvs apply ss to v. v:var, ss:subst
+(defun substvs (v ss)
+  (cond 
+    ((null ss) v)
+    ((eq v (caar ss)) (substv v (car ss)))
+    (t  (substvs (substv v (car ss)) (cdr ss)))
+  )
+)
+
+;;; substvs* apply ss to vs(var list)
+(defun substvs* (vs ss) 
+  (cond
+    ((null vs) ())
+    (t (cons (substvs (car vs) ss)(substvs* (cdr vs) ss)))
+  )
+)
+
+
+;;; subsub* : s1 x s2 -> s3
+
+;;;; subsubs1 : snot v1 e1 -> snot
+; common v in s1,s2 then s2's (v.*) is ignored.
+
+(defun subsubs1 (s v1 e1)
+  (subsubs1h s v1 e1 nil)
+)
+
+;;; subsubs1h : replace v1 with e1 in s. no v1 in s, add (v1.e1) at end.
+; has means v1 of s2 in s1. common v1.
 (defun subsubs1h (s v1 e1 has)
   (cond
     ((null s)
-      (cond (has ())(t (list (cons v1 e1)))))
+      (cond (has ())
+            (t (list (cons v1 e1)))))
     (t (cons (cons (caar s)(subst1 (cdar s) v1 e1))
              (subsubs1h (cdr s) v1 e1 (or has (eq (caar s) v1)))))
   )
 )
 
-;; alternative subsubs1
+;; subsubs1w is an alternative subsubs1
 (defun subsubs1w (s v1 e1)
   (subsubs1w0 s v1 e1 (list (cons v1 e1)))
 )
@@ -82,6 +112,7 @@
   )
 )
 
+;;; subsubs s1,s2 snot
 (defun subsubs (s1 s2)
   (cond
     ((null s2) s1)
@@ -89,41 +120,33 @@
   )
 )
 
-(defun subsubsw (s1 s2)
-  (cond
-    ((null s2) s1)
-    (t (subsubs (subsubs1w s1 (caar s2)(cdar s2)) (cdr s2)))
-  )
-)
 
-;(defun putpnot (vs s v1 e1)
-;  "basic operation on vars sigma"
-;  (loop for v in vs for e in s collect
-;    (cond ((eq v v1) e1)(t e))
-;  )
-;)
-;(defun substp1 (vs s v1 e1)
-;  (loop for v in vs for e in s collect
-;    (cond ((eq v v1) e1)(t (subst1 e v1 e1)))
-;  )
-;)
-
+;;; default fun do nothing
 (defun normalf (e v1 e1)
   e
 )
 
+;;; putpnot apply a v1<-e1 to s. vs is a var list
+;; when normalf, this do nothing on default
 (defun putpnot (vs s v1 e1 &optional (fn #'normalf))
-  "basic operation on vars sigma"
   (loop for v in vs for e in s collect
-    (cond ((eq v v1) e1)(t (funcall fn e v1 e1)))
+    (cond 
+      ((eq v v1) e1)
+      (t (funcall fn e v1 e1)))
   )
 )
 
+;;; replace v1 with e1 on s : pnot 
 (defun substp1 (vs s v1 e1)
   (putpnot vs s v1 e1 #'subst1)
 )
 
 
+;;; subst pnot 
+; vs : vars list
+; ex is expr
+; es is p-not (es corr. vs)
+; substp p-not subst es on ex
 (defun substp (vs ex es)
   (let ((nex ex))
     (loop for v in vs for e in es do
@@ -134,6 +157,7 @@
 )
 
 ;; subsubp
+; subsubp1 p-not replace v1 with s2 on s1
 
 (defun subsubp1 (vs s1 v1 s2)
   (loop for v in vs for e1 in s1 collect
@@ -156,12 +180,27 @@
   )
 )
 
-;;;;; disgreee is a core of unify
+;;;; conversion s-not with p-not
+;;;; snot to pnot; ss is snot
+(defun s2p (vs ss)
+  (substvs* vs ss)
+)
 
+;;;; pnot to snot
+(defun p2s (vs es)
+  (loop for v in vs for e in es
+    collect (cons v e))
+)
+
+;;;;; disgreee is a core of unify
+;;; inverse of disagreement and unify
+
+;; fn is called with each disagreement pair
 (defun disagree (vs e1 e2 se fn)
   (disag vs e1 e2 se fn)
 )
 
+;; disag use m for keeping sigma
 (defun disag (vs e1 e2 m fn)
   (cond
     ((equal e1 e2) m)
@@ -180,12 +219,14 @@
   )
 )
 
+; showit is an example fn
 ; showit is a stub for testing disagree
 ;(defun showit (vs e1 e2 m)
 ; (format t "~a:~a ~a~%" vs e1 e2)
 ; m
 ;)
 
+;; collect is an sample disagree-fn
 (defun collect (vs e1 e2 m)
  vs
  (append m (list (cons e1 e2)))
@@ -194,6 +235,7 @@
 ;; unify variation
 ;; s for snot, p for pnot
 
+;; unifics is for unify with s-not
 (defun unifics (vs d1 d2 m)
 ;; assume d1!=d2
   (cond
@@ -212,22 +254,35 @@
   )
 )
 
-;;;
+;;; makesubsubs subsub in s-not
 (defun makesubsubs (vs s v e)
   (subsubs1 s v e)
 )
 
-;;; 
+;;; unifys is unify s-not with unifics
 (defun unifys (vs e1 e2)
   (disagree vs e1 e2 () #'unifics)
 )
 
-;;
+;; unifysp unify p-not ; unifys and s2p
+(defun unifysp (vs e1 e2)
+  (let ((s0 (unifys vs e1 e2)))
+    (cond ((eq s0 'NO) 'NO)
+          (t (s2p vs s0)))
+  )
+)
+
+;;;; unifyp is another naive implementaion of unifysp
+;; s for subst e, p for compose mgu
+;; in substs m should be snot, in subsubp m should be pnot.
+;; it is not both valid.
+;;;; unifysp may be identical unifyp
+
 (defun unificp (vs d1 d2 m)
 ;; assume d1!=d2
   (cond
     ((isvar vs d1) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
-    ((isvar vs d2) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
+    ((isvar vs d2) (makesubsubp vs m (substp vs d2 m)(substp vs d1 m)))
     ((or (atom d1)(atom d2)) 'NO)
     ((eq (car d1)(car d2))(unificp* vs (cdr d1)(cdr d2) m))
     (t 'NO)
@@ -241,56 +296,13 @@
   )
 )
 
+;; unifysp is..
+(defun unifyp (vs e1 e2)
+  (disagree vs e1 e2 vs #'unificp)
+)
+
+;; makesubsubp is p-not makesubsub
 (defun makesubsubp (vs s v e)
   (subsubp1 vs s v e)
-)
-
-;; unifyp
-(defun unifyp (vs e1 e2)
-  (let ((s0 (unifys vs e1 e2)))
-    (cond ((eq s0 'NO) 'NO)
-          (t (s2p vs s0)))
-  )
-;  (disagree vs e1 e2 vs #'unificp)
-)
-
-;;; unifysp
-;; s for subst e, p for compose mgu
-
-;; in substs m should be snot, insubsubp m should be pnot.
-;; it is not both valid.
-;;;; unifysp may be identical unifyp
-
-(defun unificsp (vs d1 d2 m)
-;; assume d1!=d2
-  (cond
-    ((isvar vs d1) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
-    ((isvar vs d2) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
-    ((or (atom d1)(atom d2)) 'NO)
-    ((eq (car d1)(car d2))(unificsp* vs (cdr d1)(cdr d2) m))
-    (t 'NO)
-  )
-)
-
-(defun unificsp* (vs e1* e2* m)
-  (cond
-    ((null e1*) m)
-    (t (unificsp* vs (cdr e1*)(cdr e2*) (unificsp vs (car e1*)(car e2*) m)))
-  )
-)
-
-(defun unifysp (vs e1 e2)
-  (disagree vs e1 e2 vs #'unificsp)
-)
-
-;;;; snot to pnot
-(defun s2p (vs ss)
-  (substsv vs ss)
-)
-
-;;;; pnot to snot
-(defun p2s (vs es)
-  (loop for v in vs for e in es
-    collect (cons v e))
 )
 
