@@ -228,8 +228,13 @@
   (intend-equal "012 unifics" 'NO (unifics '(x) 'a 'b '()))
   (intend-notequal "013 unifics x never in m in conetxt of unify" '((x . b)) (unifics '(x) 'x 'b '((x . b))))
 
-  (intend-equal "014 unifics v e with m again" '((x . (f y))(w . (f a))(y . a)) (unifics '(x) 'x 'w '((x . (f y))(w . (f a)))))
+  (intend-equal "014 unifics v e with m again" '((x . (f a))(w . (f a))(y . a)) (unifics '(x y) 'x 'w '((x . (f y))(w . (f a)))))
+  (intend-equal "015 unifics v e with m again" '((x . (f a))(w . (f a))(y . a)) (unifics '(x y w) 'x 'w '((x . (f y))(w . (f a)))))
 
+  (intend-equal "016 unifics v e with m again" '((x . (f a))(w . (f a))(y . a)) (unifics '(x y w) '(h x (f y) y) '(h (f y) w a) ()))
+  (intend-equal "017 unifics v e with m again" '((x . (f a))(w . (f a))(z . a)(y . a)) (unifics '(x y z w) '(h x (f z) z z) '(h (f y) w  y a) ()))
+
+  (intend-equal "020 unifics v e with m again" 'NO  (unifics '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ()))
 )
 
 (defito ito-disagree-unific ()

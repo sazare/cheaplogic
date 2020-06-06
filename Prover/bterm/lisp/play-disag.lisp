@@ -302,13 +302,15 @@
 ; v is (subst d? m), may be fterm.
 (defun makesubsubs (vs s v e)
   (cond 
-    ((atom v) 
+    ((isvar vs v) 
       (cond ((insidep v e) 'NO)
             (T (subsubs1 s v e))))
-    ((atom e)
+    ((isvar vs e)
       (cond ((insidep e v) 'NO)
             (T (subsubs1 s e v))))
-    (T (subsubs1 s v e))
+    ((or (atom v)(atom e)) 'NO)
+    (T (let ((si (unifys vs v e)))
+            (subsubs s si)))
   )
 )
 

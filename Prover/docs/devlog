@@ -5,13 +5,96 @@ QEDは☕️でしめす。
 何かの影響を🕸でしめす。「す」
 
 
+-- todo
 TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちるだろうか
+TODO20200607 　処理量を考え直すべき 
+TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
+--- log
+
+20200607日
+
 TODO20200606: vとeがftermになる部分のテストは未。テストは作った。
 　これは一番単純な場合なので、複雑なテストも必要
  014 unifics v e with m again: Ito Failed at (ITO-ALL-DISAG ITO-UNIFICS)
    Expression: (UNIFICS '(X) 'X 'W '((X F Y) (W F A)))
     Intented ((X F Y) (W F A) (Y . A))
     Evaluated: ((X F Y) (W F A) ((F Y) F A))
+原因
+　内側でおきる<(f y):(f a)>に何もしていない
+・実装の継続
+これはトップレベルが変数で、それらに対する代入の後、unifiableな例
+ 014 unifics v e with m again: Ito Failed at (ITO-ALL-DISAG ITO-UNIFICS)
+   Expression: (UNIFICS '(X) 'X 'W '((X F Y) (W F A)))
+    Intented ((X F Y) (W F A) (Y . A))
+    Evaluated: ((X F Y) (W F A) ((F Y) F A))
+調査
+　内側でおきる<(f y):(f a)>に何もしていないのか
+　これは途中経過のテストのつもりだが、このような状態がおきることはあるのか。
+　この状態になるはずのm=()の意図を作ってみた。
+  unificsの016,017。途中でこのような状態にならない。
+
+　この意図は問題をおこせない・・・
+
+  これは最初どういうunificationから始まるのか
+  unificsの020はNOが意図だが、この例になった。
+
+  unificsとmakesubsubsにtraceをかけてみると、たしかに内側のdisagをしていない
+
+  -- makesubsubsでunifysを実行したあとのトレーす
+
+* (unifics '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ())
+  0: (MAKESUBSUBS (X Y Z W) NIL X (F Y))
+  0: MAKESUBSUBS returned ((X F Y))
+  0: (MAKESUBSUBS (X Y Z W) ((X F Y)) W (F Z))
+  0: MAKESUBSUBS returned ((X F Y) (W F Z))
+  0: (MAKESUBSUBS (X Y Z W) ((X F Y) (W F Z)) (F Y) (F Z))
+    1: (MAKESUBSUBS (X Y Z W) NIL Y Z)
+    1: MAKESUBSUBS returned ((Y . Z))
+  0: MAKESUBSUBS returned ((X F Z) (W F Z) (Y . Z))
+  0: (MAKESUBSUBS (X Y Z W) ((X F Z) (W F Z) (Y . Z)) Z B)
+  0: MAKESUBSUBS returned ((X F B) (W F B) (Y . B) (Z . B))
+  0: (MAKESUBSUBS (X Y Z W) ((X F B) (W F B) (Y . B) (Z . B)) B A)
+  0: MAKESUBSUBS returned ((X F A) (W F A) (Y . A) (Z . A) (B . A))
+
+
+(B . A)て何か??
+
+vsにBははいっていないから、定数同士でNOニナルノデハ??
+
+(B.A)がでてくる理由
+  makesubsubsの最初atom判定していたが、これだと定数でもいってしまう。
+　はisvar判定に変える必要があった。
+　そしてどちらも変数でない場合はNOにする。
+
+　だんだん処理がふえる・・・いいのか
+
+　unifysからきたとき014と015は発生しないのだろうか。
+
+ 014 unifics v e with m again: Ito Failed at (ITO-ALL-DISAG ITO-UNIFICS)
+   Expression: (UNIFICS '(X Y) 'X 'W '((X F Y) (W F A)))
+    Intented ((X F Y) (W F A) (Y . A))
+    Evaluated: ((X F A) (W F A) (Y . A))
+
+ 015 unifics v e with m again: Ito Failed at (ITO-ALL-DISAG ITO-UNIFICS)
+   Expression: (UNIFICS '(X Y W) 'X 'W '((X F Y) (W F A)))
+    Intented ((X F Y) (W F A) (Y . A))
+    Evaluated: ((X F A) (W F A) (Y . A))
+
+となっているので、(Y.a)が(F y)にsubstされるということか。
+それは意図が間違っている
+
+　意図を修正してパス。
+
+　処理量を考え直すべき
+
+確認)
+  unificsがNOヲカエシタトキドウナルノカ?
+
+　問題ないみたい。
+
+
+
+・内側の複雑な場合
 
 
 20200606土曜
