@@ -6,6 +6,35 @@ QEDは☕️でしめす。
 
 
 TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちるだろうか
+TODO20200606: vとeがftermになる部分のテストは未。テストは作った。
+　これは一番単純な場合なので、複雑なテストも必要
+ 014 unifics v e with m again: Ito Failed at (ITO-ALL-DISAG ITO-UNIFICS)
+   Expression: (UNIFICS '(X) 'X 'W '((X F Y) (W F A)))
+    Intented ((X F Y) (W F A) (Y . A))
+    Evaluated: ((X F Y) (W F A) ((F Y) F A))
+
+
+20200606土曜
+まず、前回残していた意図外れをあわせよう
+1) insidepを作ること
+2) v:eに対して<v*m:e*m>で再びdisagreeになる件の明確化
+
+1)をまず実装する
+・insidepのトップではx:xがNILになるのでinsidepとinsidep0をわける
+・makesubsubsの中でvとeのinsidepをテストしたが
+ 020 unifys: Ito Failed at (ITO-ALL-DISAG ITO-UNIFYS)
+   Expression: (UNIFYS '(X Y) '(F X X) '(F (G Y) Y))
+    Intented NO
+    Evaluated: ((X G Y) ((G Y) . Y))
+　となる。
+変数のXに(x. (g y))を代入して(g y)になっている。変数がわがf-termになったので
+こうなっているらしい。
+
+makesubsubsの中でもう一度vとeの向きを決めるのか?
+だとするとここでdisagの再実行がおきるのか・・・
+
+・vとeがftermになる部分のテストは未でその前まですみ
+
 
 20200531日
 - play-disag.lispの定義順序を整理する

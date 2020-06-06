@@ -232,17 +232,60 @@
  (append m (list (cons e1 e2)))
 )
 
+;;; insidep check v in e. no vs 
+(defun insidep (v e)
+  ;; (eq v e) never T because unifics presume
+  (cond
+    ((eq v e) NIL)
+    ((not (atom v)) NIL)
+    (T (insidep0 v e))
+  )
+)
+
+(defun insidep0 (v e)
+  ;; (eq v e) is T here.
+  (cond
+    ((eq v e) T)
+    ((atom e) NIL)
+    (T (insidep0* v e))
+  )
+)
+
+(defun insidep0* (v e*)
+  (cond 
+    ((null e*) NIL)
+    (T (or (insidep0 v (car e*))(insidep0* v (cdr e*))))
+  )
+)
+
 ;; unify variation
 ;; s for snot, p for pnot
 
 ;; unifics is for unify with s-not
 (defun unifics (vs d1 d2 m)
 ;; assume d1!=d2
+;; if v is var(d1 or d2) v never in m in context of unify.
+;; because d1 or d2 is alredy substed by m.
   (cond
     ((isvar vs d1) (makesubsubs vs m (substs d1 m)(substs d2 m)))
+
+;;; when (substs d1 m) is another var,
+;;; (substs d1 m) inside (substs d2 m) ?
+;;; if not, this pair be sigma.(note: d1 already in m)
+
+;;; if (substs d1 m) is not var, then 
+;;; do (unifics (substs d1 m)(substs d2 m))?
+;;; this seems disag on them... or (unifys vs (substs d1 m)(substs d2 m))?
+;;; WHY SO COMPLEX???
+
     ((isvar vs d2) (makesubsubs vs m (substs d2 m)(substs d1 m)))
-    ((or (atom d1)(atom d2)) 'NO)
-    ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m))
+
+;;; if (substs d2 m) is not var, what can i do for...
+;;; (substs d2 m) inside (substs d1 m) ?
+;;; BUT if <(substs d1 m):(substs d2 m)> needed?
+
+    ((or (atom d1)(atom d2)) 'NO) ;; it is consts/fun conflict
+    ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m));; func rec.
     (t 'NO)
   )
 )
@@ -254,9 +297,19 @@
   )
 )
 
+
 ;;; makesubsubs subsub in s-not
+; v is (subst d? m), may be fterm.
 (defun makesubsubs (vs s v e)
-  (subsubs1 s v e)
+  (cond 
+    ((atom v) 
+      (cond ((insidep v e) 'NO)
+            (T (subsubs1 s v e))))
+    ((atom e)
+      (cond ((insidep e v) 'NO)
+            (T (subsubs1 s e v))))
+    (T (subsubs1 s v e))
+  )
 )
 
 ;;; unifys is unify s-not with unifics

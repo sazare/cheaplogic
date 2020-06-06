@@ -63,11 +63,12 @@
 ;;; subsub:sigma x sigma -> sigma
 (defito ito-subsubs1 ()
   "subsubs1 s*(x . e) "
-  (intend-equal "1 subsubs1" '((x . b)) (subsubs1  '((x . b)) 'x 'a))
+  (intend-equal "1 subsubs1" '((x . b)) (subsubs1 '((x . b)) 'x 'a))
   (intend-equal "2 subsubs1" '((x . b)(y . a)) (subsubs1  '((x . b)) 'y 'a))
   (intend-equal "3 subsubs1" '((x . a)) (subsubs1  '((x . x)) 'x 'a))
   (intend-equal "4 subsubs1" '((z . (f a y))(x . a)) (subsubs1 '((z . (f x y))) 'x 'a))
   (intend-equal "5 subsubs1" '((z . (f a (h x)))(w . a)(y . a)) (subsubs1 '((z . (f y (h x)))(w . y)) 'y 'a))
+  (intend-equal "6 subsubs1 never" '((x . a)) (subsubs1  '((x . a)) 'x 'a))
 )
 
 (defito ito-subsubs1h ()
@@ -173,6 +174,64 @@
   (intend-equal "9 disagree" '((x . (h y))(y . (g w))) (disagree '(x y) '(f (h y) (h y)) '(f x (h (g w))) ()  #'collect))
 ) 
 
+(defito ito-s2p ()
+  "s2p converts snot to pnot"
+  (intend-equal "1 empty" '() (s2p () ()))
+  (intend-equal "2 single miss" '(x) (s2p '(x) '((y . a)) ))
+  (intend-equal "3 single match" '(a) (s2p '(x) '((x . a)) ))
+  (intend-equal "4 single match other" '(a) (s2p '(x) '((x . a)(y . b)) ))
+  (intend-equal "5 2vars" '(a b) (s2p '(x y) '((x . a)(y . b)) ))
+
+
+  (intend-equal "6 in and in" '(y b) (s2p '(x y) '((x . y)(y . b)) ))
+  (intend-notequal "6n s2p don't make idemponent" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
+
+  (intend-equal "7 complex" '((f w y)(g w)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+  (intend-notequal "7n s2p don't make idemponent" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
+)
+
+(defito ito-p2s ()
+  "p2s converts pnot to snot"
+  (intend-equal "1 empty" '() (p2s () ()))
+  (intend-equal "2 single miss" '((x . x)(y . a)) (p2s '(x y) '(x a)))
+  (intend-equal "3 single match" '((x . a)) (p2s '(x) '(a)))
+  (intend-equal "4 single match other" '((x . x)) (p2s '(x) '(x)))
+  (intend-equal "5 2vars" '((x . a)(y . b)) (p2s '(x y) '(a b)))
+  (intend-equal "6 p2s don't s@s" '((x . y)(y . b)) (p2s '(x y) '(y b)))
+  (intend-equal "7 p2s don't s@s" '((x . (f w y))(y . (g w))(w . c)) (p2s '(x y w) '((f w y)(g w)c)) )
+)
+
+(defito ito-makesubsubs ()
+  "makesubsubs is subsubs1"
+  (ito-subsubs1)
+)
+
+(defito ito-makesubsubp ()
+  "makesubsubp is subsubp1"
+  (ito-subsubp1)
+)
+
+(defito ito-insidep ()
+  "inside v in e. but in top v = e is NIL."
+  (intend-f "010 insidep" (insidep 'x 'x))
+  (intend-t "020 insidep" (insidep 'x '(f x)))
+  (intend-t "030 insidep" (insidep 'x '(f y z x)))
+  (intend-t "040 insidep" (insidep 'x '(f y (g z (h x w)))))
+  (intend-t "050 insidep" (insidep 'x '(f x (g z (h x w)))))
+  (intend-f "060 insidep" (insidep 'a '(f x (g z (h x w)))))
+)
+
+(defito ito-unifics ()
+  "unifics is used for disagree to unifys"
+  (intend-equal "010 unifics" '((x . a)) (unifics '(x) 'x 'a '()))
+  (intend-equal "011 unifics" '((x . a)) (unifics '(x) 'a 'x '()))
+  (intend-equal "012 unifics" 'NO (unifics '(x) 'a 'b '()))
+  (intend-notequal "013 unifics x never in m in conetxt of unify" '((x . b)) (unifics '(x) 'x 'b '((x . b))))
+
+  (intend-equal "014 unifics v e with m again" '((x . (f y))(w . (f a))(y . a)) (unifics '(x) 'x 'w '((x . (f y))(w . (f a)))))
+
+)
+
 (defito ito-disagree-unific ()
   "disagree unific is a unify ito"
   (intend-equal "010 disagree" '() (disagree () 'a 'a () #'unifics))
@@ -209,6 +268,20 @@
   (intend-equal "016 unifys" '((x . a)(y . a)) (unifys '(x y) '(f x x) '(f y a)))
   (intend-equal "017 unifys" '((z . a)(y . (g b))(x . b)) (unifys '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
   (intend-equal "018 unifys" '((y . (g b))(w . a)(z . b)(x . a)) (unifys '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
+
+  (intend-equal "019 unifys" 'NO (unifys '(x y) 'x '(f x)))
+  (intend-equal "020 unifys" 'NO (unifys '(x y) '(f x x) '(f (g y) y)))
+  (intend-equal "021 unifys" 'NO (unifys '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
+
+  (intend-equal "022 unifys" 'NO (unifys '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
+
+; make an sample is hard work
+;  x : (g y)
+;  z : (h w)
+;  (k x (p n)):(k m (p z)) => (k (g y)(p n)):(k m (p (h w))) => m:(g y), n:(h w)
+;  w:a
+;  y:b
+;
 )
 
 (defito ito-unifyp ()
@@ -235,35 +308,9 @@
   (intend-equal "014 unifysp" '(a a)  (unifysp '(x y) '(f x (g x)) '(f y (g a))))
   (intend-equal "015 unifysp" '((g a) (g a)) (unifysp '(x y) '(f x x) '(f y (g a))))
   (intend-equal "016 unifysp" '(a a) (unifysp '(x y) '(f x x) '(f y a)))
+  (intend-equal "017 unifysp" '(b (g b) a) (unifysp '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
+  (intend-equal "018 unifysp" '(a (g b) b a) (unifysp '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 )
-
-(defito ito-s2p ()
-  "s2p converts snot to pnot"
-  (intend-equal "1 empty" '() (s2p () ()))
-  (intend-equal "2 single miss" '(x) (s2p '(x) '((y . a)) ))
-  (intend-equal "3 single match" '(a) (s2p '(x) '((x . a)) ))
-  (intend-equal "4 single match other" '(a) (s2p '(x) '((x . a)(y . b)) ))
-  (intend-equal "5 2vars" '(a b) (s2p '(x y) '((x . a)(y . b)) ))
-
-
-  (intend-equal "6 in and in" '(y b) (s2p '(x y) '((x . y)(y . b)) ))
-  (intend-notequal "6n s2p don't make idemponent" '(b b) (s2p '(x y) '((x . y)(y . b)) ))
-
-  (intend-equal "7 complex" '((f w y)(g w)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
-  (intend-notequal "7n s2p don't make idemponent" '((f c (g c))(g c)c) (s2p '(x y w) '((x . (f w y))(y . (g w))(w . c)) ))
-)
-
-(defito ito-p2s ()
-  "p2s converts pnot to snot"
-  (intend-equal "1 empty" '() (p2s () ()))
-  (intend-equal "2 single miss" '((x . x)(y . a)) (p2s '(x y) '(x a)))
-  (intend-equal "3 single match" '((x . a)) (p2s '(x) '(a)))
-  (intend-equal "4 single match other" '((x . x)) (p2s '(x) '(x)))
-  (intend-equal "5 2vars" '((x . a)(y . b)) (p2s '(x y) '(a b)))
-  (intend-equal "6 p2s don't s@s" '((x . y)(y . b)) (p2s '(x y) '(y b)))
-  (intend-equal "7 p2s don't s@s" '((x . (f w y))(y . (g w))(w . c)) (p2s '(x y w) '((f w y)(g w)c)) )
-)
-
 (defito ito-all-disag ()
   "tests for subst, unify based on disag-control and s-not, p-not"
   (ito-disagree-collect)
@@ -290,14 +337,18 @@
 
   (ito-s2p)
   (ito-p2s)
+  (ito-makesubsubs)
+  (ito-makesubsubp)
 
+  (ito-insidep)
+
+  (ito-unifics)
   (ito-disagree-unific)
   (ito-unifys)
+
   (ito-unifysp)
   (ito-unifyp)
-
 )
-
 
 (ito-all-disag)
 
