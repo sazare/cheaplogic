@@ -206,14 +206,13 @@
     ((equal e1 e2) m)
     ((atom e1) (funcall fn vs e1 e2 m))
     ((atom e2) (funcall fn vs e2 e1 m))
-    ((not (eq (car e1)(car e2))) 'NO)
+;    ((not (eq (car e1)(car e2))) 'NO) ;; this should be in fn...?
     (t (disag* vs (cdr e1)(cdr e2) m fn))
   )
 )
 
 (defun disag* (vs es1 es2 m fn)
   (cond 
-    ((eq m 'NO) m)
     ((null es1) m)
     (t (disag* vs (cdr es1)(cdr es2) (disag vs (car es1)(car es2) m fn) fn))
   )
@@ -284,9 +283,9 @@
 ;;; (substs d2 m) inside (substs d1 m) ?
 ;;; BUT if <(substs d1 m):(substs d2 m)> needed?
 
-    ((or (atom d1)(atom d2)) 'NO) ;; it is consts/fun conflict
-    ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m));; func rec.
-    (t 'NO)
+    ((or (atom d1)(atom d2)) (throw 'unifications 'NO)) ;; it is consts/fun conflict
+    ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m)) ;; func rec.
+    (t (throw 'unifications 'NO))
   )
 )
 
@@ -303,12 +302,12 @@
 (defun makesubsubs (vs s v e)
   (cond 
     ((isvar vs v) 
-      (cond ((insidep v e) 'NO)
+      (cond ((insidep v e) (throw 'unifications 'NO))
             (T (subsubs1 s v e))))
     ((isvar vs e)
-      (cond ((insidep e v) 'NO)
+      (cond ((insidep e v) (throw 'unifications 'NO))
             (T (subsubs1 s e v))))
-    ((or (atom v)(atom e)) 'NO)
+    ((or (atom v)(atom e)) (throw 'unifications 'NO))
     (T (let ((si (unifys vs v e)))
             (subsubs s si)))
   )
@@ -319,12 +318,21 @@
   (disagree vs e1 e2 () #'unifics)
 )
 
+;;; unifications
+(defun unifications (vs e1 e2)
+  (catch 'unifications
+    (unifys vs e1 e2)
+  )
+)
+
+;;; p-not
 ;; unifysp unify p-not ; unifys and s2p
 (defun unifysp (vs e1 e2)
-  (let ((s0 (unifys vs e1 e2)))
-    (cond ((eq s0 'NO) 'NO)
-          (t (s2p vs s0)))
-  )
+   (s2p vs (unifys vs e1 e2))
+)
+
+(defun unificationsp (vs e1 e2)
+   (s2p vs (unifications vs e1 e2))
 )
 
 ;;;; unifyp is another naive implementaion of unifysp
@@ -338,9 +346,9 @@
   (cond
     ((isvar vs d1) (makesubsubp vs m (substp vs d1 m)(substp vs d2 m)))
     ((isvar vs d2) (makesubsubp vs m (substp vs d2 m)(substp vs d1 m)))
-    ((or (atom d1)(atom d2)) 'NO)
+    ((or (atom d1)(atom d2)) (throw 'unificationp 'NO))
     ((eq (car d1)(car d2))(unificp* vs (cdr d1)(cdr d2) m))
-    (t 'NO)
+    (t (throw 'unificationp 'NO))
   )
 )
 
@@ -351,13 +359,22 @@
   )
 )
 
+;; makesubsubp is p-not makesubsub
+(defun makesubsubp (vs s v e)
+  (subsubp1 vs s v e)
+)
+
 ;; unifysp is..
 (defun unifyp (vs e1 e2)
   (disagree vs e1 e2 vs #'unificp)
 )
 
-;; makesubsubp is p-not makesubsub
-(defun makesubsubp (vs s v e)
-  (subsubp1 vs s v e)
+;;; unificationp 
+(defun unificationp (vs e1 e2)
+  (catch 'unificationp
+    (unifyp vs e1 e2)
+  )
 )
+
+
 

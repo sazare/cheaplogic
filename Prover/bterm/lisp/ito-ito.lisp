@@ -46,6 +46,16 @@
 	 (intend-notequal "car is abc3" 'abc (car '(aaa abc abc)))
 	 )
 
+(defun throw_s1 (x) 
+  (cond ((eq x 1) (throw 'tag1 2))
+        (t 3))
+)
+
+(ito-set
+        "catch-throw"
+        (intend-equal"throw" 2 (catch 'tag1 (throw_s1 1)))
+        (intend-equal "without throw" 3 (catch 'tag1 (throw_s1 2)))
+)
 
 ;;; sample ito
 
@@ -76,6 +86,7 @@
 	   (ito-b)
 	   (ito-car '(abc ss))
 	   ))
+
 
 (ito-all)
 
