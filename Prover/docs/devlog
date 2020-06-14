@@ -11,6 +11,11 @@ TODO20200607 　処理量を考え直すべき
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
 --- log
 
+20200614土日
+catch-throwの仕組みを勉強して、
+unify?を呼び出すところをunification?にしてcatchとし
+NOをreturnしていたところを(throw 'unification? 'NO)にした
+
 20200607日
 
 TODO20200606: vとeがftermになる部分のテストは未。テストは作った。
