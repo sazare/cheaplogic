@@ -331,8 +331,15 @@
    (s2p vs (unifys vs e1 e2))
 )
 
+;;; unificationsp
+
 (defun unificationsp (vs e1 e2)
-   (s2p vs (unifications vs e1 e2))
+;; (s2p vs (unifications vs e1 e2))
+  (let ((ru (unifications vs e1 e2)))
+    (cond ((eq ru 'NO) ru)
+     (t (s2p vs ru))
+    )
+  )
 )
 
 ;;;; unifyp is another naive implementaion of unifysp
@@ -361,10 +368,21 @@
 
 ;; makesubsubp is p-not makesubsub
 (defun makesubsubp (vs s v e)
-  (subsubp1 vs s v e)
+;;  (subsubp1 vs s v e)
+  (cond
+    ((isvar vs v)
+      (cond ((insidep v e) (throw 'unificationp 'NO))
+            (T (subsubp1 vs s v e))))
+    ((isvar vs e)
+      (cond ((insidep e v) (throw 'unificationp 'NO))
+            (T (subsubp1 vs s e v))))
+    ((or (atom v)(atom e)) (throw 'unificationp 'NO))
+    (T (let ((si (unifyp vs v e)))
+            (subsubp vs s si)))
+  )
 )
 
-;; unifysp is..
+;; unifyp is..
 (defun unifyp (vs e1 e2)
   (disagree vs e1 e2 vs #'unificp)
 )
