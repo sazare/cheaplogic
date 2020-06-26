@@ -345,7 +345,7 @@
 )
 
 (defito ito-unificationp ()
-  "unifys is pnot unify"
+  "unificationp is p-not unification"
   (intend-equal "010 unificationp" '() (unificationp () 'a 'a))
   (intend-equal "011 unificationp" 'NO (catch 'unificationp (unificationp () 'a 'b)))
   (intend-equal "012 unificationp" 'NO (catch 'unificationp (unificationp '(x) 'a 'b)))
@@ -396,7 +396,7 @@
   (intend-equal "018 unifysp" '(a (g b) b a) (unifysp '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 )
 (defito ito-unificationsp ()
-  "unificationsp based on pnot"
+  "unificationsp after unifications, s2p makes p-not"
   (intend-equal "010 unificationsp" '() (unificationsp () 'a 'a))
   (intend-equal "011 unificationsp" 'NO (catch 'unifications (unificationsp () 'a 'b)))
   (intend-equal "012 unificationsp" 'NO (catch 'unifications (unificationsp '(x) 'a 'b)))

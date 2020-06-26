@@ -10,6 +10,118 @@ TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちる�
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
 --- log
+20200627土
+unificationの性能測定をしよう
+unificationのp,s,ps
+
+とくにpとsの比較が必要。
+
+spは、pのあとにp2sをやっているので、性能がでないのは当然
+
+代入の性能も調べるべきか? unificationの中で代入しているので、分けなくてもいいような気はする。
+とはいえ、代入だけの性能も調べるべきか。
+
+play-disag.lispがいままでの中で一番完全なので、これだけ調べればよいだろうか。
+disag版とそうでないやつの比較も必要。
+disag版は高速にするために作り直したのだから、高速になってないといけないので、その確認。
+とはいえ、非disag版が不完全なunificationになっていたら、比較の意味がない・・・
+
+方法
+1. ito-unificaitonsとito-unification-pのテスト項目を同じにして(関数をパラメタにとるように
+　すべきか?)
+　それぞれのitoの実行時間を計測する。
+　代入のpとsでデータ構造が違っていること。
+
+結果
+実行方法
+(time (dotimes (i 100)(ito-unifications)))
+(time (dotimes (i 100)(ito-unificationp)))
+(time (dotimes (i 100)(ito-unificationsp)))
+
+結果
+ito: unifications is snot unify
+......................
+Evaluation took:
+  0.002 seconds of real time
+  0.002100 seconds of total run time (0.001871 user, 0.000229 system)
+  100.00% CPU
+  5,738,598 processor cycles
+  524,288 bytes consed
+  
+  ito: unificationp is p-not unification
+......................
+Evaluation took:
+  0.004 seconds of real time
+  0.004096 seconds of total run time (0.003722 user, 0.000374 system)
+  100.00% CPU
+  11,057,668 processor cycles
+  917,504 bytes consed
+  
+  ito: unificationsp after unifications, s2p makes p-not
+......................
+Evaluation took:
+  0.003 seconds of real time
+  0.003419 seconds of total run time (0.003020 user, 0.000399 system)
+  100.00% CPU
+  9,301,424 processor cycles
+  589,824 bytes consed
+  
+評価
+sよりpが2倍くらいconsしていて、処理時間も二倍に近い。
+spはpを高速にするために作ったものであり、結果もそれに従っている。まとめると
+s > sp > p
+p-notのunifierを得るには、spがよさそう。
+
+このテストデータには偏りがあるはずなので、結果は無条件には成り立たないかも。
+想定に一致するので、信じてしまいそうになるが、別の偏りのあるデータだとどうか。
+次のTODO
+表現の種類による性能の違い
+たとえば
+・insideが発生してNOになる表現ばかりのばあい
+・複雑だがunifiableの表現の最後でa!=bでNOニナルバアイ。
+　　おそらく、失敗する例は性能よいのではないか。最後までやらないで終われるから。
+・unifyする項目がいきつもどりつして成功する場合
+  これがテストを作るのも大変・・・
+・引数の順番を逆にしたとき性能がどうかわるか。
+　順番に代入が作られていく場合と、代入が逆流していく場合。
+　*disag-unificationで、別のunificationを呼び出す場合<x:y>だったのが、disag処理で
+　途中までの代入の適用で、<x*s1:y*s1>=><e1:e2>となるケース。
+　? unifyのパターンがそこで変わってしまい、性能に影響するか?
+
+🎂 このケースは、disagだからおきる。
+　<x:y>でも<x:e>でもdisag pairについて、他の部分で発生したσを適用してからこの
+　pairの解決が必要になる。
+  <x:y>で考えると、本来変数同士の比較なので、特別な必要がないはずなのだが
+　unificの中で再びunifyしなくてはならないのが根元。
+
+　ではこのパターンは、非disagでも性能が遅くなるのか?
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+20200620土
+unificationpとunificationspのテストを追加し、動作確認した
+unificationspは、unificationsを呼んでいるだけだが、NOがかえってくる場合いったん介入する必要があった。しくなかった
+
+unificaionsは、makesubsubpなどの処理を見直した。makesubsubsの真似をしただけ。
+
+意図はもっと複雑なものを考えるべきな気がする。
+・(x:y)の両方に代入がかかって、(t1:t2)になってふたたびunifyするパターンが不十分ではないか
+
+・さらに、t1,t2の中でふたたび同じ現象がおきル場合とか・・・
+
+
 
 20200614土日
 catch-throwの仕組みを勉強して、
