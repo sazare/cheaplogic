@@ -90,3 +90,9 @@
   (expect-equal "traversediff depth" '((x . a)(y . z)) (traversediff '(x (b y)) '(a (b z))))
 )
 
+;; I/O
+;; 標準出力を捨てる方法
+(with-open-file (*standard-output* "/dev/null" :if-exists :supersede :direction :output)
+ (format t "You cant see me~%")
+ )
+

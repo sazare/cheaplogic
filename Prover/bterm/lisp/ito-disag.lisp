@@ -477,23 +477,3 @@
 
 (ito-all-disag)
 
-;(time (dotimes (i 100)(ito-unifications)))
-;(time (dotimes (i 100)(ito-unificationp)))
-;(time (dotimes (i 100)(ito-unificationsp)))
-
-;(defun perf-fn (n fn)
-; (time (dotimes (i n)(funcall fn)))
-;)
-;
-;(perf-fn 1000 `ito-unifications)
-;(perf-fn 1000 `ito-unificationsp)
-;(perf-fn 1000 `ito-unificationp)
-
-(format t "~%1000 times test, s,p,sp~%")
-(with-open-file (*standard-output* "local.tmp" :if-exists :supersede :direction :output)
- (time (dotimes (i 1000)(ito-unifications)))
- (time (dotimes (i 1000)(ito-unificationp)))
- (time (dotimes (i 1000)(ito-unificationsp)))
-)
-
-

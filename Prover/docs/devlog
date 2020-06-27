@@ -10,6 +10,135 @@ TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちる�
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
 --- log
+
+20200628日
+性能測定関数をいろいろかえてみた
+perf.lispに関数をまとめた。
+perf-disag.lispでそれを使った
+
+10000回実行の結果
+** ITO-UNIFICATIONS of 10000 times**
+Evaluation took:
+  0.119 seconds of real time
+  0.118683 seconds of total run time (0.116848 user, 0.001835 system)
+  [ Run times consist of 0.010 seconds GC time, and 0.109 seconds non-GC time. ]
+  100.00% CPU
+  320,912,577 processor cycles
+  52,494,336 bytes consed
+  
+
+** ITO-UNIFICATIONP of 10000 times**
+Evaluation took:
+  0.164 seconds of real time
+  0.163658 seconds of total run time (0.162857 user, 0.000801 system)
+  [ Run times consist of 0.002 seconds GC time, and 0.162 seconds non-GC time. ]
+  100.00% CPU
+  442,854,369 processor cycles
+  92,962,816 bytes consed
+  
+
+** ITO-UNIFICATIONSP of 10000 times**
+Evaluation took:
+  0.167 seconds of real time
+  0.164944 seconds of total run time (0.148711 user, 0.016233 system)
+  [ Run times consist of 0.012 seconds GC time, and 0.153 seconds non-GC time. ]
+  98.80% CPU
+  450,921,876 processor cycles
+  58,092,976 bytes consed
+  
+T
+* 
+
+non-GC timeを見ると、spもpもあまり違わない。pがすこし遅い
+consの数は
+
+s-p-sp順
+          s        p      sp
+total   0.119  0.164   0.165
+non-GC  0.109  0.162   0.153
+cycles   320M   442M    450M
+cons    52.5Mb 93.0Mb  58.1Mb
+
+こうしてみると、consの数はp>spだが、cycleはspのほうが多くなっている。
+処理時間については、s>p>spだが、pとspの差はそれほどない。
+GCの時間をみるとp,spよりもpのほうが少ないのは偶然か?
+
+順番を変えてp,s,spの順で実行してみた
+T
+* 
+(performance `ito-unificationp PN)
+(performance `ito-unifications PN)
+(performance `ito-unificationsp PN)
+** ITO-UNIFICATIONP of 10000 times**
+Evaluation took:
+  0.172 seconds of real time
+  0.170481 seconds of total run time (0.168257 user, 0.002224 system)
+  [ Run times consist of 0.005 seconds GC time, and 0.166 seconds non-GC time. ]
+  98.84% CPU
+  463,369,783 processor cycles
+  92,961,872 bytes consed
+  
+NIL
+* 
+** ITO-UNIFICATIONS of 10000 times**
+Evaluation took:
+  0.113 seconds of real time
+  0.112033 seconds of total run time (0.111277 user, 0.000756 system)
+  [ Run times consist of 0.003 seconds GC time, and 0.110 seconds non-GC time. ]
+  99.12% CPU
+  303,392,274 processor cycles
+  52,461,568 bytes consed
+  
+NIL
+* 
+
+** ITO-UNIFICATIONSP of 10000 times**
+Evaluation took:
+  0.130 seconds of real time
+  0.129126 seconds of total run time (0.128284 user, 0.000842 system)
+  [ Run times consist of 0.003 seconds GC time, and 0.127 seconds non-GC time. ]
+  99.23% CPU
+  349,702,717 processor cycles
+  58,063,936 bytes consed
+  
+NIL
+
+p-s-sp順
+          s        p      sp
+total   0.112  0.170   0.129
+non-GC  0.110  0.166   0.127
+cycles   303M   463M    350M
+cons    52.5Mb 93.0Mb  58.1Mb
+
+s-p-sp順(再掲)
+          s        p      sp
+total   0.119  0.164   0.165
+non-GC  0.109  0.162   0.153
+cycles   320M   442M    450M
+cons    52.5Mb 93.0Mb  58.1Mb
+
+totalは関係ない処理も含んでいるので比較しても仕方ない
+non-GCは、spがかなりずれている。
+cyclesはなぜこんなに違うのだろうか。
+ランダムな要素はないので、みんな同じにならないのはなぜか??
+cyclesにはGCの処理も含まれるのか?
+
+この結果からは、
+処理時間については、pもspもsより時間がかかるのと
+pとspの違いは逆転もするので、なんともいえない。
+
+一方で
+consは順序によらないので、処理の特徴をとらえていると思う。
+
+consによると、sを1としてpとspは
+        s     p    sp
+cons比  1   1.8  1.11
+
+となり、p-notのmguを作るにはspのほうが軽処理になっている。
+
+
+
+
 20200627土
 unificationの性能測定をしよう
 unificationのp,s,ps
