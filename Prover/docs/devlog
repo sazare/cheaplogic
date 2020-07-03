@@ -6,10 +6,45 @@ QEDは☕️でしめす。
 
 
 -- todo
+TODO20200704   genericを使いたいので学ぶ
 TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちるだろうか
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
 --- log
+
+20200704土
+今のunifyをgeneric functionを使ったらどうなるか。
+性能を比較したい。
+
+generic function/methodを使うためには、disaptchのためのパラメタのオブジェクトで
+区別できなくてはならない。ExprもExprのリストもconsでは分岐できない・・・
+
+故にdefclassでクラスを作る必要がある
+(この段階でメモリを食い過ぎるような・・・)
+
+区別したいもの
+ - atom(constant と variable) -- symbolとは違うはず
+   もしかしたらconstantはsymbolでvariableはatomかも
+ - number
+ - string
+
+ - expression
+ - expression list
+ - sigma : set or list of primitive substitution(var term)
+
+くらいだろうか
+
+だんだんわからなくなってきたので、中断
+
+* load-test.lispがload-ito.lispでなくてはならないことが判明
+関連する場所を修正
+
+* commonlispのブロックコメントはやはりないみたい
+　何回も探して、毎回なかった。
+　とりあえず、
+　:'a,.s/^/;/
+
+
 
 20200628日
 性能測定関数をいろいろかえてみた

@@ -1,5 +1,5 @@
 ;; Practical Commonlisp CD DB
-(load "load-test.lisp")
+(load "load-ito.lisp")
 
 (defvar *vvv* nil)
 (defun add-me (me) (push me *vvv*))
@@ -12,40 +12,40 @@
 ;; assoc list
 (defvar *sss* nil)
 
-(test-set "assoc"
+(ito-set "assoc"
   (setf *sss* (pairlis '(a b c) '(1 2 3)))
-  (expect-equal "test for assoc value" '(b . 2) (assoc 'b *sss*))
+  (intend-equal "test for assoc value" '(b . 2) (assoc 'b *sss*))
 
 ;; inverse of pairlis exists??
 )
 
 ;;; property list
-(test-set "property list"
+(ito-set "property list"
   (defvar *plist* ())
   (setf (getf *plist* :a) 123)
-  (expect-equal "get on a property list" 123 (getf *plist* :a))
+  (intend-equal "get on a property list" 123 (getf *plist* :a))
   (setf (getf *plist* :b) '(f x))
-  (expect-equal "set on a property list" '(f x) (getf *plist* :b))
+  (intend-equal "set on a property list" '(f x) (getf *plist* :b))
 )
 
 ;;
-(test-set "substitute"
+(ito-set "substitute"
   (defvar *lll* '(a b c))
-  (expect-equal "atom to atom" '(a 2 c) (substitute 2 'b *lll*))
-  (expect-equal "atom to term" '(a (f x) c) (substitute '(f x) 'b *lll*))
+  (intend-equal "atom to atom" '(a 2 c) (substitute 2 'b *lll*))
+  (intend-equal "atom to term" '(a (f x) c) (substitute '(f x) 'b *lll*))
 
 )
 ;;
-(test-set "subst"
+(ito-set "subst"
   (defvar *eee* '(x y))
-  (expect-equal "atom to atom" '(y y) (subst 'y 'x *eee*))
-  (expect-equal "atom to term" '(x (f x)) (subst '(f x) 'y *eee*))
+  (intend-equal "atom to atom" '(y y) (subst 'y 'x *eee*))
+  (intend-equal "atom to term" '(x (f x)) (subst '(f x) 'y *eee*))
 
-  (expect-equal "try to make par subst" '((f y) a) (subst '(f y) 'x (subst 'a 'y *eee*)))
-  (expect-equal "i want to this" '((f a) a) (subst 'a 'y (subst '(f y) 'x *eee*)))
+  (intend-equal "try to make par subst" '((f y) a) (subst '(f y) 'x (subst 'a 'y *eee*)))
+  (intend-equal "i want to this" '((f a) a) (subst 'a 'y (subst '(f y) 'x *eee*)))
 
   (defvar *fff* '((f x)(g y)))
-  (expect-equal "into subexp by subst" '((f (g z)) (g a)) (subst '(g z) 'x (subst 'a 'y *fff*)))
+  (intend-equal "into subexp by subst" '((f (g z)) (g a)) (subst '(g z) 'x (subst 'a 'y *fff*)))
 )
 
 ;; continuation
@@ -55,10 +55,10 @@
 ; (loop for a in x1 for b in x2 collect (cons a b))
 ; (loop for s1 in '((a)(b)(c)) append s1 )
 
-(test-set "double loop"
+(ito-set "double loop"
   (defvar x1 '(1 2 3))
   (defvar x2 '(a b c))
-  (expect-equal "double loop" '((1 . a)(2 . b)(3 . c)) 
+  (intend-equal "double loop" '((1 . a)(2 . b)(3 . c)) 
     (loop for a in x1 for b in x2 collect (cons a b)))
 )
 
@@ -77,17 +77,17 @@
   )
 )
 
-(test-set "traverse2"
-  (expect-equal "traverse2 lists" '((x . a)(y . z)) (traverse2 '(x y) '(a z)))
-  (expect-equal "traverse2 lists have same" '((x . a)(b . b)(y . z)) (traverse2 '(x b y) '(a b z)))
+(ito-set "traverse2"
+  (intend-equal "traverse2 lists" '((x . a)(y . z)) (traverse2 '(x y) '(a z)))
+  (intend-equal "traverse2 lists have same" '((x . a)(b . b)(y . z)) (traverse2 '(x b y) '(a b z)))
 )
 
-(test-set "traversediff"
-  (expect-equal "traversediff same" '() (traversediff '(x y) '(x y)))
-  (expect-equal "traversediff same depth" '() (traversediff '((f x) y) '((f x) y)))
-  (expect-equal "traversediff lists" '((x . a)(y . z)) (traversediff '(x y) '(a z)))
-  (expect-equal "traversediff lists have same" '((x . a)(y . z)) (traversediff '(x b y) '(a b z)))
-  (expect-equal "traversediff depth" '((x . a)(y . z)) (traversediff '(x (b y)) '(a (b z))))
+(ito-set "traversediff"
+  (intend-equal "traversediff same" '() (traversediff '(x y) '(x y)))
+  (intend-equal "traversediff same depth" '() (traversediff '((f x) y) '((f x) y)))
+  (intend-equal "traversediff lists" '((x . a)(y . z)) (traversediff '(x y) '(a z)))
+  (intend-equal "traversediff lists have same" '((x . a)(y . z)) (traversediff '(x b y) '(a b z)))
+  (intend-equal "traversediff depth" '((x . a)(y . z)) (traversediff '(x (b y)) '(a (b z))))
 )
 
 ;; I/O
@@ -96,3 +96,49 @@
  (format t "You cant see me~%")
  )
 
+;;; documentation
+(defun namida (tear)
+ (:documentation "your tear is a namida")
+ (format t "~%tear is namida~%")
+)
+(describe 'namida)
+
+
+;;;;; learn generic function
+;; defclass
+;(defclass symbolic ()
+; ((name :accessor name)
+;  (value :accessor value)
+; )
+;)
+;(defclass symbol (symbolic)
+;)
+;
+;(defclass number (symbolic)
+;)
+;
+;(defclass expr ()
+; ((fsym :accessor fsym)
+;  (args :accessro args)
+; )
+;)
+;(defclass explist ()
+; ((first :accessor first)
+;  (after :accessor after)
+; )
+;)
+;
+;
+;;defgeneric and defmethod
+;
+;(defgeneric whatis (name)
+; (:documentation "I say what it is")
+;)
+;
+;(defmethod whatis ((name symbol))
+;)
+;(defmethod whatis ((name expr))
+;)
+;(defmethod whatis ((name elist))
+;)
+;
