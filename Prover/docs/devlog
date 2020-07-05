@@ -12,6 +12,32 @@ TODO20200607 　処理量を考え直すべき
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
 --- log
 
+20200705日
+・簡単なmethod定義をしてみた
+　classは使っていない
+
+;;;* (defclass be ()
+;;; (myname myvalue))
+;;;#<STANDARD-CLASS COMMON-LISP-USER::BE>
+;;;* (defparameter *name1* (make-instance 'be))
+;;;*NAME1*
+;;;* (setf (slot-value *name1* 'myname) 'Jiro)
+;;;JIRO
+;;;* (setf (slot-value *name1* 'myvalue) 123)
+;;;123
+;;;* *name1*
+;;;#<BE {1002CD9A73}>
+;;;* (slot-value *name1* 'myname)
+;;;JIRO
+
+exp*はどうするのかとか、
+
+どう考えてもデータはS式のほうが簡単
+method dispatchが高速になるかどうか・・・
+
+とりあえずやめておこう
+
+
 20200704土
 今のunifyをgeneric functionを使ったらどうなるか。
 性能を比較したい。

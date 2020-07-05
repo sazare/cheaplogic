@@ -106,6 +106,21 @@
 
 ;;;;; learn generic function
 ;; defclass
+
+;;;* (defclass be () 
+;;; (myname myvalue))
+;;;#<STANDARD-CLASS COMMON-LISP-USER::BE>
+;;;* (defparameter *name1* (make-instance 'be))
+;;;*NAME1*
+;;;* (setf (slot-value *name1* 'myname) 'Jiro)
+;;;JIRO
+;;;* (setf (slot-value *name1* 'myvalue) 123)
+;;;123
+;;;* *name1*
+;;;#<BE {1002CD9A73}>
+;;;* (slot-value *name1* 'myname)
+;;;JIRO
+
 ;(defclass symbolic ()
 ; ((name :accessor name)
 ;  (value :accessor value)
