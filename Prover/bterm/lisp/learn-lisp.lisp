@@ -157,3 +157,10 @@
 ;(defmethod whatis ((name elist))
 ;)
 ;
+
+;;; loop!
+(defparameter *XX* (loop for i from 1 to 50 collect i))
+(loop for c across "abcdefg" collect c)
+(loop for c across "ababacd" counting (find c "ac")) ; PCL P88
+
+

@@ -6,13 +6,18 @@ QEDは☕️でしめす。
 
 
 -- todo
-TODO20200704   genericを使いたいので学ぶ
-TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちるだろうか
+TODO20200712   代入の計算量を測定するか、resolutionやproverの計算量を測定するほうがよいか。1
 TODO20200607 　処理量を考え直すべき 
-TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと
+TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
 
+20200712日
+learn-lisp.lisp -- for-acrosssいうのがあったのですこし調べた
+
 20200705日
+TODO20200531a: defunをdefmethodに変えてgenericにすると性能落ちるだろうか
+TODO20200704   genericを使いたいので学ぶ 使えなさそうなのでやめる
+
 ・簡単なmethod定義をしてみた
 　classは使っていない
 
