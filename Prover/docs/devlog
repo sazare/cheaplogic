@@ -6,10 +6,47 @@ QEDは☕️でしめす。
 
 
 -- todo
+TODO20200718   ファイル一式のテンプレート化
 TODO20200712   代入の計算量を測定するか、resolutionやproverの計算量を測定するほうがよいか。1
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
+
+
+20200718土
+resolutionを作る準備として、play-disag.lispのファイル名れべるのリファクタリング
+play-disag.lisp ⇨ unif-disag.lisp
+
+disagというキーワードを入れ続けることの違和感
+
+最近、何かファイルを作ると一連のファイルをあわせて作ることになる
+
+xxxx.lispなら
+ito-xxxx.lisp
+load-xxxx.lisp
+perf-xxxx.lisp
+
+ファイルxxxx.lispから自動生成できないかな
+
+0. generate-module
+1. load 
+ (load "xxxx.lisp")
+xxx.lispがひとつとは限らないが、それは手でなおすのか?
+どこまで生成するか
+
+2. ito-xxxx.lisp
+ xxxx.lispから関数名をひろってきて ito-ffffを定義する?
+
+3. perf-xxxx.lispはどのitoを使うかわかるか?
+
+*とりあえずファイルを作っておき、その中身は
+(format t "~%yyyy-xxxx is not yet written~%")
+としておくか・・・
+ファイルを作る手間だけは除ける
+
+
+
+
 
 20200712日
 learn-lisp.lisp -- for-acrosssいうのがあったのですこし調べた

@@ -1,7 +1,7 @@
 ;; disag.lisp = unify based on subst with p-notation, s-notation
 ;;; unify/disagree  
 (load "ito.lisp")
-(load "load-disag.lisp")
+(load "load-unif-disag.lisp")
 
 ;;; subst : expr x sigma -> expr
 (defito ito-subst1 ()
