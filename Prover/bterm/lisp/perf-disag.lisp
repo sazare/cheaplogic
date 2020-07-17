@@ -1,4 +1,4 @@
-; performance of play-disag.lisp
+; performance of unif-disag.lisp
 
 (load "ito-disag.lisp")
 (load "perf.lisp")
