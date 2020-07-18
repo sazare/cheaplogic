@@ -14,11 +14,57 @@ TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらない�
 
 
 20200718土
+* refactoring
 resolutionを作る準備として、play-disag.lispのファイル名れべるのリファクタリング
 play-disag.lisp ⇨ unif-disag.lisp
 
-disagというキーワードを入れ続けることの違和感
+* disagというキーワードを入れ続けることの違和感あり
 
+* ito-reso-disag.lisp
+ デザインをはじめよう
+
+ 1) julia版のcoreみたいにするか
+ 2) resolve : +L x -L -> mgu / exception 
+  a) (resolve core 'C1 'L1.1 'C2 'L2.1 #'unifications #'substs) ;;; ???
+  b) (resolve '(x) '(1 (1.1 + P x)) '() (2 (2.1 - P a)) 'L1.1 'L2.1 #'unifications #'substs)
+  c) (resolve '(x) '((+ P x)) '() ((- P a)) #'unifications #'substs) ;; left most lit removed
+
+ 3) resolution C1 x C2 with l1,l2 -> R
+
+
+ 4) いったんnative formに変換してresolutionするという形?
+
+  core -> native -> resolvent -> core(clause, proof)
+
+  julia版のdvc_resolutionをみると、引数にとるのはlid1, lid2, coreのみで、
+　そこからvars、cid->lidsと求めている
+　まあ、必要最低限はそこかな。それにしてもjulia版のことはすっかり忘れている。
+  coreについては気持ちはわかるが、どう使っていたのかがわからないというれべる。
+　うまくいくのかどうか考えながら進むしかない。
+
+  lid -> cid
+  lid -> cid -> vars
+  lid -> cid -> lids 
+
+　これの利点は何か??
+
+ julia版は、id -> nativeをDictでやっていたと思うがhashtableでよいか。
+
+ (make-hash-table)
+ (gethash key hash)
+ (setf (gethash key hash) newvalue)
+ (loop for k being the hash-keys in *hhh* using (hash-value v) do ...)
+ (maphash #'fn hash)
+ (hash-table-count hash)
+
+ alistやplistを使うのは、メモリ最小条件だから、どっちかな・・
+
+★ clauseあたりのliteral数が少ないならlistのほうがよい。
+★ その境界はどのあたり???
+
+
+
+* 全体
 最近、何かファイルを作ると一連のファイルをあわせて作ることになる
 
 xxxx.lispなら
