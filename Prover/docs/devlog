@@ -12,6 +12,52 @@ TODO20200607 　処理量を考え直すべき
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
 
+20200719日
+🎂どういうデザインにしようか考え中
+　julia版をみなおしているが、ややこしくてどうしたものか。
+　viewproverは動いた。
+  みためはともかく・・
+
+　dataにある、ものをなんと呼ぶべきか
+　juliaではcoreと呼んでいた。readcore()で読み込むと、coreになるからそれでいいのかな。
+
+　coreは一般的すぎてどうかな。
+　specみたいな用語があるとよい。
+
+　coreは何か?
+
+  .cnfはclause normal formかなにかそういう名前だったような
+　　でもjuliaとlispでは違う形になっている
+
+ factsでもないし
+ descriptionでもないし
+
+ lispの場合、evalすれば実行される。
+ macroで定義するように書くか
+
+　something writtenで、swではどうか。拡張子は.swf swiftとぶつかるのか
+  swnかsowか
+　ならば、something to want(stw), something to desire(std)
+  something to wrettenでstwか
+
+ sowはstatement of workだそうで、statementが使えるかも
+
+ statement of worldとかstatement of desireとか。後者ならsodか
+
+ quelque chose (qqc)にしておこうかな。長い語は出さない
+
+https://franpon.com/study/1701101
+
+ 略語はqlcらしい。ということはklcでもいいのでは
+ みんなすでに使われている
+　kqcかな
+https://www.filemagic.com/ja/list/k/page/7/
+　によると、一般的でないファイルなので、これにきめよう kqc(quelque chose)
+
+
+🎂 bterm/lispを別リポジトリにしたほうがよいかどうか・・・
+
+
 
 20200718土
 * refactoring

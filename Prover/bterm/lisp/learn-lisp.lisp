@@ -163,4 +163,29 @@
 (loop for c across "abcdefg" collect c)
 (loop for c across "ababacd" counting (find c "ac")) ; PCL P88
 
+;;;; fileの読み込み
+;(with-open-file (stream "/some/file/name.txt") (format t "~a~%" (read-line stream)))
+;To create a new file, you can write something like this:
+;(with-open-file (stream "/some/file/name.txt" :direction :output) (format stream "Some text."))
 
+(with-open-file (in "kqc/chose001.kqc")
+  (read in)
+)
+
+;  (let ((s (read in))) s))
+
+
+(with-open-file (in "kqc/chose001.kqc")
+  (loop while (setf s (read-line in)) do (format t "~a~%" s))
+)
+
+
+(with-open-file (in "kqc/chose001.kqc")
+  (loop while (setf s (read-line in)) do (format t "~a~%" s))
+)
+
+(defparameter ii (open "kqc/chose001.kqc"))
+(read-line ii)
+(read-sequence ii)
+(end-of-file ii)
+(close ii)
