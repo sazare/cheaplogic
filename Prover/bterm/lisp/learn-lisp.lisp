@@ -103,6 +103,11 @@
 )
 (describe 'namida)
 
+#| 
+ this is a comment
+ or not.
+|#
+
 
 ;;;;; learn generic function
 ;; defclass
