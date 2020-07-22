@@ -194,3 +194,28 @@
 (read-sequence ii)
 (end-of-file ii)
 (close ii)
+
+
+;; for Lid connection, to use setf connection. ?
+;; atom to atom
+;; C10 => C 10
+;; C 11 => C11
+
+* x1
+#:R417
+* (set x1 (gensym "R"))
+#:R418
+* x1
+#:R417
+* (eval x1)
+#:R418
+
+* (set (eval x1)(gensym "R1"))
+#:R1421
+* (eval x1)
+#:R418
+* (eval (eval x1))
+#:R1421
+
+
+
