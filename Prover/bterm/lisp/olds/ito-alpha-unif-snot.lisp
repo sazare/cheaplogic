@@ -2,7 +2,7 @@
 ;; how to write these ito in consice and complete
 ;; notation [vi<-ei,...]
 
-(load "ito.lisp")
+(myload "ito.lisp")
 
 (load "load-alpha-prim-snot.lisp")
 (load "load-alpha-unif-snot.lisp")

@@ -1,7 +1,7 @@
-;;
+;; ito for rubbish-kqcio.lisp
 
-(load "ito.lisp")
-(load "kqcio.lisp")
+(myload "ito.lisp")
+(load "load-rubbish-kqcio.lisp")
 
 (defparameter chose001 (readkqc "kqc/chose001.kqc"))
 (intend-equal "elements of kqc" 2 (length chose001))

@@ -1,6 +1,6 @@
 ;; ito for binding expression
 
-(load "ito.lisp")
+(myload "ito.lisp")
 (load "bterm.lisp")
 
 ;; vars '(x y) is appropriate?

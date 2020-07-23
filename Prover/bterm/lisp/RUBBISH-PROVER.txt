@@ -1,0 +1,10 @@
+Rubbish-prover is a lisp version cheaplogic prover
+
+files
+rabbish-subst.lisp
+rabbish-unif.lisp
+rabbish-reso.lisp
+rabbish-essential.lisp
+rabbish-simpleprover.lisp
+rabbish-viewprover.lisp
+

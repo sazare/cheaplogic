@@ -2,7 +2,7 @@
 
 (load "load-classic.lisp")
 
-(load "ito.lisp")
+(myload "ito.lisp")
 
 
 (defito ito-isvar ()

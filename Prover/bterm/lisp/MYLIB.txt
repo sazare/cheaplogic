@@ -1,0 +1,10 @@
+in home directory, .sbclrc contains *MYLIB* and myload function.
+and *MYLIB* is set to ~/lib/mysbcl
+
+now ~/lib/mysbcl/ito.lisp is soft linked to list/ito.lisp.
+
+then
+
+use (myload "ito.lisp") replaced (load "ito.lisp") previously.
+I can use ito.
+

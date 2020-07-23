@@ -16,7 +16,7 @@
 
 (defun isvar (b a) (not (null (gethash a b))))
 
-(load "ito.lisp")
+(myload "ito.lisp")
 (defparameter *bind* (make-hash-table))
 (setf (gethash 'v1 *bind*) '(f x y))
 (setf (gethash 'v2 *bind*) '(g x y))

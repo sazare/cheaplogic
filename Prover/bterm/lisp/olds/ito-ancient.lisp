@@ -2,7 +2,7 @@
 
 (load "load-ancient.lisp")
 
-(load "ito.lisp")
+(myload "ito.lisp")
 ;; primitives
 (defito ito-isvar ()
   (intend-notequal "1 isvar" NIL (isvar '(x y) 'x))

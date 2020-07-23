@@ -1,4 +1,4 @@
-(load "ito.lisp")
+(myload "ito.lisp")
 
 ;; refer to Practical Common Lisp Ch 21 
 

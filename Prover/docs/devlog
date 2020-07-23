@@ -6,11 +6,48 @@ QEDは☕️でしめす。
 
 
 -- todo
+TODO20200723   ito.lispを違う場所で使いたくなった。juliaのLOAD_PATHみたいなのがほしい
 TODO20200718   ファイル一式のテンプレート化
 TODO20200712   代入の計算量を測定するか、resolutionやproverの計算量を測定するほうがよいか。1
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
+
+20200723木
+1. make alias sbcl='sbcl ... --userinit ~init.lisp ...'
+  init.lisp contains definition *MYSBCL* and myload
+
+  *MYSBCL* has a path to my lisp utility file.
+  myload load file from *MYSBCL*
+
+
+2. refactor lisp files
+🎂名前　rubbish prover
+🎂ファイル構成
+　subst, subsub(pnot, snot): 代入
+  unification: snot, pnot, sp版
+  resolve: S-expレベルのresolution(proofはまだない)
+  essential: clause管理とresolveのつなぎ. COREはrubbish binと呼ぶ?
+             proof管理
+　rubbish provers: proverはいろいろありうるので、全体をrubbish proverと呼ぶとすると
+　 simple-rubbish :単純なprover... control over resolvent num, proof steps
+    p-f correspondence 
+　 view-rubbish: Web GUI prover with human interraction
+
+ファイル構成をかえた
+今まで作ってきたlispコードはoldsに移動
+rubbishコードのファイルは、〜rubbish-〜.lispとした
+
+ito.lisp and ito-ito.lisp are soft link to ~/lib/mysbcl
+とし
+(myload "ito.lisp")
+でロードするし。
+(load "ito-ito.lisp")
+で意図する
+
+
+
+
 
 20200720月
 #|...|# がコメントのように働く・・・でもS式にはならない
