@@ -280,6 +280,7 @@
   (intend-equal "010 unifications" '() (unifications () 'a 'a))
   (intend-equal "011 unifications" 'NO (unifications () 'a 'b))
   (intend-equal "012 unifications" 'NO (unifications '(x) 'a 'b))
+  (intend-equal "001x unifications" 'NO (unifications '(x y) '(f a) '(g a)))
   (intend-equal "001a unifications" '((x . a)(y . b)) (unifications '(x y) '(f x y) '(f a b)))
   (intend-equal "001b unifications" '((x . a)(y . b)) (unifications '(x y) '(f x b) '(f a y)))
   (intend-equal "001c unifications" '((x . a)(y . b)) (unifications '(x y) '(f a y) '(f x b)))
@@ -350,6 +351,7 @@
   (intend-equal "011 unificationp" 'NO (catch 'unificationp (unificationp () 'a 'b)))
   (intend-equal "012 unificationp" 'NO (catch 'unificationp (unificationp '(x) 'a 'b)))
 
+  (intend-equal "001x unificationp" 'NO (unificationsp '() '(f x) '(g x)))
   (intend-equal "001a unificationp" '(a b) (unificationp '(x y) '(f x y) '(f a b)))
   (intend-equal "001b unificationp" '(a b) (unificationp '(x y) '(f x b) '(f a y)))
   (intend-equal "001c unificationp" '(a b) (unificationp '(x y) '(f a y) '(f x b)))
@@ -385,7 +387,7 @@
 (defito ito-unifysp ()
   "unifys is pnot unify, in e*d1 is snot"
   (intend-equal "010 unifysp" '() (unifysp () 'a 'a))
-  (intend-equal "011 unifysp" 'NO (catch 'unifications (unifysp () 'a 'b)))
+  (intend-equal "011 unifysp" 'NO (catch 'unifications (unifysp '() 'a 'b)))
   (intend-equal "012 unifysp" 'NO (catch 'unifications (unifysp '(x) 'a 'b)))
   (intend-equal "013 unifysp" '((h b)) (unifysp '(x) '(f x) '(f (h b))))
   (intend-equal "013b unifysp" '((h b)) (unifysp '(x) '(f (h b)) '(f x)))
@@ -400,6 +402,7 @@
   (intend-equal "010 unificationsp" '() (unificationsp () 'a 'a))
   (intend-equal "011 unificationsp" 'NO (catch 'unifications (unificationsp () 'a 'b)))
   (intend-equal "012 unificationsp" 'NO (catch 'unifications (unificationsp '(x) 'a 'b)))
+  (intend-equal "001x unificationsp" 'NO (unificationsp '() '(f x) '(g x)))
   (intend-equal "001a unificationsp" '(a b) (unificationsp '(x y) '(f x y) '(f a b)))
   (intend-equal "001b unificationsp" '(a b) (unificationsp '(x y) '(f x b) '(f a y)))
   (intend-equal "001c unificationsp" '(a b) (unificationsp '(x y) '(f a y) '(f x b)))

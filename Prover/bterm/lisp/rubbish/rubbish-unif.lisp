@@ -206,7 +206,7 @@
     ((equal e1 e2) m)
     ((atom e1) (funcall fn vs e1 e2 m))
     ((atom e2) (funcall fn vs e2 e1 m))
-;    ((not (eq (car e1)(car e2))) 'NO) ;; this should be in fn...?
+    ((not (eq (car e1)(car e2))) 'NO) ;; this should be in fn...?
     (t (disag* vs (cdr e1)(cdr e2) m fn))
   )
 )
@@ -267,7 +267,6 @@
 ;; because d1 or d2 is alredy substed by m.
   (cond
     ((isvar vs d1) (makesubsubs vs m (substs d1 m)(substs d2 m)))
-
 ;;; when (substs d1 m) is another var,
 ;;; (substs d1 m) inside (substs d2 m) ?
 ;;; if not, this pair be sigma.(note: d1 already in m)

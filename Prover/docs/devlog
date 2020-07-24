@@ -6,12 +6,42 @@ QEDは☕️でしめす。
 
 
 -- todo
-TODO20200723   ito.lispを違う場所で使いたくなった。juliaのLOAD_PATHみたいなのがほしい
+TODO20200724   load-xxx のsilentモードが欲しいかも。1回目のwarningをみたくない。
 TODO20200718   ファイル一式のテンプレート化
 TODO20200712   代入の計算量を測定するか、resolutionやproverの計算量を測定するほうがよいか。1
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
+
+20200724金
+1 resolveのパラメタに関数を渡すにしろ、defparameterで名前をつけるにせよ、funcallが必要なのだ・・・
+　schemeならいらないのかな。
+
+呼び出すところ全部にfuncallをいれるのはいやなので・・・
+
+  (defparameter *funp* ...function to be called...)
+これをresolveを呼び出す部分で定義して、resoでは
+
+　(defun sfun (x y) (funcall *funp* x y))
+みたいな関数sfunpをそれぞれ作っておくか・・・
+resolではfunでなくsfunを使う
+引数の数は固定なのでこれでつながる。
+
+これが働くためには、substpとかsubstsとか別のモジュールにする必要がありそう。
+それぞれが完結していないと
+しかし、spは両方使うので、どうすべきか・・・
+たぶん、unificaionspを使う人にとってのsubst, subsubなのでsubstpとsubsubpだけでよいのではないか。
+
+この変更はreso layerのみ。
+
+
+🕷 <(P x):(Q x)>がnilになる。NOになるべき
+disagの定義で関数名が違うときNOにしていなかった。
+何か他の不具合があったようだが、有効にしてなにも問題がなかったのでそれでOK
+
+
+
+
 
 20200723木
 1. make alias sbcl='sbcl ... --userinit ~init.lisp ...'
@@ -38,12 +68,15 @@ TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらない�
 今まで作ってきたlispコードはoldsに移動
 rubbishコードのファイルは、〜rubbish-〜.lispとした
 
+
+☕️TODO20200723   ito.lispを違う場所で使いたくなった。juliaのLOAD_PATHみたいなのがほしい
+
 ito.lisp and ito-ito.lisp are soft link to ~/lib/mysbcl
 とし
 (myload "ito.lisp")
 でロードするし。
 (load "ito-ito.lisp")
-で意図する
+で意図できる。でもオリジナルはcll
 
 
 
