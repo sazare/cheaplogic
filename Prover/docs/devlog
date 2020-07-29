@@ -14,6 +14,11 @@ TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらない�
 --- log
 
 20200729水
+ツールはリポジトリlisptoolsに移動した
+~/lib/mysbclは~/lib/lisptoolsに変更
+そこはcloneした
+.sbclrcのmylibの参照する*MYLIB*をこのパスに変更したので
+ツールは(myload "ito.lisp")みたいになる
 
 🎂ToDO20200729   unif, resoの'NOは:NOにする
 した
