@@ -295,4 +295,17 @@
 
 
 
+;;;
+(multiple-value-bind (x y z)
+  1 2 3)
+
+(values 11 12 13)
+
+(setf x 'a y 'b z 'c)
+
+(multiple-value-bind (x y z) (values 11 12 13) (+ x y z))
+
+;;; duplicate
+(delete-duplicates '(a b c b d))
+; (a b c d)
 
