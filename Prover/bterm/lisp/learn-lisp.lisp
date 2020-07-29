@@ -201,21 +201,98 @@
 ;; C10 => C 10
 ;; C 11 => C11
 
-* x1
-#:R417
-* (set x1 (gensym "R"))
-#:R418
-* x1
-#:R417
-* (eval x1)
-#:R418
+;; gensym
+;;;1. howlong
 
-* (set (eval x1)(gensym "R1"))
-#:R1421
-* (eval x1)
-#:R418
-* (eval (eval x1))
-#:R1421
+;* (gensym "abcdef")
+;#:|abcdef371|
+;* (gensym "abcdefghi")
+;#:|abcdefghi372|
+;* 
+
+;;;2. connection of symbols
+;* x1
+;#:R417
+;* (set x1 (gensym "R"))
+;#:R418
+;* x1
+;#:R417
+;* (eval x1)
+;#:R418
+;
+;* (set (eval x1)(gensym "R1"))
+;#:R1421
+;* (eval x1)
+;#:R418
+;* (eval (eval x1))
+;#:R1421
+;
+
+;; for rename in rubbish
+;(setf v1 (gensym "V1"))
+;(setf vv1 (gensym (symbol-name v1)))
+;(set vv1 v1)
+;(eval vv1) -> v1
+;
+;* (symbol-name vv1)
+;"v1373374"
+;
+
+;;;symbol-nameがどんどん長くなる
+;一つ前の変数名とか、最初の変数名とか
+;* (symbol-name vv1)
+;"v1373374"
+;* (setf vvv1 (gensym (symbol-name vv1)))
+;; in: SETF VVV1
+;;     (SYMBOL-NAME VV1)
+;; 
+;; caught WARNING:
+;;   undefined variable: COMMON-LISP-USER::VV1
+;
+;;     (SETF VVV1 (GENSYM (SYMBOL-NAME VV1)))
+;; ==>
+;;   (SETQ VVV1 (GENSYM (SYMBOL-NAME VV1)))
+;; 
+;; caught WARNING:
+;;   undefined variable: COMMON-LISP-USER::VVV1
+;; 
+;; compilation unit finished
+;;   Undefined variables:
+;;     VV1 VVV1
+;;   caught 2 WARNING conditions
+;#:|v1373374375|
+
+; こういう分け方もありそう
+;V1が最初の変数名とする
+;* (setf a1 (gensym "V1."))
+;#:V1.377
+;
+;* (setf aa1 (gensym  (format nil "~a." (symbol-name a1))))
+;#:V1.377.379
+;分けたかったらこうなる。
+
+
+;;最初の名前を知りたいならば
+;;* (subseq (symbol-name aa1) 0 (position #\. (symbol-name aa1)))
+;;"V1"
+;;
+;;ただし、変数名に.を使ってはいけない・・・
+;;使いたかったら、区切り記号を変える
+
+
+;関数が定義されているかどうか
+;* (fboundp 'a1)
+;NIL
+;* (fboundp 'evenp)
+;T
+;* 
+
+;atomが定義/bindされているかどうか
+;* (boundp 'a1)
+;T
+;* (boundp 'b1)
+;NIL
+
 
 
 

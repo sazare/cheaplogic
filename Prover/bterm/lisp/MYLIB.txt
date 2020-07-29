@@ -1,7 +1,10 @@
 in home directory, .sbclrc contains *MYLIB* and myload function.
 and *MYLIB* is set to ~/lib/mysbcl
 
-now ~/lib/mysbcl/ito.lisp is soft linked to list/ito.lisp.
+now 
+~/lib/mysbcl/ito.lisp is soft linked to list/ito.lisp.
+~/lib/mysbcl/ito-ito.lisp is soft linked to list/ito-ito.lisp.
+~/lib/mysbcl/perf.lisp is soft linked to list/perf.lisp.
 
 then
 

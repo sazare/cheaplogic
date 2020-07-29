@@ -165,7 +165,7 @@
   "disagree collect are itos for disagree"
   (intend-equal "1 disagree" '() (disagree () 'a 'a () #'collect))
   (intend-equal "2 disagree" '((a . b)) (disagree () 'a 'b () #'collect))
-;  (intend-equal "3 disagree" 'NO (disagree () '(f a) '(g a) () #'collect))
+;  (intend-equal "3 disagree" :NO (disagree () '(f a) '(g a) () #'collect))
   (intend-equal "4 disagree" '((a . b)) (disagree () '(f a) '(f b) () #'collect))
   (intend-equal "5 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) () #'collect))
   (intend-equal "6 disagree" '((x . b)) (disagree '(x) '(f x) '(f b) () #'collect))
@@ -225,7 +225,7 @@
 ;;;  "unifics is used for disagree to unifys"
 ;;;  (intend-equal "010 unifics" '((x . a)) (unifics '(x) 'x 'a '()))
 ;;;  (intend-equal "011 unifics" '((x . a)) (unifics '(x) 'a 'x '()))
-;;;  (intend-equal "012 unifics" 'NO (catch 'unifications (unifics '(x) 'a 'b '())))
+;;;  (intend-equal "012 unifics" :NO (catch 'unifications (unifics '(x) 'a 'b '())))
 ;;;  (intend-notequal "013 unifics x never in m in conetxt of unify" '((x . b)) (catch 'unifications (unifics '(x) 'x 'b '((x . b)))))
 ;;;
 ;;;
@@ -241,14 +241,14 @@
 ;;;  (intend-equal "019 unifics v e with m again" '((X F (P A)) (W F (K (P A) (F (P A)))) (Z P A) (U . A) (Y P A) (N . A))
 ;;;        (unifics '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) (f (k w) (f y))  (k y n) (p n) a) ()))
 ;;;
-;;;  (intend-equal "020 unifics v e with m again" 'NO  (catch 'unifications (unifics '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ())))
+;;;  (intend-equal "020 unifics v e with m again" :NO  (catch 'unifications (unifics '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ())))
 ;;;)
 ;;
 ;;;(defito ito-unifys ()
 ;;;  "unifys is snot unify"
 ;;;  (intend-equal "010 unifys" '() (unifys () 'a 'a))
-;;;  (intend-equal "011 unifys" 'NO (catch 'unifications (unifys () 'a 'b)))
-;;;  (intend-equal "012 unifys" 'NO (catch 'unifications (unifys '(x) 'a 'b)))
+;;;  (intend-equal "011 unifys" :NO (catch 'unifications (unifys () 'a 'b)))
+;;;  (intend-equal "012 unifys" :NO (catch 'unifications (unifys '(x) 'a 'b)))
 ;;;  (intend-equal "001a unifys" '((x . a)(y . b)) (unifys '(x y) '(f x y) '(f a b)))
 ;;;  (intend-equal "001b unifys" '((x . a)(y . b)) (unifys '(x y) '(f x b) '(f a y)))
 ;;;  (intend-equal "001c unifys" '((x . a)(y . b)) (unifys '(x y) '(f a y) '(f x b)))
@@ -261,11 +261,11 @@
 ;;;  (intend-equal "017 unifys" '((z . a)(y . (g b))(x . b)) (unifys '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
 ;;;  (intend-equal "018 unifys" '((y . (g b))(w . a)(z . b)(x . a)) (unifys '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 ;;;
-;;;  (intend-equal "019 unifys" 'NO (catch 'unifications (unifys '(x y) 'x '(f x))))
-;;;  (intend-equal "020 unifys" 'NO (catch 'unifications (unifys '(x y) '(f x x) '(f (g y) y))))
-;;;  (intend-equal "021 unifys" 'NO (catch 'unifications (unifys '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n))))
+;;;  (intend-equal "019 unifys" :NO (catch 'unifications (unifys '(x y) 'x '(f x))))
+;;;  (intend-equal "020 unifys" :NO (catch 'unifications (unifys '(x y) '(f x x) '(f (g y) y))))
+;;;  (intend-equal "021 unifys" :NO (catch 'unifications (unifys '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n))))
 ;;;
-;;;  (intend-equal "022 unifys" 'NO (unifys '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
+;;;  (intend-equal "022 unifys" :NO (unifys '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
 ;;;
 ;;;; make an sample is hard work
 ;;;;  x : (g y)
@@ -278,9 +278,9 @@
 (defito ito-unifications ()
   "unifications is snot unify"
   (intend-equal "010 unifications" '() (unifications () 'a 'a))
-  (intend-equal "011 unifications" 'NO (unifications () 'a 'b))
-  (intend-equal "012 unifications" 'NO (unifications '(x) 'a 'b))
-  (intend-equal "001x unifications" 'NO (unifications '(x y) '(f a) '(g a)))
+  (intend-equal "011 unifications" :NO (unifications () 'a 'b))
+  (intend-equal "012 unifications" :NO (unifications '(x) 'a 'b))
+  (intend-equal "001x unifications" :NO (unifications '(x y) '(f a) '(g a)))
   (intend-equal "001a unifications" '((x . a)(y . b)) (unifications '(x y) '(f x y) '(f a b)))
   (intend-equal "001b unifications" '((x . a)(y . b)) (unifications '(x y) '(f x b) '(f a y)))
   (intend-equal "001c unifications" '((x . a)(y . b)) (unifications '(x y) '(f a y) '(f x b)))
@@ -293,16 +293,16 @@
   (intend-equal "017 unifications" '((z . a)(y . (g b))(x . b)) (unifications '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
   (intend-equal "018 unifications" '((y . (g b))(w . a)(z . b)(x . a)) (unifications '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 
-  (intend-equal "019 unifications" 'NO (unifications '(x y) 'x '(f x)))
-  (intend-equal "020 unifications" 'NO (unifications '(x y) '(f x x) '(f (g y) y)))
-  (intend-equal "021 unifications" 'NO (unifications '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
+  (intend-equal "019 unifications" :NO (unifications '(x y) 'x '(f x)))
+  (intend-equal "020 unifications" :NO (unifications '(x y) '(f x x) '(f (g y) y)))
+  (intend-equal "021 unifications" :NO (unifications '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
 
-  (intend-equal "022 unifications" 'NO (unifications '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
+  (intend-equal "022 unifications" :NO (unifications '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
 
   (intend-equal "023 unifications v e with m again" '((X F (P A)) (W F (K (P A) (F (P A)))) (Z P A) (U . A) (Y P A) (N . A))
         (unifications '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) w  (k y n) (p n) a)))
 
-  (intend-equal "024 unifications num of args mismatch" 'NO
+  (intend-equal "024 unifications num of args mismatch" :NO
         (unifications '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) (f (k w) (f y))  (k y n) (p n) a) ))
 
   (intend-equal "025 unifications v e with m again" '((X F (P A)) (z . (p a))(w . (p a)) (u . a) (y . (p a))(n . a))
@@ -319,7 +319,7 @@
 ; u:a & n:a
 
 
-  (intend-equal "026 unifications v e with m again" 'NO  
+  (intend-equal "026 unifications v e with m again" :NO  
         (unifications '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ))
 
 ; make an sample is hard work
@@ -334,8 +334,8 @@
 (defito ito-unifyp ()
   "unifys is pnot unify"
   (intend-equal "010 unifyp" '() (unifyp () 'a 'a))
-  (intend-equal "011 unifyp" 'NO (catch 'unificationp (unifyp () 'a 'b)))
-  (intend-equal "012 unifyp" 'NO (catch 'unificationp (unifyp '(x) 'a 'b)))
+  (intend-equal "011 unifyp" :NO (catch 'unificationp (unifyp () 'a 'b)))
+  (intend-equal "012 unifyp" :NO (catch 'unificationp (unifyp '(x) 'a 'b)))
   (intend-equal "013 unifyp" '((h b)) (unifyp '(x) '(f x) '(f (h b))))
   (intend-equal "013b unifyp" '((h b)) (unifyp '(x) '(f (h b)) '(f x)))
   (intend-equal "014 unifyp" '(a a)  (unifyp '(x y) '(f x (g x)) '(f y (g a))))
@@ -348,10 +348,10 @@
 (defito ito-unificationp ()
   "unificationp is p-not unification"
   (intend-equal "010 unificationp" '() (unificationp () 'a 'a))
-  (intend-equal "011 unificationp" 'NO (catch 'unificationp (unificationp () 'a 'b)))
-  (intend-equal "012 unificationp" 'NO (catch 'unificationp (unificationp '(x) 'a 'b)))
+  (intend-equal "011 unificationp" :NO (catch 'unificationp (unificationp () 'a 'b)))
+  (intend-equal "012 unificationp" :NO (catch 'unificationp (unificationp '(x) 'a 'b)))
 
-  (intend-equal "001x unificationp" 'NO (unificationsp '() '(f x) '(g x)))
+  (intend-equal "001x unificationp" :NO (unificationsp '() '(f x) '(g x)))
   (intend-equal "001a unificationp" '(a b) (unificationp '(x y) '(f x y) '(f a b)))
   (intend-equal "001b unificationp" '(a b) (unificationp '(x y) '(f x b) '(f a y)))
   (intend-equal "001c unificationp" '(a b) (unificationp '(x y) '(f a y) '(f x b)))
@@ -365,21 +365,21 @@
   (intend-equal "017 unificationp" '(b (g b) a) (unificationp '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
   (intend-equal "018 unificationp" '(a (g b) b a) (unificationp '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 
-  (intend-equal "019 unificationp" 'NO (unificationp '(x y) 'x '(f x)))
-  (intend-equal "020 unificationp" 'NO (unificationp '(x y) '(f x x) '(f (g y) y)))
-  (intend-equal "021 unificationp" 'NO (unificationp '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
+  (intend-equal "019 unificationp" :NO (unificationp '(x y) 'x '(f x)))
+  (intend-equal "020 unificationp" :NO (unificationp '(x y) '(f x x) '(f (g y) y)))
+  (intend-equal "021 unificationp" :NO (unificationp '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
 
-  (intend-equal "022 unificationp" 'NO (unificationp '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
+  (intend-equal "022 unificationp" :NO (unificationp '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
 
   (intend-equal "023 unificationp v e with m again" '((F (P A)) (P A) (P A) A A (F (K (P A) (F (P A))))) 
         (unificationp '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) w  (k y n) (p n) a)))
 
-  (intend-equal "024 unificationp num of args mismatch" 'NO
+  (intend-equal "024 unificationp num of args mismatch" :NO
         (unificationp '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) (f (k w) (f y))  (k y n) (p n) a) ))
 
   (intend-equal "025 unificationp v e with m again" '((F (P A))(P A)(p a)a a (p a)) 
         (unificationp '(x y z n u w) '(h x (f (k z) x) (k z u) z u) '(h (f y) (f (k w) (f y))  (k y n) (p n) a) ))
-  (intend-equal "026 unificationp v e with m again" 'NO
+  (intend-equal "026 unificationp v e with m again" :NO
         (unificationp '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ))
 
 )
@@ -387,8 +387,8 @@
 (defito ito-unifysp ()
   "unifys is pnot unify, in e*d1 is snot"
   (intend-equal "010 unifysp" '() (unifysp () 'a 'a))
-  (intend-equal "011 unifysp" 'NO (catch 'unifications (unifysp '() 'a 'b)))
-  (intend-equal "012 unifysp" 'NO (catch 'unifications (unifysp '(x) 'a 'b)))
+  (intend-equal "011 unifysp" :NO (catch 'unifications (unifysp '() 'a 'b)))
+  (intend-equal "012 unifysp" :NO (catch 'unifications (unifysp '(x) 'a 'b)))
   (intend-equal "013 unifysp" '((h b)) (unifysp '(x) '(f x) '(f (h b))))
   (intend-equal "013b unifysp" '((h b)) (unifysp '(x) '(f (h b)) '(f x)))
   (intend-equal "014 unifysp" '(a a)  (unifysp '(x y) '(f x (g x)) '(f y (g a))))
@@ -400,9 +400,9 @@
 (defito ito-unificationsp ()
   "unificationsp after unifications, s2p makes p-not"
   (intend-equal "010 unificationsp" '() (unificationsp () 'a 'a))
-  (intend-equal "011 unificationsp" 'NO (catch 'unifications (unificationsp () 'a 'b)))
-  (intend-equal "012 unificationsp" 'NO (catch 'unifications (unificationsp '(x) 'a 'b)))
-  (intend-equal "001x unificationsp" 'NO (unificationsp '() '(f x) '(g x)))
+  (intend-equal "011 unificationsp" :NO (catch 'unifications (unificationsp () 'a 'b)))
+  (intend-equal "012 unificationsp" :NO (catch 'unifications (unificationsp '(x) 'a 'b)))
+  (intend-equal "001x unificationsp" :NO (unificationsp '() '(f x) '(g x)))
   (intend-equal "001a unificationsp" '(a b) (unificationsp '(x y) '(f x y) '(f a b)))
   (intend-equal "001b unificationsp" '(a b) (unificationsp '(x y) '(f x b) '(f a y)))
   (intend-equal "001c unificationsp" '(a b) (unificationsp '(x y) '(f a y) '(f x b)))
@@ -416,21 +416,21 @@
   (intend-equal "017 unificationsp" '(b (g b) a) (unificationsp '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
   (intend-equal "018 unificationsp" '(a (g b) b a) (unificationsp '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))
 
-  (intend-equal "019 unificationsp" 'NO (unificationsp '(x y) 'x '(f x)))
-  (intend-equal "020 unificationsp" 'NO (unificationsp '(x y) '(f x x) '(f (g y) y)))
-  (intend-equal "021 unificationsp" 'NO (unificationsp '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
+  (intend-equal "019 unificationsp" :NO (unificationsp '(x y) 'x '(f x)))
+  (intend-equal "020 unificationsp" :NO (unificationsp '(x y) '(f x x) '(f (g y) y)))
+  (intend-equal "021 unificationsp" :NO (unificationsp '(x y) '(f x (h w) w (p x)) '(f (g y) y (k n) n)))
 
-  (intend-equal "022 unificationsp" 'NO (unificationsp '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
+  (intend-equal "022 unificationsp" :NO (unificationsp '(x y) '(f x (h w) (k x (p n)) w b) '(f (g y) z (k m (p z)) a y)))
 
   (intend-equal "023 unificationsp v e with m again" '((F (P A)) (P A) (P A) A A (F (K (P A) (F (P A))))) 
         (unificationsp '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) w  (k y n) (p n) a)))
 
-  (intend-equal "024 unificationsp num of args mismatch" 'NO
+  (intend-equal "024 unificationsp num of args mismatch" :NO
         (unificationsp '(x y z n u w) '(h x (f (k z x)) (k z u) z u) '(h (f y) (f (k w) (f y))  (k y n) (p n) a) ))
 
   (intend-equal "025 unificationsp v e with m again" '((F (P A))(P A)(p a)a a (p a)) 
         (unificationsp '(x y z n u w) '(h x (f (k z) x) (k z u) z u) '(h (f y) (f (k w) (f y))  (k y n) (p n) a) ))
-  (intend-equal "026 unificationsp v e with m again" 'NO
+  (intend-equal "026 unificationsp v e with m again" :NO
         (unificationsp '(x y z w) '(h x (f z) (g x) b z) '(h (f y) w (g w)  y a) ))
 
 

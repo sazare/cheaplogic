@@ -23,20 +23,55 @@
 ;    then fsubst is meaningless??
 ;;   
 
+;; (+/- P . args) => (P . args) ... remove sign
 (defun atomicof (lit) 
  (cdr lit)
 )
 
+
+;; resolve 2 clauses
 (defun resolve (vs1 l1 rem1 vs2 l2 rem2)
   (let* ((vs (append vs1 vs2))
          (a1 (atomicof l1))
          (a2 (atomicof l2))
          (sig (funification (append (atomicof vs1) (atomicof vs2)) a1 a2)))
    (cond 
-     ((null sig) '())
+     ((eq sig :NO) '())
+     ((null sig) (list vs (substp vs (append rem1 rem2) sig)))
      (t (list vs (append rem1 rem2)))
    )
   )
 )
 
+;; disjoin vars 
+(defun isolate (vs c1)
+
+
+)
+
+;;; the following are resolv ??
+
+;; basevar : var.1234.1222 => var
+(defun basevar (v)
+ (subseq (symbol-name v) 0 (position #\. (symbol-name v)))
+)
+
+;; basesof : vs => bvs s.t. base of each vars
+(defun basesof (vs)
+ (loop for v in vs
+   collect (basevar v)
+ )
+)
+
+;; newvar : v -> v.nnn
+(defun newvar (v)
+ (gensym (format nil "~a." (basevar v)))
+)
+
+;; for rename : vs <- nvs s.t. new vars of v in vs : p-not
+; vs.nvs is the binding form
+
+(defun prenameof (vs) 
+ (loop for v in vs collect (newvar v))
+)
 
