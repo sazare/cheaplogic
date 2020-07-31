@@ -1,0 +1,33 @@
+#Rubbish
+
+##Function
+
+
+### unification
+ P記法とS記法とvars.expとvars.psを共通のvarsなのでpsからvarsをはずす件
+　p記法では、varsの順番は重要ではない。
+  unificationでは、mguのvarsはexpのvarsに一致させるのが自然。
+  だから<v1.e1:v2.e2>を<vs.e1:vs.e2>としてvs.<e1:e2>としたとき
+　mgu=vs<-tsをtsだけで表記し、たとえば
+  (vs.E)*(vs.<e1:e2>)はvs.(E*<e1:e2>)と書いてしまう。
+
+　varsの管理はunificationの処理とは直交しているということか。たぶん違う
+
+### S記法とP記法は代入の表記および操作を意味するが、unificationの実装で
+　どちらの記法でmguを作るかというのは設計の問題になる。
+
+　unifictionpはそれ独自のアルゴリズムがあるが、unificationsの結果をs2pで
+  p記法にするという方法でp記法のmguを求めるunificationspを考えた。
+　アルゴリズムをながめるかぎり、こっちのほうが性能がよさそう。
+  実際の性能比較はこうなった
+　unifications<unificationsp<unificationp
+
+　p-記法の代入よりもs-記法の代入のほうが高速になるはずなので、
+　unificationも代入も含む、resolution全体の性能比較もしたい。
+
+　unification中に代入を行うから、混在した処理としてはunificationだけで
+　完結しているようにも思うが、代入はunificationで対象としない残りのリテラル
+　に対して行うので、影響が及ぶはず。
+
+##Implementation
+
