@@ -47,7 +47,9 @@
 　　- 後処理にすると、ほかのすべてのclauseと変数が混ざらないようにする必要がでてくる。
 　　　それは(gensym)。ただ、変数の数がふえすぎるかもしれない。どっちがいいか。
 
-　・-L1とL2にする必要があるが、L1, L2の符号を除いたatomにして<A1:A2>とするほうが話は簡単。?
+　・-L1とL2にする必要があるが、mguを求めるには、L1, L2の符号を除いたatomにして<A1:A2>とするほうが話は簡単。なのでatomでunificationとする。そうするとatomもf-termもsyntaxとしては同じなので例外作らなくていい。
+
+
 
 ### リテラル
 　resolventに出現するすべてのリテラルは、入力clauseのリテラルの生き残りである。
@@ -81,10 +83,15 @@
 　でてくるが、残さなくてもごまかせるような気はする。
 　そうなるとresolventの数が半分になるので、やはり処理速度とメモリ使用量のトレードオフ。
 
+　変数名の作り方としては、オリジナルの部分を残し、X.001 のように生成して、printのモードでXのみにする
+という方法(julia版)もある。
+
+
 ### C1とC1のresolveでは共通変数がでてくるのではないか
 　考えている証明の手順は、goalベースであり、この場合、自分とresolveすることはないので問題にならない。
-
-　ではgoalベースの限界を超えるようなものはやらないのか??
+　
+　だとすると、作っているのは汎用のproverでない。(input resolutionとかそういうの)
+　goalベースの限界を超えるようなものはやらないのか??
 　そのときはそのときまた考える。
 
 ### PvPvRからPvRを作るルール
@@ -94,39 +101,129 @@
 ### リテラルID、ClauseID、mguid
 
 概要
-  Lid → Cid → Lid* (clauseを構成するliteralid)
-　↓　　　↓
-　Lit　 vars
+  Lid → Cid -|body|→ Lid* (clauseを構成するliteralid)
+　↓naked　↓ \
+　Lit　 vars Mid
 
 詳細
-　　　parent
-　Lid   →   Lid | nil
-       naked
-　　　　→   Lit
-       cid
-　　　  → Cid
+naked literalが必要なのはいつか
+Graphを作ったらもっと不要になるのでは??
+
+--
+入力とIDの構造
+入力のclauseがこういう形
+(1 (x y) (+ P x)(- R x (f y x))(+ Q x y))
+
+のとき
+これのCidは C1:xxx
+Lidは
+L1_1:xxx (+ P x)
+L1_2:xxx (- R x (f y x))
+L1_3:xxx (+ Q x y)
+
+C1:xxx のmguは
+M1:xxx
+
+とする。
+--
+IDの形式
+  Cn:xxxx
+  Ln_m:xxxx
+  Mn:xxxx
+
+nは入力clauseの番号
+mはclause中のliteralの順番(左端が1)
+xxxxは自動生成された数字
+
+以下の説明では:xxxxの部分は略する。
+
+--
+　Lid→|orig|→Lid | nil
+     →|naked|→ Literal 
+     →|cid|→Cid
 
   LidのnakedのLitの変数は、Lidのcidのvars
+  nakedは入力literalだけが持ち、resolventのliteralは入力literalに途中の代入をかけて
+　毎回作るという設計もある。時間かかりそうだが、そのnakedのliteralはresolveのときのみ
+　必要になるが、最小限必要な情報は何か? literal全体が必要なのか・・・
+　σを計算するunificationのときは必要だが、resolventを作るのには必要がない。
 
 --
-  Cid left:  Lid
-      right: Lid
-      mgu:   Mid
-      vars:  var*
-      lids:  Lid*
+Literal = (sign . term) 
+ term = (fsym. args) | atom
+ fsym::<atom> = 述語記号、命題記号、関数記号
+ args   = (term ...)
+ atom = <atom> | <number> | <string>
+--
+  Cid→|vars|→var*
+     →|body|→Lid*
+     →|subs|→Mid
+     →|right|→Lid
+     →|left|→Lid
+     →|parent|→Cid
 
 varはatom/symbol
-left, rightのcidでparent cidがわかる
+resolveの場合はright,leftはあるが、renameの場合はleft,rightはnil。
+renameの場合は、parentはあるが、resolveの場合はparentはない
+resolveの場合、親のclauseは right.orig.cidとleft.orig.cidになる。
+例外になっている・・・
 
 --
-　Mid naked : sig::term* ;; sig==vars<-term* varsはcidのvars
+　Mid→|naked|→(term...)
 
- mguはclauseに属する。そのclauseのリテラルは、resolveで生き残ったリテラルであり、
-literalの変化を示すmguはつまり属するclauseのmguになる。
+--
+関係
+
+[renameの場合]
+  R1'
+ ---- ρ
+  R1 
+で、R1=L1 L2 ..., R1'=L1' L2' ...
+
+の場合
+L1.orig = L1'
+L1.cid = R1'
+L2.orig = L2'
+L2.cid = R1'
+
+R1.subs = ρ
+R1.parent = R1'
+であるので、
+
+ρ = R1.subs = renaming(R1.parent.vars)
+となる。renamingは、varsから独立した新しい変数リストを作る。
+
+[resolveの場合]
+
+  C1  C2
+ ---------σ
+    R1
+
+で、消えたリテラルがC1とC2のL1.1とL2.1だった場合、
+σ' = <L1.1:L2.1>
+R1.vars = union(L1.1.cid.vars L1.2.cid.vars)*σ' の変数をuniqueにしたリストであり
+R1.subs = σ'からR1.varsに対応するもののみを取り出したリスト
+R1.body = L3.1 L3.2 L3.3がったとして、たとえばこうなる。
+L3.1.orig = L1.2
+L3.1.orig.cid = C1
+L3.2.orig = L2.2
+L3.2.orig.cid = C2
+L3.3.orig = L2.3
+L3.3.orig.cid = C2
+
+[証明構造]
  lid が与えられたとき、lidのparentを辿って入力リテラルまでたどり着くと
 そこにでてきたすべてのlid → cid → vars.mguを適用して今のlitを再構成できる。
 
+ rootof(Lid)    : Lidをたどりorigがnilであるlid
+ nakedof(Lid)   : rootidof(Lid)のnaked 
+ literalof(Lid) : Lidの実体。rootof(Lid)からLidまでの代入をすべて適用したリテラル
+　　　　　　　　　うわあ、時間かかりそう・・・
 
+
+
+
+--
 設計が矛盾していないか?
 DVCとproofにrename前と後のclauseを残すようにしているのに
 なぜここにきてメモリを節約するのか・・・
@@ -143,15 +240,17 @@ printclauseみたいなことをしたとき、実体のliteralが出現する�
 それは一時的であってほしい
 
 
-
-
-
-
-
 ### clauseの追加について
+　Machne LearningでFactが追加され、帰納推論によってルールが追加されるようなものを
+  最終的には作りたいと思っている。
+　となると、時間がたつとAxiomsを追加したり削除したりがしたくなるはず。
+　ここまでの設計なら、clauseの追加には耐えられるだろう。
 
+  複数のAxiomsが並存しなくてはならないと思う。
 
 
 
 ##Implementation
+### Julia版のCORE相当
+
 
