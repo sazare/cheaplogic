@@ -14,6 +14,56 @@ TODO20200607 　処理量を考え直すべき
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
 
+20200809日
+・cid, lidを生成する関数に、デバッグ用に固定のidを生成するものを作ろう
+　メタレベルで切り替えてコンパイルすればどちらかになるような方法がないか考えたけど
+　よくわからないので、実装ファイルを二種類にして
+
+  rubbish-base.lispからmake-cidとmake-lidをrubbish-gen-noran.lispにうつし
+ itoの先頭ではnoranをloadして使うようにしよう。
+　gensym版はそれ固有の意図を作る。
+
+・rubbishをwasteにかえるのはどうだろか
+　cheapwasteでもよいし
+　wastelogicでもよい
+
+・ずれていると思ったのは、ruleの部分
+  stepid(sid)
+
+  sid -|left|→lid
+　　　-|right|→lid
+　　　-|subs|→mid
+
+
+　mid -|vars|→V*
+　　  -|subs|→T*
+
+  ρの場合はT*はN*でNは変数名
+
+
+
+
+20200804火
+手でやってみている。
+mguとcidとlidの対応がずれているような
+
+
+20200802日
+🎂ID管理などを行う部分をbaseと呼ぶことにする。
+rubbish binからbinも考えたが、binはバイナリなのでやめた。
+julia版にあわせてcore・・・もともとcoreはいただけないと思っていたのでやめた。
+pureだとresolutionの関数の意味に感じる
+
+特別な意味を感じないbaseにしようと思う。basic・・・BASICはいやだ
+rootはlinuxのrootだし
+
+base
+
+🎂 (isterm e)など書いてみたが、これ、使うかな。
+
+使いそうなものを書いてみる
+
+
 20200801土
 水曜に作ったresolvとisolatevsは裸の機能の実装だったが、それに証明情報を対応させようと
 すると難しい。
@@ -30,8 +80,13 @@ cheaperlogicにlisp実装だけを移動したい。
 cheapthoughtにおくほうがよさそう・・・
 まあ、交わることはないと思う。
 
+gitの履歴がとぎれるので、やめた。
+たぶん、cheaplogicをcloneして、いらないものを消したりdir構成を変えてから
+別のrepogitryとして作るのか・・・
+面倒になったのでやめた
 
-
+履歴を残さないでいいのならできるが
+prover話のつながりが切れるのもよくない・・・
 
 20200729水
 ツールはリポジトリlisptoolsに移動した
