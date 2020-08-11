@@ -265,4 +265,21 @@ printclauseみたいなことをしたとき、実体のliteralが出現する�
 ##Implementation
 ### Julia版のCORE相当
 
+ LID
+
+ CID
+
+ MID -- STEP
+
+ STEP は RESOVとRENAMEがあるか
+
+
+ resolvent Rがleftとrightの親を持つのか?
+ そうなると、varsやmguをどう関連づけるか?
+
+ varsはleftとrightのcidのvarsを合わせたものになる。
+ varsがRにつながるとすると 
+ それは証明情報だと思う。
+
+
 

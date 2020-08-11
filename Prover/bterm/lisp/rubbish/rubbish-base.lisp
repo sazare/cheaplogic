@@ -18,40 +18,82 @@
 
 ;; LID ops
 (defun make-lid (cid n)
-  (let ((lid (format nil "L~a:" n)))
-  (rub-gensym lid)
+  (let (lid)
+    (setq lid (format nil "L~a-~a." (rootof cid) n))
+    (rub-gensym lid)
   )
+)
+
+(defun make-lids(cid lits)
+  (loop for lit in lits 
+        as  lno from 1 to (length lits) collect
+    (setlid (make-lid cid lno) cid lit)
+  )
+)
+
+; C10.xxx => 10
+; L10-i.yyy i is lno
+(defun setlid (lid cid lit)
+  (setf (get lid :cid) cid)
+  (setf (get lid :lit) lit)
+  lid
+)
+
+(defun cidof (lid)
+  (get lid :cid)
+)
+
+(defun litof (lid)
+  (get lid :lit)
+)
 
 
 ;; CID ops
 
 (defun make-cid (n)
-  (let ((cid (format nil "C~a:" n)))
+  (let ((cid (format nil "C~a." n)))
   (rub-gensym cid)
   )
 )
 
+;* (subseq "C10.xxx" 1 3)
+;"10"
+(defun rootof (cid)
+ (let (scid dotp)
+   (setq scid (symbol-name cid))
+   (setq dotp (position #\. scid))
+   (if (null dotp) 
+     (string (subseq scid 1))
+     (string (subseq scid 1 dotp))
+   )
+ )
+)
+
+(defun setcid (cid vars body)
+; vars is var*
+; body is lid*
+  (setf (get cid :vars) vars)
+  (setf (get cid :body) body)
+  cid
+)
+
 (defun make-clause (cexp)
-  (let* ((cid (make-cid (car cexp)))
-        (vars (cadr cexp))
-        (body (make-lids cid (cddr cexp))))
-  (set cid `(
-             :vars ,vars
-             :body ,body))
+  (let (cid)
+    (setf cid (make-cid (car cexp)))
+    (setcid cid (cadr cexp) (make-lids cid (cddr cexp)))
   )
 )
 
-(defun cidof (cid)
-  (getf cid :cid)
-)
-
 (defun varsof (cid)
-  (getf cid :vars)
+  (get cid :vars)
 )
 
 (defun bodyof (cid)
-  (getf cid :body)
+  (get cid :body)
 )
 
+(defun subsof (cid)
+  (get cid :subs)
+)
 
 

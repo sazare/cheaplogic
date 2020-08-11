@@ -7,6 +7,7 @@
 ; 3 5 are strategic parameters
 ;; goal should be specifed from outer space
 
+(Statements
 (1 (y) (- Q a y))
 (2 (x y) (- Q x y))
 (3 (y) (+ P a y))
@@ -17,4 +18,11 @@
 
 ;rule is a clause of literal number > 1
 (10 (x y) (- P x y)(+ Q x y)(- R x y))
+
+)
+(proc
+ (add (x y) (+ x y))
+ (>= 4 2) ; already
+)
+
 )
