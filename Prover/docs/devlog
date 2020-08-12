@@ -13,6 +13,22 @@ TODO20200712   代入の計算量を測定するか、resolutionやproverの計�
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
 --- log
+20200812水
+printを作ろうかと思っていたがito-r*-base.lispがエラーになったのでそれを修正。
+noranと同じなので不要な気がする。
+gensymを使わなければよい
+
+
+20200811火
+・symbolに小文字が混じると||で囲まれることに気付いた。
+・cid, lidはsymbolで動作した。base-noran
+・kqcioで読み込んでbaseまでするようにした。itoはかけていない。
+
+・cidもlidもただの数字でよいのではないか
+　と思っていたが、itoが動いたのでそのまま。ううむ
+
+・明日はprintを作るか・・・
+
 
 20200810月山の日
 ・idとstringとatomの関係について調べる。

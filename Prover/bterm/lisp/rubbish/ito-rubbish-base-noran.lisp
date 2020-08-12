@@ -41,6 +41,7 @@
     (C1 c2)
     (setq C1 (make-clause '(1 () (+ P a))))
 
+    (intend-equal "name of 1" 1   (nameof c1))
     (intend-equal "vars of 1" '() (varsof c1))
     (intend-equal "num body of 1" 1  (length (bodyof c1)))
     (intend-equal "subs of 1" '() (subsof c1))
@@ -49,9 +50,10 @@
     (intend-eq "cid of l1.1" c1 (cidof (car (bodyof c1))))
 
     (setq c2 (make-clause '(2 (x y) (+ P a)(- Q x y))))
+    (intend-equal "2 name is" 2      (nameof c2))
     (intend-equal "2 num body is" 2 (length (bodyof c2)))
-    (intend-equal "2 vars is" '(x y)   (varsof c2))
-    (intend-equal "2 subs is" '()      (subsof c2))
+    (intend-equal "2 vars is" '(x y) (varsof c2))
+    (intend-equal "2 subs is" '()    (subsof c2))
 
     (intend-equal "lit of l2.1" '(+ P a) (litof (nth 0 (bodyof c2))))
     (intend-eq "cid of l2.1" c2 (cidof (nth 0 (bodyof c2))))

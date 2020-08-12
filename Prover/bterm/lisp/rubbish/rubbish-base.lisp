@@ -69,9 +69,11 @@
  )
 )
 
-(defun setcid (cid vars body)
+(defun setcid (cid name vars body)
+; name may be number
 ; vars is var*
 ; body is lid*
+  (setf (get cid :name) name)
   (setf (get cid :vars) vars)
   (setf (get cid :body) body)
   cid
@@ -80,7 +82,7 @@
 (defun make-clause (cexp)
   (let (cid)
     (setf cid (make-cid (car cexp)))
-    (setcid cid (cadr cexp) (make-lids cid (cddr cexp)))
+    (setcid cid (car cexp) (cadr cexp) (make-lids cid (cddr cexp)))
   )
 )
 
@@ -94,6 +96,10 @@
 
 (defun subsof (cid)
   (get cid :subs)
+)
+
+(defun nameof (cid)
+  (get cid :name)
 )
 
 
