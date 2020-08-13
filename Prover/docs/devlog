@@ -12,7 +12,33 @@ TODO20200718   ファイル一式のテンプレート化
 TODO20200712   代入の計算量を測定するか、resolutionやproverの計算量を測定するほうがよいか。1
 TODO20200607 　処理量を考え直すべき 
 TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
+
+
 --- log
+
+20200813木
+・(read-kqc)を(print-cluases)で表示。(clausesof)でlistにする。
+・varsが()だとNILになってしまう。printは()にしたほうがよいかも
+・rubbish-printには
+ - print-clauses
+ - clausesof
+ - dump-clauses
+
+・シンボルわからん
+　(readkqc )で読み込むとcidのリスとができるが、そのリストのcidを
+取り出してsymbol-plistなどは動く。
+　しかし、その名前をreplで入力すると、(symbol-plist)はnilになる。
+　みためではないのか・・・
+
+・idは数字にしようかな
+・symbolでいいかな。idsのインデックスで指定すればいいんだし数字にしたらsymbol-plist
+　みたいな操作ができない
+
+・あと変数を作る必要があって、変数名+数字にするとsymbolになるから・・・そこはさけられなさそう。
+　だとするとtpuのように決まった変数のリストを使ってrenameするか・・・
+
+
+
 20200812水
 printを作ろうかと思っていたがito-r*-base.lispがエラーになったのでそれを修正。
 noranと同じなので不要な気がする。

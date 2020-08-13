@@ -5,4 +5,5 @@
 (load "load-rubbish-kqcio.lisp")
 (load "load-rubbish-unif.lisp")
 (load "load-rubbish-reso.lisp")
+(load "rubbish-print.lisp")
 
