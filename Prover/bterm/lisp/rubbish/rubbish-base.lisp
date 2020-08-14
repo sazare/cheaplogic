@@ -103,3 +103,40 @@
 )
 
 
+;;; primitive ops of basic data
+;;; all lids of cids
+(defun alllids (cids)
+  (loop for cid in cids append (bodyof cid))
+)
+
+;;; choose lids of cid
+;; when outof ns the lids are null
+(defun lidsof (cid &rest ns)
+  (let ((lids (bodyof cid)))
+   (cond 
+    ((null ns) lids)
+    (t (choose ns lids))
+   )
+  )
+)
+
+;; choose selects elements at ns;; general
+(defun choose (ns os)
+ (loop for n in ns collect 
+   (nth n os)
+ )
+)
+
+;;; lsymof
+(defun lsymof (lid)
+  (let ((lit (litof lid)))
+    (cons (car lit)(cadr lit))
+  )
+)
+
+;;; Graph level0
+(defun push-gr0 (lid gr0)
+  (push lid gr0)
+)
+
+

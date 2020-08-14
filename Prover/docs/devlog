@@ -15,6 +15,32 @@ TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらない�
 
 
 --- log
+20200814金
+・read-kqcではcidsしかでないが、lidsもほしい・・・
+
+・(alllids cids) :cidsから含まれるすべてのlidを取り出す
+・(lidsof cid ns): cidのbodyからns番目のlidを取り出す
+・(choose ns os) ; general select ns th of os
+
+・graph0を作ろうとするがどうするか
+graph0 = (P (:+ (L10 L20) :- (L11)) Q (:+ () :- (L77)))
+みたいなplistをかんがえるも、これは2次元のplistか・・・
+plistはkeywordで検索するようなイメージの例ばかりで、keywordが自由なのはないのか?
+plistはkeyword-valueと考えるのが正解な気がしてきた
+
+idを管理するのには適さないのかも・・・いやまて・・・
+(gensym)はなんのためにあるのだ・・・
+
+
+
+
+graph0 = (P ((L10 L20) (L11)) Q (() (L77)))
+
+でよいか
+
+
+
+
 
 20200813木
 ・(read-kqc)を(print-cluases)で表示。(clausesof)でlistにする。
