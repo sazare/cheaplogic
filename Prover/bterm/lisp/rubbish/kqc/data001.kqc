@@ -14,7 +14,11 @@
 (5 (x) (+ R x x))
 (6 () (+ R a c))
 (7 () (- R a c)(+ Q a b)(- P a b))
+(8 (x y z) (- R x y)(+ Q y z)(- P z x))
+(9 () (+ R a b))
+(10 () (- Q b c))
+(11 () (+ P c a))
 
 ;rule is a clause of literal number > 1
-(10 (x y) (- P x y)(+ Q x y)(- R x y))
+(100 (x y) (- P x y)(+ Q x y)(- R x y))
 )

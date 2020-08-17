@@ -6,16 +6,6 @@
 (load "rubbish-gen.lisp")
 (load "load-rubbish-base.lisp")
 
-
-;(defito ito-types ()
-;  "syntax types"
-;  (intend-t "atom is a term" (isterm 'abc))
-;  (intend-t "integer is a term" (isterm 1234))
-;  (intend-t "float is a term" (isterm 12.34))
-;  (intend-t "string is a term" (isterm "abcd"))
-;  (intend-t "(f . args) is a term" (isterm '(f x (g y))))
-;)
-
 (defito ito-make-clause ()
   "make-clause add S-exp clause to base"
 
@@ -36,7 +26,6 @@
 
 (defito ito-all-base ()
   "tests for base "
-;  (ito-types)
   (ito-make-clause)
 )
 

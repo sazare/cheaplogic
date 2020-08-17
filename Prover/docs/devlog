@@ -6,15 +6,85 @@ QEDは☕️でしめす。
 
 
 -- todo
-TODO20200801   rubbishの仕様を書く。機能とその意味。実装とその意図。
-TODO20200724   load-xxx のsilentモードが欲しいかも。1回目のwarningをみたくない。
-TODO20200718   ファイル一式のテンプレート化
-TODO20200712   代入の計算量を測定するか、resolutionやproverの計算量を測定するほうがよいか。1
-TODO20200607 　処理量を考え直すべき 
-TODO20200607 　より複雑な内側unify in ufnicsの意図をつくらないと(永遠のテーマ)
+ go to issue in github. ちょっと使いにくい offlineではわからなくなる
+
 
 
 --- log
+20200817月
+・input ⇒ literal pairのunify ⇒ ngは無視し、σのみをとってグラフ再構成
+　⇒ σの合成についての新しい制御を導入すれば、Flowができそう。
+　ポイントは、clauseの集合を代入の構築物にする点。
+　そのアルゴリズムがもとのrefutationの集合と同等かどうか?
+
+・プログラム合成には興味がないが、proofと代入(の構成物)の対応は興味深い。
+・代入の構成物は、実行可能性に拘らなくてもいいのかも。
+　(x,y)←(a,f(y))は、
+　　(1) {if x=a then y←f(y)}
+　か
+　　(2) {(x,y)←(a,f(y))}
+　というmguに対応するというような考え。
+
+
+・<L1・σ1:L2・σ2>=σ3となるためには、<L1:L2>がunifiableでなくてはならないという話。
+・proofに出現するすべてのliteral/ resolventのliteralはすべて入力リテラルに元があり
+　それのインスタンスになっているという話。
+
+
+
+
+
+20200816日
+・input clauseの組み合わせで、mguを先に作ってしまうというのはあるのではないか。
+　あとはmguの合成だけで処理する
+　これは、命題論理のproverと一階述語のproverの中間になる
+  mgu+remという混在はどう考えるのか
+
+・cid,lidのplistによる連結は、時間によって変化する公理系を実装するのが難しいかも。
+　公理系1つを1つのプロセスとし、プロセス間通信にする???
+
+・今は設計の情報あつめになってきた。
+　観点がかわりつつある。新しい視点
+
+
+20200815土
+・todoをissueにもっていった
+・(resolve lid1 lid2)=>clause Aを作ってみる。cidでなくclauseかな
+
+・graphをどうするか
+　操作の流れ
+　cid -|body|->lids-|select|->lid->(sign, psym)-|oppo|->lids
+　という流れになる。oppoで(neg, psym)にする必要はなさそう
+
+ a) (plist::(p lids)..., nlist::(p lids))...)
+ b) ((p lids lids)(q lids lids)...)
+a)は、全体をpogとnegに分けたもの
+b)は、述語ごとにpogのlidsとnegのlidsをもたせたもの
+oppoを考えると、b)が妥当
+
+
+・今日作ったもの
+  remof(lid) = bodyof(cidof(lid))からlidを除いたlids
+
+  varsof(lid1) + varsof(lid2)であたらしいvarsを作るが、このとき
+　unionではなくリストの並置。appendか。
+
+・現状の問題点
+  - lidにsubsubpしているのでlitはそのまま
+  - 新しいlitにlidをつける必要あり
+  - あとでcidをつけるとなるとcidのbodyは更新されていない
+  - varsは必要なものだけにできるのか?
+
+・グラフのapi
+  - lid -> lsym -> oppo -> lids
+  - goal -> lids
+
+・sibling(lid1,lid2) == cidof(lid1)==cidof(lid2)
+
+
+
+
+
 20200814金
 ・read-kqcではcidsしかでないが、lidsもほしい・・・
 
