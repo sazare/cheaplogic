@@ -127,12 +127,22 @@
  )
 )
 
-;;; lsymof
+;;; Lsymbols
+;; lsymof
 (defun lsymof (lid)
   (let ((lit (litof lid)))
     (cons (car lit)(cadr lit))
   )
 )
+
+;; oppo
+(defun oppo (sign)
+  (cond
+    ((eq sign '-) '+)
+    ((eq sign '+) '-))
+)
+
+
 
 ;;; Graph level0
 (defun push-gr0 (lid gr0)

@@ -24,8 +24,18 @@
     )
 ) 
 
+(defito ito-oppo ()
+  "oppo changes sign"
+  
+  (intend-equal "oppo o - is " '+ (oppo '-))
+  (intend-equal "oppo of + is " '- (oppo '+))
+  (intend-equal "oppo of neither + nor - is" nil (oppo 'a))
+)
+
+
 (defito ito-all-base ()
   "tests for base "
+  (ito-oppo)
   (ito-make-clause)
 )
 
