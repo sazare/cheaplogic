@@ -6,11 +6,82 @@ QEDは☕️でしめす。
 
 
 -- todo
- go to issue in github. ちょっと使いにくい offlineではわからなくなる
+ go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
+20200823 lid,clidはもともとの数字またはatomのままでいいような気がする。
+20200823 resolve/renameでvarsとsigmaの対応を明確にする
+20200823 resolve/lidの実装(litつき)
+20200822 oppos(resolveの候補lids)をもとめる最短路
+20200822 Lidの木、σの再生とそのコスト
 
 
 
 --- log
+
+20200823日
+・L100とL200のresolveをするとき
+  <origin(L100):origin(L200)>が失敗するならresolveを試みる必要はない。
+　<L100:origin(L200)>も失敗すれば<L100:L200>も失敗する。
+  L200の祖先でL100とresolveに失敗するリテラルL120があるとすると
+  <L100:L120>faile, <L200:L120>=σ1(L200はL120のインスタンス)
+  <L100:L110>=σ2, <L200:L110>=σ3で<L110:L120>=σ4の特徴はなにか?
+
+・lid,clidはもともとの数字またはatomのままでいいような気がする。
+ 　が、数字にするとsymbol-plistが使えないので、どうやってリンクをもたせるか悩ましい。
+　 plistとしてもたせる?
+   cidlist=(1 '(1 2 3) 2 '(4 5) ...)
+   lidlist=(1 '(lit '(+ P x)...)
+　　　だめだ。
+
+  今のcid, lidでだめになりそうなところは、人間がlidやcidを指定するとき、文字列をmake-symbolしてもだめというところ。
+
+  たとえば、lidを*lidlist*から探すときは、
+(setf *slidlist* (map 'list #'string *lidlist*)) ;; stringify
+
+(defun findid (id idlist sidlist) 
+  (loop named findsid 
+    for sid in sidlist as ssm in idlist do
+     (when (equal id sid) (return-from findsid ssm))
+  )
+)
+
+(findid "L1-1.418" lll *slidlist*) ;; (#:L1-1.418)
+
+(eq (car lll) (findid "L1-1.418" lll *slidlist*)) ;; is T ok
+
+でstringからsymbolに変換はできるが、ちょっとtime consumingすぎる。
+
+1. 人間がlidやcidを直接指定する場合はどんなとき?
+2. Web にしたとき、inputの文字列からcidやlidを作る必要がある。
+3. 直接指定する場合、cidにname(番号)がついていたらそれでとってこれるだろう。
+　lidはその(bodyof cid)のn番目を指定して取ることはできる。
+
+
+*番号をidにする場合、連続性は仮定しない。
+　だから、配列にいれるわけにいかない。
+
+・cid,lidを数字にして、symbol-plistの構造でなく、number->alistにする実装を確認した。play-rubbish.lisp
+
+
+・人間がlidやcidを直接指定する場合は、stringに変換してclistやllistから検索るのでよい。性能が必要ないから。
+　ということで、lid, cidはsymbolのままで続けよう。
+　自動の場合は問題ないような気がする。
+
+・そこでopposの処理を作ってみる。これはresoの一段上の制御になる。rubbish-baseでいいのかな。
+
+・Lid -> (sign . Psym) -- oppo --> (-sign . Psym) -> Lid*
+
+
+
+20200822土
+・oppoをもとめるため、-Pと+Pというシンボルを作り、その値またはplistとしてlidを持たせるというのはどうか
+・symbol +P,-Pの値としてlidのリストを持つようなことを考えた
+　make-symbolするたびに見た目はおなじだかeqで異なる判定されるシンボルができるらしい
+　シンボルはどう作ってもuniqueだと思っていたのだが・・・ packageが違うのだろうか
+
+
+・
+
+
 20200817月
 ・input ⇒ literal pairのunify ⇒ ngは無視し、σのみをとってグラフ再構成
 　⇒ σの合成についての新しい制御を導入すれば、Flowができそう。

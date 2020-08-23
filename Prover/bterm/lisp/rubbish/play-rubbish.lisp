@@ -67,7 +67,7 @@ r1
 (cadr (assoc 'P aa))
 (caddr (assoc 'P aa))
 
-
+;; 0.5th order prover
 (defparameter bb '(
  ((P a) (1 2)(3))
  ((P b) (4)(5 6))
@@ -80,4 +80,168 @@ r1
 (assoc '(P b) bb :test #'equal)
 ;((P B) (4) (5 6))
 
+
+;;;;; case make +P and -P, push lids the value of them
+
+(setf spq (format nil "~a~a" :+ 'Q))
+(setf snq (format nil "~a~a" :- 'Q))
+
+(setf pq (make-symbol spq))
+(setf nq (make-symbol snq))
+
+(set pq ())
+(set nq ())
+
+
+(defun slsym (lsym)
+ (make-symbol (format nil "~a~a" (car lsym)(cdr lsym)))
+)
+(set (slsym (lsymof (car (lidsof c8 1)))) ())
+
+;(defmacro pushlid (lid lsym)
+; `(set ,lsym (cons ,lid ,(eval ,lsym)))
+;)
+;(pushlid (car (lidsof c8 1)) (slsym (lsymof (car (lidsof c8 1)))))
+;(pushlid (car (lidsof c8 2)) (slsym (lsymof (car (lidsof c8 1)))))
+
+
+;; sybols equality
+;* (equal pq (slsym (lsymof (car (lidsof c8 1)))) )
+;NIL
+;* pq
+;#:+Q
+;* (slsym (lsymof (car (lidsof c8 1)))) 
+;#:+Q
+
+(equal (string pq) (string (slsym (lsymof (car (lidsof c8 1))))))
+
+; this is T. but not in symbol world...
+
+;; ref
+;(lidsof c8 2)
+;(#:L8-3.436)
+;* (litof (car (lidsof c8 2)))
+;(- P Z X)
+;* (litof (car (lidsof c8 0)))
+;(- R X Y)
+;* (litof (car (lidsof c8 1)))
+;(+ Q Y Z)
+;* (lsymof (car (lidsof c8 1)))
+;(+ . Q)
+
+(setf oppos '(P (()()) Q (()()) R(()())))
+(setf qpn (getf oppos 'Q))
+(push 'L10 (car qpn))
+(push 'L11 (car qpn))
+(car qpn)
+(push 'L12 (cadr qpn))
+qpn
+oppos
+;; these looks work...  
+
+
+;; こういうことをするのか?
+; assume lll is a list of all lids
+(setf *slidlist* (map 'list #'string lll)) ;; stringify
+
+(defun findid (id idlist sidlist)
+  (loop named findsid 
+    for sid in sidlist as ssm in idlist do
+     (when (equal id sid) (return-from findsid ssm))
+  )
+)
+
+(findid "L1-1.418" lll *slidlist*) ;; (#:L1-1.418)
+
+(eq (car lll) (findid "L1-1.418" lll *slidlist*)) ;; is T ok
+
+
+;; in this way, when make a resolvent, i should add it's id to *lidlist* with string of it to *slidlist*
+;; seems time consuming...
+
+
+;; this seems very time consuming... what i worked on efficiency on unification...
+
+; (find "A" '("B" "A") :test 'equal)
+;; this is not symbol but the string
+
+
+;;;; case number id 
+;sample clitst
+(defvar *clist* '(
+  (1 . (:vars (x y) :body (2 3)))
+  (2 . (:vars () :body (4)))
+  )
+)
+
+(defvar *llist* '(
+  (2 . (:lit (+ P x y) :cid 1))
+  (3 . (:lit (- Q x) :cid 1))
+  (4 . (:lit (+ Q a) :cid 2))
+  )
+)
+
+*clist*
+;((1 :VARS (X Y) :BODY (2 3)) (2 :VARS NIL :BODY (4)))
+*llist*
+;((2 :LIT (+ P X Y) :CID 1) (3 :LIT (- Q X) :CID 1) (4 :LIT (+ Q A) :CID 2))
+(assoc 2 *clist*)
+;(2 :VARS NIL :BODY (4))
+(assoc 1 *clist*)
+;(1 :VARS (X Y) :BODY (2 3))
+(getf (cdr (assoc 1 *clist*)) :vars)
+;(X Y)
+(getf (cdr (assoc 1 *clist*)) :body)
+;(2 3)
+(getf (cdr (assoc 2 *llist*)) :lit)
+;(+ P X Y)
+(getf (cdr (assoc 2 *llist*)) :cid)
+;1
+
+
+;; memo for number id
+;; then symbol-plist dontwork...
+(defvar *maxlid* 0)
+(defvar *maxcid* 0)
+
+(defun makelid ()
+  (incf *maxlid*)
+)
+
+(defun makecid ()
+  (incf *maxcid*)
+)
+
+
+(defun addlit (lit cid);prevlid
+  (let ((lid (makelid)))
+    (push (list  lid :lit lit :cid cid) *llist*)
+    lid)
+)
+
+(setf nlid (addlit '(- Q x y) 10))
+
+(defun addcls (cid vars body)
+  (push (list cid :vars vars :body body) *clist*)
+)
+
+(addcls nlid '(x y) ())
+
+(defun addbody (cid nlid)
+  (push cid (getf (getf *clist* cid) :body))
+)
+
+
+(addbody nlid (list nlid))
+
+;;; how can i add body 
+(getf (cdr (assoc 10 *clist*)) :body)
+;(5)
+;; add a lid to body of 10
+(push 6 (getf (cdr (assoc 10 *clist*)) :body))
+;(6 5)
+*clist*
+;((10 :VARS (X Y) :BODY (6 5)) (1 :VARS (X Y) :BODY (2 3))
+ (2 :VARS NIL :BODY (4)))
+ 
 
