@@ -15,3 +15,16 @@
 )
 
 
+(defun readastring (str)
+ (with-open-stream (s (make-string-input-stream str))
+  (read s)
+ )
+)
+
+(defun readskqc (str)
+ (let ((kqc (readastring str)))
+   (loop for k in kqc 
+     collect (make-clause k)
+   )
+ )
+)

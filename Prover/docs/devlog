@@ -16,6 +16,19 @@ QEDは☕️でしめす。
 
 
 --- log
+20200905土
+・cid, lidを数字にするのはやめて、もとにもどそう
+・まず、文字列を内部形式に変換する。fileから読み込む(kqcio)の一部に含める
+  まず、rubbish-kqcio.lispとito-rubbish-kqcio.lispを修正。readastring, readskqcを追加
+・rubbish-base.lisp、setcid, setlidの意図
+　base-noran.lispでやっていた OK
+・resolve-idの意図をつくろう
+
+
+20200830日
+・DVCの効果をうまく評価できない。どうしたらいいか。
+　分析必要
+
 
 20200823日
 ・L100とL200のresolveをするとき

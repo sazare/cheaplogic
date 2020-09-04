@@ -28,7 +28,7 @@
 
    (cond
      ((eq sig :NO) ':FAIL)
-     (t (list sig vs (subsubp vs (append (remof lid1) (remof lid2)) sig)))
+     (t (list vs sig (subsubp vs (append (remof lid1) (remof lid2)) sig)))
    )
   )
 )
