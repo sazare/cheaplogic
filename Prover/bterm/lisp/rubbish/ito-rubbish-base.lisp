@@ -32,7 +32,11 @@
   (intend-equal "oppo of neither + nor - is" nil (oppo 'a))
 )
 
+;;; ito for full spec relations may be here
 
+
+
+;;
 (defito ito-all-base ()
   "tests for base "
   (ito-oppo)

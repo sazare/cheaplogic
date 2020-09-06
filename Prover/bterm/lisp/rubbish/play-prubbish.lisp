@@ -78,3 +78,25 @@ r1
 ; (find "A" '("B" "A") :test 'equal)
 ;; this is not symbol but the string
 
+
+
+ (defvar ccc (readskqc "((1 (x) (+ P x))(2 () (- P a)))"))
+;CCC
+ccc
+;(#:C1.417 #:C2.419)
+(print-clauses ccc)
+;C1.417: 1 (X) ((+ P X))
+;C2.419: 2 () ((- P A))
+;NIL
+(dump-clauses ccc)
+;(BODY (L1-1.418) VARS (X) NAME 1)
+; L1-1.418 (LIT (+ P X) CID C1.417)
+;(BODY (L2-1.420) VARS NIL NAME 2)
+; L2-1.420 (LIT (- P A) CID C2.419)
+;NIL
+(setq l11 (lidsof (car ccc) 0))
+;(#:L1-1.418)
+(setq l21 (lidsof (cadr ccc) 0))
+;(#:L2-1.420)
+
+

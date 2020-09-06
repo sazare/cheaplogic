@@ -7,6 +7,21 @@
   )
 )
 
+(defun print-literal (lid)
+  (cond 
+    ((null (varsof (cidof lid))) (format t "~a ().~a " lid (litof lid)))
+    (t  (format t "~a ~a.~a " lid (varsof (cidof lid)) (litof lid)))
+  )
+)
+
+(defun print-literals (lids)
+  (loop for lid in lids
+    do
+    (print-literal lid)
+    (format t "~%")
+  )
+)
+
 (defun print-clause (cid)
   (cond 
     ((null (varsof cid))

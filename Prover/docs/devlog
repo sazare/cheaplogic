@@ -16,6 +16,42 @@ QEDは☕️でしめす。
 
 
 --- log
+20200906日
+・resolve-idの続き
+・PvQと-PvRがQvRにならないところまで。Qになってしまうエラー
+・resolvent のlitに代入したとき、新しいlidを作りたい
+・そのときresolventのcidが必要
+というあたりが未定
+
+・string => atomはないんだよなあ
+・jupyter common-lispをインストールしてみた
+　ito-rubbish.lispうごく
+  https://github.com/yitzchak/common-lisp-jupyter
+　に書いてあるようにした。
+  rosもいれていたが、rosでのインストールは失敗(ros install common-lisp-jupyterで名前がわからないと言われた)
+  quick-lispいれていたので、quick-lispのupdateをした。
+　sbclを起動し、(ql:add-to-init-file)はいらなかったかも。
+　ql:update-dist "quicklisp")
+　githubからrepositoryをcloneして、そこでやってみた。
+　20190521以前のものと書いてあるやつ。
+(ql:quickload :common-lisp-jupyter)
+(cl-jupyter:install)
+(quit)
+して
+jupyter console --kernel=common-lisp
+これをするとterminal上で、jupyterのconsoleになってしまい、やめた。
+^Dでないと終わらなかった。
+jupyter 自体は
+どこででも
+jupyter notebook
+でできるようだ
+newにcommon lispがはいっている
+
+
+
+
+
+
 20200905土
 ・cid, lidを数字にするのはやめて、もとにもどそう
 ・まず、文字列を内部形式に変換する。fileから読み込む(kqcio)の一部に含める
