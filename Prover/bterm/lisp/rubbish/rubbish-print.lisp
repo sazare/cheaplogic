@@ -25,10 +25,10 @@
 (defun print-clause (cid)
   (cond 
     ((null (varsof cid))
-     (format t "~a: ~a () ~a~%" cid (nameof cid)(litsof (bodyof cid)))
+     (format t "~a: ~a () ~a~%" cid (nameof cid)(lit*of (bodyof cid)))
     )
     (t 
-     (format t "~a: ~a ~a ~a~%" cid (nameof cid)(varsof cid)(litsof (bodyof cid)))
+     (format t "~a: ~a ~a ~a~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
     )
   )
 )
@@ -41,15 +41,9 @@
 )
 
 (defun clauseof (cid)
-  (list cid (nameof cid)(varsof cid)(litsof (bodyof cid)))
+  (list cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
 )
 
-(defun litsof (lids)
-  (loop for lid in lids collect
-    (litof lid)
-  )
-)
-   
 ;; dump show symbol-plist on lid, cid
 (defun dump-clauses (cids)
   (loop for cid in cids do

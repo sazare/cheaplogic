@@ -26,7 +26,7 @@
 ;; here: vs.sig is a mgu or sig==:NO
    (cond
      ((eq sig :NO) ':FAIL)
-     (t (list vs sig (subsubp vs (append (remof lid1) (remof lid2)) sig)))
+     (t (list vs sig (substp vs (append (remof lid1) (remof lid2)) sig)))
    )
   )
 )

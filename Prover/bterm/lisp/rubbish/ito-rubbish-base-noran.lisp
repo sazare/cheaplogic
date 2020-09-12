@@ -30,6 +30,7 @@
     (intend-eq "cid 2lit2" cid2 (cidof l2))
     (intend-equal "lit 2lit1" '(+ P x) (litof l1))
     (intend-equal "lit 2lit2" '(- Q x y) (litof l2))
+    (intend-equal "lits of lit*of" '((+ P x)(- Q x y)) (lit*of lids))
   )
 )
 

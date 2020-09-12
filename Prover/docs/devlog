@@ -7,6 +7,7 @@ QEDは☕️でしめす。
 
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
+20200913 itoのbaseとbase-noranは再定義を含むので、同じitoの中におきたくない。どうすればよいか
 20200823 lid,clidはもともとの数字またはatomのままでいいような気がする。
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
 20200823 resolve/lidの実装(litつき)
@@ -16,6 +17,70 @@ QEDは☕️でしめす。
 
 
 --- log
+20200913日
+・resolve-id のresolventに複数literalがある場合の意図で、subsubpをしていたのはまちがいだった。
+  substpが正しい。
+・さらに、テストはlidのリストをlitのリストとして比較したかったが、lit*ofがなかった。
+　cidに対するbodyofはあるが、生のliteralはなかったという話。
+  baseにlit*ofを追加し、resolve-idのテストを修正した。
+・lit*ofはテスト用の関数のような気もする。これを使ってprint-clauseを書き直す?
+　と思ってprintをみたらlitsofを作っていた。
+　やはりUI系の関数ということか。printからlitsofを消して、lit*ofにかえた。
+
+🎂issue itoに、baseとbase-noranを作ったが再定義のwarningがでて醜い。
+　どう解決すればよいか。
+
+・resolventのcidはまあRでいいか。
+
+20200912土
+・atomの作り方/作れる
+* (defvar vvv (intern "GOG"))
+VVV
+* (set vvv 123)
+123
+* vvv
+GOG
+たしか、今使っているパッケージにできるはず。
+
+・resolventを作る方法を考える。いきさつの細かいことは忘れている。
+new-resolvent(vars, sigma, ((Li . Liti),...))
+　Liは親のLid, Litiはsigma適用後のLit
+ 1) make ncid(*maxcid*をもとにmax+1にするか・・・
+　　そのためにはkqcioでinputのmake-clauseのときに*maxcid*をmaxにする。
+ 2) ncidのvars(nvars)を作る(vars, sigmaから?)
+　　・ncid.vars = nvars
+ 3) nameは*maxcid*
+    ・ncid.name = *maxcid*
+　　resolventのnameは全部"R"でもよいような気がする
+    親はlidのprevとproofのparentでわかるので数字である必要はない
+    でもnameがみんなRというのはどんなものか・・・proofを別にもつからそう思うのか
+　　全部Rということは、gensymが作るランダムな部分が区別要素になる・・・
+　　もしも自前で区別要素(distinguish part)が作れたらrandomは不要か
+
+ 4) bodyを作る
+　　4.1) LiからnLkを作る
+　　4.2) nLk.cid = ncid
+　　4.3) nLk.prev = Li
+　　4.4) nLk.lit = Liti
+
+となると
+　cid => parents (:reso C1 C2)みたいになるのか
+  (:rename C1)とか
+  proof情報をcidにつけて大丈夫か
+
+
+・rootofはCの次から.までをとってくる
+　C12.xxxx => 12
+　CR.yyyy => R
+まあこれでもよいか
+
+・resolve-idで最後にsubsubpしているが、literalのリストにたいするsubsubpにならない?****
+
+　
+
+20200907月
+・lidからnewlidの場合
+
 20200906日
 ・resolve-idの続き
 ・PvQと-PvRがQvRにならないところまで。Qになってしまうエラー

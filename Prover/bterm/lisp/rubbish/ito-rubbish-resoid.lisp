@@ -46,7 +46,10 @@
   (defparameter l101 (car (lidsof (car cc5) 0)))
   (defparameter l111 (car (lidsof (cadr cc5) 0)))
 
-  (intend-equal "resolve simple clauses" '((x) (a) ((+ R a)(- Q a))) (resolve-id l101 l111 ))
+  (defparameter rr5 (resolve-id l101 l111))
+  (intend-equal "resolve simple clauses var" '(x) (car rr5))
+  (intend-equal "resolve simple clauses sig" '(a) (cadr rr5))
+  (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (lit*of (caddr rr5)))
 )
 
 (defito ito-resolve-id-all ()

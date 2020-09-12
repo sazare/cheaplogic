@@ -17,6 +17,10 @@
 )
 
 ;; LID ops
+(defvar *maxlid* 0)
+(defvar *maxcid* 0)
+
+
 (defun make-lid (cid n)
   (let (lid)
     (setq lid (format nil "L~a-~a." (rootof cid) n))
@@ -30,6 +34,12 @@
     (setlid (make-lid cid lno) cid lit)
   )
 )
+
+;;;new 
+(defun new-lid (cid)
+  (make-lid cid (incf *maxlid*))
+)
+;;;;
 
 ; C10.xxx => 10
 ; L10-i.yyy i is lno
@@ -47,6 +57,12 @@
   (get lid :lit)
 )
 
+(defun lit*of (lid*)
+  (loop for lid in lid* collect 
+   (litof lid)
+  )
+)
+
 
 ;; CID ops
 
@@ -55,6 +71,20 @@
   (rub-gensym cid)
   )
 )
+;;;;
+(defun add-cid (n)
+   (setf *maxcid* (max *maxcid* n))
+)
+
+(defun new-cid ()
+  (make-cid (incf *maxcid*))
+)
+
+(defun clearall ()
+  (setf *clist* nil)
+  (setf *llist* nil)
+)
+;;;;
 
 ;* (subseq "C10.xxx" 1 3)
 ;"10"
@@ -148,5 +178,6 @@
 (defun push-gr0 (lid gr0)
   (push lid gr0)
 )
+
 
 
