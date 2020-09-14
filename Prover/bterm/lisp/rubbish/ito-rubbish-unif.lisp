@@ -138,17 +138,24 @@
   (intend-equal "5 subsubp1" '((f c) b) (subsubp1 '(x y) '(x b) 'x '(f c)))
   (intend-equal "6 subsubp1" '(b (f b)) (subsubp1 '(x y) '(x (f x)) 'x 'b))
 
+  (intend-equal "7 subsubp1" '(b (f b)(h y)) (subsubp1 '(x y) '(x (f x)(h y)) 'x 'b))
+
 
 )
 
 (defito ito-subsubp ()
-  "subsubp s*((x y) . (s t)) as (x y).(s*(s t)) "
+  "subsubp s*((x y) . (s t)) as (x y).(s*(s t)), subsubp == subsubp*"
 
   (intend-equal "1 subsubp" '(a b) (subsubp '(x y) '(x b) '(a y)))
   (intend-equal "2 subsubp" '(a b) (subsubp '(x y) '(x b) '(a y)))
   (intend-equal "3 subsubp" '((f a)(g b)) (subsubp '(x y) '((f x)(g y)) '(a b)))
 
-  (intend-equal "4 subsubp dubious" '((f x)(g x)) (subsubp '(x y) '((f x)(g y)) '(y x)))
+  (intend-equal "4 subsubp con to var" '((f (g b))(g b)) (subsubp '(x y) '((f x)(g y)) '((g b) b)))
+
+  (intend-equal "5 subsubp dubious" '((f x)(g x)) (subsubp '(x y) '((f x)(g y)) '(y x)))
+
+  (intend-equal "6 subsubp on 2 lit*" '((+ P a)(- Q a b)) (subsubp '(x y) '((+ P x)(- Q x y)) '(a b)))
+  (intend-equal "7 subsubp on 3 lit*" '((+ P a)(- Q a b)(+ R z b)) (subsubp '(x y) '((+ P x)(- Q x y)(+ R z y)) '(a b)))
 )
 
 

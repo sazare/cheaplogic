@@ -25,9 +25,22 @@
          (sig (funification vs a1 a2)))
 ;; here: vs.sig is a mgu or sig==:NO
    (cond
+;;; litとlidの対応をつける
      ((eq sig :NO) ':FAIL)
-     (t (list vs sig (substp vs (append (remof lid1) (remof lid2)) sig)))
+     (t (entry-clause lid1 lid2 vs sig (append (remof lid1) (remof lid2))
+                (subsubp vs (append (lit*of (remof lid1)) (lit*of (remof lid2))) sig)))
    )
+  )
+)
+
+
+(defun entry-clause (lid1 lid2 vs sig remid remlit*)
+  (let ((ncid (new-cid)))
+  (list ncid (shrinkvs vs sig) 
+;;; remidは古いまま???
+
+    (loop for lid in remid for lit in (substp vs remlit* sig) 
+      collect (setcid lid "R" vs (shrinkvs vs sig) remid))
   )
 )
 

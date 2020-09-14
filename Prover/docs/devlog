@@ -17,6 +17,12 @@ QEDは☕️でしめす。
 
 
 --- log
+20200915火
+・inputのとき番号が増えない
+  make-clause->make-cidで*maxcid*を設定した
+　入力nameが*maxcid*と同じときメッセージを出す・・・完璧にはほどとおい
+・load-rubbish.lispにload-rubbish-resoid.lispがあってエラーになっていたのでコメントアウト
+
 20200913日
 ・resolve-id のresolventに複数literalがある場合の意図で、subsubpをしていたのはまちがいだった。
   substpが正しい。
@@ -26,11 +32,20 @@ QEDは☕️でしめす。
 ・lit*ofはテスト用の関数のような気もする。これを使ってprint-clauseを書き直す?
 　と思ってprintをみたらlitsofを作っていた。
 　やはりUI系の関数ということか。printからlitsofを消して、lit*ofにかえた。
+・subsubpのbugfix
+  めちゃくちゃだった
+・resoidの意図にもどったが、resolventをつくるためのpropの設定ができていない
 
 🎂issue itoに、baseとbase-noranを作ったが再定義のwarningがでて醜い。
 　どう解決すればよいか。
 
 ・resolventのcidはまあRでいいか。
+・*clist*, *llist*, *maxcid*の管理部分を作る
+  どういうタイミングで増えるのか?
+  new-cidは*maxcid*をふやしていく。inputのときがうまくいっていないような・・・
+
+・あれ? load-rubbish.lispでエラー。ito-rubbish.lispはOK
+
 
 20200912土
 ・atomの作り方/作れる

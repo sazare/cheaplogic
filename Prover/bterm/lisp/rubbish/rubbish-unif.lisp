@@ -160,25 +160,24 @@
 ; subsubp1 p-not replace v1 with s2 on s1
 
 (defun subsubp1 (vs s1 v1 s2)
-  (loop for v in vs for e1 in s1 collect
-    (if (eq v v1)
-      (if (eq v e1)  ;; empty substitution
-          s2
-          (subst1 e1 v1 s2)
-      )
-      (subst1 e1 v1 s2)
+  (loop for e1 in s1 collect
+    (cond
+      ((eq v1 e1) s2)  ;; empty substitution
+      (t (subst1 e1 v1 s2))
     )
   )
 )
 
 (defun subsubp (vs s1 s2)
   (let ((rs s1))
-    (loop for v2 in vs for e2 in s2 do 
-      (setf rs (subsubp1 vs rs v2 e2))
+    (loop for v2 in vs 
+          for e2 in s2 do 
+          (setf rs (subsubp1 vs rs v2 e2))
     )
     rs
   )
 )
+
 
 ;;;; conversion s-not with p-not
 ;;;; snot to pnot; ss is snot
