@@ -17,6 +17,17 @@
 )
 
 
+
+(defun entry-clause (lid1 lid2 vs sig remid remlit*)
+  (let ((ncid (new-cid)) body)
+   (setf body (loop for lid in remid for lit in (substp vs remlit* sig) 
+                collect (setlid (make-lid ncid "R") ncid lit )))
+   (setcid ncid "R" (shrinkvs vs sig) body)
+   
+   ncid
+  )
+)
+
 ;; resolve cid/lid version
 (defun resolve-id (lid1 lid2)
   (let* ((vs (append (varsof (cidof lid1)) (varsof (cidof lid2))))
@@ -33,14 +44,4 @@
   )
 )
 
-
-(defun entry-clause (lid1 lid2 vs sig remid remlit*)
-  (let ((ncid (new-cid)))
-  (list ncid (shrinkvs vs sig) 
-;;; remidは古いまま???
-
-    (loop for lid in remid for lit in (substp vs remlit* sig) 
-      collect (setcid lid "R" vs (shrinkvs vs sig) remid))
-  )
-)
 
