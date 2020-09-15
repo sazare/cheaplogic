@@ -52,7 +52,7 @@
 )
 
 (defun dump-clause (cid)
-  (format t "~a~%" (symbol-plist cid))
+  (format t "~a=~a~%" cid (symbol-plist cid))
   (dump-lits (bodyof cid))
 )
 
