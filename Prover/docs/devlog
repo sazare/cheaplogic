@@ -17,6 +17,11 @@ QEDは☕️でしめす。
 
 
 --- log
+20200918土
+・srcをjuliaに、lispをjuliaのとなりに移動する
+・aliasの修正
+・動作確認
+
 20200915火
 ・inputのとき番号が増えない
   make-clause->make-cidで*maxcid*を設定した
