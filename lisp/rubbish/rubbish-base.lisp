@@ -135,6 +135,16 @@
 )
 
 
+(defun rawlits (lids)
+ (loop for lid in lids collect
+  (litof lid)
+ )
+)
+
+(defun rawclause (cid)
+ (list (nameof cid) (varsof cid) (subsof cid) (rawlits (bodyof cid)))
+)
+
 ;;; primitive ops of basic data
 ;;; all lids of cids
 (defun alllids (cids)

@@ -25,7 +25,12 @@
 
   (intend-equal "resolve-id fail psym mismatch" :FAIL (resolve-id l11 l31))
   (intend-equal "resolve-id fail diff psym diff sing fail" :FAIL (resolve-id l11 l41))
-  (intend-equal "resolve-id fail same psym same sign caller should distinguish signs" '((X) (A) NIL) (resolve-id l11 l51))
+
+  (defparameter r15 (resolve-id l11 l51))
+  (intend-equal "resolve-id fail same psym same sign caller should distinguish signs" 
+    '("R" () () NIL) 
+    (rawclause (car r15)))
+  (intend-equal "sig is x<-a" '((x) (a)) (cdr r15))
 
 ;; success
 ;; (()()) is (sigma [])
@@ -37,19 +42,20 @@
   (defparameter l81 (car (lidsof (car cc4) 0)))
   (defparameter l91 (car (lidsof (cadr cc4) 0)))
 
-
-  (intend-equal "resolved to [](vars sigs resolvent)" '(() () ()) (resolve-id l21 l51))
-  (intend-equal "resolved to []" '((x) (a) ()) (resolve-id l61 l71)) 
-  (intend-equal "resolved to []" '((x y) (y y) ()) (resolve-id l81 l91))
+  (intend-equal "resolved to [](vars sigs resolvent)" '("R" () () ()) (rawclause (car (resolve-id l21 l51))))
+  (intend-equal "resolved to []" '("R" () () ()) (rawclause (car (resolve-id l61 l71)) ))
+  (intend-equal "resolved to []" '("R" (y) () ()) (rawclause (car (resolve-id l81 l91))))
 
   (defparameter cc5 (readskqc "((10 (x) (+ P x)(+ R a))(11 () (- P a)(- Q a)))"))
   (defparameter l101 (car (lidsof (car cc5) 0)))
   (defparameter l111 (car (lidsof (cadr cc5) 0)))
 
   (defparameter rr5 (resolve-id l101 l111))
-  (intend-equal "resolve simple clauses var" '(x) (car rr5))
-  (intend-equal "resolve simple clauses sig" '(a) (cadr rr5))
-  (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (caddr rr5))
+  
+  (intend-equal "resolve simple clauses var" '() (varsof (car rr5)))
+  (intend-equal "sig of l101, l111" '((x)(a)) (cdr rr5))
+  (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof (car rr5))))
+  (intend-equal "resolve simple clauses full" '("R" () () ((+ R a)(- Q a))) (rawclause (car rr5)))
 )
 
 (defito ito-resolve-id-all ()

@@ -24,7 +24,7 @@
                 collect (setlid (make-lid ncid "R") ncid lit )))
    (setcid ncid "R" (shrinkvs vs sig) body)
    
-   ncid
+   (list ncid vs sig)
   )
 )
 
