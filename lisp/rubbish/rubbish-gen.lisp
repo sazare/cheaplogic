@@ -2,7 +2,7 @@
 
 
 (defun rub-gensym (id)
-  (gensym id)
+  (intern (string (gensym id)))
 )
 
 

@@ -17,6 +17,47 @@ QEDは☕️でしめす。
 
 
 --- log
+20200922火
+・atom版をつくってみる(20200921atomid)
+　局所的にながめながら修正すると何が正解かわからないのでだめ
+  genで、(gensym ...)　のあたりを(intern (string (gensym ..))) みたいにした
+・atomのvalueとpropertyは別になっているつまり
+　(setf B '(:name 1 :body '((+ P x))))
+　と
+  (setf (get 'B :name) 1)
+  (setf (get 'B :body) '((+ P x)))
+　は違う。後者はBの値がなくてもよい。
+　alistのように、valueからひいてくるのではないらしい。つまり
+　(setf B '(:name 1 :body '(a)))
+　とやって:nameの値を引くことができないような・・・
+　さて、どうするか
+
+・(make-clause)すると、cid, lidのpropertyにははいっていた。
+  valueがないのでそこに生をいれておけばいいのかな・・・
+・意図はエラーにならない。symbolのかわりにatomが使われているだけなので・・・
+　タイプしたアトムが使えるので、こっちのほうが楽
+
+・(symbol-plist 'cid)でproperty-listがとれる・・・もしかして何か間違っているということはないだろうか
+
+・なさそう。print-cluaseとかdump-clausesとかも動くのでよいのではないか
+
+
+・(inspect 'cid)が面白い。
+
+　
+
+　
+20200921月
+・証明情報をどう持つか・・・resolve-idの外側で作るのかな
+・cidの重複が何度もでているということは、resolve-idで作ったcidについて*maxcid*などがメンテナンスされていないらしい。
+・internでatomのpropertyに設定するのができるかどうかすこし考え中
+　それをしようとすると、baseあたりを全部書き換えたくなる
+　つまりlidやcidをatomにするので・・・
+・今は、cidやlidを容れておくatomを作っている。これはテストのためであり、実際に使う時はこのatomはいらない・・・のだろうか。
+　そうとも思えないからつらい。
+
+
+
 20200920日
 ・意図がとおっていないのは、resolve-idで作る形を変えたから。
 　どうテストすればよいのかがはっきりしていない。
