@@ -3,7 +3,7 @@
 ;; this may cause same symbol conflicts
 
 (defun rub-gensym (id)
-  (make-symbol id)
+  (intern (string id))
 )
 
 
