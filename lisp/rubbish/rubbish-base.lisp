@@ -43,7 +43,8 @@
 ; L10-i.yyy i is lno
 (defun setlid (lid cid lit)
   (setf (get lid :cid) cid)
-  (setf (get lid :lit) lit)
+  (set lid lit)
+  ;(setf (get lid :lit) lit)
   lid
 )
 
@@ -52,7 +53,7 @@
 )
 
 (defun litof (lid)
-  (get lid :lit)
+  (eval lid)
 )
 
 (defun lit*of (lid*)
@@ -107,7 +108,7 @@
 ; body is lid*
   (setf (get cid :name) name)
   (setf (get cid :vars) vars)
-  (setf (get cid :body) body)
+  (set cid body)
   cid
 )
 
@@ -123,7 +124,7 @@
 )
 
 (defun bodyof (cid)
-  (get cid :body)
+  (eval cid)
 )
 
 (defun subsof (cid)

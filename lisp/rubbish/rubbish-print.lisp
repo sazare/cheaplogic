@@ -58,7 +58,7 @@
 
 (defun dump-lits (lids)
   (loop for lid in lids do
-    (format t " ~a ~a~%" lid (symbol-plist lid))
+    (format t " ~a ~a~%" lid (litof lid))
   )
 )
 
