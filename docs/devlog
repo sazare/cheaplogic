@@ -17,6 +17,123 @@ QEDは☕️でしめす。
 
 
 --- log
+20201003土
+・すること
+　- proof
+　　cid -> parents, mgu
+    mguはparentsから作れる場合もあれば作れない場合もある
+　　ということはcidのpropertyにもつことになりそう
+　　proof情報は独立。mixtureみたいな構成
+　　ということでよいのでは
+　　意図をどう書くか
+
+　- cidにproof=(:reso mgu (plit1 plit2))を設定するようにした。entry-proof
+    mgu=(vars sigma) このvarsは親のvarsのappend
+
+　- resolventのvarsがちゃんと設定されていないかも
+　　　わからなくなったのでひきつづき
+
+　　　元(x y)
+　　　mgu (y y)
+　　　resolventのvarsは(y)
+　　　mguは(x y)<-(y y)
+　　　resolventのvars　は(y)になる。xは消えているので(shrinkvs)
+　　　proofのmguには(x y)<-(y y)が必要みたいにみえる。
+　　　というか(x)<-(y)は必須
+
+　　　ということはproofにおけるmguは親の世界のmguであり、varsは作業中の
+　　　(append (varsof lid1)(varsof lid2))みたいなものでないといけない
+
+　　resolventのvarsはshrink
+　　mguは親のvarsとmgu
+
+ 　　解決
+
+
+
+
+　　　
+
+　- strategy
+　　once resolutionはproverとしてどういう能力があるのか
+
+　- unificationの証明
+　　test/instanceだけではいつまでもバグがのこるので、性質の証明でおわりにしたい
+　
+
+20200927日
+・proofの続き
+・(symbol-plist 'aaa) でも表示できる。symbolでなくatomでもよい
+
+・proof情報をcid,lidに混在させるかどうか
+　1) clause/resolventはproofと渾然一体なのだから混ぜて当然 => yes
+　2) resolution とproofを分けて考えたほうがsimpleではないか => no
+　　　proofはresolutionのメタな情報
+
+・lidにplidを追加し、resolve-idでその値が正しく設定されていることを確認した
+　　が、この設定が最善ではないような気がする
+・消えたlidはmguでつながるので、proofというか*mgu*もほしいかも。
+　mgu1 = <L1:L2>の関係。varsはvarsof(cidof(Li))できまる
+  mgu1 = (vars . terms)
+ どっちだ
+
+  A案)
+　mid = (:vars (x y) :subs ((f a) a))
+
+  cidとmidはどう関係??
+
+  B案)
+  mid = (:cid cid :subs ((f a) a))
+
+  
+  ? mid -> L1 L2
+
+　proofとの関係は?
+　　
+  step = cid, (lid1 lid2) 
+  sig1 = <lid1:lid2>
+
+  midがないと、再現できるかどうか
+　midがあると Lid1, Lid2が不要か???
+
+
+A案のmguはいるのかなあ。
+midの値がtermのリストで、midのplistに(:cid cid)を持つ
+すると、cid -> varsofで(vars .
+
+20200926土
+・今日はproofを考えよう
+・sigmaはresolve-idの前半で得られている
+・proofの構造は?
+・案1)
+  proof=step*
+  step=parent*
+  parent=lid, rule
+
+  親clauseは(cidof lid)でわかる
+  親が1つの場合(renameとかmerge)や2つの場合(resolve)も同じ型のstepが使える
+　どうだろうか
+・lid, cidの構造
+　cid 
+   :body->lid*
+   :vars->atom*
+   :step->(rule . lid*); rule=:reso/(lid1 lid2), :rename/(), :merge/(lid1 lid2)in same clause
+   :name -> any
+   :sigma -> :reso=><lid1:lid2>, :merge=<lid1:lid2>, :rename=>generated
+     :renameのときは、sigmaの左がおやのvarsの一部で、右は新しい変数リスト
+
+しかし、sigmaはproofの構成物ではないだろうか
+
+  lid
+   :cid -> cid
+   :lit -> literal::S-exp
+   :prev-> lid {input=>lid=nil,reso=>(lid1 lid2)
+   : 
+
+#で1以上の繰り返しを表すことにしよう。*は0回以上の繰り返し
+
+
+
 20200923水
 ・cidの値にはbody、lidの値にはlitを設定した
 ・(cidof 'xxx)のように'が必要なのが気になったのでmacroでつけなくていいようにしてみたが

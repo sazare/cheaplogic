@@ -3,7 +3,9 @@
 (myload "ito.lisp")
 (load "load-rubbish.lisp")
 (load "rubbish-resoid.lisp")
+(load "rubbish-proof.lisp")
 
+(clearbase)
 (defparameter ccc (readskqc "((1 (x) (+ P x))(2 () (- P a)))"))
 ;(print-clauses ccc)
 ;(dump-clauses ccc)
@@ -17,6 +19,7 @@
 (defito ito-resolve-id ()
   "resolve-id resolve on LID/CID naming"
 
+(clearbase)
 ;; fail
   (defparameter cc2 (readskqc "((3 (x) (+ Q x))(4 () (- Q a))(5 () (+ P a)))"))
   (defparameter l31 (car (lidsof (car cc2) 0)))
@@ -34,6 +37,7 @@
 
 ;; success
 ;; (()()) is (sigma [])
+(clearbase)
   (defparameter cc3 (readskqc "((6 (x) (+ P x))(7 () (- P a)))"))
   (defparameter l61 (car (lidsof (car cc3) 0)))
   (defparameter l71 (car (lidsof (cadr cc3) 0)))
@@ -46,6 +50,7 @@
   (intend-equal "resolved to []" '("R" () () ()) (rawclause (car (resolve-id l61 l71)) ))
   (intend-equal "resolved to []" '("R" (y) () ()) (rawclause (car (resolve-id l81 l91))))
 
+(clearbase)
   (defparameter cc5 (readskqc "((10 (x) (+ P x)(+ R a))(11 () (- P a)(- Q a)))"))
   (defparameter l101 (car (lidsof (car cc5) 0)))
   (defparameter l111 (car (lidsof (cadr cc5) 0)))

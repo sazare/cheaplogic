@@ -33,7 +33,7 @@
 (defun make-lids(cid lits)
   (loop for lit in lits 
         as  lno from 1 to (length lits) collect
-    (setlid (make-lid cid lno) cid lit)
+    (setlid (make-lid cid lno) cid nil lit)
   )
 )
 
@@ -41,10 +41,10 @@
 
 ; C10.xxx => 10
 ; L10-i.yyy i is lno
-(defun setlid (lid cid lit)
+(defun setlid (lid cid plid lit)
   (setf (get lid :cid) cid)
   (set lid lit)
-  ;(setf (get lid :lit) lit)
+  (setf (get lid :plid) plid)
   lid
 )
 
@@ -62,6 +62,21 @@
   )
 )
 
+(defun plidof (lid)
+  (get lid :plid)
+)
+
+
+(defun traceplid (lid)
+  (progn
+    (format t "~a > " lid)
+    (cond 
+      ((null (plidof lid)) (format t "input~%"))
+      (t (traceplid (plidof lid)))
+    )
+  )
+)
+
 
 ;; CID ops
 
@@ -74,7 +89,7 @@
 )
 ;;;;
 (defun add-cid (n)
-   (cond ((eq n *maxcid*) (format t "name double ~a~%" n)))
+   (cond ((< n *maxcid*) (format t "name double ~a~%" n)))
    (setf *maxcid* (max *maxcid* n))
 )
 
@@ -82,7 +97,7 @@
   (make-cid (incf *maxcid*))
 )
 
-(defun clearall ()
+(defun clearbase ()
   (setf *maxcid* 0)
   (setf *clist* nil)
   (setf *llist* nil)
@@ -183,13 +198,6 @@
   (cond
     ((eq sign '-) '+)
     ((eq sign '+) '-))
-)
-
-
-
-;;; Graph level0
-(defun push-gr0 (lid gr0)
-  (push lid gr0)
 )
 
 
