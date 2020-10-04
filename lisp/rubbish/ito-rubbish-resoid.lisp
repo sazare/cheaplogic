@@ -61,6 +61,10 @@
   (intend-equal "sig of l101, l111" '((x)(a)) (cdr rr5))
   (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof (car rr5))))
   (intend-equal "resolve simple clauses full" '("R" () () ((+ R a)(- Q a))) (rawclause (car rr5)))
+
+(clearbase)
+  (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
+
 )
 
 (defito ito-resolve-id-all ()

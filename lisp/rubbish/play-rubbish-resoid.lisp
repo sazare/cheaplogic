@@ -65,3 +65,58 @@ r1222
 
 
 
+;;;; pr,-r/p,-p/[]
+
+
+;* (clearbase)
+;NIL
+;* (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
+;CC50
+;* cc50
+;(C50.471 C51.474 C52.476)
+;* (dump-clauses cc50)
+;C50.471=(VARS (X Z) NAME 50)
+; L50-1.472 (+ P X)
+; L50-2.473 (+ R A Z)
+;C51.474=(VARS NIL NAME 51)
+; L51-1.475 (- P A)
+;C52.476=(VARS (W) NAME 52)
+; L52-1.477 (- R W B)
+;NIL
+;* (defparameter r501 (resolve-id 'L51-1.475 'L50-1.472))
+;R501
+;* r501
+;(C53.478 (X Z) (A Z))
+;
+;* (dump-clause 'C53.478 )
+;C53.478=(PROOF (RESO (X Z) (A Z) (L51-1.475 L50-1.472)) VARS (X Z) NAME R)
+; L53-R.479 (+ R A Z)
+;NIL
+;* (defparameter r513 (resolve-id 'L53-R.479 'L52-1.477))
+;* r513
+;(C54.480 (X Z W) (X B A))
+;* *clist*
+;(C54.480 C53.478 C52.476 C51.474 C50.471)
+;* (dump-clauses *clist*)
+;C54.480=(PROOF (RESO (X Z W) (X B A) (L53-R.479 L52-1.477)) VARS (X Z W) NAME R)
+;C53.478=(PROOF (RESO (X Z) (A Z) (L51-1.475 L50-1.472)) VARS (X Z) NAME R)
+; L53-R.479 (+ R A Z)
+;C52.476=(VARS (W) NAME 52)
+; L52-1.477 (- R W B)
+;C51.474=(VARS NIL NAME 51)
+; L51-1.475 (- P A)
+;C50.471=(VARS (X Z) NAME 50)
+; L50-1.472 (+ P X)
+; L50-2.473 (+ R A Z)
+;NIL
+;* (print-proof 'C54.480)
+;C54.480 RESO (X Z W) <- (X B A) : <L53-R.479:L52-1.477> 
+;L53-R.479 (X Z).(+ R A Z) C53.478 RESO (X Z) <- (A Z) : <L51-1.475:L50-1.472> 
+;L51-1.475 ().(- P A)  input C51.474
+;L50-1.472 (X Z).(+ P X)  in  input C50.471
+;L52-1.477 (W).(- R W B)  in  input C52.476
+;NIL
+;* (print-clause 'C54.480)
+;C54.480: R (X Z W) NIL
+;
+;
