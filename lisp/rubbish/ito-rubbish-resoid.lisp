@@ -49,6 +49,7 @@
   (intend-equal "resolved to [](vars sigs resolvent)" '("R" () () ()) (rawclause (car (resolve-id l21 l51))))
   (intend-equal "resolved to []" '("R" () () ()) (rawclause (car (resolve-id l61 l71)) ))
   (intend-equal "resolved to []" '("R" (y) () ()) (rawclause (car (resolve-id l81 l91))))
+  (intend-equal "resolved to []" '("R" (x) () ()) (rawclause (car (resolve-id l91 l81))))
 
 (clearbase)
   (defparameter cc5 (readskqc "((10 (x) (+ P x)(+ R a))(11 () (- P a)(- Q a)))"))
@@ -57,13 +58,13 @@
 
   (defparameter rr5 (resolve-id l101 l111))
   
-  (intend-equal "resolve simple clauses var" '() (varsof (car rr5)))
+  (intend-equal "resolvent's var is" '() (varsof (car rr5)))
   (intend-equal "sig of l101, l111" '((x)(a)) (cdr rr5))
   (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof (car rr5))))
   (intend-equal "resolve simple clauses full" '("R" () () ((+ R a)(- Q a))) (rawclause (car rr5)))
 
-(clearbase)
-  (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
+;(clearbase)
+;  (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
 
 )
 

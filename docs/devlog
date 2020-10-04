@@ -18,6 +18,15 @@ QEDは☕️でしめす。
 
 --- log
 20201004日
+・確認
+　　PvR -R / P -P / []
+   2段の証明ができた
+・resolventのvarsがちがっていた。vsでなく shrinkvsにした。
+・(print-clause (cidof l12))みたいにすると簡単
+・resolventのcidが*clist*に追加されていない。*llist*も
+　あれ? はいる。itoの中でclearbaseしているからか。問題なし
+　最後に追加したitoでclearbaseしていたからずれた
+
 ・ベンチマークのフレームワーク
 ・性能評価ツール
 ・
