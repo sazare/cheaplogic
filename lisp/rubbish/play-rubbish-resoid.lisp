@@ -66,8 +66,23 @@ r1222
 
 
 ;;;; pr,-r/p,-p/[]
+;; script start
 
+(clearbase)
+(defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
+cc50
+;(C50.471 C51.474 C52.476)
+(dump-clauses cc50)
+(defparameter r501 (resolve-id (cadr (bodyof (car cc50))) (car (bodyof (caddr cc50)))))
+(defparameter r502 (resolve-id (car (bodyof (car r501))) (car (bodyof (cadr cc50)))))
 
+(dump-clauses *clist*)
+(print-proof (car r502))
+(print-clause (car r502))
+
+;;;; endof script
+
+;; as results
 ;* (clearbase)
 ;NIL
 ;* (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
