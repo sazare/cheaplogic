@@ -23,9 +23,8 @@
    (setf body (loop for lid in remid for lit in (substp vs remlit* sig) 
                 collect (setlid (make-lid ncid "R") ncid lid lit )))
    (setcid ncid "R" (shrinkvs vs sig) body)
-   ;(setcid ncid "R" vs body)
    (entry-proof ncid :reso vs sig (list lid1 lid2))
-   (list ncid vs sig)
+   ncid
   )
 )
 

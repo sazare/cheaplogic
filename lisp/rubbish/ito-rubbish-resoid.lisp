@@ -1,4 +1,4 @@
-;ito for rubbish-resoid.lisp
+;ito for rubbish-resoid.lisp  (intend-equal "rule is " :reso (ruleof r15))
 
 (myload "ito.lisp")
 (load "load-rubbish.lisp")
@@ -31,9 +31,9 @@
 
   (defparameter r15 (resolve-id l11 l51))
   (intend-equal "resolve-id fail same psym same sign caller should distinguish signs" 
-    '("R" () () NIL) 
-    (rawclause (car r15)))
-  (intend-equal "sig is x<-a" '((x) (a)) (cdr r15))
+    '("R" () () NIL) (rawclause r15))
+  (intend-equal "rule is " :reso (ruleof r15))
+  (intend-equal "sig is x<-a" '((x)(a)) (sigof r15))
 
 ;; success
 ;; (()()) is (sigma [])
@@ -46,22 +46,24 @@
   (defparameter l81 (car (lidsof (car cc4) 0)))
   (defparameter l91 (car (lidsof (cadr cc4) 0)))
 
-  (intend-equal "resolved to [](vars sigs resolvent)" '("R" () () ()) (rawclause (car (resolve-id l21 l51))))
-  (intend-equal "resolved to []" '("R" () () ()) (rawclause (car (resolve-id l61 l71)) ))
-  (intend-equal "resolved to []" '("R" (y) () ()) (rawclause (car (resolve-id l81 l91))))
-  (intend-equal "resolved to []" '("R" (x) () ()) (rawclause (car (resolve-id l91 l81))))
+  (intend-equal "resolved to [](vars sigs resolvent)" '("R" () () ()) (rawclause (resolve-id l21 l51)))
+  (intend-equal "resolved to []" '("R" () () ()) (rawclause (resolve-id l61 l71)) )
+  (intend-equal "resolved to []" '("R" (y) () ()) (rawclause (resolve-id l81 l91)))
+  (intend-equal "resolved to []" '("R" (x) () ()) (rawclause (resolve-id l91 l81)))
 
 (clearbase)
+
   (defparameter cc5 (readskqc "((10 (x) (+ P x)(+ R a))(11 () (- P a)(- Q a)))"))
   (defparameter l101 (car (lidsof (car cc5) 0)))
   (defparameter l111 (car (lidsof (cadr cc5) 0)))
 
   (defparameter rr5 (resolve-id l101 l111))
   
-  (intend-equal "resolvent's var is" '() (varsof (car rr5)))
-  (intend-equal "sig of l101, l111" '((x)(a)) (cdr rr5))
-  (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof (car rr5))))
-  (intend-equal "resolve simple clauses full" '("R" () () ((+ R a)(- Q a))) (rawclause (car rr5)))
+  (intend-equal "resolvent's var is" '() (varsof rr5))
+  (intend-equal "resolvent's name is" "R" (nameof rr5))
+  (intend-equal "sig of l101, l111" '((x)(a)) (sigof rr5))
+  (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof rr5)))
+  (intend-equal "resolve simple clauses full" '("R" () () ((+ R a)(- Q a))) (rawclause rr5))
 
 ;(clearbase)
 ;  (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))

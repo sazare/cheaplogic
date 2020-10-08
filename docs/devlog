@@ -17,6 +17,10 @@ QEDは☕️でしめす。
 
 
 --- log
+20201008木
+・resolve-idのresolveとproofの分かれ目をきれいにした
+・cid->proofのあたりを関数にしたが、きれいに分けられるか??
+
 20201005月
 ・(inspect)でいろいろ見てみた
 ・play-rubbish-resoid.lispに、pr,-r/p,-p/[] のスクリプトを書いてみた
