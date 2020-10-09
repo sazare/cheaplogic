@@ -33,7 +33,7 @@
 (defun make-lids(cid lits)
   (loop for lit in lits 
         as  lno from 1 to (length lits) collect
-    (setlid (make-lid cid lno) cid nil lit)
+        (setlid (make-lid cid lno) cid nil lit)
   )
 )
 
@@ -45,6 +45,10 @@
   (setf (get lid :cid) cid)
   (set lid lit)
   (setf (get lid :plid) plid)
+  (if (get plid :olid)
+    (setf (get lid :olid) (get plid :olid) )
+    (setf (get lid :olid) lid)
+  )
   lid
 )
 
@@ -64,6 +68,10 @@
 
 (defun plidof (lid)
   (get lid :plid)
+)
+
+(defun olidof (lid)
+  (get lid :olid)
 )
 
 

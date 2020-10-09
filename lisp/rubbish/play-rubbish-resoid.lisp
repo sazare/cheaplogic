@@ -1,9 +1,9 @@
 ;; play from 0 to resoid
 
 (load "load-rubbish.lisp")
-(load "rubbish-resoid.lisp")
+;(load "rubbish-resoid.lisp")
 
-(clearbase)
+;(clearbase)
 ;(clearproof)
 
 (defparameter k001 (readkqc "kqc/data001.kqc"))
@@ -18,7 +18,7 @@
 (defparameter r67 (resolve-id 'L6-1.428 'L7-1.430))
 
 
-(defparameter rm1 (bodyof (car r67)))
+(defparameter rm1 (bodyof r67))
 
 (symbol-plist (car rm1))
 ;(:PLID L7-2.431 :CID C102.450)

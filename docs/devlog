@@ -17,6 +17,23 @@ QEDは☕️でしめす。
 
 
 --- log
+20201010土
+・setlidでolidを設定するようにした。必要なのか??
+  olidはつねにinput literalのlidを示す
+　plidはつねに親のlidを示す
+
+　setlid で設定するように変更
+
+・load-rubbish.lispにresoidとproofを追加
+・olidofを追加 in base
+
+・意図はまだ作っていない
+
+
+20201009金
+・そういえばlidにorgをつけてないな。olidか。
+・途中
+
 20201008木
 ・resolve-idのresolveとproofの分かれ目をきれいにした
 ・cid->proofのあたりを関数にしたが、きれいに分けられるか??
