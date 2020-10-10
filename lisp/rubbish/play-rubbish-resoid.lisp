@@ -15,7 +15,8 @@
 
 ;; cidのvalueがbody, lidのvalueがlit
 
-(defparameter r67 (resolve-id 'L6-1.428 'L7-1.430))
+;(defparameter r67 (resolve-id 'L6-1.428 'L7-1.430))
+(defparameter r67 (resolve-id 'L6-1 'L7-1))
 
 
 (defparameter rm1 (bodyof r67))

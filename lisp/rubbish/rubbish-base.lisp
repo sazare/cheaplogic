@@ -24,7 +24,7 @@
 
 (defun make-lid (cid n)
   (let (lid)
-    (setf lid (rub-gensym (format nil "L~a-~a." (rootof cid) n)))
+    (setf lid (rub-gensym (format nil "L~a-~a" (rootof cid) n)))
     (push lid *llist*)
     lid
   )
@@ -89,7 +89,7 @@
 ;; CID ops
 
 (defun make-cid (n)
-  (let ((cid (rub-gensym (format nil "C~a." n))))
+  (let ((cid (rub-gensym (format nil "C~a" n))))
     (add-cid n)
     (push cid *clist*)
     cid
