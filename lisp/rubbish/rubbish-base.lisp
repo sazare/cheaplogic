@@ -85,6 +85,11 @@
   )
 )
 
+(defun tracep(lid)
+  (format t "~a:~a~%" lid (symbol-plist lid))
+  (when (plidof lid) (tracep (plidof lid)))
+)
+
 
 ;; CID ops
 
@@ -181,6 +186,7 @@
   (let ((lids (bodyof cid)))
    (cond 
     ((null ns) lids)
+    ((eq 1 (length ns)) (nth (car ns) lids));; the return type differ from others... is it ok???
     (t (choose ns lids))
    )
   )
@@ -192,6 +198,17 @@
    (nth n os)
  )
 )
+
+;; pickup a n'th literal from cid
+(defun pickl (n cid)
+  (nth n (bodyof cid))
+)
+
+;; is contradiction
+(defun iscont (cid)
+  (null (bodyof cid))
+)
+
 
 ;;; Lsymbols
 ;; lsymof

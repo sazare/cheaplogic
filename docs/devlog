@@ -17,6 +17,23 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/10/11日
+・resolventのcid C111-Rから-Rをのぞく
+　特にRはいらない
+
+・(dumpcs)は*clist*のdump-clauses
+
+・追加tracep はplidを追跡していく。symbol-plistするのでolidもみえる
+
+・まだDVCはやっていない。proofをみると変数がそのまま残っている・・・
+
+・dump-clauseでcontradictionにCONTRADICTIONと表示するようにした
+　print-clauseはそのまま
+
+・(pickl i cid)はcidのi番目のliteral idを取り出す
+　play-rubbish-resoid.lispがすこしみやすくなった
+
+
 20201010土
 ・setlidでolidを設定するようにした。必要なのか??
   olidはつねにinput literalのlidを示す

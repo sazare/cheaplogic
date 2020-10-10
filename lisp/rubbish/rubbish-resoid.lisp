@@ -20,8 +20,10 @@
 
 (defun entry-clause (lid1 lid2 vs sig remid remlit*)
   (let ((ncid (new-cid)) body)
-   (setf body (loop for lid in remid for lit in (substp vs remlit* sig) 
-                collect (setlid (make-lid ncid "R") ncid lid lit )))
+   (setf body (loop for lid in remid 
+                    for lit in (substp vs remlit* sig) 
+                    for n from 1
+                collect (setlid (make-lid ncid n) ncid lid lit )))
    (setcid ncid "R" (shrinkvs vs sig) body)
    (entry-proof ncid :reso vs sig (list lid1 lid2))
    ncid
