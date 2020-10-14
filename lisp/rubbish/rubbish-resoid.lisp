@@ -24,8 +24,8 @@
                     for lit in (substp vs remlit* sig) 
                     for n from 1
                 collect (setlid (make-lid ncid n) ncid lid lit )))
-   (setcid ncid "R" (shrinkvs vs sig) body)
-   (entry-proof ncid :reso vs sig (list lid1 lid2))
+   (setcid ncid :resolvent (shrinkvs vs sig) body)
+   (entry-proof ncid :resolution vs sig (list lid1 lid2))
    ncid
   )
 )

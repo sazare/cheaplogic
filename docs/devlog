@@ -17,6 +17,17 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/10/12月
+・変数はshrinkvsで最小限になってるぽい
+・ただし、dumpcsのmguは元のvarsで表示されているので多い
+・必要なのはresolventのvarsのrename
+・entry-litとentry-clauseでどうすればsubstpされるか
+　entry-clauseでやればいいのか
+
+2020/10/14水
+・ito-rubbish-resoid.lispがとおった
+  いろいろ修正したのがきちんと意図に反映されていなかった
+
 2020/10/11日
 ・resolventのcid C111-Rから-Rをのぞく
 　特にRはいらない
@@ -33,6 +44,8 @@ QEDは☕️でしめす。
 ・(pickl i cid)はcidのi番目のliteral idを取り出す
 　play-rubbish-resoid.lispがすこしみやすくなった
 
+・clidの設定を間違えていた。setlidの修正
+　意図を書かなくては
 
 20201010土
 ・setlidでolidを設定するようにした。必要なのか??

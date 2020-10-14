@@ -6,6 +6,15 @@
 (load "rubbish-gen.lisp")
 (load "load-rubbish-base.lisp")
 
+(defito ito-setlid ()
+  "setlid sets property of lid"
+  (defparameter l1 (setlid 'a 'b 'c '(a b c)))
+  (intend-equal "plid is" 'c (plidof 'a))
+  (intend-equal "olid is" 'a (olidof 'a))
+  (intend-equal "cid is" 'b (cidof 'a))
+  (intend-equal "lit is" '(a b c) a)
+)
+  
 (defito ito-make-clause ()
   "make-clause add S-exp clause to base"
 
@@ -39,8 +48,9 @@
 ;;
 (defito ito-all-base ()
   "tests for base "
-  (ito-oppo)
+  (ito-setlid)
   (ito-make-clause)
+  (ito-oppo)
 )
 
 (ito-all-base)

@@ -21,7 +21,7 @@
 (defvar *clist* ())
 (defvar *llist* ())
 
-
+;; make a lid from cid and n'th of body
 (defun make-lid (cid n)
   (let (lid)
     (setf lid (rub-gensym (format nil "L~a-~a" (rootof cid) n)))
@@ -30,6 +30,7 @@
   )
 )
 
+;; make lids for lits with cid
 (defun make-lids(cid lits)
   (loop for lit in lits 
         as  lno from 1 to (length lits) collect
@@ -45,7 +46,11 @@
   (setf (get lid :cid) cid)
   (set lid lit)
   (setf (get lid :plid) plid)
-  (if (get plid :olid)
+
+  ;; all lid has olid, the input lid has itself in olid
+  ;; just plid of the input lid is null
+
+  (if (get plid :plid) 
     (setf (get lid :olid) (get plid :olid) )
     (setf (get lid :olid) lid)
   )

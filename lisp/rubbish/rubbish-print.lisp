@@ -53,7 +53,7 @@
 
 (defun dump-clause (cid)
   (cond
-    ((iscont cid) (format t "~a CONTRADICTION : ~a~%" cid (symbol-plist cid)))
+    ((iscont cid) (format t "~a CONTRADICTION : ~a=~%" cid (symbol-plist cid)))
     (t (format t "~a=~a~%" cid (symbol-plist cid))
        (dump-lits (bodyof cid)))
   )
@@ -61,7 +61,7 @@
 
 (defun dump-lits (lids)
   (loop for lid in lids do
-    (format t " ~a ~a~%" lid (litof lid))
+    (format t " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid))
   )
 )
 
