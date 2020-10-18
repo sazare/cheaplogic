@@ -59,7 +59,7 @@
 ;; isolate vars 
 (defun isolatevs (vs c1)
 ;  ns.(vs.c1@nvs)
-  (let ((ns (prenameof vs)))
+  (let ((ns (newvars vs)))
     (list ns (subsubp vs c1 ns))
   )
 )
@@ -80,13 +80,27 @@
 
 ;; newvar : v -> v.nnn
 (defun newvar (v)
- (gensym (format nil "~a." (basevar v)))
+  (intern (string (gensym (format nil "~a." (basevar v)))))
 )
 
 ;; for rename : vs <- nvs s.t. new vars of v in vs : p-not
 ; vs.nvs is the binding form
 
-(defun prenameof (vs) 
+;; vs don't contain same var
+(defun newvars (vs) 
  (loop for v in vs collect (newvar v))
 )
+
+;; (vrootof 'abc.233) => 'abc
+(defun vrootof (var)
+ (let (sv dotp)
+   (setq sv (symbol-name var))
+   (setq dotp (position #\. sv))
+   (if (null dotp)
+     (string var)
+     (string (subseq sv 0 dotp))
+   )
+ )
+)
+
 

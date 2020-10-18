@@ -16,7 +16,7 @@
 ;(defparameter *ssubsub* #'subsubs)
 
 (defparameter ovs '(x y))
-(defparameter nvs (prenameof ovs))
+(defparameter nvs (newvars ovs))
 
 (defito ito-shrinkvs ()
   "remove non var from vars*sig"
@@ -52,7 +52,21 @@
 )
 
 
-(defito ito-prenameof ()
+
+(defito ito-vrootof ()
+  "root of var"
+  (intend-equal "no number" "ABC" (vrootof 'abc) )
+  (intend-equal "has number" "ABC" (vrootof 'abc.123) )
+  (intend-equal "has number" "ABC" (vrootof 'abc.1) )
+)
+
+(defito ito-newvar ()
+  "newvar "
+  (intend-equal "no number" "ABC" (vrootof (newvar 'abc) ))
+  (intend-equal "has number" "ABC" (vrootof (newvar 'abc.123) ))
+  (intend-equal "has number" "ABC" (vrootof (newvar 'abc.1) ))
+)
+(defito ito-newvars ()
   "rename is a substition as vs<-vs, is defined as a new vars list. p-not specific"
  
   (intend-equal "number of vars are same" (length ovs) (length nvs))
@@ -74,7 +88,9 @@
  "tests for rubbish-reso"
  (ito-shrinkvs) 
  (ito-resolve)
- (ito-prenameof)
+ (ito-vrootof)
+ (ito-newvar)
+ (ito-newvars)
  (ito-isolatevs)
 )
 

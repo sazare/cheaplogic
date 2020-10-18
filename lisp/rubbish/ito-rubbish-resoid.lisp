@@ -5,7 +5,7 @@
 (load "rubbish-resoid.lisp")
 (load "rubbish-proof.lisp")
 
-(clearbase)
+;(clearbase)
 (defparameter ccc (readskqc "((1 (x) (+ P x))(2 () (- P a)))"))
 ;(print-clauses ccc)
 ;(dump-clauses ccc)

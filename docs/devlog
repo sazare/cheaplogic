@@ -17,6 +17,83 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/10/18日
+・DVC関係しようと思ったが、時間がなくなった
+・resoとreso-idの関係は、独立なので、resoはなくてもいいのだが、そこで定義してるutilityをresoidで使っているのでファイル構成のリファクタリングが必要になった。
+　調べてみると、rubbish-reso.lispのresolve以外はreso-idで使うことがありそうだった。そのままにしておこう。(resolve)もなにかで使うかもしれないし。
+・いずれ整理しよう
+・resoid.lispの関数の合成の中にはreso.lispにあるものが使えるかもしれない
+
+・dvcfy-clause, dvcfy-clausesを作る
+　clauseの形が問題になるので、resoid.lispで作成する。
+　dvcfyすると新しいclauseができる。
+　そうなると、もとのclauseはないほうがよさそう・・・
+　「もとのclause」というもの自体作らないのでよさそう。
+　make-clauseは入力clauseに対してのみ使われる。resolventは親から作るのでresolve-idが介在する
+
+　・意図は手で確認した。
+;* (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
+;cc50
+;CC50
+;* (C50 C51 C52)
+;* 
+;(dump-clauses cc50)
+;C50=(VARS (X.417 Z.418) NAME 50)
+; L50-1 (+ P X.417) = (OLID L50-1 PLID NIL CID C50)
+; L50-2 (+ R A Z.418) = (OLID L50-2 PLID NIL CID C50)
+;C51=(VARS NIL NAME 51)
+; L51-1 (- P A) = (OLID L51-1 PLID NIL CID C51)
+;C52=(VARS (W.419) NAME 52)
+; L52-1 (- R W.419 B) = (OLID L52-1 PLID NIL CID C52)
+;NIL
+
+・resolve-idについては、修正前
+* (defparameter r501 (resolve-id (pickl 1 (nth 0 cc50)) (pickl 0 (nth 2 cc50))))
+* (defparameter r502 (resolve-id (pickl 0 r501) (pickl 0 (nth 1 cc50))))
+
+* (dump-clauses (list r501 r502))
+C53=(PROOF (RESOLUTION (X.417 Z.418 W.419) (X.417 B A) (L50-2 L52-1)) VARS
+     (X.417) NAME RESOLVENT)
+ L53-1 (+ P X.417) = (OLID L53-1 PLID L50-1 CID C53)
+C54 CONTRADICTION : (PROOF (RESOLUTION (X.417) (A) (L53-1 L51-1)) VARS NIL NAME
+                     RESOLVENT)=
+NIL
+
+
+　X.417が同じ名前でresolventにでている
+
+
+
+
+
+
+
+2020/10/17土
+・まず、すこし前から、gensymはrubbish-gen-noran.lispを使うようにかえている。
+
+・DVCくみこむ
+
+　1. post rename
+   given (vs . e)
+　　1) vs => ns (新変数のリストを生成する)
+　　2) 操作概念上e@{vs<-ns)を実行する。
+　　これはp-notでは vs.(e@ns)でありns.(vs.(e@ns))とでも書くようなこと。
+　　説明: vs.(e@ns)はvsを変数リストとしてe@(vs<-ns)を実行するという意味。(vs<-)の部分は消えるのでvs.(e@ns)となる。
+　　　　　その前にns.をつけた"ns.(vs.(e@ns))"は、vsをbindingとして代入をしたあとに、変数リストをnsにつけかえる。
+　　これがうまくいくためには、代入はp-notでなくてはならない。つまり、vs.e@nsでeの中の変数がnsに起き変わった部分が
+　　ふたたびeにはいらないことを保証する必要があるから。
+
+　2. 入力時DVCfy
+   post renameでDVCが満たされるためには、入力clauseでDVCが成り立っていなくてはならない。そのため、入力clausesの
+　変数をすべてつけかえる。
+　　given (vs . C)
+　　1) vs => ns (新変数のリストを生成する)
+　　2) ns.(vs.(C@ns))をclauseとする。
+
+・まず、作ってあった(newvar)をみたら、symbolを作っていたので、できたsymbolに(intern (string ...))をつけた
+
+
+
 2020/10/12月
 ・変数はshrinkvsで最小限になってるぽい
 ・ただし、dumpcsのmguは元のvarsで表示されているので多い
