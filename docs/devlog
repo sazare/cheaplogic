@@ -63,10 +63,37 @@ NIL
 　X.417が同じ名前でresolventにでている
 
 
+・resolve-idでどうなるか
+　うまくいっているようにみえる。
 
+;* (defparameter r501 (resolve-id (pickl 1 (nth 0 cc50)) (pickl 0 (nth 2 cc50))))
+;R501
+;* (dump-clause r501)
+;C53=(PROOF (RESOLUTION (X.417 Z.418 W.419) (X.420 B A) (L50-2 L52-1)) VARS
+;     (X.420) NAME RESOLVENT)
+; L53-1 (+ P X.420) = (OLID L53-1 PLID L50-1 CID C53)
+;NIL
+;* (defparameter r502 (resolve-id (pickl 0 r501) (pickl 0 (nth 1 cc50))))
+;R502
+;* (dump-clause r502)
+;C54 CONTRADICTION : (PROOF (RESOLUTION (X.420) (A) (L53-1 L51-1)) VARS NIL NAME
+;                     RESOLVENT)=
+;NIL
+;* (print-proof r502)
+;C54 RESOLUTION (X.420) <- (A) : <L53-1:L51-1> 
+;L53-1 (X.420).(+ P X.420) C53 RESOLUTION (X.417 Z.418 W.419) <- (X.420 B A) : <L50-2:L52-1> 
+;L50-2 (X.417 Z.418).(+ R A Z.418)  input C50
+;L52-1 (W.419).(- R W.419 B)  in  input C52
+;L51-1 ().(- P A)  in  input C51
+;NIL
 
+以上でDVCに関係する部分の実装おわり
 
+・X.417とX.420は、新変数があるので名前がかわっているようだ。
+・たりないものはなにか
+　- これが最善か? redundantな処理はしていないか
 
+今日はここまで
 
 2020/10/17土
 ・まず、すこし前から、gensymはrubbish-gen-noran.lispを使うようにかえている。

@@ -19,13 +19,17 @@
 
 
 (defun entry-clause (lid1 lid2 vs sig remid remlit*)
-  (let ((ncid (new-cid)) body (ns (newvars vs) ))
+  (let ((ncid (new-cid)) body (ns (newvars vs)) )
+
     (setf body (loop for lid in remid 
                     for lit in (substp vs remlit* sig) 
                     for n from 1
-                collect (setlid (make-lid ncid n) ncid lid lit )))
-    (setcid ncid :resolvent (shrinkvs vs sig) body)
-    (entry-proof ncid :resolution vs sig (list lid1 lid2))
+                collect (setlid (make-lid ncid n) ncid lid (subsubp vs lit ns))))
+
+    (setcid ncid :resolvent (subsubp vs (shrinkvs vs sig) ns) (subsubp vs body ns)) ;;; this conflicts
+
+    (entry-proof ncid :resolution vs (subsubp vs sig ns) (list lid1 lid2))
+
     ncid
   )
 )
