@@ -17,6 +17,20 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/10/20火
+・reso.lisp/newvarsをbase.lisp/make-clauseで使っていた。itoでみ定義になる。
+　newvar, newvarsをbase.lispに移動し、itoもそれにあわせて修正。
+　newvarする操作はreso固有なので、違和感あり。
+　vrootofもresoからbaseに移動。
+　とりあえずリファクタリング終了。
+🎂itoの中で期待にXとなっているところ、計算値がX.234となっているために失敗する。
+　どうしたものか
+　intend-equal でなくて intend-same というのを作り、atom 'abc をintendしていたら、abc.nnnと一致させるようにする?
+　それがよいかどうか
+　しかもこのitend-sameはrubbish固有になる。
+　よくない・・・
+
+
 2020/10/18日
 ・DVC関係しようと思ったが、時間がなくなった
 ・resoとreso-idの関係は、独立なので、resoはなくてもいいのだが、そこで定義してるutilityをresoidで使っているのでファイル構成のリファクタリングが必要になった。

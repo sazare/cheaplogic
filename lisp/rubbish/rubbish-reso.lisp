@@ -64,43 +64,5 @@
   )
 )
 
-;;; the following are resolv ??
-
-;; basevar : var.1234.1222 => var
-(defun basevar (v)
- (subseq (symbol-name v) 0 (position #\. (symbol-name v)))
-)
-
-;; basesof : vs => bvs s.t. base of each vars
-(defun basesof (vs)
- (loop for v in vs
-   collect (basevar v)
- )
-)
-
-;; newvar : v -> v.nnn
-(defun newvar (v)
-  (intern (string (gensym (format nil "~a." (basevar v)))))
-)
-
-;; for rename : vs <- nvs s.t. new vars of v in vs : p-not
-; vs.nvs is the binding form
-
-;; vs don't contain same var
-(defun newvars (vs) 
- (loop for v in vs collect (newvar v))
-)
-
-;; (vrootof 'abc.233) => 'abc
-(defun vrootof (var)
- (let (sv dotp)
-   (setq sv (symbol-name var))
-   (setq dotp (position #\. sv))
-   (if (null dotp)
-     (string var)
-     (string (subseq sv 0 dotp))
-   )
- )
-)
 
 
