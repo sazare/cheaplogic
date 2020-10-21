@@ -17,6 +17,9 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/10/21水
+・baseはresoidの一部の機能なので、この構成は正解なのではないだろうか。
+
 2020/10/20火
 ・reso.lisp/newvarsをbase.lisp/make-clauseで使っていた。itoでみ定義になる。
 　newvar, newvarsをbase.lispに移動し、itoもそれにあわせて修正。
