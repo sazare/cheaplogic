@@ -127,3 +127,11 @@ cc50
 (print-proof r502)
 
 
+
+
+;;;
+;; just reading check
+
+(defparameter k2 (readkqc "kqc/data002.kqc"))
+
+
