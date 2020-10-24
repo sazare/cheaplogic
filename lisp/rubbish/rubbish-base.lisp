@@ -33,7 +33,8 @@
 
 ;; newvar : v -> v.nnn
 (defun newvar (v)
-  (intern (string (gensym (format nil "~a." (basevar v)))))
+ ; (intern (string (rub-gensym (basevar v))))
+  (intern (string (rub-gensym (format nil "~a." (basevar v)))))
 )
 
 ;; for rename : vs <- nvs s.t. new vars of v in vs : p-not
@@ -52,7 +53,7 @@
 ;; make a lid from cid and n'th of body
 (defun make-lid (cid n)
   (let (lid)
-    (setf lid (rub-gensym (format nil "L~a-~a" (rootof cid) n)))
+    (setf lid (intern (format nil "L~a-~a" (rootof cid) n)))
     (push lid *llist*)
     lid
   )
@@ -127,7 +128,7 @@
 ;; CID ops
 
 (defun make-cid (n)
-  (let ((cid (rub-gensym (format nil "C~a" n))))
+  (let ((cid (intern (format nil "C~a" n))))
     (add-cid n)
     (push cid *clist*)
     cid
@@ -175,7 +176,7 @@
 
 (defun make-clause (cexp)
   (let (cid ns (name (car cexp)) (vars (cadr cexp)) (body (cddr cexp)))
-    (setf cid (make-cid (car cexp)))
+    (setf cid (make-cid name))
     (setf ns (newvars vars))
     (setcid cid name ns (make-lids cid (subsubp vars body ns)))
   )
@@ -248,7 +249,8 @@
 ;; lsymof
 (defun lsymof (lid)
   (let ((lit (litof lid)))
-    (cons (car lit)(cadr lit))
+;    (cons (car lit)(cadr lit))
+    (intern (format nil "~a~a" (car lit) (cadr lit)))
   )
 )
 

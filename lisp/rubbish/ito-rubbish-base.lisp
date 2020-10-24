@@ -3,8 +3,10 @@
 (format t "ITO-RUBBISH-BASE IS DESCRIBED AS RUBBISH-BASE-NORAN?~%")
 
 (myload "ito.lisp")
-(load "rubbish-gen.lisp")
-(load "load-rubbish-base.lisp")
+(load "rubbish-gen-noran.lisp")
+(load "rubbish-base.lisp")
+(load "rubbish-unif.lisp")
+
 
 (defito ito-setlid ()
   "setlid sets property of lid"
@@ -28,10 +30,29 @@
    (setq c2 (make-clause '(2 (x) (+ P a)(- Q x y))))
    (intend-equal "1 name is" 2  (nameof c2))
    (intend-equal "1 body is" 2 (length (bodyof c2)))
-   (intend-equal "1 bind is" '(x)   (varsof c2))
+   (intend-equal "1 bind is" '(x.)   (varsof c2))
    (intend-equal "1 subs is" '()   (subsof c2))
     )
 ) 
+
+(defito ito-litof ()
+  "litof is eval" 
+  (let (c1 c2)
+    (setq c1 (make-clause '(1 () (+ P a)(- QQ (f x)(g y)))))
+    (intend-equal "lit of +" '(+ P a) (litof 'L1-1))
+    (intend-equal "lit of -" '(- QQ (f x)(g y)) (litof 'L1-2))
+  )
+)
+ 
+  
+(defito ito-lsymof ()
+  "lsymof lid"
+  (let (c1 c2)
+    (setq c1 (make-clause '(1 () (+ P a)(- QQ (f x)(g y)))))
+    (intend-equal "lsym (+ P a)=" '+P (lsymof 'L1-1))
+    (intend-equal "lsym (- QQ (fx)(gy))=" '-QQ (lsymof 'L1-2))
+  )
+)
 
 (defito ito-oppo ()
   "oppo changes sign"
@@ -48,12 +69,12 @@
   (intend-equal "has number" "ABC" (vrootof (newvar 'abc.123) ))
   (intend-equal "has number" "ABC" (vrootof (newvar 'abc.1) ))
 )
+
 (defito ito-newvars ()
   "rename is a substition as vs<-vs, is defined as a new vars list. p-not specific"
  
   (intend-equal "number of vars are same" (length ovs) (length nvs))
   (intend-equal "root of names are same" (basesof ovs) (basesof nvs)) 
-  (intend-equal "length of names are +4" (+ (length (symbol-name (car ovs))) 4) (length (symbol-name (car nvs))))
 )
 
 ;;; ito for full spec relations may be here
@@ -79,7 +100,6 @@
  
   (intend-equal "number of vars are same" (length ovs) (length nvs))
   (intend-equal "root of names are same" (basesof ovs) (basesof nvs)) 
-  (intend-equal "length of names are +4" (+ (length (symbol-name (car ovs))) 4) (length (symbol-name (car nvs))))
 )
 
 ;(defito ito-isolatevs ()
@@ -97,6 +117,8 @@
   "tests for base "
   (ito-setlid)
   (ito-make-clause)
+  (ito-litof)
+  (ito-lsymof)
   (ito-oppo)
   (ito-newvar)
   (ito-newvars)

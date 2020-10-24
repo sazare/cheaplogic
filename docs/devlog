@@ -17,6 +17,85 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/10/24土
+・lsymofの意図を作ったら、意図の書き方がおかしいのでlitofの意図を書く
+　letでバインドした変数(L1)を'L1で参照してlitofをすると、L1の中身がAだといわれる。
+　何か違うL1をみているのかもしれない。
+
+・(make-clause)でちゃんと作ってみる。
+
+・そのとき、cidがとても大きな値になることがある。しかも、そのときのLid(L123-5)の5がとても大きい。
+　*maxcid*を参照しているような予感
+
+　やはりcidとvarで同じrub-gensymを使いながら、変数の.のあつかいをしているから混乱しているらしい。
+  .をつけるかどうかはrub-gensymの外でやるか、
+
+　・newvarはreso.lispとresoid.lispの両方でよんでいて、それでbase.lispに定義をおいているが
+　・rub-gensyの引数は数字でC23とかではない・・・それでよいのか??
+  ・gensymの引数は数字・・・なにか違う
+　　(gensym x)はxの後ろに数字^nをつけて新しいシンボルを作る。
+　　全体としては(intern (string (gensym x)))でよいが、xになにを指定するか。
+　　cidの場合、
+　　　　a) 入力clauseならnameを使い C<name>とする。
+　　　　b) resoleventは、Cではじまる新しいidでよい。
+
+　　lidの場合は、cidの後ろに-nnnをつける。nnnはリテラルインデックス
+　　変数の場合は、(vrootof)で.の前をとりだせるから、(gensym (vrootof v))でよい
+
+
+ 　・つまりmake-cidで文字列がかえってきてsetcidでcidとして文字列を渡していたのでNGだった。
+　　　make-cidでinternすると意図は通ったが、それでよいか
+
+   ・play-rubbish-resoid.lispの最後のプロックで[]がでるところまではいった
+　　そこまでのどこかでNGになる
+
+　・cidが長いのは、make-cidでcid作るときにrub-gensymしているのが原因だった。
+
+　・lidが長い。これも、make-lidでlid作るときにrub-gensymしているのが原因。rub-gensymを消したらOK
+
+・変数名が変わるのは意図の判定を煩雑にする。
+　意図ではgensymを無効にするか・・・noranを使うか
+
+・noranを使うにしても、変数名とidでは.をつけるかどうか違うので、そこらへんを考慮した意図が必要
+
+　newvarで.をつけてからrub-gensymしている。これで意図のときx.ができておかしくなる。
+★　通常は変数に.がつくが、意図のときはつけたくない
+
+・全体はranで意図確認して、genとgen-noranの間の違いの確認を別のプロセス上の意図確認する
+　抜ける部分もあるがこれでどうか
+
+・idはL1-2で変数はx.234 という仕様
+
+
+2020/10/23金
+・今、(+ P)としているが、+Pのほうが楽のはず。
+ (intern "+P")でしよう
+ (intern (format nil "+~a" 'P))
+ (intern (format nil "-~a" 'P))
+
+　(+ P)のままだとhashtableになる。
+・現状、oppoは使っていないし、lsymof の値も使っていない。
+　+Pにしても大丈夫そうだ
+
+・なにがしたいかというと、+Pの値に+Pのリテラルのリストをいれる。
+
+* (defvar xxx (intern (format nil "+~a" 'P)))
+XXX
+* xxx
++P
+
+;;
+* (defparameter +P ())
++P
+* (push 'L1.2 +P)
+(L1.2)
+* (push 'L2.2 +P)
+(L2.2 L1.2)
+
+このような操作をする。
+
+
+
 2020/10/21水
 ・baseはresoidの一部の機能なので、この構成は正解なのではないだろうか。
 

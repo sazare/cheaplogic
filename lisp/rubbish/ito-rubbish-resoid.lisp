@@ -1,7 +1,9 @@
 ;ito for rubbish-resoid.lisp  (intend-equal "rule is " :reso (ruleof r15))
 
 (myload "ito.lisp")
-(load "load-rubbish.lisp")
+;(load "load-rubbish.lisp")
+(load "load-rubbish-noran.lisp")
+
 (load "rubbish-resoid.lisp")
 (load "rubbish-proof.lisp")
 
@@ -32,7 +34,7 @@
   (intend-equal "resolve-id fail same psym same sign caller should distinguish signs" 
     '(:resolvent () () NIL) (rawclause r15))
   (intend-equal "rule is " :resolution (ruleof r15))
-  (intend-equal "sig is x<-a" '((x.437)(a)) (sigof r15))
+  (intend-equal "sig is x<-a" '((x.)(a)) (sigof r15))
 
 ;; success
 ;; (()()) is (sigma [])
@@ -47,8 +49,8 @@
 
   (intend-equal "resolved to [](vars sigs resolvent)" '(:resolvent () () ()) (rawclause (resolve-id l21 l51)))
   (intend-equal "resolved to []" '(:resolvent () () ()) (rawclause (resolve-id l61 l71)) )
-  (intend-equal "resolved to []" '(:resolvent (y.447) () ()) (rawclause (resolve-id l81 l91)))
-  (intend-equal "resolved to []" '(:resolvent (x.449) () ()) (rawclause (resolve-id l91 l81)))
+  (intend-equal "resolved to []" '(:resolvent (y.) () ()) (rawclause (resolve-id l81 l91)))
+  (intend-equal "resolved to []" '(:resolvent (x.) () ()) (rawclause (resolve-id l91 l81)))
 
 ;(clearbase)
 
@@ -60,7 +62,7 @@
   
   (intend-equal "resolvent's var is" '() (varsof rr5))
   (intend-equal "resolvent's name is" :resolvent (nameof rr5))
-  (intend-equal "sig of l101, l111" '((x.450)(a)) (sigof rr5))
+  (intend-equal "sig of l101, l111" '((x.)(a)) (sigof rr5))
   (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof rr5)))
   (intend-equal "resolve simple clauses full" '(:resolvent () () ((+ R a)(- Q a))) (rawclause rr5))
 
