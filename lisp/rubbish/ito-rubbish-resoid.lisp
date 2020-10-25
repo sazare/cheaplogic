@@ -7,19 +7,16 @@
 (load "rubbish-resoid.lisp")
 (load "rubbish-proof.lisp")
 
-;(clearbase)
-(defparameter ccc (readskqc "((1 (x) (+ P x))(2 () (- P a)))"))
-;(print-clauses ccc)
-;(dump-clauses ccc)
-(defparameter l11 (pickl 0 (car ccc) ))
-(defparameter l21 (pickl 0 (cadr ccc) ))
-
-(defparameter scc "((16 (x) (+ P x)(- Q x x)(+ R (f x)))(17 (x) (- P a)(- P x)))")
-(defparameter ccs (readskqc scc))
-;(print-literals (bodyof (car ccs)))
 
 (defito ito-resolve-id ()
   "resolve-id resolve on LID/CID naming"
+
+  (defparameter ccc (readskqc "((1 (x) (+ P x))(2 () (- P a)))"))
+  ;(print-clauses ccc)
+  ;(dump-clauses ccc)
+  (defparameter l11 (pickl 0 (car ccc) ))
+  (defparameter l21 (pickl 0 (cadr ccc) ))
+
 
 ;; fail
   (defparameter cc2 (readskqc "((3 (x) (+ Q x))(4 () (- Q a))(5 () (+ P a)))"))
@@ -54,7 +51,7 @@
 
 ;(clearbase)
 
-  (defparameter cc5 (readskqc "((10 (x) (+ P x)(+ R a))(11 () (- P a)(- Q a)))"))
+  (defparameter cc5 (readskqc "((15 (x) (+ P x)(+ R a))(16 () (- P a)(- Q a)))"))
   (defparameter l101 (pickl 0 (car cc5) ))
   (defparameter l111 (pickl 0 (cadr cc5) ))
 
@@ -65,6 +62,7 @@
   (intend-equal "sig of l101, l111" '((x.)(a)) (sigof rr5))
   (intend-equal "resolve simple clauses lits" '((+ R a)(- Q a)) (rawlits (bodyof rr5)))
   (intend-equal "resolve simple clauses full" '(:resolvent () () ((+ R a)(- Q a))) (rawclause rr5))
+
 
 ;(clearbase)
 ;  (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
