@@ -272,3 +272,17 @@
    )
  )
 )
+
+;;;
+; input literals
+
+;;; is input literals?
+(defun isinputlid (lid)
+  (null (plidof lid))
+)
+
+;; select input literals 
+(defun illist (llist)
+ (loop for id in llist when (isinputlid id) collect id)
+)
+
