@@ -14,14 +14,149 @@ QEDは☕️でしめす。
 20200822 oppos(resolveの候補lids)をもとめる最短路
 20200822 Lidの木、σの再生とそのコスト
 20201024 readkqcで、全体が1つのlistでないと例外になる。エラーでとらえたい
-20201025 noranありとnoranなしでito-rubbish.lispをふたつにしたい
-20201025 
-
-
-
+20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
 
 
 --- log
+2020/11/01日
+・したいことの整理
+　ノートに書いた
+
+・意図の構成
+　ito-rubbish.lispというのを作って、cidとかlidの構造に着目したintendはここにおく。
+  rubbish固有の意図ライブラリといういみ。
+
+・toolsに作成。
+  ito-rubbish-tools.lisp作成。ru-clauseとru-literalは意図とおり
+
+
+2020/10/31土
+🕷 ito-rubbish.lispをするとC1が複数でてくる。中身は同じになっているが、それは後が勝つからではないか。
+　　1つの環境でinput以外で同じcidになることは禁止したい。今はどうなのだろうか。
+
+・整理したい
+ - make-input-clause
+ - make-resolvent
+
+ - clauseと周辺の関係作成
+ - 証明情報の設定
+　・inputは空証明情報
+　・resolventは系譜
+
+ - Lsym = (sign . Psym) => Lid*
+　　　　= ±P -> Lid*
+
+
+・pairingはinLidで指定する。
+　これにcidが作用して、cidのlidになる
+　という仕組み
+
+・inLidからoppos のinLid*をみつけられる(oppositeかcounterでもよかった)
+
+ - inLid :Lsym -> (sign . Psym)|±Psym => Lid*
+
+もしも、inLidのcidがすべてunitでなかったら、resolutionでは[]はできない
++P+Pみたいのがあったら別・・・
+
+clauseのリテラル数が減らないと[]はでない
+
+*条件(雑)
+ 1) cidの外側にopposがある
+ 2) 同じcidの中に同じlsymのlidがある(same sideと呼ぶか)
+
+いずれにせよ、それらのlidのlitが符号を除いてunifiableであることが必要
+
+opposの場合は変数が共有されず、samesideでは共有される。
+
+この条件が雑だというのは、Psymが同じでも、termレベルで失敗することがあるから
+厳密には、必要条件
+
+
+・lidの選択方式
+　- cid,index -> lid
+　- cid,inlid -> lid
+
+★ ツールボックス　意図を確認するための道具だが証明を作るためには使われない
+　だから性能が悪くてもよい
+
+　・あるclause集合からcid, lidの構造を作る
+　・作ったcid,lidの構造をクリアする
+　・変数の比較(noranで無視した場合の意図を確認するにしても、ranの場合もやってみたい)
+    intend-rubはrubbish専用の意図関数。
+
+　　a) (intend-is-prefix prefix rans) ransのプレフィックスがprefixになっている。
+　　b) (intend-rub-sameclause cla1 cla2) claはrawclause(つまり全部S-expになっている)
+    c) (intend-rub-sameliteral vars lit1 lit2) 
+    d) (intend-same-exps v1 e1 v2 e2) e1とe2はv1,v2のrenameによって同等
+　　　　　(intend-same-exps '(x1 y1) '(f x1 y1) '(x2 y2) '(f x2 y2))
+　　　　　みたいな。意図の場合、x1,y1はprefixだけx,yでよいと思う。
+あるいは
+    e) (intend-same-exps v1 e1 v2 e2) v1とv2はprefix(.まで)が同じで、e1とe2はv1,v2のrenameによって同等
+
+　ranの変数はtermに染み込んでいることがあるので、same-expsはtermの底まで比較する必要あり。with same
+
+★ちよっとまて、なぜx.になる? x.234ではないのか???
+ play-rubbish-resoid.lispの最初のread-kqcだとちゃんと変数に数字がつくので🕷ではないらしい
+
+
+202/10/29木
+・意図にだけ使う関数というものがあると思う
+　- Lid-Cidを全体的にセットアップする
+　　・input clause
+　　・resolvent
+　　　かならずしもresolutionをする必要はない
+・どのような意図を作るか
+　- 全体の構造をまとめて設定できるような関数かマクロを作るのはどうか。
+こんなかんじ
+
+setlitとsetclaはマクロ
+(setlit l10-3 (- R X.443 Y.444) :OLID L10-3 :PLID NIL :CID C10)))
+(setcla c10   (L10-1 L10-2 L10-3) :VARS (X.443 Y.444) :NAME 10)))
+
+
+* (symbol-plist 'l10-3)
+(:OLID L10-3 :PLID NIL :CID C10)
+* (symbol-plist 'c52)
+(:VARS (W.432) :NAME 52)
+* c52
+(L52-1)
+* l10-3
+(- R X.443 Y.444)
+* l10-3
+(- R X.443 Y.444)
+* (symbol-plist 'l10-3)
+(:OLID L10-3 :PLID NIL :CID C10)
+* c10    
+(L10-1 L10-2 L10-3)
+* (symbol-plist 'c10)
+(:VARS (X.443 Y.444) :NAME 10)
+* c56
+
+* (symbol-plist 'c54)
+(:PROOF (:RESOLUTION (X.433) (A) (L53-1 L51-1)) :VARS NIL :NAME :RESOLVENT)
+* (symbol-plist 'c53)
+(:PROOF (:RESOLUTION (X.430 Z.431 W.432) (X.433 B A) (L50-2 L52-1)) :VARS
+ (X.433) :NAME :RESOLVENT)
+* (symbol-plist 'c52)
+(:VARS (W.432) :NAME 52)
+* (bodyof 'c52)
+(L52-1)
+* (symbol-plist 'c51)
+(:VARS NIL :NAME 51)
+* c51
+(L51-1)
+* c52
+(L52-1)
+* c53
+(L53-1)
+* c54
+NIL
+
+　
+2020/10/26月
+・LICENSE.txtを追加した
+・
+
 2020/10/25日
 問い
 ・Lsymを作るのはinputのときだけにする
