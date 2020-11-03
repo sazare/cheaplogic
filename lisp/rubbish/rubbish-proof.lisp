@@ -3,6 +3,8 @@
 
 
 ;; rule = :reso, :merge, :rename
+;; proof is (rule vars sigma parents)
+;;  parents = (left::Lid . right::Lid)
 
 (defun entry-proof (cid rule vars sigma parents)
   (setf (get cid :proof)  (list rule vars sigma parents))
