@@ -61,7 +61,7 @@
 
 (defun dump-lits (lids)
   (loop for lid in lids do
-    (format t " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid))
+    (when (boundp lid) (format t " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid)))
   )
 )
 

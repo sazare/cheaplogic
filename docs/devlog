@@ -18,6 +18,27 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/03火
+・ito-rubbish-tools.lispでintend-ru-clause, intend-ru-literalを変更。
+　property名を明記するようにした。というか:rest plistをやめた。
+　&rest にすると何故か引数の数が正しくないエラーになる。
+　clauseとliteralのplistのkeyは固定でよいと思う。ならばkeyをつける必要もないような気がするが
+　それはpropertyなので順番が違うこともあるかもしれないということでキーにしている。あとづけ
+
+・learn-macro.lispに&keyつけた
+
+★まだ、termの変数バリエーションはやっていない。
+　　(issameterm vars t1 t2)　みたいなのか
+　　やった
+　　varsみて、prefixかどうか判定した
+　基本的にはよさそう
+
+・追加
+　　(remove-atom x) unboundにする
+　　(dump-clauses ...)は、unboundのlidとかcidは中身をみにいかないようにした
+
+
+
 2020/11/01日
 ・したいことの整理
 　ノートに書いた
