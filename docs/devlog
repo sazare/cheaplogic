@@ -18,6 +18,22 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/07土
+・rubbish-tools: 変数と元の変数を同一視するため、prefixとして見る比較を作った
+　varsとmgu=(vars.sigma)はいいが、termの比較は中をみていかなくてはならない。
+　sigmaの場合はいいがと書いたが、そこもtermなので中を見る必要がある。と思ったが
+　sigmaの場合は特にvarsが必要なさそう。
+
+　2つのterm eとtで、変数を同一視して同じだとみなすばあい
+　(issame vars e t)で、varsはeの変数を指定する
+
+・toolsをito baseで整理した。
+　toolsを使ってito-resoid.lispを書き直すべき。　もう遅くなったので明日にでも・・・
+
+・手順と現状
+　(load "ito-rubbish.lisp")でtoolsも読み込む。
+　ito-toolsにはresoidのテストも含まれているので整理が必要
+
 2020/11/03火
 ・ito-rubbish-tools.lispでintend-ru-clause, intend-ru-literalを変更。
 　property名を明記するようにした。というか:rest plistをやめた。
@@ -36,6 +52,26 @@ QEDは☕️でしめす。
 ・追加
 　　(remove-atom x) unboundにする
 　　(dump-clauses ...)は、unboundのlidとかcidは中身をみにいかないようにした
+
+・こういうのはどうか
+　root がidで
+　そこからたどるpropertyを指定して
+　最終的な値を確認する
+
+　(path 'c54 
+
+・itoにsetupとteardownを指定できるようにしようとito2.lispを作っているが
+　ぴんときていない
+
+・resolventのliteralの順番は、lidのアルファベット順にしたらどうか。
+* (string<= 'L50-1 'L52-1)
+2
+* (string<= 'c 'a)
+NIL
+
+みたいな関係で
+右と左をいれかえるのはまずいか??
+ 
 
 
 

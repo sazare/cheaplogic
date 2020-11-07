@@ -1,5 +1,7 @@
 ;ito for rubbish-resoid.lisp  (intend-equal "rule is " :reso (ruleof r15))
 
+;; this file should be rewritten by tools
+
 (myload "ito.lisp")
 ;(load "load-rubbish.lisp")
 (load "load-rubbish-noran.lisp")

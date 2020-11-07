@@ -9,3 +9,7 @@
 (load "ito-rubbish-base.lisp")
 (load "ito-rubbish-reso.lisp")
 (load "ito-rubbish-resoid.lisp")
+
+(load "rubbish-tools.lisp")
+(load "ito-rubbish-tools.lisp") ;; this contains local ito-functions and do ito
+

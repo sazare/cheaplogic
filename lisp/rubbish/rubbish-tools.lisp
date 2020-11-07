@@ -22,25 +22,20 @@
 )
 
 (defun isprefixs (pxs vs)
-  (loop for p in pxs as v in vs always
-    (isprefix p v)
-  )
+  (loop for p in pxs as v in vs always (isprefix p v))
 )
 
 ;; same terms and lits
-
 (defun intend-ru-sameterm (note vars eterm term)
-  (cond 
-    ((atom eterm)
-      (cond 
-        ((isvar vars term) (isprefix eterm term))
-        (t (intend-equal note eterm term))))
-     ((equal (car eterm)(car term)) 
-        (intend-ru-sameterms note vars (cdr eterm)(cdr term)))
-     (t (intend-equal note (car eterm)(car term)))
+  (if (isvar vars eterm)
+      (when (unless (isprefix eterm term))
+            (report-result note nil eterm term nil))
+      (cond ((atom eterm) (intend-equal note eterm term)) ; for constants
+        ((equal (car eterm)(car term)) (intend-ru-sameterms note vars (cdr eterm)(cdr term)))
+        (t (report-result (format nil "~a fsyms" note) nil eterm term nil) )
+      )
   )
 )
- 
 
 (defun intend-ru-sameterms (note vars ets ts)
   (loop for et1 in ets as t1 in ts do
@@ -48,10 +43,17 @@
   )
 )
 
-(defun intend-ru-samelit (note lid elit)
+(defun intend-ru-samelitlit (note vars elit lit)
+  (let ()
+    (intend-equal (format nil "~a same sign" note) (car elit) (car lit))
+    (intend-ru-sameterm (format nil "~a same atom" note) vars (cdr elit)(cdr lit)) ;; except sign
+  )
+)
+
+(defun intend-ru-samelit (note vars elit lid)
   (let ((lit (eval lid)))
-    (intend-equal "same sign" (car elit) (car lit))
-    (intend-ru-sameterm "same atom" (varsof (cidof lid)) (cdr elit)(cdr lit)) ;; except sign
+    (intend-equal (format nil "~a same sign" note) (car elit) (car lit))
+    (intend-ru-sameterm (format nil "~a same atom" note) vars (cdr elit) (cdr lit)) ;; except sign
   )
 )
 
@@ -64,14 +66,26 @@
   )
 )
 
-(defun intend-ru-literal (note lid lit &key olid plid cid)
+(defun intend-ru-literal (note vars lit lid &key olid plid cid)
   (progn
-    (intend-ru-samelit "lit" lid lit)
+    (intend-ru-samelit "lit" vars lit lid)
     (intend-equal (format nil "~a oild" note) olid (get lid :olid))
     (intend-equal "plid" plid (get lid :plid))
     (intend-equal "cid"  cid (get lid :cid))
   )
 )
+
+(defun intend-ru-proof (note cid rule vars sig llid rlid)
+  (let ((proof (proofof cid)))
+    (intend-equal "method" rule (nth 0 proof))
+    (intend-ru-sameterms note vars vars (nth 1 proof))
+    (intend-ru-sameterms note vars sig  (nth 2 proof))
+
+    (intend-equal "llid" llid (car (nth 3 proof)))
+    (intend-equal "rlid" rlid (cadr (nth 3 proof)))
+  )
+)
+
 
 ; for atom plist etup
 (defmacro setatom (atm bind &rest plist)

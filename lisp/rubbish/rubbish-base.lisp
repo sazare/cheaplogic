@@ -136,7 +136,7 @@
 )
 ;;;;
 (defun add-cid (n)
-   (cond ((< n *maxcid*) (format t "name double ~a~%" n)))
+;   (cond ((< n *maxcid*) (format t "name double ~a~%" n)))
    (setf *maxcid* (max *maxcid* n))
 )
 
