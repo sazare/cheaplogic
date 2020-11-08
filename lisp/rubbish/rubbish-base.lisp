@@ -240,7 +240,7 @@
 )
 
 ;; is contradiction
-(defun iscont (cid)
+(defun iscontradiction (cid)
   (null (bodyof cid))
 )
 
