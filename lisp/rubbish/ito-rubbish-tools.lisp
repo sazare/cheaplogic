@@ -1,7 +1,7 @@
 ;;; ITO for rubbish-tools.lisp
 
 (myload "ito.lisp")
-;(load "load-rubbish.lisp")
+;;(load "load-rubbish.lisp")
 ;(load "rubbish-tools.lisp")
 
 ;; basics
@@ -30,23 +30,15 @@
 
   (defparameter cc1 (readskqc "((1 (x) (+ P x)(+ R a))(2 () (- P a)(- Q a)))"))
   
-  ;(setatom  C1 '(l8-1 l8-2) :name 8 :vars (x y))
-  ;(setatom  L1-1 '(+ P x) :OLID L8-1 :PLID NIL :CID C8)
-  ;(setatom  L1-2 '(- Q x (f y)) :OLID L8-2 :PLID NIL :CID C8)
-  
-  ;(setatom  C2 '(l8-1 l8-2) :name 8 :vars (x y))
-  ;(setatom  L2-1 '(+ P x) :OLID L8-1 :PLID NIL :CID C8)
-  ;(setatom  L2-2 '(- Q x (f y)) :OLID L8-2 :PLID NIL :CID C8)
-  
-  ;(intend-ru-clause cc5 C1 '(l1-1 l1-2) :name 1 :vars (x y))
-  ;(dump-clause 'c1)
-  
   (intend-ru-samelit "except gensym term" '(x) '(+ P x) 'l1-1)
   
   (intend-ru-clause "plist check" 'C1 '(l1-1 l1-2) :name 1 :vars '(x))
   (intend-ru-literal "L1-1 in C1" '(x.)  '(+ P x.) 'L1-1 :OLID 'L1-1 :PLID NIL :CID 'C1)
   (intend-ru-literal "L1-2 in C1" () '(+ R a) 'L1-2 :OLID 'L1-2 :PLID NIL :CID 'C1)
   
+  (intend-ru-clause "plist check" 'C2 '(l2-1 l2-2) :name 2 :vars '())
+  (intend-ru-literal "L2-1 in C2" '()  '(- P a) 'L2-1 :OLID 'L2-1 :PLID NIL :CID 'C2)
+  (intend-ru-literal "L2-2 in C2" () '(- Q a) 'L2-2 :OLID 'L2-2 :PLID NIL :CID 'C2)
   
   (remove-prop 'c1 :vars)
   (intend-equal "no :vars" nil (get 'C1 :vars))

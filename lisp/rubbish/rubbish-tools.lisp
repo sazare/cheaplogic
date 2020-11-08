@@ -1,5 +1,7 @@
 ;; tools is for ITO work
 
+(myload "ito.lisp")
+
 ;; primitive structure of ITO
 ; preparation:
 ;  set binding and plist for atoms
