@@ -7,6 +7,9 @@ QEDは☕️でしめす。
 
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
+2020/11/11 literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
+2020/11/11 kqcで他のkqcを読み込めるようにする。(include "another.kqc")とかのeval
+
 20200913 itoのbaseとbase-noranは再定義を含むので、同じitoの中におきたくない。どうすればよいか
 20200823 lid,clidはもともとの数字またはatomのままでいいような気がする。
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
@@ -21,6 +24,20 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/14土
+・kqcで他のkqcを読み込めるようにした。(readekqc "another.kqc")と書く
+　reqdekqcは読み込まれたファイルの中に書いてあると再帰的に実行する。
+　ということは、親ファイルを書くと無限ループになる。気をつけろ!!
+　観察コードはplay-rubbish-kqcio.lisp
+
+
+
+2020/11/11水
+[julia版機能をとりこむ]
+・literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
+・kqcで他のkqcを読み込めるようにする。(include "another.kqc")とかのeval
+
+
 2020/11/08日
 ・ito-rubbish-tools.lispからresoidの部分をけして、ito-resoid.lispを書き換えようとおもったが
 　rubbish-tools.lispの意図という意味ではito-rubbish-tools.lispは全部必要そうなので残した。

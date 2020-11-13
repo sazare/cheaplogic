@@ -1,0 +1,26 @@
+(
+; 1st example: const, func and var
+;J r1,c1=simpleprover("data/data001.cnf",3,5)
+;L (simpleprover 1 "kqc/data001.kqc" 3 5)
+; 1 : goal
+; path : kqc file
+; 3 5 are strategic parameters
+;; goal should be specifed from outer space
+
+(readefile "kqc/data001.kqc")
+
+(1000 (y) (- Q a y))
+(2000 (x y) (- Q x y))
+(3000 (y) (+ P a y))
+(4000 (y) (+ P b y))
+(5000 (x) (+ R x x))
+(6000 () (+ R a c))
+(7000 () (- R a c)(+ Q a b)(- P a b))
+(8000 (x y z) (- R x y)(+ Q y z)(- P z x))
+(9000 () (+ R a b))
+(10000 () (- Q b c))
+(10001 () (+ P c a))
+
+;rule is a clause of literal number > 1
+(20000 (x y) (- P x y)(+ Q x y)(- R x y))
+)

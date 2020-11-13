@@ -1,0 +1,11 @@
+;; Flash Light trial
+
+;neg 1 and 2
+1. () (- FL on br)
+2. () (- FL of da)
+
+;a fact of now
+3. () (+ FL on da)
+
+; these clauses are useless.
+

@@ -6,7 +6,7 @@
 ;(clearbase)
 ;(clearproof)
 
-(defparameter k001 (readkqc "kqc/data001.kqc"))
+(defparameter k001 (readekqc "kqc/data001.kqc"))
 
 (print-clauses *clist*)
 (dump-clauses *clist*)
@@ -132,6 +132,6 @@ cc50
 ;;;
 ;; just reading check
 
-(defparameter k2 (readkqc "kqc/data002.kqc"))
+(defparameter k2 (readekqc "kqc/data002.kqc"))
 
 
