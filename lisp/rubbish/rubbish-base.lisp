@@ -54,7 +54,7 @@
 (defun make-lid (cid n)
   (let (lid)
     (setf lid (intern (format nil "L~a-~a" (rootof cid) n)))
-    (push lid *llist*)
+    (pushnew lid *llist*)
     lid
   )
 )
@@ -130,7 +130,7 @@
 (defun make-cid (n)
   (let ((cid (intern (format nil "C~a" n))))
     (add-cid n)
-    (push cid *clist*)
+    (pushnew cid *clist*)
     cid
   )
 )

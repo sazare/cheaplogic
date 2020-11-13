@@ -30,6 +30,9 @@ QEDは☕️でしめす。
 　ということは、親ファイルを書くと無限ループになる。気をつけろ!!
 　観察コードはplay-rubbish-kqcio.lisp
 
+・同じnameのclauseを作ると*clist*にcidが重複する
+　pushをpushnewに変更した
+
 
 
 2020/11/11水

@@ -1,0 +1,8 @@
+;; basc proofs
+;; factrial
+
+(
+(1 (x) (- P 0 z))
+(readefile "kqc/fact000.kqc")
+)
+
