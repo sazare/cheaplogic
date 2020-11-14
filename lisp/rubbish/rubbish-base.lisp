@@ -246,7 +246,7 @@
 
 
 ;;; Lsymbols
-;; lsymof
+;; lsym and lid
 (defun lsymof (lid)
   (let ((lit (litof lid)))
 ;    (cons (car lit)(cadr lit))
@@ -254,12 +254,39 @@
   )
 )
 
-;; oppo
+(defun alllids (clist)
+  (loop for cid in clist append (bodyof cid))
+)
+
+;; lsym and oppo
 (defun oppo (sign)
   (cond
     ((eq sign '-) '+)
-    ((eq sign '+) '-))
+    ((eq sign '+) '-)
+  )
 )
+
+(defun soppo (sign)
+  (cond
+    ((string= sign "-") "+")
+    ((string= sign "+") "-")
+  )
+)
+
+(defun signof (lsym)
+  (subseq lsym 0 1)
+)
+
+(defun psymof (lsym)
+  (subseq lsym 1)
+)
+
+(defun oppolsymof (lsym)
+  (intern (format nil "~a~a" (soppo (signof (string lsym))) (psymof (string lsym))))
+)
+
+
+;; gensym var 
 
 ;; (vrootof 'abc.233) => 'abc
 (defun vrootof (var)

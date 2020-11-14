@@ -62,6 +62,18 @@
   (intend-equal "oppo of neither + nor - is" nil (oppo 'a))
 )
 
+(defito ito-soppo ()
+  "soppo changes sign over string"
+  (intend-equal "soppo o - is " "+" (soppo "-"))
+  (intend-equal "soppo of + is " "-" (soppo "+"))
+)
+
+(defito ito-oppolsymof ()
+  "soppo changes sign over string"
+  (intend-equal "oppolsymof -PQ is" '+PQ (oppolsymof '-PQ))
+  (intend-equal "oppolsymof of +QR is" '-QR (oppolsymof '+QR))
+)
+
 
 (defito ito-newvar ()
   "newvar "
@@ -72,7 +84,6 @@
 
 (defito ito-newvars ()
   "rename is a substition as vs<-vs, is defined as a new vars list. p-not specific"
- 
   (intend-equal "number of vars are same" (length ovs) (length nvs))
   (intend-equal "root of names are same" (basesof ovs) (basesof nvs)) 
 )
@@ -120,6 +131,8 @@
   (ito-litof)
   (ito-lsymof)
   (ito-oppo)
+  (ito-soppo)
+  (ito-oppolsymof)
   (ito-newvar)
   (ito-newvars)
 )

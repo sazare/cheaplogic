@@ -8,7 +8,6 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 2020/11/11 literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
-2020/11/11 kqcで他のkqcを読み込めるようにする。(include "another.kqc")とかのeval
 
 20200913 itoのbaseとbase-noranは再定義を含むので、同じitoの中におきたくない。どうすればよいか
 20200823 lid,clidはもともとの数字またはatomのままでいいような気がする。
@@ -24,6 +23,11 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/15日
+・(load "ito-rubbish-tools.lisp")  ;;これはrubbish専用のITO helperだから、ファイル名ちょっと違うかも
+　　rubbish-itohelper.lispみたいなほうがよいか
+・lidからoppoのlidsをもとめるfind-oppolids作成。
+
 2020/11/14土
 ・kqcで他のkqcを読み込めるようにした。(readekqc "another.kqc")と書く
 　reqdekqcは読み込まれたファイルの中に書いてあると再帰的に実行する。

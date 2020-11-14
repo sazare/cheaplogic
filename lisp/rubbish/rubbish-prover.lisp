@@ -12,3 +12,11 @@
 )
 
 
+;; after make-lsymtolids, find-oppolids finds oppo lids of lid
+
+(defun find-oppolids (lid)
+  (eval (oppolsymof (lsymof lid)))
+)
+
+
+  
