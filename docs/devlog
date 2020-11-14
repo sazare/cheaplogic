@@ -33,7 +33,10 @@ QEDは☕️でしめす。
 ・同じnameのclauseを作ると*clist*にcidが重複する
 　pushをpushnewに変更した
 
+・lsymにllidのリストを設定する関数をつくった(lsymlist)
 
+・lsymからopposを作る関数のことを考えるとlsymを(sign . psym)にしたほうが楽だったかも
+　-Pから+P、+Pから-Pを作るの時間かかる。(sign . psym)なら((oppos sign) . psym)なので・・・
 
 2020/11/11水
 [julia版機能をとりこむ]
