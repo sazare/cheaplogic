@@ -1,0 +1,11 @@
+(
+; simple query for ground facts
+;; I may call it as bottom facts, or no-var facts.
+
+(2 () (+ Love Taro Hana))
+(3 () (+ Love Hana Taro))
+(4 () (+ Love Jiro Hane))
+(5 () (+ Love Taro Taro))
+(6 () (+ Love Hana Hana))
+(7 () (- Love Jiro Jiro))
+)

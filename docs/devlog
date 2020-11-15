@@ -27,6 +27,7 @@ QEDは☕️でしめす。
 ・(load "ito-rubbish-tools.lisp")  ;;これはrubbish専用のITO helperだから、ファイル名ちょっと違うかも
 　　rubbish-itohelper.lispみたいなほうがよいか
 ・lidからoppoのlidsをもとめるfind-oppolids作成。
+・サンプルkqc追加
 
 2020/11/14土
 ・kqcで他のkqcを読み込めるようにした。(readekqc "another.kqc")と書く

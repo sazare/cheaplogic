@@ -1,0 +1,10 @@
+(
+; simple query
+;; who loves Hana. 
+;; Can i find all of them?
+(readefile "kqc/lover/love000.kqc")
+
+(1 (x y) (- Love x Hana))
+)
+
+
