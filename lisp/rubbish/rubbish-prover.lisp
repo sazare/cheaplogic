@@ -19,4 +19,12 @@
 )
 
 
+(defun geneof (cid)
+  (loop for lid in (bodyof cid)
+    collect
+      (olidof lid)
+  )
+)
+
+
   

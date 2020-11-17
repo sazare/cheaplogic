@@ -23,6 +23,21 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/17火
+・OLIDはinput lidではなかっただろうか。作ったときのlidになっているような・・・
+　O=original?
+　親のpidがあればそれに設定しているので、この解釈でただしいはずなのだが、bugぽい
+　意図から確認する
+　resolve-idのところが間違っているのではないか。意図かけるか??
+  修正したが意図を確認するためには、もうすこし長い証明が必要。
+
+・plidはひとつ前の親のlidなので正しい(P=parent)
+
+・setlidの判定が無駄なのでplidに変更。
+
+・olidの意図を書いた。
+
+
 2020/11/15日
 ・(load "ito-rubbish-tools.lisp")  ;;これはrubbish専用のITO helperだから、ファイル名ちょっと違うかも
 　　rubbish-itohelper.lispみたいなほうがよいか

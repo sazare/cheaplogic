@@ -79,8 +79,8 @@
   ;; all lid has olid, the input lid has itself in olid
   ;; just plid of the input lid is null
 
-  (if (get plid :plid) 
-    (setf (get lid :olid) (get plid :olid) )
+  (if plid 
+    (setf (get lid :olid) (get plid :olid))
     (setf (get lid :olid) lid)
   )
   lid
