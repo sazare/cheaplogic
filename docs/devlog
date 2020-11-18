@@ -26,8 +26,28 @@ QEDは☕️でしめす。
 2020/11/18水
 ・olidの変数あり意図を書いてみた
 
-・olidの並びをmakerof cidと呼ぶ
+・olidの並びをcmarker(clause marker) と呼ぶ
 ・その順序で並び替えたclauseのbodyはcanonicと呼ぼうかと思ったが、どう使うのかな
+
+・cmarkerは、clauseの識別子で、renameを除いて一意になってほしいが、instanceなどの可能性はある。
+  同じcmarkerを持つ2つのclause C1,C2はliteralは同じ順番なのでその順番でliteralの比較ができ
+　それぞれのliteralはσがあって Li・σ = Lj・σになる
+　インスタンスになるとは限らないのが難点
+　少なくとも、cmarkerが違えば同じにならないのと、literalはuniqueになるのかな。
+　同じolidのものが複数あるとuniqueではないような・・・
+
+　ここはもうすこし考えよう
+
+・やりたいことは、集合a∈Aを高速に判定したい。
+　同じclauseをいくつも作ることは悪なので、それを除外したい。
+　resolvent rができたとき、r∈Rかどうかを高速に判定したい。
+　cmarkerが同じものがないならば、残しても良い。ということはいえる。
+　cmarkerが同じとき、どうするか・・・
+
+
+
+
+
 
 
 
