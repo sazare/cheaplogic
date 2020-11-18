@@ -1,0 +1,10 @@
+;; basic axioms 1 
+;; find 2 proofs for +Pb, +Pc with {x<-a}
+(
+
+(1 (x) (- P x))
+
+(2 () (+ P (f a)))
+(3 () (+ P b)(- P x))
+(4 () (+ P c)(- P x))
+)

@@ -1,0 +1,11 @@
+;; basic axioms 1 
+;; 3 proofs with x <- (f a), (f b), (g b)
+(
+;goal 1
+(1 (x) (- P x))
+
+(2 () (+ P (f a)))
+(3 (y) (+ P (f y))(- R y))
+(4 (y) (+ P (g y))(- R y))
+(5 () (+ R b))
+)

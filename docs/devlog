@@ -23,6 +23,14 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/18水
+・olidの変数あり意図を書いてみた
+
+・olidの並びをmakerof cidと呼ぶ
+・その順序で並び替えたclauseのbodyはcanonicと呼ぼうかと思ったが、どう使うのかな
+
+
+
 2020/11/17火
 ・OLIDはinput lidではなかっただろうか。作ったときのlidになっているような・・・
 　O=original?
@@ -37,6 +45,8 @@ QEDは☕️でしめす。
 
 ・olidの意図を書いた。
 
+・geneof でClauseのげのむを定義した
+　これを使ってclauseの同一性を調べられるかどうか
 
 2020/11/15日
 ・(load "ito-rubbish-tools.lisp")  ;;これはrubbish専用のITO helperだから、ファイル名ちょっと違うかも

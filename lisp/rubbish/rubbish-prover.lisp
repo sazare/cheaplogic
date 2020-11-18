@@ -18,13 +18,31 @@
   (eval (oppolsymof (lsymof lid)))
 )
 
+;;; marker of clause
+;; compare over atom's name
+(defun name< (ll rr)
+  (string< (string ll)(string rr))
+)
 
-(defun geneof (cid)
-  (loop for lid in (bodyof cid)
-    collect
-      (olidof lid)
+;; sort over olid on bodies
+(defun cmarker (cid)
+  (sort 
+    (loop for lid in (bodyof cid) collect (olidof lid))
+    #'name<
+  )
+)
+
+;; sort the body with olid
+(defun olid< (ll rr)
+  (string< (string (olidof ll)) (string (olidof rr)))
+)
+
+;; vars is (varsof (cidof (car (canoc cid))))
+(defun canonic (cid)
+  (sort 
+    (loop for lid in (bodyof cid) collect lid)
+    #'olid<
   )
 )
 
 
-  
