@@ -28,7 +28,11 @@ QEDは☕️でしめす。
 ・ito-rubbish-proverのあとplay-rubbish-proverを実行するとcidがずれるのでbreakする
 　playは単独で実行すべき
 ・play-rubbish-prover.lispを整理した。cidが重複していたので、番号をつけかえた。
-
+・ccodeをソートしたolidのlistをそのままstringにしてみた sccode 
+　ccodeの場合は()があるかないかだけの違い
+　proofについてcodeを考えてみていて、pcodeはこういうふうに作ればいいのではないかと思う
+　ただしproofの場合、sortすると順番が狂う・・・それはそれでよいかな
+ 1
 
 2020/11/18水
 ・olidの変数あり意図を書いてみた

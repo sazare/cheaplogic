@@ -31,6 +31,14 @@
     #'name<
   )
 )
+(defun sccode (cid)
+  (format nil "~a" 
+    (sort 
+      (loop for lid in (bodyof cid) collect (olidof lid))
+      #'name<
+    )
+  )
+)
 
 ;; sort the body with olid
 (defun olid< (ll rr)
@@ -45,4 +53,25 @@
   )
 )
 
+;;; code for a proof of the cid
+;; this have all information of cid without the order
+
+(defun pcode (cid)
+  (format nil "~a" (pinfof cid))
+)
+
+(defun pinfof (cid)
+  (let ((rule (ruleof cid)))
+    (cond 
+      ((eq rule :resolution) 
+        (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
+          (cond 
+            (rp (append(cons rp (pinfof (cidof rl)))(pinfof (cidof rr))))
+            (t (list cid))
+          )
+        ))
+      (t (list cid))
+    )
+  )
+)
 
