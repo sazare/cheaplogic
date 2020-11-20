@@ -7,17 +7,19 @@
 (defparameter a1 (readskqc "((1 () (+ A a)(+ B a)(+ C a)(+ D a)(+ E a))(2 () (- A a)) (3 () (- B a))(4 ()(- C a))(5 ()(- D a))(6 () (- E a)))"))
 
 (defparameter r7 (resolve-id 'L1-1 'L2-1))
+
 (defparameter r8 (resolve-id 'L7-1 'L3-1))
 (defparameter r9 (resolve-id 'L8-1 'L4-1))
 (defparameter r10 (resolve-id 'L9-1 'L5-1))
+
 (defparameter r11 (resolve-id 'L10-1 'L6-1))
 (defparameter r12 (resolve-id 'L8-2 'L5-1))
 ; to ito-rubbish-prover.lisp
 
 
-(cmarker  'c8)
+(ccode  'c8)
 ;(L1-3 L1-4 L1-5)
-(loop for l in (cmarker 'c8) collect (eval l))
+(loop for l in (ccode 'c8) collect (eval l))
 ;((+ C A) (+ D A) (+ E A))
 (loop for l in (bodyof 'c8) collect (eval l))
 ;((+ C A) (+ D A) (+ E A))
@@ -34,7 +36,7 @@
 ; L13-3 (+ D A) = (OLID L1-4 PLID L1-4 CID C13)
 ; L13-4 (+ E A) = (OLID L1-5 PLID L1-5 CID C13)
 ;NIL
-* (resolve-id 'L5-1 'L13-3)
+(resolve-id 'L5-1 'L13-3)
 ;C14
 ;* (dump-clause 'C14)
 ;C14=(PROOF (RESOLUTION NIL NIL (L5-1 L13-3)) VARS NIL NAME RESOLVENT)
@@ -117,6 +119,6 @@
 
 
 (dump-clauses (append a3 r3))
-(cmarker 'c28)
+(ccode 'c28)
 (canonic 'c28)
 

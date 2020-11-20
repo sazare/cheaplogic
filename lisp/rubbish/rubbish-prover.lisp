@@ -18,14 +18,14 @@
   (eval (oppolsymof (lsymof lid)))
 )
 
-;;; marker of clause
+;;; code of clause
 ;; compare over atom's name
 (defun name< (ll rr)
   (string< (string ll)(string rr))
 )
 
 ;; sort over olid on bodies
-(defun cmarker (cid)
+(defun ccode (cid)
   (sort 
     (loop for lid in (bodyof cid) collect (olidof lid))
     #'name<

@@ -23,6 +23,13 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/21土
+・cmarkerをccodeに変更
+・ito-rubbish-proverのあとplay-rubbish-proverを実行するとcidがずれるのでbreakする
+　playは単独で実行すべき
+・
+
+
 2020/11/18水
 ・olidの変数あり意図を書いてみた
 
