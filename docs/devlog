@@ -27,7 +27,7 @@ QEDは☕️でしめす。
 ・cmarkerをccodeに変更
 ・ito-rubbish-proverのあとplay-rubbish-proverを実行するとcidがずれるのでbreakする
 　playは単独で実行すべき
-・
+・play-rubbish-prover.lispを整理した。cidが重複していたので、番号をつけかえた。
 
 
 2020/11/18水
