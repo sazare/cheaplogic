@@ -32,7 +32,68 @@ QEDは☕️でしめす。
 　ccodeの場合は()があるかないかだけの違い
 　proofについてcodeを考えてみていて、pcodeはこういうふうに作ればいいのではないかと思う
 　ただしproofの場合、sortすると順番が狂う・・・それはそれでよいかな
- 1
+  pcodeはソートしない。S-expのソートがなになのかわからないので。listとatomのリストのソートか・・・
+  atomとpairを順番にstringにして、それらのリストのアルファベット順のソートではどうかな
+　その場合pinfofとは違うなにかになる。
+・ソートしたものがspcode
+・codeのまとめ
+
+ccodeは1clauseのみのolid表現
+pcodeはproofなので、そのclauseのよってたつすべてのolid表現になっている
+pinfof系は、文字列でなくS-式で表している
+proofをlistにすると(さらにsortするということは)　証明の順番の情報は落としている
+
+関数　  文字列　
+ccode   cidのbodyのsorted list
+scode   cidのccodeの文字列
+
+pcode   cidのproofの文字列 without sort
+spcode  cidのproofのsorted 文字列
+
+pinfof  cidのproofのpairのlist without sorted
+spinfof cidのproofのpairの文字列のsorted list(S-式)
+
+例)
+* (proofof 'c50)
+(:RESOLUTION (W.449 U.450 U.452 X.453 X.437 Y.438)
+ (Y.459 U.455 X.458 X.457 X.458 Y.459) (L49-1 L44-1))
+* (ccode 'c50)
+(L42-2 L44-2)
+* (sccode 'c50)
+"(L42-2 L44-2)"
+
+* (pcode 'c50)
+"((L41-3 L44-1) (L41-1 L43-1) (L41-2 L42-1))"
+* (spcode 'c50)
+"(L41-1 L43-1 L41-2 L42-1 L41-3 L44-1)"
+
+ 
+* (pinfof 'c50)
+((L41-3 L44-1) (L41-1 L43-1) (L41-2 L42-1))
+* (spinfof 'c50)
+("L41-3 L44-1" "L41-1 L43-1" "L41-2 L42-1")
+
+・まとめ
+　あるcidについて、proofには、そこにいたるすべてのolidがあり
+ bodyには残っているolidがある
+　だからそのcidについてのすべてがそこにあるように思う。
+
+* (pinfof 'c50)
+((L41-3 L44-1) (L41-1 L43-1) (L41-2 L42-1))
+* (ccode 'c50)
+(L42-2 L44-2)
+* (bodyof 'c50)
+(L50-1 L50-2)
+
+* (print-proof0 'c50)
+C50 RESOLUTION : <L41-3:L44-1> 
+L49-1 (W.449 U.450 U.452 X.453).(+ C U.452 W.449) C49 RESOLUTION : <L41-1:L43-1> 
+L48-1 (X.440 W.443 U.444 W.445 U.446 X.447).(+ A X.440 W.445) C48 RESOLUTION : <L41-2:L42-1> 
+L41-2 (X.429 Y.430 Z.431 W.432 U.433).(+ B Y.430 Z.431)  input C41
+L42-1 (W.434 U.435 X.436).(- B W.434 U.435)  in  input C42
+L43-1 ().(- A A B)  in  input C43
+L44-1 (X.437 Y.438).(- C X.437 Y.438)  in  input C44
+
 
 2020/11/18水
 ・olidの変数あり意図を書いてみた

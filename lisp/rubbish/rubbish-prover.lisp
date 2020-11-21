@@ -55,23 +55,60 @@
 
 ;;; code for a proof of the cid
 ;; this have all information of cid without the order
-
-(defun pcode (cid)
-  (format nil "~a" (pinfof cid))
-)
-
 (defun pinfof (cid)
   (let ((rule (ruleof cid)))
     (cond 
       ((eq rule :resolution) 
         (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
           (cond 
-            (rp (append(cons rp (pinfof (cidof rl)))(pinfof (cidof rr))))
-            (t (list cid))
+            (rp (append (cons (list (olidof (car rp))(olidof (cadr rp))) (pinfof (cidof rl)))(pinfof (cidof rr))))
+            (t (list (ccode cid)))
           )
         ))
-      (t (list cid))
+      (t ())
     )
   )
 )
+
+(defun pcode (cid)
+  (format nil "~a" (pinfof cid))
+)
+
+;; the following is not work. I which every elements are string.
+(defun spinfof (cid)
+  (let ((rule (ruleof cid)))
+    (cond 
+      ((eq rule :resolution) 
+        (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
+          (cond 
+            (rp (append (cons (format nil "~a ~a" (olidof (car rp)) (olidof (cadr rp)))
+                              (spinfof (cidof rl)))(spinfof (cidof rr))))
+            (t (list (string (ccode cid))))
+          )
+        ))
+      (t ())
+    )
+  )
+)
+
+(defun spcode (cid)
+  (format nil "~a" (sort (spinfof cid) #'string<))
+)
+
+
+(defun print-proof0 (cid)
+  (let ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
+    (cond
+      ((iscontradiction cid) (format t "~a [] ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
+      ((car (proofof cid)) (format t "~a ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
+      (t (format t " input ~a~%" cid))
+    )
+    (when (cidof llid) (print-literal llid)
+      (print-proof0 (cidof llid)))
+    (when (cidof rlid) (print-literal rlid)
+      (format t " in ") (print-proof0 (cidof rlid)))
+  )
+)
+
+
 
