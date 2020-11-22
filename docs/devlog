@@ -7,6 +7,7 @@ QEDは☕️でしめす。
 
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
+2020/11/22 print-proof, print-proof0で、litてなくlsymを表示したい。パラメタで指定?
 2020/11/11 literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
 
 20200913 itoのbaseとbase-noranは再定義を含むので、同じitoの中におきたくない。どうすればよいか
@@ -23,6 +24,18 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/22日
+・ccodeの役割はなに?
+　clause setに追加するとき、除外するのはccodeが同じで、instanceになっているもののみ。
+　あやしい
+・実験　ccodeの分布・・・証明の順番でccodeはかわるからよくない
+　pcodeで考えるべきかも
+・proofはlidがみたいのでsigをはずしてprint-proof0とし
+　olidの木はprint-otreeという名前にした
+・print-proof(0)の表示がすこしおかしくて、cidが右になっていたりbodyがなかったり
+  bodyは追加してみた
+
+
 2020/11/21土
 ・cmarkerをccodeに変更
 ・ito-rubbish-proverのあとplay-rubbish-proverを実行するとcidがずれるのでbreakする

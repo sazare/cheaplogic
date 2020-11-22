@@ -96,17 +96,17 @@
 )
 
 
-(defun print-proof0 (cid)
+(defun print-otree (cid)
   (let ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
     (cond
-      ((iscontradiction cid) (format t "~a [] ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
-      ((car (proofof cid)) (format t "~a ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
+      ((iscontradiction cid) (format t "~% ~a [] ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
+      ((car (proofof cid)) (format t "~% ~a ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
       (t (format t " input ~a~%" cid))
     )
     (when (cidof llid) (print-literal llid)
-      (print-proof0 (cidof llid)))
+      (print-otree (cidof llid)))
     (when (cidof rlid) (print-literal rlid)
-      (format t " in ") (print-proof0 (cidof rlid)))
+      (format t " in ") (print-otree (cidof rlid)))
   )
 )
 
