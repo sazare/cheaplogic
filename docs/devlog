@@ -27,7 +27,10 @@ QEDは☕️でしめす。
 2020/11/23月
 ・dump-clausesで引数がないとき*clist*にする関数dump-clausexを作った
 　機能のわりに苦労してしまった。macroがよくわかっていない
+・play-prover0[1234].lispとkqc/provers/prov00[1234].kqcを追加した
+・(lidof cid i) = (nth i-1 (bodyof cid))を作った。prover*.lispをわかりやすく書くため
 ・
+
 2020/11/22日
 ・ccodeの役割はなに?
 　clause setに追加するとき、除外するのはccodeが同じで、instanceになっているもののみ。

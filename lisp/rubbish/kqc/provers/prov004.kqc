@@ -1,0 +1,57 @@
+;; kqc examples for 
+
+(
+(1 (x y z w u) (+ A x y)(+ B y z)(+ C z w)) 
+(2 (x y)       (- C x y) (+ D x y))
+(3 (x y)       (- D x y) (+ B x y))
+(4 (w u x)     (- B w u))
+(5 ()          (- B a b)) 
+(6 (x y)          (+ A x y)(+ B x y))
+)
+
+;; I want to write some proofs for convenient.
+;; the problem is how.
+;(A (((((((L3-2 L4-1) L2-2) L1-3) L4-1) L6-1) L5-1)))
+
+; L seems redundant.
+;(A (((((((3-2 4-1) 2-2) 1-3) 4-1) 6-1) 5-1)))
+
+; requires which literal is upon of resolvents
+;(A (((((((((((3-2 4-1) 1) 2-2) 1) 1-3) 2) 4-1)1) 6-1)1) 5-1))
+;;; this is tedious. index of literal uponed seems to be automatically identified.
+
+;; in consider
+;(A (R r7 (R r6 (R r5 (R r4 (R r3 (R r2 (R r1 L3-2 L4-1) L2-2) L1-3) L4-1) L6-1) L5-1)))
+
+; A is the name of proof
+; R:resolution, M:merge
+; ri: variable for resolvent
+; (R var ll lr) (defparameter var (resolve-id ll lr)))
+;; ll, lr = n-i (n: number, i: index. Ln.i) 
+;; ll, lr = (var i) = (nth i (bodyof var))
+;; Ln-i may be written '(n i)'
+
+
+;; short exmple
+;(A (R r1 3-1 4-2)(R r2 (r1 2) 5-1)(R r3 (r1 1) 6-1)...)
+; 3 (+ P x)
+; 4 (- Q x y)(+ R x)(- P y)
+; 5 (- R a)
+; 6 (- Q a b)
+
+;;; how resolvent created, index depends on it.
+;;; assume (append left right)
+
+;goal trailer (A (R (R (R (R (R (R L3-2 (4 1)) 2-2) (1 3)) 4-1) 6-1) 5-1))
+;same (B (R ((R r1 (3 1)(4 2)) 1) ((R r2 (1 1)(2 2)) 1)))
+
+;gingko (B (R r1 (3 1)(4 2))(R r2 (1 1)(2 2))(R (r1 1)(r2 1)) 
+;(1 (+ P x)(- Q (f x))(- R (g x)))
+;(2 (+ S a)(- P a))
+;(3 (+ V x)(+ Q (f a))(+ U a x))
+;(4 (+ S x)(- V a))
+;; (r1 (+ Q (f a))(+ U a a)(- S z))
+;; (r2 (- Q (f a))(- R (g a))(+ S a))
+;; last = (* (+ U a a)(- S z)(- R (g a))(+ S a))
+
+

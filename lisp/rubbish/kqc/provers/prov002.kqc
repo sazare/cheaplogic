@@ -1,0 +1,11 @@
+;; a sample kqc simple and some variables for prover investigation
+(
+(21 (x y z w u) 
+        (+ A x y)(+ B y z)(+ C z w)(+ D w u)(+ E u x))
+(22 ()  (- A a b)) 
+(23 ()  (- B b c))
+(24 ()  (- C c d))
+(25 ()  (- D d e))
+(26 (x) (- E x x))
+)
+
