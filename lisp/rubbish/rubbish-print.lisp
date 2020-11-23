@@ -51,10 +51,10 @@
   )
 )
 
-(defun dump-clausex (&rest cids)
-  (if (null cids) 
-     (dump-clauses *clist*)
-     (dump-clauses (car cids))
+
+(defun dump-lits (lids)
+  (loop for lid in lids do
+    (when (boundp lid) (format t " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid)))
   )
 )
 
@@ -66,15 +66,15 @@
   )
 )
 
-(defun dump-lits (lids)
-  (loop for lid in lids do
-    (when (boundp lid) (format t " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid)))
-  )
-)
-
-
+;; convenient functions
 (defun dumpcs ()
   (dump-clauses *clist*)
 )
 
-
+;or 
+(defun dump-clausex (&rest cids)
+  (if (null cids) 
+     (dump-clauses *clist*)
+     (dump-clauses (car cids))
+  )
+)
