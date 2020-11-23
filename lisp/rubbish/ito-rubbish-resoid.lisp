@@ -75,8 +75,14 @@
   (intend-ru-proof "proof of l15-1 l16-1" rr5 :resolution '(x) '(a) l101 l111)
 
 
+
 ;(clearbase)
 ;  (defparameter cc50 (readskqc "((50 (x z) (+ P x)(+ R a z)) (51 () (- P a)) (52 (w) (- R w b)))"))
+
+  (defparameter cc70 (readskqc "((171 (x) (+ P x x)) (172 () (- P a a)))"))
+  (defparameter r173 (resolve-id 'l171-1 'l172-1))
+  (intend-ru-clause "contradiction c171 and c172" r173 () :name :resolvent)
+  (intend-ru-proof "proof of 171 and 172" r173 :resolution () () 'l171-1 'l172-1)
 
 )
 

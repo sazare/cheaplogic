@@ -296,7 +296,11 @@
   (intend-equal "013 unifications" '((x . (h b))) (unifications '(x) '(f x) '(f (h b))))
   (intend-equal "013b unifications" '((x . (h b))) (unifications '(x) '(f (h b)) '(f x)))
   (intend-equal "014 unifications" '((x . a)(y . a)) (unifications '(x y) '(f x (g x)) '(f y (g a))))
+
   (intend-equal "015 unifications" '((x . (g a))(y . (g a))) (unifications '(x y) '(f x x) '(f y (g a))))
+  (intend-equal "015a unifications" '((x . a)) (unifications '(x) '(f x x) '(f a a)))
+  (intend-equal "015b unifications" '((x . a)) (unifications '(x) '(f a a) '(f x x)))
+
   (intend-equal "016 unifications" '((x . a)(y . a)) (unifications '(x y) '(f x x) '(f y a)))
   (intend-equal "017 unifications" '((z . a)(y . (g b))(x . b)) (unifications '(x y z) '(f z (h y) (h (h b))) '(f a (h (g x)) (h (h x)))))
   (intend-equal "018 unifications" '((y . (g b))(w . a)(z . b)(x . a)) (unifications '(x y z w) '(f (h y) (h (h w b)) a) '(f (h (g z)) (h (h x z)) x)))

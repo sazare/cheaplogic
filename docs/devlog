@@ -29,7 +29,58 @@ QEDは☕️でしめす。
 　機能のわりに苦労してしまった。macroがよくわかっていない
 ・play-prover0[1234].lispとkqc/provers/prov00[1234].kqcを追加した
 ・(lidof cid i) = (nth i-1 (bodyof cid))を作った。prover*.lispをわかりやすく書くため
-・
+
+・prover02.lispのr30-c26でFAILになる。(resolve-id 'l30-1 'l26-1) 順番は逆でも同じ
+* (print-literal 'l30-1)
+L30-1 ().(+ E A A) 
+* (print-literal 'l26-1)
+L26-1 (X.422).(- E X.422 X.422) 
+
+なぜ?
+(- E x x)のように同じ変数だからか??
+
+* (defparameter cc70 (readskqc "((71 (x) (+ P x x)) (72 () (- P a a)))"))
+CC70
+* 
+cc70            
+(C71 C72)
+* (dump-clausex cc70)
+C71=(VARS (X.433) NAME 71)
+ L71-1 (+ P X.433 X.433) = (OLID L71-1 PLID NIL CID C71)
+C72=(VARS NIL NAME 72)
+ L72-1 (- P A A) = (OLID L72-1 PLID NIL CID C72)
+NIL
+* (resolve-id 'l71-1 'l72-1)
+:FAIL
+
+ということらしい
+
+ぜんぜんできていない。つかれた
+
+*   (intend-equal "015a unifications" '((x . a)) (unifications '(x) '(f x x) '(f a a)))
+
+ 015a unifications: Ito Failed at NIL
+   Expression: (UNIFICATIONS '(X) '(F X X) '(F A A))
+    Intented ((X . A))
+    Evaluated: NO
+NIL
+
+だった。
+ito-rubbish-unif.lispにこのケースを追加した。"015a unifications" 
+ちなみに、(f x x)と(f y (g a))みたいのはOKだった
+
+
+★原因と修正内容
+原因は、unificの前提である d1!=d2が、unificのrecursionの中では正しくない場合があること。
+(f x x), (f a a) のときにおきる。2つめのx, aがa,aになる。
+
+unificsの修正 : 先頭でd1とd2が等しいとき、その時点までの代入mをそのまま返すようにした
+makesubsubsの修正: 最初に同じ場合、sを返すようにした。sはその時点までの代入)
+
+ito-rubbish-unif.lispにケースを追加 上の15aの引数の順番を逆にした15b追加,
+ito-rubbish-resoid.lispに追加
+
+
 
 2020/11/22日
 ・ccodeの役割はなに?

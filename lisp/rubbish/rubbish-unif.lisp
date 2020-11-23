@@ -261,11 +261,13 @@
 
 ;; unifics is for unify with s-not
 (defun unifics (vs d1 d2 m)
-;; assume d1!=d2
+;; assume d1!=d2, but recursion makes d1==d2...
 ;; if v is var(d1 or d2) v never in m in context of unify.
 ;; because d1 or d2 is alredy substed by m.
-  (cond
-    ((isvar vs d1) (makesubsubs vs m (substs d1 m)(substs d2 m)))
+  (let ()
+    (cond
+      ((eq d1 d2) m)
+      ((isvar vs d1) (makesubsubs vs m (substs d1 m)(substs d2 m)))
 ;;; when (substs d1 m) is another var,
 ;;; (substs d1 m) inside (substs d2 m) ?
 ;;; if not, this pair be sigma.(note: d1 already in m)
@@ -275,15 +277,15 @@
 ;;; this seems disag on them... or (unifys vs (substs d1 m)(substs d2 m))?
 ;;; WHY SO COMPLEX???
 
-    ((isvar vs d2) (makesubsubs vs m (substs d2 m)(substs d1 m)))
+      ((isvar vs d2) (makesubsubs vs m (substs d2 m)(substs d1 m)))
 
 ;;; if (substs d2 m) is not var, what can i do for...
 ;;; (substs d2 m) inside (substs d1 m) ?
 ;;; BUT if <(substs d1 m):(substs d2 m)> needed?
-
-    ((or (atom d1)(atom d2)) (throw 'unifications :NO)) ;; it is consts/fun conflict
-    ((eq (car d1)(car d2))(unifics* vs (cdr d1)(cdr d2) m)) ;; func rec.
-    (t (throw 'unifications :NO))
+      ((or (atom d1)(atom d2))  (throw 'unifications :NO)) ;; it is consts/fun conflict
+      ((eq (car d1)(car d2)) (unifics* vs (cdr d1)(cdr d2) m)) ;; func rec.
+      (t  (throw 'unifications :NO))
+    )
   )
 )
 
@@ -299,6 +301,7 @@
 ; v is (subst d? m), may be fterm.
 (defun makesubsubs (vs s v e)
   (cond 
+    ((equal v e) s)
     ((isvar vs v) 
       (cond ((insidep v e) (throw 'unifications :NO))
             (T (subsubs1 s v e))))
