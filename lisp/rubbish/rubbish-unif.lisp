@@ -261,7 +261,6 @@
 
 ;; unifics is for unify with s-not
 (defun unifics (vs d1 d2 m)
-;; assume d1!=d2, but recursion makes d1==d2...
 ;; if v is var(d1 or d2) v never in m in context of unify.
 ;; because d1 or d2 is alredy substed by m.
   (let ()
