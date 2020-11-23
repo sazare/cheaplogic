@@ -198,6 +198,9 @@
   (get cid :name)
 )
 
+(defun lidof (cid i)
+  (nth (- i 1) (bodyof cid))
+)
 
 (defun rawlits (lids)
  (loop for lid in lids collect

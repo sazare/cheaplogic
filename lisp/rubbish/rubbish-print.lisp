@@ -51,6 +51,13 @@
   )
 )
 
+(defun dump-clausex (&rest cids)
+  (if (null cids) 
+     (dump-clauses *clist*)
+     (dump-clauses (car cids))
+  )
+)
+
 (defun dump-clause (cid)
   (cond
     ((iscontradiction cid) (format t "~a CONTRADICTION : ~a=~%" cid (symbol-plist cid)))

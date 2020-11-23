@@ -24,6 +24,10 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/11/23月
+・dump-clausesで引数がないとき*clist*にする関数dump-clausexを作った
+　機能のわりに苦労してしまった。macroがよくわかっていない
+・
 2020/11/22日
 ・ccodeの役割はなに?
 　clause setに追加するとき、除外するのはccodeが同じで、instanceになっているもののみ。
@@ -35,6 +39,25 @@ QEDは☕️でしめす。
 ・print-proof(0)の表示がすこしおかしくて、cidが右になっていたりbodyがなかったり
   bodyは追加してみた
 
+・make-lsymtolids がLsymbolにそれを持つlidのリストを設定する
+　lsymof はlidからlsymbolをつくる
+　これでいききできる
+
+★ make-lsymtolidsがlidsのlist-listを返すけれど、lsymbolのリストがよくないか???
+
+・play-rubbish-prover.lispにはいま3つのaxiom集合を定義しているが、環境がまざるのでわけよう
+　そうすると微妙な違いそれぞれについて1つのファイルを作ることになりそう。
+　別のディレクトリにまとめておこう。kqcでなくasetみたいな
+
+　テスト用だからそれでいいのかkqcを作ったほうがよいのか
+
+　いまはproofを手で作っているので、それはlispファイル(play----のような)が必要
+　データはkqcでよさそ
+  play-prover[123].lisp -> kqc/provers/prov00[123].kqc
+とした
+  lispの中身はplay-rubbish-prover.lispのまま。nameも1, 20, 40はじまりになっている
+
+・
 
 2020/11/21土
 ・cmarkerをccodeに変更
