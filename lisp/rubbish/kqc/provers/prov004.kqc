@@ -1,13 +1,11 @@
 ;; kqc examples for 
 
-(
 (1 (x y z w u) (+ A x y)(+ B y z)(+ C z w)) 
 (2 (x y)       (- C x y) (+ D x y))
 (3 (x y)       (- D x y) (+ B x y))
 (4 (w u x)     (- B w u))
 (5 ()          (- B a b)) 
 (6 (x y)          (+ A x y)(+ B x y))
-)
 
 ;; I want to write some proofs for convenient.
 ;; the problem is how.

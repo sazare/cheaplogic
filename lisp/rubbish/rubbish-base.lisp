@@ -316,3 +316,16 @@
  (loop for id in llist when (isinputlid id) collect id)
 )
 
+
+;;; primitives
+
+;; f^n -- not yet work
+(defun expf (fn n)
+  (cond 
+    ((= n 1) fn )
+    ((> n 1) (fn (expf fn (- n 1))))
+    (t (error "should be >1" n))
+  )
+)
+
+

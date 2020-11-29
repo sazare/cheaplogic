@@ -1,11 +1,8 @@
 ;; play for prover
 ;; propositional case
-(
 (1 () (+ A a)(+ B a)(+ C a)(+ D a)(+ E a))
 (2 () (- A a)) 
 (3 () (- B a))
 (4 () (- C a))
 (5 () (- D a))
 (6 () (- E a))
-)
-

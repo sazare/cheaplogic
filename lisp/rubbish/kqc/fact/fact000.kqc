@@ -1,9 +1,5 @@
 ;; basc proofs
 ;; factrial
 
-(
 (2 ()  (+ P 0 1))
 (3 (x y) (- P x y)(+ P (1+ x) (* x y)))
-)
-
-

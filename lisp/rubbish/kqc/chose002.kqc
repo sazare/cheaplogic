@@ -1,8 +1,6 @@
-(
 #| 1 may be a nconj |#
 (1 (x y) (- P x (f y))(+ Q (g x y)))
 
 #| the belows are axioms |#
 (2 (x) (+ P x (f x))(+ Q (g x b)))
 (3 () (+ R x)(- Q x))
-)

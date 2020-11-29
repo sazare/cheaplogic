@@ -1,9 +1,7 @@
 ;; basic axioms 1 
 ; find [] and sigma={x<-a}
-(
 
 (1 (y) (- P a y))
 (2 (x y) (+ P x y)(- R x))
 (3 (y) (+ R a))
 
-)

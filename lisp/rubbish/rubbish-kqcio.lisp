@@ -1,11 +1,24 @@
 ;; io functions of kqc
 
 ;; one level read and clausify
-(defun readafile (fname)
+
+(defun readafile0 (fname)
  (with-open-file (in fname)
   (read in)
  )
 )
+
+(defun readafile (fname)
+ (with-open-file (ins fname)
+   (let (data)
+     (loop until (eq :eof (setf data (read ins nil :eof)))
+       collect 
+          data
+       )
+     )
+ )
+)
+
 
 (defun readkqc (fname)
  (let ((kqc (readafile fname)))
@@ -19,16 +32,21 @@
 (defun readefile (fname)
  (loop for exp in (readafile fname)
    append 
-     (if (eq 'readefile (car exp))
-       (eval exp)
-       (list exp)
+     (cond 
+       ((equal 'readefile (car exp)) (eval exp))
+       ((equal 'eval (car exp)) (eval exp) ())
+       (t (list exp))
      ) 
  )
 )
 (defun readekqc (fname)
  (let ((kqc (readefile fname)))
-   (loop for k in kqc 
-     collect (make-clause k)
+   (format t "kqc reading ... ~a" fname)
+   (prog1 
+     (loop for k in kqc 
+       collect (make-clause k)
+     )
+     (format t "... end~%")
    )
  )
 )

@@ -1,4 +1,3 @@
-(
 ; 1st example: const, func and var
 ;J r1,c1=simpleprover("data/data001.cnf",3,5)
 ;L (simpleprover 1 "kqc/data001.kqc" 3 5)
@@ -18,8 +17,7 @@
 ;rule is a clause of literal number > 1
 (10 (x y) (- P x y)(+ Q x y)(- R x y))
 
-(defun add (x y) (+ x y))
-(eval (add 4 2))
 (eval (+ 4 2))
+(eval '(defun myadd (x y) (+ x y)))
+(eval (myadd 4 2))
 
-)

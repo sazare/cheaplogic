@@ -1,4 +1,3 @@
-(
 ; simple query for ground facts
 ;; I may call it as bottom facts, or no-var facts.
 
@@ -8,4 +7,3 @@
 (5 () (+ Love Taro Taro))
 (6 () (+ Love Hana Hana))
 (7 () (- Love Jiro Jiro))
-)

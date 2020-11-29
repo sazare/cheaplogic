@@ -7,23 +7,50 @@ QEDは☕️でしめす。
 
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
-2020/11/22 print-proof, print-proof0で、litてなくlsymを表示したい。パラメタで指定?
-2020/11/11 literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
+2020/11/29 package化する
 
-20200913 itoのbaseとbase-noranは再定義を含むので、同じitoの中におきたくない。どうすればよいか
-20200823 lid,clidはもともとの数字またはatomのままでいいような気がする。
+2020/11/11 peval: literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
+
+　　　　　　
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
+
 20200823 resolve/lidの実装(litつき)
-20200822 oppos(resolveの候補lids)をもとめる最短路
-20200822 Lidの木、σの再生とそのコスト
-20201024 readkqcで、全体が1つのlistでないと例外になる。エラーでとらえたい
+
+20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
+
 20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
-20201108 証明の制御方法を考える
-20201108 resoidの意図をくわしくする
-20201108 問題を考える
+　　　　　重複したresolutionが行えないような仕組みがほしい。
+
+2020/11/22 済 print-proof, print-proof0で、litてなくlsymを表示したい。パラメタで指定?
+　　　　　　varsを表示しないようにしたら、全体がみとおせるので、この問題の意図がよくわからなくなった。済にする
+20201024 済 readkqcで、全体が1つのlistでないと例外になる。エラーでとらえたい
+　　　　　S-expのある限り読み込みconsするようにする
+20200822 済oppos(resolveの候補lids)をもとめる最短路
+　　　　　Lsymのpropに持たせるようにした
+20200913 済)itoのbaseとbase-noranは再定義を含むので、同じitoの中におきたくない。どうすればよいか
+　　　　　今はnoranだけで動いているはずなので、関係なくなった
+20200823 済)lid,clidはもともとの数字またはatomのままでいいような気がする。
+　　　　　lidの値としてrawを持っているので、よくない。
 
 
 --- log
+2020/11/29日
+・proverの作り方について検討する
+　総当たりというのは、無意味な気がしてしまう
+・20201024のtodo。readkqc*を作る
+・play-rubbish-kqcio.lispをつくり、現状のすべてのkqcをreadekqcしてみた。確認よう
+・するとreadekqcでreadefileは動くが、そこに(eval (define myadd ...))としたあと(eval (myadd 2 3))とすると
+　　myaddがundefinedになる。
+  これは書き方が間違っていてた。(eval '(defun myadd (x y) (+ x y)))でうごいた。
+　evalを書かずそのまま書くような方法が必要か? evalでなくeでもいいけど
+ 
+
+
+2020/11/28土
+・make-lsymtolids をmake-lsymlistにした。make-psymslistも作成。
+・名前のつけかたを考えよう。lsymofがどのような型からの変換/抽出なのかを示した。
+
+
 2020/11/23月
 ・dump-clausesで引数がないとき*clist*にする関数dump-clausexを作った
 　機能のわりに苦労してしまった。macroがよくわかっていない

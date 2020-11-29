@@ -5,7 +5,7 @@
 
 (defparameter a3 (readkqc "kqc/provers/prov003.kqc"))
 
-(defparameter *lsyms* (make-lsymtolids *llist*))
+(defparameter *lsyms* (make-lsymlist *llist*))
 
 
 (defun run ()

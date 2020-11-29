@@ -1,10 +1,8 @@
 ;; basic axioms 1 
 ;; (+ P a),(+ P b), (+ P c) all match with x?
-(
 
 (1 (x) (- P x))
 
 (2 () (+ P a))
 (3 () (+ P b)(- P a))
 (4 () (+ P c)(- P b))
-)

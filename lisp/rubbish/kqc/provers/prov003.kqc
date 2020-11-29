@@ -1,6 +1,5 @@
 ;; kqc examples for possible some proofs for prover investigation
 
-(
 (41 (x y z w u) (+ A x y)(+ B y z)(+ C z w)) 
 (42 (w u x)     (- B w u)(+ E u x))
 (43 ()          (- A a b)) 
@@ -8,7 +7,6 @@
 (45 ()          (- D d n))
 (46 ()          (- E d e))
 (47 (x)         (- E x x))
-)
 
 ;(A [] (L51-1 ((L50-1 ((L49-1 ((L48-1 (L41-2 L42-1)) L43-1)) L44-1)) L46-1)) L45-1)
 ;(A (((((L41-2 L42-1) L43-1) L44-1) L46-1) L45-1))

@@ -1,9 +1,7 @@
 ;; basic axioms 1 
 ; find [] and no infomation
-(
 
 (1 () (- P a))
 (2 () (+ P a)(- R b))
 (3 () (+ R b))
 
-)

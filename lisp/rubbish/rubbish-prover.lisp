@@ -1,8 +1,7 @@
 ;; for prover control
 
-
 ;; to make lsym -> lids with *llist* like that
-(defun make-lsymtolids (llist)
+(defun make-lsymlist (llist)
   (let ((lsyms ()))
     (loop for y in llist collect
       (let ((nam (lsymof y)))
@@ -15,8 +14,26 @@
   )
 )
 
+;; psym of a lid
+(defun psymoflid (lid)
+  (cadr (litof lid))
+)
 
-;; after make-lsymtolids, find-oppolids finds oppo lids of lid
+;; to make psym list -> lids with *llist* like that
+(defun make-psymlist (llist)
+  (let (psyms)
+    (loop for psym in 
+      (loop for lid in llist collect
+        (psymoflid lid)
+      )
+    do
+      (pushnew psym psyms)
+    )
+    psyms
+  )
+)
+
+;; after make-lsymlist, find-oppolids finds oppo lids of lid
 
 (defun find-oppolids (lid)
   (eval (oppolsymof (lsymof lid)))
