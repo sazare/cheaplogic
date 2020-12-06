@@ -67,6 +67,7 @@
 )
 
 ;; vars is (varsof (cidof (car (canoc cid))))
+;; sorted body
 (defun canonic (cid)
   (sort 
     (loop for lid in (bodyof cid) collect lid)

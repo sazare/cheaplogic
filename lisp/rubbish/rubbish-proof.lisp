@@ -54,3 +54,23 @@
   )
 )
 
+
+(defun fullproof (cid)
+  (let (rpa)
+    (if (proofof cid)  ;; should check :resolution too
+      (let () 
+        (setq rpa (rpairof cid))
+        (cond 
+          ((null rpa) (bodyof cid ))
+          (t (list 
+;             (ruleof cid)
+             (when (car rpa) (list (car rpa) (fullproof (cidof (car rpa)))))
+             (when (cadr rpa) (list (cadr rpa) (fullproof (cidof (cadr rpa)))))
+           ))
+        )
+      )
+      (bodyof cid )
+    )
+  )
+)
+

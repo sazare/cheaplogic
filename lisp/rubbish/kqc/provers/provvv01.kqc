@@ -1,0 +1,19 @@
+; for VV type proof
+
+; nconj
+(1 (X Y) (- P X Y))
+
+; Fact
+(2 () (+ Q a b))
+(3 () (+ R b c))
+
+; Rule
+(4 (x y z) (- P x y)(+ E x y)(+ F y z))
+(5 (x y) (- E x y)(- Q x y))
+(6 (x y) (- F x y)(- R x y))
+
+
+; A ((1 4)(5 2)) (6 2) 
+; B (((((1 4) 5) 2) 6) 3)
+
+

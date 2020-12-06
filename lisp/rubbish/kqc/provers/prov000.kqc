@@ -1,0 +1,13 @@
+;; prop level 2 steps
+
+; Neg conj
+(1 (X Z) (- R X Z))
+
+; Facts
+(2 () (+ P a))
+(3 () (+ P b))
+(4 () (+ P c))
+
+; rule
+(5 (x) (- P x)(+ R x (f x)))
+

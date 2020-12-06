@@ -1,0 +1,16 @@
+; prop with many predicate
+
+; nconj
+(1 (X Y Z) (- P X Y Z))
+
+; Facts
+(2 () (+ W a))
+(3 () (+ S b))
+(4 () (+ U c))
+(5 () (+ V d))
+
+; rule
+(6 (x y z) (+ P x y z)(- Q x y)(- R y z))
+(7 (x w) (+ Q x w)(- W x)(- S w))
+(8 (y z) (+ R y z)(- U y)(- V z))
+

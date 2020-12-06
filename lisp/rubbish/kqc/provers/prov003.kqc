@@ -1,13 +1,14 @@
 ;; kqc examples for possible some proofs for prover investigation
+;; 3x2x1x2x1x1x1  E has options, B comes from 41 x 42 with 46 or 47 
 
-(41 (x y z w u) (+ A x y)(+ B y z)(+ C z w)) 
-(42 (w u x)     (- B w u)(+ E u x))
-(43 ()          (- A a b)) 
-(44 (x y)       (- C x y) (+ D  x y))
-(45 ()          (- D d n))
-(46 ()          (- E d e))
-(47 (x)         (- E x x))
+(1 (x y z w u) (+ A x y)(+ B y z)(+ C z w)) 
+(2 (w u x)     (- B w u)(+ E u x))
+(3 ()          (- A a b)) 
+(4 (x y)       (- C x y) (+ D  x y))
+(5 ()          (- D d n))
+(6 ()          (- E d e))
+(7 (x)         (- E x x))
 
-;(A [] (L51-1 ((L50-1 ((L49-1 ((L48-1 (L41-2 L42-1)) L43-1)) L44-1)) L46-1)) L45-1)
-;(A (((((L41-2 L42-1) L43-1) L44-1) L46-1) L45-1))
-;(B (((((L42-1 L46-1) L41-2) L44-2) L45-1) L43-1))
+;(A [] (L11-1 ((L10-1 ((L9-1 ((L8-1 (L1-2 L2-1)) L3-1)) L4-1)) L6-1)) L5-1)
+;(A (((((L1-2 L2-1) L3-1) L4-1) L6-1) L5-1))
+;(B (((((L2-1 L6-1) L1-2) L4-2) L5-1) L3-1))

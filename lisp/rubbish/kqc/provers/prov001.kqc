@@ -1,5 +1,6 @@
 ;; play for prover
-;; propositional case
+;; propositional case, 5x1x1x1x1x1 = 0
+
 (1 () (+ A a)(+ B a)(+ C a)(+ D a)(+ E a))
 (2 () (- A a)) 
 (3 () (- B a))

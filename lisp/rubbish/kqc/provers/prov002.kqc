@@ -1,4 +1,5 @@
 ;; a sample kqc simple and some variables for prover investigation
+;; 5x1*5 with 2 args with vars
 (21 (x y z w u) 
         (+ A x y)(+ B y z)(+ C z w)(+ D w u)(+ E u x))
 (22 ()  (- A a b)) 
