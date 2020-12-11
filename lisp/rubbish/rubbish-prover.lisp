@@ -92,8 +92,18 @@
   )
 )
 
+(defun pinfoflp (llid rlid)
+  (append (cons (list (olidof llid)(olidof rlid)) (pinfof (cidof llid)))(pindof (cidof rlid))) 
+)
+
+
+
 (defun pcode (cid)
   (format nil "~a" (pinfof cid))
+)
+
+(defun make-pcode (lid1 lid2)
+
 )
 
 ;; the following is not work. I which every elements are string.

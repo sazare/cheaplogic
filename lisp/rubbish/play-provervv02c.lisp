@@ -8,24 +8,24 @@
 (defparameter a1 (readkqc "kqc/provers/provvv02.kqc"))
 
 (defun run ()
-; A (((1 6)(((7 9) 2) 3)(((8 10) 4) 5)))
-; B (((((1 (((6 7) 9) 2) 3) 8) 10) 4) 5)
-; C ((((((7 9) 2) 3) 6) ((((8 10) 4) 5)) ) 1)
-;;; etc...
-;case C
- (defparameter r1 (resolve-id 'l7-2 'l9-1))
- (defparameter r2 (resolve-id (lidof r1 2) 'L2-1))
- (defparameter r3 (resolve-id (lidof r2 2) 'L3-1))
- (defparameter r4 (resolve-id 'l8-2 'l10-1))
- (defparameter r5 (resolve-id (lidof r4 2) 'l4-1))
- (defparameter r6 (resolve-id (lidof r5 2) 'l5-1))
- (defparameter r7 (resolve-id (lidof r6 1) 'l6-3))
- (defparameter r8 (resolve-id (lidof r7 2) (lidof r3 1)))
- (defparameter r9 (resolve-id (lidof r8 1) 'l1-1))
-
-; (fullproof r9)
-; (pinfof r9)
-  "case C"
+  ; A (((1 6)(((7 9) 2) 3)(((8 10) 4) 5)))
+  ; B (((((1 (((6 7) 9) 2) 3) 8) 10) 4) 5)
+  ; C ((((((7 9) 2) 3) 6) ((((8 10) 4) 5)) ) 1)
+  ;;; etc...
+  ;case C
+   (defparameter r1 (resolve-id 'l7-2 'l9-1))
+   (defparameter r2 (resolve-id (lidof r1 2) 'L2-1))
+   (defparameter r3 (resolve-id (lidof r2 2) 'L3-1))
+   (defparameter r4 (resolve-id 'l8-2 'l10-1))
+   (defparameter r5 (resolve-id (lidof r4 2) 'l4-1))
+   (defparameter r6 (resolve-id (lidof r5 2) 'l5-1))
+   (defparameter r7 (resolve-id (lidof r6 1) 'l6-3))
+   (defparameter r8 (resolve-id (lidof r7 2) (lidof r3 1)))
+   (defparameter r9 (resolve-id (lidof r8 1) 'l1-1))
+  
+  ; (fullproof r9)
+  ; (pinfof r9)
+    "case C"
 )
 
 ;* (dump-clausex)

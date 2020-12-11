@@ -31,6 +31,10 @@
 
 )
 
+(defun file () "play-provervv02a.lisp")
+(defun info () 
+  (format t "proof structure contains VV, ~% pattern A")
+)
 
 ;* (dump-clausex)
 ;C10=(VARS (X.428 Y.429) NAME 10)

@@ -8,5 +8,6 @@
 (defparameter a1 (readkqc "kqc/provers/provvv01.kqc"))
 
 (defun run ()
+  "not yet implement"
 
 )

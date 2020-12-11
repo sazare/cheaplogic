@@ -34,6 +34,13 @@
   )
 )
 
+
+(defparameter *pcodelist* nil)
+
+(defun existpcode (lid1 lid2)
+  nil
+)
+
 ;; resolve cid/lid version
 (defun resolve-id (lid1 lid2)
   (let* ((vs (append (varsof (cidof lid1)) (varsof (cidof lid2))))
@@ -44,7 +51,9 @@
    (cond
 ;;; litとlidの対応をつける
      ((eq sig :NO) ':FAIL)
-     (t (entry-clause lid1 lid2 vs sig (append (remof lid1) (remof lid2))
+;     ((existpcode lid1 lid2) ':FAIL) ;; this resolvent was already made
+     (t ;(pushnew (make-pcode lid1 lid2) *pcodelist*)
+        (entry-clause lid1 lid2 vs sig (append (remof lid1) (remof lid2))
                 (subsubp vs (append (lit*of (remof lid1)) (lit*of (remof lid2))) sig)))
    )
   )

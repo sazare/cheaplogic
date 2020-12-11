@@ -1,5 +1,7 @@
 ; rubbish loader
 
+(load "essential.lisp")
+
 (load "load-rubbish-gen.lisp")
 
 (load "load-rubbish-base.lisp")
