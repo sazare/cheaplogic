@@ -29,7 +29,7 @@
     (setcid ncid :resolvent (subsubp vs (shrinkvs vs sig) ns) (subsubp vs body ns)) ;;; this conflicts
 
     (entry-proof ncid :resolution vs (subsubp vs sig ns) (list lid1 lid2))
-
+    (rubbish-log :resolvent ncid)
     ncid
   )
 )
@@ -48,7 +48,7 @@
          (a2 (latomicof lid2)) 
          (sig (funification vs a1 a2)))
 ;; logging
-   (resolve-log lid1 lid2 vs sig)
+   (rubbish-log lid1 lid2 vs sig)
 ;; here: vs.sig is a mgu or sig==:NO
    (cond
 ;;; litとlidの対応をつける
