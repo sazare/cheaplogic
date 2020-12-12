@@ -109,7 +109,14 @@ B=(3:8/9:10/11:6)
 グラフではなくパス
 
 
-
+・rubbish-log.lispを作成。timeはessential.lisp。
+　(resolve-id)でfunificationの結果をlogにとるように修正した。
+  それらしいものはでるようになった。
+　いまはlogをとらないというオプションがない。
+　logをとらないとき、その処理にかかる時間が無視できるようになるとうれしい。
+・log関係の関数を作った
+　(logon)(logoff)(logstate)
+  (clearlog) (printlog)
 
 2020/12/09水
 ・resolventを作る前に、そのresolventのpcodeが*pcodepool*にあったら、作るのやめる、ようにした

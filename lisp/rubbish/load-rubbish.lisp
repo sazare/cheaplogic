@@ -17,3 +17,5 @@
 (load "rubbish-print.lisp")
 (load "rubbish-proof.lisp")
 
+(load "rubbish-log.lisp")
+

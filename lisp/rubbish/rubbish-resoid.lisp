@@ -47,6 +47,8 @@
          (a1 (latomicof lid1))
          (a2 (latomicof lid2)) 
          (sig (funification vs a1 a2)))
+;; logging
+   (resolve-log lid1 lid2 vs sig)
 ;; here: vs.sig is a mgu or sig==:NO
    (cond
 ;;; litとlidの対応をつける
