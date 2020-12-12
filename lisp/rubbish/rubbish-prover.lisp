@@ -106,7 +106,14 @@
 
 
 (defun make-pcode (lid1 lid2)
-  ;; in construction 
+;; may be should be sorted
+  (cons
+    (list (olidof lid1)(olidof lid2))
+    (append 
+      (pinfof (cidof lid1))
+      (pinfof (cidof lid2))
+    )
+  )
 )
 
 ;; the following is not work. I which every elements are string.
