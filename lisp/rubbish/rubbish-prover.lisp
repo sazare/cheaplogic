@@ -77,6 +77,7 @@
 
 ;;; code for a proof of the cid
 ;; this have all information of cid without the order
+;; this may be sorted.
 (defun pinfof (cid)
   (let ((rule (ruleof cid)))
     (cond 
@@ -92,18 +93,20 @@
   )
 )
 
+;;pinfofolp for checking before make resolvent.
 (defun pinfoflp (llid rlid)
   (append (cons (list (olidof llid)(olidof rlid)) (pinfof (cidof llid)))(pindof (cidof rlid))) 
 )
 
 
-
+; pcode of cid for successful unificaton
 (defun pcode (cid)
   (format nil "~a" (pinfof cid))
 )
 
-(defun make-pcode (lid1 lid2)
 
+(defun make-pcode (lid1 lid2)
+  ;; in construction 
 )
 
 ;; the following is not work. I which every elements are string.

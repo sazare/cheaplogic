@@ -7,6 +7,14 @@
   )
 )
 
+;; print clause list
+
+(defun print-clausex (cs)
+  (loop for c in cs do
+    (format t "~a=~a~%" c (bodyof c))
+  )
+)
+
 (defun print-literal (lid)
   (cond 
     ((null (varsof (cidof lid))) (format t "~a ().~a " lid (litof lid)))
@@ -78,3 +86,4 @@
      (dump-clauses (car cids))
   )
 )
+
