@@ -4,10 +4,17 @@ QEDは☕️でしめす。
 重要なことは🎂でしめす。「こう」
 何かの影響を🕸でしめす。「す」
 
+2020/12/20 自分の開発スタイルは、未来の自分が、なにかやりたいことがあるとき、その修正箇所が
+　すぐにわかるようなコードにすること。だと思う。
+　grepくらいしかツールはないのだけれど、(Smalltalkならbrowserの多彩な機能が使える・・・)
+　それで修正箇所がすぐにわかるように作っておくこと。
+　それは、自分がだんだん馬鹿になっていくこととは独立な話。
+
 
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2020/12/18 pevalでリテラルを消すルールを:pevalとして登録しよう。cidはふえてリテラルの中身はかわらない。
 
 2020/11/29 環境のsave/restoreはどうやればできるかを考える
 
@@ -38,12 +45,50 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/12/20日
+・lsymにはolidしかはいっていない。resolventも追加する必要がある。
+・たとえば、lidのpsymとrawliteralのpsymはどちらもpsymofで参照したいか。
+　今は、psymoflidとpsymofみたいになっている。
+　ということは、resolutionの相手は全部input clauseということになり、VVができない。
+  では、resolventのlidもlsymに追加すべきか。
+　その場合の問題点
+　　- 世界にひとつしかaxiom setはないと考えている。(そもそもvalueに設定しているとはそういうこと)
+　　- それはつまり、factによって変化するaxiom setの扱いをどうするか
+　　　・ひとつは、factと矛盾するclauseをopposから削除する方法。lsymのlidsから消す。それは可能か?
+　　　　あるclauseは、そしてそのbodyのlidはどういう条件で消しうるのか。
+　　　・または、opposの情報をそれぞれの可能世界で分けるという方法
+　　　　今のようにlsymのvalueにlidのリストを持たせるのでなく、可能世界ごとに対応リストを管理する。
+　　　　可能世界はどのように定義できるか
+・pevalを実装しよう。他のと独立な機能である。そのためにはcommonlisp の condition systemの
+　理解が必要な気がする
+
+
+★termに型を持っていないからこうなる。atomとs式で切り分けられるなら、generic でできるか? 
+
+2020/12/19土
+・しばらくproverのソースを見ていなかったら、opposとlsym関係の処理のつながりが
+　わからなくなっている。
+　同じlsymのlidはlsymのvalueではなかったか
+　opposをとるのはできている
+　lidのlsymの先頭がなぜかNILニナッテイル???
+　(make-lsymlist)でlsymにそのlidがはいる。
+
+・resolventは追加されるのか?
+  olidにその子のlidをもたせるのはいかがなものか
+
+
+2020/12/17木
+検討事項
+  ・lidのリストかcidか
+　・pevalにはどういうlidをつけるか。消えるからいらないか。
+　　ruleは:pevalでいいが、新しいcidをつけるか。その場合、lidの増加あり
+
+
 2020/12/13日
 ・(make-pcode l1 l2)を作成。これはresolutionをする前にpcodeを調べて、そのresolutionが
 　必要かどうかを確かめるためのもの。
 
-・
-
+・goal-trail班のproverを作り始める
 
 2020/12/12土
 ・rubbish-log.lispを作成。timeはessential.lisp。

@@ -1,7 +1,7 @@
 ; for VV type proof
 
 ; nconj
-(1  (X Y) (- P X Y))
+(1  (X Y) (+ P X Y))
 
 ; Fact
 (2  () (+ S1 a))

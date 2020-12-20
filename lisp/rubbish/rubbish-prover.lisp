@@ -36,8 +36,17 @@
 ;; after make-lsymlist, find-oppolids finds oppo lids of lid
 
 (defun find-oppolids (lid)
-  (eval (oppolsymof (lsymof lid)))
+  (let (lsym opsym)
+    (setq lsym (lsymof lid))
+    (if (boundp lsym) 
+      (progn 
+        (setq opsym (oppolsymof lsym))
+        (if (boundp opsym) (eval opsym) nil)
+      )
+      nil)
+  )
 )
+  
 
 ;;; code of clause
 ;; compare over atom's name
