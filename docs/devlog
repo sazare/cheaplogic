@@ -45,6 +45,30 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/12/27日
+・pevalをつくりかけているが、commonlispのconditionを使ってエラーをキャッちする
+　方法がまだわかっていない。
+・手間取りそうなので、先にprover-gtを作ろうと思う
+・(make-lsymlist)をリファクタリング。1つのlidについて処理する(pushlsym)を追加した。
+　これでresolventのlid-lsymの登録はできる。listは*lsymlist*
+・とはいえ、まず初めに、これを使わずinput literalだけでやってみる。
+　(rubbish-prover-gtrail.lisp)が関数で使い方は
+　(play-prover-gt0.lisp)のとおり
+　1step証明だけのprov0.kqcでgoal=(c1)にして3つの証明を求められた
+
+* (load "play-prover-gt0.lisp")
+* (run)
+* (pinfof 'c17)
+((L1-1 L3-1))
+* (print-proof 'c17)
+
+ C17 [] RESOLUTION (X.432) <- (B) : <L1-1:L3-1> 
+L1-1 (X.432).(- P X.432)  input C1 (L1-1)
+L3-1 ().(+ P B)  in  input C3 (L3-1)
+
+mguもみつかっている。X<-B
+
+
 2020/12/20日
 ・lsymにはolidしかはいっていない。resolventも追加する必要がある。
 ・たとえば、lidのpsymとrawliteralのpsymはどちらもpsymofで参照したいか。

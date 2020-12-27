@@ -1,18 +1,28 @@
 ;; for prover control
 
+;;; define *lsymlist*
+(defparameter *lsymlist* nil)
+
+
+;; setup lsym of the lid has the lid
+(defun pushlsym (lid)
+  (let ((lsym (lsymof lid)))
+;; if a lsym was orphan, new binding should made.
+    (if (boundp lsym) (intern (string lsym)) (set lsym ()))
+    (set lsym (union (cons lid nil) (eval lsym))) ;; a lsym has the lid has the lsym
+;    (pushnew lid lsym)        ;; a lsym has the lid has the lsym. this should be macro and ...
+    (pushnew lsym *lsymlist*) ;; if the lsym created on the fly, this call should be.
+  )  
+)
 ;; to make lsym -> lids with *llist* like that
 (defun make-lsymlist (llist)
   (let ((lsyms ()))
-    (loop for y in llist collect
-      (let ((nam (lsymof y)))
-        (if (boundp nam) (intern (string nam)) (set nam ()))
-        (set nam (union (cons y nil) (eval nam)))
-        (pushnew nam lsyms)
-      )
+    (loop for lid in llist do
+      (pushlsym lid)
     )
-    lsyms
   )
 )
+
 
 ;; psym of a lid
 (defun psymoflid (lid)

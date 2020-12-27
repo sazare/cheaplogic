@@ -5,7 +5,8 @@
 
 (defparameter a3 (readkqc "kqc/provers/prov004.kqc"))
 
-(defparameter *lsyms* (make-lsymlist *llist*))
+(make-lsymlist *llist*)
+*lsymlist*
 
 (defun run ()
   ;(A (((((((L3-2 L4-1) L2-2) L1-3) L4-1) L6-1) L5-1)))
