@@ -9,7 +9,7 @@
   (setq *rubbish-log* nil)
 )
 
-(defun logprint ()
+(defun logshow ()
   (loop for log in *rubbish-log* 
     do (format t "~a~%" log)
   )

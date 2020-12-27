@@ -48,6 +48,17 @@ QEDは☕️でしめす。
 2020/12/28月
 ・gt0で実行できたのでcommitした
 ・logをとると、proof見るよりもわかりやすい
+・2stepの例 gt1.kqcも動いた。こちらはxでリテラル間のmguの交換ができている
+・3stepsの例 gt2.kqc。[]は思ったようにでた。mguの伝播まではわからない。
+・だめなはずの例 vv
+・resolve-idがうまくいっているかの確認用に、mguが複雑に発生する例
+
+・logだけではmguの伝播がよくわからない。print-proofでmguもみなくてはならない。
+　そこは何か手段がありそう。
+
+
+・logprintのprintに違和感があったのでlogshowに変更した
+
 
 2020/12/27日
 ・pevalをつくりかけているが、commonlispのconditionを使ってエラーをキャッちする
