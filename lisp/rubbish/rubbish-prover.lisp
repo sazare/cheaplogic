@@ -16,7 +16,7 @@
 )
 ;; to make lsym -> lids with *llist* like that
 (defun make-lsymlist (llist)
-  (let ((lsyms ()))
+  (let ()
     (loop for lid in llist do
       (pushlsym lid)
     )
@@ -114,7 +114,7 @@
 
 ;;pinfofolp for checking before make resolvent.
 (defun pinfoflp (llid rlid)
-  (append (cons (list (olidof llid)(olidof rlid)) (pinfof (cidof llid)))(pindof (cidof rlid))) 
+  (append (cons (list (olidof llid)(olidof rlid)) (pinfof (cidof llid)))(pinfof (cidof rlid))) 
 )
 
 

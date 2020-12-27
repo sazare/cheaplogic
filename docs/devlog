@@ -50,15 +50,17 @@ QEDは☕️でしめす。
 ・logをとると、proof見るよりもわかりやすい
 ・2stepの例 gt1.kqcも動いた。こちらはxでリテラル間のmguの交換ができている
 ・3stepsの例 gt2.kqc。[]は思ったようにでた。mguの伝播まではわからない。
-・だめなはずの例 vv
-・resolve-idがうまくいっているかの確認用に、mguが複雑に発生する例
+・だめなはずの例 vv gt3vv.kqc。[]はできているようだ。順番をかえるとinputでできてしまうのかも
+・resolve-idがうまくいっているかの確認用に、mguが複雑に発生する例 gt4.kqc
+  gt4で1[]がでるようにしたが、簡単すぎる例ではないか。
 
 ・logだけではmguの伝播がよくわからない。print-proofでmguもみなくてはならない。
 　そこは何か手段がありそう。
 
-
 ・logprintのprintに違和感があったのでlogshowに変更した
 
+・終了時のgoallistをみたい。 みれるようにした
+・
 
 2020/12/27日
 ・pevalをつくりかけているが、commonlispのconditionを使ってエラーをキャッちする

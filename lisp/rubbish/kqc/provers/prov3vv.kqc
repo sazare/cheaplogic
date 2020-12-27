@@ -1,0 +1,15 @@
+;; prop simprest 
+
+; Neg conj
+; !! c1 makes fail when nc=(- P X X)
+(1 (X Y) (- P X Y))
+
+
+; Facts
+(2 (x y) (+ P x y)(- R x)(- Q y))
+(3 (x) (+ R x)(- W x))
+(4 ()  (+ W a))
+(5 (x) (+ Q x)(- V x))
+(6 ()  (+ V b))
+
+

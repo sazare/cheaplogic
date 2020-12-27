@@ -1,0 +1,11 @@
+;; prop simprest 
+
+; Neg conj
+(1 (X) (- P X))
+
+; Facts
+(2 (x) (+ P x)(- R x))
+(3 (x) (+ P x)(- Q x))
+(4 () (+ R a))
+(5 () (+ Q b))
+
