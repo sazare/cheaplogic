@@ -1,6 +1,5 @@
 ;; simplest 
 (load "load-rubbish.lisp")
-(load "rubbish-prover.lisp")
 (load "rubbish-prover-gtrail.lisp")
 
 ;; play for prover
