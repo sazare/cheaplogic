@@ -79,12 +79,12 @@
 
      (setq  newgoal  (step-solver goal))
 
-(format t "before: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
+;(format t "before: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
      (multiple-value-setq (cs newgoals) (gathercontra newgoal) )
      (setq contradictions (append cs contradictions))
      (setq goallist (append goallist newgoals))
      (setq newgoal nil)
-(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
+;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
 
      (cond
        ((> (length *clist*) *max-clauses*) (return-from prover-loop (quit-contra "number of clauses exceeds")))
