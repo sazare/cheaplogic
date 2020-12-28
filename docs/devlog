@@ -60,7 +60,12 @@ QEDは☕️でしめす。
 ・logprintのprintに違和感があったのでlogshowに変更した
 
 ・終了時のgoallistをみたい。 みれるようにした
-・
+・prover.lispでpinfofをpindofにタイポしていたので修正した
+・prover-gt001.lispで前に作ったprov001.kqcのgoal trail proofできた
+・000, 002も動いた。
+・prov003.kqcはcontradictionの数が10以上あったので、*max-contradictions* = 20で終了した
+  これは000,002を実行した後に動かしたからだった。[]が累積していたので10をこえていた。
+
 
 2020/12/27日
 ・pevalをつくりかけているが、commonlispのconditionを使ってエラーをキャッちする
