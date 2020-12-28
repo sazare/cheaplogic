@@ -6,7 +6,7 @@
 (3 (x y)       (- D x y) (+ B x y))
 (4 (w u x)     (- B w u))
 (5 ()          (- B a b)) 
-(6 (x y)       (+ A x y)(+ B x y))
+(6 (x y)       (- A x y)(+ B x y))
 
 
 

@@ -94,9 +94,10 @@
          ((> (- (time-current-secs) time-start) *timeout-sec*)  (return-from prover-loop (quit-contra "run time exceeds")))
          ((when-finish-p)  (return-from prover-loop (quit-contra "when-finish-p decide to finish")))
        )
+  finally
+  (format t "finished. goallist is empty~%")
+  (format t "contradictions=~a~%" contradictions)
   )
-  (format t "finished~%")
-  (format t "contradictions=~a~%goallist=~a~%" contradictions goallist)
-  )
+)
 )
 

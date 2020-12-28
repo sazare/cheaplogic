@@ -8,9 +8,9 @@
 (3 () (+ R b c))
 
 ; Rule
-(4 (x y z) (- P x y)(+ E x y)(+ F y z))
-(5 (x y) (- E x y)(- Q x y))
-(6 (x y) (- F x y)(- R x y))
+(4 (x y z) (+ P x y)(- E x y)(- F y z))
+(5 (x y) (+ E x y)(- Q x y))
+(6 (x y) (+ F x y)(- R x y))
 
 
 ; A ((1 4)(5 2)) (6 2) 
