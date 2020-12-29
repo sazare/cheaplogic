@@ -1,0 +1,29 @@
+;; Madoka Magica
+
+(1  (x) (- Love x Kamijo))
+
+(2  () (- H Kamijo))
+(3  () (- H Sayaka))
+
+
+(4  (x) (+ H x))
+
+; Fact
+(5  () (+ B Kamijo))
+(6  () (+ G Hitomi))
+(7  () (+ G Madoka))
+(8  () (+ MG Mami))
+(9  () (+ MG Sayaka))
+(10 () (+ MG Homura))
+(11 () (+ MG Kyoko))
+(12 () (+ C QB))
+(13 () (+ Love Sayaka Kamijo))
+(14 () (+ Love Hitomi Kamijo))
+(15 () (+ Love Kyoko Sayaka))
+(16 () (+ Love Homura Madoka))
+
+;; Theory
+(17 (x) (- MG x) (+ G x))
+(18 (x) (- B x) (+ H x))
+(19 (x) (- G x) (+ H x))
+

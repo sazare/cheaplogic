@@ -45,6 +45,24 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/12/30水
+・statisticsとして情報をあつめる。
+  contraの数
+　proof stepの最大値
+　input clause 数
+  rsolvent数
+  input literal数
+　literal数
+　input literalに対するインスタンスliteralの数
+　　同じolidを持つlidの数
+
+★ 同じ環境で複数のkqcを処理できないのが面倒くさいな
+　property listを使っているからしかたがないが、それを変更するにはどうするか
+
+　property listのかわりになるものを導入する。hash
+
+
+
 2020/12/29火
 ・これまでのplay-proverのパターンで1つ関数化する。(play-prover-gtrail names kqcfile)
 ・play-prover*lispをこの関数を呼ぶように変更
@@ -72,6 +90,10 @@ QEDは☕️でしめす。
 
 ・kqcを読み込んで指定されたgoalのrefutation。
 　goalの指定はCnでなくname n それ自体にしたい。n -> Cnを作る関数はあったかな。
+
+・proverの最後にsummaryを出力するようにしたが、limit超えの場合だせていない。
+  contradictionsは*clist*から作れる
+  trailsとproofはまだ作っていないが、globalに計算できるようにしたい。
 
 2020/12/28月
 ・gt0で実行できたのでcommitした

@@ -3,7 +3,6 @@
 ;;; define *lsymlist*
 (defparameter *lsymlist* nil)
 
-
 ;; setup lsym of the lid has the lid
 (defun pushlsym (lid)
   (let ((lsym (lsymof lid)))

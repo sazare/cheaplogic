@@ -1,7 +1,7 @@
 ;; prover with goal trailer
 ;; parameters
 (defparameter *max-clauses* 1000)
-(defparameter *max-contradictions* 10)
+(defparameter *max-contradictions* 30)
 (defparameter *max-trials* 100)
 (defparameter *max-steps* 100)
 (defparameter *timeout-sec* 10)
@@ -59,6 +59,19 @@
 ;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
 
 
+(defun quit-contra (message)
+  (format t "~%limit-over ~a~%" message) 
+)
+
+(defun summary (time-start contras trials steps )
+  (format t "~%timeconsumed=~a~%#clauses=~a~%#contras=~a~%#trials=~a~%#max proof steps=~a~%"
+    (- (time-current-secs) time-start)
+    (length *clist*)
+    (length contras)
+    trials
+    steps)
+)
+
 (defun prover-gtrail (goals)
   (prog (
          (contradictions nil) 
@@ -104,19 +117,6 @@
         (summary time-start contradictions trials-count proof-steps)
     )
   )
-)
-
-(defun quit-contra (message)
-  (format t "~%limit-over ~a~%" message) 
-)
-
-(defun summary (time-start contras trials steps )
-  (format t "~%timeconsumed=~a~%#clauses=~a~%#contras=~a~%#trials=~a~%#max proof steps=~a~%"
-    (- (time-current-secs) time-start)
-    (length *clist*)
-    (length contras)
-    trials
-    steps)
 )
 
 (defun cidlistfy (namelist)
