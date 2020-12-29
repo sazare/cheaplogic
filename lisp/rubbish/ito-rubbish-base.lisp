@@ -10,9 +10,10 @@
 
 (defito ito-setlid ()
   "setlid sets property of lid"
+  (setf (get 'c :olid) 'd)
   (defparameter l1 (setlid 'a 'b 'c '(a b c)))
   (intend-equal "plid is" 'c (plidof 'a))
-  (intend-equal "olid is" 'a (olidof 'a))
+  (intend-equal "olid is" 'd (olidof 'a))
   (intend-equal "cid is" 'b (cidof 'a))
   (intend-equal "lit is" '(a b c) a)
 )
@@ -122,10 +123,15 @@
 ;                (subsubp (car nc) (cadr nc) '(x y)))
 ;)
 
+(defito ito-cidfy ()
+  "cidfy make cid from name"
+  (intend-equal "cid is Cn form" 'C12 (cidfy 12))
+)
 
 ;;
 (defito ito-all-base ()
   "tests for base "
+  (ito-cidfy)
   (ito-setlid)
   (ito-make-clause)
   (ito-litof)

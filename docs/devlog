@@ -45,6 +45,34 @@ QEDは☕️でしめす。
 
 
 --- log
+2020/12/29火
+・これまでのplay-proverのパターンで1つ関数化する。(play-prover-gtrail names kqcfile)
+・play-prover*lispをこの関数を呼ぶように変更
+・gt5,6,7を追加 
+   5     : 2clauses goal
+   6loop : -P+P パターン 無限に証明が生成されるが[]は0個。inputが3の場合。
+   7loop : fact introで[]が無限にできてout。必要なものが見つかっているのか? inputが3の場合。
+   8loop : input もxにした場合。[]は1つだけ。つまり1(0 1)だけ。
+
+何をみれば、求めるものがみつかるのだろうか。
+7loopでは
+*  (loop for x in *clist* unless (bodyof x) collect x)
+(C26 C24 C22 C20 C18 C16 C14 C12 C10 C8 C6)
+* (pinfof 'c6)
+((L1-1 L3-1))
+* (pinfof 'c8) 
+((L4-2 L3-1) (L1-1 L4-1))
+* (pinfof 'c10)
+((L4-2 L3-1) (L4-2 L4-1) (L1-1 L4-1))
+* (pinfof 'c12)
+((L4-2 L3-1) (L4-2 L4-1) (L4-2 L4-1) (L1-1 L4-1))
+であり、c12はc10と同じだから、ここでsatulatedという感じ。
+
+・正常時にsummaryを出力するようにした。quit時にでないのはどうするか。
+
+・kqcを読み込んで指定されたgoalのrefutation。
+　goalの指定はCnでなくname n それ自体にしたい。n -> Cnを作る関数はあったかな。
+
 2020/12/28月
 ・gt0で実行できたのでcommitした
 ・logをとると、proof見るよりもわかりやすい
@@ -66,7 +94,9 @@ QEDは☕️でしめす。
 ・prov003.kqcはcontradictionの数が10以上あったので、*max-contradictions* = 20で終了した
   これは000,002を実行した後に動かしたからだった。[]が累積していたので10をこえていた。
 　正しい結果かどうかは検討が必要。
+  複数リテラる1goalの例。
 ・prov004.kqcも[]がでた。正しい結果かどうかは検討が必要。
+  複数リテラる1goalの例。
 
 ・provvv02c.kqcは[]が1つできた。
 ・provvv01c.kqcは[]が1つできた。

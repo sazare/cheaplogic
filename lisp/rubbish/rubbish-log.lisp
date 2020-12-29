@@ -15,6 +15,13 @@
   )
 )
 
+; show some range of all rubbish-log
+(defun logshown (&optional (b (- (length *rubbish-log*) 1)) (n 10))
+  (loop for i from b downto (- b n) do
+    (format t "~a:~a~%" i (nth i *rubbish-log*))
+  )
+)
+
 ;; about logging-active control
 (defparameter *logging-active* nil)
 

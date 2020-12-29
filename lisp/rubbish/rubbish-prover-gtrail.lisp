@@ -28,9 +28,6 @@
   )
 )
 
-(defun quit-contra (message)
-  (format t "~%limit-over ~a~%" message) 
-)
 
 (defun step-solver (goal) ; goal is cid
   (let (target oppos (newgoals ()) res ) ;step1 select a lid in goal ; CASE CID
@@ -48,6 +45,20 @@
   ) 
 )
 
+(defun show-parameter (time-start)
+    (format t 
+  "~%time-start           = ~a
+  *max-clauses*        = ~a
+  *max-contradictions* = ~a
+  *max-trials*         = ~a
+  *max-steps*          = ~a
+  *timeout-sec*        = ~a~%"
+   time-start *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
+)
+
+;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
+
+
 (defun prover-gtrail (goals)
   (prog (
          (contradictions nil) 
@@ -63,41 +74,64 @@
 
 ;; preparation
 
-  (format t 
-"~%time-start           = ~a
-*max-clauses*        = ~a
-*max-contradictions* = ~a
-*max-trials*         = ~a
-*max-steps*          = ~a
-*timeout-sec*        = ~a~%"
- time-start *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
+    (show-parameter time-start)
 
 ;; 
-  (loop named prover-loop 
-     while goallist do
-       (multiple-value-setq (goal goallist) (select-goal goallist))
-
-       (setq  newgoal  (step-solver goal))
-
-;(format t "before: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
-       (multiple-value-setq (cs newgoals) (gathercontra newgoal) )
-       (setq contradictions (append cs contradictions))
-       (setq goallist (append goallist newgoals))
-       (setq newgoal nil)
-;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
-
-       (cond
-         ((> (length *clist*) *max-clauses*) (return-from prover-loop (quit-contra "number of clauses exceeds")))
-         ((> (length contradictions) *max-contradictions*)  (return-from prover-loop (quit-contra "number of contradictions exceeds")))
-         ((> trials-count *max-trials*)  (return-from prover-loop (quit-contra "number of trials exceeds")))
-         ((> proof-steps *max-steps*)  (return-from prover-loop (quit-contra "number of steps exceeds")))
-         ((> (- (time-current-secs) time-start) *timeout-sec*)  (return-from prover-loop (quit-contra "run time exceeds")))
-         ((when-finish-p)  (return-from prover-loop (quit-contra "when-finish-p decide to finish")))
-       )
-  finally
-  (format t "finished. goallist is empty~%")
-  (format t "contradictions=~a~%" contradictions)
+    (loop named prover-loop 
+       while goallist do
+         (multiple-value-setq (goal goallist) (select-goal goallist))
+  
+         (setq  newgoal  (step-solver goal))
+  
+         (multiple-value-setq (cs newgoals) (gathercontra newgoal) )
+         (setq contradictions (append cs contradictions))
+         (setq goallist (append goallist newgoals))
+         (setq newgoal nil)
+      
+         (cond
+           ((> (length *clist*) *max-clauses*) (return-from prover-loop (quit-contra "number of clauses exceeds")))
+           ((> (length contradictions) *max-contradictions*)
+                 (return-from prover-loop (quit-contra "number of contradictions exceeds")))
+           ((> trials-count *max-trials*)  (return-from prover-loop (quit-contra "number of trials exceeds")))
+           ((> proof-steps *max-steps*)  (return-from prover-loop (quit-contra "number of steps exceeds")))
+           ((> (- (time-current-secs) time-start) *timeout-sec*)
+                (return-from prover-loop (quit-contra "run time exceeds")))
+           ((when-finish-p)  (return-from prover-loop (quit-contra "when-finish-p decide to finish")))
+         )
+      finally
+        (format t "finished. goallist is empty~%")
+        (format t "contradictions=~a~%" contradictions)
+        (summary time-start contradictions trials-count proof-steps)
+    )
   )
 )
+
+(defun quit-contra (message)
+  (format t "~%limit-over ~a~%" message) 
 )
+
+(defun summary (time-start contras trials steps )
+  (format t "~%timeconsumed=~a~%#clauses=~a~%#contras=~a~%#trials=~a~%#max proof steps=~a~%"
+    (- (time-current-secs) time-start)
+    (length *clist*)
+    (length contras)
+    trials
+    steps)
+)
+
+(defun cidlistfy (namelist)
+  (loop for name in namelist collect
+    (cidfy name)
+  )
+)
+
+(defun play-prover-gtrail (goal kqcfile)
+  (let ()
+    (defparameter a0 (readkqc kqcfile))
+    (make-lsymlist *llist*)
+    (logstart)
+    (prover-gtrail (cidlistfy goal))
+  )
+)
+
 

@@ -1,0 +1,15 @@
+; prov7loop.kqc
+; I have a introduce fact clause. to prov6loop.kqc
+
+
+; nconj
+(1 (Z) (- P 3 Z))
+
+; Fact
+(2 () (+ P 0 1))
+(3 (x) (+ P x (fact x)))
+
+; Rule
+(4 (m n) (+ P n (w m n))(- P (s n) m))
+
+

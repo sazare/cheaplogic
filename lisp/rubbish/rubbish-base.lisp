@@ -126,9 +126,12 @@
 
 
 ;; CID ops
+(defun cidfy (name) 
+  (intern (format nil "C~a" name))
+)
 
 (defun make-cid (n)
-  (let ((cid (intern (format nil "C~a" n))))
+  (let ((cid (cidfy n) )) 
     (add-cid n)
     (pushnew cid *clist*)
     cid

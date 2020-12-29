@@ -1,0 +1,14 @@
+;; multi 1 literal goals
+
+; Neg conj
+(1 (Y) (- P a Y))
+(2 (X) (- P X c))
+
+
+; Facts
+(3 ()  (+ P a b))
+(4 ()  (+ P b d))
+(5 ()  (+ P a c))
+(6 ()  (+ P c c))
+
+

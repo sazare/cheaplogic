@@ -1,0 +1,13 @@
+; prov6loop.kqc
+; kqc has loop 
+
+; nconj
+(1 (Z) (- P 3 Z))
+
+; Fact
+(2 () (+ P 0 1))
+
+; Rule
+(4 (m n) (+ P n (w m n))(- P (s n) m))
+
+

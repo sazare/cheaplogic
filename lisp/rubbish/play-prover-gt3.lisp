@@ -4,12 +4,15 @@
 
 ;; play for prover
 
-(defparameter a0 (readkqc "kqc/provers/prov3vv.kqc"))
+(play-prover-gtrail '(1)  "kqc/provers/prov3vv.kqc")
 
-(make-lsymlist *llist*)
 
-(defun run ()
-  (logstart)
-  (prover-gtrail '(c1))
-  (logshow)
-) 
+;(defparameter a0 (readkqc "kqc/provers/prov3vv.kqc"))
+;
+;(make-lsymlist *llist*)
+;
+;(defun run ()
+;  (logstart)
+;  (prover-gtrail '(c1))
+;  (logshow)
+;) 
