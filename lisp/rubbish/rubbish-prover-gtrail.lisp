@@ -47,7 +47,7 @@
 
 (defun show-parameter (time-start)
     (format t 
-  "~%time-start           = ~a
+  "~%time-start           = ~a (secs)
   *max-clauses*        = ~a
   *max-contradictions* = ~a
   *max-trials*         = ~a
@@ -59,17 +59,31 @@
 ;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
 
 
-(defun quit-contra (message)
+(defun quit-contra (message time-start contras)
   (format t "~%limit-over ~a~%" message) 
+  (summary time-start contras)
 )
 
-(defun summary (time-start contras trials steps )
-  (format t "~%timeconsumed=~a~%#clauses=~a~%#contras=~a~%#trials=~a~%#max proof steps=~a~%"
+(defun summary (time-start contras)
+  (format t "~%time consumed = ~a secs~%#clauses = ~a~%#contras = ~a~%#trials = ~a~%#max proof steps = ~a~%"
     (- (time-current-secs) time-start)
     (length *clist*)
     (length contras)
-    trials
-    steps)
+    *num-of-trials*
+    *num-of-proof-steps*)
+
+
+;; others in some future
+;  *num-of-trials*
+;  *num-of-proof-steps*
+;
+;  *num-of-input-literals*
+;  *num-of-resolvents*
+;  *num-of-contradictions*
+;  *num-of-literals*
+;  *input-clauses ())
+;  *input-literals* ())
+
 )
 
 (defun prover-gtrail (goals)
@@ -102,19 +116,19 @@
          (setq newgoal nil)
       
          (cond
-           ((> (length *clist*) *max-clauses*) (return-from prover-loop (quit-contra "number of clauses exceeds")))
+           ((> (length *clist*) *max-clauses*) (return-from prover-loop (quit-contra "number of clauses exceeds" time-start contradictions)))
            ((> (length contradictions) *max-contradictions*)
-                 (return-from prover-loop (quit-contra "number of contradictions exceeds")))
-           ((> trials-count *max-trials*)  (return-from prover-loop (quit-contra "number of trials exceeds")))
-           ((> proof-steps *max-steps*)  (return-from prover-loop (quit-contra "number of steps exceeds")))
+                 (return-from prover-loop (quit-contra "number of contradictions exceeds" time-start contradictions)))
+           ((> trials-count *max-trials*)  (return-from prover-loop (quit-contra "number of trials exceeds" time-start contradictions)))
+           ((> proof-steps *max-steps*)  (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions)))
            ((> (- (time-current-secs) time-start) *timeout-sec*)
-                (return-from prover-loop (quit-contra "run time exceeds")))
-           ((when-finish-p)  (return-from prover-loop (quit-contra "when-finish-p decide to finish")))
+                (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions)))
+           ((when-finish-p)  (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions)))
          )
       finally
         (format t "finished. goallist is empty~%")
         (format t "contradictions=~a~%" contradictions)
-        (summary time-start contradictions trials-count proof-steps)
+        (summary time-start contradictions)
     )
   )
 )

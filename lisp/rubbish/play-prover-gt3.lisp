@@ -7,12 +7,3 @@
 (play-prover-gtrail '(1)  "kqc/provers/prov3vv.kqc")
 
 
-;(defparameter a0 (readkqc "kqc/provers/prov3vv.kqc"))
-;
-;(make-lsymlist *llist*)
-;
-;(defun run ()
-;  (logstart)
-;  (prover-gtrail '(c1))
-;  (logshow)
-;) 

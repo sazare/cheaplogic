@@ -6,11 +6,3 @@
 ;; play prov004.kqc 
 (play-prover-gtrail '(1)  "kqc/provers/prov004.kqc")
 
-;(defparameter a0 (readkqc "kqc/provers/prov004.kqc"))
-;
-;(make-lsymlist *llist*)
-;
-;(defun run ()
-;  (logstart)
-;  (prover-gtrail '(c1))
-;)

@@ -13,6 +13,7 @@
 (defparameter *ssubst*  #'substp)
 (defparameter *ssubsub* #'subsubp)
 
+(load "rubbish-statistics.lisp") ; for resoid
 (load "rubbish-resoid.lisp")
 (load "rubbish-print.lisp")
 (load "rubbish-proof.lisp")
