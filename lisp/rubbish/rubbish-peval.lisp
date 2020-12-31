@@ -8,8 +8,11 @@
 
 (defun peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
   (let (v)
-    (setq v (ignore-errors (eval e)))
-    (if v v e)
+    (setq v (ignore-errors (if (null (eval e))  :nil)))
+    (cond 
+      ((eq v :nil) nil)
+      ((null v) e)
+      (t v))
   )
 )
 

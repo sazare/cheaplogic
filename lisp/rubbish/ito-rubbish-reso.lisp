@@ -63,7 +63,7 @@
 ;
 
 (defito ito-all-resolve ()
- "tests for rubbish-reso"
+ "TESTS FOR RUBBISH-RESO"
  (ito-shrinkvs) 
  (ito-resolve)
  (ito-vrootof)

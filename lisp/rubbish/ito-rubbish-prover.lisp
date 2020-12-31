@@ -35,6 +35,7 @@
 )
 
 (defito ito-prover-all ()
+  "ALL ITOS for PROVER"
   (ito-olid-corr)
 )
 

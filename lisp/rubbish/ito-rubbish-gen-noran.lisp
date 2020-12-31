@@ -12,7 +12,7 @@
 
 
 (defito ito-all-gen-noran ()
-  "tests for gen-noran "
+  "TESTS FOR GEN-NORAN "
   (ito-rub-gensym)
 )
 

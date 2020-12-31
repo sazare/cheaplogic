@@ -64,7 +64,7 @@
 ) 
 
 (defito ito-all-base ()
-  "tests for base "
+  "TESTS FOR BASE NORAN"
   (ito-types)
   (ito-make-literal)
   (ito-make-clause)

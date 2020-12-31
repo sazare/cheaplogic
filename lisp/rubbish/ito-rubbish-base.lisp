@@ -130,7 +130,7 @@
 
 ;;
 (defito ito-all-base ()
-  "tests for base "
+  "TESTS FOR BASE "
   (ito-cidfy)
   (ito-setlid)
   (ito-make-clause)

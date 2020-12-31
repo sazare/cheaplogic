@@ -87,6 +87,7 @@
 )
 
 (defito ito-resolve-id-all ()
+  "ALL ITO FOR RESOLVE-ID"
   (ito-resolve-id)
 )
 

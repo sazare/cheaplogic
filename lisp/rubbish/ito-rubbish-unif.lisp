@@ -449,7 +449,7 @@
 )
 
 (defito ito-all-disag ()
-  "tests for subst, unify based on disag-control and s-not, p-not"
+  "TESTS FOR SUBST, UNIFY BASED ON DISAG-CONTROL AND S-NOT, P-NOT"
   (ito-disagree-collect)
   (ito-subst1)
   (ito-substs)

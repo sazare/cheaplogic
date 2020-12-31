@@ -70,6 +70,7 @@
 )
 
 (defito ito-tools-all ()
+  "ALL ITOS FOR TOOLS"
   (ito-tools-basics)
   (ito-inputclauses) ;; these should go ito-resoid
   (ito-proof-trace) ;; these should go ito-resoid
