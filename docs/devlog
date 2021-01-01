@@ -15,23 +15,14 @@ QEDは☕️でしめす。
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
 2020/12/18 pevalでリテラルを消すルールを:pevalとして登録しよう。cidはふえてリテラルの中身はかわらない。
-
 2020/11/29 環境のsave/restoreはどうやればできるかを考える
-
 2020/11/29 package化する
-
 2020/11/11 peval: literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
-
-　　　　　　
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
-
 20200823 resolve/lidの実装(litつき)
-
 20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
-
 20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
 　　　　　重複したresolutionが行えないような仕組みがほしい。
-
 2020/11/22 済 print-proof, print-proof0で、litてなくlsymを表示したい。パラメタで指定?
 　　　　　　varsを表示しないようにしたら、全体がみとおせるので、この問題の意図がよくわからなくなった。済にする
 20201024 済 readkqcで、全体が1つのlistでないと例外になる。エラーでとらえたい
@@ -45,6 +36,10 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/02土
+・pevalを(ignore-errors)でなく(handler-case)で書き直した。
+　Recipesのignore-errorsの節の冒頭に書いてあったコードがまさにこれ用だと気づいた
+
 2020/12/31木
 ・julia版のcnfにはなにがあるか
 　- 回路の故障箇所をみつける circ*.cnf
@@ -54,6 +49,7 @@ QEDは☕️でしめす。
 　- あと、pevalを使う例が多いので、今はむり。たとえば、確率を含む述語とか。
 ・pevalできた(Recipes 参考)
   - 値がNILになる式だと、evalされない・・・
+    値がnilのときは、:nilを返して、エラーのnilと区別するようにした。
   - peval は引数が '(+ 1 ww) みたいなの。mperalは引数にしきそのものを書ける(mpearl (+ 1 www)) のように
 　　proverの中ではpevalを使うだろう。名前の付け方は迷う。
 ・print-proofで見ると、renameの痕跡も残っている。新しいルールを追加しなくてもよいような・
@@ -67,6 +63,7 @@ QEDは☕️でしめす。
 　ルール:pevalでは、literalが消えるとき、proofにそれは残るが、
 　validになってgoalが取り除かれるときは、proofに残らない。
 
+・itoの全ito実行のコメントは大文字にするようにした
 
 2020/12/30水
 ・statisticsとして情報をあつめる。

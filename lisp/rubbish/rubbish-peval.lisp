@@ -8,18 +8,15 @@
 
 (defun peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
   (let (v)
-    (setq v (ignore-errors (if (null (eval e))  :nil)))
-    (cond 
-      ((eq v :nil) nil)
-      ((null v) e)
-      (t v))
+    (setq v (handler-case (progn (eval e)) (error () :myerror)))
+    (if (eq v :myerror) e v)
   )
 )
 
 (defmacro mpeval (e) ;; e may be a form as (+ 1 xxx) 
   `(let (v)
-    (setq v (ignore-errors ,e))
-    (if v v ',e)
+    (setq v (handler-case (progn ,e) (error () :myerror)))
+    (if (eq v :myerror) ',e v)
    )
 )
 

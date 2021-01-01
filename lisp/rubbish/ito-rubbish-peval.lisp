@@ -37,7 +37,7 @@
 
 ;;
 (defito ito-all-partialeval() ;;; my style 
-  "TEST FOR ALL TEST"
+  "TEST FOR ALL peval TEST"
   (ito-peval-on-ground)
   (ito-peval-on-notground)
 )
