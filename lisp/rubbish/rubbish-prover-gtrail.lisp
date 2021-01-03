@@ -8,6 +8,7 @@
 
 (defparameter *goallist* nil)
 
+(defparameter *rubbish-state* '(*goallist* *num-of-trials*))
 
 ;;; finish time function user can defined
 ;(defun when-finish-p () t)
@@ -173,12 +174,12 @@
 )
 
 (defun gather-allinf ()
-  (gather-atoms '(*clist* *llist* *lsymlist*))
+  (gather-atoms '(*rubbish-state* *clist* *llist* *lsymlist*))
 )
 
 ;;; saving
 (defun save-rubbish (fname)
-  (writeafile fname (cons (list '*goallist* *goallist*) (gather-allinf)))
+  (writeafile fname (gather-allinf))
 )
 
 ;; loading
@@ -190,7 +191,6 @@
 
 (defun deploy-atoms (allinf)
   (let ()
-    (set (caar allinf) (cadar allinf))
     (loop for vinf in (cdr allinf) collect
       (progn 
         (set (car vinf) (allatomof (cdr vinf)))
