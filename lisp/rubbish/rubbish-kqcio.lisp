@@ -19,7 +19,6 @@
  )
 )
 
-
 (defun readkqc (fname)
  (let ((kqc (readafile fname)))
    (loop for k in kqc 
@@ -39,6 +38,7 @@
      ) 
  )
 )
+
 (defun readekqc (fname)
  (let ((kqc (readefile fname)))
    (format t "kqc reading ... ~a" fname)
@@ -66,3 +66,14 @@
    )
  )
 )
+
+;;; writeafile
+(defun writeafile (fname objects)
+  (with-open-file (out fname 
+      :direction :output
+      :if-exists :supersede)
+
+    (print objects out)
+  )
+)
+

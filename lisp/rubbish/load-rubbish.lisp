@@ -1,6 +1,6 @@
 ; rubbish loader
 
-(load "essential.lisp")
+(load "rubbish-essential.lisp")
 
 (load "load-rubbish-gen.lisp")
 
@@ -19,6 +19,7 @@
 (load "rubbish-proof.lisp")
 
 (load "rubbish-prover.lisp")
+(load "rubbish-prover-gtrail.lisp")
 
 (load "rubbish-log.lisp")
 

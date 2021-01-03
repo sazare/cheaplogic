@@ -1,0 +1,19 @@
+2021/01/03
+★save&load
+・saveファイル名は引数にとる
+・saveファイルの中身
+　1. parameters
+  2. properties(clist,llist,lsymlist)
+  3. goallist
+
+traialは、残して続きをやりたい
+maxはいらないかもしれないが、相手の数値は必要
+
+★ clear
+・save&loadに対応して、clistに関連するatomの情報を消す
+　(clearstage)
+　1. lsymlist, llist, clistのplistとbindingを削除する
+　2. trials消す
+
+★ 
+

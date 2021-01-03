@@ -152,4 +152,55 @@
   )
 )
 
+;;;; environmens of prover
+(defun gather-properties (atm)
+  (symbol-plist atm)
+)
+
+(defun gather-atominfo (atmlist)
+  (loop for atm in atmlist collect
+    (list atm (eval atm) (gather-properties atm))
+  )
+)
+
+(defun gather-atoms (alist)
+  (loop for gvar in alist collect 
+    (cons gvar (gather-atominfo (eval gvar)))
+  )
+)
+
+(defun gather-allinf ()
+  (gather-atoms '(*clist* *llist* *lsymlist*))
+)
+
+;;; saving
+(defun save-rubbish (fname)
+  (writeafile fname (gather-allinf))
+)
+
+;; loading
+(defun allatomof (alist)
+  (loop for atm in alist collect
+    (car atm)
+  )
+)
+
+(defun deploy-atoms (allinf)
+  (loop for vinf in allinf collect
+    (progn 
+      (set (car vinf) (allatomof (cdr vinf)))
+      (loop for ainf in (cdr vinf) do
+  ;      (format t "~a ~a ~a~%" (car ainf) (cadr ainf) (caddr ainf))
+        (fsetatom (car ainf) (cadr ainf)(caddr ainf))
+      )
+    )
+  )
+)
+
+(defun load-rubbish (fname)
+  (let (alli) 
+    (setq alli (car (readafile fname))) ;; readafile makes a list of contents
+    (deploy-atoms alli)
+  )
+)
 

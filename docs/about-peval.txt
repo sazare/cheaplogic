@@ -1,0 +1,47 @@
+2021/01/03
+・(peval e)
+　eがevalできればその値
+　eのevalでエラーになれば、e
+
+・(+ equal (+ 1 2) 3) → clause消去(valid)
+・(- equal (+ 1 2) 3) → literal消去
+・(+ equal (+ 1 2) 4) → literal消去
+・(- equal (+ 1 2) 4) → cluase消去(valid)
+
+C = L v Rのとき
+L' = -をnotに、+は+を除去してできるe
+(+ e) => e
+(- e) => (not e)
+としたとき
+a) (equal L' (peval L'))   → Cのまま残す
+b) (null (peval L'))       → Rにする
+c) それ以外((peval L') = T → Cをgoalから除去する 
+
+
+実際
+a)
+* (equal '(not (equal x 2)) (peval '(not (equal x 2)))) 
+T
+
+b)
+* (null (peval '(equal 1 2)) )
+T
+* (null (peval '(not (equal 1 1))))
+T
+
+c) 
+* (peval '(equal 1 1))
+T
+* (peval '(not (equal 1 2)))
+T
+
+;; 参考
+* (null (peval '(equal 1 1)))
+NIL
+* (null (peval '(not (equal 1 2))))
+NIL
+* (peval '(not (equal 1 1)))
+NIL
+* (peval '(equal 1 2))
+NIL
+

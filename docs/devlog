@@ -14,12 +14,13 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
-2021/01/02 peval-idの実装
-2021/01/02 save-loadの実装
-2020/12/18 pevalでリテラルを消すルールを:pevalとして登録しよう。cidはふえてリテラルの中身はかわらない。
+2021/01/03 system化(asdlある) by Recipes
+2021/01/02 peval-idの実装。-をnotに変えてpevalすれば符号と真偽で判定する必要がない。
+           E = (peval E), (null (peval E))、それ以外(equal T (peval E) )
+2020/12/18 pevalでリテラルを消すルールを:pevalとして登録しよう。cidはふえてリテラルが1つ減る
 2020/11/29 環境のsave/restoreはどうやればできるかを考える
+2021/01/03 exp(f,n)(x)でloopを消せないか?
 2020/11/29 package化する
-2020/11/11 peval: literalがevalできたらevalする。できたらというのは計算してT/NILがきまったらといういみ
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
 20200823 resolve/lidの実装(litつき)
 20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
@@ -38,6 +39,19 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/03日
+・save&loadの検討(aboutsaveload.txt)
+・pevalルールの検討(aboutpeval.txt)
+・propertyなどのclear関数
+  toolsに、propertyとbindingを設定およびremoveする関数が定義されていた。
+　これは別のファイルに分けよう。toolsはrubbishのito用関数だから
+  makunboundはcommonlispの関数
+・load-rubbish.lispに(load "rubbish-prover-gtrail.load")を追加した
+・play-prover*をしたあとで
+　 (save-rubbish "mine.save")でセーブし
+　 (load-rubbish "mine.save")でロードする。
+　今はatom系だけ
+
 2021/01/02土
 ・pevalを(ignore-errors)でなく(handler-case)で書き直した。
 　Recipesのignore-errorsの節の冒頭に書いてあったコードがまさにこれ用だと気づいた

@@ -1,8 +1,9 @@
 ;;; ITO for rubbish-tools.lisp
 
 (myload "ito.lisp")
-;;(load "load-rubbish.lisp")
-;(load "rubbish-tools.lisp")
+(load "load-rubbish.lisp")
+(load "rubbish-tools.lisp")
+;(load "rubbish-props.lisp")
 
 ;; basics
 (defito  ito-tools-basics ()
