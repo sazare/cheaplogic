@@ -6,6 +6,8 @@
 (defparameter *max-steps* 100)
 (defparameter *timeout-sec* 10)
 
+(defparameter *goallist* nil)
+
 
 ;;; finish time function user can defined
 ;(defun when-finish-p () t)
@@ -114,6 +116,7 @@
          (setq contradictions (append cs contradictions))
          (setq goallist (append goallist newgoals))
          (setq newgoal nil)
+         (setq *goallist* goallist)
       
          (cond
            ((> (length *clist*) *max-clauses*) 
@@ -175,7 +178,7 @@
 
 ;;; saving
 (defun save-rubbish (fname)
-  (writeafile fname (gather-allinf))
+  (writeafile fname (cons (list '*goallist* *goallist*) (gather-allinf)))
 )
 
 ;; loading
@@ -186,12 +189,15 @@
 )
 
 (defun deploy-atoms (allinf)
-  (loop for vinf in allinf collect
-    (progn 
-      (set (car vinf) (allatomof (cdr vinf)))
-      (loop for ainf in (cdr vinf) do
-  ;      (format t "~a ~a ~a~%" (car ainf) (cadr ainf) (caddr ainf))
-        (fsetatom (car ainf) (cadr ainf)(caddr ainf))
+  (let ()
+    (set (caar allinf) (cadar allinf))
+    (loop for vinf in (cdr allinf) collect
+      (progn 
+        (set (car vinf) (allatomof (cdr vinf)))
+        (loop for ainf in (cdr vinf) do
+    ;      (format t "~a ~a ~a~%" (car ainf) (cadr ainf) (caddr ainf))
+          (fsetatom (car ainf) (cadr ainf)(caddr ainf))
+        )
       )
     )
   )

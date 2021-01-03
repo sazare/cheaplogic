@@ -51,6 +51,8 @@ QEDは☕️でしめす。
 　 (save-rubbish "mine.save")でセーブし
 　 (load-rubbish "mine.save")でロードする。
 　今はatom系だけ
+・必要なのは?
+
 
 2021/01/02土
 ・pevalを(ignore-errors)でなく(handler-case)で書き直した。
