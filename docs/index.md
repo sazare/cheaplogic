@@ -1,2 +1,2 @@
-# What is Cheaplocic?
+# What is Cheaplogic?
 
