@@ -31,18 +31,61 @@
   )
 )
 
+;; remove peval=NIL, remove goal peval=T, otherwise keep the literal.
+;;  if n literals are removed, the step is one :peval.
+;;  removed lid made no mgu. because (+ 1 1) become 2 is not a mgu.
+;;  but (= 2 (+ 1 1)) is a mgu like relation...
+;;  every steps may have removed lit as equation like a mgu.
+(defun apply-semantix-id (cid)
+  (block :semantix
+    (let (b pe re)
+      (setq b (bodyof cid))
+      (setq res nil)
+      (loop for lid in b do 
+        (setq pe (peval-id lid)) ; peval-id make raw literal from lid with - to not
+        (when (equal-id lid pe) (push lid res))   ;;(equal-id lid raw)
+        (when pe (return-from :peval (list :peval lid pe)))  ;; case peval-id is T. goto 
+      )
+      (constract-lid res) ;; make a lid has literals body is res, and relid for them.
+    )
+  )
+)
 
-(defun step-solver (goal) ; goal is cid
-  (let (target oppos (newgoals ()) res ) ;step1 select a lid in goal ; CASE CID
+(defun equal-id (lid pe)
+  T
+)
+
+(defun constract-lid (cid)
+  cid
+)
+
+(defun add-redsteps (red goals)
+  "add reduced staps"
+  (list :semantix red)
+)
+
+(defun reduct-id (cid)
+
+
+)
+;;; a step of solver, a controller of the step.
+(defun step-solver (goal) 
+  (let (target oppos (newgoals ()) res red) ;step1 select a lid in goal ; CASE CID
     (if (null (bodyof goal))
-      nil   ; this should not be happen. because nil = contradiction already removed.
-      (setq target (car (bodyof goal))) ); this is a first step of big investigation(may no exit)
+      nil   ; this should not be happen. because nil = contradiction is immediately removed at generated from goal.
+      (setq target (car (bodyof goal))) ); this is a first attempt to investigate the prover.
     (setq oppos (find-oppolids target))
     (if (null oppos) 
       (format t "orphan lsym ~a~% this cid ~a can't become [].~%" target goal))
       (loop for oppo in oppos do
         (setq res (resolve-id target oppo))
-        (unless (eq :FAIL res) (push res newgoals))
+        (unless (eq :FAIL res)
+          (push res newgoals))
+;; reduction = remove the literals by peval=NIL , remove the goal by peval=T.
+;; if no reduction, no red was made.
+;; 
+          (setq red (reduct-id res))
+          (unless (equal red res) (add-redsteps red newgoals))
       )
     newgoals
   ) 
@@ -210,3 +253,7 @@
   )
 )
 
+;;; clear all
+(defun clear-atoms ()
+  (clear-atoms '(*rubbish-state* *clist* *llist* *lsymlist*))
+)

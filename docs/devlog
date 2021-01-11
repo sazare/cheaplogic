@@ -14,11 +14,11 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2021/01/03 load-rubbishして続行する方法を考える
 2021/01/03 system化(asdlある) by Recipes
 2021/01/02 peval-idの実装。-をnotに変えてpevalすれば符号と真偽で判定する必要がない。
            E = (peval E), (null (peval E))、それ以外(equal T (peval E) )
 2020/12/18 pevalでリテラルを消すルールを:pevalとして登録しよう。cidはふえてリテラルが1つ減る
-2020/11/29 環境のsave/restoreはどうやればできるかを考える
 2021/01/03 exp(f,n)(x)でloopを消せないか?
 2020/11/29 package化する
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
@@ -26,6 +26,8 @@ QEDは☕️でしめす。
 20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
 20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
 　　　　　重複したresolutionが行えないような仕組みがほしい。
+
+2020/11/29 済 環境のsave/restoreはどうやればできるかを考える
 2020/11/22 済 print-proof, print-proof0で、litてなくlsymを表示したい。パラメタで指定?
 　　　　　　varsを表示しないようにしたら、全体がみとおせるので、この問題の意図がよくわからなくなった。済にする
 20201024 済 readkqcで、全体が1つのlistでないと例外になる。エラーでとらえたい
@@ -39,6 +41,29 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/10日
+・apply-semantxは作った。まだpropertyは未。proofも未。
+  peval-idは作ったが、e=(peval e)をするためにはmapした後の形が欲しいので、peval-idは使わない。
+　あるいは、mapした後のeで比較するか。
+
+2021/01/09土
+・pevalによってliteralを消したりclauseをvalidと判定するのはapply-semantixと呼ぼう
+
+2021/01/08金
+・<(+ P (+ x 2) x):(- P (+ 3 1) 2)>はpevalでunifyしない。
+　<(+ P 4 2):(- P (+ x 2) x)> はできそうだが、しない。
+  <4:(+ 2 2)>がunifiableであるかどうかは考えない。
+  (+ = 2 2)というliteralのみ計算する。
+・<4:(+ 2 2)>がunifiableというのはあるかも。
+
+
+2021/01/06水
+・github pageを作ってみた
+  docs/index.md
+
+2021/01/04月
+・resetを考える
+
 2021/01/03日
 ・save&loadの検討(aboutsaveload.txt)
 ・pevalルールの検討(aboutpeval.txt)
@@ -51,8 +76,13 @@ QEDは☕️でしめす。
 　 (save-rubbish "mine.save")でセーブし
 　 (load-rubbish "mine.save")でロードする。
 　今はatom系だけ
-・必要なのは?
+・loadして続きを実行するのに必要なのは?
+  *goallist*と*num-of-trials*
+  *goallist*はなかったので追加し、goallistを設定した。ということは、*goallist*だけでいいかも。
+・save,loadで他の変数と同じ処理にするため、*rubbish-state*に上記2つの変数をいれて、
+　gather-atomsの引数のリストにこれを追加した。
 
+・peval step 考え中。 
 
 2021/01/02土
 ・pevalを(ignore-errors)でなく(handler-case)で書き直した。
