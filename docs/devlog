@@ -41,6 +41,18 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/16土
+・ブレストしてみる
+・itoにmultiple-equalを追加。multiple-value-listが使えることがわかった
+・apply-semantx-id (prover-gtrail.lisp)でコンパイルエラー多数。
+　コメント担っていたapply-semantxでエラーがでていたような気がする。
+　とりあえずito-rubbish-gtrail.lispでエラーなし
+
+2021/01/12火
+・apply-semantx(semantx.lisp)とapply-semantx-id(gtrail.lisp)が同じインターフェース
+　gtrail.lispではpeval-idを使っているが、まとめてsenamtx.lispにまかせたほうがよさそ1う
+・itoにito-multiple-equalを追加したが、どこで修正したのかわからなくなった。
+　
 2021/01/10日
 ・apply-semantxは作った。まだpropertyは未。proofも未。
   peval-idは作ったが、e=(peval e)をするためにはmapした後の形が欲しいので、peval-idは使わない。

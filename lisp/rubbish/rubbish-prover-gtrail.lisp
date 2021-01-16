@@ -31,30 +31,6 @@
   )
 )
 
-;; remove peval=NIL, remove goal peval=T, otherwise keep the literal.
-;;  if n literals are removed, the step is one :peval.
-;;  removed lid made no mgu. because (+ 1 1) become 2 is not a mgu.
-;;  but (= 2 (+ 1 1)) is a mgu like relation...
-;;  every steps may have removed lit as equation like a mgu.
-(defun apply-semantix-id (cid)
-  (block :semantix
-    (let (b pe re)
-      (setq b (bodyof cid))
-      (setq res nil)
-      (loop for lid in b do 
-        (setq pe (peval-id lid)) ; peval-id make raw literal from lid with - to not
-        (when (equal-id lid pe) (push lid res))   ;;(equal-id lid raw)
-        (when pe (return-from :peval (list :peval lid pe)))  ;; case peval-id is T. goto 
-      )
-      (constract-lid res) ;; make a lid has literals body is res, and relid for them.
-    )
-  )
-)
-
-(defun equal-id (lid pe)
-  T
-)
-
 (defun constract-lid (cid)
   cid
 )

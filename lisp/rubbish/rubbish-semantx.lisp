@@ -23,7 +23,7 @@
 ;; make a proof step
 
 
-(defun apply-semantx (cid)
+(defun apply-semantx-id (cid)
   (loop 
     with me = nil
     with pe = nil
@@ -43,7 +43,30 @@
         (t             (push lid vlids))    ;; valid
       )
     finally
-    (return (list (reverse vlids) (reverse flids) (reverse olids)))
+    (return (values (reverse vlids) (reverse flids) (reverse olids)))
+  )
+)
+
+(defun make-valid-clause (cid vlids)
+  (let ((newcid (new-cid)))
+    (list (list newcid cid () () T) (make-proof newcid cid vlids))
+  )
+)
+
+(defun make-clause-by-semantx (cid flids olids) ;; flids is not ()
+  (let ((newcid (new-cid)))
+    (list (make-clause newcid olids) (make-proof newcid cid flids))
+  ) 
+)
+
+(defun reduct-semantx (cid)
+  (let (vlids flids olids)
+    (multiple-values-setq (vlids flids olids)(apply-semantx-id cid))
+    (cond
+      (vlids (make-valid-clause cid vlids))
+      ((null flids) cid)
+      (T (make-clause-by-semantx cid flids olids)) ;; flids is not ()
+    )
   )
 )
 
