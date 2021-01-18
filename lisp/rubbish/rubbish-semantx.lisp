@@ -29,43 +29,49 @@
     with pe = nil
     with olids = nil
     with flids = nil
-    with vlids = nil
+    with tlids = nil
     for lid in (bodyof cid) do
       (setq me (map-to-semantx lid))
 ;; in the below, something better?
       (setq pe (peval me)) ;; not peval-id for checking e = (peval e). e should be before map-to-semantx. 
-; if exist vlids, the clause is valid (cid ()() T) proof: (:semantx-valid (l1-1)) and cid in *vlist*, *clist*
+; if exist tlids, the clause is valid (cid ()() T) proof: (:semantx-valid (l1-1)) and cid in *vlist*, *clist*
 ; if exist flids, (cid vars () olids) (:semantx-partial flids)
 ; o.w., no new cid
       (cond
         ((equal me pe) (push lid olids))    ;; no evaluated
         ((null pe)     (push lid flids))    ;; false
-        (t             (push lid vlids))    ;; valid
+        (t             (push lid tlids))    ;; valid
       )
     finally
-    (return (values (reverse vlids) (reverse flids) (reverse olids)))
+    (return (values (reverse tlids) (reverse flids) (reverse olids)))
   )
 )
 
-(defun make-valid-clause (cid vlids)
-  (let ((newcid (new-cid)))
-    (list (list newcid cid () () T) (make-proof newcid cid vlids))
+(defun make-valid-clause (cid tlids flids olids)
+  (let ((newcid (new-cid))) ;; no mgu, vars aren't changed. maybe too many vars
+    (setcid newcid :VALID (varsof cid) (append flids olids)) 
+    (entry-proof newcid :VALID-SEMANTIX () () tlids)
+    newcid
   )
 )
 
-(defun make-clause-by-semantx (cid flids olids) ;; flids is not ()
+;; ** newcid must has rename the lid by newcid, valid is not the case.
+(defun make-clause-by-reduced (cid flids olids) ;; flids is not ()
+  "new clause"
   (let ((newcid (new-cid)))
-    (list (make-clause newcid olids) (make-proof newcid cid flids))
+    (setcid newcid :REDUCED (varsof cid) (make-lids-from-lids newcid (bodyof cid))) 
+    (entry-proof newcid :REDUCE-BY-SEMANTIX () () flids)
+    newcid
   ) 
 )
 
-(defun reduct-semantx (cid)
-  (let (vlids flids olids)
-    (multiple-values-setq (vlids flids olids)(apply-semantx-id cid))
+(defun reduce-by-semantx (cid)
+  (let (tlids flids olids)
+    (multiple-value-setq (tlids flids olids)(apply-semantx-id cid))
     (cond
-      (vlids (make-valid-clause cid vlids))
+      (tlids (make-valid-clause cid tlids flids olids)) ;; is this in *clist* *llist*?
       ((null flids) cid)
-      (T (make-clause-by-semantx cid flids olids)) ;; flids is not ()
+      (T (make-clause-by-reduced cid flids olids)) ;; flids is not ()
     )
   )
 )

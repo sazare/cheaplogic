@@ -41,12 +41,42 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/18月
+・lidのつけかえはできた。make-lids-from-lidsというものを作ったが大丈夫か?
+・他の部分への影響がわからないので、proverで確認したい。
+・oppoがない場合でもreduce-by-semantixはありうる。???
+・play-prover-gt-presem.lisp　は、preseman.kqcを読み込む。
+　parameterを変えるとすこしできるので制御はよいみたい。
+  validのresolventも*clist*にはいっているのはOK
+
+X presem.lispで、C7,C8でflidsが消えていない。なぜ??? 
+
+
+2021/01/17日
+・まず、proof関係のprintなどが動かなくなることは覚悟して、修正していくか。
+
+・P(x)P(y)α⇨P(x)α{y←x}というルールは、全情報を取り出すという観点からは不要ではないか。
+　このルールを適用しないとできない証明はあるが、その証明の代替があるのではないか。
+
+・テスト用のkqcを作成。inputとresolutionの2パターン。inputのほうは、[]にならないので
+　読み込み完了後の結果を確認するためのもの(
+  data/seman/{pre-reduce.kqc test-recude.kqc}
+* pre-reduce.kqcで、falseを消したときは新しいcidを作る。そのときlidはrenameが必要★これ未
+  validについては、cidを作っているが、bodyやproofのlidは親のまま。
+　　それでいいはず。つまり、validのときはlidはそのように扱う・・・例外になるのか・・・
+    (make-lids cid (bodyof res))でbodyのrenameできる・・・
+    ただしpropertyは正しく設定されるだろうか?
+
 2021/01/16土
 ・ブレストしてみる
 ・itoにmultiple-equalを追加。multiple-value-listが使えることがわかった
 ・apply-semantx-id (prover-gtrail.lisp)でコンパイルエラー多数。
 　コメント担っていたapply-semantxでエラーがでていたような気がする。
 　とりあえずito-rubbish-gtrail.lispでエラーなし
+　itoを書くとき、予想値をformで書いてはいけない。macroでevalしていないので・・
+　そもそも、予想値は直値で書くべき? 相対的な正しさでよければformでもよい。
+　ちょっとなやましい。ito-multiple-equal-relativeみたいな関数があってもよいのか?
+
 
 2021/01/12火
 ・apply-semantx(semantx.lisp)とapply-semantx-id(gtrail.lisp)が同じインターフェース

@@ -66,6 +66,13 @@
         (setlid (make-lid cid lno) cid nil lit)
   )
 )
+;; make-lids-from-lids for semantx
+(defun make-lids-from-lids (cid lids)
+  (loop for lid in lids 
+        as  lno from 1 to (length lids) collect
+        (setlid (make-lid cid lno) cid lid (litof lid))
+  )
+)
 
 ;;;;
 

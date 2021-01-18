@@ -21,5 +21,12 @@
 (load "rubbish-prover.lisp")
 (load "rubbish-prover-gtrail.lisp")
 
+;semantic part
+(load "rubbish-peval.lisp")
+(load "rubbish-semantx.lisp")
+
 (load "rubbish-log.lisp")
 
+;belows are not used 
+;rubbish-gen-noran.lisp
+;rubbish-tools.lisp

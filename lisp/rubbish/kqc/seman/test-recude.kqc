@@ -1,0 +1,14 @@
+;; test kqc for reduce
+
+;; nconj is 7
+
+(1 (x z) (- Q x)(+ P x z))
+(2 () (+ Q 3))
+(3 () (+ Q 2))
+(4 () (+ Q 7))
+(4 (x y) (- P x y) (- = x 2) (+ R x y))
+(5 (x y) (- x >= 3)(- P x y)(+ R x (+ x 1)))
+(6 (x y) (- x >= 7)(- P x y)(+ R x (* x 2)))
+(7 (x y) (- R X Z))
+
+

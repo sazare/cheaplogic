@@ -8,6 +8,7 @@
 
 (defparameter *goallist* nil)
 
+
 (defparameter *rubbish-state* '(*goallist* *num-of-trials*))
 
 ;;; finish time function user can defined
@@ -35,36 +36,32 @@
   cid
 )
 
-(defun add-redsteps (red goals)
-  "add reduced staps"
-  (list :semantix red)
-)
 
-(defun reduct-id (cid)
+(defparameter *enable-semantics* t)
 
-
-)
 ;;; a step of solver, a controller of the step.
 (defun step-solver (goal) 
-  (let (target oppos (newgoals ()) res red) ;step1 select a lid in goal ; CASE CID
+  (let (target oppos (newgoals ()) res) ;step1 select a lid in goal ; CASE CID
     (if (null (bodyof goal))
       nil   ; this should not be happen. because nil = contradiction is immediately removed at generated from goal.
       (setq target (car (bodyof goal))) ); this is a first attempt to investigate the prover.
     (setq oppos (find-oppolids target))
     (if (null oppos) 
       (format t "orphan lsym ~a~% this cid ~a can't become [].~%" target goal))
-      (loop for oppo in oppos do
-        (setq res (resolve-id target oppo))
-        (unless (eq :FAIL res)
-          (push res newgoals))
+    (loop for oppo in oppos do
+      (setq res (resolve-id target oppo))
+      (unless (eq :FAIL res)
 ;; reduction = remove the literals by peval=NIL , remove the goal by peval=T.
 ;; if no reduction, no red was made.
 ;; 
-          (setq red (reduct-id res))
-          (unless (equal red res) (add-redsteps red newgoals))
+        (when *enable-semantics*
+          (setq res (reduce-by-semantx res))
+        )
+        (push res newgoals)
       )
+    )
     newgoals
-  ) 
+  )
 )
 
 (defun show-parameter (time-start)
@@ -108,6 +105,7 @@
 
 )
 
+;; template prover control for gtrail
 (defun prover-gtrail (goals)
   (prog (
          (contradictions nil) 
@@ -167,8 +165,9 @@
 )
 
 (defun play-prover-gtrail (goal kqcfile)
-  (let (a0)
-    (setq a0 (readkqc kqcfile))
+  (let (cids)
+    (setq cids (readkqc kqcfile))
+    (when *enable-semantics* (loop for cid in cids collect (reduce-by-semantx cid)))
     (make-lsymlist *llist*)
     (logstart)
     (prover-gtrail (cidlistfy goal))

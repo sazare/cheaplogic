@@ -1,0 +1,9 @@
+;; test kqc for reduce rule on inputclause
+
+(1 (x) (+ P x)(- Q (f x))) ;; no change
+(2 (x) (- = 1 1)(- R x)(+ Q x)) ; 1 flit, 1 olit
+(3 ()  (+ = 1 2)(+ <= 3 1)(- >= 2 1)) ; all flit and make []
+(4 (x) (+ >= 2 1)(+ P x)) ;; make valid
+(5 (x y) (+ >= 4 1)(- = 2 2)(+ P x y)(+ <= 2 8)) ;; valid 2lit, 1flit, 1olit
+(6 (x) (+ = 3 4)(- = 4 4)(- = 1 2)(+ = 3 3)(+ Q x)(- R x)(+ >= 2 3)) ;; valid 2tlit, 2flit, 2olit
+
