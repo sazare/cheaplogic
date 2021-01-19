@@ -59,17 +59,19 @@
 (defun make-clause-by-reduced (cid flids olids) ;; flids is not ()
   "new clause"
   (let ((newcid (new-cid)))
-    (setcid newcid :REDUCED (varsof cid) (make-lids-from-lids newcid (bodyof cid))) 
+    (setcid newcid :REDUCED (varsof cid) (make-lids-from-lids newcid olids))
     (entry-proof newcid :REDUCE-BY-SEMANTIX () () flids)
     newcid
   ) 
 )
 
+(defparameter *validlist* nil)
+
 (defun reduce-by-semantx (cid)
-  (let (tlids flids olids)
+  (let (tlids flids olids vid)
     (multiple-value-setq (tlids flids olids)(apply-semantx-id cid))
     (cond
-      (tlids (make-valid-clause cid tlids flids olids)) ;; is this in *clist* *llist*?
+      (tlids (push (make-valid-clause cid tlids flids olids) *validlist*) nil) ;; is this in *clist* *llist*?
       ((null flids) cid)
       (T (make-clause-by-reduced cid flids olids)) ;; flids is not ()
     )

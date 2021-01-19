@@ -54,10 +54,10 @@
 ;; reduction = remove the literals by peval=NIL , remove the goal by peval=T.
 ;; if no reduction, no red was made.
 ;; 
-        (when *enable-semantics*
-          (setq res (reduce-by-semantx res))
+        (if *enable-semantics*
+          (when (setq res (reduce-by-semantx res)) (push res newgoals))
+          (push res newgoals)
         )
-        (push res newgoals)
       )
     )
     newgoals
@@ -165,10 +165,19 @@
 )
 
 (defun play-prover-gtrail (goal kqcfile)
-  (let (cids)
+  (let (cids agoal)
+    (setq agoal goal)
     (setq cids (readkqc kqcfile))
-    (when *enable-semantics* (loop for cid in cids collect (reduce-by-semantx cid)))
     (make-lsymlist *llist*)
+
+    (when *enable-semantics* 
+      (loop with nids = () 
+            with nid = nil
+            for cid in cids do 
+              (setq nids (reduce-by-semantx cid))
+              (when nids (push nid nids))
+      )
+    )
     (logstart)
     (prover-gtrail (cidlistfy goal))
   )
@@ -232,3 +241,4 @@
 (defun clear-atoms ()
   (clear-atoms '(*rubbish-state* *clist* *llist* *lsymlist*))
 )
+
