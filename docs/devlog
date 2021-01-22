@@ -41,6 +41,28 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/22金
+・julia版のml002.cnfをkqcに書き換えてみる。
+・play-prover-gt-ml002.lispを作成
+・[]がでるのは確認。C24が1[]
+・情報の流れは未確認11:w
+
+
+2021/01/22木
+・proofをclassで作った場合、シリアライズをどうするか問題になりそう。
+　そこで考えた方法。
+　まず、proofはmacroのformにして計算しない形で保存する。たとえば
+　　`(make-proof ,cid ,vars ,sigma ,left ,right)
+
+　saveやloadするときは、そのままS式として出力する。
+
+　printするときはevalして、proof objectにしてから処理する。
+　これが有効なのは、proof objectにする処理がprintのときしかないから。
+　proofを作るときはか過去の証明をみてなんとかしないと考えているから。
+　どうかな?
+
+
+
 2021/01/119火
 ・reduceでflidsが削除されていなかったのでfixした
 

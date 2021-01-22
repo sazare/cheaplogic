@@ -1,0 +1,38 @@
+;;; converted from julia version
+;;;calc image is Party probability
+;;; eval action
+
+;;# MP is Mechanical Proving
+; ML is Machine Learning
+
+; given pictures a,b,c with description, A,B,C with probability
+
+; nconj 1 or 2
+; (1 () (- Party0 img1))
+(1 (IMG) (- Party0 IMG)) ;; ask what is IMG
+
+; (2 (IMG) (- Party0 IMG) (- Violent1 IMG))
+; (3 () (- Violent0 img1))
+; (4 () (- Violent1 img1)]
+
+; inference rule
+(5 (im p1) (- Party im p1) (- >= p1 0.9) (+ Party0 im))
+(6 (im p1) (- Violent im p1) (- >= p1 0.9) (+ Violent0 im))
+(7 (im p1) (- Violent im p1) (- >= p1 0.8) (+ Violent1 im))
+
+
+(8 (im p1 p2) (- ManyPeople im p1)(- Eating im p2)(- >= p1 0.8)(- >= p2 0.8)(+ Party im 0.9))
+(9 (im p1 p2) (- ManyPeople im p1)(- Weapons im p2)(- >= p1 0.8)(- >= p2 0.7)(+ Violent im 0.9))
+(10 (im p1 p2) (- ManyPeople im p1)(- Weapons im p2)(- >= p1 0.8)(- >= p2 0.4)(+ Violent im 0.7))
+
+; ML's output of facts
+; img1 is an image processed by ML
+
+(11 () (+ ManyPeople img1 0.9))
+(12 () (+ Eating img1 0.85))
+(13 () (+ ManyPeaple img2 0.99))
+(14 () (+ Eating img2 0.9))
+(15 () (+ Laughter img1 0.8))
+(16 () (+ Fallen img1 0.1))
+(17 () (+ Weapons img1 0.5))
+
