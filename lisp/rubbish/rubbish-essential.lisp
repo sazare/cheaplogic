@@ -70,4 +70,12 @@
 
 ; proof info in cid
 
-
+;;;;
+(defun nspace (&optional (n 0))
+  (if (= n 0) ""
+    (loop with aps = "" for i from 1 to n do
+      (setq aps (format nil "~a " aps))
+     finally (return aps)
+    )
+  )
+)

@@ -41,6 +41,13 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/23土
+・print-proof*で、インデントつけたほうがよいかも。
+　indentをincrementしてその数だけ左側に空白いれるのでよいか?
+・今日はindentで終わりそう。
+・print-proof も修正した。fullproofは修正不要。
+　↑は1literalの後それのcidのproofを表示するときindentがなくなる・・・?
+
 2021/01/22金
 ・julia版のml002.cnfをkqcに書き換えてみる。
 ・play-prover-gt-ml002.lispを作成
