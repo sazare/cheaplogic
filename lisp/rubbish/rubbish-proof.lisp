@@ -76,7 +76,7 @@
   (print-literal lid)
 )
 
-(defun print-proof0 (cid &optional (ind 0))
+(defun print-prmof0 (cid &optional (ind 0))
   (let ()
     (format t "~%")
     (cond
@@ -89,11 +89,11 @@
           )
           (when (cidof llid) 
             (print-literal0 llid (1+ ind))
-            (format t " in") 
+            (if (cidof llid) (format t " in") (format t "input"))
             (print-proof0  (cidof llid)(+ 2 ind)))
           (when (cidof rlid) 
             (print-literal0 rlid (1+ ind))
-            (format t " in") 
+            (if (cidof llid) (format t " in") (format t "input"))
             (print-proof0  (cidof rlid)(+ 2 ind)))
         )
       )
