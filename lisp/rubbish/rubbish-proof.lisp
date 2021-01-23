@@ -1,6 +1,11 @@
 ;; rubbish-proof.lisp
 ;; proof manager
 
+;; find all contradictions
+(defun listcontra ()
+  (loop for cid in *clist* when (iscontradiction cid) collect cid)
+)
+
 
 ;; rule = :reso, :merge, :rename
 ;; proof is (rule vars sigma parents)
@@ -33,10 +38,10 @@
         (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid)))(sig (sigof cid)))
           (cond 
             ((iscontradiction cid) 
-               (format t "~%~a~a [] ~a ~a <- ~a : <~a:~a> ~%" 
+               (format t "~a~a [] ~a ~a <- ~a : <~a:~a> ~%" 
                  (nspace ind) cid (ruleof cid) (car sig) (cadr sig) llid rlid))
             ((car (proofof cid)) 
-               (format t "~%~a~a ~a ~a ~a <- ~a : <~a:~a> ~%" 
+               (format t "~a~a ~a ~a ~a <- ~a : <~a:~a> ~%" 
                  (nspace ind) cid (bodyof cid) (ruleof cid) (car sig) (cadr sig) llid rlid))
             (t (format t "~ainput ~a ~a~%" (nspace ind) cid (bodyof cid)))
           )
@@ -53,9 +58,9 @@
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
             ((iscontradiction cid) 
-               (format t "~%~a~a ~a [] are removed~%" (nspace ind) cid (ruleof cid)))
+               (format t "~a~a ~a [] are removed~%" (nspace ind) cid (ruleof cid)))
             (t 
-               (format t "~%~a~a ~a ~a are removed~%" (nspace ind) cid (ruleof cid) (bodyof cid)))
+               (format t "~a~a ~a ~a are removed~%" (nspace ind) cid (ruleof cid) (bodyof cid)))
           )
           (loop for flid in flits do 
             (print-literal0 flid (1+ ind))
@@ -67,27 +72,28 @@
 )
 
 (defun print-literal0 (lid ind)
-  (format t "~a" (nspace ind))
+  (format t "~%~a" (nspace ind))
   (print-literal lid)
 )
 
 (defun print-proof0 (cid &optional (ind 0))
   (let ()
+    (format t "~%")
     (cond
       ((eq (ruleof cid) :resolution)
         (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
           (cond 
-            ((iscontradiction cid) (format t "~%~a~a [] ~a : <~a:~a> ~%" (nspace ind) cid (ruleof cid) llid rlid))
-            ((car (proofof cid)) (format t "~%~a~a ~a ~a : <~a:~a> ~%" (nspace ind) cid (bodyof cid) (ruleof cid)  llid rlid))
-            (t (format t "~ainput ~a ~a~%" (nspace ind) cid (bodyof cid)))
+            ((iscontradiction cid) (format t "~a~a [] ~a : <~a:~a>" (nspace ind) cid (ruleof cid) llid rlid))
+            ((car (proofof cid)) (format t "~a~a ~a ~a : <~a:~a>" (nspace ind) cid (bodyof cid) (ruleof cid)  llid rlid))
+            (t (format t "~ainput ~a ~a" (nspace ind) cid (bodyof cid)))
           )
           (when (cidof llid) 
             (print-literal0 llid (1+ ind))
-            (format t " in~%") 
+            (format t " in") 
             (print-proof0  (cidof llid)(+ 2 ind)))
           (when (cidof rlid) 
             (print-literal0 rlid (1+ ind))
-            (format t " in~%") 
+            (format t " in") 
             (print-proof0  (cidof rlid)(+ 2 ind)))
         )
       )
@@ -95,13 +101,13 @@
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
             ((iscontradiction cid) 
-              (format t "~%~a~a ~a [] are removed~%" (nspace ind) cid (ruleof cid)))
+              (format t "~a~a ~a [] are removed" (nspace ind) cid (ruleof cid)))
             (t 
-              (format t "~%~a~a ~a ~a are removed~%" (nspace ind) cid (ruleof cid) (bodyof cid))))
+              (format t "~a~a ~a ~a are removed" (nspace ind) cid (ruleof cid) (bodyof cid))))
           (loop for flid in flits do 
-            (print-literal0 flid (1+ ind))
+            (print-literal0 flid (+ 2 ind))
             (terpri t)
-            (print-proof0 (cidof flid)(+ 2 ind)))
+            (print-proof0 (cidof flid)(+ 4 ind)))
         ))
     )
   )

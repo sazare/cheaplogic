@@ -41,12 +41,25 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/24日
+・ml1002の確認と、他のmlをみてみる。julia班との比較。をする
+・print-proof0を少し修正。みためだけ。
+・fullproofはresolutionしかでないし、print-proofは面倒みない。
+・(listcontra)作成。これによる手順
+　(prover実行)
+  (listcontra) 矛盾のcidがわかる
+　(print-proof0 cid) 証明を見る
+
+
+
 2021/01/23土
 ・print-proof*で、インデントつけたほうがよいかも。
 　indentをincrementしてその数だけ左側に空白いれるのでよいか?
 ・今日はindentで終わりそう。
 ・print-proof も修正した。fullproofは修正不要。
 　↑は1literalの後それのcidのproofを表示するときindentがなくなる・・・?
+・fullproofはresolutionしかでない
+・pinfofについては、どうなるべきか考えないといけない。
 
 2021/01/22金
 ・julia版のml002.cnfをkqcに書き換えてみる。
