@@ -11,7 +11,10 @@
 
 (defun print-clausex (cs)
   (loop for c in cs do
-    (format t "~a=~a~%" c (bodyof c))
+    (if (isvalid c)
+      (format t "VALID ~a~a~%" c (bodyof c))
+      (format t "~a=~a~%" c (bodyof c))
+    )
   )
 )
 
@@ -32,11 +35,20 @@
 
 (defun print-clause (cid)
   (cond 
-    ((null (varsof cid))
-     (format t "~a: ~a () ~a~%" cid (nameof cid)(lit*of (bodyof cid)))
+    ((isvalid cid)
+     (if (bodyof cid)
+       (format t "~a: ~a = ~a <VALID>~%" cid (nameof cid)(lit*of (bodyof cid)))
+       (format t "~a: ~a = [] <VALID>~%" cid (nameof cid))
+     )
+    )
+    ((iscontradiction cid)
+     (if (bodyof cid) 
+       (format t "~a: ~a = ~a~%" cid (nameof cid)(lit*of (bodyof cid)))
+       (format t "~a: ~a = []~%" cid (nameof cid))
+     )
     )
     (t 
-     (format t "~a: ~a ~a ~a~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
+     (format t "~a: ~a ~a [~a]~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
     )
   )
 )
@@ -68,6 +80,7 @@
 
 (defun dump-clause (cid)
   (cond
+    ((isvalid cid) (format t "~a VALID : ~a=~%" cid (symbol-plist cid)))
     ((iscontradiction cid) (format t "~a CONTRADICTION : ~a=~%" cid (symbol-plist cid)))
     (t (format t "~a=~a~%" cid (symbol-plist cid))
        (dump-lits (bodyof cid)))

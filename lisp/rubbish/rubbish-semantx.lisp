@@ -49,18 +49,19 @@
 
 (defun make-valid-clause (cid tlids flids olids)
   (let ((newcid (new-cid))) ;; no mgu, vars aren't changed. maybe too many vars
-    (setcid newcid :VALID (varsof cid) (append flids olids)) 
-    (entry-proof newcid :VALID-SEMANTIX () () tlids)
+    (setcid newcid :REDUCED (varsof cid) (append flids olids)) 
+    (entry-proof newcid :REDUCED-BY-SEMANTIX () () tlids)
     newcid
   )
 )
+
 
 ;; ** newcid must has rename the lid by newcid, valid is not the case.
 (defun make-clause-by-reduced (cid flids olids) ;; flids is not ()
   "new clause"
   (let ((newcid (new-cid)))
     (setcid newcid :REDUCED (varsof cid) (make-lids-from-lids newcid olids))
-    (entry-proof newcid :REDUCE-BY-SEMANTIX () () flids)
+    (entry-proof newcid :REDUCED-BY-SEMANTIX () () flids)
     newcid
   ) 
 )
@@ -68,7 +69,7 @@
 (defparameter *validlist* nil)
 
 (defun reduce-by-semantx (cid)
-  (let (tlids flids olids vid)
+  (let (tlids flids olids)
     (multiple-value-setq (tlids flids olids)(apply-semantx-id cid))
     (cond
       (tlids (push (make-valid-clause cid tlids flids olids) *validlist*) nil) ;; is this in *clist* *llist*?
@@ -78,6 +79,14 @@
   )
 )
 
+(defun truesof (cid) ;; the true lids after semantx rule
+  (let ((pr (proofof cid)))
+    (and (eq :REDUCED-BY-SEMANTIX  (car pr)) (nth 3 pr))
+  )
+)
+
+(defun isvalid (cid)
+  (truesof cid)
+)
 
  
-  

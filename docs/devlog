@@ -41,6 +41,12 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/25月
+・listcontraからvalidをけし、listvalidをつくる
+　あるいはcontraとvalidのlistを返すようにする
+・print-proof0のインデントの微調整した
+　改行が余分にはいるような気がする。
+
 2021/01/24日
 ・ml1002の確認と、他のmlをみてみる。julia班との比較。をする
 ・print-proof0を少し修正。みためだけ。
@@ -49,7 +55,14 @@ QEDは☕️でしめす。
 　(prover実行)
   (listcontra) 矛盾のcidがわかる
 　(print-proof0 cid) 証明を見る
+・inのうしろにclauseが表示されないのはなぜ?
+・print-proof0が思ったように表示できない。
+　literal表示したあとclauseがでないとか・・・
 
+・juliaのML cnfをみていると、
+・semantx reduce のテストようkqc　seman/sem001.kqc作成
+　　3つのcontraができていて、1つはvalidなのにcontraだということになっている。
+　　どうするかな
 
 
 2021/01/23土

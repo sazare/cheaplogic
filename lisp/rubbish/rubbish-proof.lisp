@@ -1,11 +1,15 @@
-;; rubbish-proof.lisp
+; rubbish-proof.lisp
 ;; proof manager
 
 ;; find all contradictions
-(defun listcontra ()
-  (loop for cid in *clist* when (iscontradiction cid) collect cid)
+(defun lscova ()
+  (loop with con = () with val = () 
+    for cid in *clist* 
+    when (and (iscontradiction cid)(not (isvalid cid))) do (push cid con)
+    when (isvalid cid) do (push cid val)
+    finally (return (list con val))
+  )
 )
-
 
 ;; rule = :reso, :merge, :rename
 ;; proof is (rule vars sigma parents)
@@ -54,7 +58,7 @@
             (format t "in~%")
             (print-proof (cidof rlid)(+ 2 ind)))
           ))
-      ((eq (ruleof cid) :REDUCE-BY-SEMANTIX)
+      ((eq (ruleof cid) :REDUCED-BY-SEMANTIX)
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
             ((iscontradiction cid) 
@@ -71,44 +75,73 @@
   )
 )
 
-(defun print-literal0 (lid ind)
+(defun print-literal0 (lid &optional (ind 0))
   (format t "~%~a" (nspace ind))
   (print-literal lid)
 )
 
-(defun print-prmof0 (cid &optional (ind 0))
+(defun print-clause0 (cid &optional (ind 0))
+  (cond
+    ((isvalid cid)
+     (if (bodyof cid)
+       (format t "~a~a: ~a = ~a <VALID>~%" (nspace ind) cid (nameof cid)(lit*of (bodyof cid)))
+       (format t "~a~a: ~a = [] <VALID>~%" (nspace ind) cid (nameof cid))
+     )
+    )
+    ((iscontradiction cid)
+     (if (bodyof cid)
+       (format t "~a~a: ~a = ~a~%" (nspace ind) cid (nameof cid)(lit*of (bodyof cid)))
+       (format t "~a~a: ~a = []~%" (nspace ind) cid (nameof cid))
+     )
+    )
+    (t
+     (format t "~a~a: ~a ~a [~a]~%" (nspace ind) cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
+    )
+  )
+)
+
+(defun print-proof0 (cid &optional (ind 0))
   (let ()
-    (format t "~%")
     (cond
+      ((null (proofof cid))
+        (print-clause0 cid ind))
       ((eq (ruleof cid) :resolution)
         (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
           (cond 
-            ((iscontradiction cid) (format t "~a~a [] ~a : <~a:~a>" (nspace ind) cid (ruleof cid) llid rlid))
-            ((car (proofof cid)) (format t "~a~a ~a ~a : <~a:~a>" (nspace ind) cid (bodyof cid) (ruleof cid)  llid rlid))
-            (t (format t "~ainput ~a ~a" (nspace ind) cid (bodyof cid)))
+            ((iscontradiction cid) 
+               (format t "~%~a~a [] ~a : <~a:~a>~%" (nspace ind) cid (ruleof cid) llid rlid))
+            ((car (proofof cid)) 
+               (format t "~%~a~a ~a ~a : <~a:~a>~%" (nspace ind) cid (bodyof cid) (ruleof cid)  llid rlid))
+            (t (format t "~%~ainput ~a ~a~%" (nspace ind) cid (bodyof cid)) )
           )
-          (when (cidof llid) 
-            (print-literal0 llid (1+ ind))
-            (if (cidof llid) (format t " in") (format t "input"))
+          (print-clause0 cid (+ 2 ind))
+          (let ()
+            (print-literal0 llid (+ 2 ind))
+            (if (null (plidof llid)) (format t "input~%") (format t " in~%"))
             (print-proof0  (cidof llid)(+ 2 ind)))
-          (when (cidof rlid) 
-            (print-literal0 rlid (1+ ind))
-            (if (cidof llid) (format t " in") (format t "input"))
+          (let () 
+            (print-literal0 rlid (+ 2 ind))
+            (if (null (plidof llid)) (format t "input~%") (format t " in~%") )
             (print-proof0  (cidof rlid)(+ 2 ind)))
         )
       )
-      ((eq (ruleof cid) :REDUCE-BY-SEMANTIX)
+      ((eq (ruleof cid) :REDUCED-BY-SEMANTIX)
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
             ((iscontradiction cid) 
-              (format t "~a~a ~a [] are removed" (nspace ind) cid (ruleof cid)))
+              (format t "~a~a ~a [] removed are..~%~a" (nspace ind) cid (ruleof cid) (nspace ind)))
             (t 
-              (format t "~a~a ~a ~a are removed" (nspace ind) cid (ruleof cid) (bodyof cid))))
+              (format t "~a~a ~a ~a removed are..~%~a" (nspace ind) cid (ruleof cid) (bodyof cid)(nspace ind)))
+          )
+          (print-clause0 cid (+ 2 ind))
           (loop for flid in flits do 
             (print-literal0 flid (+ 2 ind))
             (terpri t)
-            (print-proof0 (cidof flid)(+ 4 ind)))
-        ))
+            (print-proof0 (cidof flid)(+ 2 ind)))
+
+        )
+
+      )
     )
   )
 )
@@ -131,7 +164,7 @@
           )
            (bodyof cid )
           )
-      ((eq (ruleof cid) :REDUCE-BY-SEMANTIX)
+      ((eq (ruleof cid) :REDUCED-BY-SEMANTIX)
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (loop for flid in flits collect 
             (fullproof (cidof flid))
