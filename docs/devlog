@@ -41,6 +41,13 @@ QEDは☕️でしめす。
 
 
 --- log
+今日
+・validの扱いを変えた。property :VALID=Tにした。
+　setcidでnameは:reduceにし、isvalidはそれをみるようにした。
+・不要な関数はコメントにした
+　print-proof, fullproof
+  ccode, pcodeは動いていないまま
+
 2021/01/26火
 ・sem001で3つともvalidというのがおかしい。
   valid clauseの定義がおかしかった。

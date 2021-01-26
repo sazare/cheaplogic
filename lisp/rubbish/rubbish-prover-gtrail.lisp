@@ -247,7 +247,14 @@
 )
 
 ;;; clear all
+(defun clear-atom (am)
+  (format t "not yet implemented -- clear-atom~%")
+)
+
 (defun clear-atoms ()
-  (clear-atoms '(*rubbish-state* *clist* *llist* *lsymlist*))
+  (loop for atm in '(*rubbish-state* *clist* *llist* *lsymlist*)
+    collect
+    (return (clear-atom atm))
+  )
 )
 
