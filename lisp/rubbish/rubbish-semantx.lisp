@@ -49,7 +49,8 @@
 
 (defun make-valid-clause (cid tlids flids olids)
   (let ((newcid (new-cid))) ;; no mgu, vars aren't changed. maybe too many vars
-    (setcid newcid :VALID (varsof cid) (append flids olids))  ; VALID is name
+    (setcid newcid :REDUCED (varsof cid) (append flids olids))  ; VALID is name
+    (setf (get cid :VALID) T)
     (entry-proof newcid :REDUCED-BY-SEMANTIX () () tlids)     ; then here is the true lids.. 
     newcid
   )
@@ -86,7 +87,7 @@
 )
 
 (defun isvalid (cid)
-  (eq :VALID (nameof  cid))
+  (get cid :VALID)
 )
 
  
