@@ -1,4 +1,4 @@
-;; 
+;; sem001.kqc 
 
 (1 (X Y) (- R X Y))
 
@@ -7,5 +7,10 @@
 (3 () (+ P 4 2))
 (4 () (+ P 1 2))
 
-(5 (x y) (- P x y) (- >= x y)(+ R x y))
-; (1 1)(4 2) ok, (1 2) ignored
+(5 (x y) (- P x y) (- > x y)(+ R x y))
+; (4 2) ok, (1 1)(1 2) are ignored
+
+
+;; prover said
+;; 3 (4 2) ok, 2(1 1) 4(1 2) are valid..
+

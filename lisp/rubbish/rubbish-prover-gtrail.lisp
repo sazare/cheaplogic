@@ -21,14 +21,18 @@
 )
 
 (defun gathercontra (clist)
-  (let (conts unconts)
-    (loop for cid in clist do 
-      (if (iscontradiction cid)
-        (push cid conts)
-        (push cid unconts)
-      )
+  (loop 
+    with conts = ()
+    with trues = ()
+    with others = ()
+    for cid in clist do 
+    (cond
+      ((isvalid cid)         (push cid trues))
+      ((iscontradiction cid) (push cid conts))
+      (t                     (push cid others))
     )
-    (values conts unconts)
+  finally
+    (return (values others conts trues))
   )
 )
 
@@ -78,16 +82,17 @@
 ;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
 
 
-(defun quit-contra (message time-start contras)
+(defun quit-contra (message time-start contras valids)
   (format t "~%limit-over ~a~%" message) 
-  (summary time-start contras)
+  (summary time-start contras valids)
 )
 
-(defun summary (time-start contras)
-  (format t "~%time consumed = ~a secs~%#clauses = ~a~%#contras = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+(defun summary (time-start contras valids)
+  (format t "~%time consumed = ~a secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
     (- (time-current-secs) time-start)
     (length *clist*)
     (length contras)
+    (length valids)
     *num-of-trials*
     *num-of-proof-steps*)
 
@@ -109,6 +114,7 @@
 (defun prover-gtrail (goals)
   (prog (
          (contradictions nil) 
+         (valids nil)
          (proof-steps 0)
          (trials-count 0)
          (time-start (time-current-secs))
@@ -117,6 +123,7 @@
          newgoal
          newgoals
          cs
+         ts
          )
 
 ;; preparation
@@ -130,30 +137,32 @@
   
          (setq  newgoal  (step-solver goal))
   
-         (multiple-value-setq (cs newgoals) (gathercontra newgoal) )
+         (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
          (setq contradictions (append cs contradictions))
+         (setq valids (append ts valids))
          (setq goallist (append goallist newgoals))
          (setq newgoal nil)
          (setq *goallist* goallist)
       
          (cond
            ((> (length *clist*) *max-clauses*) 
-            (return-from prover-loop (quit-contra "number of clauses exceeds" time-start contradictions)))
+            (return-from prover-loop (quit-contra "number of clauses exceeds" time-start contradictions valids)))
            ((> (length contradictions) *max-contradictions*)
-            (return-from prover-loop (quit-contra "number of contradictions exceeds" time-start contradictions)))
+            (return-from prover-loop (quit-contra "number of contradictions exceeds" time-start contradictions valids)))
            ((> trials-count *max-trials*)  
-            (return-from prover-loop (quit-contra "number of trials exceeds" time-start contradictions)))
+            (return-from prover-loop (quit-contra "number of trials exceeds" time-start contradictions valids)))
            ((> proof-steps *max-steps*)  
-            (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions)))
+            (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions valids)))
            ((> (- (time-current-secs) time-start) *timeout-sec*)
-            (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions)))
+            (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions valids)))
            ((when-finish-p)  
-            (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions)))
+            (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))
          )
       finally
         (format t "finished. goallist is empty~%")
         (format t "contradictions=~a~%" contradictions)
-        (summary time-start contradictions)
+        (format t "valids =~a~%" valids)
+        (summary time-start contradictions valids)
     )
   )
 )

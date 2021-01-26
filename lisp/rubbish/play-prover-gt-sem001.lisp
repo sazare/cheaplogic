@@ -11,4 +11,3 @@
 
 (play-prover-gtrail '(1) "kqc/seman/sem001.kqc")
 
-

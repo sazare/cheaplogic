@@ -41,6 +41,14 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/26火
+・sem001で3つともvalidというのがおかしい。
+  valid clauseの定義がおかしかった。
+　proof の pairのところが reduceならflids, validならtlidsになる。
+　その区別ができていなかった。
+　nameをvalidにするのには意味があった。
+ 　と考えて、そのように修正した。
+
 2021/01/25月
 ・listcontraからvalidをけし、listvalidをつくる
 　あるいはcontraとvalidのlistを返すようにする
