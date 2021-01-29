@@ -45,6 +45,8 @@ QEDは☕️でしめす。
 ・print-proof0をみなおした。おかしいのは(terpri t)で改行が出力されていないようだ。
 　(terpri t)を(format t "~%")に変更たら思った通りに表示された。
 　terpriについて勘違いしているらしい
+　たぶん、tでなく*standard-output*か*terminal-output*にするべきなのかも
+
 ・kqcを作る
 
 
