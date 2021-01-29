@@ -41,12 +41,33 @@ QEDは☕️でしめす。
 
 
 --- log
-今日
+2021/01/30土
+・print-proof0をみなおした。おかしいのは(terpri t)で改行が出力されていないようだ。
+　(terpri t)を(format t "~%")に変更たら思った通りに表示された。
+　terpriについて勘違いしているらしい
+・kqcを作る
+
+
+2021/01/27水
 ・validの扱いを変えた。property :VALID=Tにした。
 　setcidでnameは:reduceにし、isvalidはそれをみるようにした。
 ・不要な関数はコメントにした
 　print-proof, fullproof
   ccode, pcodeは動いていないまま
+
+・だいぶファイル構成が雑になってきた。整理が必要。
+  dump-clause系はprintにまとまっているが
+　print-*系はprintとproofに分散している
+  print-proof0はproofにのみあるが、print-literal0, print-clause0はproofにあるのに
+  print-literal, print-clauseはprint
+
+  baseに
+  setlid, setcidはcid, lidの構造としてのpropを設定する
+　validは別関数にしている。
+
+　いろいろあるので、おちついたらするか・・・
+
+・
 
 2021/01/26火
 ・sem001で3つともvalidというのがおかしい。

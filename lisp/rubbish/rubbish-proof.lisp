@@ -76,7 +76,7 @@
 ;)
 
 (defun print-literal0 (lid &optional (ind 0))
-  (format t "~%~a" (nspace ind))
+  (format t "~a" (nspace ind))
   (print-literal lid)
 )
 
@@ -102,26 +102,26 @@
 
 (defun print-proof0 (cid &optional (ind 0))
   (let ()
+    (print-clause0 cid ind)
     (cond
-      ((null (proofof cid))
-        (print-clause0 cid ind))
       ((eq (ruleof cid) :resolution)
         (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
           (cond 
             ((iscontradiction cid) 
-               (format t "~%~a~a [] ~a : <~a:~a>~%" (nspace ind) cid (ruleof cid) llid rlid))
+               (format t "~a~a [] ~a : <~a:~a>~%" (nspace ind) cid (ruleof cid) llid rlid))
             ((car (proofof cid)) 
-               (format t "~%~a~a ~a ~a : <~a:~a>~%" (nspace ind) cid (bodyof cid) (ruleof cid)  llid rlid))
-            (t (format t "~%~ainput ~a ~a~%" (nspace ind) cid (bodyof cid)) )
+               (format t "~a~a ~a ~a : <~a:~a>~%" (nspace ind) cid (bodyof cid) (ruleof cid)  llid rlid))
+            (t (format t "~ainput ~a ~a~%" (nspace ind) cid (bodyof cid)) )
           )
-          (print-clause0 cid (+ 2 ind))
           (let ()
             (print-literal0 llid (+ 2 ind))
-            (if (null (plidof llid)) (format t "input~%") (format t " in~%"))
+            (if (null (plidof llid)) (format t "input") (format t " in"))
+            (format t "~%")
             (print-proof0  (cidof llid)(+ 2 ind)))
           (let () 
             (print-literal0 rlid (+ 2 ind))
-            (if (null (plidof llid)) (format t "input~%") (format t " in~%") )
+            (if (null (plidof llid)) (format t "input") (format t " in") )
+            (format t "~%")
             (print-proof0  (cidof rlid)(+ 2 ind)))
         )
       )
@@ -129,18 +129,15 @@
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
             ((iscontradiction cid) 
-              (format t "~a~a ~a [] removed are..~%~a" (nspace ind) cid (ruleof cid) (nspace ind)))
+              (format t "~a~a ~a [] removed are..~a~%~a" (nspace ind) cid (ruleof cid) flits (nspace ind)))
             (t 
-              (format t "~a~a ~a ~a removed are..~%~a" (nspace ind) cid (ruleof cid) (bodyof cid)(nspace ind)))
+              (format t "~a~a ~a ~a removed are..~a~%~a" (nspace ind) cid (ruleof cid) (bodyof cid) flits (nspace ind)))
           )
-          (print-clause0 cid (+ 2 ind))
           (loop for flid in flits do 
             (print-literal0 flid (+ 2 ind))
-            (terpri t)
+            (format t "~%")
             (print-proof0 (cidof flid)(+ 2 ind)))
-
         )
-
       )
     )
   )
