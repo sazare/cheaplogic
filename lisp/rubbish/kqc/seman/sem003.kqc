@@ -1,0 +1,8 @@
+;; sem003.kqc 
+
+;; simplest kqc over executable literal only
+
+(1 () (- > 2 1))
+(2 () (- > 1 1))
+(3 () (- > 1 2))
+

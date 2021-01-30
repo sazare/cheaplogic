@@ -14,6 +14,8 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2021/01/30 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
+
 2021/01/03 load-rubbishして続行する方法を考える
 2021/01/03 system化(asdlある) by Recipes
 2021/01/02 peval-idの実装。-をnotに変えてpevalすれば符号と真偽で判定する必要がない。
@@ -48,6 +50,45 @@ QEDは☕️でしめす。
 　Tでなく*standard-output*にするべきだった
 
 ・kqcを作る
+ 1) sem002.kqcは、sem001.kqcを述語1種類にしたもので、
+　　正しく[]とvalidがでている。
+　　書き方として、factに+R(1,1)などと書いているが、
+    proofとしては+R(1,1)は矛盾してvalidになる。
+　　Factと呼ぶのもおかしいのかも。
+　　kqcでは矛盾となり、FactではないということをValidとして表現しているのかも。
+
+　　つまり、MLで観察した+P(1,1)は、KQCの体系上は正しくないので「矛盾」になる。
+★★　　これを使って「懐中電灯」の「故障」がわかるかもしれない。
+
+ 2) sem003.kqc は実行可能なリテラルだけで書いたもの
+　　正しく判別している。実行可能なリテラルだけのncも書いて良い。
+
+・今のplay-prover-gt-*.lispは無駄が大きい。どうしたものか。
+   kqcのloadまでは同じなので1つにしたい。
+　 (play-prover-gtrail1)でgoalを指定し、kqcファイルの読み込みまでしているからだめなのだ。
+
+　 読み込みとproverの実行を分離する。
+
+　　本来それはprover-gtrailなのだが、inputのreduceをする部分がplay-prover-gtrailにはいっていて
+　　分けられなくなっている。
+
+　　だから、prover-gtrailにreduceの部分を移動する。そうすると、goallistをいろいろ変えて
+    proverが実行できる。
+
+　　そのためにはすでに実行したprover-gtrailの痕跡を消せないといけない。
+　　消すというよりsave/loadがよく、ファイルへの退避でなくlistへの退避ができるようにしたい。
+
+　　(gather-allinf)でlist化できる。
+    (deploy-atoms)でもどせる。
+
+
+・save/loadをlist化できるようにする。
+・clear-atomを作らないといけないかな
+
+・これの優先順位は低い。なくても実験できるから・・・
+
+
+
 
 
 2021/01/27水

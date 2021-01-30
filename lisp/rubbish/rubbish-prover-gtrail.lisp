@@ -247,9 +247,6 @@
 )
 
 ;;; clear all
-(defun clear-atom (am)
-  (format t "not yet implemented -- clear-atom~%")
-)
 
 (defun clear-atoms ()
   (loop for atm in '(*rubbish-state* *clist* *llist* *lsymlist*)
@@ -258,3 +255,22 @@
   )
 )
 
+(defun clear-atoms()
+  (clear-atom '(*rubbish-state* *clist* *llist* *lsymlist*))
+)
+
+(defun clear-properties (atm)
+  (symbol-plist atm)
+)
+
+(defun clear-atominfo (atmlist)
+  (loop for atm in atmlist collect
+    (list atm (eval atm) (gather-properties atm))
+  )
+)
+
+(defun clear-atoms (alist)
+  (loop for gvar in alist collect 
+    (cons gvar (gather-atominfo (eval gvar)))
+  )
+)
