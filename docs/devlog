@@ -74,8 +74,24 @@ QEDは☕️でしめす。
    (a,a), (a,b), (b,b), (b,a)の組み合わせを全部やっているので、
 　　すべてのproofをみつけているらしい。
 
+・play-prover-gt.lisp run all prover-gt-*.lisp for simple test for no aborts.
   
 ・clear-atoms関係の関数群は未整理。優先度低いだろう。
+
+・clear-all-atomsを作った。
+　atomのbindingを消すのは makunbound
+
+ ・playしてclear-allしてもう一度playすると、inputclauseのcidはよいが
+　resolventのcidが大きい値からはじまる。
+  *maxcid*を0にセットした。
+
+  -これでplayを2つにわけて、同じkqcに対してgoalを変えて実行できるようになる。
+　　あと一歩
+
+・この修正が正しいのかどうか・・・
+  1) パラメタが増えると、clear-all-atomsも修正が必要
+　　　まとめて初期化する関数を作ればよいのか?
+
 
 2021/01/30土
 ・print-proof0をみなおした。おかしいのは(terpri t)で改行が出力されていないようだ。

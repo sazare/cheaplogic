@@ -239,40 +239,37 @@
 ;;; clear all
 ;;; these functions may be unclear the purposes of them
 
-(defun clear-atoms ()
-  (loop for atm in '(*rubbish-state* *clist* *llist* *lsymlist*)
-    collect
-    (return (clear-atom atm))
-  )
-)
-
 (defun clear-all-atoms()
-  (clear-atoms '(*rubbish-state* *clist* *llist* *lsymlist*))
+  (clear-atoms (append *rubbish-state* *clist* *llist* *lsymlist*))
+  (setf *clist* nil)
+  (setf *llist* nil)
+  (setf *lsymlist* nil)
+  ;below parameters
+  (setf *goallist* 0)
+  (setf *num-of-trials* 0)
+  (setf *maxcid* 0)
 )
 
-(defun clear-atoms (alist)
-  (loop for gvar in alist collect 
-    (cons gvar (gather-atominfo (eval gvar)))
+(defun clear-atoms (atomlist)
+  (loop for atm in atomlist 
+    do (clear-atom atm)
   )
 )
 
-(defun clear-properties (atm)
-  (symbol-plist atm)
-)
-
-(defun clear-atominfo (atmlist)
-  (loop for atm in atmlist collect
-    (list atm (eval atm) (gather-properties atm))
+(defun clear-atom (atm)
+  (let ()
+    (remove-plist-of-atom atm)
+    (makunbound atm)
   )
 )
 
 
 ;; remve all prop on atm's plist
 ;; this is good
-(defun remove-props-on-atom (atm)
+(defun remove-plist-of-atom (atm)
   (let ((pls (symbol-plist atm)))
-    (loop for pn on pls  by #'cddr 
-      collect (remprop atm (car pn))
+    (loop for pn on pls  by #'cddr do 
+      (remprop atm (car pn))
     )
   )
 )
