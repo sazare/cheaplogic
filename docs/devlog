@@ -15,15 +15,12 @@ QEDは☕️でしめす。
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
 2021/01/31 goallistは*goallist* にしたほうがよいのでは?
-2021/01/31 [bug] proverのstatisticsで#validが0になっているのはおかしい。prover-gtrail
+2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
 
 2021/01/30 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
 
 2021/01/03 load-rubbishして続行する方法を考える
 2021/01/03 system化(asdlある) by Recipes
-2021/01/02 peval-idの実装。-をnotに変えてpevalすれば符号と真偽で判定する必要がない。
-           E = (peval E), (null (peval E))、それ以外(equal T (peval E) )
-2020/12/18 pevalでリテラルを消すルールを:pevalとして登録しよう。cidはふえてリテラルが1つ減る
 2021/01/03 exp(f,n)(x)でloopを消せないか?
 2020/11/29 package化する
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
