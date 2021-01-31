@@ -14,6 +14,9 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2021/01/31 goallistは*goallist* にしたほうがよいのでは?
+2021/01/31 [bug] proverのstatisticsで#validが0になっているのはおかしい。prover-gtrail
+
 2021/01/30 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
 
 2021/01/03 load-rubbishして続行する方法を考える
@@ -43,6 +46,40 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/01/31日
+・validについて考えている
+　なにかFactとそれ以外のように、真であることの確実さが外から指定された世界なのかも。
+　何を確実な真であると考えるのか
+
+・(1) L1 v L2 v αで、mergeしてσ12=<L1:L2>から(2)L1σ12 v ασ12を作ってしまうと
+　でてこない証明があるような気がする。
+　∃σ1 = <L1:L1'>とσ2 = <L2:L2'>として、¬<L1σ1:L2σ2>としたとき
+　{L1',L2',(1)}からασ1σ2はでてくるが、
+　それは(2)のインスタンスではない。
+
+・goallistは*goallist*化でよいのでは?
+・input clausesのreduceをprover-gtrailに移動
+・proverのstatisticsで#validが0になっているのはおかしい。prover-gtrail
+  summaryはただしそう。gathercontraが仕分けできていない。isvalidの問題か
+  ★prover-gtの中で、gathercontraが返すvalidの数を数えてるが、
+  goallistにはvalidは登録されていないので、これからvalidの数はわからない。
+
+　summaryの前で、*clist*に対してgathercontraを実行するように変更した。
+
+・play-prover-gtrailの中で
+  (when nids (push nid nids))
+　は必要なのか? nidsはreturnしていないので
+
+・merge001.kqcで、goalを1にしたときはproof 1個はいいが、goalを5にしたときできる
+  play-prover-gt-mer001.lisp
+  goalsを1,5としたとき、c11がc1を使った[]
+　c12,c13,c14,c15は5の子供[]
+   (a,a), (a,b), (b,b), (b,a)の組み合わせを全部やっているので、
+　　すべてのproofをみつけているらしい。
+
+  
+・clear-atoms関係の関数群は未整理。優先度低いだろう。
+
 2021/01/30土
 ・print-proof0をみなおした。おかしいのは(terpri t)で改行が出力されていないようだ。
 　(terpri t)を(format t "~%")に変更たら思った通りに表示された。

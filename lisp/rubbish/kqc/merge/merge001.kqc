@@ -1,0 +1,25 @@
+; merge001.kqc show provable non merged
+
+(1 () (- R a b))
+
+(2 () (- P a))
+(3 () (- P b))
+
+; when +Ps are merged before, no [] made
+; namely 4 itself should be remain
+
+(4 (x y) (+ P x)(+ P y)(+ R x y))
+
+; merged clause are useful for efficiency of proving.
+; but for the purpose of finding all proofs
+; it is not enough
+
+;; for -R(x,y) => [], 6 proofs are contained.
+;; merging is equivalent to the proofs
+;;  (4 2 2 5) and (4 3 3 5) and provable without merge
+
+(5 (x y) (- R x y))
+
+;; merge can be replaced by long resolution proofs?
+;(play-prover-gtrail '(1 5) "kqc/merge/merge001.kqc")
+

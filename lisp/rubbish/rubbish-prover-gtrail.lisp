@@ -84,30 +84,20 @@
 
 (defun quit-contra (message time-start contras valids)
   (format t "~%limit-over ~a~%" message) 
-  (summary time-start contras valids)
+  (summary time-start)
 )
 
-(defun summary (time-start contras valids)
-  (format t "~%time consumed = ~a secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
-    (- (time-current-secs) time-start)
-    (length *clist*)
-    (length contras)
-    (length valids)
-    *num-of-trials*
-    *num-of-proof-steps*)
-
-
-;; others in some future
-;  *num-of-trials*
-;  *num-of-proof-steps*
-;
-;  *num-of-input-literals*
-;  *num-of-resolvents*
-;  *num-of-contradictions*
-;  *num-of-literals*
-;  *input-clauses ())
-;  *input-literals* ())
-
+(defun summary (time-start)
+  (let (others contras valids)
+    (multiple-value-setq (others contras valids) (gathercontra *clist*) )
+    (format t "~%time consumed = ~a secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+      (- (time-current-secs) time-start)
+      (length *clist*)
+      (length contras)
+      (length valids)
+      *num-of-trials*
+      *num-of-proof-steps*)
+  )
 )
 
 ;; template prover control for gtrail
@@ -162,7 +152,7 @@
         (format t "finished. goallist is empty~%")
         (format t "contradictions=~a~%" contradictions)
         (format t "valids =~a~%" valids)
-        (summary time-start contradictions valids)
+        (summary time-start)
     )
   )
 )
@@ -247,6 +237,7 @@
 )
 
 ;;; clear all
+;;; these functions may be unclear the purposes of them
 
 (defun clear-atoms ()
   (loop for atm in '(*rubbish-state* *clist* *llist* *lsymlist*)
@@ -255,8 +246,14 @@
   )
 )
 
-(defun clear-atoms()
-  (clear-atom '(*rubbish-state* *clist* *llist* *lsymlist*))
+(defun clear-all-atoms()
+  (clear-atoms '(*rubbish-state* *clist* *llist* *lsymlist*))
+)
+
+(defun clear-atoms (alist)
+  (loop for gvar in alist collect 
+    (cons gvar (gather-atominfo (eval gvar)))
+  )
 )
 
 (defun clear-properties (atm)
@@ -269,8 +266,14 @@
   )
 )
 
-(defun clear-atoms (alist)
-  (loop for gvar in alist collect 
-    (cons gvar (gather-atominfo (eval gvar)))
+
+;; remve all prop on atm's plist
+;; this is good
+(defun remove-props-on-atom (atm)
+  (let ((pls (symbol-plist atm)))
+    (loop for pn on pls  by #'cddr 
+      collect (remprop atm (car pn))
+    )
   )
 )
+
