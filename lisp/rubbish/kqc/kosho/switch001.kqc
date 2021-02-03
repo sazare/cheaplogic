@@ -1,0 +1,15 @@
+;; switch001.kqc: 
+
+
+(1 () (+ SW on))
+(2 () (+ LT dark))
+
+(3 () (- SW on)(+ LT bright))
+(4 () (- SW off) (+ LT dark))
+
+
+;; prover parameter ?
+; goal 1 2
+
+; if goallist means all goal should go done, it works. ?
+

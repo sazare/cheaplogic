@@ -1,0 +1,16 @@
+;; switch002.kqc
+;; this contains BATtery is empty, LighT is dark
+
+
+(1 () (+ SW on))
+(2 () (+ LT dark))
+
+(3 () (- SW on)(- BAT enough)(+ LT bright))
+(4 () (- SW off) (+ LT dark))
+(5 () (- SW on)(- BAT empty) (+ LT dark))
+
+
+;; prover parameter ?
+; goal 1 2
+
+; cant []. -BAT and +LT can't resolved.

@@ -1,0 +1,16 @@
+;; switch003.kqc
+;; on is not off, empty is not enogh bright is not dark
+
+
+(1 () (+ SW on))
+(2 () (- LT shine))
+
+(3 () (- SW on)(+ BAT empty)(+ LT shine))
+(4 () (+ SW on) (- LT shine))
+(5 () (- SW on)(- BAT empty) (- LT shine))
+
+
+;; prover parameter ?
+; goal 1 2
+
+;; meaningles resolving be happend.
