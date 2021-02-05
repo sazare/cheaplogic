@@ -1,0 +1,23 @@
+;; switch008.kqc 
+;; from switch005.kqc
+
+;; OBSERVED FACTS
+(1 () (+ SW on))
+(2 () (+ LT dark))
+(3 () (+ BAT empty))
+
+;; RULES
+(4 () (- SW on)(- BAT enough)(- LT bright))
+(5 () (- SW off) (- LT dark))
+(6 () (- BAT empty) (- LT dark))
+
+
+;; prover parameter ?
+; goal 1 2 3
+
+
+;; conclusion of gtrail
+;; because nconjs are true, rules become inversed signs...
+;; at least not imply...
+
+;; not so interesting... from 005.

@@ -1,0 +1,25 @@
+;; switch005.kqc 
+;; from switch004.kqc
+;; in 6, SW's states are removed.
+;; the difference of 5 and 6 is? 
+
+(1 () (+ SW on))
+(2 () (+ LT dark))
+(3 () (+ BAT empty))
+
+(4 () (- SW on)(- BAT enough)(- LT bright))
+(5 () (- SW off) (- LT dark))
+(6 () (- BAT empty) (- LT dark))
+
+
+;; prover parameter ?
+; goal 1 2 3
+
+
+;; conclusion of gtrail
+;; 2 []s are found. but they are same <6-1:3-1><6-2:2-1>
+;; SW is ignored. of course... is it wellcome?
+;;; should all goals be used???
+;; prover is stopped after all goals gone.
+;; the control is correct?
+

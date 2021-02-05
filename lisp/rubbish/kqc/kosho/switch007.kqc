@@ -1,0 +1,27 @@
+;; switch007.kqc WRONG
+;; from switch006.kqc
+;; made observations to body
+;; and nconj ..
+
+;; NCONJ
+(1 () (- SW on) (+ LMP light) (- BAT empty))
+
+;; FACTS
+;(1 () (+ SW on))
+;(2 () (- LMP light))
+;(3 () (+ BAT empty))
+
+;; RULES
+(4 () (+ SW on)(- BAT empty)(- LMP light))
+(5 () (- SW on) (- LMP light))
+(6 () (- BAT empty) (- LMP light))
+
+
+;; prover parameter ?
+; goal 1
+
+
+;; conclusion of gtrail
+;; this writing is worng.
+;;; no []s, because no units
+;;; How can i used observations...

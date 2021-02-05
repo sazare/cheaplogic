@@ -15,7 +15,7 @@ QEDは☕️でしめす。
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
 2021/02/04 make-clauseで番号のないclauseに番号をつけるようにしたい
-2021/02/04 pcodeを各要素でソートする。pinfofも同様か
+2021/02/04 pcodeを各要素でソートする。pinfofも同様か。spinfofをみよ
 
 2021/01/31 goallistは*goallist* にしたほうがよいのでは?
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
@@ -46,6 +46,22 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/02/06土
+・仕様と故障の話、こじつけみたいな気もするが
+・GoallistをObservationにするのはありかも。
+・kosho005, kosho006といろいろ書いてみたが、何が正解かよくわからない。
+　goalにobservationをいれるとき、そっちを全部否定するほうが正しいような気もしてきた。
+　ならば、observationは本体にいれて、nconjは何か別のことを書くべきかも。では、何を?
+・litealにS-expをもてるか。たとえば、(cons x y)みたいなの
+  証明情報をリテラルに持つことができないかなと思った。
+　L1-1(+ P a ()):L2-1(- P x ()) => resolventのどこかに (cons L1-1 L2-1)を持たせる。
+　　　課題1) resolventでlidを参照できるか?
+　　　課題2) 消えるリテラルに持たせてもしかたないのでclause/resolventに持たせたいが
+　　　　　　　それは残されたliteralの引数になるのかな。
+　　　ヒント　ccodeみたいに入力cidを追跡するだけならできそう。resolventのcidは参照できないにしても。
+
+
+
 2021/02/04木
 ・kqcで番号をつけなければ自動で番号をふると思っていたがそうなっていなかった
 　make-clauseで番号のないclauseに番号をつけるようにしたい

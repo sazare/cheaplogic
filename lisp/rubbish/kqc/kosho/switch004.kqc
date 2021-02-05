@@ -1,6 +1,14 @@
 ;; switch004.kqc
 ;; add a Observation of BAT to 002.kqc
 ;; and sign of LTs are reversed.
+;;; ?? 4,5,6 is interpretable? Why all literals are negative?
+;;; !! not imply, but all conjunction. There was no time or dependence of them.
+;;; !! Because Observations are observed at the same time.
+;;; !! Suppose ML finds the facts as an observations.
+;;; But in physical system, lamp is depend on swich. 
+;;; Is it imply?
+
+;;; ! 4,5,6 is just a table of states of the components.
 
 (1 () (+ SW on))
 (2 () (+ LT dark))

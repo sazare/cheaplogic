@@ -1,0 +1,26 @@
+;; switch006.kqc 
+;; from switch005.kqc
+;; made constans single, and adjusted signs
+
+;; FACTS
+(1 () (+ SW on))
+(2 () (- LMP light))
+(3 () (+ BAT empty))
+
+;; RULES
+;; why signs are inversed?
+;; added SW literal in 6
+(4 () (- SW on)(+ BAT empty)(+ LMP light))
+(5 () (+ SW on) (+ LMP light))
+(6 () (- SW on)(- BAT empty) (+ LMP light))
+
+
+;; prover parameter ?
+; goal 1 2 3
+;; goals are all true, they are observations and facts
+
+
+;; conclusion of gtrail
+;; writing method is worng.
+
+
