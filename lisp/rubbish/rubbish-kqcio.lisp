@@ -41,12 +41,13 @@
 
 (defun readekqc (fname)
  (let ((kqc (readefile fname)))
-   (format t "kqc reading ... ~a" fname)
+   (format t "kqc reading: ~a~%" fname)
    (prog1 
      (loop for k in kqc 
+       do (format t ".")
        collect (make-clause k)
      )
-     (format t "... end~%")
+     (format t "~%")
    )
  )
 )

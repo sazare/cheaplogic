@@ -1,0 +1,5 @@
+;; gencid.kqc is a test kqc for no name makes new cid
+
+( (x) (- P x x)) 
+( (x y) (+ P x y)(- Q y))
+( (y) (+ Q y))

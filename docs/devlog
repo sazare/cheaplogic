@@ -59,6 +59,12 @@ QEDは☕️でしめす。
 　大丈夫だった
 ・kqcにnameのないS-clauseがあったとき、自動で番号をふると、タイミングで空いている範囲の
 　番号になったり、ならなかったり・・・
+　番号を自動でふるようにした。(new-cid)なので*maxcid*をインクリメントする。
+　この場合のnameはcidそのものにした。
+
+・input clauseを判定したい場合どうするか。
+　nameが:resolventか:reducedのときはinputでないと考えるか
+　*inputcid* という変数にいれていくか・・・(readkqc)で
 
 
 2021/02/06土

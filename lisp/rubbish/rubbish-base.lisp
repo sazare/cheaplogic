@@ -185,9 +185,20 @@
 )
 
 (defun make-clause (cexp)
-  (let (cid ns (name (car cexp)) (vars (cadr cexp)) (body (cddr cexp)))
-    (setf cid (make-cid name))
-    (setf ns (newvars vars))
+  (let (cid ns (name (car cexp)) vars body)
+    (if (listp name)
+      (let () ;; no name
+        (setq cid (new-cid))
+        (setq name cid)
+        (setq vars (car cexp)) 
+        (setq ns (newvars vars))
+        (setq body (cdr cexp)))
+      (let () ;; has name
+        (setq cid (make-cid name))
+        (setq vars (cadr cexp)) 
+        (setq ns (newvars vars))
+        (setq body (cddr cexp)))
+    )
     (setcid cid name ns (make-lids cid (subsubp vars body ns)))
   )
 )
