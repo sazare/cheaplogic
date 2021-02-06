@@ -117,12 +117,6 @@
 )
 
 
-; pcode of cid for successful unificaton
-(defun pcode (cid)
-  (format nil "~a" (pinfof cid))
-)
-
-
 (defun make-pcode (lid1 lid2)
 ;; may be should be sorted
   (cons
@@ -151,8 +145,23 @@
   )
 )
 
+; pcode of cid for successful unificaton
+(defun pcode (cid)
+;  (format nil "~a" (pinfof cid))
+  (let ((sinf (pinfof cid)) sss uniq)
+    (setq sss (loop for s in sinf append s))
+    (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
+    (sort uniq #'string>)
+  )
+)
+
 (defun spcode (cid)
-  (format nil "~a" (sort (spinfof cid) #'string<))
+  ; (format nil "~a" (sort (spinfof cid) #'string<))
+  (let ((sinf (pinfof cid)) sss uniq)
+    (setq sss (loop for s in sinf append s))
+    (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
+    (format nil "~a" (sort uniq #'string>))
+  )
 )
 
 

@@ -14,8 +14,8 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2021/02/06 input clauseを知りたい。
 2021/02/04 make-clauseで番号のないclauseに番号をつけるようにしたい
-2021/02/04 pcodeを各要素でソートする。pinfofも同様か。spinfofをみよ
 
 2021/01/31 goallistは*goallist* にしたほうがよいのでは?
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
@@ -32,6 +32,8 @@ QEDは☕️でしめす。
 20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
 　　　　　重複したresolutionが行えないような仕組みがほしい。
 
+2021/02/04 済 pcodeを各要素でソートする。pinfofも同様か。spinfofをみよ
+1
 2020/11/29 済 環境のsave/restoreはどうやればできるかを考える
 2020/11/22 済 print-proof, print-proof0で、litてなくlsymを表示したい。パラメタで指定?
 　　　　　　varsを表示しないようにしたら、全体がみとおせるので、この問題の意図がよくわからなくなった。済にする
@@ -59,8 +61,24 @@ QEDは☕️でしめす。
 　　　課題2) 消えるリテラルに持たせてもしかたないのでclause/resolventに持たせたいが
 　　　　　　　それは残されたliteralの引数になるのかな。
 　　　ヒント　ccodeみたいに入力cidを追跡するだけならできそう。resolventのcidは参照できないにしても。
+・saveするときkqcファイル名をもたせたい
+・pcodeをソートする
+　pairのリストを全部展開し、文字列としてソートした。
+  複数回同じolidが使われていたら、1回だけにした。
+　本来はpairを単位とすべきだが、反復は同じとみなしたいのでこのようにした。
 
+　未 reduceの枝はまだみていない
 
+ spcodeをこの方式に変更し、gt6loopのresolventで目視確認して、よさそうだった。
+ pcodeはS-式版。spcodeはそれをstringに変換したもの。
+
+★★★★ 次のルールで制御できるか?
+ resolventのpcodeが既存なら、新規に作成しない。
+ 次のpairの候補が、もしresolutionすると既存のproofに含まれてしまう場合はresolutionのtryもしない。
+条件 候補のllid, rlidが両方ともにどこかのresolventのpcodeに含まれる。
+
+未実装 
+****1
 
 2021/02/04木
 ・kqcで番号をつけなければ自動で番号をふると思っていたがそうなっていなかった
