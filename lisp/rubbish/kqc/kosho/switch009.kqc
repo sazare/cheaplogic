@@ -1,0 +1,31 @@
+;; switch008.kqc 
+;; from switch005.kqc
+
+;; NCONJ
+;; NConj shouldn't be the neg of Facts...?
+;; but set it the conclusion part of 4,5,6. 
+;; one trial
+
+(1 () (- LAMP dark))
+
+
+;; RULES
+(4 () (- SW on)(- BAT enough)(+ LAMP bright))
+(5 () (- SW off) (+ LAMP dark))
+(6 () (- BAT empty) (+ LAMP dark))
+
+
+;; OBSERVED FACTS
+(7 () (+ SW on))
+(8 () (+ BAT empty))
+(9 () (+ LAMP dark))
+
+;; prover parameter ?
+; goal 1
+
+
+;; conclusion of gtrail
+;; 2[] are found. 
+;;  1) 1x9 and 
+;;  2) 1x6x8 
+
