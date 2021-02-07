@@ -64,8 +64,11 @@ QEDは☕️でしめす。
 
 ・input clauseを判定したい場合どうするか。
 　nameが:resolventか:reducedのときはinputでないと考えるか
-　*inputcid* という変数にいれていくか・・・(readkqc)で
+* *input-clauses*にinputclauseのcidのみpushnew. in (readkqc)
+  make-clauseが呼んでいるsetcidで設定するとresolventも追加されてしまうので
+　setcidを呼ぶ直前でpushnweした。
 
+・expf in essential.lisp... try and fail
 
 2021/02/06土
 ・仕様と故障の話、こじつけみたいな気もするが

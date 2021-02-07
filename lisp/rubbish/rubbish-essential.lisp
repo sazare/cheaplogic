@@ -79,3 +79,16 @@
     )
   )
 )
+
+;; function repeating n times
+;; f^n -- not yet work
+(defun expf (fn n)
+  (cond
+    ((= n 1) fn )
+    ((> n 1) (expf fn (- n 1)))
+    (t (error "should be ~a>1" n))
+  )
+)
+
+
+

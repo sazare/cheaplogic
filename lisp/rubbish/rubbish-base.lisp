@@ -199,6 +199,7 @@
         (setq ns (newvars vars))
         (setq body (cddr cexp)))
     )
+    (pushnew cid *input-clauses*)
     (setcid cid name ns (make-lids cid (subsubp vars body ns)))
   )
 )
@@ -338,15 +339,5 @@
 )
 
 
-;;; primitives
-
-;; f^n -- not yet work
-(defun expf (fn n)
-  (cond 
-    ((= n 1) fn )
-    ((> n 1) (fn (expf fn (- n 1))))
-    (t (error "should be >1" n))
-  )
-)
 
 
