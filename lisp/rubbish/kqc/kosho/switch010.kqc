@@ -1,0 +1,23 @@
+;; switch010.kqc WRONG
+
+;; 1. [] will come goal and facts
+
+
+;; FACTS
+(1 () (+ SW on))
+(2 () (+ LMP dark))
+(3 () (+ BAT empty))
+
+;; RULES imply-statements
+(4 () (- SW on)(- BAT enough)(+ LMP light))
+(5 () (- SW off) (+ LMP dark))
+(6 () (- BAT empty) (+ LMP dark))
+
+;; NCONJ
+(7 () (- SW on) (- LMP dark) (- BAT empty))
+
+;; prover parameter ?
+; goal 7 
+
+
+;; conclusion of gtrail

@@ -96,6 +96,14 @@
 ;;; code for a proof of the cid
 ;; this have all information of cid without the order
 ;; this may be sorted.
+
+(defun pcode-reduced (cid trues)
+  (loop with pco = ()
+    for tcid in trues do (push (cons tcid) (pinfof (cidof tcid) pco));;; ??? parent? body??? ###
+    finally (return pco)
+  )
+)
+
 (defun pinfof (cid)
   (let ((rule (ruleof cid)))
     (cond 
@@ -106,7 +114,8 @@
             (t (list (ccode cid)))
           )
         ))
-      (t ())
+      ((eq rule :REDUCED-BY-SEMANTIX) (pcode-reduced cid (truesof cid)))
+      (t (list (ccode cid)))
     )
   )
 )

@@ -1,4 +1,5 @@
 ;; kosho detect
+;; pre-investigation of switch010.kqc
 
 (load "load-rubbish.lisp")
 
@@ -9,6 +10,6 @@
 (setq *max-steps* 100)
 (setq *timeout-sec* 5)
 
-(play-prover-gtrail '(1 2) "kqc/kosho/switch009.kqc")
+(play-prover-gtrail '(7) "kqc/kosho/switch010a.kqc")
 
 

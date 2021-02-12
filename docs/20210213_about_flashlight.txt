@@ -1,0 +1,147 @@
+懐中電灯が電池が空のときランプがつかないという現象
+
+この例は、ランプのつかない原因であるBAT(empty)は仕様の中に書かれている。
+だから、仕様で[]がでてくる。
+
+1. 懐中電灯のないfactsとnconjで1つ[]がでる。(switch010a)
+　これは対消滅だけなので、実質[]はでていない。
+
+time consumed = 0 secs
+#clauses = 10
+#contras = 1
+#valids = 0
+#trials = 6
+#max proof steps = 0
+T
+* (lscova)
+((C11) NIL)
+* (print-proof0 'c11)
+C11: RESOLVENT = []
+C11 [] RESOLUTION : <L8-1:L2-1>
+  L8-1 ().(- LMP DARK)  in
+  C8: RESOLVENT NIL [((- LMP DARK))]
+  C8 (L8-1) RESOLUTION : <L7-1:L1-1>
+    L7-1 ().(- SW ON) input
+    C7: 7 NIL [((- SW ON) (- LMP DARK))]
+    L1-1 ().(+ SW ON) input
+    C1: 1 NIL [((+ SW ON))]
+  L2-1 ().(+ LMP DARK)  in
+  C2: 2 NIL [((+ LMP DARK))]
+NIL
+
+ここからBATリテラルの事情がないので、採取するとすると
+
+2. BATも含めたfacts+nconj(switch010)
+
+・nconjにfactsのneg、factsにはここのパーツの状態、ruleはimply形式で書いたものがswith010.kqc
+
+--- switch010.kqc
+;; FACTS
+(1 () (+ SW on))
+(2 () (+ LMP dark))
+(3 () (+ BAT empty))
+
+;; RULES imply-statements
+(4 () (- SW on)(- BAT enough)(+ LMP light))
+(5 () (- SW off) (+ LMP dark))
+(6 () (- BAT empty) (+ LMP dark))
+
+;; NCONJ
+(7 () (- SW on) (- LMP dark) (- BAT empty))
+
+;; prover parameter ?
+; goal 7
+
+--- end switch010.kqc
+1,2,3のfactsと7のnconjは否定しただけなので、必ず[]が生じることは明らかだが
+それとは別に何か[]がでないかどうか・・・
+
+
+　2つの[](c14,c15)はでたがよくにている。pcodeをみると
+
+* (pcode 'c14)
+(L7-3 L7-2 L7-1 L3-1 L2-1 L1-1)
+* (pcode 'c15)
+(L7-3 L7-2 L7-1 L6-2 L6-1 L3-1 L1-1)
+
+c14はfactとそのnegとの対消滅なので情報はない。
+
+c15とc14の違いは、L2-1とC6であり、
+(2 () (+ LMP dark))
+(6 () (- BAT empty) (+ LMP dark))
+
+バッテリーが空という記述に迫っている。
+
+証明をみると
+* (print-proof0 'c15)
+C15: RESOLVENT = []
+C15 [] RESOLUTION : <L13-1:L3-1>
+  L13-1 ().(- BAT EMPTY)  in
+  C13: RESOLVENT NIL [((- BAT EMPTY))]
+  C13 (L13-1) RESOLUTION : <L10-1:L3-1>
+    L10-1 ().(- BAT EMPTY)  in
+    C10: RESOLVENT NIL [((- BAT EMPTY) (- BAT EMPTY))]
+    C10 (L10-1 L10-2) RESOLUTION : <L8-1:L6-2>
+      L8-1 ().(- LMP DARK)  in
+      C8: RESOLVENT NIL [((- LMP DARK) (- BAT EMPTY))]
+      C8 (L8-1 L8-2) RESOLUTION : <L7-1:L1-1>
+        L7-1 ().(- SW ON) input
+        C7: 7 NIL [((- SW ON) (- LMP DARK) (- BAT EMPTY))]
+        L1-1 ().(+ SW ON) input
+        C1: 1 NIL [((+ SW ON))]
+      L6-2 ().(+ LMP DARK)  in
+      C6: 6 NIL [((- BAT EMPTY) (+ LMP DARK))]
+    L3-1 ().(+ BAT EMPTY)  in
+    C3: 3 NIL [((+ BAT EMPTY))]
+  L3-1 ().(+ BAT EMPTY)  in
+  C3: 3 NIL [((+ BAT EMPTY))]
+NIL
+
+C6のルールとFacts(c3, c1)からc10になって、のこったBAT(empty)が
+c3で2度消去され[]になっている。
+C4とC5がはいっていないから、C6のルールが適用されたのはわかる。
+
+factsとnconjで両側から証明にしている感じ。
+つまり、factsとnconjは対消滅する(c14)が、それとは違う[] C15とC14の
+証明の違いをみると、goalxfactsにどのようにruleが介入したのかがわかり
+このfacts=nconjが、どういう理由(rule)で起きているのかがわかる。
+
+なんだこれは??
+
+★0の証明と何か起きている証明との差から、「何か」をみつけるということか。
+★そのときpcodeは手かがりになる。
+
+*****
+[仕様で規定されていない故障の対応方法]
+では、仕様に書かれていない故障というものはありうるか?
+
+・もしも、仕様にない概念で故障が起きていたとするとFactにその概念がないので
+　[]が生じない。
+　あらかじめ認識されていない概念=述語記号は、Factに出現しようがない。
+　そこで新しい概念を生み出す仕組みとしてML/DLが使えるかもしれない。
+
+・ML/DLで世界の観察から新しい概念(述語)を作り出せたとすると、
+  1) まずそれは仕様にない概念なので、proverがorphan literalを発見し、
+     proverでそれが認識される。(今はメッセージとして出力している)
+  2) そこでそのorphan literalに関するルールを書き、仕様を拡張する。
+　　　これは人間の仕事。
+  3) その概念に関するfactsはすでに見つかっているので、factsを否定したものを
+　　goalとした証明を作れば、switch010のような状況になる。
+　　ここで、その概念をより正確に観測するための仕組みが別に必要になるのかもしれない。
+
+最初のML/DLによる概念の発見が帰納と呼ばれるものか?
+
+もし、これが「帰納」であり、学習のテキストが「推論」と呼ぶものが演繹であるならば
+ML/DLは新しい論理体系が作り出せるということになるかもしれない。
+
+
+★ この、仕様を拡張する部分が人間の介入。
+　これもプログラムで作れれば、人間は不要か。
+
+・まったく新しい概念が作れないとしたときどうするか。
+　既存の概念の枠組みの中で、確率によって詳細化するという方法はあるかも。
+　今はpevalによる真偽化が使えるかもしれない。という程度。
+
+
+
+

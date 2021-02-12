@@ -35,6 +35,10 @@
   (cadddr (proofof cid))
 )
 
+(defun truesof (cid)
+  (cadddr (proofof cid))
+)
+
 ;(defun print-proof (cid &optional (ind 0))
 ;  (let ()
 ;    (cond 

@@ -1,0 +1,28 @@
+;; switch009.kqc 
+;; from switch005.kqc
+
+;;; what clause i should choose for not conjecture?
+
+;; NCONJ
+;; NConj is a negative of current facts
+;; then, no unit clause, no contradiction
+(1 () (- SW on)(+ LAMP bright))
+;(1 () (- SW on)(- BAT empty)(+ LAMP bright))
+
+
+;; RULES
+; these clauses are the negative of and-rules
+(2 () (- SW on)(+ BAT empty)(- LAMP bright))
+(3 () (+ SW on) (- LAMP dark))
+(4 () (- BAT empty) (- LAMP dark))
+
+
+;; OBSERVED FACTS
+; none
+
+;; prover parameter ?
+; goal 1
+
+
+;; conclusion of gtrail
+

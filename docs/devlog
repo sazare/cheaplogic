@@ -14,8 +14,6 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
-2021/02/06 input clauseを知りたい。
-2021/02/04 make-clauseで番号のないclauseに番号をつけるようにしたい
 
 2021/01/31 goallistは*goallist* にしたほうがよいのでは?
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
@@ -32,6 +30,9 @@ QEDは☕️でしめす。
 20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
 　　　　　重複したresolutionが行えないような仕組みがほしい。
 
+--- 以下済
+2021/02/04 済make-clauseで番号のないclauseに番号をつけるようにしたい
+2021/02/06 済input clauseを知りたい。
 2021/02/04 済 pcodeを各要素でソートする。pinfofも同様か。spinfofをみよ
 1
 2020/11/29 済 環境のsave/restoreはどうやればできるかを考える
@@ -48,6 +49,111 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/02/13土
+・play-prover-gt-kosho009.lisp play-prover-gt-kosho009x.lispに変名しのこした。
+・あらたなるkosho009は
+  unit clauseを作るためfactのnegative(1,2)をgoalとする。BATは除く
+　　SW(on) and Lamp(dark)
+　　というfactから、理由であるBATが求められればいいかなと思ったので。
+
+  rulesは、and記述の否定にする。
+　
+　すると、olphanとしてBATのリテラルがとりだせるが、これはだめだ
+・問題の記述フレームワークがはたらいていないのは、問題設定がはずれているからだろう
+
+・nconjにfactsのneg、factsにはここのパーツの状態、ruleはimply形式で書いたものがkosho010.lisp
+--- switch010.kqc
+;; FACTS
+(1 () (+ SW on))
+(2 () (+ LMP dark))
+(3 () (+ BAT empty))
+
+;; RULES imply-statements
+(4 () (- SW on)(- BAT enough)(+ LMP light))
+(5 () (- SW off) (+ LMP dark))
+(6 () (- BAT empty) (+ LMP dark))
+
+;; NCONJ
+(7 () (- SW on) (- LMP dark) (- BAT empty))
+
+;; prover parameter ?
+; goal 7
+
+--- end switch010.kqc
+1,2,3のfactsと7のnconjは否定しただけなので、必ず[]が生じることは明らかだが
+それとは別に何か[]がでないかどうか・・・
+
+
+　2つの[](c14,c15)はでたがよくにている。pcodeをみると
+
+* (pcode 'c14)
+(L7-3 L7-2 L7-1 L3-1 L2-1 L1-1)
+* (pcode 'c15)
+(L7-3 L7-2 L7-1 L6-2 L6-1 L3-1 L1-1)
+
+c14はfactとそのnegとの対消滅なので情報はない。
+
+c15とc14の違いは、L2-1とC6であり、
+(2 () (+ LMP dark))
+(6 () (- BAT empty) (+ LMP dark))
+
+バッテリーが空という記述に迫っている。
+
+証明をみると
+* (print-proof0 'c15)
+C15: RESOLVENT = []
+C15 [] RESOLUTION : <L13-1:L3-1>
+  L13-1 ().(- BAT EMPTY)  in
+  C13: RESOLVENT NIL [((- BAT EMPTY))]
+  C13 (L13-1) RESOLUTION : <L10-1:L3-1>
+    L10-1 ().(- BAT EMPTY)  in
+    C10: RESOLVENT NIL [((- BAT EMPTY) (- BAT EMPTY))]
+    C10 (L10-1 L10-2) RESOLUTION : <L8-1:L6-2>
+      L8-1 ().(- LMP DARK)  in
+      C8: RESOLVENT NIL [((- LMP DARK) (- BAT EMPTY))]
+      C8 (L8-1 L8-2) RESOLUTION : <L7-1:L1-1>
+        L7-1 ().(- SW ON) input
+        C7: 7 NIL [((- SW ON) (- LMP DARK) (- BAT EMPTY))]
+        L1-1 ().(+ SW ON) input
+        C1: 1 NIL [((+ SW ON))]
+      L6-2 ().(+ LMP DARK)  in
+      C6: 6 NIL [((- BAT EMPTY) (+ LMP DARK))]
+    L3-1 ().(+ BAT EMPTY)  in
+    C3: 3 NIL [((+ BAT EMPTY))]
+  L3-1 ().(+ BAT EMPTY)  in
+  C3: 3 NIL [((+ BAT EMPTY))]
+NIL
+
+C6のルールとFacts(c3, c1)からc10になって、のこったBAT(empty)が
+c3で2度消去され[]になっている。
+C4とC5がはいっていないから、C6のルールが適用されたのはわかる。
+
+factsとnconjで両側から証明にしている感じ。
+つまり、factsとnconjは対消滅する(c14)が、それとは違う[] C15とC14の
+証明の違いをみると、goalxfactsにどのようにruleが介入したのかがわかり
+このfacts=nconjが、どういう理由(rule)で起きているのかがわかる。
+
+なんだこれは??
+
+★0の証明と何か起きている証明との差から、「何か」をみつけるということか。
+★そのときpcodeは手かがりになる。
+
+
+
+
+
+
+
+ 
+2021/02/12金
+・play-prover-gt-kosho009.lispで, C7は[]なのにcontradictionはnilになっている。
+  ではなくて[]にはなっていない。+LITと-LITがあるのでsyntaxでの
+  validかな。
+
+2021/02/11木
+・何を書いておくか考える
+・rubbishについては、ソースのファイル構成みなおしたい
+
 2021/02/07日
 ・LlidとRlidの候補が既存のpinfに含まれるかどうかを判定するというのは、結構な処理になる
 　既存のresolventのすべてのpinfoについて含まれるかどうかを判定するとなると・・・
