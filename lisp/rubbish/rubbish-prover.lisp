@@ -93,100 +93,80 @@
   )
 )
 
+;; berfore resolve-id, this shows the pcode of the resolvent if succeed
+;; the order of lid1, lid2 is free
+
+(defun make-pcode (lid1 lid2)
+  (let ((pinf (make-pinfo lid1 lid2)) uniq)
+    (setq uniq (loop with ss = () for s in pinf do (pushnew s ss :test #'equal) finally (return ss) ))
+    (sort uniq #'string>)
+  )
+)
+
+(defun make-pinfo (lid1 lid2)
+  ;; not pcode, but something make-pinfo is better
+  (append (list (olidof lid1)(olidof lid2)) (pcode (cidof lid1)) (pcode (cidof lid2))) 
+)
+
 ;;; code for a proof of the cid
 ;; this have all information of cid without the order
 ;; this may be sorted.
 
 (defun pcode-reduced (cid trues)
   (loop with pco = ()
-    for tcid in trues do (push (cons tcid) (pinfof (cidof tcid) pco));;; ??? parent? body??? ###
+    for tcid in trues do (push (olidof tcid) pco) ;;; ??? parent? body??? ###
+     (setq pco (append (pcode (cidof tcid)) pco))
     finally (return pco)
   )
 )
 
+;; not uniq and sorted version of pcode
 (defun pinfof (cid)
   (let ((rule (ruleof cid)))
     (cond 
       ((eq rule :resolution) 
         (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
           (cond 
-            (rp (append (cons (list (olidof (car rp))(olidof (cadr rp))) (pinfof (cidof rl)))(pinfof (cidof rr))))
-            (t (list (ccode cid)))
+            (rp (append (list (olidof rl)(olidof rr)) (pinfof (cidof rl))(pinfof (cidof rr))))
+            (t ())
           )
         ))
       ((eq rule :REDUCED-BY-SEMANTIX) (pcode-reduced cid (truesof cid)))
-      (t (list (ccode cid)))
-    )
-  )
-)
-
-;;pinfofolp for checking before make resolvent.
-(defun pinfoflp (llid rlid)
-  (append (cons (list (olidof llid)(olidof rlid)) (pinfof (cidof llid)))(pinfof (cidof rlid))) 
-)
-
-
-(defun make-pcode (lid1 lid2)
-;; may be should be sorted
-  (cons
-    (list (olidof lid1)(olidof lid2))
-    (append 
-      (pinfof (cidof lid1))
-      (pinfof (cidof lid2))
-    )
-  )
-)
-
-;; the following is not work. I which every elements are string.
-(defun spinfof (cid)
-  (let ((rule (ruleof cid)))
-    (cond 
-      ((eq rule :resolution) 
-        (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
-          (cond 
-            (rp (append (cons (format nil "~a ~a" (olidof (car rp)) (olidof (cadr rp)))
-                              (spinfof (cidof rl)))(spinfof (cidof rr))))
-            (t (list (string (ccode cid))))
-          )
-        ))
       (t ())
     )
   )
 )
 
-; pcode of cid for successful unificaton
+
+
+; pcode of cid 
+
 (defun pcode (cid)
-;  (format nil "~a" (pinfof cid))
   (let ((sinf (pinfof cid)) sss uniq)
-    (setq sss (loop for s in sinf append s))
-    (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
+    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss :test #'equal) finally (return ss) ))
     (sort uniq #'string>)
   )
 )
 
+;; stringfy pcode
 (defun spcode (cid)
-  ; (format nil "~a" (sort (spinfof cid) #'string<))
-  (let ((sinf (pinfof cid)) sss uniq)
-    (setq sss (loop for s in sinf append s))
-    (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
-    (format nil "~a" (sort uniq #'string>))
-  )
+  (format nil "~a" (sort (pcode cid) #'string>))
 )
 
-
-(defun print-otree (cid)
-  (let ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
-    (cond
-      ((iscontradiction cid) (format t "~% ~a [] ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
-      ((car (proofof cid)) (format t "~% ~a ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
-      (t (format t " input ~a~%" cid))
-    )
-    (when (cidof llid) (print-literal llid)
-      (print-otree (cidof llid)))
-    (when (cidof rlid) (print-literal rlid)
-      (format t " in ") (print-otree (cidof rlid)))
-  )
-)
+; print-otree may not work
+;(defun print-otree (cid)
+;  (let ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
+;    (cond
+;      ((iscontradiction cid) (format t "~% ~a [] ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
+;      ((car (proofof cid)) (format t "~% ~a ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
+;      (t (format t " input ~a~%" cid))
+;    )
+;    (when (cidof llid) (print-literal llid)
+;      (print-otree (cidof llid)))
+;    (when (cidof rlid) (print-literal rlid)
+;      (format t " in ") (print-otree (cidof rlid)))
+;  )
+;)
 
 
 

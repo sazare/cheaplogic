@@ -23,3 +23,20 @@
 (load "play-prover-gt8loop.lisp")
 (load "play-prover-gtvv01.lisp")
 (load "play-prover-gtvv02.lisp")
+
+
+;; koshos are flashlight examples
+(load "play-prover-gt-kosho001.lisp")
+(load "play-prover-gt-kosho002.lisp")
+(load "play-prover-gt-kosho003.lisp")
+(load "play-prover-gt-kosho004.lisp")
+(load "play-prover-gt-kosho005.lisp")
+(load "play-prover-gt-kosho006.lisp")
+(load "play-prover-gt-kosho007.lisp")
+(load "play-prover-gt-kosho008.lisp")
+(load "play-prover-gt-kosho009.lisp")
+;; the next only 10 is good. I think.
+(load "play-prover-gt-kosho010.lisp")
+;; 10a may be a previous step for 10. 
+(load "play-prover-gt-kosho010a.lisp")
+

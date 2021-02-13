@@ -14,16 +14,15 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
-
+2021/02/14 (pinfof cid)は未ソートで(pcode cid)はsort and uniq化。関数名がよくないかも
 2021/01/31 goallistは*goallist* にしたほうがよいのでは?
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
 
-2021/01/30 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
-
-2021/01/03 load-rubbishして続行する方法を考える
+2021/01/03 load-rubbishして続行する方法を考える : save, loadは作ったが続きができるような修正は未
 2021/01/03 system化(asdlある) by Recipes
-2021/01/03 exp(f,n)(x)でloopを消せないか?
 2020/11/29 package化する
+2021/01/03 exp(f,n)(x)でloopを消せないか?
+
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
 20200823 resolve/lidの実装(litつき)
 20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
@@ -31,6 +30,7 @@ QEDは☕️でしめす。
 　　　　　重複したresolutionが行えないような仕組みがほしい。
 
 --- 以下済
+2021/01/30 澄 0213 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
 2021/02/04 済make-clauseで番号のないclauseに番号をつけるようにしたい
 2021/02/06 済input clauseを知りたい。
 2021/02/04 済 pcodeを各要素でソートする。pinfofも同様か。spinfofをみよ
@@ -49,6 +49,22 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/02/14日
+・rubbish-prover.lispのpcode関係のリファクタリング
+・(pcode cid), (pinfof cid)
+・(pcodeoflp lid1 lid2)が(make-pcode...)と同じだったので前者を削除
+・(make-pinfo lid1 lid2)を追加。
+・(make-pcode lid1 lid2), (make-pinfo lid1 lid2)は、resolve-idをする前にpcodeを確認できるので
+　既存のpcodeと同じものがあれば、ここではじける。という気持ち。
+・pcodeはsorted & uniqed, pinfoはsortもuniquもしていないもの、という役割分担。
+・play-prover-gt7loop.lispで確認。C12と(L9-1, L3-1)を使用。
+
+・なぜspcodeのようにstring versionを作っているかというと、既存かどうかのチェックに
+　string=を使うほうが高速だろうと思うから。
+　あるいはsymbolにしたほうがよいかも。
+
+
+
 2021/02/13土
 ・play-prover-gt-kosho009.lisp play-prover-gt-kosho009x.lispに変名しのこした。
 ・あらたなるkosho009は
@@ -138,12 +154,24 @@ factsとnconjで両側から証明にしている感じ。
 ★0の証明と何か起きている証明との差から、「何か」をみつけるということか。
 ★そのときpcodeは手かがりになる。
 
+★ 以上をまとめた。20210213_about_flashlight.txt
+
+・他にproverを使って何ができるかを考えよう
 
 
+・pcodeにinput 以外のlidがでていないか?
 
+・pcode/pinfofができていない。ccodeの仕様はなにか??
+  (pcode cid)は、cidのproofに現れるpairのliteralのollidの集合。
+　ではinput clauseの場合は何になるか?
+   ()でよい。
 
+　修正した。
+　・pcodeは次のlidから構成されるリスと
+    - resolutionの場合、pairの各lidのolidをpcodeにする。全照明木
+    - reduceの場合、tlidのolidをpcodeに追加。その親のclauseのcidのpcodeに追加
 
-
+   (pinfof cid)は未ソートでpcodeはsort and uniq化。関数名がよくないかも
  
 2021/02/12金
 ・play-prover-gt-kosho009.lispで, C7は[]なのにcontradictionはnilになっている。
