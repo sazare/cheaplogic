@@ -99,10 +99,12 @@
 
 (defun pcode-reduced (cid trues)
   (loop with pco = ()
-    for tcid in trues do (push (cons tcid) (pinfof (cidof tcid) pco));;; ??? parent? body??? ###
+    for tcid in trues do (push (olidof tcid) pco) ;;; ??? parent? body??? ###
+     (setq pco (append (pcode (cidof tcid)) pco))
     finally (return pco)
   )
 )
+
 
 (defun pinfof (cid)
   (let ((rule (ruleof cid)))
@@ -110,12 +112,12 @@
       ((eq rule :resolution) 
         (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
           (cond 
-            (rp (append (cons (list (olidof (car rp))(olidof (cadr rp))) (pinfof (cidof rl)))(pinfof (cidof rr))))
-            (t (list (ccode cid)))
+            (rp (append (list (olidof rl)(olidof rr)) (pinfof (cidof rl))(pinfof (cidof rr))))
+            (t ())
           )
         ))
       ((eq rule :REDUCED-BY-SEMANTIX) (pcode-reduced cid (truesof cid)))
-      (t (list (ccode cid)))
+      (t ())
     )
   )
 )
@@ -137,28 +139,13 @@
   )
 )
 
-;; the following is not work. I which every elements are string.
-(defun spinfof (cid)
-  (let ((rule (ruleof cid)))
-    (cond 
-      ((eq rule :resolution) 
-        (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
-          (cond 
-            (rp (append (cons (format nil "~a ~a" (olidof (car rp)) (olidof (cadr rp)))
-                              (spinfof (cidof rl)))(spinfof (cidof rr))))
-            (t (list (string (ccode cid))))
-          )
-        ))
-      (t ())
-    )
-  )
-)
 
 ; pcode of cid for successful unificaton
 (defun pcode (cid)
 ;  (format nil "~a" (pinfof cid))
   (let ((sinf (pinfof cid)) sss uniq)
-    (setq sss (loop for s in sinf append s))
+    ;(setq sss (loop for s in sinf append s))
+    (setq sss (pinfof cid))
     (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
     (sort uniq #'string>)
   )
@@ -173,6 +160,22 @@
   )
 )
 
+;; the following is not work. I which every elements are string.
+(defun spinfof (cid)
+  (let ((rule (ruleof cid)))
+    (cond 
+      ((eq rule :resolution) 
+        (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
+          (cond 
+            (rp (append (cons (format nil "~a ~a" (olidof (car rp)) (olidof (cadr rp)))
+                              (spinfof (cidof rl)))(spinfof (cidof rr))))
+            (t (list (string (pcode cid))))
+          )
+        ))
+      (t ())
+    )
+  )
+)
 
 (defun print-otree (cid)
   (let ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))

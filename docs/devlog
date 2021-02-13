@@ -138,12 +138,22 @@ factsとnconjで両側から証明にしている感じ。
 ★0の証明と何か起きている証明との差から、「何か」をみつけるということか。
 ★そのときpcodeは手かがりになる。
 
+★ 以上をまとめた。20210213_about_flashlight.txt
+
+・他にproverを使って何ができるかを考えよう
 
 
+・pcodeにinput 以外のlidがでていないか?
 
+・pcode/pinfofができていない。ccodeの仕様はなにか??
+  (pcode cid)は、cidのproofに現れるpairのliteralのollidの集合。
+　ではinput clauseの場合は何になるか?
+   ()でよい。
 
-
-
+　修正した。
+　・pcodeは次のlidから構成されるリスと
+    - resolutionの場合、pairの各lidのolid
+    - reduceの場合、tlidのolidとその親のclauseのcidのpcodeの和
  
 2021/02/12金
 ・play-prover-gt-kosho009.lispで, C7は[]なのにcontradictionはnilになっている。
