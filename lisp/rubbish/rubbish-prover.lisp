@@ -95,6 +95,9 @@
 
 ;; berfore resolve-id, this shows the pcode of the resolvent if succeed
 ;; the order of lid1, lid2 is free
+(defun make-spcode (lid1 lid2)
+  (format nil "~a" (make-pcode lid1 lid2))
+)
 
 (defun make-pcode (lid1 lid2)
   (let ((pinf (make-pinfo lid1 lid2)) uniq)
@@ -107,6 +110,8 @@
   ;; not pcode, but something make-pinfo is better
   (append (list (olidof lid1)(olidof lid2)) (pcode (cidof lid1)) (pcode (cidof lid2))) 
 )
+
+
 
 ;;; code for a proof of the cid
 ;; this have all information of cid without the order
@@ -169,4 +174,29 @@
 ;)
 
 
+;; pcode control functions
+;;; collect new pcode
+(defun addnewpcode (cid pcpool)
+  (unless (checkpc cid pcpool) (cons (spcode cid) pcpool))
+)
+
+;; check pcode of a cid already exist
+(defun checkpc (cid pcpool)
+  (member (spcode cid) pcpool :test #'string=)
+)
+
+;; check pcode already exist
+(defun checkpc2 (llid rlid pcpool)
+  (member (make-spcode llid rlid) pcpool :test #'string=)
+)
+
+;; for test
+(defun make-pcpool (clist)
+  (loop with pool = ()
+    for cid in clist 
+    unless (checkpc cid pool)
+    do (setq pool (addnewpcode cid pool))
+    finally (return pool)
+  )
+)
 

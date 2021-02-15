@@ -49,6 +49,25 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/02/15月
+・resolve-id の実行前にpcodeをチェックする方法
+
+既存のpcodeを登録する
+1. (setq pp (make-pcpool *clist*)) -- *clist*から作成
+1.1.  addnewpcode is called in make-pcpool -- 1つ追加する方法
+  used as  (setq pool (addnewpcode cid pool))
+
+2. 2つのlidに対して、pcodeの既存チェック
+　checkpc2 llid x rlid x pp -> T/F 
+  * (checkpc2 'l5-1 'l4-1 pp2)
+   ("(L4-2 L4-1 L1-1)" "(L4-2 L4-1 L3-1 L1-1)")
+  * (make-spcode 'l7-1 'l3-1)
+   "(L4-2 L4-1 L3-1 L1-1)"
+
+3. cidの場合。checkpc:cid x pp -> T/F
+  * (checkpc 'c10 pp2)
+   ("(L4-2 L4-1 L3-1 L1-1)")
+
 2021/02/14日
 ・rubbish-prover.lispのpcode関係のリファクタリング
 ・(pcode cid), (pinfof cid)
@@ -62,6 +81,8 @@ QEDは☕️でしめす。
 ・なぜspcodeのようにstring versionを作っているかというと、既存かどうかのチェックに
 　string=を使うほうが高速だろうと思うから。
 　あるいはsymbolにしたほうがよいかも。
+
+　あれ? :abcはsymbolでなくkeywordというのか? (type-of xxx)によるとそうなる。
 
 
 
