@@ -125,7 +125,6 @@
   )
 )
 
-;; not uniq and sorted version of pcode
 (defun pinfof (cid)
   (let ((rule (ruleof cid)))
     (cond 
@@ -146,9 +145,11 @@
 
 ; pcode of cid 
 
+; pcode of cid for successful unificaton
 (defun pcode (cid)
   (let ((sinf (pinfof cid)) sss uniq)
-    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss :test #'equal) finally (return ss) ))
+    (setq sss (pinfof cid))
+    (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
     (sort uniq #'string>)
   )
 )
@@ -158,20 +159,23 @@
   (format nil "~a" (sort (pcode cid) #'string>))
 )
 
-; print-otree may not work
-;(defun print-otree (cid)
-;  (let ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
-;    (cond
-;      ((iscontradiction cid) (format t "~% ~a [] ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
-;      ((car (proofof cid)) (format t "~% ~a ~a : <~a:~a> ~%" cid (ruleof cid) (olidof llid)(olidof rlid)))
-;      (t (format t " input ~a~%" cid))
-;    )
-;    (when (cidof llid) (print-literal llid)
-;      (print-otree (cidof llid)))
-;    (when (cidof rlid) (print-literal rlid)
-;      (format t " in ") (print-otree (cidof rlid)))
-;  )
-;)
+
+;; pinf is not uniqed 
+(defun spinfof (cid)
+  (let ((rule (ruleof cid)))
+    (cond 
+      ((eq rule :resolution) 
+        (let* ((rp (rpairof cid))(rl (car rp))(rr (cadr rp)))
+          (cond 
+            (rp (append (cons (format nil "~a ~a" (olidof (car rp)) (olidof (cadr rp)))
+                              (spinfof (cidof rl)))(spinfof (cidof rr))))
+            (t (list (string (pcode cid))))
+          )
+        ))
+      (t ())
+    )
+  )
+)
 
 
 ;; pcode control functions

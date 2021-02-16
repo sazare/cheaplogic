@@ -68,6 +68,9 @@ QEDは☕️でしめす。
   * (checkpc 'c10 pp2)
    ("(L4-2 L4-1 L3-1 L1-1)")
 
+* なぜかcommitしてpushしたらほかでupdateされてて違うソースになっていたエラーが・・・
+
+
 2021/02/14日
 ・rubbish-prover.lispのpcode関係のリファクタリング
 ・(pcode cid), (pinfof cid)
