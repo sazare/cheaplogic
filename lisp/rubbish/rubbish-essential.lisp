@@ -82,13 +82,15 @@
 
 ;; function repeating n times
 ;; f^n -- not yet work
-(defun expf (fn n)
+;; if id is identify, (expf fn 0) may be id. 
+(defun expf (fn n)  ; expf: Fun x Number -> Fun
   (cond
     ((= n 1) fn )
     ((> n 1) (expf fn (- n 1)))
-    (t (error "should be ~a>1" n))
+    (t (error "should be n(~a)>1" n))
   )
 )
-
+; (apply (expf fn 2) a) = (expf fn 2)(a) => (fn (fn a)) = (apply fn (apply fn a))i intended this.
+; (expf fn 2) = (function (x) (apply fn (apply fn x)))
 
 

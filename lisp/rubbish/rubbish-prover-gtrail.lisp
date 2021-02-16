@@ -166,7 +166,7 @@
 (defun play-prover-gtrail (goal kqcfile)
   (let (cids agoal)
     (setq agoal goal)
-    (setq cids (readkqc kqcfile))
+    (setq cids (readekqc kqcfile))
     (make-lsymlist *llist*)
 
     (when *enable-semantics* 

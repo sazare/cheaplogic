@@ -10,11 +10,13 @@ QEDは☕️でしめす。
 　それで修正箇所がすぐにわかるように作っておくこと。
 　それは、自分がだんだん馬鹿になっていくこととは独立な話。
 
+　これを「愚者の方法」と呼ぼう。
+
 
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
-2021/02/14 (pinfof cid)は未ソートで(pcode cid)はsort and uniq化。関数名がよくないかも
+2021/02/20 重複したresolutionが行えないような仕組みがほしい。準備完了(pcodeを使う。addnwepcode, checkpc, make-pcpool)
 2021/01/31 goallistは*goallist* にしたほうがよいのでは?
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
 
@@ -26,10 +28,10 @@ QEDは☕️でしめす。
 20200823 resolve/renameでvarsとsigmaの対応を明確にする
 20200823 resolve/lidの実装(litつき)
 20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
-20201025 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか
-　　　　　重複したresolutionが行えないような仕組みがほしい。
 
 --- 以下済
+2021/02/14 済 ソートにした。(pinfof cid)は未ソートで(pcode cid)はsort and uniq化。関数名がよくないかも
+20201025 済 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか *input-clause*に溜めた。
 2021/01/30 澄 0213 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
 2021/02/04 済make-clauseで番号のないclauseに番号をつけるようにしたい
 2021/02/06 済input clauseを知りたい。
@@ -49,6 +51,23 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/02/20土
+・merge/merge001.kqcは、pcodeをみると組み合わせが全部おこなわれていることがわかる。
+  play-prover-gt-mer001.lisp
+  - goallistが空になって終了。
+　- pcodeではmergeの組み合わせが全部実施されているように思える
+　- ただし、pcodeでは、L4-1とL4-2が誰と消えたのかがわからない(組み合わせの情報をすてている)のでC13,14は同じにみえる。
+    どちらの組み合わせも、この場合は同じなので(L4-1とL4-2は同じ形をしたliteral)このpcodeは同じでよい。
+　　情報が違って、pcodeが同じになる例は作れそうな気がする。★
+  ★print-proof0をみていて、lidだけでなくolidが見えるのもよいと思えてきた。
+   
+・prvoerのsummaryにあるtrial数にmergeがはいっていないような気がする。
+　 mergeはtrialかな? resolventができたときにしかしないから、今のままでよいか・・
+
+・readkqcした中に、kqc ファイル名をいれたい。
+  (readkqc..)と(readekqc..)をするとファイル名を*kqcfile*に接定する。した。
+
+　
 2021/02/15月
 ・resolve-id の実行前にpcodeをチェックする方法
 
@@ -67,6 +86,9 @@ QEDは☕️でしめす。
 3. cidの場合。checkpc:cid x pp -> T/F
   * (checkpc 'c10 pp2)
    ("(L4-2 L4-1 L3-1 L1-1)")
+
+* なぜかcommitしてpushしたらほかでupdateされてて違うソースになっていたエラーが・・・
+
 
 2021/02/14日
 ・rubbish-prover.lispのpcode関係のリファクタリング

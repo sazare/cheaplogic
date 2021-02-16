@@ -19,11 +19,14 @@
  )
 )
 
+(defparameter *kqcfile* "")
+
 (defun readkqc (fname)
  (let ((kqc (readafile fname)))
    (loop for k in kqc 
      collect (make-clause k)
    )
+   (setq *kqcfile* fname)
  )
 )
 
@@ -48,6 +51,7 @@
        collect (make-clause k)
      )
      (format t "~%")
+     (setq *kqcfile* fname)
    )
  )
 )
