@@ -1,0 +1,6 @@
+;; new facts at time 1
+;; negate the fact of time 0
+
+;; facts shuld check this as nconj
+(3 () (- P 1 a))
+

@@ -1,0 +1,9 @@
+;; new facts at time 2
+;; and state b of 1
+
+;; new facts must be checkd as new  neg conj
+;(4 () (- P 1 b))
+
+;; facts 
+;; this don't conflict before
+(4 () (+ P 1 b))

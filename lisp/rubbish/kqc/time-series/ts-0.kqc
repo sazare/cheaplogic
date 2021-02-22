@@ -1,0 +1,7 @@
+;; this is a kqc for time 0
+
+;; no conj
+
+;; facts
+(2 () (+ P 1 a))
+

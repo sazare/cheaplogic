@@ -1,0 +1,9 @@
+;; new facts at time 3
+;; basic behavior of 1 must be ...
+
+;; new facts must be checkd in neg conj form
+;(5 () (- R 1 b))
+
+;; facts
+;; R should be a new property of 1.
+(5 () (+ R 1 b))

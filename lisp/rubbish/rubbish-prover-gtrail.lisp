@@ -157,15 +157,16 @@
   )
 )
 
+; cidlistfy makes number to cid
 (defun cidlistfy (namelist)
   (loop for name in namelist collect
     (cidfy name)
   )
 )
 
-(defun play-prover-gtrail (goal kqcfile)
-  (let (cids agoal)
-    (setq agoal goal)
+;; start process
+(defun start-prover-gtrail (kqcfile)
+  (let (cids )
     (setq cids (readekqc kqcfile))
     (make-lsymlist *llist*)
 
@@ -177,6 +178,14 @@
               (when nids (push nid nids))
       )
     )
+  )
+)
+
+;; prover from kqc to 
+;; this show how to use start-prover-gtrail and prover-gtrail
+(defun play-prover-gtrail (goal kqcfile)
+  (let ()
+    (start-prover-gtrail kqcfile)
     (logstart)
     (prover-gtrail (cidlistfy goal))
   )
