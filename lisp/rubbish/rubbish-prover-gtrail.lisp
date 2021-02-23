@@ -283,3 +283,36 @@
   )
 )
 
+
+;; remove a cid from the world
+
+; cidを消すとは
+;　1) (bodyof cid)のlidの消去
+;　　1.1) lidの消去とは
+;　　　　　1.1.1) symbol-plistの全消去 (remove-plist-of-atom lid)
+;　　　　　1.1.2) lidのbindingの消去 (makunbound lid)
+;　2) cidのplistの全消去 (remove-plist-of-atom cid)
+;  3) cidのbindingの消去 (makunbound cid)
+
+(defun remove-lids (lids)
+  (loop for lid in lids do
+      (remove-plist-of-atom lid)
+      (makunbound lid)
+  )
+)
+
+(defun remove-elm (atm alist)
+  (loop for x in alist 
+    unless (eq x atm)
+    collect x
+  )
+)
+
+(defun remove-cid (cid)
+  (remove-lids (bodyof cid))
+  (remove-plist-of-atom cid)
+  (makunbound cid)
+  (setq *clist* (remove-elm cid *clist*))
+)
+
+

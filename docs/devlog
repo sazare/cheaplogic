@@ -82,6 +82,32 @@ QEDは☕️でしめす。
 　play-prover-gtailをふたつにわけて、start-prover-gtrailを作った。
 　これまでのはそのまま動く。
 
+・こういう実験をするためには、既存のcidを消す処理が欲しい。
+ cidを消すとは
+　1) (bodyof cid)のlidの消去
+　　1.1) lidの消去とは
+　　　　　1.1.1) symbol-plistの全消去 (remove-plist-of-atom lid)
+　　　　　1.1.2) lidのbindingの消去 (makunbound lid)
+　2) cidのplistの全消去 (remove-plist-of-atom cid)
+  3) cidのbindingの消去 (makunbound cid)
+
+  (remove-cid cid)を定義
+  *clist*からも消しておかなくては・・・
+
+・kqc file から読み込むという操作と、proverの対象にする操作を分けたほうが
+　使いやすいかも。
+
+　だけど、propertyを使うからそれがやりにくい。
+★
+　やるとしたら、save/loadみたいにpropertyから消したり登録したりすればよい。
+　readekqcをするとpropertyも設定してしまうのが問題で
+　文字列として残しておけばよさそう。
+　
+
+　
+
+
+　
 
 
 2021/02/21日
