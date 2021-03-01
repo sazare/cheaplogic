@@ -291,28 +291,31 @@
 ;　　1.1) lidの消去とは
 ;　　　　　1.1.1) symbol-plistの全消去 (remove-plist-of-atom lid)
 ;　　　　　1.1.2) lidのbindingの消去 (makunbound lid)
+;          1.1.3) *lsymlist*のlsymからlidを消す。もしもnilになったらそのまま
 ;　2) cidのplistの全消去 (remove-plist-of-atom cid)
 ;  3) cidのbindingの消去 (makunbound cid)
 
 (defun remove-lids (lids)
   (loop for lid in lids do
       (remove-plist-of-atom lid)
+      (remove-lsym lid)
+      (setq *llist* (delete lid *llist*))
       (makunbound lid)
   )
 )
 
-(defun remove-elm (atm alist)
-  (loop for x in alist 
-    unless (eq x atm)
-    collect x
-  )
+(defun remove-lsym (lid)
+;; *lsymlist* has only lsym of input literals.
+;; (eval lsym) is nil when removed.
+  (set (lsymof lid) (delete lid (eval (lsymof lid)))) 
 )
+
 
 (defun remove-cid (cid)
   (remove-lids (bodyof cid))
   (remove-plist-of-atom cid)
+  (setq *clist* (delete cid *clist*))
   (makunbound cid)
-  (setq *clist* (remove-elm cid *clist*))
 )
 
 

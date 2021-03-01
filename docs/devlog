@@ -51,9 +51,21 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/03/01月
+・*lsymlist*からもlidを削除すること
+
 2021/02/28日
 ・パイプでやりとりは、mkfifoでfifoを作っておいて、これに対してopen/input/outputをすればよいだろう
 　一方向であることと、テキスト(s式)であることを考えると、そんなにややこしくないはず。
+
+・課題1) S式単位でreadできるかどうか
+    (readefile file)ではファイルを全部readしてからclauseに変換している。
+　　これではだめなので、作り直す必要がある。
+
+　　確認方法)
+     1)  (send file S-exp) in process A というので送って
+　　 2) process Bで、
+        with-open-fileかwith-open-streamでやる
 
 
 ・センサー(ML/DL)から命題が公理システムに追加される話
