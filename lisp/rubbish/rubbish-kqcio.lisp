@@ -27,6 +27,7 @@
      collect (make-clause k)
    )
    (setq *kqcfile* fname)
+   (make-lsymlist *llist*)
  )
 )
 
@@ -52,6 +53,7 @@
      )
      (format t "~%")
      (setq *kqcfile* fname)
+     (make-lsymlist *llist*)
    )
  )
 )

@@ -1,4 +1,12 @@
 ;; prover with goal trailer
+;; template for goal trailer prover
+
+;(load "load-rubbish.lisp")
+;(readkqc "kqc/file/path")
+;(make-lsymlist *llist*)
+;(prover-grail '(c1))
+
+
 ;; parameters
 (defparameter *max-clauses* 1000)
 (defparameter *max-contradictions* 30)
@@ -254,7 +262,7 @@
   (setf *llist* nil)
   (setf *lsymlist* nil)
   ;below parameters
-  (setf *goallist* 0)
+  (setf *goallist* nil)
   (setf *num-of-trials* 0)
   (setf *maxcid* 0)
 )

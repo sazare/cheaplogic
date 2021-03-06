@@ -17,7 +17,6 @@ QEDは☕️でしめす。
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
 2021/02/20 重複したresolutionが行えないような仕組みがほしい。準備完了(pcodeを使う。addnwepcode, checkpc, make-pcpool)
-2021/01/31 goallistは*goallist* にしたほうがよいのでは?
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
 
 2021/01/03 load-rubbishして続行する方法を考える : save, loadは作ったが続きができるような修正は未
@@ -30,6 +29,7 @@ QEDは☕️でしめす。
 20200822 Lidの木、lidだけだとσを再生したいことはないか。そのコストは?
 
 --- 以下済
+2021/03/06 済 2021/01/31 goallistは*goallist* にしたほうがよいのでは? 3/6 goallistは一時的な存在で、*goallist*をupdateているので、大丈夫だろう
 2021/02/14 済 ソートにした。(pinfof cid)は未ソートで(pcode cid)はsort and uniq化。関数名がよくないかも
 20201025 済 clause/literalがinputかどうかを区別したい。*illist* とか *iclist*とかか *input-clause*に溜めた。
 2021/01/30 澄 0213 validは仕様とFactのずれを示しているので、懐中電灯の故障箇所をみつけているのではないか
@@ -51,8 +51,21 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/03/06土
+・cheaplogicのwikiに今後どうしていきたいかのページを追加した。
+　意外とやりたいことがなくならない・・・
+・rubbishの機能がふえて、手でテストみたいなことをしていてもきりがないので、自動化したい。
+　以前、atomとplistをテストする関数は作ったので、それを元に書いていくのがよいのだけど、忘れている。
+・licence.txtでMIT ライセンスにした。
+・put (make-lsymlist *llist*) into (readkqc ...) and (readekqc ...)
+  これで、手でやるときの手順がこうなる
+* (load "load-rubbish.lisp")
+* (readekqc "...")
+* (prover-grail '(c1))
+
+
 2021/03/01月
-・*lsymlist*からもlidを削除すること
+・*lsymlist*からもlidを削除することをした
 
 2021/02/28日
 ・パイプでやりとりは、mkfifoでfifoを作っておいて、これに対してopen/input/outputをすればよいだろう
