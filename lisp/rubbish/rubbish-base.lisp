@@ -279,9 +279,6 @@
   )
 )
 
-(defun alllids (clist)
-  (loop for cid in clist append (bodyof cid))
-)
 
 ;; lsym and oppo
 (defun oppo (sign)

@@ -16,6 +16,9 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2021/03/07 play-prover*.lispでloadしていたのをみんなこれに変更する・・・
+2021/03/07 asdfの仕様を確認すること。(asdf:require-system :rubbish)で警告がでる件
+
 2021/02/20 重複したresolutionが行えないような仕組みがほしい。準備完了(pcodeを使う。addnwepcode, checkpc, make-pcpool)
 2021/01/31 play-prover-gtrailの中で (when nids (push nid nids))は必要なのか? nidsはreturnしていないので
 
@@ -51,6 +54,100 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/03/07日
+・systemを作ってみた。
+  次の手順でloadし実行できるのを確認した。
+
+(load "rubbish.asdl")
+(asdf:require-system :rubbish)
+;or (asdf:load-system :rubbish)
+(readekqc "kqc/lover/love001.kqc")
+(prover-gtrail '(c1))
+
+Recipesをみていると本当はloadが必要なさそう。
+たぶんASDF:*CENTRAL-REGISTRY*からとってくるらしいのだが
+;(push #P"/Users/shin/Projects/github/cheaplogic/lisp/rubbish/" ASDF:*CENTRAL-REGISTRY*)
+してもとってきてくれない。
+
+悪あがきで、(load "rubbish.asdl")をいれてみたら動いた。
+
+RecipesではLibraryの章に書かれているので、adslを使って
+外部に提供するときの手段だと思われるので、その場合はquicklispを使ってinstallして
+ASDF:*CENTRAL-REGISTRY*からとってくるという話になるような気はする。
+
+Recipesだと、何もしなくてもadslをカレントディレトクリからloadしてくれるようなかんじ。
+拡張子がadslでなく asdだった。そうするとエラーになるのでだめ。
+拡張子をasdlにしてみたが、これははずしているのかもしれない。
+
+★ warning
+* (asdf:require-system :rubbish)
+WARNING:
+   DEPRECATED-FUNCTION-STYLE-WARNING: Using deprecated function ASDF/OPERATE:REQUIRE-SYSTEM -- please update your code to use a newer API.
+The docstring for this function says:
+Ensure the specified SYSTEM is loaded, passing the KEYS to OPERATE, but do not update the
+system or its dependencies if it has already been loaded.
+
+なんのことであろうか。さらに、でたりでなかったり・・・
+
+ちなみに
+* (asdf:load-system :rubbish)
+T
+
+★asdfの仕様の確認が必要
+これだろうか。ASDF3だそうだ。2019年。
+https://common-lisp.net/project/asdf/
+日本語の記事もASDF3なのでよいかも。
+https://privet-kitty.github.io/misc/asdf-ja.html
+
+これに従って
+(require "asdf")
+をいれたが同じ。たぶんasdfはsbcl起動するとインストールされている。
+
+面倒なのでこうする
+--- ここから
+(load "rubbish.asdl")
+(asdf:load-system :rubbish)
+--- ここまででload
+-- 以下実行
+(readekqc "kqc/lover/love001.kqc")
+(prover-gtrail '(c1))
+
+ちなみに
+* (asdf:asdf-version)
+"3.3.1"
+
+ドキュメントは
+https://common-lisp.net/project/asdf/asdf.pdf
+
+結局こうする。
+1. ASDF:*CENTRAL-REGISTRY*をみて、探しにいくパスを確かめる
+2. cd ~/quicklisp/quicklisp
+3. ln -s rubbish.asdのフルパス .
+を一度やっておくと
+
+sbclで
+5. * (asdf:require-system :rubbish)
+6. * (readekqc "kqc/lover/love001.kqc")
+7. * (prover-gtrail '(c1))
+
+
+これで(load "rubbish.asd")は不要になる
+
+さらに
+(require :rubbish)
+で十分
+
+・play-prover*.lispでloadしていたのをみんなこれに変更する・・・
+
+
+
+
+
+
+
+
+
+
 2021/03/06土
 ・cheaplogicのwikiに今後どうしていきたいかのページを追加した。
 　意外とやりたいことがなくならない・・・
