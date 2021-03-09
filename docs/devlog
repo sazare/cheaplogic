@@ -56,13 +56,76 @@ QEDは☕️でしめす。
 --- log
 2021/03/09火
 ・packageしてみる
+  rubbish-package.lisp
+(defpackage :rubbish
+  (:intern :common-lisp)
+  (:use :common-lisp)
+  (:export 
+    :readekqc
+    :prover-gtrail 
+    :play-prover-gtrail
+    :*max-clauses*
+    :*max-trials*
+    :*max-steps*
+    :*timeout-sec*
+    :lscova
+    :print-proof0
+    :dump-clause
+    :dump-clausex
+    )
+ )
+
+
+として
+
+* (load "rubbish-package.lisp")
+* (in-package :rubbish)
+* (require :rubbish)
+* (readekqc "kqc/lover/love001.kqc")
+* (prover-gtrail '(c1))
+* (lscova)
+* *package*
+#<PACKAGE "RUBBISH">
+* (package-name (symbol-package 'car))
+"COMMON-LISP"
+* (package-name (symbol-package 'unification))
+"RUBBISH"
+
+となって、うまくできているらしい。
+*** 3時間後、別の場所で確認したらreadekqcが見つからないエラー。
+　やはりpackageはよくわからない。
+
+? 各rubbish*.lispの中にin-packageを書く必要があるのか?
+  load-rubbish.lispの先頭に
+    (load "rubbish-package.lisp")
+  を追加し
+  rubbish*.lispの先頭に
+　  (in-package :rubbish)
+　を追加。
+　でできるという気はするが、そんなに細かく書く必要があるのか??
+
+・exportが全体で1つということは、各ファイルの修正をするとrubbish-package.lispも
+　修正しないといけいなということか・・・
+　
+・どうするのが、修正作業、使用方法、最小になるのか。
+
+・asdlの定義で、依存関係を書ける(makefile相当ということみたい)
+　書くとすると、ファイル構成のリファクタリングも必要そう・・・
+　とくにproof関係の関数がちらばっている。
+　subsubあたりからunificaiton/resolutionまでは確定だけど、systemで認識する
+　依存関係が妥当になるためには、ファイル構成がcoherentでないと・・・
+・今quicklispのディレクトリにln -sしているが、このsystem定義はquicklispでインストール
+　したわけではないので、場所が違う。どこにおくべきか
+* 数時間したら、(readekqc ...)で未定義エラーになった。
+　(require :rubbish)のとき:rubbishのpackageが違っているということかも
+
 
 
 2021/03/07日
 ・systemを作ってみた。
   次の手順でloadし実行できるのを確認した。
 
-(load "rubbish.asdl")
+(load "rubbish.asd")
 (asdf:require-system :rubbish)
 ;or (asdf:load-system :rubbish)
 (readekqc "kqc/lover/love001.kqc")
