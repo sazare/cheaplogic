@@ -16,6 +16,7 @@ QEDは☕️でしめす。
 -- todo
  go to issue in github. ちょっと使いにくい offlineではわからなくなるのでここに戻す
 
+2021/03/09 asdf定義のdepends-onを明確にするため依存関係を明確にしファイル構成を見直す。
 2021/03/07 play-prover*.lispでloadしていたのをみんなこれに変更する・・・
 2021/03/07 asdfの仕様を確認すること。(asdf:require-system :rubbish)で警告がでる件
 
@@ -93,7 +94,9 @@ QEDは☕️でしめす。
 
 となって、うまくできているらしい。
 *** 3時間後、別の場所で確認したらreadekqcが見つからないエラー。
+　そうなるのかなという気もするが、
 　やはりpackageはよくわからない。
+
 
 ? 各rubbish*.lispの中にin-packageを書く必要があるのか?
   load-rubbish.lispの先頭に
@@ -119,6 +122,98 @@ QEDは☕️でしめす。
 * 数時間したら、(readekqc ...)で未定義エラーになった。
 　(require :rubbish)のとき:rubbishのpackageが違っているということかも
 
+
+・githubのcommonlispのrepositryをいろいろブラウズしてみよう。
+
+[asdf]
+・1つのrepositoryでasdfファイルはいくつもある。
+　テスト用とかなんとか用とか。
+
+・packageの定義がファイル名でわかるようになっていないので
+　探すのはややたいへん。
+
+[package]
+package名とsystem名が同じ:rubbishだからうまくいかないのではないかと思い
+systemを:gtrailとしgtrail.asdを作ってみた。
+
+(load "rubbish-package.lisp")
+(in-package :rubbish)
+(require :gtrail)
+としても
+
+* (rubbish:readekqc "kqc/lover/love001.kqc")
+
+debugger invoked on a UNDEFINED-FUNCTION in thread
+#<THREAD "main thread" RUNNING {10004F84C3}>:
+  The function RUBBISH:READEKQC is undefined.
+
+rubbish:がなくても同じ。
+defpackage で、export の関数名や変数名を:つけずにおいても同じ。
+
+export "readekqc" にしてみたら
+* (readekqc "kqc/lover/love001.kqc")
+; in: READEKQC "kqc/lover/love001.kqc"
+;     (RUBBISH::READEKQC "kqc/lover/love001.kqc")
+; 
+; caught STYLE-WARNING:
+;   undefined function: RUBBISH::READEKQC
+; 
+; compilation unit finished
+;   Undefined function:
+;     READEKQC
+;   caught 1 STYLE-WARNING condition
+
+なぜか:が1つふえてrubbish::reqdekqcになっている。
+
+・パッケージはさっぱりわからない
+
+まず、パッケージ名は::でつける。
+rubbish::*clist*
+
+package内で定義するときはrequireではだめみたいで
+(load "load-rubbish.lisp")
+なら定義される。
+
+rubbishの外側で(rubbish::readekqc ...)としてもだめなのは
+中で参照している*clist*が
+
+* (load "rubbish-package.lisp")
+T
+* (in-package :rubbish)
+#<PACKAGE "RUBBISH">
+* (load "load-rubbish.lisp")
+* (prover-gtrail '(c1))
+* (lscova)
+
+は動く
+(in-package :cl)
+(rubbish::readekqc ...)
+がだめ
+
+* (rubbish::readekqc "kqc/lover/love001.kqc")
+kqc reading: kqc/lover/love001.kqc
+.
+debugger invoked on a TYPE-ERROR in thread
+#<THREAD "main thread" RUNNING {10004F84C3}>:
+  The value
+    READEFILE
+  is not of type
+    REAL
+これはrecursiveにreadefileをevalしている箇所かもしれない。
+
+関数は動いているので定義はされている。
+全部rubbishパッケージの中なら動くのに・・・
+evalか・・・
+そのために(eval rubbish::readekqc ...)と書くのはどうだろうか。
+
+
+★ packageとsystemを組み合わせるとどうなるのかよくわかっていない。
+load-rubbish.lispにもどるか・・・
+
+今のところsystemにするメリットがあんまりない。
+packageにすると、面倒なことになる。
+
+ううむ
 
 
 2021/03/07日

@@ -1,6 +1,7 @@
+(in-package :cl-user)
+
 (defpackage :rubbish
-  (:intern :common-lisp)
-  (:use :common-lisp)
+  (:use :cl)
   (:export 
     :readekqc
     :prover-gtrail 
@@ -16,3 +17,7 @@
     )
  )
 
+(in-package :rubbish)
+;; when (load "rubbish-package.lisp")
+;; then *package* is :cl-user not rubbish
+;; WHAT DOES THIS MEAN

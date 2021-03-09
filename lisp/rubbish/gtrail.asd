@@ -1,6 +1,6 @@
 ; rubbish system definition
-(asdf:defsystem :rubbish
-  :description "rubbish: a proof analyzer"
+(defsystem :gtrail
+  :description "gtrail: a proof analyzer"
   :version "0.0.1"
   :author "Shinichi OMURA(song.of.sand@gmail.com)"
   :licence "MIT licence"
