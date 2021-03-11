@@ -3,6 +3,7 @@
 (defpackage :rubbish
   (:use :cl)
   (:export 
+    :*maxcid*
     :readekqc
     :prover-gtrail 
     :play-prover-gtrail
@@ -17,7 +18,3 @@
     )
  )
 
-(in-package :rubbish)
-;; when (load "rubbish-package.lisp")
-;; then *package* is :cl-user not rubbish
-;; WHAT DOES THIS MEAN

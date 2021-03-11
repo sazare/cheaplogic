@@ -55,6 +55,64 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/03/11木
+やすみ
+・learninglispでpackageとsystemを組み合わせてみた。
+　各ファイルの先頭にin-packageをいれておけばよさそう
+　rubbish-pkgにcloneを作りためす
+　ito.lispはどうしたものか
+
+・cheaplogicをcheaplogic.pkgにコピーして、in-packageの追加と
+　asdに(:file "rubbish-package")を追加
+
+  common-lisp-userで実行すると
+  (rubbish::readekqc "kqc/lover/love001.kqc")
+　は*maxcid*がないといって終わる。
+(RUBBISH::ADD-CID READEFILE)
+   source: (MAX *MAXCID* N)
+
+　rubbish::*maxcid*は存在し、base.lispの中の
+(defun add-cid (n)
+;   (cond ((< n *maxcid*) (format t "name double ~a~%" n)))
+   (setf *maxcid* (max *maxcid* n))
+)
+の部分。
+　defvarで定義していたのでdefparameterにかえてみたが同じ
+
+・(in-package :rubbish)でなら動く。
+
+・これは、defparameterに修正する前のがのこっているのかも・・・
+  (asdf::load-system :gtrailp)をしたときコンパイルが走っていないから
+
+  touch gtrailp.asd してみたらコンパイルはしつたが、同じ。
+
+・readekqcはみつかっていて、rubbish::*maxcid*がみつかっていない。
+・(setf *maxcid* 0) みたいなのがわるいのかと思い、setqにしてみたが同じ。
+
+・それぞれのfileに(in-package :rubbish)がないと、シンボルはcommon-lisp-userに
+　作られる。
+　だから、fileごとに(in-package :rubbish)を書くのが正解だろう。
+
+・ito.lispはどうか?
+　package itoをつくればよいが、今やるとito使っているところ全部修正か・・・
+  全体は(in-package :rubbish)にして、itoマクロはito::intend...にする。
+
+めんどうなのでやめよう。
+ということは・・・
+
+・package & asdf版はcheaplogic.pkgにある。
+　ただしito.lispは/Users/shin/lib/lisptoolsの非package版が最善
+　githubのito.lispはpackage化しているが、使うにはさらなる修正が必要。
+　rubbishとitoの混在になる。(:use :rubbish :ito)とすればよいのかも。
+
+・cheaplogicはrubbish.asdのみ使用。
+　パッケージは使わない。rubbish-package.lispは仮。非パッケージ版のitoは使える。
+
+・in-packageのときかrubbishの定義かで、(:use :cl :ito)とすればよいかも
+  rubbish以外でitoを使うときどうするか考えると、in-packaeでuseを使うとかけるとよいのかも。
+
+
+
 2021/03/09火
 ・packageしてみる
   rubbish-package.lisp

@@ -7,6 +7,7 @@
   :serial t
   :components 
     (
+;      (:file "rubbish-package")
       (:file "rubbish-essential")
       (:file "rubbish-gen")
       (:file "rubbish-base")
