@@ -1,12 +1,5 @@
 ;; all play prover gtail
 
-(load "play-prover-gt-mer001.lisp")
-(load "play-prover-gt-ml002.lisp")
-(load "play-prover-gt-presem.lisp")
-(load "play-prover-gt-sem001.lisp")
-(load "play-prover-gt-sem002.lisp")
-(load "play-prover-gt-sem003.lisp")
-(load "play-prover-gt-sems01.lisp")
 (load "play-prover-gt0.lisp")
 (load "play-prover-gt000.lisp")
 (load "play-prover-gt001.lisp")
@@ -24,6 +17,13 @@
 (load "play-prover-gtvv01.lisp")
 (load "play-prover-gtvv02.lisp")
 
+(load "play-prover-gt-mer001.lisp")
+(load "play-prover-gt-ml002.lisp")
+(load "play-prover-gt-presem.lisp")
+(load "play-prover-gt-sem001.lisp")
+(load "play-prover-gt-sem002.lisp")
+(load "play-prover-gt-sem003.lisp")
+(load "play-prover-gt-sems01.lisp")
 
 ;; koshos are flashlight examples
 (load "play-prover-gt-kosho001.lisp")
