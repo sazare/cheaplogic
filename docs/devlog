@@ -61,8 +61,23 @@ QEDは☕️でしめす。
 
 ・ML-LOシステムの可能性調査
 　- 動的にFactが追加されたときの動作確認
-
 　- ML-LOでの新たな課題
+
+　これらは別ファイルにまとめた。
+  docs/20210314-about-MLLO.txt
+
+
+・asdfとpackageの関係を調べるため
+　quicklispとcavemanを~/Project/githubの下にcloneした
+　沼である。
+
+　どうもasdf.lispはたくさん定義されている。何か目的に応じて書き換えるらしい。
+　quicklispとcavemanで書き方が違う。
+　まず、defpackageで:useしているのが:cl-user(caveman)か:common-lisp(quick)か　
+    これはcommonlispの関数については同じことになりそう。
+　　common-lispは更新不可能。cl-userは変更可という違いがあることは知っている
+
+
 
 
 2021/03/13土
