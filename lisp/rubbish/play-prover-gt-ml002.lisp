@@ -2,7 +2,8 @@
 ;; ters for reduce on input
 
 ;(load "load-rubbish.lisp")
-(require :rubbish)
+;(require :rubbish)
+(require :gtrail)
 
 ;; play for prover
 

@@ -55,6 +55,119 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/03/27土
+・矛盾部分発見の方法
+　pcodeは使えないか
+　・Aのsubsetで、gと矛盾するclauseの集合=gのrefutationの証明木。Π(A,g)と書くことにする
+　・Π(A,g)にせよなんにせよ、1つのrefutation を構成する各ノードのペア(L1,L2)は
+　　[]を生成する最小のインスタンスになっている。
+　・proofは、それを構成する消滅したLiteralはinputリテラルのinstanceだが、
+　　proofを構成する全literalについて、そのinstance具合が[]を生成するのに必要だという点で
+　　minimalである
+　　minimumではないかもしれない。順番が違うとinstance具合がかわってくるだろうから。
+
+・Deep Logicや行動命題の方法を外部観測と呼ぼう。External Observer
+  EO-LOシステムを考える
+
+・例
+　・一連の行動が　
+
+
+
+・単一性/rescticted
+
+
+
+・rubbishで動的変化の実験をするにはどういうapiが必要か
+  - readekqcでとりこんだclsueses *clist*
+　- prooverで対象とするclauses *concerns* (今の*clist*をrenameしよう)
+    読み込んだら*clist*にはいる。
+　　(prover goals concern) どちらもcidのlist
+
+  - concernは1つだけか、複数もてるのか? (1つ)
+    *concerns* に設定して、(provr goals)を実行かも
+    resolventは*concerns*に追加していく。
+
+    (setgoals cids) で*goallist*にclauseを設定。
+　　(prover cid)とすると*concerns*(resolvent追加されている)上でproverする。
+
+    axiomに追加する操作と、goalとする操作がある。
+
+　　axiomに追加するのは、concernに追加すること。
+　　goalとするのは、proverのパラメタか*goallist*にすること。
+
+
+　- input concernでproofをつくる。[] をもとめる。proverのparameterが有効
+  - concern con上のあるclauseのproof Π(cid, con)
+
+  - *concerns*を編集操作するapi
+  - (addconcern cid) cidは*clist*にあるidで、readekqcされたもの。
+　　これは、proverのresolventと混ざるのでは?
+    cidが連続して増えていかない。注意
+  - addしてまた(prover)
+  - (remove cid) concernからcidを消したい
+　　　このcidはinput cidでないとだめかも。
+　　　すると、cidが関係するresolventを*concerns*から除去する必要がありそう
+      1) olidがcidのbodyにあるものは除去する
+　　　2) 除去されたcidを親にもつresolventは除去する・・・
+
+　　　もとのproofからこのように除去を行ったproofはproofか?
+
+　　　幹のliteralについてこういう処理をしても、proof性は維持される。
+
+　　　枝を消す場合は、それで消えていた幹のリテラルが残るので、替りの枝が必要になる。
+
+　　　では、幹と枝の違いは何か?
+       ・goalから生えているresolventは幹。それ以外のconcernから生えているものは枝。
+　　　今は、input resolution相当なので、枝はinput clauseのみか??
+　　　　input resolutionの場合、その定義から枝はすべてinput clauseになる。
+　　　　最初のinput clauseはgoal。
+　　　　最初のgoallistが複数だったとき、それらのclauseから生まれるresolventはすべて幹だな。
+
+　　　　-P+Pの形をしたconcernsなどは枝になる(goalにruleは書かない)
+　　　　　このようなルールをproofから除去するとは?
+
+        ground unit clauseがconcernsにあると、それは何?
+　　　　前提条件であり、前の段階のfactか。
+　　　・幹がgoalからのproofならば、それは手をいれてはいけない。
+　　　　goalの子孫という点で幹のclauseは
+
+　　　　concernsはそのclauseの変更を許さないが、proofで使うか使わないかは選べる。
+
+　　　・時とともに変化するものについて、[]がその変化を意味すると考えようとしている。
+　　　　これは、!述語でないならば、どのような場合がありうるのか?
+
+　　　・+P(1)の場合、-P(x)+P(x+1)はありうるが、+!P(2)の場合は+!P(3)と矛盾し
+　　　　　-!P(x)+!P(x+1)はありえない
+　　　　restrictにはこのようなルールはないのか?
+
+　　　★  
+
+　　★ goalからproverを実行して[]が出なければ、そのgoalはconcernsに追加して次のfactを待つ
+　　★ []が出たとき、goalを否定するconcernsのsubsetをさがす
+
+
+　・sbclの変数で、!は名前の末尾につけられている。?も同様。
+　　★ さて、restrict述語名はprefixに!をつけてよいか
+　　上でみたように+!P()は読みにくいので、+P!(x)のほうがよさそう。
+
+
+
+
+2021/03/21日
+・update README for tpu(another resp)
+・cheapthought/txts/WhatShouldIKnew-sbcl-macOS.txt をupdateしていたのでcommit/pushした
+  ファイル名に日本語使っていたので、英字ファイルに修正した
+
+
+
+2021/03/20土
+・あわただしくて、集中できなさそう
+・A⇒BとA∧Bの違いはなにか、すこし書いた。よくわからなくなってきた。
+　∃と∀の違いだったような気がするが、ちがうかも。
+
+　述語の前提としてのモデルに対する仮定かも
+
 2021/03/14日
 ・play-prover-gt000.lispなどをみると、すべての[]を探している。
 　goalのコントロールでは1つだけ[]をもとめるわけではない。
