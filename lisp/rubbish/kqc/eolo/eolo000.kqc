@@ -1,0 +1,13 @@
+; EO-LO sample 000
+; it chaned from a to b
+;; this assume unique object
+
+;; 1 is a new fact
+(1 () (+ P 1))
+
+; 2 is an old fact
+(2 () (+ P 2))
+
+; unique object condition
+(3 (x y) (- eq x y)(- P x)(- P y))
+

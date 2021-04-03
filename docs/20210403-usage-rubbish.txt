@@ -1,0 +1,76 @@
+動かし方
+1. play-prover-gt-ml002.lispなどを見る
+2. 次の手順
+(load "load-rubbish.lisp") 
+(logstart)
+(readekqc "kqc/eolo/eolo000a.kqc")
+ (prover-gtrail '(c1))
+ 
+ このあと
+ (lscova)
+ (dump-clausex)
+ (print-proof0 'c9)
+ などを使う
+ * (logshow)
+(20210303.094919 RESOLVENT C5)
+(20210303.094919 L1-1 L3-3 (X.417 Y.418) (X.417 1))
+(20210303.094919 RESOLVENT C4)
+(20210303.094919 L1-1 L3-2 (X.417 Y.418) (1 Y.418))
+NIL
+
+とか
+
+例
+* (load "load-rubbish.lisp")
+* (logstart)
+* (readekqc "kqc/eolo/eolo003.kqc")
+kqc reading: kqc/eolo/eolo003.kqc
+...
+(C1 C2 C3)
+* (prover-gtrail '(c1))
+
+time-start           = 294773 (secs)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  finished. goallist is empty
+contradictions=(C5)
+valids =NIL
+〜
+time consumed = 0 secs
+#clauses = 5
+#contras = 1
+#valids = 0
+#trials = 2
+#max proof steps = 0
+NIL
+* (dump-clause 'c5)
+C5 CONTRADICTION : (PROOF (RESOLUTION NIL NIL (L4-1 L2-1)) VARS NIL NAME
+                    RESOLVENT)=
+NIL
+* (print-proof0 'c5)
+C5: RESOLVENT = []
+C5 [] RESOLUTION : <L4-1:L2-1>
+  L4-1 ().(- P A)  in
+  C4: RESOLVENT NIL [((- P A))]
+  C4 (L4-1) RESOLUTION : <L1-1:L3-2>
+    L1-1 ().(+ R A) input
+    C1: 1 NIL [((+ R A))]
+    L3-2 (X.417).(- R X.417) input
+    C3: 3 (X.417) [((- P X.417) (- R X.417))]
+  L2-1 ().(+ P A)  in
+  C2: 2 NIL [((+ P A))]
+NIL
+* (pcode 'c5)
+(L3-2 L3-1 L2-1 L1-1)
+
+### 矛盾がないならば
+　証明を検索した範囲にcontradictionは発生しない。
+
+
+
+
+  
+  

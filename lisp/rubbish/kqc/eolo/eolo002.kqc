@@ -1,0 +1,14 @@
+; EO-LO sample 000
+; this has rule P to R
+; and new fact about R
+; after apply rule, Pa conflicts Pb?
+
+;; 1 is new fact
+(1 () (+ R b))
+
+; old fact
+(2 () (+ P a))
+
+; rule
+(3 (x) (- P x)(+ R x))
+

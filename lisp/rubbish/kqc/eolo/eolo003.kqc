@@ -1,0 +1,13 @@
+; EO-LO sample 003
+;; after applying the rule, +Pa conflicts -Pa
+
+;; 1 is new fact
+(1 () (+ R a))
+
+; old fact
+(2 () (+ P a))
+
+; rule what this mean?
+;; this means +Px -> -Rx, 
+(3 (x) (- P x)(- R x))
+

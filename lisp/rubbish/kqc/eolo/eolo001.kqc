@@ -1,0 +1,12 @@
+; EO-LO sample 000
+; new fact says negative of previous one.
+; doubious fact can be negative?
+;; but sencor may be able to detect it.
+
+;; 1 is a new fact
+(1 () (+ P a))
+
+;; 2 is an old fact
+(2 () (- P a)) 
+
+
