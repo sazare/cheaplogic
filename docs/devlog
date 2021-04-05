@@ -55,11 +55,83 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/04/04日
+・(same a a)でTになり(same a b)でNILになる。a,bが定数ならそれでいいが、変数だと違う・・・
+　eoloの例でドメインがuniqueであることを示すため、なんらかのeq関数を作りたい。
+　() (deq a a) => T
+  () (deq a b) => NIL
+  (x) (deq x x) => T
+  (x y) (deq x y) => (x . y)
+みたいになる。
+
+次の定義だとx,yが定数のときだけOK
+  (is-unique-dom vars x y)  rubbisn-dom.lisp
+で、x,yが定数でx=yのときだけTとなる関数を作った。これで書けるかな?
+
+・(- F (X B) X B)みたいになってpevalかからない。
+　varsを時価のvarsにできないからか・・・
+　これはおもしろい。たとえば、$VARS$という変数に、そのときのvarsを設定しておくとか
+　pevalのときは引数に定数しかないわけなので、is-unique-domの引数はすべて定数とみなせばよいか
+・なんか根本的に勘違いしているような気がしてきた
+
+  Rが消えてc4は
+　　(4 (x) (- is-uniq x b) (- P x))
+  C2はもともと
+    (2 () (+ P a))
+
+なので、Pを消すようになるはずなのに、goallistがうまれてこない。
+
+*lsymlist*をみるとl4-2のoppoとしてl2-1がとれてこないというかんじか??
+
+・is-uniqがなければ[]になる・・・
+
+こういうwarningがでているが、これは何だ?
+; in: NOT (P X.419)
+;     (P X.419)
+; 
+; caught STYLE-WARNING:
+;   undefined function: COMMON-LISP-USER::P
+; 
+; caught WARNING:
+;   undefined variable: COMMON-LISP-USER::X.419
+; 
+; compilation unit finished
+;   Undefined function:
+;     P
+;   Undefined variable:
+;     X.419
+;   caught 1 WARNING condition
+;   caught 1 STYLE-WARNING condition
+
+
+これはis-quniqあるなしにかかわらずでている。-Pxbのpevalででているものなので気にしなくてよさそう
+しかし、-is-uniqではこれがでていない・・・変数を含んでいるからだろう
+
+・is-uniqをmacroにして(is-uniq a b) => nilになるようにした。つまり引数は定数前提。
+しかし
+・(-is-uniq x b)でTになるのでvalidとなり期待にそぐわず。
+
+・(+P a)と(+P b)で[]にしたいのだが、それはできなかった
+  形が同じでsignのみ反対のときresoれる。という原則があるから。ということか。
+
+
+・eolo005.kqcの3 で、-P(x)-R(x)にしている意味がわからないが
+  -P(x)+R(x)にすると、1は-R(b)でなくてはならない。goalはどうしてもnegにしたいということか。
+　そんな話はないはずなので、なにかが間違っているのかも。
+
+・たとえば P(a)ならP(b)ではないということを書きたいならば
+　-P(x)-P(y) ただしnot x=y
+　これはpeval対象ではない。なぜなら、<P(b):P(a)>したいから。-P(b)は残しておきたい。
+
+・pevalを呼ぶとき、varsなどそのときのインスタンスを与えなくてはならない。****
+
+
 2021/04/03土
 ・EOLOのサンプルを作る。ディレクトリeoloにある
 ・prover-gtrailはcidを引数にとっているが、kqcとレベルをあわせると、数字かclaueのnameがよいかもしれない。
 ・実験の手順を書いた。
   20210403-usage-rubbish.txt
+・load-rubbishして(logstart)まででsaveしてもいいかも
 
 2021/03/29月
 ・githubで二段階認証とともにtoken作成した
