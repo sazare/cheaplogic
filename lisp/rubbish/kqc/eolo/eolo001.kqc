@@ -1,7 +1,5 @@
-; EO-LO sample 000
-; new fact says negative of previous one.
-; doubious fact can be negative?
-;; but sencor may be able to detect it.
+; EO-LO sample 0001
+;; simplest form of <-P(a):+P(b)> refuse the neg of prop
 
 ;; 1 is a new fact
 (1 () (+ P a))

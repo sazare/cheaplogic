@@ -1,6 +1,8 @@
-; EO-LO sample 000
+; EO-LO sample 000a
 ; it chaned from a to b
 ;; this assume unique object
+;; constant a,b not 1,2 of 000
+;; cant peval (eq a b)
 
 ;; 1 is a new fact
 (1 () (+ P a))

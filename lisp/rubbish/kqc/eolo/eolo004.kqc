@@ -1,5 +1,6 @@
 ; EO-LO sample 003
-;; after applying the rule, +Ra not changed +Ra
+;; show the picture of two step after applying the rule, 
+;; 
 
 ;; 1 is new fact
 (1 () (+ R a))
@@ -10,3 +11,5 @@
 ;; this means +Px -> +Rx, 
 (3 (x) (- P x)(+ R x))
 
+;; 2 and 3 make +R(a) 
+;; with 1(new one) I show +R(a) was not changed

@@ -1,7 +1,5 @@
 ; EO-LO sample 000
-; this has rule P to R
-; and new fact about R
-; after apply rule, Pa conflicts Pb?
+;; +P(a) trans to +R(a) then imagine +R(b) conflict
 
 ;; 1 is new fact
 (1 () (+ R b))

@@ -1,5 +1,5 @@
 ; EO-LO sample 005
-;; is-unique-dom checks the constant singular
+;; then how to write the singleton property?
 
 
 ;; 1 is new fact
@@ -9,10 +9,8 @@
 (2 () (+ P a))
 
 ;; why +P imply -R ??
-(3 (x) (- P x)(- R x))
+(3 (x) (- P x)(+ R x))
 
-;; how to write vars of is-unique-dom ... should macro?
-;(3 (x y) (- P x)(- R y))
-;(3 (x y) (- is-uniq x y)(- P x)(- R y))
-;(3 (x y) (- P x)(- R y)(- is-uniq x y))
+;; does this require peval? NO. peval solve the problem
+;(3 (x y) (- is-uniq x y)(- P x)(+ R y))
 

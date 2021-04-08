@@ -1,6 +1,5 @@
 ; EO-LO sample 000
-; it chaned from a to b
-;; this assume unique object
+;; +P(1) refuse +P(2) older
 
 ;; 1 is a new fact
 (1 () (+ P 1))
@@ -9,5 +8,6 @@
 (2 () (+ P 2))
 
 ; unique object condition
+;; meaningless for ∃<+P(1):+P(2)> 
 (3 (x y) (- eq x y)(- P x)(- P y))
 

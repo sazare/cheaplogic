@@ -1,5 +1,11 @@
 ; EO-LO sample 003
-;; after applying the rule, +Pa conflicts -Pa
+;; by 3, +P(a) trans to +R(a) 
+
+;; need +R(a) validify new +R(a) or new +R(a) validify old +R(a)?
+;; not old -R(a) with new +R(a) resolution
+
+;; 3 make one way infection, not +R to +P
+
 
 ;; 1 is new fact
 (1 () (+ R a))
@@ -9,5 +15,5 @@
 
 ; rule what this mean?
 ;; this means +Px -> -Rx, 
-(3 (x) (- P x)(- R x))
+(3 (x) (- P x)(+ R x))
 
