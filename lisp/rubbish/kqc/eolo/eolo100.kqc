@@ -1,0 +1,11 @@
+; eolo100.kqc
+;; 
+
+; new fact
+(1 () (+ P b))
+
+; old fact
+(2 () (+ P a))
+
+; rule
+; no

@@ -16,4 +16,7 @@
   `(eq ',x ',y)
 )
 
+(defmacro syeq (x y)
+  `(equal ',x ',y)
+)
 

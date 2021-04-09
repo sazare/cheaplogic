@@ -1,0 +1,9 @@
+;; test for (peval (+ syeq a b))
+
+(1 () (- syeq a b))
+(2 () (+ syeq a b))
+(3 () (- syeq a a))
+(4 (x) (- syeq a x)(- P x))
+(5 () (+ P b))
+(6 () (+ P a))
+
