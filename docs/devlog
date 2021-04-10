@@ -71,6 +71,23 @@ QEDは☕️でしめす。
 
 
 どっちに結論がでるのか・・・
+・obdvianを使ってmdを書いてみた。20210410-finite-expressiblity.md。
+
+
+・macbook airを買ったらproverの性能比較をしてみたいので、動くかどうか確かめる
+　perf-rubbish-unif.lispで、perf.lispをloadしているが、これは場所がito.lispと同じところに移動したので
+　(load "perf.lisp")　=> (myload "perf.lisp")　に変更
+
+　(performance form num) で呼び出すのだが、formは引数がない。ito-なんとか を使っている。うまい
+
+　使い方
+(load "load-rubbish.lisp")
+(load "rubbish-dom.lisp")
+(myload "perf.lisp")
+(readekqc "kqc/ml002.kqc")
+(defun pg1 () (prover-gtrail '(c1)) )
+(performance #'pg1 1000)
+
 
 
 

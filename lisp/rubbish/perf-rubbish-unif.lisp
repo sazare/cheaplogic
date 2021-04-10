@@ -1,7 +1,7 @@
 ; performance of unif-disag.lisp
 
 (load "ito-rubbish-unif.lisp")
-(load "perf.lisp")
+(myload "perf.lisp")
  
 (defparameter PN 10000)
 (performance `ito-unifications PN)
