@@ -1,0 +1,39 @@
+; multiple connection (trivial)
+;;  this is not adequate.
+
+;1. Iam is not a fact but a infered one.
+;2. fact should be Kindis, Coloris Sizeis 
+
+
+
+;; new fact
+(1 () (- Iam Leo))
+;(1 (X) (- Iam X))
+;(1 () (+ Iam Lion))
+;(1 (X) (+ Iam X))
+
+;; old facts
+; Kindis
+(2 () (+ Kindis beast))
+;(2 () (+ Kindis bird))
+;(2 () (+ Kindis fish))
+
+; color
+(3 () (+ Coloris white))
+;(3 () (+ Coloris red))
+;(3 () (+ Coloris brown))
+
+; Size
+(4 () (+ Sizeis big))
+;(4 () (+ Sizeis small))
+
+
+;; rules
+(5 () (- Coloris red) (- Sizeis big) (- Kindis bird) (+ Iam framingo))
+(6 () (- Coloris white) (- Sizeis big) (- Kindis beast) (+ Iam Leo))
+(7 () (- Coloris brown) (- Sizeis big)(- Kindis beast) (+ Iam Lion))
+(8 () (- Coloris red) (- Sizeis small)(- Kindis fish) (+ Iam Kingyo))
+
+
+; singleton on Iam
+; ??
