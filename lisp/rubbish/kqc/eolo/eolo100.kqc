@@ -1,5 +1,4 @@
-; eolo100.kqc
-;; 
+;;  Pa and Pb conflict
 
 ; new fact
 (1 () (+ P b))

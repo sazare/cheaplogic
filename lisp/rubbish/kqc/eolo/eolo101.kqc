@@ -1,5 +1,4 @@
-; eolo100.kqc
-;; 
+;; +Pa imply +Ra and conflict +Rb
 
 ; new fact
 (1 () (+ R b))

@@ -204,3 +204,32 @@
   )
 )
 
+;;;; find refused
+(defun isunitclause (cid)
+  (eq 1 (length (bodyof cid)))
+)
+
+(defun mayrefused (gcid conid)
+  (loop for lid in (pcode conid) 
+    when (isunitclause (cidof (olidof lid))) 
+    unless (eq gcid (cidof (olidof lid)))
+    collect (cidof (olidof lid))
+  )
+)
+
+(defun psymofunitclause (cid)
+  (psymoflid (car (bodyof cid)))
+)
+
+(defun directconfuse (gcid conid)
+  (let ((cand (mayrefused gcid conid)))
+    (loop for cid in cand 
+      when (equal (psymofunitclause gcid)
+                  (psymofunitclause cid))
+      collect cid
+    )
+  )
+)
+
+
+
