@@ -55,6 +55,36 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/04/13火
+・MacBook Airの設定をしている。
+　brew install sbcl
+  brew install quicklisp
+  brew install rlwrap
+
+・rubbishを動かすためには
+　1. ~/lib/でgithubのlisptoolsをcloneする
+　2. .sbclrcで、quicklispの設定と、MYLIBとmyloadの定義を追加
+　3. ito-rubbish-base.lispなどはこれを使うので動作確認できる
+
+  4. (load "play-prover-gt-ml002.lisp")や
+　　(load "ito-rubbish.lisp")
+など
+
+・性能比較
+(load "load-rubbish.lisp")
+(load "rubbish-dom.lisp")
+(myload "perf.lisp")
+(readekqc "kqc/ml002.kqc")
+(defun pg1 () (prover-gtrail '(c1)) )
+(performance #'pg1 1000)
+
+とか
+(load "perf-rubbish-unif.lisp")
+
+が動けば、ito.lispは動く
+
+
+
 2021/04/10土
 ・今なにをしているのか
 　・外部システム(MLとかDLとかたぶんWebPageのようなものも含む)とProverとの連携方法
