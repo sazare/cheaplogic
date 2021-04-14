@@ -1,0 +1,169 @@
+\documentclass[10pt, oneside]{jarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{version}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+
+\usepackage[dvipdfmx]{graphicx}
+
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{hypothesis}{予想}
+\newtheorem{problem}{課題}
+\newtheorem*{theorem*}{定理}
+\newtheorem*{proposition*}{命題}
+\newtheorem*{hypothesis*}{予想}
+\newtheorem{definition}[theorem]{定義}
+\renewcommand\proofname{\bf 証明}
+
+
+\newcommand{\ivec}[2]{\bar{#1}^{(#2)}}
+\newcommand{\similarity}[1]{\rho(#1) }
+\newcommand{\cor}[2]{<\bar{#1}\mid\bar{#2}>}
+
+\newcommand{\almostall}{\bar{\forall}}
+\newcommand{\possibly}{\bar{\exists}}
+
+
+\title{いかにして書くか}
+\author{omura}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{概要}
+一階述語でどう書くか、どこまで書けるか。何が必要か。
+
+これまでいろいろ書いてみて、一階述語の表現力がどれだけあるのか、分からない。
+たんに、私の経験不足なのかもしれない。どこまで書けるのかを調べたい。
+
+論理学の教科書には、単純な三段論法の例がでてくるが、それ以上のものをみたことがない。
+数学では十分(?)なほどの記述力を持っているのはわかる。
+HilbertだかWhiteheadだかのPrincipia Mathematicaは、集合論で整数論が展開できたのではなかったか。
+
+手続きを書くこともできるのはわかる。
+
+でも、日常的な当たり前の事柄を書けるのだろうか。
+
+どういう順番で考えていくか?
+\begin{description}
+\item[ - ] 懐中電灯 
+\end{description}
+
+
+\section{懐中電灯}
+最近考えたのは、懐中電灯の仕様と、現在の懐中電灯の動作から、故障の原因を推論するまたは、故障箇所を判定するためのテスト操作を導き出せるかどうか。
+
+\begin{enumerate}
+\item[・]仕様は、成り立つべきと考えていることであり、出荷時に成り立っている状態
+\item[・]Factとして、現在、懐中時計がどのような振る舞いをするかの、言明がある
+\item[・]そこから、仕様とFactの矛盾点をみつけて
+\item[・]その矛盾点について、本来成り立っているべき言明をみつけて
+\item[・]それを実施してわかるFactを求め、Factが成り立っているべき言明と矛盾したら、それが焦点になる
+\end{enumerate}
+
+このとき、 思った問題点。
+\begin{description}
+\item[1] 仕様とFactが混在してしまうと、わけがわからなくなる。
+\item[2] 仕様から得られる定理が、混ざってしまうことで証明プロセスが無駄になる
+\end{description}
+
+
+\subsection{分析}
+まず、懐中電灯は、スイッチをいれたらつく、というのが基本的な機能なのでそれを書く。
+
+\begin{equation}
+FL(on,on))
+\end{equation}
+\begin{equation}
+FL(off,off)
+\end{equation}
+
+ここで、$$FL(スイッチの状態、ランプの状態)$$を表す。
+
+これはきわめて抽象的な表現で、懐中電灯を使う人が意識しているレベルの抽象化ではないだろうか。
+
+このとき、異常がおきたとすると
+
+\begin{equation}
+FL(on,off)
+\end{equation}
+
+というFactが出現したときそれとわかる。
+
+\subsection{全体図}
+証明器をどう使うかのひとつのイメージ。
+
+ある装置の仕様とそれに関する性質を書く。これを装置の公理系と呼ぼう。
+clauseの集合$\mathcal{A}$で書くと考える。
+
+
+その装置の実際の動作を機械学習/深層学習で追跡する。このときクラシキケーションで分類したら、ある述語を用いた命題ができて、それをFactと呼ぼう。
+世界の状態についての言明なのでFactと呼ぶ。
+それがどれくらい正しいのかはまた改めて考える。
+
+Factが公理系と矛盾するとき、装置の故障が起きたと考えられるだろうか。
+
+ここで公理系にどこまで何を書くかということがある。
+
+たとえば、装置が故障した場合のケースについてもすべて書いてしまうと、それは矛盾しないだろう。
+どのような場合にどうなるかをすべて書くような仕様というものはありうる。
+異常の場合の原因を書いておくようなもの。
+
+そのときは矛盾がおきず、すべてが公理系で書かれている。
+
+当初の目的だった、装置が異常をおこしたとき、その原因を調べるという手順に証明器を組み込むという目論見については、このような仕様の記述はのぞましくないのではないか。
+
+すべての異常について書いた完全な仕様というものが可能であれば、そのほうが望ましいのかもしれない。
+
+抽象的に書くことによって、仕組みの詳細が書かれず、それが矛盾としてあらわれるような仕組みは、記述量の効率化というメリットがあるのかもしれない。
+もしも、その矛盾から原因究明がちゃんとできたらの話。
+
+
+そこで、(3)のFactが生まれたとき、これは(1)と矛盾する。
+この場合は、矛盾でない。
+$$P(a)$$と$$P(b)$$は矛盾しない。
+
+おやおや。どうしよう。
+
+もしも、ドメインが$\{on, off\}$と限定されているならば$FL(off)$は$\neg FL(on)$であり、矛盾がおきる。$FL(on)$と$\neg FL(on)$による矛盾。
+
+ドメインを考慮した、命題の変形というものは必要な気がする。
+
+こうして矛盾が生まれたとき、この抽象化のレベルでは、異常がおきたことがわかる。
+
+異常の発見から、原因の究明にいたるためには、装置の動作を確認するという手順が必要になる。
+あらかじめ調査されている場合は、調査によるFactの集合を生み出す。
+
+もしも、異常の内容から、どのような調査をすればよいかがガイドできれば望ましい。
+
+優先順位というものがなければ、すべての状態を調べることになり、適切な調査のガイドにはならないかもしれない。
+
+証明器を使うメリットとして、効率的なつまり無駄のない調査がガイドできればいいと思ったのだがどうしたものか。
+
+装置の定義を装置の公理として書いたとして、そこから異常の原因がわかるためには、何か観点が違うのではないか。
+
+
+
+\subsection{つづき}
+
+ここで、この条件を満たさない場合、電池が切れるという話、ランプやスイッチが壊れているという話、にどうつなげるかという。
+
+
+
+\end{document}

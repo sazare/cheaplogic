@@ -1,0 +1,70 @@
+\documentclass[10pt, oneside]{jarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{version}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+
+\usepackage[dvipdfmx]{graphicx}
+
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{hypothesis}{予想}
+\newtheorem{problem}{課題}
+\newtheorem*{theorem*}{定理}
+\newtheorem*{proposition*}{命題}
+\newtheorem*{hypothesis*}{予想}
+\newtheorem{definition}[theorem]{定義}
+\renewcommand\proofname{\bf 証明}
+
+
+\newcommand{\ivec}[2]{\bar{#1}^{(#2)}}
+\newcommand{\similarity}[1]{\rho(#1) }
+\newcommand{\cor}[2]{<\bar{#1}\mid\bar{#2}>}
+
+\newcommand{\almostall}{\bar{\forall}}
+\newcommand{\possibly}{\bar{\exists}}
+
+
+\title{反証にできる問題の範囲}
+\author{omura}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{概要}
+反証で解ける場合のgoalは次の形をしている。
+
+$$\forall x,y \exists z \Phi (x,y,z) $$ 
+
+これの否定は
+$$\exists  x,y \forall z \Phi (x,y,z) $$ 
+
+であり、x,yは定数に置き換わるので、結局zを求める問題になり、反証が使える。
+
+すべてのxについてφが成り立つといった言明の証明は
+
+$$\forall x \Phi (x) $$ 
+
+の否定が
+
+$$\exists x \Phi (x) $$ 
+
+となるので、proverを使う前の段階でxの値を求めるか、ドメインのすべての要素xについて[]をさがすという全体の証明となり、モデルなしの反証では計算できない。
+
+
+\end{document}

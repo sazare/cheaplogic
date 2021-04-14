@@ -1,0 +1,84 @@
+\documentclass[10pt, oneside]{jarticle}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{a4paper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+%\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+
+\usepackage[all]{xy}
+\usepackage{enumerate}
+\usepackage{version}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{cases}
+
+\usepackage[dvipdfmx]{graphicx}
+
+
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}
+\newtheorem{proposition}{命題}
+\newtheorem{hypothesis}{予想}
+\newtheorem{problem}{課題}
+\newtheorem*{theorem*}{定理}
+\newtheorem*{proposition*}{命題}
+\newtheorem*{hypothesis*}{予想}
+\newtheorem{definition}[theorem]{定義}
+\renewcommand\proofname{\bf 証明}
+
+
+\newcommand{\ivec}[2]{\bar{#1}^{(#2)}}
+\newcommand{\similarity}[1]{\rho(#1) }
+\newcommand{\cor}[2]{<\bar{#1}\mid\bar{#2}>}
+
+\newcommand{\almostall}{\bar{\forall}}
+\newcommand{\possibly}{\bar{\exists}}
+
+
+\title{Rubbishについて}
+\author{大村伸一}
+\date{2020/10/19}				% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{概要}
+このディレクトリのドキュメントは、Rubbishの実装や構想に関するものです。
+
+そもそも自動証明がどんなことでも証明できるという気はしない。どのような証明ができるのか。知識をどのように表現すればよいのか。証明機構/推論機構の有益な使い方は何か。
+
+「推論」という言葉がいろいろな文脈で登場し、「推論」という言葉の意味がだんだんわからなくなってきている。
+
+\begin{description}
+
+\item[代入.tex]
+　代入はいろいろな実装方法があり、その表現もまたさまざまである。
+　機能面と性能面で検討する。
+
+\item[Unificationについて.tex]
+　Unificationのアルゴリズムは同じでも、実装は代入の実装に依存する。
+
+\item[rsolutionの方法.tex]
+　Unificationにもとづくresolutionの実装では、clauseとliteralの性質に基づいたデータ構造を用いた。
+
+\item[DVCの実現方法.tex]
+　Disjoint Variable Condition(DVC)の実現方法について
+
+\item[証明構造分析ツール.tex]
+　目的はひとつの証明を作ることでなく、すべての証明の構造を用いて必要な証明をとらえること。
+
+\item[機械学習と証明.tex]
+　機械学習あるいは深層学習は、対象世界から述語を取り出す方法であり、それらの述語と証明から何か有益な結果が得られるとよい。そのような観点からツールを考える。
+　真相学習というものはありうるか?
+
+\item[観測事実の測定.tex]
+　時が立つにつれて変化する命題がある場合、証明機構はどのように使えるのか。
+　その命題が世界の同じ何かについての命題でなければ意味がない。同一性は機械学習がたとえば確率的にとらえるのではないか。
+
+\end{description}
+
+\end{document}
