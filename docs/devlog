@@ -55,11 +55,40 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/04/18日
+・20の扉について考えた。see 20210418_20doors.txt
+・どのようなシステムになるべきか、知識についてどのような前提をもちをどう書くべきか、
+　などがわかった。
+
+20の扉システムをでもように作ってもよい。
+
+・変化する対象の場合を考えよう
+
+
+
+
+2021/04/17土
+・20の扉について考えた。
+　EOLOが役に立つ場面は何か。
+・今は、prover-gtはとまっていて、矛盾からclause除去の方法について考え中。
+・pcodeは、役に立つが、本来違うproofなのにpcodeでは区別できないものはある。はず。
+　goalベースで、input/linear resolutionをしている今は、あんまり関係なさそう。
+・(pcode cid)の関数名はfingerprintでもいいような気がするが、どうか。いまはどうでもいい
+
+・asdfが使えていなかった。~.common-lispを作って、そこにasdをおくようにし、
+　　~/.sbclrcに(pushnew #P"/Users/shin/.common-lisp/" asdf:*central-registry*)を追加した
+
+2021/04/14水
+・macbookproのaddしていなかったファイルをaddした
+
 2021/04/13火
 ・MacBook Airの設定をしている。
 　brew install sbcl
   brew install quicklisp
   brew install rlwrap
+
+* quicklispは~/quicklispにはいる。
+  sbclで、asdf:*central-registry*をみるとわかる
 
 ・rubbishを動かすためには
 　1. ~/lib/でgithubのlisptoolsをcloneする

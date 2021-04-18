@@ -1,0 +1,171 @@
+・20の扉について考えた。
+　・そのシステムTのどこでproverを使うのか。
+　　Tは、出題者に問Qをだし、その答えがNOであると、そのFactを記憶する。
+　　Tは、問Qを作るために、世界についての知識Kを持っている。
+　　知識Kは、出題者と共有していると仮定したい。でなければ20の扉は成り立たない。
+　　出題者は、知識Kの中のIs(Elephant)という述語命題を選択する。
+　　(述語命題というのは、たぶん造語で、述語と引数からなる式だけど、変数を含まないものを意味する。)
+　　このセッションの間、Elephantはずっと変わらない。
+　　TはそのIs(Elephant)を探し、Is(Elephant)が問として出されると、Trueが回答され、セッションは正解で終了する。
+　　回答者であるTは、問の回答がFalseである間、-Qを対象の知識Aとして集めていく。
+　　Qがfalseだったので-QはtrueでありFactと考えられる。
+　　AはFactである述語命題の集合である。
+
+　　Tは、A+Kからいろいろな戦略に基づいて次のQを選択する。
+　　A∪K ⊂ K である。Aという条件により、Kの中で矛盾する述語命題が除外される。
+
+　　たとえばKの一部がこうなっていたとする。
+
+    Is(Elephant) <=> Is(big) and Is(bigear) and Is(longnose) 
+　　Is(Rabbit) <=> -Is(big) and Is(bigear) and Is(longleg)
+
+これをclauseにすると
+
+1<    +Is(Elephant) -Is(big) -Is(bigear) -Is(longnose) 
+2>    -Is(Elephant) +Is(big) 
+3>    -Is(Elephant) +Is(bigear)
+4>    -Is(Elephant) +Is(longnose) 
+5<    +Is(Rabbit) +Is(big) -Is(bigear) -Is(longleg) 
+6>    -Is(Rabbit) -Is(big) 
+7>    -Is(Rabbit) +Is(bigear)
+8>    -Is(Rabbit) +Is(longleg) 
+
+
+　　これに対して、動物限定だとして、bigかどうかというQ1に対して
+　　・質問Is(big)の回答がNoなら、対象知識には -Is(big)が追加され、
+*のついたclauseが変化した。
+
+  1<    +Is(Elephant) -Is(big) -Is(bigear) -Is(longnose) 
+* 2>    -Is(Elephant) 
+  3>    -Is(Elephant) +Is(bigear)
+  4>    -Is(Elephant) +Is(longnose) 
+* 5<    +Is(Rabbit) +Is(big) -Is(bigear) -Is(longleg) 
+  6>    -Is(Rabbit) -Is(big) 
+  7>    -Is(Rabbit) +Is(bigear)
+  8>    -Is(Rabbit) +Is(longleg) 
+
+大きくないと言う答えなので、象ではないから2は確かに正しい。
+また*2と1から
+  **1<    -Is(big) -Is(bigear) -Is(longnose) 
+となる。
+-Is(big)がfactなので、1はvalidになり、証明には使われないので除去する。
+
+　　・質問Is(big)の回答がYesなら、対象知識には、+Is(big)が追加され、
+* 1<    +Is(Elephant) -Is(bigear) -Is(longnose) 
+  2>    -Is(Elephant) +Is(big) 
+  3>    -Is(Elephant) +Is(bigear)
+  4>    -Is(Elephant) +Is(longnose) 
+  5<    +Is(Rabbit) +Is(big) -Is(bigear) -Is(longleg) 
+* 6>    -Is(Rabbit) 
+  7>    -Is(Rabbit) +Is(bigear)
+  8>    -Is(Rabbit) +Is(longleg) 
+
+となる。*1,*6が変化している。
+あと+Is(bigear)と+Is(longnose)が追加されると+Is(Elephant)が導かれる。
+また、+Is(big)なので、2はvalidとなり除去できる。
+
+　うさぎについては、6がでて、Rabbitではないという結論になっている。
+-Is(Rabbit)がfactなので、7,8はvalidになり証明では使わないので除去する。
+また、5,6から
+ 
+ **5<    +Is(big) -Is(bigear) -Is(longleg) 
+
+がでるが、+Is(big)がfactだから、-Is(big)は回答として絶対でてこないので(無矛盾拡張)
+決して[]にならないclauseであり、一時知識から除去できる。
+結局、+Is(long)が追加されると、残りは
+
+* 1<    +Is(Elephant) -Is(bigear) -Is(longnose) 
+  3>    -Is(Elephant) +Is(bigear)
+  4>    -Is(Elephant) +Is(longnose) 
+
+となる。これから
+1) bigearでないとかlongnoseでないという回答が得られたらElephantではないという結論になることと
+2) bigearでlongnoseであるとわかったらElephantだという結論が得られる。
+
+=====-
+
+もしも20の扉にするのであれば、知識の中のclauseのliteral数が最大20までは判別できるということで
+もしも20よりもたくさんliteralを含むclauseがあれば、それを選ばれると20回の問では解決できない。
+
+* 20の扉の20が重要ではなく、どうやって問と回答を組み合わせて答えにいたるかということがポイント
+
+======
+背景知識Kと対象知識Aのうち、背景知識Kは増加しない。Aによって除去されていく。
++Is(xxx)が残ったら、それが答えになる。
+
+問の作り方
+p1,p2を対象のもつ性質特徴だとすると、
++Is(xx)-Is(p1)-Is(p2)-Is(p3)
+という形のclauseつまり、+Is(xx)をもつclauseの+Is(xx)が問の候補になる。
+
+それが複数あるとき、
++Is(xx)-Is(p1)-Is(p2)-Is(p3)
++Is(yy)-Is(p1)-Is(p2)-Is(p4)
+
+-Is(-)のことなるlitralが問となる。
+もしもことなるliteralがなければ、xxとyyは区別できないものだから、順番に質問していくしかない。
+つまり
+それはxxですか?
+それはyyですか?
+
+-Is(xx)+Is(p)
+の形のclauseについては、-Is(xx)がでてきたら、それは残しておきたい(?)
+
+=====
+20の扉システムのすること
+1) 知識の書き方
+Is(A)<=>Is(p1) and Is(p2) and ...
+という形で関係を書いておく。
+前提: Aはp1,p2などの特徴によって判別できる。
+
+2) 問の作り方
+Kから+Is(xx)を探し、その特徴の中から問の候補を選ぶ。
+ もしも+Is(xx)がunitならば、それが問うべきもの。
+　+Is(xx)のunitが複数あったら、順番に聞いていくしかない。
+　
+3) ?Is(xx)に対する答え
+  yesならば+Is(xx)をAに加える
+
+  noならば、-Is(xx)をAに加える
+　　
+Aに加える必要はないかも。Kを縮退していくだけで特にAを残す必要はない。
+Aはログのようなものか・・・
+
+======
+20doorsシステムのすること
+0) K given
+1) make Q from K
+2) get A = fact, reduce K with A
+*) repeat until Q with answer OK
+
+====
+課題
+
+* KからQを作る方法はいろいろありうる
+　rubbishの場合、Kを読み込んだら*lsymlist* の全+/-Pについてそれの
+　lidの数(=を含むclauseの数)をみて、なるべくcidが多く、+/-でバランスの
+　とれているやつから選択していけばいいのかな。
+
+* KをAで縮退させていく操作
+　こちらは、clauseを消していくので、lidが消えていく操作になる。
+　そういう関数をすこし作っているが、不足していたら追加が必要か。
+
+* 上の例ではvalidだとclauseを除外した。
+　それは妥当か?　例では妥当にみえた。
+　だが、必要なのか? 
+  factと同じ符号のliteralはそのままにしておくと、unit にならないので
+　候補にもならないから、残しておいてもよさそう。
+
+　ただし、残すとこれ以上わかりませんという終わりが判定できないかも。
+
+
+
+
+* Kの書き方
+　P<=>L1 and L2 and ...
+　とは限らないはず。
+  どういうバターンがあるか??
+
+　
+
+*
