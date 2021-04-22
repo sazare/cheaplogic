@@ -1,0 +1,37 @@
+;; all about the world
+
+; life
+
+;;(1 () (<=> (Zou) (Ookii)(OokiiMimi)(NagaiHana)))
+(1 () (- Zou) (+ Ookii)(+ OokiiMimi)(+ NagaiHana))
+(2 () (- Zou) (- Ookii))
+(3 () (- Zou) (- OokiiMimi))
+(4 () (- Zou) (- NagaiHana))
+
+;;(2 () (<=> (+ Usagi) (+ Chiisai)(+ NagaiMimi)(+ AkaiMe)))
+(5 () (- Usagi) (+ Chiisai)(+ NagaiMimi)(+ AkaiMe))
+(6 () (- Usagi) (- Chiisai))
+(7 () (- Usagi) (- NagaiMim)i
+(8 () (- Usagi) (- AkaiMe))
+
+;;(3 () (<=> (Kujira) (Ookii)(NagaiMimi)(NagaiHana)(Umi))
+
+;;(4 () (<=> (Lion) (Nikusyoku)(Tuyoi)(Ousama)))
+
+;;(5 () (<=> (Washi) (Nikusyoku)(Tuyoi)(Sora)))
+
+;;(6 () (<=> (Suzume) (Arifure)(Shitanonainoiru)(Ousama)))
+
+
+;;(7 () (<=> (Flamingo) (Akairo)(Kouzan)(Sora))
+
+;;(8 () (<=> (Nettaigyo) (Kansyouyou)(Colorful)(Umi))
+
+;;(9 () (<=> (Kirin) (Ookii)(NagaiKubi)(Simamoyou)))
+
+;;(10 () (<=> (Simauma) (Simamoyou)(FutuSize)(Uma)))
+
+;;(11 () (<=> (Uma) (Keiba)(Uma)(
+
+;;(12 () (<=> (Unicorn) (Uma)(Kakuu)(Sora)))
+

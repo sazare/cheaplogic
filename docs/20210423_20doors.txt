@@ -1,0 +1,51 @@
+20の扉の続き
+必要なこと
+1) 質問はたとえばこうなる
+　a) それは鯨ですか?
+　b) それは動物ですか?
+  c) それは大きいですか?
+
+a) は、対象の何かを確かめる問
+b)c)は、対象の性質を確かめる問
+
+違わないように見えるが、20の扉の知識としては区別したい。
+
+2) つまりこのクイズでは、Ans(a)がtrueになった時点で成功として終わる。
+　　問はfalseである間、20回回答を求めることができる。
+
+3) ということで、知識はこういう形になる
+    What(Elephant) <=> Is(big) and Is(bigear) and Is(longnose) 
+　　What(Rabbit) <=> -Is(big) and Is(bigear) and Is(longleg)
+
+これをclauseにすると
+
+1<    +What(Elephant) -Is(big) -Is(bigear) -Is(longnose) 
+2>    -What(Elephant) +Is(big) 
+3>    -What(Elephant) +Is(bigear)
+4>    -What(Elephant) +Is(longnose) 
+5<    +What(Rabbit) +Is(big) -Is(bigear) -Is(longleg) 
+6>    -What(Rabbit) -Is(big) 
+7>    -What(Rabbit) +Is(bigear)
+8>    -What(Rabbit) +Is(longleg) 
+
+4) たとえば、「それは動物ですか」という問は、集合の切り分け
+
+　What(Rabbit) => Is(Animal)
+
+　みたいな知識。
+
+5) 想定するシステムでは、どうやって問を選ぶかは不問。
+　得られた答えから、知識をどう変形していくかをみたい。
+
+　答えは、unit claue(fact)とする。つまり
+　-What(うさぎ)
+　は「それはうさぎですか」と質問して、答えがNoの場合の命題。
+
+　+Is(Big)は「それは大きいですか」と聞いて、答えがYesの場合の命題。
+
+　もしも「それは鯨ですか」と聞いてそれが正解だったら、+What(鯨)が命題だが
+　そのときは知識はそれ以上変形されないので、この正解時の知識変形ステップはシステムに含まない。
+
+
+
+

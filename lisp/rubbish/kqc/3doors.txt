@@ -1,0 +1,41 @@
+'(eqv (+ Usagi) (+ Chiisai)(+ NagaiMimi)(+ AkaiMe))
+
+3d-knowledge.wff
+
+(load "load-rubbish.lisp")
+(load "rubbish-wff.lisp")
+
+; for english knowledge
+(defparameter fwname "kqc/3doors/3d-knowledge.wff")
+(defparameter fkname "kqc/3doors/3d-knowledge.kqc")
+
+; for japanese knowlegd
+(defparameter fwname "kqc/3doors/j3d-knowledge.wff")
+(defparameter fkname "kqc/3doors/j3d-knowledge.kqc")
+
+(defparameter wff (readafile  fwname))
+(defparameter cls (eqvs2cs wff))
+(write-kqc fkname cls)
+
+(readekqc fkname)
+(dump-clausex)
+(print-clauese *clist*)
+
+;;; image of proceduer
+; 1st try
+(factis (+ OOKII))
+(factis (+ OOKIIMIMI))
+(factis (+ NAGAIHANA))
+
+;; answerは何か
+・unit clauseになった
+・述語に、対象と性質の二種類があるのかな
+　対象は答えになる・・・というような
+
+・4つ以上あっても、推論で消せるとか
+
+対象に関する述語は What(うさぎ)みたいに書く
+性質はIs(大きい)と書く。
+
+この区別は必要か??
+

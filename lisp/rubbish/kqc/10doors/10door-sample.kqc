@@ -1,0 +1,8 @@
+# 20 doors
+
+(2 () (- IsElephant) (- IsBig)(- IsBigear)(- IsLongnose)(- IsGentle))
+(3 () (- IsElephant) (+ IsBig))
+(4 () (- IsElephant) (+ IsBigear))
+(5 () (- IsElephant) (+ IsLongnose))
+(6 () (- IsElephant) (+ IsGentle))
+

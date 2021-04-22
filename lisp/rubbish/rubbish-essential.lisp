@@ -22,6 +22,21 @@
   )
 )
 
+;; today as string
+(defun today ()
+  (multiple-value-bind (second
+                      minute
+                      hour
+                      date
+                      month
+                      year
+                      day-of-weak
+                      daylight-p
+                      time-zone)
+    (get-decoded-time)
+  (format nil "~d-~d-~d" year month date))
+)
+
 ;; concern atom 
 ;; 
 ; for atom plist setup
@@ -92,5 +107,6 @@
 )
 ; (apply (expf fn 2) a) = (expf fn 2)(a) => (fn (fn a)) = (apply fn (apply fn a))i intended this.
 ; (expf fn 2) = (function (x) (apply fn (apply fn x)))
+
 
 
