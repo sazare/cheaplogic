@@ -1,6 +1,4 @@
-'(eqv (+ Usagi) (+ Chiisai)(+ NagaiMimi)(+ AkaiMe))
 
-3d-knowledge.wff
 
 (load "load-rubbish.lisp")
 (load "rubbish-wff.lisp")
