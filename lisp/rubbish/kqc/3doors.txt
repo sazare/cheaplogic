@@ -30,6 +30,8 @@
 ;; fact reduction
 (load "load-rubbish.lisp")
 (load "rubbish-confact.lisp")
+(defparameter fkname "kqc/3doors/j3d-knowledge.kqc")
+
 (readekqc fkname)
 (init-kb)
 
@@ -58,6 +60,52 @@
 * 全部の条件がきえてunitにならないと答えとみなされない??
 
 
+====
+実行結果
+* (load "load-rubbish.lisp")
+(load "rubbish-confact.lisp")
+(defparameter fkname "kqc/3doors/j3d-knowledge.kqc")
+
+* (readekqc fkname)
+kqc reading: kqc/3doors/j3d-knowledge.kqc
+.............................................................................
+(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15 C16 C17 C18 C19 C20 C21 C22
+ C23 C24 C25 C26 C27 C28 C29 C30 C31 C32 C33 C34 C35 C36 C37 C38 C39 C40 C41
+ C42 C43 C44 C45 C46 C47 C48 C49 C50 C51 C52 C53 C54 C55 C56 C57 C58 C59 C60
+ C61 C62 C63 C64 C65 C66 C67 C68 C69 C70 C71 C72 C73 C74 C75 C76 C77)
+* (init-kb)
+(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15 C16 C17 C18 C19 C20 C21 C22
+ C23 C24 C25 C26 C27 C28 C29 C30 C31 C32 C33 C34 C35 C36 C37 C38 C39 C40 C41
+ C42 C43 C44 C45 C46 C47 C48 C49 C50 C51 C52 C53 C54 C55 C56 C57 C58 C59 C60
+ C61 C62 C63 C64 C65 C66 C67 C68 C69 C70 C71 C72 C73 C74 C75 C76 C77)
+* (defparameter fc1 (make-clause '(() (+ 大きい))))
+FC1
+* (defparameter fc2 (make-clause '(() (+ 大きい耳))))
+FC2
+* (defparameter fc3 (make-clause '(() (+ 長い鼻))))
+FC3
+* (defparameter fc4 (make-clause '(() (+ 動物))))
+FC4
+* (defparameter kb1 (reduce-kb fc1 *kb*))
+KB1
+* (findfact kb1)
+NIL
+*
+(defparameter kb2 (reduce-kb fc2  kb1))
+KB2
+* (findfact kb2)
+NIL
+*
+(defparameter kb3 (reduce-kb fc3  kb2))
+KB3
+* (findfact kb3)
+NIL
+*
+(defparameter kb4 (reduce-kb fc4  kb3))
+KB4
+* (findfact kb4)
+(C88)
+=======
 
 
 ;;; image of proceduer
