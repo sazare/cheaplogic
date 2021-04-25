@@ -17,7 +17,8 @@
 
 ; newncls
 (defun make-newclause (lits)
-  (cons (incf *maxcid*) (cons '()  lits))
+;  (cons (incf *maxcid*) (cons '()  lits)) ;; no cid in kqc file is better.
+   (cons '()  lits)
 )
 
 ; eqvivalent : (eqv lit rhs)
@@ -28,7 +29,7 @@
       (make-newclause  (cons (cadr wff) (negconj (cddr wff))))
       (loop for rlit in (cddr wff) collect (make-newclause (list (neglit (cadr wff)) rlit)))
     )
-    (make-newclause wff)
+    (list (make-newclause wff))
   )
 )
 

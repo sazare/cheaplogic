@@ -55,6 +55,56 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/04/25日
+・*KB*に対する処理at given factがだいたい確定
+  シナリオ:kqc/3doors/3d-senario.lisp
+
+・codeは、実験レベルで想定の動作。
+  - factの入力は (make-clause '((x)(P 鯨)))でよい
+　- factの相手は、bodyのlidごとにlsymの符号が逆であることを確認し
+　　resolve-idを実行する
+
+** (resolve-id l1 l2) は、符号が同じでも動く。呼ぶ前に-/+のチェックをする。
+
+
+(load "load-rubbish.lisp")
+(load "rubbish-confact.lisp")
+(readekqc fkname)
+(init-kb)
+
+(defparameter fc1 (make-clause '(() (+ 大きい))))
+(defparameter fc2 (make-clause '(() (+ 大きい耳))))
+(defparameter fc3 (make-clause '(() (+ 長い鼻))))
+(defparameter fc4 (make-clause '(() (+ 動物))))
+
+; (setq f11 (car (bodyof fc1)))
+; (resolve-id 'l1-1 f11)
+; (resolve-id 'l1-2 f11)
+; (reduce-clause fc1 'c1)
+
+(defparameter kb1 (reduce-kb fc1 *kb*))
+(findfact kb1)
+
+(defparameter kb2 (reduce-kb fc2  kb1))
+(findfact kb2)
+
+(defparameter kb3 (reduce-kb fc3  kb2))
+(findfact kb3)
+
+(defparameter kb4 (reduce-kb fc4  kb3))
+(findfact kb4)
+
+* 全部の条件がきえてunitにならないと答えとみなされない??
+
+・そこらへんは、問の作り方の問題なので、いいかも。
+ここでは、知識の変化をみたい。
+
+みやすくする方法はないかな。
+
+
+
+
+
 2021/04/24土
 ・知識の書き方で混乱。20210423_20doors.txt
 　20扉の場合は、+Pと-Pの処理が必要かも
@@ -66,11 +116,6 @@ QEDは☕️でしめす。
 
     Whatで区別する必要があるか?
     +X(a)という形のunit clauseが出たらそれはentailmentなのかも
-
-
-
-
-
 
 2021/04/23金
 ・20の扉を考えていくといろいろある
