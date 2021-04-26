@@ -55,6 +55,19 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/04/26月
+・falsehood の処理を作ろう
+  onfalse-kbを追加。
+　reduce-kbはonfact-kbに変名
+　両方を実行する関数としてreduce-kbを作り直した。
+
+・kbが縮退するのは観察できたが、知識が対称に書かれていないので、
+　ひとつだけ残るということはなかった。
+
+　ということは、fact以外のclause(knowledge)は関係のない知識となる。
+
+これでいいのか?
+
 2021/04/25日
 ・*KB*に対する処理at given factがだいたい確定
   シナリオ:kqc/3doors/3d-senario.lisp

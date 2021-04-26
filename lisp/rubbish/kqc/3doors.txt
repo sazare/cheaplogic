@@ -57,7 +57,7 @@
 (defparameter kb4 (reduce-kb fc4  kb3))
 (findfact kb4)
 
-* 全部の条件がきえてunitにならないと答えとみなされない??
+* 全部の条件がきえてunitにならないと答えとみなされない問題??
 
 
 ====
@@ -86,26 +86,29 @@ FC2
 FC3
 * (defparameter fc4 (make-clause '(() (+ 動物))))
 FC4
-* (defparameter kb1 (reduce-kb fc1 *kb*))
+* (defparameter kb1 (onfact-kb fc1 *kb*))
 KB1
 * (findfact kb1)
 NIL
 *
-(defparameter kb2 (reduce-kb fc2  kb1))
+(defparameter kb2 (onfact-kb fc2  kb1))
 KB2
 * (findfact kb2)
 NIL
 *
-(defparameter kb3 (reduce-kb fc3  kb2))
+(defparameter kb3 (onfact-kb fc3  kb2))
 KB3
 * (findfact kb3)
 NIL
 *
-(defparameter kb4 (reduce-kb fc4  kb3))
+(defparameter kb4 (onfact-kb fc4  kb3))
 KB4
 * (findfact kb4)
 (C88)
 =======
+
+now reduce-kb call onfact-kb and onfalse-kb
+
 
 
 ;;; image of proceduer
