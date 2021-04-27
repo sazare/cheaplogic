@@ -55,6 +55,9 @@ QEDは☕️でしめす。
 
 
 --- log
+2021/04/27火
+・load-rubbish.lispででていたwarningを見直したが、特に問題なさそう。
+
 2021/04/26月
 ・falsehood の処理を作ろう
   onfalse-kbを追加。
