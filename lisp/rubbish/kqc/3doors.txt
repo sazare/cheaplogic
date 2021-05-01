@@ -14,6 +14,19 @@
 (defparameter fwname "kqc/3doors/j3d-kb-extend.wff")
 (defparameter fkname "kqc/3doors/j3d-kb-extend.kqc")
 
+; use What and Is 
+(defparameter fwname "kqc/3doors/j3d-wis.wff")
+(defparameter fkname "kqc/3doors/j3d-wis.kqc")
+
+; use Is and Is 
+(defparameter fwname "kqc/3doors/j3d-isis.wff")
+(defparameter fkname "kqc/3doors/j3d-isis.kqc")
+
+; use What, Is, Has
+(defparameter fwname "kqc/3doors/j3d-do.wff")
+(defparameter fkname "kqc/3doors/j3d-do.kqc")
+
+;;;;
 (load "load-rubbish.lisp")
 (load "rubbish-wff.lisp")
 
@@ -30,16 +43,31 @@
 ;; fact reduction
 (load "load-rubbish.lisp")
 (load "rubbish-confact.lisp")
-(defparameter fkname "kqc/3doors/j3d-knowledge.kqc")
 
 (readekqc fkname)
 (init-kb)
 
+; case what 
 (defparameter fc1 (make-clause '(() (+ 大きい))))
 (defparameter fc2 (make-clause '(() (+ 大きい耳))))
 (defparameter fc3 (make-clause '(() (+ 長い鼻))))
 (defparameter fc4 (make-clause '(() (+ 動物))))
 
+;; case what is  and case is is
+(defparameter fc1 (make-clause '(() (+ Is 大きい))))
+(defparameter fc2 (make-clause '(() (+ Is 大きい耳))))
+(defparameter fc3 (make-clause '(() (+ Is 長い鼻))))
+(defparameter fc4 (make-clause '(() (+ Is 動物))))
+
+;; case what do
+(defparameter fc1 (make-clause '(() (+ Is 大きい))))
+(defparameter fc2 (make-clause '(() (+ Has 大きい耳))))
+(defparameter fc3 (make-clause '(() (+ Has 長い鼻))))
+(defparameter fc4 (make-clause '(() (+ Is 動物))))
+
+
+
+; test
 ; (setq f11 (car (bodyof fc1)))
 ; (resolve-id 'l1-1 f11)
 ; (resolve-id 'l1-2 f11)
@@ -108,8 +136,6 @@ KB4
 =======
 
 now reduce-kb call onfact-kb and onfalse-kb
-
-
 
 ;;; image of proceduer
 ; 1st try
