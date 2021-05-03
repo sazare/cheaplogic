@@ -1,4 +1,4 @@
-;kqc/3doors/j3d-do.kqc @ 20210401.163908
+;kqc/3doors/j3d-do.kqc @ 20210403.090951
 (NIL (+ WHAT 象) (- IS 大きい) (- HAS 大きい耳) (- HAS 長い鼻) (- IS 動物))
 (NIL (- WHAT 象) (+ IS 大きい))
 (NIL (- WHAT 象) (+ HAS 大きい耳))

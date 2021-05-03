@@ -1,4 +1,4 @@
-;kqc/3doors/j3d-kb-extend.kqc @ 20210325.094322
+;kqc/3doors/j3d-kb-extend.kqc @ 20210403.090857
 (NIL (+ WHAT 象) (- 大きい 体) (- 大きい 耳) (- 長い 鼻) (- 住処 陸) (- 動物))
 (NIL (- WHAT 象) (+ 大きい 体))
 (NIL (- WHAT 象) (+ 大きい 耳))

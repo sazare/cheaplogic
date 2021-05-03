@@ -1,0 +1,8 @@
+;; sample 
+
+(eqv (x) (+ P x)(- Q x)(+ R x x))
+(eqv () (+ P a)(- Q a)(+ R a a))
+(eqv (x y) (+ P x y)(- Q (f x)(g y))(+ R x x))
+(eqv ()  (+ P a b)(- Q (f a)(g b))(+ R a a))
+((x) (+ P x)(+ Q x)(+ R x x))
+

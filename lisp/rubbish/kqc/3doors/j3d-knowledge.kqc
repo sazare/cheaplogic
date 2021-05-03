@@ -1,4 +1,4 @@
-;kqc/3doors/j3d-knowledge.kqc @ 20210325.095410
+;kqc/3doors/j3d-knowledge.kqc @ 20210403.090837
 (NIL (+ WHAT 象) (- 大きい) (- 大きい耳) (- 長い鼻) (- 動物))
 (NIL (- WHAT 象) (+ 大きい))
 (NIL (- WHAT 象) (+ 大きい耳))

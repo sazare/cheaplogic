@@ -1,4 +1,4 @@
-;kqc/3doors/j3d-isis.kqc @ 20210401.162817
+;kqc/3doors/j3d-isis.kqc @ 20210403.090932
 (NIL (+ IS 象) (- IS 大きい) (- IS 大きい耳) (- IS 長い鼻) (- IS 動物))
 (NIL (- IS 象) (+ IS 大きい))
 (NIL (- IS 象) (+ IS 大きい耳))

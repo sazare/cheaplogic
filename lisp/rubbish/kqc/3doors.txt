@@ -1,6 +1,9 @@
 
 
 
+; sample
+(defparameter fwname "kqc/3doors/sample.wff")
+(defparameter fkname "kqc/3doors/sample.kqc")
 
 ; for english knowledge
 (defparameter fwname "kqc/3doors/3d-knowledge.wff")
@@ -9,6 +12,7 @@
 ; for japanese knowlegd
 (defparameter fwname "kqc/3doors/j3d-knowledge.wff")
 (defparameter fkname "kqc/3doors/j3d-knowledge.kqc")
+
 
 ; more free
 (defparameter fwname "kqc/3doors/j3d-kb-extend.wff")
@@ -25,6 +29,10 @@
 ; use What, Is, Has
 (defparameter fwname "kqc/3doors/j3d-do.wff")
 (defparameter fkname "kqc/3doors/j3d-do.kqc")
+
+; use What, Is, Has with var x
+(defparameter fwname "kqc/3doors/j3d-do2.wff")
+(defparameter fkname "kqc/3doors/j3d-do2.kqc")
 
 ;;;;
 (load "load-rubbish.lisp")
@@ -65,6 +73,11 @@
 (defparameter fc3 (make-clause '(() (+ Has 長い鼻))))
 (defparameter fc4 (make-clause '(() (+ Is 動物))))
 
+;; case what do with x
+(defparameter fc1 (make-clause '(() (+ Is a 大きい))))
+(defparameter fc2 (make-clause '(() (+ Has a 大きい耳))))
+(defparameter fc3 (make-clause '(() (+ Has a 長い鼻))))
+(defparameter fc4 (make-clause '(() (+ Is a 動物))))
 
 
 ; test
@@ -84,6 +97,8 @@
 
 (defparameter kb4 (reduce-kb fc4  kb3))
 (findfact kb4)
+
+(print-proof0 (car kb4))
 
 * 全部の条件がきえてunitにならないと答えとみなされない問題??
 

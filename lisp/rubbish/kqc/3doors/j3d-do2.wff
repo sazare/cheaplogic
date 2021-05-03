@@ -1,0 +1,19 @@
+;; all about the world
+;; use What and Is
+(eqv (x) (+ What x 象) (+ Is x 大きい)(+ Has x 大きい耳)(+ Has x 長い鼻)(+ Is x 動物))
+(eqv (x) (+ What x 兎) (+ Is x 小さい)(+ Has x 長い耳)(+ Has x 赤い目)(+ Is x 動物))
+(eqv (x) (+ What x 鯨) (+ Is x 大きい)(+ Behave 水を吹く)(+ Is x 海棲)(+ Is x 動物))
+(eqv (x) (+ What x ライオン) (+ Is x 肉食)(+ Is x 強い)(+ Is x 王様)(+ Is x 動物))
+(eqv (x) (+ What x 鷲) (+ Is x 肉食)(+ Is x 強い)(+ Is x 鳥)(+ Is x 動物))
+(eqv (x) (+ What x 雀) (+ Is x ありふれた)(+ Is x 茶色)(+ Is x 動物))
+(eqv (x) (+ What x フラミンゴ) (+ Is x 赤い)(+ Has x 長い首)(+ Is x 鳥)(+ Is x 動物))
+(eqv (x) (+ What x キリン) (+ Is x 大きい)(+ Has x 長い首)(+ Has x 斑模様)(+ Is x 動物))
+(eqv (x) (+ What x 熱帯魚) (+ Is x 鑑賞用)(+ Is x カラフル)(+ Is x 海棲)(+ Is x 動物))
+(eqv (x) (+ What x シマウマ) (+ Is x 縞模様)(+ Is x 中型)(+ Is x 馬)(+ Is x 動物))
+(eqv (x) (+ What x ユニコーン) (+ Is x 馬)(+ Is x 架空)(+ Is x 鳥)(+ Is x 動物))
+(eqv (x) (+ What x ラフレシア)(+ Is x 大きい)(+ Is x 臭い)(+ Is x 植物))
+(eqv (x) (+ What x バラ)(+ Is x 観賞用)(+ Is x 植物)(+ Is x 赤い)(+ Has x トゲ))
+(eqv (x) (+ What x バラ)(+ Is x 観賞用)(+ Is x 植物)(+ Is x 青い)(+ Has x トゲ))
+(eqv (x) (+ What x バラ)(+ Is x 観賞用)(+ Is x 植物)(+ Is x 白い)(+ Has x トゲ))
+(eqv (x) (+ What x ポスト)(+ Is x 赤い)(+ Do 郵便業務)(+ Is x 物体))
+
