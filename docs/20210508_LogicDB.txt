@@ -1,0 +1,61 @@
+論理データベース
+
+知識を論理式で表現し、前提の事実と問を与えることで、問の答を求めるしくみ。
+
+SAT solverなのか?
+　KnuthのArt of 1
+　最近の動向について書かれた論文を読め
+　　SAT ソルバーの基礎 Foundations of SAT Solvers by 井上 克巳 田村 直之
+　** 
+　対象は命題論理。
+　一般に多項式時間で解けない。問題の種類によって違うかも。
+
+　変数がはいると、
+
+　なんとなくValidと呼んでいたのは充足可能なのか?
+　validは恒真であり個々の解釈によらない。
+
+　clauseに真なliteralが含まれるとそのclauseは真になり、clause setから除去できる。
+　この場合、clauseはsetの中のfactを真としたとき、真となるclauseである。
+　そういう点ではValidでいいのではないか?
+　
+　clause setにfactを追加すれば、factで制約されたうえで、集合に含まれる不明なunit clauseは
+　充足可能なclauseであり、それはほしいものになるはず。
+  factによって制約された解釈で、問題のclauseが真になるかどうかという問題だと考えると
+　SATソルバーで解決できそう。
+
+　変数があるかないか・・・Alloyは変数使っていたような気がする。
+　どうやっているのかな? githubにはなさそう。
+　違法コピーと命名されたrepositoryはあった。ここにAlloy anazlyserは別repositoryに
+　あると書かれている。
+　ElectrumはAlloyと無関係ではなさそう。
+　Software Design Groupのメンバーなので、つながっているのだろう。
+
+  Electrum Analyzer (https://github.com/haslab/Electrum)のreadmeに、
+　これはもうメンテされておらず、新しいrepositoryはここ
+　https://github.com/haslab/Electrum2
+　のreadmeに、Electrum2はAlloyのextensionだと書かれていた。　
+　また、alloyはhttps://github.com/AlloyTools/org.alloytools.alloyはAlloy5らしい。
+　しかしalloyのgithubリポジトリはなくて、非公式のこれがgoogleで検索できた。
+　
+　https://github.com/beckus/AlloyAnalyzer
+
+　readmeにあるmirrorもとのリポジトリ(?)は存在しなかった。
+　しかし、githubでalloytoolで検索するとこれがみつかった。
+
+　https://github.com/AlloyTools/org.alloytools.alloy
+　さて。
+
+　Alloyでは、factの中に∀xはかける。
+　structのような構造が定義できて、∀というのは
+　無制限の∀ではなく、モデルの部分として制約されたものについての∀。
+　例のコメントには、predicate declarationとある。
+
+
+****
+  ここに、SATプログラムの基本として書かれていた
+　　Machine Program for Theorem-Provingt by Martin Davis, George Logemann, and Donald Loveland
+
+
+
+
