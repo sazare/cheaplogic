@@ -1,0 +1,75 @@
+; flash light with EOLO
+
+(defparameter fwname "kqc/FL/flash001.wff")
+(defparameter fkname "kqc/FL/flash001.kqc")
+
+
+(load "load-rubbish.lisp")
+(load "rubbish-confact.lisp")
+
+(readekqc fkname)
+(init-kb)
+
+(defparameter fc1 (make-clause '(() (- FL light))))
+(defparameter fc2 (make-clause '(() (+ SW on))))
+(defparameter fc3 (make-clause '(() (+ BAT empty))))
+
+(defparameter kb1 (reduce-kb fc1 *kb*))
+(findfact kb1)
+
+(defparameter kb2 (reduce-kb fc2  kb1))
+(findfact kb2)
+
+;; 手で実行 flash001.lisp
+
+* (readekqc "kqc/FL/flash001.kqc")
+
+* (dump-clausex )
+C3=(VARS NIL NAME C3)
+ L3-1 (- FL LIGHT) = (OLID L3-1 PLID NIL CID C3)
+ L3-2 (+ SW ON) = (OLID L3-2 PLID NIL CID C3)
+C2=(VARS NIL NAME C2)
+ L2-1 (- FL LIGHT) = (OLID L2-1 PLID NIL CID C2)
+ L2-2 (- BAT EMPTY) = (OLID L2-2 PLID NIL CID C2)
+C1=(VARS NIL NAME C1)
+ L1-1 (+ FL LIGHT) = (OLID L1-1 PLID NIL CID C1)
+ L1-2 (+ BAT EMPTY) = (OLID L1-2 PLID NIL CID C1)
+ L1-3 (- SW ON) = (OLID L1-3 PLID NIL CID C1)
+NIL
+* (defparameter fc1 (make-clause '(() (- FL light))))
+FC1
+* (defparameter fc2 (make-clause '(() (+ SW on))))
+FC2
+
+; first step by -FL(libht) "あかりがつかない"
+* (defparameter kb1 (reduce-kb fc1 *kb*))
+KB1
+
+; second step +SW(on) "スイッチはいれている"
+* (findfact kb1)
+NIL
+*
+(defparameter kb2 (reduce-kb fc2  kb1))
+KB2
+* (findfact kb2)
+(C9)
+
+;ここで lemma/doubt (unit ground clause) がC9
+
+* (dump-clause 'c9)
+C9=(PROOF (RESOLUTION NIL NIL (L5-1 L6-2)) VARS NIL NAME RESOLVENT)
+ L9-1 (+ BAT EMPTY) = (OLID L1-2 PLID L6-1 CID C9)
+NIL
+
+; +BAT(empty)かどうか?
+; 実験すると -BAT(empty)となり、これが矛盾することがわかる。
+
+また、
+* (pcode 'c9)
+(L5-1 L4-1 L1-3 L1-1)
+
+なので L1-2つまり+BAT(empty)が"矛盾の原因だろう/factでない"と考えられ、doubtとみなせる。
+
+
+
+

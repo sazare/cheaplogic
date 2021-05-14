@@ -1,0 +1,4 @@
+;kqc/FL/flash001.kqc @ 20210414.155713
+(NIL (+ FL LIGHT) (+ BAT EMPTY) (- SW ON))
+(NIL (- FL LIGHT) (- BAT EMPTY))
+(NIL (- FL LIGHT) (+ SW ON))

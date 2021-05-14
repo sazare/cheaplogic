@@ -33,7 +33,7 @@
 ; use What, Is, Has with var x
 (defparameter fwname "kqc/3doors/j3d-do2.wff")
 (defparameter fkname "kqc/3doors/j3d-do2.kqc")
-
+n
 ;;;;
 (load "load-rubbish.lisp")
 (load "rubbish-wff.lisp")

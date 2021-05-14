@@ -1,0 +1,25 @@
+;; all about the world
+;; use What and Is
+(eqv ()(+ FL light) (- BAT empty)(+ SW on) )
+
+;;;
+; FL is an primally observable predicate
+; SW is an primally observable predicate
+; BAT is a secondary observable predicate
+
+;; FL light on is the first observable function
+;; SW is also the first observable function
+;;; FL an SW can be known by a grance.
+
+;; BAT is known by a some effort to check the battery's capacity. 
+;; It shuld be a fact also, but not be find at a grance.
+
+;; These difference of the predicates is the realiability of the fact/
+
+;
+;; below made in *llisp
+;(() (- FL light))
+;(() (+ SW on))
+;(() (+ BAT empty))
+
+
