@@ -22,6 +22,7 @@
 
 ;; this should be +Bat(empty) not fact but lemma
 
+;; below make no resolvent. beacause passed.
 (defparameter kb3 (reduce-kb fc3  kb2))
 (findfact kb3)
 
