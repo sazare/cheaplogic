@@ -1,0 +1,47 @@
+dubiousが1つにならない場合
+
+ (1) +FL(light)-SW(on)+BAT(empty)-Circ(conn)
+ (2) -FL(light)+SW(on)
+ (3) -FL(light)-BAT(empty)
+ (4) -FL(light)+Circ(conn)
+
+の場合、
+　観測が
+　　(f1) -FL(light)
+　　(f2) +SW(on)
+
+の場合
+　(r1) (1)x(f1)x(f2) +BAT(empty)-Circ(conn)
+　(2)(3)(4)は(f1)で除去
+
+のこるgoalは
+　(r1) +BAT(empty)-Circ(conn)
+
+これは、電池切れなのか断線なのかどちらかだと言っているのか?
+　両方が原因だということなのか?
+
+　(r1)は+BAT(empty)か-Circ(conn)の両方が否定されないと[]にならない。
+
+　(1)についていえば、+SW(on), -BAT(empty), +Circ(conn)がすべて成り立つと
+　+FL(light)となる。
+　
+　-FL(light)がfactの場合は、(2)(3)(4)とのresolventを残すほうがただしそう。
+　でもない。
+　-FL(light)が正しいのならば、(2)(3)(4)はvalidとなり使えないので、除去でOK。
+
+****
+　(r1)は、もし-BAT(empty)なら-Circ(conn)が原因だというのだし
+　もし+Circ(conn)が確認できたら+BAT(empty)が原因だといっている。
+
+　(r1)は原因はどちらかだといっている。という点で正しい。
+
+　そういう解釈ができるということは、ΣはFL(light)について語っているという
+　前提がある。
+
+　factを適用していくにつれて、Σの話題が絞り込まめるという感じがする。
+　(r1)は、-FL(lignt)かつ+SW(on)前提なので、(r1)から[]がでたら、
+　-FL(light)と+SW(on)の原因を示していると考えられる。
+
+　(1)についての解釈は、何も前提がない
+
+

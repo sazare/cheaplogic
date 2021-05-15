@@ -22,3 +22,7 @@
 
 ;; this should be +Bat(empty) not fact but lemma
 
+(defparameter kb3 (reduce-kb fc3  kb2))
+(findfact kb3)
+
+

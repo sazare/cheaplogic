@@ -2,6 +2,9 @@
 ;; use What and Is
 (eqv ()(+ FL light) (- BAT empty)(+ SW on) )
 
+;;; (BAT empty) or (BAT enough)
+;;  I intend to have a negative in rhs. 
+
 ;;;
 ; FL is an primally observable predicate
 ; SW is an primally observable predicate

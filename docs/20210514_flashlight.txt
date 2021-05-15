@@ -20,6 +20,9 @@
 (defparameter kb2 (reduce-kb fc2  kb1))
 (findfact kb2)
 
+(defparameter kb3 (reduce-kb fc3  kb2))
+(findfact kb3)
+
 ;; 手で実行 flash001.lisp
 
 * (readekqc "kqc/FL/flash001.kqc")
@@ -71,5 +74,53 @@ NIL
 なので L1-2つまり+BAT(empty)が"矛盾の原因だろう/factでない"と考えられ、doubtとみなせる。
 
 
+***** 問を作ることについて
+・-FL(light)と+SW(on)はFlashlightの基本的な機能についてのfactだと思う。
+・では-BAT(empty)は何故あとまわしになるのか?
 
+　問を作る時、どの順番で観測していくのかということになる。
+
+　何で決まるのか??
+
+
+　容易に観察されるfactは優先されるだろう。
+　記述される事態について重要な事柄は優先されるだろう。
+　「スイッチを入れると灯りがつく」
+
+　「電池が空ではない」
+
+　もしもすべてのfactが同時に得られたのならば、
+  flash001.lispのkb3はoppoがないので新しいresolventはできない。
+　これは[]ができないということで、最後のkb2は消去されなかった。
+
+　goalには+BAT(empty)があるが、factは+BAT(empty)なのですれちがう。
+
+　順番が違って、-FLより先に+BATが適用されると
+　-FL(light) -BAT(empty)
+　+BAT(empty)
+　がresolveされるので、
+　-FL(light) 
+　が残ってfact/dubiousとなる。
+　FLについてのfactは、この段階で確認したとすると
+　-FL(light)
+　ですれちがう。
+　いずれにせよ[]はでず、-FL(light)がキーとなることがわかる。
+　[]がでないという点については、どっちが先でも同じ。
+
+　+BAT(empty)か-FL(light)か
+
+　FLは観察結果
+　SW()は操作なので確実なfact
+
+　という観点と、BAT()はやや手間のかかる観測になる。
+
+
+
+
+
+
+
+
+
+　
 

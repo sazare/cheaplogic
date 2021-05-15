@@ -1,0 +1,15 @@
+prefix 'j' file use japanese preicate name. no 'j' just english
+Japanese encoding are availabe in sbcl 2.0.
+
+sample.wff        : sample wff and kqc.
+
+3d-knowledge.wff  : What and Propo over only some animals(small)
+j3d-knowledge.wff : What and Propo over animals and plants
+
+j3d-wis.wff       : What and Is predicates, but Propo
+*j3d-isis.wff      : only Is predicate used and work, but Propo
+
+j3d-do.wff        : no variable, What, Is, Has used but Propo.
+j3d-do2.wff       : What, Is, Has but use variables not Propo. But just like Propo.
+
+j3d-kb-extend.wff : introduce hierarchy rules over animal,plants in life. not deep examined yet
