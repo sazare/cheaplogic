@@ -41,6 +41,7 @@
    - (RawCream 200)
    - (Sugar 2)
    - (Strawberry any)
+   - 
 #### Cooking
 これは、もとのレシピをそのまま書き直したもの。不十分。
 方針
@@ -62,6 +63,7 @@
    
    (Strawberry x) <=> (StrawberryIn y) and (StrawberryOn z) and x=y∪z
    最初からむずかしい
+   
    3) (Cream w) and (Step3 w) and (Whip x w) and (InBall x y z) and (RawCream y) and (Sugar z)
    4) (Step4 z) and (IsMelenge z) and (Sugar y) and (EggWhite z) and (InBall x y z) and (Beat x z)
    5) (EggYolks x) and (Subar y) and (BowlIn x y z) and (Mottari w) and (MixHard z w) and (Step5 w)
@@ -85,6 +87,15 @@
 「生クリーム」と「クリーム」の違いはどうした。後半は、「生クリーム」ばかりでてきて、「クリーム」はどこで使っているのか?
 メレンゲ状になったものは「クリーム」で、あとでケーキに塗っているのは「生クリーム」ということらしい。
 ```
+
+#### ふりかえり
+- (StepN )はいかにも手続きだ。ここの状態でなく、手続き的な観点からの状態。
+	- レシピなのである程度は仕方ないにしても
+	- 個々の状態(たとえば Melengeなどの状態にもとづく)
+
+
+
+
 
 ### 手続きの取り出しかた(検討事項)
 手順を残したい場合、Φ(x){p(x;y)}ψ(x,y) と書くところ、こうもかけるのでは?
