@@ -1,0 +1,31 @@
+; Recipe of Cake 1
+;; ref :  docs/20210522_CakeRecipe3.md
+;; all literals have oppos
+
+;; goal 
+(1 (Z) (- Dough Z))
+;(1 (Z) (- D1 Z))
+
+;; preparation(some kinds of facts)
+(() (+ Fresh freshclean))
+; 3 times suger used namely 3 different sugar unit
+(() (+ Sugarp sugar1))
+(() (+ Sugarp sugar2))
+(() (+ Sugarp sugar3))
+(() (+ EggWhite white))
+(() (+ EggYellow yellow))
+(() (+ Rice riceflaur))
+(() (+ Milkp milk))
+
+;; manipulations, (1) these literal remain after
+((x y) (+ Whipp x y (whip x y)))
+((x y) (+ Bowlp x y (inbowl x y)))
+((x y) (+ Mixp x y (mix x y)))
+
+;; recipe
+((x y z) (- Fresh x) (- Sugarp y) (- Whipp x y z) (+ Cream z))
+((x y z w) (- EggWhite x) (- Sugarp y) (- Bowlp x y z) (- Mixp z w) (+ Melenge w))
+((x y z w) (- EggYellow x) (- Sugarp y) (- Bowlp x y z) (- Mixp z w) (+ Mixed w))
+((x y z) (- Mixed x) (- Rice y) (- Mixp x y z) (+ D1 z))
+((x y z) (- D1 x) (- Milkp y) (- Mixp x y z) (+ D2 z))
+((x y z) (- D2 x) (- Melenge y) (- Mixp x y z) (+ Dough z))

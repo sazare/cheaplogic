@@ -232,4 +232,24 @@
 )
 
 
+;;;;; goal trace of cid(from contrdiction)
+(defun list-step (cid)
+  (when (proofof cid)
+    (cons cid
+      (let ((rp (rpairof cid)))
+        (append 
+          (list-step (cidof (car rp)))
+          (list-step (cidof (cadr rp)))
+        )
+      )
+    )
+  )
+)
+
+(defun list-mgu(conid)
+  (loop for cid in (list-step conid)
+    collect
+       (list cid (proofof cid))
+  )
+)
 

@@ -141,7 +141,9 @@
          (setq goallist (append goallist newgoals))
          (setq newgoal nil)
          (setq *goallist* goallist)
-      
+     
+         (rubbish-log :goallist goallist)
+ 
          (cond
            ((> (length *clist*) *max-clauses*) 
             (return-from prover-loop (quit-contra "number of clauses exceeds" time-start contradictions valids)))
