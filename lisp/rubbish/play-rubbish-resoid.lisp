@@ -1,4 +1,4 @@
-;; play from 0 to resoid
+; play from 0 to resoid
 
 (load "load-rubbish.lisp")
 ;(load "rubbish-resoid.lisp")

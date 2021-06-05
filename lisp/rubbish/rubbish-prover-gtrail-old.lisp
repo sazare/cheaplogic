@@ -1,6 +1,10 @@
 ;; prover with goal trailer
 ;; template for goal trailer prover
 
+;; step-solver quit when a orphan found.
+;; It is an old day paradigm.
+;; This code is for the old days.
+
 ;(load "load-rubbish.lisp")
 ;(readkqc "kqc/file/path")
 ;(make-lsymlist *llist*)
@@ -51,26 +55,16 @@
 
 (defparameter *enable-semantics* t)
 
-(defun findoppos (goal)
-  (let (oppos)
-    (loop for target in (bodyof goal) 
-      do 
-        (if (setq oppos (find-oppolids target))
-           (return  (values target oppos))
-           (format t "orphan lsym ~a in ~a.~%" target goal)
-        )
-    )
-  )
-)
-
 ;;; a step of solver, a controller of the step.
 (defun step-solver (goal) 
   (let (target oppos (newgoals ()) res) ;step1 select a lid in goal ; CASE CID
-    (if (null goal)
+    (if (null (bodyof goal))
       nil   ; this should not be happen. because nil = contradiction is immediately removed at generated from goal.
-      (setf (values target oppos) (findoppos goal)) ; this is a first attempt to investigate the prover.
-    )
-    (loop for oppo in oppos  do
+      (setq target (car (bodyof goal))) ); this is a first attempt to investigate the prover.
+    (setq oppos (find-oppolids target))
+    (if (null oppos) 
+      (format t "orphan lsym ~a~% this cid ~a can't become [].~%" target goal))
+    (loop for oppo in oppos do
       (setq res (resolve-id target oppo))
       (unless (eq :FAIL res)
 ;; reduction = remove the literals by peval=NIL , remove the goal by peval=T.
@@ -85,7 +79,6 @@
     newgoals
   )
 )
-
 
 (defun show-parameter (time-start)
     (format t 

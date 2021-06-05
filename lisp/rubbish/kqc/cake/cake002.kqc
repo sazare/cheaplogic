@@ -1,0 +1,32 @@
+; Recipe of Cake 1
+;; ref :  docs/20210522_CakeRecipe3.md
+;; prev:  kqc/cake/cake001.kqc
+;;; 1) Sugarp[123] to Sugarp
+;;; 2) let postfix of proc pred, changed p to pr
+
+;; goal 
+(1 (Z) (- Dough Z))
+;(1 (Z) (- D1 Z))
+
+;; preparation(some kinds of facts)
+(() (+ Fresh freshclean))
+; 3 times suger used namely 3 different sugar unit
+(() (+ Sugarp sugar1))
+(() (+ EggWhite white))
+(() (+ EggYellow yellow))
+(() (+ Rice riceflaur))
+(() (+ Milkp milk))
+
+;; manipulations, (1) these literal remain after
+;((x y) (+ Whippr x y (whip x y)))
+;((x y) (+ Bowlpr x y (inbowl x y)))
+;((x y) (+ Mixpr x y (mix x y)))
+
+;; recipe
+((x y z) (- Fresh x) (- Sugarp y) (- Whippr x y z) (+ Cream z))
+((x y z w) (- EggWhite x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Melenge w))
+((x y z w) (- EggYellow x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Mixed w))
+((x y z) (- Mixed x) (- Rice y) (- Mixpr x y z) (+ D1 z))
+((x y z) (- D1 x) (- Milkp y) (- Mixpr x y z) (+ D2 z))
+((x y z) (- D2 x) (- Melenge y) (- Mixpr x y z) (+ Dough z))
+
