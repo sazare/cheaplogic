@@ -3,6 +3,8 @@
 ;; prev:  kqc/cake/cake001.kqc
 ;;; 1) Sugarp[123] to Sugarp
 ;;; 2) let postfix of proc pred, changed p to pr
+;;; clearer pred symbol
+
 
 ;; goal 
 (1 (Z) (- Dough Z))
@@ -21,6 +23,9 @@
 ;((x y) (+ Whippr x y (whip x y)))
 ;((x y) (+ Bowlpr x y (inbowl x y)))
 ;((x y) (+ Mixpr x y (mix x y)))
+
+;; or after state of a procedure become fact by EO
+;; how combinate them.
 
 ;; recipe
 ((x y z) (- Fresh x) (- Sugarp y) (- Whippr x y z) (+ Cream z))
