@@ -1,8 +1,9 @@
 ; Recipe of Cake 1
+;; until made Kiji of cake
 ;; ref :  docs/20210522_CakeRecipe3.md
 ;; prev:  kqc/cake/cake001.kqc
 ;;; 1) Sugarp[123] to Sugarp
-;;; 2) let postfix of proc pred, changed p to pr
+;;; 2) let postfix of proc pred, changed p to pr 
 ;;; clearer pred symbol
 
 

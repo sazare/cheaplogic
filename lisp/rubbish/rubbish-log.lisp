@@ -10,7 +10,7 @@
 )
 
 (defun logshow ()
-  (loop for log in *rubbish-log* 
+  (loop for log in (reverse *rubbish-log* )
     do (format t "~a~%" log)
   )
 )

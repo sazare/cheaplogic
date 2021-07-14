@@ -2,8 +2,21 @@
 
 ;(load "kqc/cake/cake001.lisp")
 
-(defparameter fkname "kqc/cake/cake001a.kqc")
-(defparameter fkname "kqc/cake/cake001.kqc")
+
+; 調査メインかな
+; 関数定義のclauseをコメントアウト。実行可能literalと考える
+; Sugarp[123]の区別をいれてみている
+: 定数もsugarp[123]がはいっている
+; 判定述語は末尾がp
+(defparameter fkname "kqc/cake/cake001.kqc") 
+
+;; 001のバックアップかな
+;; Sugarp[123]でSugarpをわけて書いている
+;; 述語記号はみんなopposがあるように書いた
+;; これは重要ではない。微妙になる
+(defparameter fkname "kqc/cake/cake001a.kqc") 
+
+; 実行述語名は末尾がp、IDaxiomは使わない
 (defparameter fkname "kqc/cake/cake002.kqc")
 
 (load "load-rubbish.lisp")

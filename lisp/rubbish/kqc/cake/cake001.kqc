@@ -1,5 +1,6 @@
 ; Recipe of Cake 1
 ;; ref :  docs/20210522_CakeRecipe3.md
+;; remain proc literals at [] 
 
 ;; goal 
 (1 (Z) (- Dough Z))
