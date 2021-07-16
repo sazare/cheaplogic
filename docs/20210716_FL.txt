@@ -1,0 +1,36 @@
+懐中電灯　故障箇所発見
+
+
+・機能と構造をわけてかく
+・その関係も書く
+
+Function
+1. FL(on, bright)
+2. FL(off, dark)
+
+
+Structure
+
+1. Lamp
+  Lamp(bright)
+  Lamp(dark)
+
+2. Switch
+  Switch(on)
+  Switch(off)
+
+
+4. Battery
+  Battery(empty)
+  Battery(some)
+
+
+3. Circuit
+  Connect(x,y)
+
+  Device(lamp)
+  Device(switch)
+  Device(battery)
+  Device(wire)
+
+

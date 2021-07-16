@@ -1,0 +1,24 @@
+;; Flash Light with function and structure
+
+
+;; a fact when using 
+; (a () (+ FL on da))
+; (b () (- FL on br))
+;; (x () (+ FL off da)) still true
+
+;; function Σ1
+(() (+ FL on br))
+(() (+ FL off da))
+
+
+;; structure Σ0
+(()(+ Conn sw lamp))
+(()(+ Conn lamp bat))
+(()(+ Conn bat sw))
+(()(- Empty bat))
+
+
+;; Σ1, b ⇨ []
+;; Σ1, a ⇨ still
+;; Σ0 and Σ1 and b can find the cause of failure?
+
