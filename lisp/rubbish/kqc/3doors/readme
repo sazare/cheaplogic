@@ -1,0 +1,39 @@
+readme
+3doors.txt
+
+1. definitive code
+j3d-do2.kqc
+j3d-do2.lisp
+j3d-do2.wff
+
+2. other experimental codes
+3d-knowledge.kqc
+3d-knowledge.lisp
+3d-knowledge.wff
+
+j3d-do.kqc
+j3d-do.lisp
+j3d-do.wff
+
+j3d-isis.kqc
+j3d-isis.lisp
+j3d-isis.wff
+
+j3d-kb-extend.kqc
+j3d-kb-extend.lisp
+j3d-kb-extend.wff
+
+j3d-knowledge.kqc
+j3d-knowledge.lisp
+j3d-knowledge.wff
+
+j3d-wis.kqc
+j3d-wis.lisp
+j3d-wis.wff
+
+;; sample code for wff
+sample.kqc
+sample.wff
+
+3d.senario
+3dk.kqc

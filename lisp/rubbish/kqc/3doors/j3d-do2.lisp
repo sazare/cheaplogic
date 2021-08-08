@@ -11,10 +11,10 @@
 (init-kb)
 
 
-(defparameter fc1 (make-clause '(() (+ Is a 大きい))))
-(defparameter fc2 (make-clause '(() (+ Has a 大きい耳))))
-(defparameter fc3 (make-clause '(() (+ Has a 長い鼻))))
-(defparameter fc4 (make-clause '(() (+ Is a 動物))))
+(defparameter fc1 (make-clause '(() (+ Is it 大きい))))
+(defparameter fc2 (make-clause '(() (+ Has it 大きい耳))))
+(defparameter fc3 (make-clause '(() (+ Has it 長い鼻))))
+(defparameter fc4 (make-clause '(() (+ Is it 動物))))
 
 
 (defparameter kb1 (reduce-kb fc1 *kb*))

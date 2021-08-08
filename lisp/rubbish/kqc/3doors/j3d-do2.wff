@@ -1,4 +1,6 @@
-;; all about the world
+;; 3doors, definitive version 2021/08/08
+
+;; all about the world of a challenger
 ;; use What and Is
 (eqv (x) (+ What x 象) (+ Is x 大きい)(+ Has x 大きい耳)(+ Has x 長い鼻)(+ Is x 動物))
 (eqv (x) (+ What x 兎) (+ Is x 小さい)(+ Has x 長い耳)(+ Has x 赤い目)(+ Is x 動物))
