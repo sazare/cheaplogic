@@ -18,16 +18,17 @@
 
 
 (defparameter kb1 (reduce-kb fc1 *kb*))
-(findfact kb1)
 
 (defparameter kb2 (reduce-kb fc2  kb1))
-(findfact kb2)
 
 (defparameter kb3 (reduce-kb fc3  kb2))
-(findfact kb3)
 
 (defparameter kb4 (reduce-kb fc4  kb3))
-(findfact kb4)
+
+(unless (findfact kb1) (format t "OK1~%"))
+(unless (findfact kb2) (format t "OK2~%"))
+(unless (findfact kb3) (format t "OK3~%"))
+(when (findfact kb4) (format t "OK4--final ~%"))
 
 (print-proof0 (car kb4))
 
