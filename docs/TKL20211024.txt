@@ -1,0 +1,9 @@
+tkl/tkのインストール
+https://kamuycikap.hatenablog.com/entry/2020/12/16/215030
+
+
+(ql:quickload :ltk)
+(in-package :ltk)
+(ltktest)
+
+
