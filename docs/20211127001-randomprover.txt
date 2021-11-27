@@ -1,0 +1,27 @@
+random-sort
+
+experiment: random matching resolvent pair.
+　DNAや化学反応のように、対がランダムに選ばれてどうなるか
+　
+
+前提
+　factに基づく証明
+　あらかじめ知識Σを持つ。知覚装置によりfact(p)を得る。
+　[p:s] ゞs in Σ　
+
+  goal、Σとfactがある。
+
+記号
+　<a:b> = σ ... mgu of a,b　
+  (L) ... Lを含むclause
+　¬L ... リテラルLの否定
+  [a:b]はaと¬bを対消滅させた(a)と(b)のresolvent
+
+
+・ランダムに選んでも証明はできる。
+・証明=計算の効率は考慮しない。
+
+
+・clauseがfactを変換する。するかしないか。
+　(clause) は clause(fact) => newclause
+
