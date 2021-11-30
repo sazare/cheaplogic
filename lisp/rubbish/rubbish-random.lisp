@@ -8,16 +8,20 @@
 
 (defun remove-nth (xl n)
   "seems to slow to remove-elem"
-  (loop for i from 0 to (length xl) unless (eq i n) collect (nth i xl))
+  (loop for i from 0 to (- (length xl) 1) unless (eq i n) collect (nth i xl))
+)
+
+(defun separate (n xl)
+  "values of nth and remainder"
+  (values (nth n xl) (remove-nth xl n))
 )
 
 (defun random-sort (xl)
   "shaffle x"
   (if (null xl) nil
-      (let ((n (random (length xl))))
-        (cons (nth n xl)
-            (random-sort (remove-elem xl (nth n xl)))
-        )
+      (let (x r)
+        (multiple-value-setq (x r) (separate (random (length xl)) xl))
+        (cons x (random-sort r))
       )
   )
 )
