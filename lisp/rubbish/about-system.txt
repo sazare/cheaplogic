@@ -1,0 +1,24 @@
+about gtrail system 
+
+1. gtrail.asd is defined.
+
+2.  in the asd, rubbish-package.lisp is loaded at last.
+so
+
+3.  sbcl
+* (asdf:load-system :gtrail)
+
+now i in package :rubbish
+
+4.  and then,
+as play-prover-gt-ml002.lisp
+ the following is a session
+
+(setq *max-clauses* 50)
+(setq *max-trials* 100)
+(setq *max-steps* 100)
+(setq *timeout-sec* 1)
+
+(play-prover-gtrail '(1) "kqc/ml002.kqc")
+
+

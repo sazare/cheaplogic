@@ -17,4 +17,5 @@
     :dump-clausex
     )
  )
+(in-package :rubbish)
 
