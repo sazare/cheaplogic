@@ -1,6 +1,8 @@
 ;; rubbish-base.lisp
 ;; preload oneof rubbish-gen.lisp or rubbish-gen-noran.lisp
 
+(in-package :rubbish)
+
 ;; isterm ... may be use
 (defun isterm (e)
   (cond 

@@ -1,6 +1,8 @@
 ;; prover with goal trailer
 ;; template for goal trailer prover
 
+(in-package :rubbish)
+
 ;(load "load-rubbish.lisp")
 ;(readkqc "kqc/file/path")
 ;(make-lsymlist *llist*)

@@ -1,5 +1,27 @@
 about gtrail system 
 
+2021/12/12 ... asdファイルミスだった
+
+xx (in-package :rubbish)のあと
+xx play-prover-gtrailがみつからない
+各lispの中に(in-package)が必要だった。
+
+workディレクトリにlispとgtrail.asdをコピーして
+それぞれのlispに(in-package :rubbish)をいれてみたが
+load-systemではうまくいかない。
+この修正のあと、
+(load "load-rubbish.lisp")ならrubbishの中にはいる。
+
+systemがあちこちに定義分散しているので、なにかずれているのかも。
+load-systemのあと、packageつけなければ*max-steps*がみえる。
+ということは、それぞれのlispでpackageが変わっていないのか。
+
+わからん 2022/2/5
+
+ooo わかった。つまり、asdの場所が、workの下になっていなかったから、もとのasdを使っていた。ようだ
+workのしたのasdを~/.commonlispにln -sしたら動いた。(asdf:load-system :gtrailw)
+
+
 1. gtrail.asd is defined.
 
 2.  in the asd, rubbish-package.lisp is loaded at last.
@@ -8,7 +30,7 @@ so
 3.  sbcl
 * (asdf:load-system :gtrail)
 
-now i in package :rubbish
+* (in-package :rubbish)
 
 4.  and then,
 as play-prover-gt-ml002.lisp
@@ -22,3 +44,57 @@ as play-prover-gt-ml002.lisp
 (play-prover-gtrail '(1) "kqc/ml002.kqc")
 
 
+ccccccc
+
+(load "load-rubbish.lisp")
+;(require :rubbish)
+;(require :gtrail)
+
+;; play for prover
+
+(setq *max-clauses* 50)
+(setq *max-trials* 100)
+(setq *max-steps* 100)
+(setq *timeout-sec* 1)
+
+(play-prover-gtrail '(1) "kqc/ml002.kqc")
+
+(play-prover-gtrail '(1) "../kqc/ml002.kqc")
+
+      (:file "rubbish-essential")
+      (:file "rubbish-gen")
+      (:file "rubbish-base")
+      (:file "rubbish-kqcio")
+      (:file "rubbish-unif")
+      (:file "rubbish-reso")
+      (:file "rubbish-setup-unif")
+      (:file "rubbish-statistics") ; for resoid
+      (:file "rubbish-resoid")
+      (:file "rubbish-print")
+      (:file "rubbish-proof")
+      (:file "rubbish-prover")
+      (:file "rubbish-prover-gtrail")
+      (:file "rubbish-peval")
+      (:file "rubbish-semantx")
+      (:file "rubbish-log")
+
+
+    (
+      (:file "rubbish-package")
+      (:file "rubbish-essential" :depends-on ("rubbish-package"))
+      (:file "rubbish-gen" :depends-on ("rubbish-package"))
+      (:file "rubbish-base" :depends-on ("rubbish-package"))
+      (:file "rubbish-kqcio" :depends-on ("rubbish-package"))
+      (:file "rubbish-unif" :depends-on ("rubbish-package"))
+      (:file "rubbish-reso" :depends-on ("rubbish-package"))
+      (:file "rubbish-setup-unif" :depends-on ("rubbish-package"))
+      (:file "rubbish-statistics" :depends-on ("rubbish-package"))
+      (:file "rubbish-resoid" :depends-on ("rubbish-package"))
+      (:file "rubbish-print" :depends-on ("rubbish-package"))
+      (:file "rubbish-proof" :depends-on ("rubbish-package"))
+      (:file "rubbish-prover" :depends-on ("rubbish-package"))
+      (:file "rubbish-prover-gtrail" :depends-on ("rubbish-package"))
+      (:file "rubbish-peval" :depends-on ("rubbish-package"))
+      (:file "rubbish-semantx" :depends-on ("rubbish-package"))
+      (:file "rubbish-log" :depends-on ("rubbish-package"))
+    )

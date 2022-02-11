@@ -1,4 +1,7 @@
 ;; rubbish-statistics.lisp
+
+(in-package :rubbish)
+
 ; variables for statistics
 
 (defparameter *num-of-input-literals* 0)   ;

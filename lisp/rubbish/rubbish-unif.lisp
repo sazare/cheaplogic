@@ -1,5 +1,7 @@
 ;; disag and unify
 
+(in-package :rubbish)
+
 ;; primitives
 (defun isvar (vars sym)
   (member sym vars)

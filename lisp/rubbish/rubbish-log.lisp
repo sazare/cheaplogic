@@ -1,6 +1,6 @@
 ;; logging 
 
-
+(in-package :rubbish)
 
 ;; *rubbish-log*
 (defparameter *rubbish-log* nil)

@@ -1,4 +1,7 @@
 ;; rubbish-semantx.lisp
+
+(in-package :rubbish)
+
 ;; peval => peval-id => apply-semantx
 
 (defun map-to-semantx (lid)

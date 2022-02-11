@@ -1,4 +1,7 @@
 ; rubbish-proof.lisp
+
+(in-package :rubbish)
+
 ;; proof manager
 
 ;; find all contradictions

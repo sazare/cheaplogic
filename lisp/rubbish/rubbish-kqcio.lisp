@@ -1,5 +1,7 @@
 ;; io functions of kqc
 
+(in-package :rubbish)
+
 ;; one level read and clausify
 
 (defun readafile0 (fname)

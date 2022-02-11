@@ -1,4 +1,7 @@
 ;rubbish-peval.lisp
+
+(in-package :rubbish)
+
 ;; peval = partial evaluation
 ;; 
 ;; peval eval ground term to a value, but if it causes an error,

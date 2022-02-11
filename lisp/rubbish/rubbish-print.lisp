@@ -1,5 +1,7 @@
 ;rubbish-print.lisp
 
+(in-package :rubbish)
+
 ;; print-cluases show clauses of cids
 (defun print-clauses (cids)
   (loop for cid in cids do

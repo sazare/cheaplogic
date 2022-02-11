@@ -1,5 +1,5 @@
 ;; essential functions of common lisp
-
+(in-package :rubbish)
 
 ;; refer: https://lisphub.jp/common-lisp/cookbook/index.cgi?Universal%20Timeを文字列に変換する
 ;;        and reference manual

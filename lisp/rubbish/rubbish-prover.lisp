@@ -1,5 +1,7 @@
 ;; for prover control
 
+(in-package :rubbish)
+
 ;;; define *lsymlist*
 (defparameter *lsymlist* nil)
 

@@ -1,6 +1,8 @@
 ;; rubbish-resoid.lisp
 ; id version of resolve
 
+(in-package :rubbish)
+
 ;; general
 (defun list-remain (e es)
  (loop for a in es when (not (eq e a)) collect a)

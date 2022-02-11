@@ -1,4 +1,7 @@
 ; rubbish-reso.lisp
+
+(in-package :rubbish)
+
 ;  old name: reso-disag.lisp
 ;; resolution on c1 with c2 over disag-functions unification and subsub
 
