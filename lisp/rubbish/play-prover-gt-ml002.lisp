@@ -1,11 +1,13 @@
 
 ;; ters for reduce on input
 
-(load "load-rubbish.lisp")
+;(load "load-rubbish.lisp")
 ;(require :rubbish)
-;(require :gtrail)
+(require :gtrail)
 
 ;; play for prover
+
+(in-package :rubbish)
 
 (setq *max-clauses* 50)
 (setq *max-trials* 100)
