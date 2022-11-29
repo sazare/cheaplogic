@@ -3,54 +3,54 @@
 (in-package :rubbish)
 
 ;; print-cluases show clauses of cids
-(defun print-clauses (cids)
+(defun print-clauses (cids &optional (out t))
   (loop for cid in cids do
-    (print-clause cid)
+    (print-clause cid out)
   )
 )
 
 ;; print clause list
 
-(defun print-clausex (cs)
+(defun print-clausex (cs &optional (out t))
   (loop for c in cs do
     (if (isvalid c)
-      (format t "VALID ~a~a~%" c (bodyof c))
-      (format t "~a=~a~%" c (bodyof c))
+      (format out "VALID ~a~a~%" c (bodyof c))
+      (format out "~a=~a~%" c (bodyof c))
     )
   )
 )
 
-(defun print-literal (lid)
+(defun print-literal (lid &optional (out t))
   (cond 
-    ((null (varsof (cidof lid))) (format t "~a ().~a " lid (litof lid)))
-    (t  (format t "~a ~a.~a " lid (varsof (cidof lid)) (litof lid)))
+    ((null (varsof (cidof lid))) (format out  "~a ().~a " lid (litof lid)))
+    (t  (format out  "~a ~a.~a " lid (varsof (cidof lid)) (litof lid)))
   )
 )
 
-(defun print-literals (lids)
+(defun print-literals (lids &optional (out t))
   (loop for lid in lids
     do
-    (print-literal lid)
-    (format t "~%")
+    (print-literal lid out)
+    (format out "~%")
   )
 )
 
-(defun print-clause (cid)
+(defun print-clause (cid &optional (out t))
   (cond 
     ((isvalid cid)
      (if (bodyof cid)
-       (format t "~a: ~a = ~a <VALID>~%" cid (nameof cid)(lit*of (bodyof cid)))
-       (format t "~a: ~a = [] <VALID>~%" cid (nameof cid))
+       (format out "~a: ~a = ~a <VALID>~%" cid (nameof cid)(lit*of (bodyof cid)))
+       (format out "~a: ~a = [] <VALID>~%" cid (nameof cid))
      )
     )
     ((iscontradiction cid)
      (if (bodyof cid) 
-       (format t "~a: ~a = ~a~%" cid (nameof cid)(lit*of (bodyof cid)))
-       (format t "~a: ~a = []~%" cid (nameof cid))
+       (format out "~a: ~a = ~a~%" cid (nameof cid)(lit*of (bodyof cid)))
+       (format out "~a: ~a = []~%" cid (nameof cid))
      )
     )
     (t 
-     (format t "~a: ~a ~a [~a]~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
+     (format out "~a: ~a ~a [~a]~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
     )
   )
 )
@@ -67,38 +67,38 @@
 )
 
 ;; dump show symbol-plist on lid, cid
-(defun dump-clauses (cids)
+(defun dump-clauses (cids &optional (out t))
   (loop for cid in cids do
-    (dump-clause cid)
+    (dump-clause cid out)
   )
 )
 
 
-(defun dump-lits (lids)
+(defun dump-lits (lids &optional (out t))
   (loop for lid in lids do
-    (when (boundp lid) (format t " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid)))
+    (when (boundp lid) (format out " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid)))
   )
 )
 
-(defun dump-clause (cid)
+(defun dump-clause (cid &optional (out t))
   (cond
-    ((isvalid cid) (format t "~a VALID : ~a=~%" cid (symbol-plist cid)))
-    ((iscontradiction cid) (format t "~a CONTRADICTION : ~a=~%" cid (symbol-plist cid)))
-    (t (format t "~a=~a~%" cid (symbol-plist cid))
-       (dump-lits (bodyof cid)))
+    ((isvalid cid) (format out "~a VALID : ~a=~%" cid (symbol-plist cid)))
+    ((iscontradiction cid) (format out "~a CONTRADICTION : ~a=~%" cid (symbol-plist cid)))
+    (t (format out "~a=~a~%" cid (symbol-plist cid))
+       (dump-lits (bodyof cid) out))
   )
 )
 
 ;; convenient functions
-(defun dumpcs ()
-  (dump-clauses *clist*)
+(defun dumpcs (&optional (out t))
+  (dump-clauses *clist* out)
 )
 
 ;or 
-(defun dump-clausex (&rest cids)
+(defun dump-clausex (&optional cids (out t))
   (if (null cids) 
-     (dump-clauses *clist*)
-     (dump-clauses (car cids))
+     (dump-clauses *clist* out)
+     (dump-clauses (car cids) out)
   )
 )
 
