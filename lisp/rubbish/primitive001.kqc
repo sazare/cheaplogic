@@ -1,0 +1,84 @@
+;kqc/wff/primitive001.wff @ sample
+;(+ P A)
+(1 NIL (+ + P A))
+
+;(- P A)
+(2 NIL (+ - P A))
+
+;(+ P (F2 B C))
+(3 NIL (+ + P (F2 B C)))
+
+;(- P2 (F3 A (G A)) (H D))
+(4 NIL (+ - P2 (F3 A (G A)) (H D)))
+
+;(⇒ (∀ X Y) (∃ Z) (∧ (+ P2 X Y) (- R3 X Y Z)))
+(5 NIL (- ∀ X Y) (+ ∃ Z))
+
+;(≡ (∀ X Y) (∃ Z) (∧ (+ P2 X Y) (- R3 X Y Z)))
+(6 NIL (- ∀ X Y) (+ ∃ Z))
+
+(7 NIL (+ ∀ X Y) (- ∃ Z))
+
+;((∀ X) (⇒ ((∃ Z) (∨ (+ P X) (+ R2 X Z)))))
+(8 (X.493) (- + P X.493) (+ NIL))
+
+(9 (Z.494 X.493) (- + R2 X.493 Z.494) (+ NIL))
+
+;((∀ X) (⇒ (∨ (+ P X) ((∃ Z) (+ R2 X Z)))))
+(10 (X.495) (- + P X.495) (+ NIL))
+
+(11 (Z.496 X.495) (- + R2 X.495 Z.496) (+ NIL))
+
+;((∀ X) (+ P X))
+(12 (X.497) (+ + P X.497))
+
+;((∀ X) (- P X))
+(13 (X.498) (+ - P X.498))
+
+;((∃ X) (+ P X))
+(14 NIL (+ + P (SKF-X.499)))
+
+;((∃ Y) (- P2 A Y))
+(15 NIL (+ - P2 A (SKF-Y.500)))
+
+;((∀ X) (≡ (+ P X) (- R X)))
+(16 (X.501) (- + P X.501) (+ - R X.501))
+
+(17 (X.501) (+ + P X.501) (- - R X.501))
+
+;(≡ ((∀ X Y) (+ P2 X Y)) ((∀ X Y) (+ R2 X Y)))
+(18 (X.503) (- + P2 (SKF-X.502) Y) (+ + R2 X.503 Y))
+
+(19 (X.504) (+ + P2 X.504 Y) (- + R2 (SKF-X.505) Y))
+
+;((∃ E)
+  (∧ ((∀ X Y) (∃ Z) (+ OP X Y Z)) ((∀ X) (∧ (+ OP E X X) (+ OP X E X)))
+   ((∀ X) (∃ Y) (+ OP X Y E))))
+(20 (X.508) (+ + OP (SKF-E.506) X.508 X.508))
+
+(21 (X.508) (+ + OP X.508 (SKF-E.506) X.508))
+
+(22 NIL (+ ∃ Z))
+
+(23 NIL (+ ∃ Y))
+
+;(∧ ((∀ X) (⇒ (+ HUMAN X) (+ DIE X))) (+ HUMAN SOC))
+(24 NIL (+ ⇒ (+ HUMAN X) (+ DIE X)))
+
+(25 NIL (+ + HUMAN SOC))
+
+;(DEFWFF NAME WFF)
+(26 NIL (+ DEFWFF NAME WFF))
+
+;(TODNF WFF)
+(27 NIL (+ TODNF WFF))
+
+;(TODNF NAME)
+(28 NIL (+ TODNF NAME))
+
+;(TOCNF WFF)
+(29 NIL (+ TOCNF WFF))
+
+;(TOCNF NAME)
+(30 NIL (+ TOCNF NAME))
+

@@ -1,6 +1,8 @@
 ;; rubbish-random.lisp
 ;; around random
 
+(in-package :rubbish)
+
 (defun remove-elem (xl e)
   "remove a element e from xl"
   (loop for ax in xl unless (eq ax e) collect ax)

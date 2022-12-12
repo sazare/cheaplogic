@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style type="text/css">
+<!--
+input { width: 200pt; }
+-->
+</style>
+<title>Select GID</title>
+</head>
+<body>
+<h1>which lid</h1>
+
+<pre>CLAUSES(anything like this)</pre>
+<div>
+<div>C1 [IMG,WHAT].[L1-1:(- State0 IMG WHAT)]</div>
+<div>C2 [].[L2-1:(+ ManyPeople img1 0.9)]</div>
+<div>C3 [].[L3-1:(+ Eating img1,0.85)]</div>
+<div>C4 [].[L4-1:(+ Weapons img1,0.35)]</div>
+<div>C5 [].[L5-1:(+ ManyPeople img2,0.99)]</div>
+<div>C6 [].[L6-1:(+ Eating img2,0.9)]</div>
+<div>C7 [].[L7-1:(+ Weapons img2,0.3)]</div>
+<div>C8 [x.8,y.11].[L8-1:(- P x.8 y.11) L8-2:(- ge 2 1),L8-3:(- ge 4 2) ,L8-4:(- ge 5 2)]
+<div>R9 [].[L9-1:(- ge 2,1))(L9-2:(- ge 4 2))(L9-3:(- ge 5,2))]
+</div>
+
+<form action="/rudder" method="get">
+<input type="hidden" name="op" value="stepgoal"></br>
+<div>gid : <input type="text" name="GID"></div>
+<br>
+<input type="submit" value="Confirm"></br>
+<input type="reset" value="Cancel">
+</form>
+
+</body>
+</html>
+

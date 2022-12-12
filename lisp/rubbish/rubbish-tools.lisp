@@ -2,6 +2,8 @@
 
 (myload "ito.lisp")
 
+(in-package :rubbish)
+
 ;; primitive structure of ITO
 ; preparation:
 ;  set binding and plist for atoms

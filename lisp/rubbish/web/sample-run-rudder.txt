@@ -1,0 +1,10 @@
+(load "rudder.lisp")
+ (in-package :rubbish)
+ (trace rudder-proc)
+ (trace rudder-undefined-command)
+(trace rudder-gtrail)
+(trace rudder-readkqc)
+(trace readkqc)
+
+
+rudderをsystem/packageにして、rubb分離する

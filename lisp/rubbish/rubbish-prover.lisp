@@ -9,7 +9,7 @@
 (defun pushlsym (lid)
   (let ((lsym (lsymof lid)))
 ;; if a lsym was orphan, new binding should made.
-    (if (boundp lsym) (intern (string lsym)) (set lsym ()))
+    (if (boundp lsym) (intern (string lsym) :rubbish) (set lsym ()))
     (set lsym (union (cons lid nil) (eval lsym))) ;; a lsym has the lid has the lsym
 ;    (pushnew lid lsym)        ;; a lsym has the lid has the lsym. this should be macro and ...
     (pushnew lsym *lsymlist*) ;; if the lsym created on the fly, this call should be.

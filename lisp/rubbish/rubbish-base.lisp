@@ -35,8 +35,8 @@
 
 ;; newvar : v -> v.nnn
 (defun newvar (v)
- ; (intern (string (rub-gensym (basevar v))))
-  (intern (string (rub-gensym (format nil "~a." (basevar v)))))
+ ; (intern (string (rub-gensym (basevar v))) :rubbish )
+  (intern (string (rub-gensym (format nil "~a." (basevar v)))) :rubbish)
 )
 
 ;; for rename : vs <- nvs s.t. new vars of v in vs : p-not
@@ -55,7 +55,7 @@
 ;; make a lid from cid and n'th of body
 (defun make-lid (cid n)
   (let (lid)
-    (setf lid (intern (format nil "L~a-~a" (rootof cid) n)))
+    (setf lid (intern (format nil "L~a-~a" (rootof cid) n) :rubbish))
     (pushnew lid *llist*)
     lid
   )
@@ -136,7 +136,7 @@
 
 ;; CID ops
 (defun cidfy (name) 
-  (intern (format nil "C~a" name))
+  (intern (format nil "C~a" name) :rubbish)
 )
 
 (defun make-cid (n)
@@ -277,7 +277,7 @@
 (defun lsymof (lid)
   (let ((lit (litof lid)))
 ;    (cons (car lit)(cadr lit))
-    (intern (format nil "~a~a" (car lit) (cadr lit)))
+    (intern (format nil "~a~a" (car lit) (cadr lit)) :rubbish)
   )
 )
 
@@ -306,7 +306,7 @@
 )
 
 (defun oppolsymof (lsym)
-  (intern (format nil "~a~a" (soppo (signof (string lsym))) (psymof (string lsym))))
+  (intern (format nil "~a~a" (soppo (signof (string lsym))) (psymof (string lsym))) :rubbish)
 )
 
 

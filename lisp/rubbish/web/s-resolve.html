@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<!--
+input { width: 200pt; }
+-->
+</style>
+<title>Resole Lits</title>
+</head>
+<body>
+<h1>Next</h1>
+<p>KQC: vdata/vev001.kqc</p>
+
+<div>
+<p>CLAUSES</p>
+
+<div>C1:[x_C1,y_C1].[L2:-(P(x_C1,y_C1)),L3:-(ge(2,1)),L4:-(ge(4,2)),L5:-(ge(5,2))]
+<div>C2:[].[L1:+(P(4,5))]
+<div>R1:[].[L3_R1:-(ge(2,1)),L4_R1:-(ge(4,2)),L5_R1:-(ge(5,2))]
+<br>
+<div>PSYM: [P,ge]
+<div>CANO: 
+
+</div>
+<P> =======</p>
+<form action="/go" method="get">
+<input type="hidden" name="op" value="resolve"></br>
+<div><label>Left:</label><input type="string" name="llid" value="L"></br></div>
+<div><label>Right:</label><input type="string" name="rlid" value="L"></br></div>
+
+<input type="submit" value="Confirm"></br>
+<input type="reset" value="Cancel">
+</form>
+
+</body>
+</html>
+

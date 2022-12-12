@@ -1,0 +1,15 @@
+; version 1.0
+; gtrailをすることにしよう。
+: goal をしていする
+; [goal : input]
+; [resolve : go]
+
+; http://127.0.0.1:5000/start        ask which kqc for input
+; http://127.0.0.1:5000/readkqc      read kqc file
+; http://127.0.0.1:5000/load&script=file  run lisp script
+; 
+; http://127.0.0.1:5000/dumpcs       (dumpcs)
+; http://127.0.0.1:5000/clist        show clist* with lit
+; http://127.0.0.1:5000/clist0       show clist by lid
+; http://127.0.0.1:5000/penv         print env
+; http://127.0.0.1:5000/proof&cid=c  show proof

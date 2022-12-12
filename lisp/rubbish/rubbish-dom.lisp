@@ -2,6 +2,8 @@
 ;; concern EO-LO 
 ;; runctions over domain specific
 
+(in-package :rubbish)
+
 (defun is-unique-dom (vars x y)
   (unless (or (isvar vars x) (isvar vars y))
     (eq x y)

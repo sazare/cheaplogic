@@ -1,0 +1,24 @@
+p {
+  color: red;
+}
+
+.kos {
+  color: green;
+  padding: 10px;
+}
+
+aside {
+  color: blue;
+}
+
+input {
+  width: 400px;
+}
+
+label {
+  width: 200px;
+}
+
+
+
+

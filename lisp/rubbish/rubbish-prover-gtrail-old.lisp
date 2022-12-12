@@ -1,6 +1,8 @@
 ;; prover with goal trailer
 ;; template for goal trailer prover
 
+(in-package :rubbish)
+
 ;; step-solver quit when a orphan found.
 ;; It is an old day paradigm.
 ;; This code is for the old days.

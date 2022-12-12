@@ -1,5 +1,7 @@
 ; EOLO consistent facts
 
+(in-pacage :rubbish)
+
 (defparameter *kb* ())
 
 (defun init-kb ()
