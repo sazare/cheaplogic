@@ -1,0 +1,28 @@
+1. sbcl at rubbish/web
+  (load "rudder.lisp")
+
+2. with Web browser
+  1) http://127.0.0.1:5000/rudder?op=start
+    enter kqcpath widh push readkqc button
+
+  2) (clause list is showed)
+   set C1 in CID/Lid 
+   push gtrail button
+
+   C1 is not c1
+
+  3) (result of gtrail is refreshed clause list) 
+   then new clist is shown. Contradiction C19 is added.
+
+  set C19 in "CID/LID"
+  push proof button
+
+  C19 is not c19
+
+  4) try other buttons 
+  list
+  list0  
+
+  resolve is not yet implemented.
+
+
