@@ -8,11 +8,12 @@
 ;;
 
 (defun readpage()
-  "<form action='/rudder' method='get'> <div><label>KQC PATH</label><input type='string' name='kqcpath'></div><div><input type='submit' name='op' value='readkqc'> <input type='reset' value='Cancel'> </form></div> "
+  "<form action='/rudder' method='get'> <div><label>KQC PATH</label><input type='string' name='kqcpath'></div><div><input type='submit' name='op' value='readkqc'> <input type='reset' value='Cancel'></div> </form>"
 )
 
 (defun footer ()
-  "<hr><div><form action='/rudder' method='get'> <div><label>GID or Left</label><input type='string' name='what1' ></br><label>Right</label> <input type='string' name='what2'></div> <input type='submit' name='op' value='gtrail'> <input type='submit' name='op' value='resolve'> <input type='submit' name='op' value='merge'> <input type='submit' name='op' value='clist'> <input type='submit' name='op' value='clist0'> <input type='submit' name='op' value='proof'> <input type='reset' value='Cancel'> </form></div> "
+  "<hr><form action='/rudder' method='get'> 
+<div><label width='200px'>GID or Left</label><input type='string' name='what1' ></br><label width='200px'>Right</label> <input type='string' width='300' name='what2'></div> <div><input type='submit' width='200px'  name='op' value='gtrail'> <input type='submit' name='op' value='resolve'> <input type='submit' name='op' value='merge'> <input type='submit' name='op' value='clist'> <input type='submit' name='op' value='clist0'> <input type='submit' name='op' value='proof'> <input type='reset' value='Cancel'></div> </form> "
 )
 
 ;;
@@ -34,12 +35,11 @@
 )
 
 (defun bpage (body)
-  (:head-part "RUDDER" 
+  (:head-part "RUDDER b" 
     (with-output-to-string (str)
-      (format str"<h2>~a</h2><div>~a</div>~a" "clist0" (lisfy0 body) (footer)))
+      (format str "<h2>~a</h2><div>~a</div>~a" "clist0" (lisfy0 body) (footer)))
   )
 )
- 
 
 (defun lify (s out)
   (format out "<div>~a</div>" (print-clause s nil))
@@ -61,7 +61,10 @@
 )
 
 (defun ppage (cid)
-  (format nil "<h2>~a</h2><div><pre>~a</pre></div>~a" "PROOF"  (with-output-to-string (out) (print-proof0 cid 0 out)) (footer))
+  (:head-part "RUDDER page" 
+    (format nil "<h2>~a</h2><div><pre>~a</pre></div>~a" "PROOF"  
+       (with-output-to-string (out) (print-proof0 cid 0 out)) (footer))
+  )
 )
 
 (defun rudder-undefined-command (opr)

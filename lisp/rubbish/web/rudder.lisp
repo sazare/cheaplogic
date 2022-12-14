@@ -8,6 +8,7 @@
 
 (in-package :rubbish)
 
+(load "fileio.lisp")
 (load "rub-html.lisp")
 
 ;; the next step should be done under a web operation
@@ -96,7 +97,7 @@
   (let (opr)
     (cond 
       (params (setq opr (cdr (assoc "op" params :test 'string=))))
-      (t (rudder-undefined-command params))
+      (t (rudder-start))
     )
     (setq *peval-active* nil)              
     (cond
@@ -105,10 +106,22 @@
       ((equal opr "clist0")(bpage (reverse *clist*)))
       ((equal opr "proof")(rudder-proof params))
       ((equal opr "start") (rudder-start))
+      ((null opr) (rudder-start))
       ((equal opr "readkqc")(rudder-readkqc params)(apage (reverse *clist*)))
       (t (rudder-undefined-command opr))
     )
   )
+)
+
+(defun rudder-readfile ()
+  (readfile-to-string "css/rudder.css")
+)
+
+(setf (ningle:route *app* "/css" :accept '("text/html" "text/xml"))
+      #'(lambda (params)
+          (declare (ignore params))
+          (rudder-readfile)
+        )
 )
 
 (setf (ningle:route *app* "/rudder" :accept '("text/html" "text/xml"))

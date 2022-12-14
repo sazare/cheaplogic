@@ -1,4 +1,4 @@
-;; pure html operation
+; pure html operation
 
 ;; DON'T WORK 
 (in-package :rubbish)
@@ -31,23 +31,15 @@
   (format nil "<div>~a</div>" ss)
 )
 
-;(defmacro :li (s)
-;  `(format nil "<li>~a</li>" ,s)
-;)
   
 (defmacro :div (ss)
   `(format nil "<div>~a</div>" ,ss)
 )
 
-; this is good or not?1
-;  (divfy (seqence '("abab" "cccc") 'lify)
-
 
 (defmacro :li (&rest cs)
   `(format nil "~{<li>~a</li> ~}" ',cs)
 )
-
-; above probrem: <div><li>aaa</><li>bbb</><li>ccc</></>
 
 ; recipe
 
@@ -60,14 +52,14 @@
 ; string of comma in list
 ; (format nil "~{~a~^, ~}" '("abc" "def" "ghi"))
 
-(defun formfy (action method body)
-  (format nil "<form action=\"~a\" method=\"~a\">~a</form>" action method body)
-)
+;(defun formfy (action method body)
+;  (format nil "<form action=\"~a\" method=\"~a\">~a</form>" action method body)
+;)
 
-;"<!DOCTYPE html><head><meta charset='utf-8'><title>hello</title></head><body><div>23</div></body></html>"
 
 (defun :head-part (title body)
-  (format nil "<!DOCTYPE html><head><meta charset='utf-8'> <link rel='stylesheet' href='css/rudder.css'/> <title>~a</title></head><body>~a</body></html>" title body)
+  (format nil "<!DOCTYPE html><html><head><meta charset='utf-8'>  <title>~a</title><style>input {width: '400px';background-color: red';}</style></head><body>~a</body></html>" title body)
+;  (format nil "<!DOCTYPE html><html><head><meta charset='utf-8'> <link rel='stylesheet' href='/css/rudder.css'/> <title>~a</title></head><body>~a</body></html>" title body)
 )
 
 (defun :html (title body)

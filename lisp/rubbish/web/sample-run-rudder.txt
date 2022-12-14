@@ -1,6 +1,14 @@
+
 (load "rudder.lisp")
  (in-package :rubbish)
+(trace rudder-readfile)
+(trace readfile-to-string)
+
+
  (trace rudder-proc)
+(trace apage)
+(trace bpage)
+(trace ppage)
  (trace rudder-undefined-command)
 (trace rudder-gtrail)
 (trace rudder-readkqc)
