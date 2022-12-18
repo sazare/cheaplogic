@@ -29,7 +29,7 @@
         (setq gid (intern sgid :rubbish))  ;; now what1 is only cid as "C1", but what1 will "C1 C2 ..." 
           (cond 
             (gid (rudder-prover-gtrail (list gid)) 
-                 (apage (reverse *clist*)))
+                 (dpage "claues" (string-clauses (reverse *clist*))))
             (t (rudder-undefined-command gid))
           )
       )
@@ -38,18 +38,31 @@
   )
 )
 
+
+(defun rudder-start ()
+  (:html "RUDDER START" (readpage))
+)
+
+(defun string-clauses (clist)
+  (with-output-to-string (out) (print-clauses clist out))
+)
+
+(defun string-clausex (clist)
+  (with-output-to-string (out) (print-clausex clist out))
+)
+
+(defun string-proof0 (cid ix)
+  (with-output-to-string (out) (print-proof0 cid ix out))
+)
+
 (defun rudder-proof (params)
   (let (cid)
     (cond 
       (params (setq cid (cdr (assoc "what1" params :test 'string=)))
-              (ppage (intern cid :rubbish)))
+              (dpage (format nil "proof of ~a" cid) (string-proof0 (intern cid :rubbish) 0)))
       (t (rudder-undefined-command "op"))
     )
   )
-)
-
-(defun rudder-start ()
-  (:html "RUDDER START" (readpage))
 )
 
 (defun rudder-readkqc (params)
@@ -60,7 +73,7 @@
               (cond 
                 (path (readkqc path)
                       (cond 
-                        (*clist* (apage (reverse *clist*)))
+                        (*clist* (dpage "claues" (string-clauses (reverse *clist*))))
                         (t (rudder-undefined-command path) path)
                       )) 
                 (t (rudder-undefined-command path) path)
@@ -77,7 +90,6 @@
 (setf (ningle:route *app* "/") "Welcome to rudder!")
 
 ;; apage make a page of print-clauses 
-
 
 (setf (ningle:route *app* "/clist" :accept '("text/html" "text/xml"))
       #'(lambda (params)
@@ -102,12 +114,12 @@
     (setq *peval-active* nil)              
     (cond
       ((equal opr "gtrail") (rudder-gtrail params))
-      ((equal opr "clist")(apage (reverse *clist*)))
-      ((equal opr "clist0")(bpage (reverse *clist*)))
-      ((equal opr "proof")(rudder-proof params))
+      ((equal opr "clist")(dpage "claues" (string-clauses (reverse *clist*))))
+      ((equal opr "clist0")(dpage "clauses with lid" (string-clausex (reverse *clist*))))
+      ((equal opr "proof") (rudder-proof params))
       ((equal opr "start") (rudder-start))
       ((null opr) (rudder-start))
-      ((equal opr "readkqc")(rudder-readkqc params)(apage (reverse *clist*)))
+      ((equal opr "readkqc")(rudder-readkqc params)(dpage "clauses" (string-clauses (reverse *clist*))))
       (t (rudder-undefined-command opr))
     )
   )
@@ -130,5 +142,5 @@
 
 (clack:clackup *app*)
 
-; (uiop/run-program:run-program "open -a \"Safari.app\" http://localhost:5000/hi" :output T)
+; (uiop/run-program:run-program "open -a \"Safari.app\" http://localhost:5000/rudder" :output T)
 

@@ -60,6 +60,11 @@
   )
 )
 
+(defun dpage (title body)
+  (:head-part "RUDDER" 
+    (format nil "<h2>~a</h2><div><pre>~a</pre></div>~a" title body (footer)))
+)
+
 (defun ppage (cid)
   (:head-part "RUDDER page" 
     (format nil "<h2>~a</h2><div><pre>~a</pre></div>~a" "PROOF"  

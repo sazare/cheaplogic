@@ -14,5 +14,7 @@
 (trace rudder-readkqc)
 (trace readkqc)
 
+(readkqc "../kqc/ml002.kqc")
+
 
 rudderをsystem/packageにして、rubb分離する
