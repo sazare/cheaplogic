@@ -14,29 +14,6 @@
 ;; the next step should be done under a web operation
 ; (load "../play-prover-gt-ml002.lisp")
 
-(defun rudder-prover-gtrail (goal)
-  (let ()
-    (logstart)
-    (prover-gtrail goal) ; goal is a list of cid
-  )
-)
-
-(defun rudder-gtrail (params)
-  (let (gid sgid)
-    (cond 
-      (params 
-        (setq sgid (cdr (assoc "what1" params :test 'string=)))
-        (setq gid (intern sgid :rubbish))  ;; now what1 is only cid as "C1", but what1 will "C1 C2 ..." 
-          (cond 
-            (gid (rudder-prover-gtrail (list gid)) 
-                 (dpage "claues" (string-clauses (reverse *clist*))))
-            (t (rudder-undefined-command gid))
-          )
-      )
-      (t (rudder-undefined-command "op"))
-    )
-  )
-)
 
 
 (defun rudder-start ()
@@ -83,28 +60,37 @@
   )
 )
 
+(defun rudder-prover-gtrail (goal)
+  (let ()
+    (logstart)
+    (prover-gtrail goal) ; goal is a list of cid
+  )
+)
+
+(defun rudder-gtrail (params)
+  (let (gid sgid)
+    (cond 
+      (params 
+        (setq sgid (cdr (assoc "what1" params :test 'string=)))
+        (setq gid (intern sgid :rubbish))  ;; now what1 is only cid as "C1", but what1 will "C1 C2 ..." 
+          (cond 
+            (gid (rudder-prover-gtrail (list gid)) 
+                 (dpage "claues" (string-clauses (reverse *clist*))))
+            (t (rudder-undefined-command gid))
+          )
+      )
+      (t (rudder-undefined-command "op"))
+    )
+  )
+)
+
 ;; do rubbish
 (defvar *app* (make-instance 'ningle:<app>))
 
 ;; http://127.0.0.1:5000/
 (setf (ningle:route *app* "/") "Welcome to rudder!")
 
-;; apage make a page of print-clauses 
-
-(setf (ningle:route *app* "/clist" :accept '("text/html" "text/xml"))
-      #'(lambda (params)
-          (declare (ignore params))
-          (apage (reverse *clist*))
-        )
-)
-
-(setf (ningle:route *app* "/clist0" :accept '("text/html" "text/xml"))
-      #'(lambda (params)
-          (declare (ignore params))
-          (bpage (reverse *clist*))
-        )
-)
-
+;; my main loop in rudder server
 (defun rudder-proc (params)
   (let (opr)
     (cond 
