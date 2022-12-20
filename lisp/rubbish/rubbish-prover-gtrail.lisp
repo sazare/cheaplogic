@@ -89,6 +89,17 @@
 )
 
 
+(defun show-parameter0 (out)
+  (format out 
+  "
+  *max-clauses*        = ~a
+  *max-contradictions* = ~a
+  *max-trials*         = ~a
+  *max-steps*          = ~a
+  *timeout-sec*        = ~a~%"
+   *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
+)
+
 (defun show-parameter (time-start)
     (format t 
   "~%time-start           = ~a (secs)
@@ -106,6 +117,18 @@
 (defun quit-contra (message time-start contras valids)
   (format t "~%limit-over ~a~%" message) 
   (summary time-start)
+)
+
+(defun summary0 (out)
+  (let (others contras valids)
+    (multiple-value-setq (others contras valids) (gathercontra *clist*) )
+    (format out  "#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+      (length *clist*)
+      (length contras)
+      (length valids)
+      *num-of-trials*
+      *num-of-proof-steps*)
+  )
 )
 
 (defun summary (time-start)

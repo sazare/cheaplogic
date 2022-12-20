@@ -17,7 +17,7 @@
 
 
 (defun rudder-start ()
-  (:html "RUDDER START" (readpage))
+  (:html "RUDDER START" (readpage (with-output-to-string (out) (show-parameter0 out))))
 )
 
 (defun string-clauses (clist)
@@ -75,7 +75,7 @@
         (setq gid (intern sgid :rubbish))  ;; now what1 is only cid as "C1", but what1 will "C1 C2 ..." 
           (cond 
             (gid (rudder-prover-gtrail (list gid)) 
-                 (dpage "claues" (string-clauses (reverse *clist*))))
+                 (dpage "summary" (with-output-to-string (out) (summary0 out))))
             (t (rudder-undefined-command gid))
           )
       )

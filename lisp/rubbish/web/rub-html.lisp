@@ -7,8 +7,8 @@
 
 ;;
 
-(defun readpage()
-  "<form action='/rudder' method='get'> <div><label>KQC PATH</label><input type='string' name='kqcpath'></div><div><input type='submit' name='op' value='readkqc'> <input type='reset' value='Cancel'></div> </form>"
+(defun readpage(paramlist)
+  (format nil "<form action='/rudder' method='get'> <div>PARAMETERS~%<pre>~a</pre></div> <div><label>KQC PATH</label><input type='string' name='kqcpath'></div><div><input type='submit' name='op' value='readkqc'> <input type='reset' value='Cancel'></div> </form>" paramlist)
 )
 
 (defun footer ()
