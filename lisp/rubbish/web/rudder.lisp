@@ -84,6 +84,22 @@
   )
 )
 
+(defun rudder-invariant (params)
+ (let (cid scid v)
+   (cond 
+      (params 
+        (setq scid (cdr (assoc "what1" params :test 'string=)))
+        (setq cid (intern scid :rubbish))
+        (cond 
+          (cid (setq v (invariantof cid))
+            (dpage "invariant" (with-output-to-string (out) (format out "~a~%<br>~a~%" (car v)(cadr v)))))
+          (t (rudder-undefined-command cid))
+        )
+      )
+    )
+  )
+)
+
 ;; do rubbish
 (defvar *app* (make-instance 'ningle:<app>))
 
@@ -104,6 +120,7 @@
       ((equal opr "clist0")(dpage "clauses with lid" (string-clausex (reverse *clist*))))
       ((equal opr "proof") (rudder-proof params))
       ((equal opr "start") (rudder-start))
+      ((equal opr "invariant") (rudder-invariant params))
       ((null opr) (rudder-start))
       ((equal opr "readkqc")(rudder-readkqc params)(dpage "clauses" (string-clauses (reverse *clist*))))
       (t (rudder-undefined-command opr))

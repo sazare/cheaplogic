@@ -13,7 +13,7 @@
 
 (defun footer ()
   "<hr><form action='/rudder' method='get'> 
-<div><label width='200px'>GID or Left</label><input type='string' name='what1' ></br><label width='200px'>Right</label> <input type='string' width='300' name='what2'></div> <div><input type='submit' width='200px'  name='op' value='gtrail'> <input type='submit' name='op' value='resolve'> <input type='submit' name='op' value='merge'> <input type='submit' name='op' value='clist'> <input type='submit' name='op' value='clist0'> <input type='submit' name='op' value='proof'> <input type='reset' value='Cancel'></div> </form> "
+<div><label width='200px'>GID or Left</label><input type='string' name='what1' ></br><label width='200px'>Right</label> <input type='string' width='300' name='what2'></div> <div><input type='submit' width='200px'  name='op' value='gtrail'> <input type='submit' name='op' value='resolve'> <input type='submit' name='op' value='merge'> <input type='submit' name='op' value='clist'> <input type='submit' name='op' value='clist0'> <input type='submit' name='op' value='proof'> <br> <input type='submit' name='op' value='invariant'> <input type='reset' value='Cancel'></div> </form> "
 )
 
 

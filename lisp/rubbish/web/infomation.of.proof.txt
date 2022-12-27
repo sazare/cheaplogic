@@ -1,0 +1,112 @@
+rudderに追加する機能
+
+★これもおもしろいかも
+(dump-clauses *clist* out)
+
+★しているが、単独の機能としてはない。いるか? inrudder.lisp
+(show-parameter0 out) 
+(summary0 out) 
+
+
+★rubbishの状態のsave/load
+(save-rubbish fname)
+(load-rubbish fname)
+
+★証明環境を消す
+(clear-all-atoms)
+
+
+しなりお
+save-rubbish
+clear
+ほかのこと
+clear
+load-rubbish
+
+ができる
+うれしいかどうかは不明
+
+=====
+*clist*
+(gathercontra *clist*) => (consists contras)
+(proofof cid) .. list-mguから呼ばれる
+(list-mgu cid)   過去と未来を含むので、これが証明の全情報
+
+(pinfof cid)
+(pcode cid)
+(spcode cid)
+(ccode cid)
+
+(print-proof0 cid)
+(print-clauses *clist*)
+(print-clause0 cid)
+(print-clause cid)    ..0とどこが違うのか?
+(print-clausex *clist*)
+
+
+----
+(summary 0)
+
+(show-parameter 0)
+
+ (time-current-secs)
+
+=====
+(step-solver goal) 重要そう。proverの制御しているぽい
+
+====
+lower level
+(gather-properties atom)
+(gather-atominfo atomlist)
+
+
+==============
+★ []の情報とはなにか? 
+
+resolventのliteralはすべてinput literalのインスタンスである。
+input litealのインスタンスのペアがresolutionのmguにかわる
+
+すべてのclauiseは(C, μ)という形にすると、不変になる。はず。
+μは、parent clauseのmgu
+
+input clauseは (C, φ)となり
+[]は([], μ)となって、μにはΣ→[]に必要なすべてのmguの合成になっている。
+mguの合成を考えるときは、変数が関係するので、もうすこしややこしいはず。
+
+Σ, C0 ≈ μ
+と考えられる
+C0を[]にするのに必要なclaiuseの集合Σ0 ⊂ Σを考えると
+(Σ0, φ) ≈ ([],  μ)
+ということだ。
+Σ0 → []の証明で登場するmgu のすべてを○で合成する。
+○は独立合成、parの合成。
+resolventのvarsがすべてDCVであるならば、それらすべての変数Vをもってくればこの合成は定義できる。
+DVCのためのrenameで出現するmguはどうあつかうか
+　DVCであるならば、単なるmgu として追加していけばよい。
+あるいは変数でなく定数をbindするほうが処理としては簡単ではないか。
+定数はΣ全体でひとつになる。
+その場合、変数は同じ表現の変数は同一だとみなされる。
+そのためにDVCが必要になる。
+DVCを保証するためのrename mguは、二つのDVCを結びつけるmgu。
+
+★★★
+(V1 C1)と(V2 C2)のresolvent RのVは両方の和。V1+V2になる。
+そしてその中で、R' = <C1:C2>で使われているものをRでuniqueにするmgu ρ
+を適用して(R ρ)を作る。
+C1, C2 -> (Vr (C1∨C2)ρ)みたいな
+
+話のためには使っている変数だけにするという操作は忘れてよさそう。
+消える変数というのはある。mgu の代入される側の変数は消える。
+
+
+★★★
+
+形が変わっても不変なものが、[]のもつ情報。
+Σのすべての[]がとりだせるとΣの情報になるが、すべての[]を取り出す必要はないように思う。
+
+clauseがルールである場合、ルールの適用順序によってmguがかわるかもしれないから、証明の構造は重要になる。
+
+
+
+
+

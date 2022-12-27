@@ -1,6 +1,10 @@
 
 (load "rudder.lisp")
  (in-package :rubbish)
+
+(trace rudder-invariant)
+(trace invariantof)
+
 (trace rudder-readfile)
 (trace readfile-to-string)
 

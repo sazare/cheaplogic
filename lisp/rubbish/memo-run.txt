@@ -1,0 +1,4 @@
+; only good introduction of loading and runnin over the 1rubbish system.
+
+ (load "play-prover-gt-ml002.lisp")
+

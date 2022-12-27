@@ -138,4 +138,15 @@
 ;      ))
 ;  )
 ;)
-;
+
+;;;; invariant of clause in Σ
+
+(defun invariantof (cid)
+  (list 
+    (list-mgu cid)
+    (with-output-to-string (out) (print-clause0 cid 0 out))
+  )
+)
+
+
+        
