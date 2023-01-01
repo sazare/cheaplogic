@@ -149,10 +149,15 @@
 
 ; pcode of cid for successful unificaton
 (defun pcode (cid)
-  (let ((sinf (pinfof cid)) sss uniq)
-    (setq sss (pinfof cid))
-    (setq uniq (loop with ss = () for s in sss do (pushnew s ss :test #'equal) finally (return ss) ))
+  (let ((sinf (pinfof cid)) uniq)
+    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss :test #'equal) finally (return ss) ))
     (sort uniq #'string>)
+  )
+)
+
+(defun pcode0 (cid)
+  (let ((sinf (pinfof cid)))
+    (sort sinf  #'string>)
   )
 )
 

@@ -85,7 +85,7 @@
 )
 
 (defun rudder-invariant (params)
- (let (cid scid iv pc cc pinf)
+ (let (cid scid iv pc pc0 cc pinf)
    (cond 
       (params 
         (setq scid (cdr (assoc "what1" params :test 'string=)))
@@ -95,8 +95,10 @@
             (setq iv (invariantof cid))
             (setq pinf (pinfof cid))
             (setq pc (pcode cid))
+            (setq pc0 (pcode0 cid))
             (setq cc (ccode cid))
-            (dpage "invariant" (with-output-to-string (out) (format out "ccode: ~a~%pinfo: ~a~%pcode: ~a~%invariant mgu:~a~%       clause: ~a~%" cc pinf pc (car iv) (cadr iv)))))
+            (dpage "invariant" (with-output-to-string (out) (format out "ccode: ~a~%pinfo: ~a~%pcode0: ~a~%pcode: ~a~%invariant mgu:~a~%       clause: ~a~%" cc pinf pc0 pc (car iv) (cadr iv)))))
+ 
           (t (rudder-undefined-command cid))
         )
       )
