@@ -1,0 +1,16 @@
+pathfinder実験
+
+kqc/path/*.kqc
+
+coregraph.kqc は一直線
+
+(require :gtrail)
+ (in-package :rubbish)
+(readkqc "kqc/path/coregraph.kqc")
+;(trace step-solver)
+(prover-gtrail '(c1))
+
+
+(list-mgu 
+(pcode0 
+ 
