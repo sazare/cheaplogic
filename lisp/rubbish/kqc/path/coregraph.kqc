@@ -11,9 +11,14 @@
 ;(3 (x) (+ H x)(- N x y)(- H y))
 
 
- (1 () (- P a d))
- (2 (x y z) (+ P x y)(- N x y))
- (3 (x y z) (- P x y)(+ P x z)(- N y z))
+; ok (1 () (- P a b))
+; [] but cant w/o 3 
+(1 () (- P a c))
+; [] but cant w/o 3 (1 () (- P a d))
+ (2 (x y z) (- P x y)(+ P x z)(- N y z))
+; (3 (x y z) (+ P x y)(- N x y))
+(4 (x) (+ P x x))
+
 
 ;; core graph structure
 (5 () (+ N a b))

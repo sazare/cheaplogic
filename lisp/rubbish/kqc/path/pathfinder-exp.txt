@@ -6,9 +6,14 @@ coregraph.kqc は一直線
 
 (require :gtrail)
  (in-package :rubbish)
+
 (readkqc "kqc/path/coregraph.kqc")
+
 ;(trace step-solver)
+(defparameter *enable-semantics* nil)
 (prover-gtrail '(c1))
+
+(readkqc "kqc/path/graph001.kqc")
 
 
 (list-mgu 

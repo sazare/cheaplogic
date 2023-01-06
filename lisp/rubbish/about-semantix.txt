@@ -1,0 +1,32 @@
+
+(defparameter *enable-semantics* T)
+の場合、 graph001.kqcでは次のようなwarningがでる。
+これは正しい。無視すればよい。
+このオプションは実行可能なリテラル(例えば (+ = 2 3))を実行してTやNILなら
+clauseを変形する仕組み。evalして失敗するとこういうメッセージはでるが
+リテラルはそのままで処理が進む
+
+<<<<
+; in: NOT (P A Y.498)
+;     (RUBBISH::P RUBBISH::A RUBBISH::Y.498)
+;
+; caught WARNING:
+;   undefined variable: RUBBISH::A
+;
+; caught STYLE-WARNING:
+;   undefined function: RUBBISH::P
+;
+; caught WARNING:
+;   undefined variable: RUBBISH::Y.498
+;
+; compilation unit finished
+;   Undefined function:
+;     P
+;   Undefined variables:
+;     A Y.498
+;   caught 2 WARNING conditions
+;   caught 1 STYLE-WARNING condition
+; in: NOT (N Y.498 C)
+;     (RUBBISH::N RUBBISH::Y.498 RUBBISH::C)
+>>>>
+

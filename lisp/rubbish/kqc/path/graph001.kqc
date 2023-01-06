@@ -1,0 +1,11 @@
+;; liner graph
+; ok (1 () (- P a b))
+(1 () (- P a c))
+(2 (x y z) (- P x y)(+ P x z)(- N y z))
+(4 (x) (+ P x x))
+
+;; core graph structure
+(5 () (+ N a b))
+(6 () (+ N b c))
+(7 () (+ N c d))
+

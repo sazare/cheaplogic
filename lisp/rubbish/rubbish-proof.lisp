@@ -70,7 +70,7 @@
 
 (defun print-proof0 (cid &optional (ind 0) (out t))
   (let ()
-    (print-clause0 cid (+ 2 ind) out)
+    (print-clause0 cid ind out)
     (cond
       ((eq (ruleof cid) :resolution)
         (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
