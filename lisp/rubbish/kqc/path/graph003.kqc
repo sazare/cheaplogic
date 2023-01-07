@@ -1,6 +1,5 @@
-;; liner graph a->b direct
-(1 () (- P a b))
-;; ∃y だが、⇒の前なので∀y になる。
+;; liner graph
+(1 () (- P a d))
 (2 (x y z) (+ P x z)(- P x y)(- N y z))
 (3 (x y) (+ P x y)(- N x y))
 (4 (x) (+ P x x))

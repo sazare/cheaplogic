@@ -13,9 +13,21 @@ coregraph.kqc は一直線
 (defparameter *enable-semantics* nil)
 (prover-gtrail '(c1))
 
+;; a->b->c
 (readkqc "kqc/path/graph001.kqc")
 
+;; 確認方法
+; (print-clauses *clist*)
+;  で[]をさがす。C15なら
+; (print-proof0 'C15)
+; で代入の状態を確認する
 
-(list-mgu 
-(pcode0 
- 
+; もっと楽な方法はないかな
+; 他の例も考える
+
+* (- N ...)を(-N ...)と書いていて、うまく[]ができていなかった ******
+
+
+:graph00[123].kqcで、a->b, a->c, a->dを書いたOK
+
+
