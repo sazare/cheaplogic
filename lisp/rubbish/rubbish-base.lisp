@@ -338,5 +338,15 @@
 )
 
 
+;;; checker well defined clauses
+(defun isWFF-literal (lid)
+  (or 
+    (equal '+ (car (bodyof lid)))
+    (equal '- (car (bodyof lid)))
+  )
+)
 
+(defun check-literals (&optional (lids *llist*))
+  (loop for lid in lids unless (iswff-literal lid) collect lid)
+)
 

@@ -23,6 +23,12 @@
 
 (defparameter *kqcfile* "")
 
+(defun warn-syntax (ls)
+  (loop for l in (check-literals ls) do
+    (format t "~a: ~a~%" l (bodyof l))
+  )
+)
+
 (defun readkqc (fname)
  (let ((kqc (readafile fname)))
    (loop for k in kqc 
@@ -30,6 +36,7 @@
    )
    (setq *kqcfile* fname)
    (make-lsymlist *llist*)
+   (warn-syntax *llist*)
  )
 )
 
@@ -85,4 +92,5 @@
     (print objects out)
   )
 )
+
 

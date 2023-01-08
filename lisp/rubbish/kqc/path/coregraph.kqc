@@ -25,3 +25,7 @@
 (6 () (+ N b c))
 (7 () (+ N c d))
 
+;ng kiterals
+;(100 (x y z) (- P x y)(+ P x z)(-N y z))
+;((x y z) (-P x y)(+ P x z)(- N y z))
+;((x y z) (-P x y)(+P x z)(-N y z))
