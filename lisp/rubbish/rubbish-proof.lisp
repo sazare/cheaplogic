@@ -152,6 +152,30 @@
   )
 )
 
+(defun list-proof0 (cid)
+  (list
+    cid
+    (cond
+      ((eq (ruleof cid) :resolution)
+        (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
+          (list 
+            (ruleof cid) 
+            (list llid (if (plidof llid) (list-proof0 (cidof llid)) :input))
+            (list rlid (if (plidof rlid) (list-proof0 (cidof rlid)) :input))
+          )
+        )
+      )
+      ((null (ruleof cid)) :input)
+      (t 
+        (let* ((pr (proofof cid))(flits (cadddr pr)) )
+            (loop for flid in flits collect 
+              (list (ruleof cid) (list-proof0 (cidof flid)) )
+            )
+        )
+      )
+    )
+  )
+)
 
 ;(defun fullproof (cid)
 ;  (if (proofof cid)  ;; should check :resolution too
@@ -188,6 +212,7 @@
     (with-output-to-string (out) (print-clause0 cid 0 out))
   )
 )
+
 
 
         

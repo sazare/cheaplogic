@@ -13,6 +13,9 @@ coregraph.kqc は一直線
 (defparameter *enable-semantics* nil)
 (prover-gtrail '(c1))
 
+;;;
+(load "play-prover-gt-ml002.lisp")
+
 ;; a->b->c
 (readkqc "kqc/path/graph001.kqc")
 
@@ -20,7 +23,7 @@ coregraph.kqc は一直線
 ; (print-clauses *clist*)
 ;  で[]をさがす。C15なら
 ; (print-proof0 'C15)
-; で代入の状態を確認する
+; で代入の状態を確認する。これかな★★
 
 ; もっと楽な方法はないかな
 ; 他の例も考える
