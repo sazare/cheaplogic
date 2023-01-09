@@ -152,6 +152,15 @@
   )
 )
 
+;; list of proof
+(defun code-of-rule (code)
+  (cond
+    ((eq code :resolution) :RS)
+    ((eq code :REDUCED-BY-SEMANTIX) :SX)
+    (t code)
+  )
+)
+
 (defun list-proof0 (cid)
   (list
     cid
@@ -159,7 +168,7 @@
       ((eq (ruleof cid) :resolution)
         (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
           (list 
-            (ruleof cid) 
+            (code-of-rule (ruleof cid) )
             (list llid (if (plidof llid) (list-proof0 (cidof llid)) :input))
             (list rlid (if (plidof rlid) (list-proof0 (cidof rlid)) :input))
           )
@@ -167,10 +176,12 @@
       )
       ((null (ruleof cid)) :input)
       (t 
-        (let* ((pr (proofof cid))(flits (cadddr pr)) )
+        (cons cid
+          (let* ((pr (proofof cid))(flits (cadddr pr)) )
             (loop for flid in flits collect 
-              (list (ruleof cid) (list-proof0 (cidof flid)) )
+              (list (code-of-rule (ruleof cid)) (list-proof0 (cidof flid)) )
             )
+          )
         )
       )
     )

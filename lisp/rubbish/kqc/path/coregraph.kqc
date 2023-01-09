@@ -12,8 +12,8 @@
 
 
 ; ok (1 () (- P a b))
-(1 () (- P a e))
-;(1 () (- P a d))
+;(1 () (- P a e))
+(1 () (- P a d))
 
 (2 (x y z) (- P x y)(+ P x z)(- N y z))
 (3 (x y z) (+ P x y)(- N x y))
