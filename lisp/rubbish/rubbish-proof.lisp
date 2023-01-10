@@ -153,6 +153,7 @@
 )
 
 ;; list of proof
+;; code of rule may not useful in some cases. keep this code for future.
 (defun code-of-rule (code)
   (cond
     ((eq code :RESOLUTION) :RS)
