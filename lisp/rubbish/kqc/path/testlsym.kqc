@@ -1,0 +1,4 @@
+;ng kiterals
+(100 (x y z) (- P x y)(+ P x z)(-N y z))
+((x y z) (-P x y)(+ P x z)(- N y z))
+((x y z) (-P x y)(+P x z)(-N y z))

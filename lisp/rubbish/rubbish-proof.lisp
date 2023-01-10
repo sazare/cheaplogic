@@ -155,65 +155,52 @@
 ;; list of proof
 (defun code-of-rule (code)
   (cond
-    ((eq code :resolution) :RS)
+    ((eq code :RESOLUTION) :RS)
     ((eq code :REDUCED-BY-SEMANTIX) :SX)
     (t code)
   )
 )
 
+
 (defun list-proof0 (cid)
-  (list
-    cid
-    (cond
-      ((eq (ruleof cid) :resolution)
-        (let* ((llid (car (rpairof cid)))(rlid (cadr (rpairof cid))))
-          (list 
-            (code-of-rule (ruleof cid) )
-            (list llid (if (plidof llid) (list-proof0 (cidof llid)) :input))
-            (list rlid (if (plidof rlid) (list-proof0 (cidof rlid)) :input))
-          )
-        )
-      )
-      ((null (ruleof cid)) :input)
-      (t 
-        (cons cid
+  (cond
+    ((ruleof cid) 
+      (cons cid
+        (cons (ruleof cid)
           (let* ((pr (proofof cid))(flits (cadddr pr)) )
             (loop for flid in flits collect 
-              (list (code-of-rule (ruleof cid)) (list-proof0 (cidof flid)) )
+              (list flid (list-proof0 (cidof flid)))
             )
           )
         )
       )
     )
+    (t (list cid :input))
   )
 )
 
-;(defun fullproof (cid)
-;  (if (proofof cid)  ;; should check :resolution too
-;    (cond 
-;      ((eq (ruleof cid) :resolution)
-;        (let (rpa) 
-;          (setq rpa (rpairof cid))
-;          (cond 
-;            ((null rpa) (bodyof cid ))
-;            (t (list 
-;      ;             (ruleof cid)
-;                   (when (car rpa) (list (car rpa) (fullproof (cidof (car rpa)))))
-;                   (when (cadr rpa) (list (cadr rpa) (fullproof (cidof (cadr rpa)))))
-;                 ))
-;            )
-;          )
-;           (bodyof cid )
-;          )
-;      ((eq (ruleof cid) :REDUCED-BY-SEMANTIX)
-;        (let* ((pr (proofof cid))(flits (cadddr pr)))
-;          (loop for flid in flits collect 
-;            (fullproof (cidof flid))
-;          )
-;        )
-;      ))
-;  )
-;)
+;; depth of proof tree
+;; estimation of proof0
+(defun depth-lid (lid)
+  (depth-cid (cidof lid))
+)
+
+;; input clause's depth is 0
+(defun depth-cid (cid)
+  (cond 
+    ((eq :RESOLUTION (ruleof cid))(let ((pr (rpairof cid)))
+       (1+ (max (depth-lid (car pr))(depth-lid (cadr pr))))))
+    ((eq :REDUCED-BY-SEMANTIX (ruleof cid)) 
+       (1+ (loop for lid in (nth 3 (proofof cid)) maximize (depth-lid lid))))
+    (t 0)
+  )
+)
+
+;; depth of a proof 
+(defun depth-proof0 (cid)
+  (1+ (depth-cid cid))
+)
+
 
 ;;;; invariant of clause in Σ
 
@@ -225,5 +212,3 @@
 )
 
 
-
-        

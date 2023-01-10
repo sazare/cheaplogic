@@ -15,6 +15,7 @@ coregraph.kqc は一直線
 
 ;;;
 (load "play-prover-gt-ml002.lisp")
+ (in-package :rubbish)
 
 ;; a->b->c
 (readkqc "kqc/path/graph001.kqc")

@@ -19,10 +19,3 @@
 (3 (x y z) (+ P x y)(- N x y))
 (4 (x) (+ P x x))
 
-;; core graph structure
-(5 () (+ N a b))
-(6 () (+ N b c))
-(8 () (+ N c d))
-(9 () (+ N b e))
-(10 () (+ N e d))
-
