@@ -11,9 +11,20 @@ coregraph.kqc は一直線
 (prover-gtrail '(c1))
 
 (require :gtrail)
- (in-package :rubbish)
-(readkqc "kqc/ml002.kqc")
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(readkqc "kqc/path/graph102.kqc")
 (prover-gtrail '(c1))
+
+
+
+(readkqc "kqc/ml002.kqc")
+(readkqc "kqc/path/graph101.kqc")
+(readkqc "kqc/path/graph102.kqc")
+(readkqc "kqc/path/graph201.kqc")
+
+(defparameter *max-contradictions* 5)
+(readkqc "kqc/path/graph201.kqc")
 
 
 ;;;

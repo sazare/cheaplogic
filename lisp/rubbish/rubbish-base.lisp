@@ -60,6 +60,13 @@
     lid
   )
 )
+;; Ln-m => n
+(defun lnumof (lid)
+  (let ((slid (string lid)))
+    (parse-integer (subseq slid 1 (position #\- slid)))
+  )
+)
+
 
 ;; make lids for lits with cid
 (defun make-lids(cid lits)
@@ -146,6 +153,13 @@
     cid
   )
 )
+
+(defun cnumof (cid)
+  (let ((scid (string cid)))
+    (parse-integer (subseq scid 1 ))
+  )
+)
+
 ;;;;
 (defun add-cid (n)
 ;   (cond ((< n *maxcid*) (format t "name double ~a~%" n)))
@@ -221,6 +235,7 @@
 (defun nameof (cid)
   (get cid :name)
 )
+
 
 (defun lidof (cid i)
   (nth (- i 1) (bodyof cid))

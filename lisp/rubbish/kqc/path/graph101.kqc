@@ -1,0 +1,17 @@
+;; liner graph
+(1 () (- P a d))
+
+;path definition
+(2 (x y z) (+ P x z)(- P x y)(- N y z))
+(3 (x y) (+ P x y)(- N x y))
+(4 (x) (+ P x x))
+
+;; core graph structure
+(5 () (+ N a b))
+(6 () (+ N b c))
+(7 () (+ N c d))
+
+; symetric 2 paths
+(8 () (+ N b e))
+(9 () (+ N e d))
+
