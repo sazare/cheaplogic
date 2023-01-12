@@ -1,3 +1,7 @@
+; use local-time for summary
+(ql:quickload :local-time)
+
+
 (in-package :cl-user)
 
 (defpackage :rubbish

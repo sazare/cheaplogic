@@ -100,15 +100,16 @@
    *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
 )
 
+
 (defun show-parameter (time-start)
     (format t 
-  "~%time-start           = ~a (secs)
+  "~%  start-time           = ~a 
   *max-clauses*        = ~a
   *max-contradictions* = ~a
   *max-trials*         = ~a
   *max-steps*          = ~a
   *timeout-sec*        = ~a~%"
-   time-start *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
+   (local-time:now) *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
 )
 
 ;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
@@ -134,8 +135,8 @@
 (defun summary (time-start)
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
-    (format t "~%time consumed = ~a secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
-      (- (time-current-secs) time-start)
+    (format t "~%time consumed = ~,6F secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+      (/ (- (get-internal-run-time) time-start) internal-time-units-per-second)
       (length *clist*)
       (length contras)
       (length valids)
@@ -151,7 +152,7 @@
          (valids nil)
          (proof-steps 0)
          (trials-count 0)
-         (time-start (time-current-secs))
+         (time-start (get-internal-run-time))
          (goallist goals)
          goal 
          newgoal
@@ -189,7 +190,7 @@
             (return-from prover-loop (quit-contra "number of trials exceeds" time-start contradictions valids)))
            ((> proof-steps *max-steps*)  
             (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions valids)))
-           ((> (- (time-current-secs) time-start) *timeout-sec*)
+           ((> (- (get-internal-run-time) time-start) *timeout-sec*)
             (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions valids)))
            ((when-finish-p)  
             (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))

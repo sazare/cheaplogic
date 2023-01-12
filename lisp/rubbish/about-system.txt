@@ -1,5 +1,12 @@
 about gtrail system 
 
+2023/01/12木
+*** required packkage
+quicklispのパッケージで必要なもの。
+(ql:quickload "local-time")
+
+package.lispで実行するようにした。
+
 2021/12/12 ... asdファイルミスだった
 
 xx (in-package :rubbish)のあと
@@ -98,3 +105,6 @@ ccccccc
       (:file "rubbish-semantx" :depends-on ("rubbish-package"))
       (:file "rubbish-log" :depends-on ("rubbish-package"))
     )
+
+
+
