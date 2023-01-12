@@ -13,6 +13,7 @@ coregraph.kqc は一直線
 (require :gtrail)
 (in-package :rubbish)
 (defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* 5)
 (readkqc "kqc/path/graph201.kqc")
 (prover-gtrail '(c1))
 

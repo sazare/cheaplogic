@@ -190,7 +190,7 @@
             (return-from prover-loop (quit-contra "number of trials exceeds" time-start contradictions valids)))
            ((> proof-steps *max-steps*)  
             (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions valids)))
-           ((> (- (get-internal-run-time) time-start) *timeout-sec*)
+           ((> (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) *timeout-sec*)
             (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions valids)))
            ((when-finish-p)  
             (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))
