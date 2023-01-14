@@ -1,5 +1,9 @@
 rudderに追加する機能
 
+(print-pcodes)
+
+(classify-cid-by-pcode)
+
 ★これもおもしろいかも
 (dump-clauses *clist* out)
 
@@ -43,13 +47,23 @@ load-rubbish
 (print-clause cid)    ..0とどこが違うのか?
 (print-clausex *clist*)
 
+グラフ構造
+(depth-proof0 cid)
+? (depth-lid lid)
+
+こういうのはどうか?
+[]数/resolve数 
+(/ *num-of-contradictions* *num-of-trials*)
+と
+(/ (num-of-contradictions *clist*) (- (length *clist*) inputclause数)))
+
+num-of-resolvents =  (loop for c in *clist* when (proofof c) count c)
+num-of-inputclauses  = (loop for c in *clist* unless (proofof c) count c)
+num-of-contradictions = (loop for c in *clist* when (iscontradiction c) count c)
 
 ----
-(summary 0)
-
-(show-parameter 0)
-
- (time-current-secs)
+(summary¥0 nil) or t
+(show-parameter0 nil) or t
 
 =====
 (step-solver goal) 重要そう。proverの制御しているぽい
@@ -59,6 +73,12 @@ lower level
 (gather-properties atom)
 (gather-atominfo atomlist)
 
+====
+pcode statics
+1. all pcodes of *clists*
+2. for every pcode, cid has it
+
+これで全clauseのpcodeの分布がわかる
 
 ==============
 ★ []の情報とはなにか? 

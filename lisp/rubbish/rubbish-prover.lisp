@@ -62,33 +62,25 @@
 ;;; code of clause
 ;; compare over atom's name
 
-(defun name< (llid rlid)
-  (< (lnumof llid)(lnumof rlid))
-)
-
-(defun name> (llid rlid)
-  (> (lnumof llid)(lnumof rlid))
-)
-
 ;; sort over olid on bodies
 (defun ccode (cid)
   (sort 
     (loop for lid in (bodyof cid) collect (olidof lid))
-    #'name>
+    #'lid>
   )
 )
 (defun sccode (cid)
   (format nil "~a" 
     (sort 
       (loop for lid in (bodyof cid) collect (olidof lid))
-      #'name>
+      #'lid>
     )
   )
 )
 
 ;; sort the body with olid
 (defun olid< (ll rr)
-  (name< (olidof ll) (olidof rr))
+  (lid< (olidof ll) (olidof rr))
 )
 
 ;; vars is (varsof (cidof (car (canoc cid))))
@@ -108,8 +100,8 @@
 
 (defun make-pcode (lid1 lid2)
   (let ((pinf (make-pinfo lid1 lid2)) uniq)
-    (setq uniq (loop with ss = () for s in pinf do (pushnew s ss :test #'equal) finally (return ss) ))
-    (sort uniq #'name>)
+    (setq uniq (loop with ss = () for s in pinf do (pushnew s ss :test #'lid=) finally (return ss) ))
+    (sort uniq #'lid>)
   )
 )
 
@@ -155,20 +147,20 @@
 ; pcode of cid for successful unificaton
 (defun pcode (cid)
   (let ((sinf (pinfof cid)) uniq)
-    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss :test #'equal) finally (return ss) ))
-    (sort uniq #'name>)
+    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss :test #'lid=) finally (return ss) ))
+    (sort uniq #'lid>)
   )
 )
 
 (defun pcode0 (cid)
   (let ((sinf (pinfof cid)))
-    (sort sinf  #'name>)
+    (sort sinf  #'lid>)
   )
 )
 
 ;; stringfy pcode
 (defun spcode (cid)
-  (format nil "~a" (sort (pcode cid) #'name>))
+  (format nil "~a" (sort (pcode cid) #'lid>))
 )
 
 

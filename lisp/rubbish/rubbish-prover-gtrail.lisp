@@ -135,6 +135,7 @@
 (defun summary (time-start)
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
+    (format t "end-time: ~a " (local-time:now))
     (format t "~%time consumed = ~,6F secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
       (/ (- (get-internal-run-time) time-start) internal-time-units-per-second)
       (length *clist*)
@@ -196,6 +197,7 @@
             (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))
          )
       finally
+        (format t "end-time: ~a " (local-time:now))
         (format t "finished. goallist is empty~%")
         (format t "contradictions=~a~%" contradictions)
         (format t "valids =~a~%" valids)

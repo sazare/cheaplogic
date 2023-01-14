@@ -1,9 +1,56 @@
 pathfinder実験
 
 kqc/path/*.kqc
+coregrapth.kqc は作業用
+graph00[123].kqc は一直線 a→b、a→b→c、a→b→c→d
+graph10[12].kqcは複数パス 1は対称、2は非対称
+graph201.kqcはループ　無限に[]がでるので、[]の数で終了
 
-coregraph.kqc は一直線
 
+★001,002,003から
+グラフの書き方
+　ノード隣接の述語Nと、パスの述語Pを用いた。
+　Nの記述は自明なほどどだか、向きについては左から右むきの矢印があると考えている。
+　ループがないのでN(a,b) とN(b,a)を書くなどということが必要なく、記述は簡単になっている。
+　Pはパスの存在を示す。
+　　P固有の定義としては+P(x,x)を書いている。x→xをパスだと定義していることになる。
+　　他はNとPの関係の定義である。これはどういうことか?
+　　Pの定義はNの定義に基づいて行うということだ。
+　　もし逆にしたかったら、Pの定義としてすべての組み合わせを書き、その中の隣り合うという性質をNで表すひとになるだろう。それは2,3なのかもしれない。
+　001のgoalのバリエーションとして-P(a,a)などもありうるが、それは4+P(x,x)とすぐに[]ができることを確認した。
+　002では、a->b->cというパスを探すことができるかをテスト
+　003では長さ3のパスa->b->c->dを検出した。
+　この調子ならどこまでもできそう。
+
+
+★101,102から
+
+
+★201から
+
+
+
+
+
+★★矛盾のpcodeの一覧を出すscript
+contradictionのリストは、summaryか(lscovs)でわかる。
+
+RUBBISH(18): (loop for cid in '(C29 C33 C37 C40 C73 C85 C91 C108 C132 C150) do
+(format t "~a ~a~%"  cid (pcode cid) )
+)
+C29 (L9-1 L8-1 L5-1 L3-1 L3-2 L2-1 L2-2 L2-3 L1-1)
+C33 (L7-1 L6-1 L5-1 L3-1 L3-2 L2-1 L2-2 L2-3 L1-1)
+C37 (L9-1 L8-1 L5-1 L4-1 L2-1 L2-2 L2-3 L1-1)
+C40 (L7-1 L6-1 L5-1 L4-1 L2-1 L2-2 L2-3 L1-1)
+C73 (L7-1 L6-1 L5-1 L3-1 L3-2 L2-1 L2-2 L2-3 L1-1)
+C85 (L7-1 L6-1 L5-1 L4-1 L2-1 L2-2 L2-3 L1-1)
+C91 (L10-1 L9-1 L6-1 L5-1 L3-1 L3-2 L2-1 L2-2 L2-3 L1-1)
+C108 (L10-1 L9-1 L6-1 L5-1 L4-1 L3-1 L2-1 L2-2 L2-3 L1-1)
+C132 (L8-1 L7-1 L6-1 L5-1 L3-1 L3-2 L2-1 L2-2 L2-3 L1-1)
+C150 (L8-1 L7-1 L6-1 L5-1 L4-1 L2-1 L2-2 L2-3 L1-1)
+NIL
+
+★★実行例
 (require :gtrail)
  (in-package :rubbish)
 (readkqc "kqc/path/coregraph.kqc")
@@ -11,15 +58,24 @@ coregraph.kqc は一直線
 (prover-gtrail '(c1))
 
 (require :gtrail)
-(in-package :rubbish)
+ (in-package :rubbish)
+(readkqc "kqc/path/graph003.kqc")
 (defparameter *enable-semantics* nil)
-(defparameter *max-contradictions* 5)
-(readkqc "kqc/path/graph201.kqc")
 (prover-gtrail '(c1))
 
-
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* 50)
+(readkqc "kqc/path/graph201.kqc")
+(prover-gtrail '(c1))
+(length (uniq-pcodes))
 
 (readkqc "kqc/ml002.kqc")
+(readkqc "kqc/path/coregraph.kqc")
+(readkqc "kqc/path/graph001.kqc")
+(readkqc "kqc/path/graph002.kqc")
+(readkqc "kqc/path/graph003.kqc")
 (readkqc "kqc/path/graph101.kqc")
 (readkqc "kqc/path/graph102.kqc")
 (readkqc "kqc/path/graph201.kqc")
@@ -27,6 +83,9 @@ coregraph.kqc は一直線
 (defparameter *max-contradictions* 5)
 (readkqc "kqc/path/graph201.kqc")
 
+
+
+#
 
 ;;;
 (load "play-prover-gt-ml002.lisp")

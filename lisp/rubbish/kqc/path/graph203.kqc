@@ -1,0 +1,16 @@
+;; simplest loop
+;; (defparameter *max-contradictions* 5) works enough
+
+(1 () (- P a b))
+
+;path definition
+(2 (x y z) (+ P x z)(- P x y)(- N y z))
+(3 (x y) (+ P x y)(- N x y))
+(4 (x) (+ P x x))
+
+;; core graph structure
+(5 () (+ N a b))
+(6 () (+ N b a))
+
+; asymetric 2 paths
+

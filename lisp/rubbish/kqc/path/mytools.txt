@@ -1,0 +1,39 @@
+*clist*
+(gatercontra *clist*) => (consists contras)
+(proofof cid) .. list-mguから呼ばれる
+(list-mgu cid)
+
+(pinfof cid)
+(pcode cid)
+(spcode cid)
+(ccode cid)
+
+(print-clauses *clist*)
+(print-clause0 cid)
+(print-clause cid)    ..0とどこが違うのか?
+(print-clausex *clist*)
+
+(print-proof0 cid)
+(list-proof0 cid) リスト構造で証明の簡略形をかえす
+
+----
+(summary0 t/nil)
+
+(show-parameter0 t/nil)
+
+ (time-current-secs)
+
+get-internal-run-time
+internal-time-units-per-second
+(local-time:now)   -- starttime
+
+=====
+(step-solver goal) 重要そう。proverの制御しているぽい
+
+====
+lower level
+(gather-properties atom)
+(gather-atominfo atomlist)
+
+(symbol-plist 'atom)
+
