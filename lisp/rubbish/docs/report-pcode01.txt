@@ -1,3 +1,8 @@
+pcodeの分析
+
+lid>の実装で、単純に文字列比較にした場合と、Ln-mの(n,m)の比較にした場合の性能測定。
+後者のほうがpcodeの並びがみやすい。
+
 (require :gtrail)
 (in-package :rubbish)
 (defparameter *enable-semantics* nil)

@@ -1,0 +1,340 @@
+pcodeの2023/01/14
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* 13)
+(readkqc "kqc/path/graph201.kqc")
+(prover-gtrail '(c1))
+
+(length (uniq-pcodes))
+
+; #[] pcode
+(print-analyze (analyze-pcode))
+　
+
+
+★★★
+*clist*でなく[]のみにすべきかどうかは
+何に使うかによる。
+Σの全情報の把握という点では[]のpcodeでよいが
+証明の制御に使うのなら*clist*かも。
+
+ここは*clist*を使っている
+
+10,58
+11,59
+12,60
+13,62 ★
+30,62
+60,62
+
+(defparameter *max-contradictions* 30)
+(readkqc "kqc/path/graph201.kqc")
+(prover-gtrail '(c1))
+RUBBISH(18): (length  (uniq-pcodes))
+62
+
+[]の数をふやすとpcodeの種類が増える。
+収束することを期待していたが・・・
+(defparameter *max-contradictions* 60)
+(readkqc "kqc/path/graph201.kqc")
+(prover-gtrail '(c1))
+
+62
+
+---
+[]の数のmaxとpcodeの分類された数の対応はこのとおり
+
+10,58
+11,59
+12,60
+13-62
+15, 62
+30, 62
+60, 62
+
+
+だから、[]の数が13のとき、必要なpcodeはすべてみつかっている
+(長さが同じで中身が違うものがあるかないか?)
+
+13のときの各pcodeの長さ
+(loop for x in xx collect (length x))
+(0 2 2 4 4 3 6 6 5 6 6 5 7 7 6 9 7 7 6 10 8 8 7 8 8 7 9 9 8 12 10 9 8 8 8 7 11
+ 9 9 8 8 11 11 10 9 10 8 8 7 7 7 6 10 10 9 8 7 10 9 9 8 9)
+
+pcodeの長さとproofの長さはだいたい比例すると思う
+証明の長さがだいたい12くらいで、必要な情報は全部とれているようだ。
+横にひろがった証明だとまた違ってくる。
+
+長さ12の近くのpcodeをみてみる。
+
+ (nth 31 xx)
+(L8-1 L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+
+(nth 29 xx)
+(L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+
+ (nth 30 xx)
+(L10-1 L9-1 L8-1 L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+
+以上から、[]数が13のところでpcodeは62個になりこれがmax。
+
+(find-cid-by-pcode '(L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+(C128 C121)
+
+(find-cid-by-pcode '(L8-1 L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+(C136 C112)
+
+(find-cid-by-pcode '(L10-1 L9-1 L8-1 L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+(C129 C122)
+
+-----
+[]の数を制限
+-----
+[]の数のmaxを60にすると、同じpcodeをもつclauseが増えるか?
+
+-----
+#[]max 50の場合
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* 50)
+(readkqc "kqc/path/graph201.kqc")
+(prover-gtrail '(c1))
+
+各pcodeのclauseとpcodeの長さ
+
+ (loop for x in yy collect (list (car x) (length (cadr x))))
+((NIL 10) ((L3-1 L1-1) 1) ((L2-1 L1-1) 1) ((L4-1 L2-2 L2-1 L1-1) 1)
+ ((L3-1 L2-2 L2-1 L1-1) 1) ((L2-2 L2-1 L1-1) 1)
+ ((L10-1 L4-1 L2-3 L2-2 L2-1 L1-1) 1) ((L10-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L2-3 L2-2 L2-1 L1-1) 2) ((L7-1 L4-1 L2-3 L2-2 L2-1 L1-1) 1)
+ ((L7-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2) ((L7-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L4-1 L2-3 L2-2 L2-1 L1-1) 1)
+ ((L10-1 L9-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2) ((L10-1 L9-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1) 1)
+ ((L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1) 1)
+ ((L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2) ((L7-1 L6-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1) 1)
+ ((L10-1 L9-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1) 1)
+ ((L10-1 L9-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L6-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L8-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L8-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1) 2)
+ ((L10-1 L9-1 L8-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L10-1 L9-1 L8-1 L6-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1) 6)
+ ((L8-1 L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1) 6)
+ ((L8-1 L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1) 6)
+ ((L10-1 L8-1 L7-1 L4-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L10-1 L8-1 L7-1 L3-1 L2-3 L2-2 L2-1 L1-1) 8)
+ ((L10-1 L8-1 L7-1 L2-3 L2-2 L2-1 L1-1) 8)
+ ((L10-1 L9-1 L8-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L10-1 L9-1 L8-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L10-1 L9-1 L8-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L10-1 L9-1 L8-1 L4-1 L2-3 L2-2 L2-1 L1-1) 8)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1) 18)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1) 18)
+ ((L10-1 L9-1 L8-1 L7-1 L4-1 L2-3 L2-2 L2-1 L1-1) 57)
+ ((L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L8-1 L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1) 4)
+ ((L8-1 L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1) 8)
+ ((L8-1 L7-1 L6-1 L2-3 L2-2 L2-1 L1-1) 8)
+ ((L8-1 L7-1 L4-1 L2-3 L2-2 L2-1 L1-1) 9)
+ ((L8-1 L7-1 L3-1 L2-3 L2-2 L2-1 L1-1) 18) ((L8-1 L7-1 L2-3 L2-2 L2-1 L1-1) 18)
+ ((L10-1 L9-1 L8-1 L3-1 L2-3 L2-2 L2-1 L1-1) 17)
+ ((L10-1 L9-1 L8-1 L2-3 L2-2 L2-1 L1-1) 17)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1) 29)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1) 29)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1) 42)
+ ((L10-1 L9-1 L8-1 L7-1 L3-1 L2-3 L2-2 L2-1 L1-1) 132)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L2-3 L2-2 L2-1 L1-1) 42)
+ ((L10-1 L9-1 L8-1 L7-1 L2-3 L2-2 L2-1 L1-1) 132)
+ ((L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1) 30))
+
+13のときのpcodeから50のときのcidをさがしてみた
+(find-cid-by-pcode '(L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+(C656 C640 C633 C614 C607 C597 C498 C491 C481 C462 C345 C329 C322 C262 C255
+ C245 C128 C121)
+
+ふえてる
+[]でなくすべてのresolventを見ているとこういうことはおこるのかも。
+また、graph201.kqcは、同じルーブでもいろいろのパスがあるから余計に違いがあるのか。
+
+(setq xx (classify-cid-by-pcode ))
+(setq yy (loop for pc in xx collect (list (length (cadr pc) )(car pc))))
+(setq zz (sort yy (lambda (x y) (> (car x)(car y)))))
+((132 (L10-1 L9-1 L8-1 L7-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (132 (L10-1 L9-1 L8-1 L7-1 L2-3 L2-2 L2-1 L1-1))
+ (57 (L10-1 L9-1 L8-1 L7-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (42 (L10-1 L9-1 L8-1 L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (42 (L10-1 L9-1 L8-1 L7-1 L6-1 L2-3 L2-2 L2-1 L1-1))
+ (30 (L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (29 (L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (29 (L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1))
+ (18 (L10-1 L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (18 (L10-1 L9-1 L8-1 L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (18 (L8-1 L7-1 L3-1 L2-3 L2-2 L2-1 L1-1)) (18 (L8-1 L7-1 L2-3 L2-2 L2-1 L1-1))
+ (17 (L10-1 L9-1 L8-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (17 (L10-1 L9-1 L8-1 L2-3 L2-2 L2-1 L1-1)) (10 NIL)
+ (9 (L8-1 L7-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (8 (L10-1 L8-1 L7-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (8 (L10-1 L8-1 L7-1 L2-3 L2-2 L2-1 L1-1))
+ (8 (L10-1 L9-1 L8-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (8 (L8-1 L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (8 (L8-1 L7-1 L6-1 L2-3 L2-2 L2-1 L1-1))
+ (6 (L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (6 (L8-1 L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (6 (L8-1 L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L10-1 L9-1 L8-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L10-1 L9-1 L8-1 L6-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L10-1 L8-1 L7-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L10-1 L9-1 L8-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L10-1 L9-1 L8-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L10-1 L9-1 L8-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (4 (L8-1 L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L3-1 L2-3 L2-2 L2-1 L1-1)) (2 (L10-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L7-1 L3-1 L2-3 L2-2 L2-1 L1-1)) (2 (L7-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L3-1 L2-3 L2-2 L2-1 L1-1)) (2 (L10-1 L9-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1)) (2 (L7-1 L6-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L6-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L8-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (2 (L10-1 L9-1 L8-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1)) (1 (L3-1 L1-1))
+ (1 (L2-1 L1-1)) (1 (L4-1 L2-2 L2-1 L1-1)) (1 (L3-1 L2-2 L2-1 L1-1))
+ (1 (L2-2 L2-1 L1-1)) (1 (L10-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (1 (L7-1 L4-1 L2-3 L2-2 L2-1 L1-1)) (1 (L10-1 L9-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (1 (L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (1 (L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1))
+ (1 (L10-1 L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1))
+ (1 (L10-1 L9-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1)))
+
+これはみやすいけど、もし改行がはいってみにくいなら。
+(loop for z in zz do (format t "~a ~a~%" (car z)(cadr z)))
+
+この例は、loopなので、132回の2つのpcodeは一番頻繁に出現するループの証明ということだ。
+ちがいはL3-1がはいっているかどうかでC3は2リテラルだが、なぜそんなことが加能なのか?
+
+おおむねせpcodeの次の部分は同じ
+(L10-1 L9-1 L8-1 L7-1 L6-1
+L2-3 L2-2 L2-1 L1-1)
+
+違いは次の部分
+L5-1
+L4-1
+L5-1 L4-1
+L5-1 L3-1
+
+[]でないresolventのpcodeだとこういうのがありそう。
+
+この例は、ループが長いので短くしたgraph202でやりなおす
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* 10)
+(readkqc "kqc/path/graph202.kqc")
+(prover-gtrail '(c1))
+
+(setq cc (car (lscova)))
+(setq xx (classify-cid-by-pcode cc))
+(setq yy (loop for pc in xx collect (list (length (cadr pc) )(car pc))))
+(setq zz (sort yy (lambda (x y) (> (car x)(car y)))))
+(loop for z in zz do (format t "~a ~a~%" (car z)(cadr z)))
+
+para-#pcode-#clauses
+5-20-8
+10-20-19
+13-20
+20-20
+
+この場合はpcodeの数は20で安定。
+19 (L7-1 L6-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+19 (L7-1 L6-1 L2-3 L2-2 L2-1 L1-1)
+9 (L7-1 L6-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+8 (L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+8 (L7-1 L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+8 (L7-1 L6-1 L5-1 L2-3 L2-2 L2-1 L1-1)
+7 NIL
+5 (L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L6-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L6-1 L2-3 L2-2 L2-1 L1-1)
+2 (L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+2 (L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L6-1 L5-1 L2-3 L2-2 L2-1 L1-1)
+1 (L3-1 L1-1)
+1 (L2-1 L1-1)
+1 (L4-1 L2-2 L2-1 L1-1)
+1 (L3-1 L2-2 L2-1 L1-1)
+1 (L2-2 L2-1 L1-1)
+1 (L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+1 (L6-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+NIL
+
+pcode=NILはinput clauseである。
+
+
+graph203は最短のループa->b->a
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* 20)
+(readkqc "kqc/path/graph203.kqc")
+(prover-gtrail '(c1))
+
+(setq cc (car (lscova)))
+(setq xx (classify-cid-by-pcode cc))
+(setq yy (loop for pc in xx collect (list (length (cadr pc) )(car pc))))
+(setq zz (sort yy (lambda (x y) (> (car x)(car y)))))
+(loop for z in zz do (format t "~a ~a~%" (car z)(cadr z)))
+
+この203は、a->b->aで、証明が14パターンしかない。
+違う証明が生まれないということか。
+
+#[] - #pc - #c/pc
+5-14-6
+10-14-17
+20-14-37
+
+37 (L6-1 L5-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+37 (L6-1 L5-1 L2-3 L2-2 L2-1 L1-1)
+27 (L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+10 (L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+6 NIL
+2 (L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+2 (L5-1 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L5-1 L2-3 L2-2 L2-1 L1-1)
+1 (L3-1 L1-1)
+1 (L2-1 L1-1)
+1 (L5-1 L3-2 L3-1 L1-1)
+1 (L4-1 L2-2 L2-1 L1-1)
+1 (L3-1 L2-2 L2-1 L1-1)
+1 (L2-2 L2-1 L1-1)
+NIL
+RUBBISH(11): (length xx)
+14
+
+ルーブがまわる証明は37と27と10個
+
+これには[]以外のresolventが含まれるのでpcodeのパターンが多い。
+
+pcodeをΣの情報のパターン作りに使うなら[]のpcodeだけでいい。
+
+Σからの証明を制御したい場合、つまり同じpcodeを持つresolventを抑制するなどの方法を考える場合は、全clauseのpcodeをみるぺきか。
+
+

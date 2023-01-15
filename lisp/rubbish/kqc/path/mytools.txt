@@ -37,3 +37,7 @@ lower level
 
 (symbol-plist 'atom)
 
+======
+
+(analyze-pcode)   []のみのpcodeで分析
+(analyze-pcode0 cids)　任意のclauseリストで分析。省略時は*clist*
