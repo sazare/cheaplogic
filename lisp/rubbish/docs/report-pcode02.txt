@@ -1,0 +1,83 @@
+pcodeの意味
+
+時間のかかる証明では、具体的には違うけれど同じような証明が繰り返される。
+それはルーブに相当するような証明で、たとえばgraph201.kqcの証明がそれ。
+ルーブを含むグラフについて、無数にありうるパスを次々とみつけていくからそうなる。
+
+このようなある種同じ証明を除去する方法を考えている。
+同じような証明(の部分)は何で区別できるか・・
+
+Rubbishの特徴は次のようになる。
+・resolventは生成されるときに、変数をすべてつけかえる。変数名はcidをもとに名付ける。
+・clause集合Σからresolutionで作られるresolventについて次の性質がある。
+　1) resolventのリテラル(たとえばL1)は、input clauseのリテラル(L0)が存在し、L1はL0のインスタンスである。input clauseのリテラルはinput literalと呼ぶことにする。
+　2) resolvent Cについてみると、CのリテラルLは、親のclauseにL'が存在し、LもL'も同じinput literalを持つことで区別される。
+
+そこであるclause Cのpcodeは次のものである。
+
+　Cの証明Pについて、input clauseからCまでの、対となったlidのすべてをM(p)とするとき
+　M(p)のinput litrearalの集合N(p)をCのpcodeと呼ぶ。
+
+
+　Cを構成するリテラルのinput literalの集合をCのccodeと呼ぶ。
+
+　pcodeはCの証明の過去における痕跡であり、ccodeは未来の可能性を示している。
+
+だから、二つのclauseのpcodeが違っていたら、証明も異なる。
+
+同じpcodeを持つ証明が複数存在しうる。たとえば同じclauseで -P v +P v αの場合、このclauseを複数回使用した証明は、同じpcodeになりうる。同じinput literalの子孫が別のタイミングで証明に使われたときのことになる。
+
+あるclauseについて、pcodeはそのclauseの証明の命題論的な指紋になる。一階述語論理の場合、複数の証明の比較をするには、pcode以外にtermの間のmgu/代入がありうる。Rubbishでは、proof情報としてclauseが持っていて、(list-mgu)などで確認できる。
+この場合、clauseを超えた変数の同一性などがわからないとmgu間の関係がとれないが、DVC条件のためresolventの変数名を全部つけかえており、resolventの親の変数リストを見れば、どのような情報なのかはわかる。([DVCのための変数名の扱い])
+
+矛盾[]はそれ以上証明が続かず完結しているので、そのpcodeは、矛盾[]の証明の全情報になる。
+一般のclause Cの場合、Cを構成するリテラル L1,L2,..,Lkが消えていないので、pcodeは中途半端なものになっている。ただしCから矛盾が証明できたとすると、その矛盾のpcodeは
+
+　pcode(C) + ccode(C)*oppo(ccode(C)) 
+　　　ただし、X*YはXとYの全組み合わせ
+
+　のどれかになるだろう。
+
+　pcodeを使って無駄な証明を作らない方法を考えると
+
+　既存のclauseのpcodeを知っている場合(矛盾以外のresolventもすべて含む)
+　resolutionの処理を開始するとき、親clause C1, C2からリテラルL1 L2を選んだ段階で、
+　(pcode C1)+(pcode C2)+{L1, L2のinput literal}を含むpcodeがすでに存在していたら、そのresolutionは行わなくいもいい可能性が高い。
+
+　　ただし、証明手続きのはじめは、すべての極大なpcodeがわからないので、最初は情報収集が必要だろう。
+
+
+また、pcodeの
+
+
+
+
+
+
+[DVCのための変数名の扱い]
+resolutionでは、親の2つのclauseは同じ変数を持たないようにする必要がある。
+Chang&Leeでは、clauseにその変数名のリストを持ち、親の間で共通の変数をrenameするという処理になっている。
+Rubbishでは、resolventを作るときに、変数名をすべてつけかえ、すべてのclauseが異なる変数を持つようにしている。
+
+Chang&Leeの方法では、
+ 1) 共通の変数をさがす
+ 2) 共通の変数をrenameする
+という方法によるが、この方法は
+ 1) 変数リストの共通要素を探す
+ 2) resolutionが失敗すると、rename処理は無駄になる
+
+という性能の問題がある。
+どれくらいの数のresolutionが失敗するのかを計測する必要がある★
+
+Rubbishの場合、
+ 1) Resolutionの失敗の場合はなにもしない。
+ 2) 共通の変数をもとめない
+ただし
+ 1) 必ず全変数をrenameする。
+というデメリットがある。
+
+ 全変数のrenameは、全変数に新しい名前を作らなくてはならないので、リソースが余計にかかる。
+ renaeの処理自体は、Chang&Leeが2つのclauseのrenameを行うのに対して、resolvent1つのみなので高速になる。
+
+ということで場合によるかもわからないが、実際の証明の分析が必要になる。★
+

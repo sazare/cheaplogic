@@ -79,8 +79,8 @@
 )
 
 ;; sort the body with olid
-(defun olid< (ll rr)
-  (lid< (olidof ll) (olidof rr))
+(defun olid> (ll rr)
+  (lid> (olidof ll) (olidof rr))
 )
 
 ;; vars is (varsof (cidof (car (canoc cid))))
@@ -88,7 +88,7 @@
 (defun canonic (cid)
   (sort 
     (loop for lid in (bodyof cid) collect lid)
-    #'olid<
+    #'olid>
   )
 )
 
@@ -100,7 +100,7 @@
 
 (defun make-pcode (lid1 lid2)
   (let ((pinf (make-pinfo lid1 lid2)) uniq)
-    (setq uniq (loop with ss = () for s in pinf do (pushnew s ss :test #'lid=) finally (return ss) ))
+    (setq uniq (loop with ss = () for s in pinf do (pushnew s ss) finally (return ss) ))
     (sort uniq #'lid>)
   )
 )
@@ -147,7 +147,7 @@
 ; pcode of cid for successful unificaton
 (defun pcode (cid)
   (let ((sinf (pinfof cid)) uniq)
-    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss :test #'lid=) finally (return ss) ))
+    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss) finally (return ss) ))
     (sort uniq #'lid>)
   )
 )

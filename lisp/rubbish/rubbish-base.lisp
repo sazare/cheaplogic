@@ -71,30 +71,17 @@
   )
 )
 
-(defun lid= (l1 l2)
-  (equal (lpairof l1)(lpairof l2))
-)
-
+;; the code commented out is for goodlooking pcode but slow
 (defun lid> (l1 l2)
-  (let ((p1 (lpairof l1))(p2 (lpairof l2)))
-    (cond
-      ((> (car p1)(car p2)) t)
-      ((= (car p1)(car p2)) (> (cadr p1)(cadr p2)))
-      (t nil)
-    )
-  )
+;  (let ((p1 (lpairof l1))(p2 (lpairof l2)))
+;    (cond
+;      ((> (car p1)(car p2)) t)
+;      ((= (car p1)(car p2)) (> (cadr p1)(cadr p2)))
+;      (t nil)
+;    )
+;  )
+(string> (string l1)(string l2))
 )
-
-(defun lid< (l1 l2)
-  (let ((p1 (lpairof l1))(p2 (lpairof l2)))
-    (cond
-      ((< (car p1)(car p2)) t)
-      ((= (car p1)(car p2)) (< (cadr p1)(cadr p2)))
-      (t nil)
-    )
-  )
-)
-
 
 ;; make lids for lits with cid
 (defun make-lids(cid lits)

@@ -10,16 +10,16 @@
 
 
 ;; parameters
-(defparameter *max-clauses* 1000)
-(defparameter *max-contradictions* 30)
-(defparameter *max-trials* 100)
-(defparameter *max-steps* 100)
-(defparameter *timeout-sec* 10)
-
-(defparameter *goallist* nil)
-
-
-(defparameter *rubbish-state* '(*goallist* *num-of-trials*))
+;(defparameter *max-clauses* 1000)
+;(defparameter *max-contradictions* 30)
+;(defparameter *max-trials* 100)
+;(defparameter *max-steps* 100)
+;(defparameter *timeout-sec* 10)
+;
+;(defparameter *goallist* nil)
+;
+;
+;(defparameter *rubbish-state* '(*goallist* *num-of-trials*))
 
 ;;; finish time function user can defined
 ;(defun when-finish-p () t)

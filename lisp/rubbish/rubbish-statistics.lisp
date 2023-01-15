@@ -2,19 +2,6 @@
 
 (in-package :rubbish)
 
-; variables for statistics
-
-(defparameter *num-of-input-literals* 0)   ;
-(defparameter *num-of-trials* 0)           ; how many unifications do?
-(defparameter *num-of-proof-steps* 0)      ; how long proof is?
-
-(defparameter *num-of-contradictions* 0)   ; # of contradictions(iscontradiction over *clist*)
-(defparameter *num-of-literals* 0)         ; = (length *llist*)
-(defparameter *input-clauses* ())          ; as the *clist* immediately after read kqc file
-(defparameter *input-literals* ())         ; all literals of input clauses
-(defparameter *num-of-resolvents* 0)       ; # of resolvents = (*clist* - input-clause)
-
-
 (defun reset-stat ()
   (setq *num-of-input-literals* 0)   
   (setq *num-of-trials* 0)
@@ -57,14 +44,17 @@
 
 
 ;;;;
-(defun analyze-pcode ()
-  (let (cc xx yy zz)
-    (setq cc (car (lscova)))
-    (setq xx (classify-cid-by-pcode cc))
+(defun analyze-pcode0 (&optional (cids *clist*))
+  (let (xx yy zz)
+    (setq xx (classify-cid-by-pcode cids))
     (setq yy (loop for pc in xx collect (list (length (cadr pc) )(car pc))))
     (setq zz (sort yy (lambda (x y) (> (car x)(car y)))))
     zz
   )
+)
+
+(defun analyze-pcode ()
+  (analyze-pcode0 (car (lscova)))
 )
 
 (defun print-analyze (csp)
@@ -75,6 +65,4 @@
   (loop for z in csp do (format t "~a ~a~%" (car z)(cadr z)))
 )
 
-
-      
  

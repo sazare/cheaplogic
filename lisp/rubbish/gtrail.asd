@@ -10,6 +10,7 @@
       (:file "rubbish-package")
       (:file "rubbish-essential" :depends-on ("rubbish-package"))
       (:file "rubbish-gen" :depends-on ("rubbish-package"))
+      (:file "rubbish-params" :depends-on ("rubbish-package"))
       (:file "rubbish-base" :depends-on ("rubbish-package"))
       (:file "rubbish-kqcio" :depends-on ("rubbish-package"))
       (:file "rubbish-unif" :depends-on ("rubbish-package"))

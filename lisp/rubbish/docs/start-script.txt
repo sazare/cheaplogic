@@ -1,0 +1,21 @@
+ (asdf:load-system :gtrail)
+ (in-package :rubbish)
+*clist*
+
+
+(require :gtrail)
+ (in-package :rubbish)
+*clist*
+
+
+@rubbish
+(load "pre-rubbish.lisp")
+ (in-package :rubbish)
+*clist*
+
+
+@webでrudderする
+(load "rudder.lisp")
+(in-package :rubbish)
+*clist*
+
