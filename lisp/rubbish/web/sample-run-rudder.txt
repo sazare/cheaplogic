@@ -1,3 +1,4 @@
+htmlサーバ版UI
 
 (load "rudder.lisp")
  (in-package :rubbish)

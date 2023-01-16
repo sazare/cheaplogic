@@ -1,8 +1,11 @@
 # cheaplogic(experimental)
 
-0. lisp/rubbish is an implementation of the proof analyzer.
-  Proof analyzer means not only prover but also analyer for many proofs and many axiom systems.
-  It is just experimental tools.
+0. lisp/rubbish is an implementation of a proof analyzer.
+  'Proof analyzer' contains not only prover but also tools for analyzing proofs. 
+
+  How to write something in FOL is my basic interests. The tools is for.
+  rubbish/kqc contains such something example files written with 'clause form'.
+   ex. 20 doors, flush light, finding paths of a graph, etc.
 
 -- previous activities are..
 1. LogicalWorld

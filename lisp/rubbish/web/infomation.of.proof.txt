@@ -1,8 +1,5 @@
 rudderに追加する機能
 
-(print-pcodes)
-
-(classify-cid-by-pcode)
 
 ★これもおもしろいかも
 (dump-clauses *clist* out)

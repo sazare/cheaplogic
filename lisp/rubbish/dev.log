@@ -1,3 +1,108 @@
+
+
+2023/01/16月
+・sbclのaliaasをlispに変えた
+sbclを生で呼びたいこともあるだろう
+
+rlwrap sbcl
+を使うことをおすすめする > 自分
+
+メモリふやさなくてもgraph201.kqcくらいは動く
+・
+-----
+shin@Chapterhouse rubbish % sbcl --script test-pathfinder001.lisp
+Unhandled SB-INT:EXTENSION-FAILURE in thread #<SB-THREAD:THREAD "main thread" RUNNING
+                                                {70051701A3}>:
+  Don't know how to REQUIRE GTRAIL.
+See also:
+  The SBCL Manual, Variable *MODULE-PROVIDER-FUNCTIONS*
+  The SBCL Manual, Function REQUIRE
+...
+
+lispファイルはだめか。
+coreファイルを作って(require :gtrail)まではやっておくか
+test-graphの定義はrubbish-statistics.lispに追加した
+　最初は、sbclの起動時の--evalで定義するのを考えたが、タイプが多すぎる。
+test-graphをrubbish-package.lispでパッケージのexternにいれた。
+
+
+★ステップ1　コアつくる :gtrailロードしたもの
+shin@Chapterhouse rubbish % rlwrap sbcl
+This is SBCL 2.1.9, an implementation of ANSI Common Lisp.
+More information about SBCL is available at <http://www.sbcl.org/>.
+
+SBCL is free software, provided as is, with absolutely no warranty.
+It is mostly in the public domain; some portions are provided under
+BSD-style licenses.  See the CREDITS and COPYING files in the
+distribution for more information.
+CL-USER(1): (require :gtrail)
+To load "local-time":
+  Load 1 ASDF system:
+    local-time
+; Loading "local-time"
+
+NIL
+
+CL-USER(2):  (sb-ext:save-lisp-and-die "test-path" :executable t)
+[undoing binding stack and other enclosing state... done]
+[performing final GC... done]
+[saving current Lisp image into test-path:
+writing 1728 bytes from the read-only space at 0x300000000
+writing 1840 bytes from the static space at 0x300200000
+writing 0 bytes from the immobile space at 0x300300000
+writing 42532864 bytes from the dynamic space at 0x7003000000
+done]
+
+** sb-extの指定は不要
+
+
+★ステップ2 実行
+  rlwrap ./test-path --eval '(in-package :rubbish)' --eval '(test-graph 10 "kqc/path/graph001.kqc" (quote (c1)))' --eval '(sb-ext:exit)'
+
+この実行のあと、REPLに残りたいときは、--eval '(sb-ext:exit)'を指定しない。
+たとえば 
+(print-analyze(analyze-pcode0))
+をしたいとき
+----
+(in-package :rubbish)
+(defun test-graph (mc kqcfile goal)
+  (defparameter *enable-semantics* nil)
+  (defparameter *max-contradictions* mc)
+  (readkqc kqcfile)
+  (prover-gtrail goal)
+  (print-analyze (analyze-pcode))
+)
+(test-graph 50 "kqc/path/graph201.kqc" '(c1))
+------
+test-gtaphの定義をどこかにうつして、スクリプトは
+(test-graph 50 "kqc/path/graph201.kqc" '(c1))
+だけ書くようにする
+
+テストのしかた
+
+./testdir/script.shを作り
+実行
+./testdir/script.sh >xxx.txt
+xxx.txtに結果出力される
+(scriptコマンドを使うとへんなコード(^Mとか^[)がでたり、出力されなかったりした)
+
+
+2023/01/15日
+グラフの例を追加。
+00?は直線
+10?は複数パスの例
+20?はループのある例
+　201はa->b->a
+　202はもうすこし長い
+　203は複数パスのあるループ
+
+(analyze-pcode)
+(print-analyze)
+などを作った
+
+すこし様子をみた
+
+
 2023/01/11水
 グラフのパスをみつける例を作った greph101.kqc, graph102.kqc
 

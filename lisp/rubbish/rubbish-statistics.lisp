@@ -65,4 +65,15 @@
   (loop for z in csp do (format t "~a ~a~%" (car z)(cadr z)))
 )
 
+
+;; test run 
+(defun test-graph (mc kqcfile goal)
+  (in-package :rubbish)
+  (defparameter *enable-semantics* nil)
+  (defparameter *max-contradictions* mc)
+  (readkqc kqcfile)
+  (prover-gtrail goal)
+
+  (print-analyze (analyze-pcode))
+)
  

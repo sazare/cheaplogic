@@ -165,7 +165,7 @@ pcodeの長さとproofの長さはだいたい比例すると思う
  C245 C128 C121)
 
 ふえてる
-[]でなくすべてのresolventを見ているとこういうことはおこるのかも。
+[]でなくすべてのresolventを見ているからこういうことがおこるようだ。
 また、graph201.kqcは、同じルーブでもいろいろのパスがあるから余計に違いがあるのか。
 
 (setq xx (classify-cid-by-pcode ))
@@ -246,8 +246,8 @@ L5-1 L3-1
 (require :gtrail)
 (in-package :rubbish)
 (defparameter *enable-semantics* nil)
-(defparameter *max-contradictions* 10)
-(readkqc "kqc/path/graph202.kqc")
+(defparameter *max-contradictions* 30)
+(readkqc "kqc/path/graph102.kqc")
 (prover-gtrail '(c1))
 
 (setq cc (car (lscova)))

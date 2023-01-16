@@ -84,6 +84,9 @@ NIL
 (readkqc "kqc/path/graph201.kqc")
 
 
+(print-analyze (analyze-pcode)) ; []のpcode分析
+(analyze-pcode0) ; *clist*のpcode分析。clause listを指定できる
+
 
 #
 
