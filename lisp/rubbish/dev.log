@@ -1,5 +1,72 @@
 
 
+2023/01/17火
+スクリプトからrubbish を使う別の方法。recip参照
+
+1. script2.shを次のように作る
+---
+#!/bin/zsh
+
+./test-path --script testdir/test-run.lisp 10 "kqc/path/graph201.kqc" '(quote (c1)))'
+---
+
+2. test-run.lispを次のように作る
+---
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* (parse-integer (nth 1 SB-EXT:*POSIX-ARGV*)))
+(readkqc (nth 2 SB-EXT:*POSIX-ARGV*))
+(prover-gtrail '(c1))
+
+(print-analyze (analyze-pcode))
+---
+これは、rubbish-statistics.lisp/test-graphとほぼ同じだが、(require :gtrail)も
+ここに書いているので、core ファイル(test-path) のようなものはいらない。
+ただし、実行時間はよけいかかるだろうけど。
+それはcoreを起動するようにすればいいだけなので、 ここの問題ではない。
+
+3. 実行
+ ./testdir/script2.sh
+
+*** string -> s-expはどうするか?
+"(C1)" -> '(c1) にする方法?
+
+ (read (make-string-input-stream "(c1 c2)"))
+ => (c1 c2)
+
+複数のs-expの場合は、
+
+ (let ((s (make-string-input-stream "(c1 c2)"))) 
+    (list (read s)(read s))
+ )
+みたいな
+
+test-run.lispを次のようにすればgoalも指定できた
+
+
+--- test-run.sh
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* (parse-integer (nth 1 SB-EXT:*POSIX-ARGV*)))
+(readkqc (nth 2 SB-EXT:*POSIX-ARGV*))
+(prover-gtrail (read (make-string-input-stream (nth 3 SB-EXT:*POSIX-ARGV*))))
+(print-analyze (analyze-pcode))
+---
+
+--- script2.sh
+./test-path --eval '(in-package :rubbish)' --eval '(test-graph 10 "kqc/path/graph201.kqc" (quote (c1)))' --eva
+#!/bin/zsh
+
+./test-path --script testdir/test-run.lisp 20 "kqc/path/graph201.kqc" '(c1)'
+./test-path --script testdir/test-run.lisp 20 "kqc/path/graph202.kqc" '(c1)'
+./test-path --script testdir/test-run.lisp 20 "kqc/path/graph203.kqc" '(c1)'
+---
+
+
+
+
 2023/01/16月
 ・sbclのaliaasをlispに変えた
 sbclを生で呼びたいこともあるだろう

@@ -1,0 +1,41 @@
+test-pathの使い方
+
+% rlwrap ./test-path
+CL-USER(1): (in-package :rubbish)
+
+#<PACKAGE "RUBBISH">
+RUBBISH(2): (test-graph 30 "kqc/path/graph201.kqc" (quote (c1)))
+
+  start-time           = 2023-01-16T17:36:30.745835+09:00
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of contradictions exceeds
+end-time: 2023-01-16T17:36:30.769121+09:00
+time consumed = 0.033393 secs
+#clauses = 481
+#contras = 31
+#valids = 0
+#trials = 2007
+#max proof steps = 0
+
+kqc file             : kqc/path/graph201.kqc
+*max-contradictions* : 30
+# of pcodes          : 10
+16 (L9-1 L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+10 (L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+5 (L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+3 (L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L9-1 L8-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L9-1 L8-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L9-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+1 (L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+1 (L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+NIL
+
+
+

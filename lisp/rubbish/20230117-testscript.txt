@@ -1,0 +1,133 @@
+shのパラメタをlispで読み込む方法
+
+sbclの引数で渡された値はSB-EXT:*POSIX-ARGV*にはいる。
+他の実装の場合はrecipeを参照
+
+文字列をS-expにする方法
+(read (make-string-input-stream (nth 3 SB-EXT:*POSIX-ARGV*))))
+
+make-string-input-streamはstreamを作るので文字列に複数S-式があったら、(read s)を何回もする必要がある
+
+
+これを使ったscript2.shとtest-run.lisp
+
+--- test-run.lisp
+(require :gtrail)
+(in-package :rubbish)
+(defparameter *enable-semantics* nil)
+(defparameter *max-contradictions* (parse-integer (nth 1 SB-EXT:*POSIX-ARGV*)))
+(readkqc (nth 2 SB-EXT:*POSIX-ARGV*))
+(prover-gtrail (read (make-string-input-stream (nth 3 SB-EXT:*POSIX-ARGV*))))
+(print-analyze (analyze-pcode))
+---
+これは、rubbish-statistics.lisp/test-graphとほぼ同じだが、(require :gtrail)も
+ここに書いているので、core ファイル(test-path) のようなものはいらない。
+ただし、実行時間はよけいかかるだろうけど。
+それはcoreを起動するようにすればいいだけなので、 ここの問題ではない。
+
+--- script2.sh
+./test-path --eval '(in-package :rubbish)' --eval '(test-graph 10 "kqc/path/graph201.kqc" (quote (c1)))' --eva
+#!/bin/zsh
+
+./test-path --script testdir/test-run.lisp 20 "kqc/path/graph201.kqc" '(c1)'
+./test-path --script testdir/test-run.lisp 20 "kqc/path/graph202.kqc" '(c1)'
+./test-path --script testdir/test-run.lisp 20 "kqc/path/graph203.kqc" '(c1)'
+---
+
+3. 実行
+ ./testdir/script2.sh
+
+
+---------------
+shin@Chapterhouse rubbish %   ./test-path --eval '(in-package :rubbish)' --eval '(test-graph 10 "kqc/path/graph201.kqc" (quote (c1)))' --eval '(sb-ext:exit)'
+
+  start-time           = 2023-01-16T11:47:37.381605+09:00
+  *max-clauses*        = 1000
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of contradictions exceeds
+end-time: 2023-01-16T11:47:37.386292+09:00
+time consumed = 0.009145 secs
+#clauses = 168
+#contras = 11
+#valids = 0
+#trials = 684
+#max proof steps = 0
+
+kqc file             : kqc/path/graph201.kqc
+*max-contradictions* : 10
+# of pcodes          : 9
+2 (L9-1 L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+2 (L9-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+1 (L9-1 L8-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+1 (L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+1 (L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+1 (L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+shin@Chapterhouse rubbish %   ./test-path --eval '(in-package :rubbish)' --eval '(test-graph 50 "kqc/path/graph201.kqc" (quote (c1)))' --eval '(sb-ext:exit)'
+
+  start-time           = 2023-01-16T11:48:46.907749+09:00
+  *max-clauses*        = 1000
+  *max-contradictions* = 50
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of contradictions exceeds
+end-time: 2023-01-16T11:48:46.921324+09:00
+time consumed = 0.017640 secs
+#clauses = 756
+#contras = 51
+#valids = 0
+#trials = 3240
+#max proof steps = 0
+
+kqc file             : kqc/path/graph201.kqc
+*max-contradictions* : 50
+# of pcodes          : 10
+30 (L9-1 L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+18 (L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+6 (L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+4 (L9-1 L8-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+4 (L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L9-1 L8-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L9-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+1 (L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+1 (L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+shin@Chapterhouse rubbish %   ./test-path --eval '(in-package :rubbish)' --eval '(test-graph 100 "kqc/path/graph201.kqc" (quote (c1)))' --eval '(sb-ext:exit)'
+
+  start-time           = 2023-01-16T11:49:03.355113+09:00
+  *max-clauses*        = 1000
+  *max-contradictions* = 100
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of clauses exceeds
+end-time: 2023-01-16T11:49:03.380912+09:00
+time consumed = 0.030660 secs
+#clauses = 1001
+#contras = 66
+#valids = 0
+#trials = 4326
+#max proof steps = 0
+
+kqc file             : kqc/path/graph201.kqc
+*max-contradictions* : 100
+# of pcodes          : 10
+41 (L9-1 L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+27 (L9-1 L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+8 (L8-1 L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+4 (L9-1 L8-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+4 (L8-1 L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
+2 (L9-1 L8-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L9-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+2 (L7-1 L6-1 L5-1 L4-1 L2-3 L2-2 L2-1 L1-1)
+1 (L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+1 (L7-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L1-1)
