@@ -1,4 +1,22 @@
 
+2023/01/18水
+・p2codeを作成した
+　これは、resolveされたLIDペアのリストを(list-mgu cid)からとってきたもの。
+  pcodeの曖昧さは、p2codeならないだろうという考えで、どれくらい違うかみてみたい。
+
+  よく必要になるuniqをrubbish-essential.lispに追加。
+
+
+・p2top は p2codeからpcodeを作る関数。追加
+例)
+
+(p2top '((L1-1 L2-1) (L10-1 L2-3) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L6-1) (L2-3 L9-1)
+   (L3-2 L5-1)))
+
+(L9-1 L6-1 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L10-1 L1-1)
+
+see 20230118-aboutp2code.txt
+
 
 2023/01/17火
 スクリプトからrubbish を使う別の方法。recip参照

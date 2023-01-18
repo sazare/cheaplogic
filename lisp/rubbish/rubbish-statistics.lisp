@@ -66,8 +66,82 @@
 )
 
 
+
+;;
+(defun print-p2codes (&optional (cids *clist*))
+   (loop for cid in cids do (format t "~a ~a~%" cid (p2code cid)))
+)
+
+(defun uniq-p2codes (&optional (cids *clist*))
+  (loop for cid in cids with ss = () do
+    (pushnew (p2code cid) ss :test #'equal)
+    finally (return ss)
+  )
+)
+   
+(defun find-cid-by-p2code (p2code &optional (cids *clist*))
+  (loop for cid in cids 
+    when (equal p2code (p2code cid)) collect cid
+  )
+)
+
+(defun classify-cid-by-p2code (&optional (cids *clist*))
+  (let (p2codes)
+    (setq p2codes (uniq-p2codes cids))
+    (loop for pc in p2codes collect
+      (list pc (find-cid-by-p2code pc))
+    )
+  )
+)
+
+;;; 
+(defun analyze2-p2code0 (&optional (cids *clist*))
+  (let (xx yy zz)
+    (setq xx (classify-cid-by-p2code cids))
+    (setq yy (loop for pc in xx collect (list (length (cadr pc) )(car pc))))
+    (setq zz (sort yy (lambda (x y) (> (car x)(car y)))))
+    zz
+  )
+)
+
+(defun analyze2-p2code ()
+  (analyze2-p2code0 (car (lscova)))
+)
+
+(defun print-analyze2 (csp)
+  (terpri t)
+  (format t "kqc file             : ~a~%" *kqcfile*)
+  (format t "*max-contradictions* : ~a~%" *max-contradictions*)
+  (format t "# of p2codes         : ~a~%" (length csp))
+  (loop for z in csp do (format t "~a ~a~%" (car z)(cadr z)))
+)
+
+;;; convert p2code to pcode
+
+(defun p2top (p2c)
+  (sort 
+    (loop for lid in (loop for p2 in p2c append p2) with ns = ()
+      do 
+        (pushnew lid ns :test #'equal)
+      finally
+        (return ns)
+    )
+  #'lid>
+  )
+)
+
+;;  cb2 ≈ (analyze2-p2code) 
+(defun p2top* (cb2)
+  (loop for cs in cb2 with ns = () do 
+    (pushnew (p2top (cadr cs)) ns :test #'equal)
+  finally (return ns)
+  )
+)
+
+
+    
 ;; test run 
-(defun test-graph (mc kqcfile goal)
+(defun test-graph (mc kqcfile &optional (goal '(C1)))
   (in-package :rubbish)
   (defparameter *enable-semantics* nil)
   (defparameter *max-contradictions* mc)
@@ -75,5 +149,5 @@
   (prover-gtrail goal)
 
   (print-analyze (analyze-pcode))
+  (print-analyze2 (analyze2-p2code))
 )
- 

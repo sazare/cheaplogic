@@ -109,4 +109,11 @@
 ; (expf fn 2) = (function (x) (apply fn (apply fn x)))
 
 
+;; list manipulation
+(defun uniq (ds)
+  (loop for d in ds with ns = () do
+    (pushnew d ns :test #'equal)
+  finally (return ns)
+  )
+)
 

@@ -257,3 +257,31 @@
   )
 )
 
+; p2code
+
+(defun uniq (ds)
+  (loop for d in ds with ns = () do
+    (pushnew d ns :test #'equal)
+  finally (return ns)
+  )
+)
+
+(defun p2code (cid)
+  (sort 
+    (uniq 
+      (loop for m in (list-mgu cid) collect 
+        (let* ((p (nth 3 (cadr m))) (oll (olidof (car p))) (orl (olidof (cadr p))))
+          (cond 
+            ((lid> (string oll)(string orl)) (list orl oll))
+            (t (list oll orl))
+          )
+        )
+      )
+    )
+    (lambda (x y) (string< (format nil "~a" x)(format nil "~a" y)))
+  )
+)
+
+
+
+
