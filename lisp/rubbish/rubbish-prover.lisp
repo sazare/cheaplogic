@@ -99,9 +99,8 @@
 )
 
 (defun make-pcode (lid1 lid2)
-  (let ((pinf (make-pinfo lid1 lid2)) uniq)
-    (setq uniq (loop with ss = () for s in pinf do (pushnew s ss) finally (return ss) ))
-    (sort uniq #'lid>)
+  (let ((pinf (make-pinfo lid1 lid2)) )
+     (sort (uniq pinf) #'lid>)
   )
 )
 
@@ -146,9 +145,8 @@
 
 ; pcode of cid for successful unificaton
 (defun pcode (cid)
-  (let ((sinf (pinfof cid)) uniq)
-    (setq uniq (loop with ss = () for s in sinf do (pushnew s ss) finally (return ss) ))
-    (sort uniq #'lid>)
+  (let ((sinf (pinfof cid))) 
+     (sort (uniq sinf) #'lid>)
   )
 )
 
@@ -258,13 +256,6 @@
 )
 
 ; p2code
-
-(defun uniq (ds)
-  (loop for d in ds with ns = () do
-    (pushnew d ns :test #'equal)
-  finally (return ns)
-  )
-)
 
 (defun p2code (cid)
   (sort 

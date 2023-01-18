@@ -21,10 +21,11 @@
 )
 
 (defun uniq-pcodes (&optional (cids *clist*))
-  (loop for cid in cids with ss = () do
-    (pushnew (pcode cid) ss :test #'equal)
-    finally (return ss)
-  )
+  (uniq (loop for cid in cids collect (pcode cid)))
+;  (loop for cid in cids with ss = () do
+;    (pushnew (pcode cid) ss :test #'equal)
+;    finally (return ss)
+;  )
 )
    
 (defun find-cid-by-pcode (pcode &optional (cids *clist*))
@@ -73,10 +74,7 @@
 )
 
 (defun uniq-p2codes (&optional (cids *clist*))
-  (loop for cid in cids with ss = () do
-    (pushnew (p2code cid) ss :test #'equal)
-    finally (return ss)
-  )
+  (uniq (loop for cid in cids collect (p2code cid)))
 )
    
 (defun find-cid-by-p2code (p2code &optional (cids *clist*))
@@ -95,7 +93,7 @@
 )
 
 ;;; 
-(defun analyze2-p2code0 (&optional (cids *clist*))
+(defun analyze-p2code0 (&optional (cids *clist*))
   (let (xx yy zz)
     (setq xx (classify-cid-by-p2code cids))
     (setq yy (loop for pc in xx collect (list (length (cadr pc) )(car pc))))
@@ -104,8 +102,8 @@
   )
 )
 
-(defun analyze2-p2code ()
-  (analyze2-p2code0 (car (lscova)))
+(defun analyze-p2code ()
+  (analyze-p2code0 (car (lscova)))
 )
 
 (defun print-analyze2 (csp)
@@ -130,7 +128,7 @@
   )
 )
 
-;;  cb2 ≈ (analyze2-p2code) 
+;;  cb2 ≈ (analyze-p2code) 
 (defun p2top* (cb2)
   (loop for cs in cb2 with ns = () do 
     (pushnew (p2top (cadr cs)) ns :test #'equal)
@@ -149,5 +147,5 @@
   (prover-gtrail goal)
 
   (print-analyze (analyze-pcode))
-  (print-analyze2 (analyze2-p2code))
+  (print-analyze2 (analyze-p2code))
 )
