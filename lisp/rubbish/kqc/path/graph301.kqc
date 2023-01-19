@@ -1,0 +1,12 @@
+;; pcode is not p2code
+
+(1 (x y) (- R a x y d))
+
+;path definition
+(2 (x y w z) (+ R x y w z)(- P x y z)(- P x w z))
+
+;; core graph structure
+(5 () (+ P a b d))
+(6 () (+ P a c d))
+
+

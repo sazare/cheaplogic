@@ -1,0 +1,77 @@
+pcodeとp2codeの違い
+
+こうするとpcodeは同じなのにp2codeが異なる例になる。
+意味のある例だとどういうものがあるのだろうか。
+loopのない例
+loopのある例はよくわからない
+
+input clauses
+C6: 6 NIL [((+ P A C D))]
+C5: 5 NIL [((+ P A B D))]
+C2: 2 (X.131 Y.132 W.133 Z.134) [((+ R X.131 Y.132 W.133 Z.134)
+                                  (- P X.131 Y.132 Z.134)
+                                  (- P X.131 W.133 Z.134))]
+C1: 1 (X.129 Y.130) [((- R A X.129 Y.130 D))]
+
+
+=====
+CL-USER(1): (require :gtrail)
+To load "local-time":
+  Load 1 ASDF system:
+    local-time
+; Loading "local-time"
+
+NIL
+CL-USER(2): (in-package :rubbish)
+
+#<PACKAGE "RUBBISH">
+RUBBISH(3): (test-graph 20 "kqc/path/graph301.kqc")
+
+  start-time           = 2023-01-19T18:44:44.281041+09:00
+  *max-clauses*        = 1000
+  *max-contradictions* = 20
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+end-time: 2023-01-19T18:44:44.286209+09:00 finished. goallist is empty
+contradictions=(C12 C13 C10 C11)
+valids =NIL
+end-time: 2023-01-19T18:44:44.286260+09:00
+time consumed = 0.016935 secs
+#clauses = 11
+#contras = 4
+#valids = 0
+#trials = 7
+#max proof steps = 0
+
+kqc file             : kqc/path/graph301.kqc
+*max-contradictions* : 20
+# of pcodes          : 3
+2 (L6-1 L5-1 L2-3 L2-2 L2-1 L1-1)
+1 (L6-1 L2-3 L2-2 L2-1 L1-1)
+1 (L5-1 L2-3 L2-2 L2-1 L1-1)
+
+kqc file             : kqc/path/graph301.kqc
+*max-contradictions* : 20
+# of p2codes         : 4
+1 ((L1-1 L2-1) (L2-2 L6-1) (L2-3 L6-1))
+1 ((L1-1 L2-1) (L2-2 L6-1) (L2-3 L5-1))
+1 ((L1-1 L2-1) (L2-2 L5-1) (L2-3 L6-1))
+1 ((L1-1 L2-1) (L2-2 L5-1) (L2-3 L5-1))
+NIL
+RUBBISH(4): (print-clauses *clist*)
+C13: RESOLVENT = []
+C12: RESOLVENT = []
+C11: RESOLVENT = []
+C10: RESOLVENT = []
+C9: RESOLVENT (W.158) [((- P A W.158 D))]
+C8: RESOLVENT (W.156) [((- P A W.156 D))]
+C7: RESOLVENT (Y.152 W.153) [((- P A Y.152 D) (- P A W.153 D))]
+C6: 6 NIL [((+ P A C D))]
+C5: 5 NIL [((+ P A B D))]
+C2: 2 (X.131 Y.132 W.133 Z.134) [((+ R X.131 Y.132 W.133 Z.134)
+                                  (- P X.131 Y.132 Z.134)
+                                  (- P X.131 W.133 Z.134))]
+C1: 1 (X.129 Y.130) [((- R A X.129 Y.130 D))]
+NIL
+RUBBISH(5):
