@@ -3,7 +3,7 @@
 (in-package :rubbish)
 
 ;; print-cluases show clauses of cids
-(defun print-clauses (cids &optional (out t))
+(defun print-clauses (&optional (cids *clist*) (out t))
   (loop for cid in cids do
     (print-clause cid out)
   )
@@ -11,7 +11,7 @@
 
 ;; print clause list
 
-(defun print-clausex (cs &optional (out t))
+(defun print-clausex (&optional (cs *clist*) (out t))
   (loop for c in cs do
     (if (isvalid c)
       (format out "VALID ~a~a~%" c (bodyof c))
@@ -27,7 +27,7 @@
   )
 )
 
-(defun print-literals (lids &optional (out t))
+(defun print-literals (&optional (lids *llist*) (out t))
   (loop for lid in lids
     do
     (print-literal lid out)
@@ -56,7 +56,7 @@
 )
  
 ;; clausesof makes list of cids
-(defun clausesof (cids)
+(defun clausesof (&optional (cids *clist*))
   (loop for cid in cids collect
     (clauseof cid)
   )
@@ -67,14 +67,14 @@
 )
 
 ;; dump show symbol-plist on lid, cid
-(defun dump-clauses (cids &optional (out t))
+(defun dump-clauses (&optional (cids *clist*)(out t))
   (loop for cid in cids do
     (dump-clause cid out)
   )
 )
 
 
-(defun dump-lits (lids &optional (out t))
+(defun dump-lits (&optional (lids *llist*)(out t))
   (loop for lid in lids do
     (when (boundp lid) (format out " ~a ~a = ~a~%" lid (litof lid) (symbol-plist lid)))
   )
@@ -95,10 +95,7 @@
 )
 
 ;or 
-(defun dump-clausex (&optional cids (out t))
-  (if (null cids) 
-     (dump-clauses *clist* out)
-     (dump-clauses (car cids) out)
-  )
+(defun dump-clausex (&optional (cids *clist*) (out t))
+  (dump-clauses *clist* out)
 )
 
