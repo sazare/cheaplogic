@@ -79,3 +79,75 @@ RUBBISH(5):
 
 
 ★例2
+順序のある証明だとどうなるか
+
+----- graph302.kqc
+;; pcode is not p2code
+shin@Chapterhouse path % vi graph203.kqc
+shin@Chapterhouse path % ls
+;; pcode is not p2code
+; serial
+
+(1 (x y) (- R x y d))
+
+;path definition
+(2 (x y z) (+ P a y z)(- P x y z))
+(3 (x y w z) (+ R x y w)(- P x y z))
+
+;; core graph structure
+(5 () (+ P a b d))
+(6 () (+ P a c d))
+(7 () (+ P a c e))
+(8 () (+ P b c d))
+-----
+この場合
+-----
+RUBBISH(3): (test-graph 40 "kqc/path/graph302.kqc")
+
+  start-time           = 2023-01-20T09:49:02.818296+09:00
+  *max-clauses*        = 1000
+  *max-contradictions* = 40
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of contradictions exceeds
+end-time: 2023-01-20T09:49:02.824985+09:00
+time consumed = 0.016604 secs
+#clauses = 63
+#contras = 44
+#valids = 0
+#trials = 56
+#max proof steps = 0
+
+kqc file             : kqc/path/graph302.kqc
+*max-contradictions* : 40
+# of pcodes          : 8
+10 (L6-1 L3-2 L3-1 L2-2 L2-1 L1-1)
+10 (L7-1 L3-2 L3-1 L2-2 L2-1 L1-1)
+10 (L8-1 L3-2 L3-1 L2-2 L2-1 L1-1)
+10 (L5-1 L3-2 L3-1 L2-2 L2-1 L1-1)
+1 (L6-1 L3-2 L3-1 L1-1)
+1 (L7-1 L3-2 L3-1 L1-1)
+1 (L8-1 L3-2 L3-1 L1-1)
+1 (L5-1 L3-2 L3-1 L1-1)
+
+kqc file             : kqc/path/graph302.kqc
+*max-contradictions* : 40
+# of p2codes         : 12
+9 ((L1-1 L3-1) (L2-1 L2-2) (L2-1 L3-2) (L2-2 L6-1))
+9 ((L1-1 L3-1) (L2-1 L2-2) (L2-1 L3-2) (L2-2 L7-1))
+9 ((L1-1 L3-1) (L2-1 L2-2) (L2-1 L3-2) (L2-2 L8-1))
+9 ((L1-1 L3-1) (L2-1 L2-2) (L2-1 L3-2) (L2-2 L5-1))
+1 ((L1-1 L3-1) (L2-1 L3-2) (L2-2 L6-1))
+1 ((L1-1 L3-1) (L2-1 L3-2) (L2-2 L7-1))
+1 ((L1-1 L3-1) (L2-1 L3-2) (L2-2 L8-1))
+1 ((L1-1 L3-1) (L2-1 L3-2) (L2-2 L5-1))
+1 ((L1-1 L3-1) (L3-2 L6-1))
+1 ((L1-1 L3-1) (L3-2 L7-1))
+1 ((L1-1 L3-1) (L3-2 L8-1))
+1 ((L1-1 L3-1) (L3-2 L5-1))
+NIL
+RUBBISH(4):
+先頭四行のpcodesが10でp2codeが9なのは、もう1つのp2codeが合体したため。
+たとえば、1行目は5行目と合体する。最後のL6-1,L7-1,L8-1,L5-1が目印

@@ -1,0 +1,16 @@
+;; pcode is not p2code
+; serial
+
+(1 (x y) (- R x y d))
+
+;path definition
+(2 (x y z) (+ P a y z)(- P x y z))
+(3 (x y w z) (+ R x y w)(- P x y z))
+
+;; core graph structure
+(5 () (+ P a b d))
+(6 () (+ P a c d))
+(7 () (+ P a c e))
+(8 () (+ P b c d))
+
+
