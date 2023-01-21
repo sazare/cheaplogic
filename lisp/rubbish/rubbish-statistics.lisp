@@ -146,6 +146,6 @@
   (readkqc kqcfile)
   (prover-gtrail goal)
 
-  (print-analyze (analyze-pcode))
-  (print-analyze2 (analyze-p2code))
+;  (print-analyze (analyze-pcode))
+;  (print-analyze2 (analyze-p2code))
 )

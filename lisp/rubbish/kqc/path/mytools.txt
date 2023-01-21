@@ -2,6 +2,7 @@
 (gatercontra *clist*) => (consists contras)
 (proofof cid) .. list-mguから呼ばれる
 (list-mgu cid)
+(list-proof0 cid)
 
 (pinfof cid)
 (pcode cid)

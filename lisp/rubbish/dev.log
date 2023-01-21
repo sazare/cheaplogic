@@ -1,4 +1,22 @@
 
+2023/01/21土
+summaryのmax steps of proof数が0だ
+証明のdepthを数えていない。
+各resolventを作った時にそのdepthを計算し、propertyにいれておくのでどうか。
+resolventのdepthは親のdepthのmaxにする
+
+それでよいか?
+とりあえずなくても困らないのでこのまますこし考える?
+
+summaryの中で(lscova)から[]のcidをもとめて、そのdepth-cidのmaxを表示した
+一回だけなので性能は問題ない
+
+
+
+2023/01/20金
+p2codeとpcodeの関係を考えた
+p2codeのほうが正確。pcodeは高速なのか? ややあいまいなきがする。
+
 2023/01/18水
 ・p2codeを作成した
 　これは、resolveされたLIDペアのリストを(list-mgu cid)からとってきたもの。

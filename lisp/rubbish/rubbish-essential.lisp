@@ -98,7 +98,8 @@
 ;; function repeating n times
 ;; f^n -- not yet work
 ;; if id is identify, (expf fn 0) may be id. 
-(defun expf (fn n)  ; expf: Fun x Number -> Fun
+;;  "expf: Fun x Number -> Fun2"
+(defun expf (fn n)
   (cond
     ((= n 1) fn )
     ((> n 1) (expf fn (- n 1)))

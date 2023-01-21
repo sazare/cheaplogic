@@ -1,7 +1,7 @@
 ; rubbish system definition
 (defsystem :gtrail
   :description "gtrail: a proof analyzer"
-  :version "0.0.1"
+  :version "0.1.1"
   :author "Shinichi OMURA(song.of.sand@gmail.com)"
   :licence "MIT licence"
   :serial t

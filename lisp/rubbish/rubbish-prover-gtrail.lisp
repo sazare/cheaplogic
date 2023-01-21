@@ -103,7 +103,7 @@
 
 (defun show-parameter (time-start)
     (format t 
-  "~%  start-time           = ~a 
+  "~%start-time: ~a ~%
   *max-clauses*        = ~a
   *max-contradictions* = ~a
   *max-trials*         = ~a
@@ -128,21 +128,27 @@
       (length contras)
       (length valids)
       *num-of-trials*
-      *num-of-proof-steps*)
+      (loop with s = 0 for cid in (car (lscova)) collect 
+       (setq s (max s (depth-cid cid))) finally (return s)
+      )
+    )
   )
 )
 
 (defun summary (time-start)
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
-    (format t "end-time: ~a " (local-time:now))
+    (format t "~%end-time: ~a~%" (local-time:now))
     (format t "~%time consumed = ~,6F secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
       (/ (- (get-internal-run-time) time-start) internal-time-units-per-second)
       (length *clist*)
       (length contras)
       (length valids)
       *num-of-trials*
-      *num-of-proof-steps*)
+      (loop with s = 0 for cid in (car (lscova)) collect 
+       (setq s (max s (depth-cid cid))) finally (return s)
+      )
+    )
   )
 )
 
@@ -193,7 +199,7 @@
             (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions valids)))
            ((> (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) *timeout-sec*)
             (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions valids)))
-           ((when-finish-p)  
+           ((eval (when-finish-p)  )
             (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))
          )
       finally

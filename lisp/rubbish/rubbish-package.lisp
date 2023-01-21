@@ -16,10 +16,27 @@
     :*max-trials*
     :*max-steps*
     :*timeout-sec*
-    :lscova
-    :print-proof0
+    :print-literal
+    :print-literals
+    :print-clause
+    :print-clauses
+    :print-clausex
     :dump-clause
     :dump-clausex
+
+    :lscova
+    :print-proof0
+    :list-proof0
+    :pcode
+    :p2code
+    :ccode
+    :list-mgu
+
+    :analyze-pcode
+    :analyze-p2code
+    :print-analyze
+    :print-analyze211
+
     )
  )
 (in-package :rubbish)
