@@ -34,7 +34,7 @@
 
     :analyze-pcode
     :analyze-p2code
-    :print-analyze
+    :reportc
 
     )
  )

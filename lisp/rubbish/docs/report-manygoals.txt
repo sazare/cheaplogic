@@ -1,0 +1,14 @@
+complex goal examples
+
+手順
+(require :gtrail)
+(in-package :rubbish)
+ (test-graph 10 "kqc/path/graph501.kqc" '(c1))
+ (test-graph 10 "kqc/path/graph502.kqc" '(c1 c2))
+
+
+(reportc (analyze-pcode))
+(reportc (analyze-p2code))
+
+?? print-analyze => report でよくないか
+

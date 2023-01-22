@@ -58,7 +58,7 @@
   (analyze-pcode0 (car (lscova)))
 )
 
-(defun print-analyze (csp)
+(defun reportc (csp)
   (terpri t)
   (format t "kqc file             : ~a~%" *kqcfile*)
   (format t "*max-contradictions* : ~a~%" *max-contradictions*)
@@ -138,6 +138,6 @@
   (readkqc kqcfile)
   (prover-gtrail goal)
 
-;  (print-analyze (analyze-pcode))
-;  (print-analyze2 (analyze-p2code))
+;  (reportc (analyze-pcode))
+;  (reportc (analyze-p2code))
 )
