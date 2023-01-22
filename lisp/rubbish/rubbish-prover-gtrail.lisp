@@ -104,6 +104,7 @@
 (defun show-parameter (time-start)
     (format t 
   "~%start-time: ~a ~%
+  ### PARAMETERS ###
   *max-clauses*        = ~a
   *max-contradictions* = ~a
   *max-trials*         = ~a
@@ -123,7 +124,7 @@
 (defun summary0 (out)
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
-    (format out  "#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+    (format out  "~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
       (length *clist*)
       (length contras)
       (length valids)
@@ -139,7 +140,14 @@
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
     (format t "~%end-time: ~a~%" (local-time:now))
-    (format t "~%time consumed = ~,6F secs~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+    (format t "
+  ### SUMMARY ###
+  time consumed = ~,6F secs
+  #clauses = ~a
+  #contras = ~a
+  #valids = ~a
+  #trials = ~a
+  #max proof steps = ~a"
       (/ (- (get-internal-run-time) time-start) internal-time-units-per-second)
       (length *clist*)
       (length contras)

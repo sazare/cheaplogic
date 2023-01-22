@@ -67,7 +67,6 @@
 )
 
 
-
 ;;
 (defun print-p2codes (&optional (cids *clist*))
    (loop for cid in cids do (format t "~a ~a~%" cid (p2code cid)))
@@ -106,13 +105,6 @@
   (analyze-p2code0 (car (lscova)))
 )
 
-(defun print-analyze2 (csp)
-  (terpri t)
-  (format t "kqc file             : ~a~%" *kqcfile*)
-  (format t "*max-contradictions* : ~a~%" *max-contradictions*)
-  (format t "# of p2codes         : ~a~%" (length csp))
-  (loop for z in csp do (format t "~a ~a~%" (car z)(cadr z)))
-)
 
 ;;; convert p2code to pcode
 

@@ -35,7 +35,6 @@
     :analyze-pcode
     :analyze-p2code
     :print-analyze
-    :print-analyze211
 
     )
  )

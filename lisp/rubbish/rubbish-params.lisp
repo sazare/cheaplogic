@@ -6,6 +6,8 @@
 
 (defparameter *num-of-input-literals* 0)   ;
 (defparameter *num-of-trials* 0)           ; how many unifications do?
+
+; it seems too time consuming, i calculate it from *clist*. so, the below variable is not used.
 (defparameter *num-of-proof-steps* 0)      ; how long proof is?
 
 (defparameter *num-of-contradictions* 0)   ; # of contradictions(iscontradiction over *clist*)

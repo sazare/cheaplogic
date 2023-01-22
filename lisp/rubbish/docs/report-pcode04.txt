@@ -1,0 +1,166 @@
+bi-directional graphにして、dからaへのパスを求めてみる
+
+Pでx->yがあったらy->xもあるという定義(5)をする
+
+graph401.kqc
+
+RUBBISH(3): (test-graph 10 "kqc/path/graph401.kqc")
+
+start-time: 2023-01-22T09:44:24.110155+09:00
+
+  ### PARAMETERS ###
+  *max-clauses*        = 1000
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of contradictions exceeds
+
+end-time: 2023-01-22T09:44:24.124257+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.026226 secs
+  #clauses = 302
+  #contras = 11
+  #valids = 0
+  #trials = 681
+  #max proof steps = 11
+NIL
+
+RUBBISH(19): (print-analyze(analyze-pcode))
+
+kqc file             : kqc/path/graph401.kqc
+*max-contradictions* : 10
+# of pcodes          : 2
+8 (L5-2 L5-1 L4-1 L2-3 L2-2 L2-1 L12-1 L11-1 L10-1 L1-1)
+5 (L5-2 L5-1 L3-2 L3-1 L2-3 L2-2 L2-1 L12-1 L11-1 L10-1 L1-1)
+NIL
+RUBBISH(20):
+
+RUBBISH(20): (print-analyze2(analyze-p2code))
+
+kqc file             : kqc/path/graph401.kqc
+*max-contradictions* : 10
+# of p2codes         : 9
+2 ((L1-1 L5-2) (L10-1 L2-3) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L4-1) (L2-2 L5-2) (L5-1 L5-2))
+2 ((L1-1 L5-2) (L10-1 L3-2) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L3-1) (L5-1 L5-2))
+2 ((L1-1 L5-2) (L10-1 L2-3) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L4-1))
+1 ((L1-1 L5-2) (L10-1 L2-3) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L5-2) (L4-1 L5-1) (L5-1 L5-2))
+1 ((L1-1 L5-2) (L10-1 L2-3) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L4-1) (L5-1 L5-2))
+1 ((L1-1 L5-2) (L10-1 L2-3) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L5-2) (L4-1 L5-1))
+1 ((L1-1 L5-2) (L10-1 L3-2) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L5-2) (L3-1 L5-1) (L5-1 L5-2))
+1 ((L1-1 L5-2) (L10-1 L3-2) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L5-1) (L2-2 L3-1)
+   (L2-2 L5-2) (L5-1 L5-2))
+1 ((L1-1 L5-2) (L10-1 L3-2) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+   (L2-2 L3-1))
+NIL
+
+
+pcodeにすると2つになってしまう。
+
+RUBBISH(24): (p2code 'c274)
+
+((L1-1 L5-2) (L10-1 L2-3) (L11-1 L2-3) (L12-1 L2-3) (L2-1 L2-2) (L2-1 L5-1)
+ (L2-2 L4-1) (L2-2 L5-2) (L5-1 L5-2))
+RUBBISH(25): (pcode 'c274)
+
+(L5-2 L5-1 L4-1 L2-3 L2-2 L2-1 L12-1 L11-1 L10-1 L1-1)
+
+なので最大pcodeにc274が属する
+
+RUBBISH(23): (list-mgu 'c274)
+
+((C274 (:RESOLUTION NIL NIL (L193-1 L10-1)))
+ (C193 (:RESOLUTION (Y.453 X.134) (A A) (L135-1 L4-1)))
+ (C135 (:RESOLUTION (X.129 Y.130 Z.131) (A Y.453 B) (L97-1 L2-1)))
+ (C97 (:RESOLUTION (X.135 Y.136) (A B) (L72-1 L5-2)))
+ (C72 (:RESOLUTION (X.251) (B) (L52-1 L11-1)))
+ (C52 (:RESOLUTION (Y.217 X.135 Y.136) (X.251 X.251 A) (L39-1 L5-2)))
+ (C39 (:RESOLUTION (Y.194 Z.195) (Y.217 C) (L29-1 L12-1)))
+ (C29
+  (:RESOLUTION (Y.163 X.129 Y.130 Z.131) (Z.195 A Y.194 Z.195) (L18-1 L2-1)))
+ (C18 (:RESOLUTION (X.129 Y.130 Z.131) (A Y.163 D) (L14-1 L2-1)))
+ (C14 (:RESOLUTION (X.135 Y.136) (A D) (L1-1 L5-2))))
+RUBBISH(24):
+
+
+proofは?
+
+RUBBISH(26): (print-proof0 'c274)
+C274: RESOLVENT = []
+C274 [] RESOLUTION : <L193-1:L10-1>
+  L193-1 ().(- N A B)  in
+  C193: RESOLVENT NIL [((- N A B))]
+  C193 (L193-1) RESOLUTION : <L135-1:L4-1>
+    L135-1 (Y.453).(- P A Y.453)  in
+    C135: RESOLVENT (Y.453) [((- P A Y.453) (- N Y.453 B))]
+    C135 (L135-1 L135-2) RESOLUTION : <L97-1:L2-1>
+      L97-1 ().(- P A B)  in
+      C97: RESOLVENT NIL [((- P A B))]
+      C97 (L97-1) RESOLUTION : <L72-1:L5-2>
+        L72-1 ().(- P B A)  in
+        C72: RESOLVENT NIL [((- P B A))]
+        C72 (L72-1) RESOLUTION : <L52-1:L11-1>
+          L52-1 (X.251).(- N X.251 C)  in
+          C52: RESOLVENT (X.251) [((- N X.251 C) (- P X.251 A))]
+          C52 (L52-1 L52-2) RESOLUTION : <L39-1:L5-2>
+            L39-1 (Y.217).(- P A Y.217)  in
+            C39: RESOLVENT (Y.217) [((- P A Y.217) (- N Y.217 C))]
+            C39 (L39-1 L39-2) RESOLUTION : <L29-1:L12-1>
+              L29-1 (Y.194 Z.195).(- N Z.195 D)  in
+              C29: RESOLVENT (Y.194 Z.195) [((- N Z.195 D) (- P A Y.194)
+                                             (- N Y.194 Z.195))]
+              C29 (L29-1 L29-2 L29-3) RESOLUTION : <L18-1:L2-1>
+                L18-1 (Y.163).(- P A Y.163)  in
+                C18: RESOLVENT (Y.163) [((- P A Y.163) (- N Y.163 D))]
+                C18 (L18-1 L18-2) RESOLUTION : <L14-1:L2-1>
+                  L14-1 ().(- P A D)  in
+                  C14: RESOLVENT NIL [((- P A D))]
+                  C14 (L14-1) RESOLUTION : <L1-1:L5-2>
+                    L1-1 ().(- P D A) input1
+                    C1: 1 NIL [((- P D A))]
+                    L5-2 (X.135 Y.136).(+ P Y.136 X.135) input2
+                    C5: 5 (X.135 Y.136) [((- P X.135 Y.136) (+ P Y.136 X.135))]
+                  L2-1 (X.129 Y.130 Z.131).(+ P X.129 Z.131)  in
+                  C2: 2 (X.129 Y.130 Z.131) [((+ P X.129 Z.131)
+                                              (- P X.129 Y.130)
+                                              (- N Y.130 Z.131))]
+                L2-1 (X.129 Y.130 Z.131).(+ P X.129 Z.131)  in
+                C2: 2 (X.129 Y.130 Z.131) [((+ P X.129 Z.131) (- P X.129 Y.130)
+                                            (- N Y.130 Z.131))]
+              L12-1 ().(+ N C D)  in
+              C12: 12 NIL [((+ N C D))]
+            L5-2 (X.135 Y.136).(+ P Y.136 X.135)  in
+            C5: 5 (X.135 Y.136) [((- P X.135 Y.136) (+ P Y.136 X.135))]
+          L11-1 ().(+ N B C)  in
+          C11: 11 NIL [((+ N B C))]
+        L5-2 (X.135 Y.136).(+ P Y.136 X.135)  in
+        C5: 5 (X.135 Y.136) [((- P X.135 Y.136) (+ P Y.136 X.135))]
+      L2-1 (X.129 Y.130 Z.131).(+ P X.129 Z.131)  in
+      C2: 2 (X.129 Y.130 Z.131) [((+ P X.129 Z.131) (- P X.129 Y.130)
+                                  (- N Y.130 Z.131))]
+    L4-1 (X.134).(+ P X.134 X.134)  in
+    C4: 4 (X.134) [((+ P X.134 X.134))]
+  L10-1 ().(+ N A B)  in
+  C10: 10 NIL [((+ N A B))]
+NIL
+
+これをみると、(P d a)を(P a d)にひっくりかえしてから(P a b)(P b c)(P c d)を使ってパスをみつけているようだ。
+ほんとにPathをみつけているのかというと、よくわからない。
+
+(- P x y)(- P y z)(+ P z x)
+
+みたいな性質を使っていると思うが、一般的に証明はしていない。
+(5)がこれを言っているので、証明はしていない。
+
+(P x y)があれば(5) から(P y x)があるんだからこれでいいのだな。
+
+これがわたしの求めていたものか??

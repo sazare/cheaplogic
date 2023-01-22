@@ -1,0 +1,11 @@
+;; two literals goal example
+
+(1 (x) (- P x)(- R (f x)))
+
+(10 () (+ P a))
+(11 () (+ P b))
+;(15 (x) (+ R (f x)))
+;(16 () (+ R (f a)))
+(17 () (+ R (f b)))
+
+
