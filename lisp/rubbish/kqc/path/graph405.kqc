@@ -1,0 +1,19 @@
+;; a case of itself
+(1 () (- P c c))
+
+(2 (x y z) (+ P x z)(- P x y)(- P y z))
+(3 (x y) (- N x y)(+ P x y))
+
+;; core graph structure
+(10 () (+ N a b))
+(11 () (+ N b a))
+(12 () (+ N b c))
+(13 () (+ N c b))
+(14 () (+ N c d))
+(15 () (+ N d c))
+(16 () (+ N a a))
+(17 () (+ N b b))
+(18 () (+ N c c))
+(19 () (+ N d d))
+
+

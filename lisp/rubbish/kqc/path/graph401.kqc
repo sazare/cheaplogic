@@ -1,9 +1,12 @@
 ;; a case of bidirectional graph
 (1 () (- P d a))
 ;; ∃y だが、⇒の前なので∀y になる。
+
+;;; 2 is restricted relation of P and N
 (2 (x y z) (+ P x z)(- P x y)(- N y z))
 (3 (x y) (+ P x y)(- N x y))
 (4 (x) (+ P x x))
+;;; 5 show the reverse on only P. asymmetric to 3
 (5 (x y) (- P x y)(+ P y x))
 
 ;; core graph structure

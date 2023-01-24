@@ -1,0 +1,19 @@
+;; a case of bidirectional graph, bi N
+(1 () (- P d a))
+
+;; ∃y だが、⇒の前なので∀y になる。
+;;; full description of N make the proof straight one
+;;; this 2 has no N literal. 
+
+(2 (x y z) (+ P x z)(- P x y)(- P y z))
+(3 (x y) (- N x y)(+ P x y))
+(4 (x) (+ P x x))
+
+;; core graph structure
+(10 () (+ N a b))
+(11 () (+ N b a))
+(12 () (+ N b c))
+(13 () (+ N c b))
+(14 () (+ N c d))
+(15 () (+ N d c))
+

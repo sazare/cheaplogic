@@ -1,0 +1,17 @@
+;; a case of bidirectional graph, 2
+(1 () (- P d a))
+
+;; ∃y だが、⇒の前なので∀y になる。
+;;; in this case, N means just x and y are neighbors
+;;; reverse direction is described in the relation of P and N1
+;;; see 401
+(2 (x y z) (+ P x z)(- P x y)(- P y z))
+(3 (x y) (- N x y)(+ P x y))
+(4 (x) (+ P x x))
+(5 (x y) (- N x y)(+ P y x))
+
+;; core graph structure
+(10 () (+ N a b))
+(11 () (+ N b c))
+(12 () (+ N c d))
+

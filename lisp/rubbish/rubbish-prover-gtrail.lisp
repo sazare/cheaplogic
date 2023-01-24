@@ -211,11 +211,11 @@
             (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))
          )
       finally
-        (format t "end-time: ~a " (local-time:now))
+        (format t "~%end-time: ~a~%~%" (local-time:now))
         (format t "finished. goallist is empty~%")
         (format t "contradictions=~a~%" contradictions)
         (format t "valids =~a~%" valids)
-        (summary time-start)
+        (summary0 T) 
     )
   )
 )
