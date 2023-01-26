@@ -96,8 +96,10 @@
   *max-contradictions* = ~a
   *max-trials*         = ~a
   *max-steps*          = ~a
-  *timeout-sec*        = ~a~%"
-   *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
+  *timeout-sec*        = ~a
+  *enable-semantics*   = ~a~%"
+   *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* 
+   *enable-semantics*) 
 )
 
 
@@ -109,8 +111,10 @@
   *max-contradictions* = ~a
   *max-trials*         = ~a
   *max-steps*          = ~a
-  *timeout-sec*        = ~a~%"
-   (local-time:now) *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* ) 
+  *timeout-sec*        = ~a
+  *enable-semantics*   = ~a~%"
+   (local-time:now) *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec*  
+   *enable-semantics*) 
 )
 
 ;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)

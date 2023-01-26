@@ -134,7 +134,7 @@
 ;; test run 
 (defun test-graph (mc kqcfile &optional (goal '(C1)))
   (in-package :rubbish)
-  (defparameter *enable-semantics* nil)
+;  (defparameter *enable-semantics* nil)
   (defparameter *max-contradictions* mc)
   (readkqc kqcfile)
   (prover-gtrail goal)
