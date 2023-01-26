@@ -1,0 +1,10 @@
+;; time and + :: failed
+;; revised version of 004
+
+(1 ()(- P (+ (+ (+ 1))) a))
+
+(2 () (+ P 1 a))
+(3 (n x) (- P n x)(+ P (+ n) x))
+
+
+

@@ -1,4 +1,6 @@
-complex goal examples
+complex goal examples(graph5??)
+
+* 2clauses goalは、単に A∨Bの否定なので、2つのgoalそれぞれの証明を求めているだけ。
 
 手順
 (require :gtrail)
@@ -15,47 +17,161 @@ complex goal examples
 
 
 
+RUBBISH(3): (test-graph 5 "kqc/path/graph502.kqc" '(c1 c2))
 
-RUBBISH(14): (reportc (analyze-pcode))
+start-time: 2023-01-25T08:20:46.754840+09:00
 
-kqc file             : kqc/path/graph405.kqc
-*max-contradictions* : 20
-# of pcodes          : 8
-159 (L3-2 L3-1 L2-3 L2-2 L2-1 L18-1 L1-1)
-41 (L3-2 L3-1 L2-3 L2-2 L2-1 L15-1 L14-1 L1-1)
-41 (L3-2 L3-1 L2-3 L2-2 L2-1 L13-1 L12-1 L1-1)
-12 (L3-2 L3-1 L2-3 L2-2 L2-1 L18-1 L13-1 L12-1 L1-1)
-12 (L3-2 L3-1 L2-3 L2-2 L2-1 L18-1 L15-1 L14-1 L1-1)
-6 (L3-2 L3-1 L2-3 L2-2 L2-1 L17-1 L13-1 L12-1 L1-1)
-6 (L3-2 L3-1 L2-3 L2-2 L2-1 L19-1 L15-1 L14-1 L1-1)
-1 (L3-2 L3-1 L18-1 L1-1)
+  ### PARAMETERS ###
+  *max-clauses*        = 1000
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+end-time: 2023-01-25T08:20:46.761814+09:00
+
+finished. goallist is empty
+contradictions=(C20 C21 C18 C19)
+valids =NIL
+
+#clauses = 10
+#contras = 4
+#valids = 0
+#trials = 4
+#max proof steps = 1
 NIL
-RUBBISH(15): (reportc (analyze-p2code))
+RUBBISH(4):
 
-kqc file             : kqc/path/graph405.kqc
-*max-contradictions* : 20
-# of pcodes          : 14
-8 ((L1-1 L2-1) (L18-1 L3-1) (L2-1 L2-2) (L2-2 L3-2) (L2-3 L3-2))
-4 ((L1-1 L2-1) (L18-1 L3-1) (L2-1 L2-3) (L2-2 L3-2) (L2-3 L3-2))
-4 ((L1-1 L2-1) (L12-1 L3-1) (L13-1 L3-1) (L18-1 L3-1) (L2-1 L2-2) (L2-2 L3-2)
-   (L2-3 L3-2))
-4 ((L1-1 L2-1) (L14-1 L3-1) (L15-1 L3-1) (L18-1 L3-1) (L2-1 L2-2) (L2-2 L3-2)
-   (L2-3 L3-2))
-2 ((L1-1 L2-1) (L14-1 L3-1) (L15-1 L3-1) (L18-1 L3-1) (L2-1 L2-3) (L2-2 L3-2)
-   (L2-3 L3-2))
-2 ((L1-1 L2-1) (L12-1 L3-1) (L13-1 L3-1) (L18-1 L3-1) (L2-1 L2-3) (L2-2 L3-2)
-   (L2-3 L3-2))
-2 ((L1-1 L2-1) (L12-1 L3-1) (L13-1 L3-1) (L17-1 L3-1) (L2-1 L2-2) (L2-2 L3-2)
-   (L2-3 L3-2))
-2 ((L1-1 L2-1) (L14-1 L3-1) (L15-1 L3-1) (L19-1 L3-1) (L2-1 L2-2) (L2-2 L3-2)
-   (L2-3 L3-2))
-2 ((L1-1 L2-1) (L18-1 L3-1) (L2-2 L3-2) (L2-3 L3-2))
-1 ((L1-1 L2-1) (L14-1 L3-1) (L15-1 L3-1) (L19-1 L3-1) (L2-1 L2-3) (L2-2 L3-2)
-   (L2-3 L3-2))
-1 ((L1-1 L2-1) (L12-1 L3-1) (L13-1 L3-1) (L17-1 L3-1) (L2-1 L2-3) (L2-2 L3-2)
-   (L2-3 L3-2))
-1 ((L1-1 L2-1) (L14-1 L3-1) (L15-1 L3-1) (L2-2 L3-2) (L2-3 L3-2))
-1 ((L1-1 L2-1) (L12-1 L3-1) (L13-1 L3-1) (L2-2 L3-2) (L2-3 L3-2))
-1 ((L1-1 L3-2) (L18-1 L3-1))
+RUBBISH(4): (lscova)
+
+((C18 C19 C20 C21) NIL)
+
+
+RUBBISH(4): (lscova)
+
+((C18 C19 C20 C21) NIL)
+RUBBISH(5): (reportc (analyze-pcode))
+
+kqc file             : kqc/path/graph502.kqc
+
+  *max-clauses*        = 1000
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+# of pcodes          : 4
+1 (L2-1 L17-1)
+1 (L2-1 L16-1)
+1 (L11-1 L1-1)
+1 (L10-1 L1-1)
 NIL
-RUBBISH(16):
+RUBBISH(6): (reportc (analyze-p2code))
+
+kqc file             : kqc/path/graph502.kqc
+
+  *max-clauses*        = 1000
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+# of pcodes          : 4
+1 ((L17-1 L2-1))
+1 ((L16-1 L2-1))
+1 ((L1-1 L11-1))
+1 ((L1-1 L10-1))
+NIL
+RUBBISH(7):
+
+このように各goalがそれぞれ[]になればよいだけ
+つながるようなkqcはかけるか
+
+*graph503.kqc
+これは、C15でPとRをつないだもの。
+ばらばらでも[]、C15でも[]がでるのはあたりまえか。
+
+C15で変数を使っているから、これはfactではなくルールになる。
+このルールがすべてのtermについて成り立つことを誰かが証明していなくてはならない。
+証明でなく仮説だったら??
+
+
+RUBBISH(3): (test-graph 5 "kqc/path/graph503.kqc" '(c1 c2))
+
+start-time: 2023-01-25T08:24:24.657831+09:00
+
+  ### PARAMETERS ###
+  *max-clauses*        = 1000
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of contradictions exceeds
+
+end-time: 2023-01-25T08:24:24.664484+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.016201 secs
+  #clauses = 15
+  #contras = 6
+  #valids = 0
+  #trials = 8
+  #max proof steps = 2
+NIL
+RUBBISH(4): (lscova)
+
+((C19 C20 C21 C22 C24 C25) NIL)
+
+RUBBISH(7): (print-clauses)
+C25: RESOLVENT = []
+C24: RESOLVENT = []
+C23: RESOLVENT (X.153) [((+ P X.153))]
+C22: RESOLVENT = []
+C21: RESOLVENT = []
+C20: RESOLVENT = []
+C19: RESOLVENT = []
+C18: RESOLVENT (X.147) [((+ R (F X.147)))]
+C17: 17 NIL [((+ R (F B)))]
+C16: 16 NIL [((+ R (F A)))]
+C15: 15 (X.131) [((+ R (F X.131)) (+ P X.131))]
+C11: 11 NIL [((+ P B))]
+C10: 10 NIL [((+ P A))]
+C2: 2 (X.130) [((- R (F X.130)))]
+C1: 1 (X.129) [((- P X.129))]
+NIL
+
+RUBBISH(5): (reportc (analyze-pcode))
+
+kqc file             : kqc/path/graph503.kqc
+
+  *max-clauses*        = 1000
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+# of pcodes          : 5
+2 (L2-1 L15-2 L15-1 L1-1)
+1 (L2-1 L16-1)
+1 (L2-1 L17-1)
+1 (L10-1 L1-1)
+1 (L11-1 L1-1)
+NIL
+RUBBISH(6): (reportc (analyze-p2code))
+
+kqc file             : kqc/path/graph503.kqc
+
+  *max-clauses*        = 1000
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+# of pcodes          : 5
+2 ((L1-1 L15-2) (L15-1 L2-1))
+1 ((L16-1 L2-1))
+1 ((L17-1 L2-1))
+1 ((L1-1 L10-1))
+1 ((L1-1 L11-1))
+
+つながるclauseがあれば両方のgoalが関係する
+しかし、つながるclauseはfactではなく仮説である。
+
+

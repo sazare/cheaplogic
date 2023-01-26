@@ -40,5 +40,12 @@ lower level
 
 ======
 
-(analyze-pcode)   []のみのpcodeで分析
-(analyze-pcode0 cids)　任意のclauseリストで分析。省略時は*clist*
+(analyze-pcode)   []のみのpcodeで分析。summaryつき。
+(analyze-pcode0 cids)　任意のclauseリストで分析。省略時は*clist*。summary なし。
+(analyze-p2code)  []のみのp2codeで分析。summaryつき。
+(analyze-p2code0)　任意のclauseリストでp2code分析。省略時は*clist*。summary なし。
+
+reportcはanalyze結果をすこし見やすくする
+
+(reportc (analyze-pcode))　
+(reportc (analyze-p2code))

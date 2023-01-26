@@ -1,0 +1,16 @@
+;; time and + :: [] never come
+;; (- n 1) is not evaluated.
+
+(1 ()(- P 5 a))
+
+(2 () (+ P 1 a))
+(3 (n x) (- P (- n 1) x)(+ P n x))
+
+
+;;; in unification
+;;; <a:const:(f b):ground> failed, 
+;;; (eval (f b)) as ground term.
+;;; (eval a) may be also good.
+;;; follow this, every terms of unification fail, eval them and retry unify.
+
+
