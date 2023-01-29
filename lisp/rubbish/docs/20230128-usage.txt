@@ -1,0 +1,70 @@
+semanticsでprover-gtrail
+
+test-graphは
+
+(require :gtrail)
+(in-package :rubbish)
+
+;; parameterの設定をする
+
+(setq *max-clauses* 20)
+
+;; readkqc
+;; readkqc, prover-gtrailは
+
+(play-prover-gtrail goal kqcfile)
+
+このときgoalは数字のリスト
+
+例
+(require :gtrail)
+(in-package :rubbish)
+
+(setq *max-contradictions* 5)
+
+(play-prover-gtrail '(1 2) "kqc/time-series/ts-005.kqc")
+(play-prover-gtrail '(1) "kqc/path/graph201.kqc")
+(play-prover-gtrail '(1 2) "kqc/path/graph503.kqc")
+(play-prover-gtrail '(1) "kqc/ml002.kqc")
+
+(reportc (analyze-pcode))
+(reportc (analyze-p2code))
+
+(lscova)
+
+(print-clauses)
+(print-literals)
+
+これらの例はml002.kqcのL29-1あたりがよい
+(olidof 'L25-1)
+(plidof 'L25-1)
+
+(list-mgu 'c27)
+(list-proof0 'c27)
+(print-proof0 'c27)
+
+(logshow)
+
+lispの関数
+(symbol-plist 'c27)
+
+(test-graph 10 "kqc/time-series/ts-005.kqc")
+(test-graph 20 "kqc/path/graph201.kqc")
+(load "play-prover-gt-ml002.lisp")
+(load "rubbish.conf")
+(load "pre-rubbish.lisp")はrubbish.confを読み込むだけしてる
+rubbish.confは:rubbishの中で変数を読み込む
+
+
+反復
+
+atom系のクリア
+(clear-all-atoms)
+
+ログ関係
+(logshow)
+(logreset)
+
+play-prover-gtrailで、logstartをしているのでログは残っている
+
+

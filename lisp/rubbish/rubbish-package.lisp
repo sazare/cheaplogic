@@ -23,6 +23,7 @@
     :print-clausex
     :dump-clause
     :dump-clausex
+    :show-allparams
 
     :lscova
     :print-proof0

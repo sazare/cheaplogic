@@ -132,12 +132,12 @@
 
     
 ;; test run 
-(defun test-graph (mc kqcfile &optional (goal '(C1)))
+(defun test-graph (mc kqcfile &optional (goals '(1)))
   (in-package :rubbish)
 ;  (defparameter *enable-semantics* nil)
   (defparameter *max-contradictions* mc)
-  (readkqc kqcfile)
-  (prover-gtrail goal)
+
+  (play-prover-gtrail goals kqcfile)
 
 ;  (reportc (analyze-pcode))
 ;  (reportc (analyze-p2code))

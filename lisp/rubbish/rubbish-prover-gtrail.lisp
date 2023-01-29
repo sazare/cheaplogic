@@ -102,7 +102,6 @@
    *enable-semantics*) 
 )
 
-
 (defun show-parameter (time-start)
     (format t 
   "~%start-time: ~a ~%
@@ -118,6 +117,41 @@
 )
 
 ;(format t "after2: newgoal=~a / goallist=~a / contras=~a~%" newgoal goallist contradictions)
+
+; show-allparams
+
+(defun show-allparams (&optional (out t))
+ (progn
+    (format out "*enable-semantics*	= ~a~%" *enable-semantics*)
+    (format out "*goallist*			= ~a~%" *goallist*)
+    (format out "*input-clauses*	= ~a~%" *input-clauses*)
+    (format out "*input-literals*	= ~a~%" *input-literals*)
+;    (format out "*kb*    = ~a~%" *kb*)
+    (format out "*kqcfile*			= ~a~%" *kqcfile*)
+    (format out "*logging-active*    = ~a~%" *logging-active*)
+    (format out "*lsymlist*    = ~a~%" *lsymlist*)
+    (format out "*max-clauses*    = ~a~%" *max-clauses*)
+    (format out "*max-contradictions*    = ~a~%" *max-contradictions*)
+    (format out "*max-steps*    = ~a~%" *max-steps*)
+    (format out "*max-trials*    = ~a~%" *max-trials*)
+    (format out "*num-of-contradictions*    = ~a~%" *num-of-contradictions*)
+    (format out "*num-of-input-literals*    = ~a~%" *num-of-input-literals*)
+    (format out "*num-of-literals*    = ~a~%" *num-of-literals*)
+    (format out "*num-of-proof-steps*    = ~a~%" *num-of-proof-steps*)
+    (format out "*num-of-resolvents*    = ~a~%" *num-of-resolvents*)
+    (format out "*num-of-trials*    = ~a~%" *num-of-trials*)
+    (format out "*pcodelist*    = ~a~%" *pcodelist*)
+    (format out "*peval-active*    = ~a~%" *peval-active*)
+  ;  (format out "*rubbish-log*    = ~a~%" *rubbish-log*)
+    (format out "*rubbish-state*    = ~a~%" *rubbish-state*)
+    (format out "*ssubst*    = ~a~%" *ssubst*)
+    (format out "*ssubsub*    = ~a~%" *ssubsub*)
+    (format out "*sunification*    = ~a~%" *sunification*)
+    (format out "*timeout-sec*    = ~a~%" *timeout-sec*)
+    (format out "*validlist*    = ~a~%" *validlist*)
+    nil
+  )
+)    
 
 
 (defun quit-contra (message time-start contras valids)

@@ -175,3 +175,43 @@ kqc file             : kqc/path/graph503.kqc
 しかし、つながるclauseはfactではなく仮説である。
 
 
+** 503での疑問点
+nconjが1 -P(x)と2 -R(f(x))だということはconjは
+∀x(P(x) ∧ R(f(x)))
+である。
+まず10,11や16,17はそれぞれこの1と2と[]になって2つの[]ができる。
+これは心理表ではF/TかT/Fのどちらかの場合、全体がFになるという場合である。
+
+15はその両方のliteralが否定されたとき[]になる。真理表ならF/Fの場合に全体がFになるという場合である。
+ここで拒否されるのは+R(f(x))∨+P(x)であり、変数xでliteralが繋がっている。
+
+-R(f(x))と-P(x)が同時にTとなる場合
+
+
+この関係以外の-R(f(x))と-P(y)が同時にTとなる場合は拒否されない。
+つまり-R(f(a))と-P(b)が同時にTになっても拒否されないはず。
+
+実際には、同時にTになると、15のliteralのどちらかが拒否されるのでclauseとしては[]になる。のか?
+
+そういうproofを作ろうとしていない?
+
+RUBBISH(19): (print-clauses)
+C27: RESOLVENT = []
+C26: RESOLVENT = []
+C25: RESOLVENT (X.153) [((+ P X.153))]
+C24: RESOLVENT = []
+C23: RESOLVENT = []
+C22: RESOLVENT = []
+C21: RESOLVENT (X.148) [((+ R (F X.148)))]
+C20: RESOLVENT = []
+C19: REDUCED = []
+C18: REDUCED = []
+C17: 17 NIL [((+ R (F B)))]
+C16: 16 NIL [((+ R (F A)))]
+C15: 15 (X.131) [((+ R (F X.131)) (+ P X.131))]
+C11: 11 NIL [((+ P B))]
+C10: 10 NIL [((+ P A))]
+C2: 2 (X.130) [((- R (F X.130)))]
+C1: 1 (X.129) [((- P X.129))]
+NIL
+
