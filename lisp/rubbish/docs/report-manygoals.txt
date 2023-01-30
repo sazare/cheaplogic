@@ -5,8 +5,13 @@ complex goal examples(graph5??)
 手順
 (require :gtrail)
 (in-package :rubbish)
- (test-graph 10 "kqc/path/graph501.kqc" '(c1))
- (test-graph 10 "kqc/path/graph502.kqc" '(c1 c2))
+
+(setq *enable-semantics* nil)
+(setq *max-steps* 10)
+(setq *max-contradictions* 20)
+
+(play-prover-gtrail '(1)  "kqc/path/graph501.kqc")
+(play-prover-gtrail '(1 2) "kqc/path/graph502.kqc")
 
 
 (reportc (analyze-pcode))
@@ -17,18 +22,22 @@ complex goal examples(graph5??)
 
 
 
-RUBBISH(3): (test-graph 5 "kqc/path/graph502.kqc" '(c1 c2))
 
-start-time: 2023-01-25T08:20:46.754840+09:00
+RUBBISH(5): (play-prover-gtrail '(1 2) "kqc/path/graph502.kqc")
+kqc reading: kqc/path/graph502.kqc
+......
+
+start-time: 2023-01-30T20:01:46.602885+09:00
 
   ### PARAMETERS ###
   *max-clauses*        = 1000
-  *max-contradictions* = 5
+  *max-contradictions* = 10
   *max-trials*         = 100
   *max-steps*          = 100
   *timeout-sec*        = 10
+  *enable-semantics*   = NIL
 
-end-time: 2023-01-25T08:20:46.761814+09:00
+end-time: 2023-01-30T20:01:46.606857+09:00
 
 finished. goallist is empty
 contradictions=(C20 C21 C18 C19)
@@ -40,52 +49,70 @@ valids =NIL
 #trials = 4
 #max proof steps = 1
 NIL
-RUBBISH(4):
 
-RUBBISH(4): (lscova)
-
-((C18 C19 C20 C21) NIL)
-
-
-RUBBISH(4): (lscova)
-
-((C18 C19 C20 C21) NIL)
-RUBBISH(5): (reportc (analyze-pcode))
-
-kqc file             : kqc/path/graph502.kqc
-
-  *max-clauses*        = 1000
-  *max-contradictions* = 5
-  *max-trials*         = 100
-  *max-steps*          = 100
-  *timeout-sec*        = 10
-# of pcodes          : 4
-1 (L2-1 L17-1)
-1 (L2-1 L16-1)
-1 (L11-1 L1-1)
-1 (L10-1 L1-1)
+RUBBISH(6): (print-clauses)
+C21: RESOLVENT = []
+C20: RESOLVENT = []
+C19: RESOLVENT = []
+C18: RESOLVENT = []
+C17: 17 NIL [((+ R (F B)))]
+C16: 16 NIL [((+ R (F A)))]
+C11: 11 NIL [((+ P B))]
+C10: 10 NIL [((+ P A))]
+C2: 2 (X.146) [((- R (F X.146)))]
+C1: 1 (X.145) [((- P X.145))]
 NIL
-RUBBISH(6): (reportc (analyze-p2code))
+RUBBISH(7): (reportc (analyze-p2code))
 
 kqc file             : kqc/path/graph502.kqc
 
   *max-clauses*        = 1000
-  *max-contradictions* = 5
+  *max-contradictions* = 10
   *max-trials*         = 100
   *max-steps*          = 100
   *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
 # of pcodes          : 4
-1 ((L17-1 L2-1))
 1 ((L16-1 L2-1))
-1 ((L1-1 L11-1))
+1 ((L17-1 L2-1))
 1 ((L1-1 L10-1))
+1 ((L1-1 L11-1))
 NIL
-RUBBISH(7):
+RUBBISH(8): (reportc (analyze-pcode))
+
+kqc file             : kqc/path/graph502.kqc
+
+  *max-clauses*        = 1000
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+# of pcodes          : 4
+1 (L2-1 L16-1)
+1 (L2-1 L17-1)
+1 (L10-1 L1-1)
+1 (L11-1 L1-1)
+NIL
+
 
 このように各goalがそれぞれ[]になればよいだけ
 つながるようなkqcはかけるか
 
 *graph503.kqc
+
+(require :gtrail)
+(in-package :rubbish)
+
+(setq *enable-semantics* nil)
+(setq *max-steps* 10)
+(setq *max-contradictions* 20)
+
+(play-prover-gtrail '(1 2) "kqc/path/graph503.kqc")
+
+
 これは、C15でPとRをつないだもの。
 ばらばらでも[]、C15でも[]がでるのはあたりまえか。
 
@@ -94,125 +121,112 @@ C15で変数を使っているから、これはfactではなくルールにな�
 証明でなく仮説だったら??
 
 
-RUBBISH(3): (test-graph 5 "kqc/path/graph503.kqc" '(c1 c2))
 
-start-time: 2023-01-25T08:24:24.657831+09:00
+RUBBISH(6): (play-prover-gtrail '(1 2) "kqc/path/graph503.kqc")
+kqc reading: kqc/path/graph503.kqc
+.......
+
+
+start-time: 2023-01-30T20:07:40.789578+09:00
 
   ### PARAMETERS ###
   *max-clauses*        = 1000
-  *max-contradictions* = 5
+  *max-contradictions* = 20
   *max-trials*         = 100
-  *max-steps*          = 100
+  *max-steps*          = 10
   *timeout-sec*        = 10
+  *enable-semantics*   = NIL
 
-limit-over number of contradictions exceeds
+end-time: 2023-01-30T20:07:40.796451+09:00
 
-end-time: 2023-01-25T08:24:24.664484+09:00
+finished. goallist is empty
+contradictions=(C15 C14 C11 C12 C8 C10)
+valids =NIL
 
-  ### SUMMARY ###
-  time consumed = 0.016201 secs
-  #clauses = 15
-  #contras = 6
-  #valids = 0
-  #trials = 8
-  #max proof steps = 2
+#clauses = 15
+#contras = 6
+#valids = 0
+#trials = 8
+#max proof steps = 2
 NIL
-RUBBISH(4): (lscova)
-
-((C19 C20 C21 C22 C24 C25) NIL)
-
 RUBBISH(7): (print-clauses)
-C25: RESOLVENT = []
-C24: RESOLVENT = []
-C23: RESOLVENT (X.153) [((+ P X.153))]
-C22: RESOLVENT = []
-C21: RESOLVENT = []
-C20: RESOLVENT = []
-C19: RESOLVENT = []
-C18: RESOLVENT (X.147) [((+ R (F X.147)))]
-C17: 17 NIL [((+ R (F B)))]
-C16: 16 NIL [((+ R (F A)))]
-C15: 15 (X.131) [((+ R (F X.131)) (+ P X.131))]
-C11: 11 NIL [((+ P B))]
-C10: 10 NIL [((+ P A))]
-C2: 2 (X.130) [((- R (F X.130)))]
+C15: RESOLVENT = []
+C14: RESOLVENT = []
+C13: RESOLVENT (X.153) [((+ P X.153))]
+C12: RESOLVENT = []
+C11: RESOLVENT = []
+C10: RESOLVENT = []
+C9: RESOLVENT (X.148) [((+ R (F X.148)))]
+C8: RESOLVENT = []
+C7: 7 NIL [((+ R (F B)))]
+C6: 6 NIL [((+ R (F A)))]
+C5: 5 (X.131) [((+ R (F X.131)) (+ P X.131))]
+C4: 4 NIL [((+ P B))]
+C3: 3 NIL [((+ P A))]
+C2: 2 (Y.130) [((- R (F Y.130)))]
 C1: 1 (X.129) [((- P X.129))]
 NIL
-
-RUBBISH(5): (reportc (analyze-pcode))
+RUBBISH(8):  (reportc (analyze-pcode))
 
 kqc file             : kqc/path/graph503.kqc
 
   *max-clauses*        = 1000
-  *max-contradictions* = 5
+  *max-contradictions* = 20
   *max-trials*         = 100
-  *max-steps*          = 100
+  *max-steps*          = 10
   *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
 # of pcodes          : 5
-2 (L2-1 L15-2 L15-1 L1-1)
-1 (L2-1 L16-1)
-1 (L2-1 L17-1)
-1 (L10-1 L1-1)
-1 (L11-1 L1-1)
+2 (L5-2 L5-1 L2-1 L1-1)
+1 (L7-1 L2-1)
+1 (L6-1 L2-1)
+1 (L3-1 L1-1)
+1 (L4-1 L1-1)
 NIL
-RUBBISH(6): (reportc (analyze-p2code))
+RUBBISH(9):  (reportc (analyze-p2code))
 
 kqc file             : kqc/path/graph503.kqc
 
   *max-clauses*        = 1000
-  *max-contradictions* = 5
+  *max-contradictions* = 20
   *max-trials*         = 100
-  *max-steps*          = 100
+  *max-steps*          = 10
   *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
 # of pcodes          : 5
-2 ((L1-1 L15-2) (L15-1 L2-1))
-1 ((L16-1 L2-1))
-1 ((L17-1 L2-1))
-1 ((L1-1 L10-1))
-1 ((L1-1 L11-1))
+2 ((L1-1 L5-2) (L2-1 L5-1))
+1 ((L2-1 L7-1))
+1 ((L2-1 L6-1))
+1 ((L1-1 L3-1))
+1 ((L1-1 L4-1))
+NIL
+RUBBISH(10):
 
 つながるclauseがあれば両方のgoalが関係する
 しかし、つながるclauseはfactではなく仮説である。
 
 
 ** 503での疑問点
-nconjが1 -P(x)と2 -R(f(x))だということはconjは
+nconjが1 -P(x)と2 -R(f(y))だということはconjは
 ∀x(P(x) ∧ R(f(x)))
 である。
 まず10,11や16,17はそれぞれこの1と2と[]になって2つの[]ができる。
-これは心理表ではF/TかT/Fのどちらかの場合、全体がFになるという場合である。
+これは真偽表ではF/TかT/Fのどちらかの場合、全体がFになるという場合である。
 
 15はその両方のliteralが否定されたとき[]になる。真理表ならF/Fの場合に全体がFになるという場合である。
-ここで拒否されるのは+R(f(x))∨+P(x)であり、変数xでliteralが繋がっている。
+ここで拒否されるのは+R(f(x))∨+P(x)であり、変数xでliteralが繋がっている。この特殊性は、5からはでてこない。1と2それぞれのxは別のxである。
 
--R(f(x))と-P(x)が同時にTとなる場合
+1-5-2からでる[]では1と2のxが同じ定数になる必要があるが、この制約は結果だけみてもわからない。
 
+RUBBISH(10): (list-mgu 'c15)
+((C15 (:RESOLUTION (X.153 X.129) (X.157 X.157) (L13-1 L1-1)))
+ (C13 (:RESOLUTION (Y.130 X.131) (X.153 X.153) (L2-1 L5-1))))
 
-この関係以外の-R(f(x))と-P(y)が同時にTとなる場合は拒否されない。
-つまり-R(f(a))と-P(b)が同時にTになっても拒否されないはず。
+これを見ると、
 
-実際には、同時にTになると、15のliteralのどちらかが拒否されるのでclauseとしては[]になる。のか?
+y.130 = x.135 =x.157 = x.129となり、c1とc2のxとyが同じであることがわかる。
+この情報は、命題レベルでなく、mguレベルでわかる。
 
-そういうproofを作ろうとしていない?
-
-RUBBISH(19): (print-clauses)
-C27: RESOLVENT = []
-C26: RESOLVENT = []
-C25: RESOLVENT (X.153) [((+ P X.153))]
-C24: RESOLVENT = []
-C23: RESOLVENT = []
-C22: RESOLVENT = []
-C21: RESOLVENT (X.148) [((+ R (F X.148)))]
-C20: RESOLVENT = []
-C19: REDUCED = []
-C18: REDUCED = []
-C17: 17 NIL [((+ R (F B)))]
-C16: 16 NIL [((+ R (F A)))]
-C15: 15 (X.131) [((+ R (F X.131)) (+ P X.131))]
-C11: 11 NIL [((+ P B))]
-C10: 10 NIL [((+ P A))]
-C2: 2 (X.130) [((- R (F X.130)))]
-C1: 1 (X.129) [((- P X.129))]
-NIL
-
-
+全情報はmguまでみなくてはならない。

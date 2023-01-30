@@ -7,7 +7,6 @@
 (defpackage :rubbish
   (:use :cl)
   (:export 
-    :test-graph
     :*maxcid*
     :readekqc
     :prover-gtrail 
