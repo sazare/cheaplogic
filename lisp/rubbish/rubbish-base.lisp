@@ -291,11 +291,6 @@
  )
 )
 
-;; pickup a n'th literal from cid
-(defun pickl (n cid)
-  (nth n (bodyof cid))
-)
-
 ;; is contradiction
 (defun iscontradiction (cid)
   (null (bodyof cid))

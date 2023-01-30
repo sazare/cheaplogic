@@ -31,13 +31,6 @@ internal-time-units-per-second
 =====
 (step-solver goal) 重要そう。proverの制御しているぽい
 
-====
-lower level
-(gather-properties atom)
-(gather-atominfo atomlist)
-
-(symbol-plist 'atom)
-
 ======
 
 (analyze-pcode)   []のみのpcodeで分析。summaryつき。
@@ -49,3 +42,12 @@ reportcはanalyze結果をすこし見やすくする
 
 (reportc (analyze-pcode))　
 (reportc (analyze-p2code))
+
+
+====
+lower level
+(gather-properties atom)
+(gather-atominfo atomlist)
+
+(symbol-plist 'atom)
+

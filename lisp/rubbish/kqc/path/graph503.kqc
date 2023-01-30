@@ -1,4 +1,6 @@
 ;; two goals example
+;; single refute and double refutes
+;; 
 
 (1 (x) (- P x))
 (2 (x) (- R (f x)))

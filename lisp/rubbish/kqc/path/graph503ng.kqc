@@ -1,4 +1,5 @@
 ;; two goals example
+;; once ng, follow ok, dont konw why
 
 (1 (x) (- P x))
 (2 (x) (- R (f x)))

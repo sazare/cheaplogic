@@ -1,0 +1,8 @@
+;; two goals example 2
+;; a bug: reduce applied to goals...
+
+;; goals are 1,2
+(1 (x) (- P x))
+(2 (x) (- R (f x)))
+
+

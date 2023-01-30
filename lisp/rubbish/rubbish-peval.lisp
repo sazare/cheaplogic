@@ -13,25 +13,19 @@
 
 (defun peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
   (and *peval-active*
-    (let (v)
-      (setq v (handler-case (progn (eval e)) 
-               (error () :myerror)
-               (warning () nil)
-              ))
-      (if (eq v :myerror) e v)
+    (handler-case (progn (eval e))
+      (error () e)
+      (warning () e)
     )
   )
 )
 
 (defmacro mpeval (e) ;; e may be a form as (+ 1 xxx) 
   `(and *peval-active*
-    (let (v)
-      (setq v (handler-case (progn ,e) 
-                (error () :myerror)
-                (warning () nil)
-               ))
-      (if (eq v :myerror) ',e v)
-     )
+      (handler-case (progn ,e) 
+                (error () ,e)
+                (warning () ,e)
+               )
    )
 )
 

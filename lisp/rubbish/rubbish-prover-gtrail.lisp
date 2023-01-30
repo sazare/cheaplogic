@@ -51,7 +51,8 @@
 )
 
 
-(defparameter *enable-semantics* t)
+(defparameter *enable-semantics* nil)
+;(defparameter *enable-semantics* t)
 
 (defun findoppos (goal)
   (let (oppos)
@@ -354,6 +355,7 @@
   (setf *clist* nil)
   (setf *llist* nil)
   (setf *lsymlist* nil)
+
   ;below parameters
   (setf *goallist* nil)
   (setf *num-of-trials* 0)

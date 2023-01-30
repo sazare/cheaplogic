@@ -1,0 +1,9 @@
+;; two goals example 2
+;; this case the [] means both literals are refuted
+
+;; goals are 1,2
+(1 (x) (- P x))
+(2 (x) (- R (f x)))
+
+(5 (x) (+ R (f x))(+ P x))
+

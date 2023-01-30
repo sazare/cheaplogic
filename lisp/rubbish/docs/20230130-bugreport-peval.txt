@@ -1,0 +1,188 @@
+20230130-semantx 
+
+kqc/path/graph503.kqc
+
+c1,c2でreduceが発生する
+
+(require :gtrail)
+(in-package :rubbish)
+(trace apply-semantx-id)
+(trace reduce-by-semantx)
+(trace make-valid-clause)
+(trace make-clause-by-reduced)
+(trace peval-id)
+(trace map-to-semantx)
+(trace peval)
+
+; 506 has goals only
+(play-prover-gtrail '(1 2) "kqc/path/graph506.kqc")
+
+
+RUBBISH(8): (play-prover-gtrail '(1 2) "kqc/path/graph506.kqc")
+kqc reading: kqc/path/graph506.kqc
+..
+  0: (RUBBISH::REDUCE-BY-SEMANTX RUBBISH::C1)
+    1: (RUBBISH::APPLY-SEMANTX-ID RUBBISH::C1)
+      2: (RUBBISH::MAP-TO-SEMANTX RUBBISH::L1-1)
+      2: MAP-TO-SEMANTX returned (NOT (P X.129))
+      2: (RUBBISH::PEVAL (NOT (RUBBISH::P RUBBISH::X.129)))
+      2: PEVAL returned NIL
+    1: APPLY-SEMANTX-ID returned NIL (L1-1) NIL
+    1: (RUBBISH::MAKE-CLAUSE-BY-REDUCED RUBBISH::C1 (RUBBISH::L1-1) NIL)
+    1: MAKE-CLAUSE-BY-REDUCED returned C3
+  0: REDUCE-BY-SEMANTX returned C3
+----
+
+
+なぜかapply-semantx-idがL1-1をfalseだと判定する
+
+----
+RUBBISH(11): (setq xxx (peval(map-to-semantx 'L1-1)))
+
+(NOT (P X.129))
+RUBBISH(12): xxx
+
+(NOT (P X.129))
+RUBBISH(13): (length xxx)
+
+2
+-----
+pevalすると2要素listを返している。
+1つめがnil
+multiple-value-returnしていたか??
+
+しかもplay-prover-gtrailを繰り返すと、pevalはちゃんとした値を返す
+
+  0: (RUBBISH::REDUCE-BY-SEMANTX RUBBISH::C1)
+    1: (RUBBISH::APPLY-SEMANTX-ID RUBBISH::C1)
+      2: (RUBBISH::MAP-TO-SEMANTX RUBBISH::L1-1)
+      2: MAP-TO-SEMANTX returned (NOT (P X.145))
+      2: (RUBBISH::PEVAL (NOT (RUBBISH::P RUBBISH::X.145)))
+      2: PEVAL returned (NOT (P X.145))
+    1: APPLY-SEMANTX-ID returned NIL NIL (L1-1)
+  0: REDUCE-BY-SEMANTX returned C1
+
+
+****　再現した
+-----
+CL-USER(1): (require :gtrail)
+To load "local-time":
+  Load 1 ASDF system:
+    local-time
+; Loading "local-time"
+
+NIL
+CL-USER(2): (in-package :rubbish)
+
+#<PACKAGE "RUBBISH">
+RUBBISH(3): (peval '(not (p x)))
+
+NIL
+RUBBISH(4): (peval '(not (p x)))
+
+(NOT (P X))
+------
+notがなくても同じ
+
+*peval-active*はどちらもT
+
+-----
+RUBBISH(3): (trace handler-case)
+
+(HANDLER-CASE)
+RUBBISH(4): (peval '(P x))
+
+NIL
+RUBBISH(5): (peval '(P x))
+
+(P X)
+----
+handler-caseとおっていない??
+
+次の部分だけ使っても同じ
+----
+(defparameter *peval-active* t)
+
+(defun peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
+  (and *peval-active*
+    (let (v)
+      (setq v (handler-case (progn (eval e))
+               (error () :myerror)
+               (warning () nil)
+              ))
+      (if (eq v :myerror) e v)
+    )
+  )
+)
+
+----
+(defun peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
+    (let (v)
+      (setq v (handler-case (progn (eval e))
+               (error () :myerror)
+               (warning () nil)
+              ))
+      (format t "~a~%" v)
+      (if (eq v :myerror) e v)
+    )
+)
+CL-USER(2): (peval '(P x))
+NIL
+NIL
+CL-USER(3): (peval '(P x))
+MYERROR
+(P X)
+----
+一回目はvがnil。ということはwarningになっているのか
+
+(defun peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
+  (handler-case (progn (eval e))
+      (error () e)
+      (warning () e)
+  )
+)
+-----
+ただしそう
+pevalをこれに変更し
+
+----
+(require :gtrail)
+(in-package :rubbish)
+(play-prover-gtrail '(1 2) "kqc/path/graph506.kqc")
+
+RUBBISH(3): (play-prover-gtrail '(1 2) "kqc/path/graph506.kqc")
+kqc reading: kqc/path/graph506.kqc
+..
+
+start-time: 2023-01-30T09:55:19.028367+09:00
+
+  ### PARAMETERS ###
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = T
+orphan lsym L1-1 in C1.
+orphan lsym L2-1 in C2.
+
+end-time: 2023-01-30T09:55:19.037490+09:00
+
+finished. goallist is empty
+contradictions=NIL
+valids =NIL
+
+#clauses = 2
+#contras = 0
+#valids = 0
+#trials = 0
+#max proof steps = 0
+NIL
+----
+
+これは動いた
+
+そのように修正した。
+
+*enable-semantics*の設定がめんどうだ
+
