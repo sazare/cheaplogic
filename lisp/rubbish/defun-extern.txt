@@ -1,0 +1,102 @@
+these funcsions must be export 
+
+*logical op
+resolve-id (lid1 lid2)
+peval-id (lid)
+
+* info of proofs
+pinfof (cid)
+pcode (cid)
+pcode0 (cid)
+spcode (cid)
+spinfof (cid)
+p2code (cid)
+
+list-mgu(conid)
+
+;; cid to pcode correspondence
+classify-cid-by-pcode (&optional (cids *clist*))
+classify-cid-by-p2code (&optional (cids *clist*))
+
+;; number of cid of pcode
+analyze-pcode0 (&optional (cids *clist*)); for any cids
+analyze-pcode () ;; for only []s
+analyze-p2code0 (&optional (cids *clist*)); for any cids
+analyze-p2code () ;; for only []s
+
+(reportc csp) ; is replace for print-pcodes and print-p2codes
+print-pcodes (&optional (cids *clist*)) ;obsolete
+print-p2codes (&optional (cids *clist*));obsolete
+
+;; primitive structure
+cidof (lid)
+litof (lid)
+lit*of (lid*)
+plidof (lid)
+olidof (lid)
+traceplid (lid)
+tracep(lid) from lid to root
+make-clause (cexp) expからclauseを作る。使うことがあるかも
+
+;; system functions
+time-now ()
+time-current-secs ()
+today ()
+
+;; s-exp file i/o
+readafile (fname)
+readafile0 (fname)
+
+;kqc
+readkqc (fname)
+;e means eval
+readefile (fname)
+readekqc (fname)
+
+; from not file but string
+readastring (str)
+readskqc (str)
+;write
+writeafile (fname objects)
+write-kqc (fname kqc)
+
+;; log of prover
+logreset ()
+logshow ()
+logshown (&optional (b (- (length *rubbish-log*) 1)) (n 10))
+
+logstate ()
+
+;; peval is active at *enable-semantics* = T
+peval (e) ;; e must be a quoted S-exp as '(+ 1 www)
+
+;; print of clauses, literals
+print-clauses (&optional (cids *clist*) (out t))
+print-clausex (&optional (cs *clist*) (out t))
+print-literals (&optional (lids *llist*) (out t))
+
+;print single clause or literal
+print-literal (lid &optional (out t))
+print-clause (cid &optional (out t))
+
+;; ind is indent
+print-literal0 (lid &optional (ind 0)(out t))
+print-clause0 (cid &optional (ind 0) (out t))
+print-proof0 (cid &optional (ind 0) (out t))
+print-proof (cid &optional (ind 0) (out t))
+
+; list form of proof
+list-proof0 (cid)
+
+;; metrix of proof. depth
+depth-lid (lid)
+depth-cid (cid)
+depth-proof0 (cid)
+
+;; dump of objects
+dump-clauses (&optional (cids *clist*)(out t))
+dump-lits (&optional (lids *llist*)(out t))
+dump-clause (cid &optional (out t))
+dump-clausex (&optional (cids *clist*) (out t))
+dumpcs (&optional (out t)) ; dump of clauses, short function name
+
