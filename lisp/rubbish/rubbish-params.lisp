@@ -22,7 +22,17 @@
 (defparameter *max-steps* 100)
 (defparameter *timeout-sec* 10)
 
+(defparameter *max-cid* 0)
+
 (defparameter *goallist* nil)
 
-
 (defparameter *rubbish-state* '(*goallist* *num-of-trials*))
+
+(defparameter *enable-semantics* nil)
+
+(defun reset-env ()
+  (clear-all-atoms)
+  (setq *maxcid* 0)
+  (logreset)
+)
+

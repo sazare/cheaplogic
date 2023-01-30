@@ -16,11 +16,19 @@ test-graphは
 
 このときgoalは数字のリスト
 
+
+(reportc (analyze-pcode))
+(reportc (analyze-p2code))
+
+[]がない場合は
+(analyze-pcode0 *clist*)
+
 例
 (require :gtrail)
 (in-package :rubbish)
 
 (setq *max-contradictions* 5)
+(setq *enable-semantics* t) 
 
 (play-prover-gtrail '(1 2) "kqc/time-series/ts-005.kqc")
 (play-prover-gtrail '(1) "kqc/path/graph201.kqc")
@@ -59,12 +67,14 @@ rubbish.confは:rubbishの中で変数を読み込む
 反復
 
 atom系のクリア
-(clear-all-atoms)
+(reset-env)
 
 ログ関係
 (logshow)
 (logreset)
 
 play-prover-gtrailで、logstartをしているのでログは残っている
+
+
 
 

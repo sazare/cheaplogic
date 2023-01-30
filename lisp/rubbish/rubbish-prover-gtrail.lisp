@@ -9,17 +9,8 @@
 ;(prover-grail '(c1))
 
 
-;; parameters
-;(defparameter *max-clauses* 1000)
-;(defparameter *max-contradictions* 30)
-;(defparameter *max-trials* 100)
-;(defparameter *max-steps* 100)
-;(defparameter *timeout-sec* 10)
-;
-;(defparameter *goallist* nil)
-;
-;
-;(defparameter *rubbish-state* '(*goallist* *num-of-trials*))
+;; parameters see rubbish-params.lisp
+;; see also rubbish.conf
 
 ;;; finish time function user can defined
 ;(defun when-finish-p () t)
@@ -150,6 +141,7 @@
     (format out "*sunification*    = ~a~%" *sunification*)
     (format out "*timeout-sec*    = ~a~%" *timeout-sec*)
     (format out "*validlist*    = ~a~%" *validlist*)
+    (format out "*max-did*    = ~a~%" *max-did*)
     nil
   )
 )    
