@@ -141,7 +141,7 @@
     (format out "*sunification*    = ~a~%" *sunification*)
     (format out "*timeout-sec*    = ~a~%" *timeout-sec*)
     (format out "*validlist*    = ~a~%" *validlist*)
-    (format out "*max-did*    = ~a~%" *max-did*)
+    (format out "*max-cid*    = ~a~%" *max-cid*)
     nil
   )
 )    

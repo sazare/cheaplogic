@@ -16,9 +16,9 @@
 
 ;; statics by computed
 
-(defun print-pcodes (&optional (cids *clist*))
-   (loop for cid in cids do (format t "~a ~a~%" cid (pcode cid)))
-)
+;(defun print-pcodes (&optional (cids *clist*))
+;   (loop for cid in cids do (format t "~a ~a~%" cid (pcode cid)))
+;)
 
 (defun uniq-pcodes (&optional (cids *clist*))
   (uniq (loop for cid in cids collect (pcode cid)))
@@ -69,9 +69,9 @@
 
 
 ;;
-(defun print-p2codes (&optional (cids *clist*))
-   (loop for cid in cids do (format t "~a ~a~%" cid (p2code cid)))
-)
+;(defun print-p2codes (&optional (cids *clist*))
+;   (loop for cid in cids do (format t "~a ~a~%" cid (p2code cid)))
+;)
 
 (defun uniq-p2codes (&optional (cids *clist*))
   (uniq (loop for cid in cids collect (p2code cid)))
