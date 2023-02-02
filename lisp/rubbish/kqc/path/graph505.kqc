@@ -2,8 +2,8 @@
 ;; single refute and double refutes
 ;; 
 
-(1 (x) (- P x))
-(2 (y) (- R (f y)))
+(1 (x) (- P a))
+(2 (y) (- R (f a)))
 
 (3 () (+ P a))
 (4 () (+ P b))

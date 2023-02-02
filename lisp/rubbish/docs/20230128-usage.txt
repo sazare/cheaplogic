@@ -1,6 +1,4 @@
-semanticsでprover-gtrail
 
-test-graphは
 
 (require :gtrail)
 (in-package :rubbish)
@@ -16,11 +14,10 @@ test-graphは
 
 このときgoalは数字のリスト
 
-
 (reportc (analyze-pcode))
 (reportc (analyze-p2code))
 
-[]がない場合は
+[]がない場合、[]以外も見たい場合は
 (analyze-pcode0 *clist*)
 
 例
@@ -31,9 +28,9 @@ test-graphは
 (setq *enable-semantics* t) 
 
 (play-prover-gtrail '(1 2) "kqc/time-series/ts-005.kqc")
-(play-prover-gtrail '(1) "kqc/path/graph201.kqc")
-(play-prover-gtrail '(1 2) "kqc/path/graph503.kqc")
-(play-prover-gtrail '(1) "kqc/ml002.kqc")
+;(play-prover-gtrail '(1) "kqc/path/graph201.kqc")
+;(play-prover-gtrail '(1 2) "kqc/path/graph503.kqc")
+;(play-prover-gtrail '(1) "kqc/ml002.kqc")
 
 (reportc (analyze-pcode))
 (reportc (analyze-p2code))

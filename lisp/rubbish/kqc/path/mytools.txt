@@ -1,36 +1,37 @@
-*clist*
-(gatercontra *clist*) => (consists contras)
-(proofof cid) .. list-mguから呼ばれる
-(list-mgu cid)
-(list-proof0 cid)
+(step-solver (goal)) ... goalに対する1stepのprover処理
 
-(pinfof cid)
-(pcode cid)
-(spcode cid)
-(ccode cid)
+(prover-gtrail (goals)) ... goals全部に対するstep-solver
 
-(print-clauses *clist*)
-(print-clause0 cid)
-(print-clause cid)    ..0とどこが違うのか?
-(print-clausex *clist*)
-
-(print-proof0 cid)
-(list-proof0 cid) リスト構造で証明の簡略形をかえす
+(play-prover-gtrail (goal kqcfile)) ... kqc読み込んだりlogの準備したりしてprover-gtrail
 
 ----
-(summary0 t/nil)
+(lscova)  contradictionのリストとvalidのリストのペアを返す
 
-(show-parameter0 t/nil)
+----
+(gatercontra *clist*) => (consists contras)
+(proofof cid) .. list-mguから呼ばれる
+(list-mgu cid) ... cidのproofのpairとそのmguを返す
+(list-proof0 cid) ... 証明をlistで返す
 
- (time-current-secs)
+(pinfof cid) ... cidの証明に出現するinput lid
+(pcode cid) ... pinfoをsortしたもの
+(spcode cid) ... pcodeをstringにしたもの
+(ccode cid) ... cidのbodyをinput lidにしたもの
 
-get-internal-run-time
-internal-time-units-per-second
-(local-time:now)   -- starttime
+(print-clauses [cids]) ... cidsのprint. cidsがなければ *clist*
+(print-clause0 cid) ... cidのprint
+(print-clause cid)    ..0とどこが違うのか?
+(print-clausex [cids]) ... cidsのclauseをprint。ただし、literalはlid。cidsがなければ*clist*
+
+(print-proof0 cid) ... cidのproofをprint
+(list-proof0 cid) ... cidのproofをリスト構造をかえす
+
+----
+(summary0 out) ... prover-gtrail実行結果のsummaryをstream outに出力する
+(show-parameter0 out) ... prover-gtrailの実行時のパラメータをoutに出力する。
 
 =====
-(step-solver goal) 重要そう。proverの制御しているぽい
-
+(step-solver goal) proverの1ステップの実行。
 ======
 
 (analyze-pcode)   []のみのpcodeで分析。summaryつき。
@@ -40,14 +41,25 @@ internal-time-units-per-second
 
 reportcはanalyze結果をすこし見やすくする
 
-(reportc (analyze-pcode))　
-(reportc (analyze-p2code))
+(reportc (analyze-pcode))　 ... 今の[]のpcodeを計算して各pcodeのclause数
+(reportc (analyze-p2code))　... 今の[]のpcodeを計算して各p2codeのclause数
+
+
+(analyze-pcode0 cids)   ... cidsに対してpcodeを計算して同じpcodeのclause数を示す
+(analyze-p2code00 cids)  ... cidsに対してp2codeを計算して同じpcodeのclause数を示す
 
 
 ====
-lower level
-(gather-properties atom)
-(gather-atominfo atomlist)
+[lower level]
+(gather-properties atom)  ... atomのplist。symbol-plistと同じ。
+(gather-atominfo atomlist) ... atomlistのそれぞれのplistとかbindしている値と
 
-(symbol-plist 'atom)
+(symbol-plist atom) ... commonlispの、atomのplistを返す
+
+
+[参考 sbclのapiかな]
+(time-current-secs) ... 今の秒数
+(get-internal-run-time) 
+internal-time-units-per-second ... 1秒あたりのtime unit数
+(local-time:now)   -- starttimeで使用。今の時刻の表示。local-timeは別package。
 
