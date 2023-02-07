@@ -1,0 +1,8 @@
+;; Σ valid
+;; 1 is the goal, 3 is true cause 1 should be true.
+;; but ignore that
+
+(1 (x) (- P x))
+(2 (y) (+ P a))
+(3 (z) (- P a))
+

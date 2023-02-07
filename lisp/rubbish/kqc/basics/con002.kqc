@@ -1,0 +1,9 @@
+;; Σ valid
+; Px -> -Px is 2 causes []
+;; how when goal is 1? 
+; goal 3 or goal 2
+
+;(1 (x) (- P x))
+(2 (y) (- P y)(- P y))
+(3 (z) (+ P a))
+

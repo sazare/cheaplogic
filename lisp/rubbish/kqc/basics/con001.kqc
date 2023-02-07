@@ -1,0 +1,9 @@
+;; Σ valid
+; -Px is already in Σ
+; but if goal is 1, 1x2 make +Py confict 1
+; goal 3 also make contradiction
+
+(1 (x) (- P x))
+(2 (y) (+ P y)(+ P y))
+(3 () (- P a))
+

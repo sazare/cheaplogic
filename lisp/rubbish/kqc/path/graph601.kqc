@@ -1,0 +1,13 @@
+;; or-goal
+;;; one goal but 2 literals:  P(x) ∨ Q(x) means
+
+
+(1 (x) (- P x) (- Q x))
+
+(2 () (+ P a))
+(3 () (+ P b))
+(4 () (+ Q a))
+(5 () (+ Q c))
+
+
+

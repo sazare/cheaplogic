@@ -1,0 +1,8 @@
+; a conflict in Σ by finding atomic conflict?
+
+;(1 ()  (- P a))
+(2 (x) (+ P x)(+ R x))
+(3 (x) (+ R x)(+ P x))
+(4 (x) (- R x))
+
+
