@@ -61,7 +61,7 @@
 (defun reportc (csp)
   (terpri t)
   (format t "kqc file             : ~a~%" *kqcfile*)
-  (show-parameter0 t)
+  (show-parameter0 () t)
   
   (format t "~%# of pcodes          : ~a~%" (length csp))
   (loop for z in csp do (format t "~a ~a~%" (car z)(cadr z)))

@@ -81,30 +81,34 @@
 )
 
 
-(defun show-parameter0 (out)
+(defun show-parameter0 (goals out)
   (format out 
   "
+  goals                = ~a
   *max-clauses*        = ~a
   *max-contradictions* = ~a
   *max-trials*         = ~a
   *max-steps*          = ~a
   *timeout-sec*        = ~a
   *enable-semantics*   = ~a~%"
+   goals
    *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* 
    *enable-semantics*) 
 )
 
-(defun show-parameter (time-start)
+(defun show-parameter (goals time-start)
     (format t 
   "~%start-time: ~a ~%
   ### PARAMETERS ###
+  goals                = ~a
   *max-clauses*        = ~a
   *max-contradictions* = ~a
   *max-trials*         = ~a
   *max-steps*          = ~a
   *timeout-sec*        = ~a
   *enable-semantics*   = ~a~%"
-   (local-time:now) *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec*  
+   (local-time:now) goals 
+   *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec*  
    *enable-semantics*) 
 )
 
@@ -209,7 +213,7 @@
 
 ;; preparation
 
-    (show-parameter time-start)
+    (show-parameter goals time-start)
 
 ;; 
     (loop named prover-loop 
