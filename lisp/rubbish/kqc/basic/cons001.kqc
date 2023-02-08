@@ -1,0 +1,8 @@
+;; Σ is consistent, [] never be found
+;; play-gtrailで、1,2,3,4それぞれをgoalとして[]がでなければΣは無矛盾となる例
+
+(1 () (+ P a))
+(2 (x) (+ R x) (- S x))
+(3 () (- S a))
+(4 (x) (+ R x) (- P x))
+

@@ -1,0 +1,9 @@
+;; Σ is consistent, [] never be found
+
+(1 (w) (- S w))
+
+(2 () (+ P a))
+(3 (x) (+ R x) (- S x))
+(4 () (- S a))
+(5 (x) (+ R x) (- P x))
+
