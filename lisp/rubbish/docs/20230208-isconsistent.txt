@@ -1,0 +1,348 @@
+20230208-isconsistent
+
+現状のproverで、Σが無矛盾であることを確認する方法は?
+
+1) Σの要素clauseそれぞれをgoalsとして
+
+Σ-{g}→[] ... (1)
+
+の証明(gの反証)を求める。
+
+*これでうまくいくのだろうか??
+
+
+2) Σのすべての述語Pについて
+
++P(..) ... (2)
+-P(..) ... (3)
+
+というclauseを作り、それぞれのunit clauseをgoalとして[]を導く。
+両方で[]がでたら矛盾している。片方で矛盾が出るのはあたりまえ。
+
+Σ, g  → [] ...(4)
+Σ, -g → [] ...(-4)
+
+なので
+(4)からはΣ→-g、(-4)からはΣ→gが証明でき、矛盾していることになる。
+
+「両方の証明が得られたら、Σは矛盾している」
+
+では、どんな矛盾があっても、このようなatomicな式のclauseの矛盾に帰着できるのかどうかが問題になる。
+漠然とした話だが、resolutionでは矛盾は最終的に同一述語の+/-unit clauseのresolutionができるかどうかなので、atomicなliteralの矛盾に帰着できるのではないか??
+
+
+
+1の実例)
+
+★RUBBISH(4): (play-prover-gtrail '(1) "kqc/basic/consis001.kqc")
+kqc reading: kqc/basic/consis001.kqc
+....
+
+start-time: 2023-02-08T09:32:52.179723+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L5-1 in C5.
+
+end-time: 2023-02-08T09:32:52.189879+09:00
+
+finished. goallist is empty
+★contradictions=NIL
+valids =NIL
+
+#clauses = 5
+#contras = 0
+#valids = 0
+#trials = 1
+#max proof steps = 0
+NIL
+★RUBBISH(5): (play-prover-gtrail '(2) "kqc/basic/consis001.kqc")
+kqc reading: kqc/basic/consis001.kqc
+....
+
+start-time: 2023-02-08T09:32:59.944578+09:00
+
+  ### PARAMETERS ###
+  goals                = (C2)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L2-1 in C2.
+orphan lsym L2-2 in C2.
+
+end-time: 2023-02-08T09:32:59.944790+09:00
+
+finished. goallist is empty
+★contradictions=NIL
+valids =NIL
+
+#clauses = 5
+#contras = 0
+#valids = 0
+#trials = 1
+#max proof steps = 0
+NIL
+★RUBBISH(6): (play-prover-gtrail '(3) "kqc/basic/consis001.kqc")
+kqc reading: kqc/basic/consis001.kqc
+....
+
+start-time: 2023-02-08T09:33:12.222871+09:00
+
+  ### PARAMETERS ###
+  goals                = (C3)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L3-1 in C3.
+
+end-time: 2023-02-08T09:33:12.223046+09:00
+
+finished. goallist is empty
+★contradictions=NIL
+valids =NIL
+
+#clauses = 5
+#contras = 0
+#valids = 0
+#trials = 1
+#max proof steps = 0
+NIL
+★RUBBISH(7): (play-prover-gtrail '(4) "kqc/basic/consis001.kqc")
+kqc reading: kqc/basic/consis001.kqc
+....
+
+start-time: 2023-02-08T09:33:17.177038+09:00
+
+  ### PARAMETERS ###
+  goals                = (C4)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L4-1 in C4.
+orphan lsym L6-1 in C6.
+
+end-time: 2023-02-08T09:33:17.177307+09:00
+
+finished. goallist is empty
+★contradictions=NIL
+valids =NIL
+
+#clauses = 6
+#contras = 0
+#valids = 0
+#trials = 2
+#max proof steps = 0
+NIL
+
+
+
+2)の実例
+
+★cons002とcons002nは(+/- P)
+★RUBBISH(3): (play-prover-gtrail '(1) "kqc/basic/cons002.kqc")
+kqc reading: kqc/basic/cons002.kqc
+.....
+
+start-time: 2023-02-08T10:51:27.984439+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+end-time: 2023-02-08T10:51:27.993953+09:00
+
+finished. goallist is empty
+★contradictions=(C6)
+valids =NIL
+
+#clauses = 6
+#contras = 1
+#valids = 0
+#trials = 1
+#max proof steps = 1
+NIL
+RUBBISH(4): (print-proof0 'c6)
+C6: RESOLVENT = []
+C6 [] RESOLUTION : <L1-1:L2-1>
+  L1-1 (W.129).(- P W.129) input1
+  C1: 1 (W.129) [((- P W.129))]
+  L2-1 ().(+ P A) input2
+  C2: 2 NIL [((+ P A))]
+NIL
+
+
+★RUBBISH(3): (play-prover-gtrail '(1) "kqc/basic/cons002n.kqc")
+kqc reading: kqc/basic/cons002n.kqc
+.....
+
+start-time: 2023-02-08T10:51:50.331407+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L6-1 in C6.
+
+end-time: 2023-02-08T10:51:50.339679+09:00
+
+finished. goallist is empty
+contradictions=NIL
+valids =NIL
+
+#clauses = 6
+#contras = 0
+#valids = 0
+#trials = 1
+#max proof steps = 0
+NIL
+
+★cons003とcons003nは(+/- R)
+
+★RUBBISH(3): (play-prover-gtrail '(1) "kqc/basic/cons003.kqc")
+kqc reading: kqc/basic/cons003.kqc
+.....
+
+start-time: 2023-02-08T10:52:09.811044+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L7-1 in C7.
+
+end-time: 2023-02-08T10:52:09.819575+09:00
+
+finished. goallist is empty
+★contradictions=(C8)
+valids =NIL
+
+#clauses = 8
+#contras = 1
+#valids = 0
+#trials = 3
+#max proof steps = 2
+NIL
+
+★RUBBISH(3): (play-prover-gtrail '(1) "kqc/basic/cons003n.kqc")
+kqc reading: kqc/basic/cons003n.kqc
+.....
+
+start-time: 2023-02-08T10:52:23.787064+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L1-1 in C1.
+
+end-time: 2023-02-08T10:52:23.795635+09:00
+
+finished. goallist is empty
+★contradictions=NIL
+valids =NIL
+
+#clauses = 5
+#contras = 0
+#valids = 0
+#trials = 0
+#max proof steps = 0
+NIL
+
+★cons004とcons004nは(+/- S)
+★RUBBISH(3): (play-prover-gtrail '(1) "kqc/basic/cons004.kqc")
+kqc reading: kqc/basic/cons004.kqc
+.....
+
+start-time: 2023-02-08T10:52:37.335181+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L1-1 in C1.
+
+end-time: 2023-02-08T10:52:37.343686+09:00
+
+finished. goallist is empty
+★contradictions=NIL
+valids =NIL
+
+#clauses = 5
+#contras = 0
+#valids = 0
+#trials = 0
+#max proof steps = 0
+NIL
+
+
+★cons003とcons003nは(+/- R)
+RUBBISH(3): (play-prover-gtrail '(1) "kqc/basic/cons004n.kqc")
+kqc reading: kqc/basic/cons004n.kqc
+.....
+
+start-time: 2023-02-08T10:52:48.718488+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L7-1 in C7.
+
+end-time: 2023-02-08T10:52:48.729606+09:00
+
+finished. goallist is empty
+★contradictions=(C6)
+valids =NIL
+
+#clauses = 7
+#contras = 1
+#valids = 0
+#trials = 2
+#max proof steps = 1
+NIL
+RUBBISH(4):
+
+
+以上のように、全述語記号の+/- unit clauseの両方が[]になるものはないので、Σは無矛盾となる。
+
+
