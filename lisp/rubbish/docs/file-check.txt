@@ -1,0 +1,17 @@
+20230130
+
+ファイル内容チェック
+
+----
+rubbish-confact.lispは使っていない
+なにかの実験中
+factの集合の中で矛盾しないものをconsistent factと呼んでいてconfactと書いている
+
+(onfact-clause fcid cid)
+ では、cidのlitealとfcidをresolve-idして、成功したらそのresolventを返しているが
+ fcidが真だとしたらcidはvalidになってしまうので、捨てなくてはならないのではないか?
+
+ちょっとへん。
+
+asdに含めていないので、今後の検討課題
+-----

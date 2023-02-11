@@ -1,20 +1,25 @@
 pcodeの有効性と計算
 
-[観察]
-　1. すべてのresolventのliteralはinput のliteralのインスタンス
-　2. proofのp2codeは、resolveされたpairの集合
-　3. ループの場合、同じresolveは1つになる。集合なので
+[性質]
+　1. すべてのresolventのliteralはinput のどれかのliteralのインスタンス
+　2. proofのp2codeは、resolveされたpairの集合。
+　3. ループの場合、同じresolveは1つになる。集合なので同じペアは二つない。
 
 p2codeとは、証明の全resolved pairについて、そのinput literalのlidのpairに置き換えたものの集合。
-
 証明をinput literalのpairの集合に射影したもの。
 
-* pairの右と左は、lidの順序に従って一意になるようにする。(r l)は(l r)としてあつかう。し、pairの間にも順序を決めてp2code自体が一意になるようにする。
+* 表現としては、pairの右と左は、lidの順序に従って一意になるようにする。(r l)は(l r)としてあつかう。し、pairの間にも順序を決めてp2code自体が一意になるようにする。
+
+pcodeはp2codeのペアも分解して、input literalのlidの集合にしたもの。
 
 [p2codeを使って証明をコントロールできるか?]
 ふたつのclause C1, C2についてR=L1,L2 in C1,C2なら
-p2codeは{(L1' L2')} ∪ p2code(C1) ∪ p2code(C2)になる
+resolventのp2codeは{(L1' L2')} ∪ p2code(C1) ∪ p2code(C2)になる
+
 その証明の中ですでにこれと同じp2codeがある場合でも、普通はresolutionを行う必要がある。同じp2codeの発生を抑制するものではない。
+
+任意のresolventのp2codeは自由だが、矛盾[]には制約がかかっていて[]のp2codeは面白い。
+
 
 もしもΣの含む情報を表現する方法を考えるのであれば、p2codeでは証明のループをひとつのコードに射影するものなので、p2codeに対応する証明片の合成になるはず。
 
@@ -22,7 +27,7 @@ p2codeは{(L1' L2')} ∪ p2code(C1) ∪ p2code(C2)になる
 
 p2codeの要素であるpairに対応するmguがその証明片に対応するが、同じpairのmguは親のmguのインスタンスになる
 
-計算コードとは何か? それはmguだろう。
+計算コードとは何か? それはmguだろう。特に[]のmgu。
 
 命題レベルの証明と、mguそれぞれの役割はなにか?
 
