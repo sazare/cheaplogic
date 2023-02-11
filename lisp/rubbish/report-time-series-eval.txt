@@ -1,0 +1,81 @@
+report-time-series-eval
+
+time-seriesの例として、時間インデックスと変化しない値の例を考えた
+kqc/time-series/ts-005.kqcは期待どおり。
+(require :gtrail)
+(in-package :rubbish)
+(setq *enable-semantics* nil)
+(setq *max-clauses* 20)
+(test-graph 10 "kqc/time-series/ts-005.kqc")
+
+このとき、ts-004.kqcはうまくいかない
+
+RUBBISH(4): (readkqc "kqc/time-series/ts-004.kqc")
+
+NIL
+RUBBISH(5): (print-clauses)
+C3: 3 (N.129 X.130) [((- P (- N.129 1) X.130) (+ P N.129 X.130))]
+C2: 2 NIL [((+ P 1 A))]
+C1: 1 NIL [((- P 5 A))]
+NIL
+
+(- 5 1)がevalできないので
+
+RUBBISH(3): (setq *max-clauses* 10)
+
+10
+RUBBISH(4): (test-graph 10  "kqc/time-series/ts-004.kqc")
+
+start-time: 2023-01-26T11:43:52.168070+09:00
+
+  ### PARAMETERS ###
+  *max-clauses*        = 10
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+
+limit-over number of clauses exceeds
+
+end-time: 2023-01-26T11:43:52.176204+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.022890 secs
+  #clauses = 11
+  #contras = 0
+  #valids = 0
+  #trials = 16
+  #max proof steps = 0
+NIL
+RUBBISH(5): (print-clauses)
+C11: RESOLVENT NIL [((- P
+                                    (-
+                                     (- (- (- (- (- (- (- 5 1) 1) 1) 1) 1) 1)
+                                        1)
+                                     1)
+                                    A))]
+C10: RESOLVENT NIL [((- P (- (- (- (- (- (- (- 5 1) 1) 1) 1) 1) 1) 1) A))]
+C9: RESOLVENT NIL [((- P (- (- (- (- (- (- 5 1) 1) 1) 1) 1) 1) A))]
+C8: RESOLVENT NIL [((- P (- (- (- (- (- 5 1) 1) 1) 1) 1) A))]
+C7: RESOLVENT NIL [((- P (- (- (- (- 5 1) 1) 1) 1) A))]
+C6: RESOLVENT NIL [((- P (- (- (- 5 1) 1) 1) A))]
+C5: RESOLVENT NIL [((- P (- (- 5 1) 1) A))]
+C4: RESOLVENT NIL [((- P (- 5 1) A))]
+C3: 3 (N.129 X.130) [((- P (- N.129 1) X.130) (+ P N.129 X.130))]
+C2: 2 NIL [((+ P 1 A))]
+C1: 1 NIL [((- P 5 A))]
+NIL
+
+となる。
+
+(eval (- 5 1)) => 4にするためにはこうすればどうか
+
+1. (unify L1 L2)で失敗したら
+   e1 = (eval L1)
+   e2 = (eval L2)
+2. (unify e1 e2)をretryする。
+
+resolventの引数をすべてevalしたら、(+ x 3)みたいに書かれた公理でxに数字がはいるようなのが対処できない。
+だから、unify失敗したときだけevalする
+
+resolutionのproofはどうするか?
