@@ -130,7 +130,7 @@
 )
 
 ;;; report the proof metrics
-(defun pmetrics (cid &optional (out t))
+(defun pmetrics0 (cid &optional (out t))
   (format out "[~a]
   depth                 = ~d
   num of clauses        = ~d  see (cids-of-proof cid)
@@ -147,15 +147,14 @@
   )
 )
 
-(defun pmetrics* (cids &optional (out t)) 
-  (loop for cid in cids do
-    (pmetrics cid out)
+(defun pmetrics (cids &optional (out t)) 
+  (if (atom cids) 
+    (pmetrics0 cids out)
+    (loop for cid in cids do
+      (pmetrics0 cid out)
+    )
   )
 )
-
-
-
-
 
 ;; test run 
 (defun test-graph (mc kqcfile &optional (goals '(1)))

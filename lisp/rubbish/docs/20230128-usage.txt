@@ -23,17 +23,7 @@
 
 
 [証明のメトリックス]
-(pmetrics 'c35)
-[C35]
-  depth                 = 7
-  num of clauses        = 12  see (cids-of-proof cid)
-  num of input clauses  = 6  see (inclauses-of-proof cid)
-  num of input literals = 9  see (inliterals-of-proof cid)
-  num of preds          = 2  see (preds-of-proof cid)
-NIL
-
-複数の場合は
-(pmetrics* '(c35 c47 c53))
+(pmetrics '(c35 c47 c53))
 [C35]
   depth                 = 7
   num of clauses        = 12  see (cids-of-proof cid)
@@ -51,6 +41,15 @@ NIL
   num of clauses        = 15  see (cids-of-proof cid)
   num of input clauses  = 7  see (inclauses-of-proof cid)
   num of input literals = 10  see (inliterals-of-proof cid)
+  num of preds          = 2  see (preds-of-proof cid)
+NIL
+
+ (pmetrics 'c35)
+[C35]
+  depth                 = 7
+  num of clauses        = 12  see (cids-of-proof cid)
+  num of input clauses  = 6  see (inclauses-of-proof cid)
+  num of input literals = 9  see (inliterals-of-proof cid)
   num of preds          = 2  see (preds-of-proof cid)
 NIL
 
