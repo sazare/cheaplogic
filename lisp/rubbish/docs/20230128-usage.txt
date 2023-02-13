@@ -1,9 +1,9 @@
-
+[[使い方]]
 
 (require :gtrail)
 (in-package :rubbish)
 
-;; parameterの設定をする
+;; parameterの設定をする。
 
 (setq *max-clauses* 20)
 
@@ -14,13 +14,48 @@
 
 このときgoalは数字のリスト
 
+[pcodeの表示]
 (reportc (analyze-pcode))
 (reportc (analyze-p2code))
 
 []がない場合、[]以外も見たい場合は
 (analyze-pcode0 *clist*)
 
-例
+
+[証明のメトリックス]
+(pmetrics 'c35)
+[C35]
+  depth                 = 7
+  num of clauses        = 12  see (cids-of-proof cid)
+  num of input clauses  = 6  see (inclauses-of-proof cid)
+  num of input literals = 9  see (inliterals-of-proof cid)
+  num of preds          = 2  see (preds-of-proof cid)
+NIL
+
+複数の場合は
+(pmetrics* '(c35 c47 c53))
+[C35]
+  depth                 = 7
+  num of clauses        = 12  see (cids-of-proof cid)
+  num of input clauses  = 6  see (inclauses-of-proof cid)
+  num of input literals = 9  see (inliterals-of-proof cid)
+  num of preds          = 2  see (preds-of-proof cid)
+[C47]
+  depth                 = 8
+  num of clauses        = 13  see (cids-of-proof cid)
+  num of input clauses  = 6  see (inclauses-of-proof cid)
+  num of input literals = 8  see (inliterals-of-proof cid)
+  num of preds          = 2  see (preds-of-proof cid)
+[C53]
+  depth                 = 9
+  num of clauses        = 15  see (cids-of-proof cid)
+  num of input clauses  = 7  see (inclauses-of-proof cid)
+  num of input literals = 10  see (inliterals-of-proof cid)
+  num of preds          = 2  see (preds-of-proof cid)
+NIL
+
+
+[例]
 (require :gtrail)
 (in-package :rubbish)
 
@@ -35,8 +70,10 @@
 (reportc (analyze-pcode))
 (reportc (analyze-p2code))
 
+[矛盾の一覧とtautologyのリスト]
 (lscova)
 
+[表示関数]
 (print-clauses)
 (print-literals)
 
@@ -50,27 +87,35 @@
 
 (logshow)
 
-lispの関数
+[lispの関数]
 (symbol-plist 'c27)
 
+[prover 制御]
 (test-graph 10 "kqc/time-series/ts-005.kqc")
 (test-graph 20 "kqc/path/graph201.kqc")
 (load "play-prover-gt-ml002.lisp")
+
 (load "rubbish.conf")
 (load "pre-rubbish.lisp")はrubbish.confを読み込むだけしてる
 rubbish.confは:rubbishの中で変数を読み込む
 
 
-反復
+[反復]
 
-atom系のクリア
+
+[atom系のクリア]
 (reset-env)
 
-ログ関係
+[ログ関係]
 (logshow)
 (logreset)
 
 play-prover-gtrailで、logstartをしているのでログは残っている
+
+
+[応用]
+(print-literals (pcode 'c35))
+(print-clauses (car (lscova)))  ; []が少ないとき
 
 
 

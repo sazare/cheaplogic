@@ -1,0 +1,46 @@
+20230213-pmetrics
+
+proof metrics (from cid of contradiction)
+ function form
+   (pmetrics cid*)
+
+　- proof-depth : proofの深さ (depth-proof0 cid)
+
+　- proofで使ったclauseにはresolventが含まれる
+　　　　　(cids-of-proof cid)
+
+　- inclause-of-proof
+         使ったinput clause。
+                (uniq (loop for lid in (pcode cid) collect (cidof lid)))のlength。このリストのほうがうれしい??
+         (inclause-of-proof cid)
+          または
+
+　- proof-nics 使ったinput clauseの数(p2codeのlength、resolve数)
+　     = pairの数
+
+　- proof-ils 使ったinput literalの数(pcodeのlength) 使ったinput literalはpcode
+　　　　　　  (length (pcode cid))
+         (inliterals-of-proof cid)
+
+　- proof-preds proofで使った述語　
+         (uniq (loop for lid in (pcode 'c35) collect (psymoflid lid)))
+　　　　 as (preds-of-proof cid)
+
+　- proof-npred 使った述語の数 length of it
+
+
+　- proofのpair数/trial数 (証明器全体の動作のうち[]の証明に使われたパワーみたいな)
+　　処理終わったあとのclause数/trial数 *max-trials*が*num-of-trials*を抑制していないので、この値は無意味???
+
+[real of metics]
+
+  - (invariantof cid) invariant = (list-mgu body)
+
+
+
+　x - (使ったlsym数 pair数の半分)　意味ない
+
+　x - renameでない代入の数?? (list-mgu) = (length (p2code)) 意味ないか
+
+　x - proof-ncs clauseの数 resolventもはいるので、これは意味ない
+

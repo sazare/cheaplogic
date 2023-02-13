@@ -1,4 +1,12 @@
 
+
+2023/02/13月
+proof metrixを作った
+ proofのメトリックス(になりそうなもの)を計算する関数と表示する関数(pmetrics)
+
+ literals-of-cidは意味がなさそうなのでやめた。inliterals-of-cidで十分では??
+
+
 2023/01/21土
 summaryのmax steps of proof数が0だ
 証明のdepthを数えていない。

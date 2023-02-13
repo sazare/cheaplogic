@@ -129,8 +129,34 @@
   )
 )
 
+;;; report the proof metrics
+(defun pmetrics (cid &optional (out t))
+  (format out "[~a]
+  depth                 = ~d
+  num of clauses        = ~d  see (cids-of-proof cid)
+  num of input clauses  = ~d  see (inclauses-of-proof cid)
+  num of input literals = ~d  see (inliterals-of-proof cid)
+  num of preds          = ~d  see (preds-of-proof cid)
+"
+  cid
+  (depth-of-proof cid)
+  (length (cids-of-proof cid))
+  (length (inclauses-of-proof cid))
+  (length (inliterals-of-proof cid))
+  (length (preds-of-proof cid))
+  )
+)
 
-    
+(defun pmetrics* (cids &optional (out t)) 
+  (loop for cid in cids do
+    (pmetrics cid out)
+  )
+)
+
+
+
+
+
 ;; test run 
 (defun test-graph (mc kqcfile &optional (goals '(1)))
   (in-package :rubbish)

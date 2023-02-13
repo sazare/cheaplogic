@@ -180,6 +180,25 @@
   )
 )
 
+
+(defun cids-proof (cid)
+  (cond
+    ((ruleof cid) 
+      (append (list cid)
+        (let* ((pr (proofof cid)) (flits (cadddr pr)) )
+            (loop for flid in flits append
+              (cids-proof (cidof flid)))
+            )
+          )
+        )
+    (t (list cid))
+  )
+)
+
+(defun cids-of-proof (cid)
+  (uniq (cids-proof cid))
+)
+
 ;; depth of proof tree
 ;; estimation of proof0
 (defun depth-lid (lid)
@@ -202,6 +221,22 @@
   (1+ (depth-cid cid))
 )
 
+;; MORE PROOF METRICS 
+(defun depth-of-proof (cid)
+  (depth-proof0 cid)
+)
+
+(defun inclauses-of-proof (cid)
+  (uniq (loop for lid in (pcode cid) collect (cidof lid)))
+)
+
+(defun inliterals-of-proof (cid)
+  (pcode cid)
+)
+
+(defun preds-of-proof (cid)
+  (uniq (loop for lid in (pcode 'c35) collect (psymoflid lid)))
+)
 
 ;;;; invariant of clause in Σ
 
