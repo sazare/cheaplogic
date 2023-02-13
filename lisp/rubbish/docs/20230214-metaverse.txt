@@ -1,0 +1,73 @@
+20230214-metaverse
+
+複数Σの方法
+[未解決]
+
+*** 必要性は??
+
+　複数Σの意味は
+　　resolventを区別できる。
+　　
+　- time-seriesΣの場合に、異なる世界が複数発生して、それらの間の関係を見たいかもしれない。
+　- ↑とはΣに矛盾するfactが確認された場合の処理を考えるということ。
+
+
+*** 方法案
+- Σにそれぞれ別のpackageを割り当てる。
+   cid, lid, pred の名前を新しく作るので、そのinternすpackageをきりわけるか
+
+　ちなみにclauseはS1:C1とかになる
+　記号がみんな独立なので、opposなどは今のまま。
+　*clist*などがそのままでは働かない。
+　S1:*clist*みたいにすればよいのかな
+
+- opposをそれぞれ持てばよいのではないか
+
+現状
+
+lsym(+Pや-P)のvalueとしてoppoのlidのリストを持っている
+
+lidからlsymを作り、そこからoppolidを求めている
+
+find-oppolidsでそれをしている
+
+変更案
+
+Σによって、oppo-mapは異なるので、
+
+a) Σごとに述語記号におまけをつける
+a1) Σ-1ならば、PをP-1にするとか(P^n, P~n, P_n)(Σの名前はkqcファイル名か)
+a2) Σとは独立に名前をつける S1とかなんでも
+　　だったらpackageと似ている
+
+* 述語の回帰
+P-nのprop
+opred:P あるいは-の前までにする
+
+P-nから+P-n, -P-nをlsymにして同じ処理にする。
+
+
+* 概要
+Σ=(C1 C2 C4 C7)みたいに定義するようなことを考える
+
+(readkqc "....")
+
+(defsigma S1 '(C7 C2 C3 C5))
+(defsigma S2 '(C6 C2 C3 C8))
+
+def処理としては
+cloning
+cid とlidすべて
+
+C7 => C7_S1, C7_S2
+とコピーする。
+literalはL7_S1-1、L7_S2-1か・
+
+いや、述語記号も P_S1になる。
+
+*clist*, *llist*はそのままkqc全体を持つのかな。
+
+packageにすると、Cidやlidを参照するときpackage指定になる
+
+
+

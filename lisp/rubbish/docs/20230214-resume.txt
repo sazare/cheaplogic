@@ -1,0 +1,16 @@
+20230214-resume
+
+
+play-proverが終わったあと、続きをできないか?
+
+制御の中心は*goallist*を制御している。
+
+
+(prover-gtrail goals)なので、goallistだけで処理がまわる。
+*goallist*には未解決のgoalが入っている。
+
+(prover-gtrail *goallist*)
+で続きはできた
+
+これでいいのかな
+
