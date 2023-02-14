@@ -161,6 +161,9 @@
   (format nil "~a" (sort (pcode cid) #'lid>))
 )
 
+(defmacro pc (cid)
+  `(pcode ',cid)
+)
 
 ;; pinf is not uniqed 
 (defun spinfof (cid)
@@ -273,6 +276,9 @@
   )
 )
 
+(defmacro p2c (cid)
+  `(p2code ',cid)
+)
 
 
 
