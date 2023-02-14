@@ -255,6 +255,12 @@
   )
 )
 
+;; macro interface
+
+(defmacro pg (goals)
+  `(prover-gtrail (quote ,goals))
+)
+
 ; cidlistfy makes number to cid
 (defun cidlistfy (namelist)
   (loop for name in namelist collect

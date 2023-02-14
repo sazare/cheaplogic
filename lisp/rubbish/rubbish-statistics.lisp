@@ -156,6 +156,10 @@
   )
 )
 
+(defmacro pm (cids &optional (out t))
+  `(pmetrics (quote ,cids) ,out)
+)
+
 ;; test run 
 (defun test-graph (mc kqcfile &optional (goals '(1)))
   (in-package :rubbish)

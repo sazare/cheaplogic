@@ -25,6 +25,48 @@
 　でできる。
 　*goallist*を好きなように作れば、好きなように続けられる。続けるというのは違うかもしれないが
 
+5) macroを作った。pg=prover-gtrail, pm=pmetrics. 
+'(c1)みたいに'をつけるのが面倒なだけ
+
+例
+RUBBISH(4): (pg (c1))
+
+start-time: 2023-02-14T10:19:29.116715+09:00
+
+  ### PARAMETERS ###
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+limit-over number of contradictions exceeds
+
+end-time: 2023-02-14T10:19:29.140190+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.035740 secs
+  #clauses = 481
+  #contras = 31
+  #valids = 0
+  #trials = 2007
+  #max proof steps = 20
+NIL
+RUBBISH(5): (lscova)
+
+((C35 C46 C53 C69 C94 C111 C121 C128 C148 C155 C168 C196 C203 C226 C245 C255
+  C262 C288 C299 C306 C322 C329 C345 C373 C384 C391 C404 C427 C434 C462 C481)
+ NIL)
+RUBBISH(6): (pm c35)
+[C35]
+  depth                 = 7
+  num of clauses        = 12  see (cids-of-proof cid)
+  num of input clauses  = 6  see (inclauses-of-proof cid)
+  num of input literals = 9  see (inliterals-of-proof cid)
+  num of preds          = 2  see (preds-of-proof cid)
+NIL
 
 2023/02/13月
 proof metrixを作った
