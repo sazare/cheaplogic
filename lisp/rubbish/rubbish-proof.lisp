@@ -247,4 +247,65 @@
   )
 )
 
+;; EXPERIMENTALS
+;;; for p2code comparing
+;;
+
+;RUBBISH(142): (cadr (nth 3 snps))
+;
+;((L1-1 L2-1) (L2-1 L2-2))
+;RUBBISH(143): (cadr (nth 7 snps))
+;
+;((L1-1 L2-1) (L10-1 L2-3) (L2-2 L3-1))
+;RUBBISH(144): (cadr (nth 8 snps))
+;
+;((L1-1 L2-1) (L2-1 L2-2) (L2-3 L7-1))
+;RUBBISH(139): (p2c-containp (cadr (nth 3 snps))(cadr (nth 3 snps)))
+;
+;T
+;RUBBISH(140): (p2c-containp (cadr (nth 3 snps))(cadr (nth 7 snps)))
+;
+;NIL
+;RUBBISH(141): (p2c-containp (cadr (nth 3 snps))(cadr (nth 8 snps)))
+;
+;T
+
+(defun p2c-memberp (p1 c2)
+  (member p1 c2 :test 'equal)  
+)
+
+(defun p2c-containp (c1 c2)
+  (loop for p1 in c1 always
+    (p2c-memberp p1 c2)
+  )
+)
+
+(defun p2-table (p2cs)
+  (loop for ps on p2cs collect
+    (list (cadar ps) 
+      (loop for p2 in (cdr ps) when (p2c-containp (cadar ps) (cadr p2)) collect (cadr p2))
+    )
+  )
+)
+
+(defun p2-xoss (p2cs)
+  (loop for pl in p2cs collect
+    (list pl
+      (loop for pr in p2cs 
+         when (p2c-containp pl pr) collect pr
+      )
+    )
+  )
+)
+
+
+; (setq p2cs (analyze-p2code0 *clist*))
+; (setq np2cs (loop for p2 in p2cs collect (list (length (cadr p2)) (cadr p2))))
+; (setq snpcs (sort np2cs (lambda (x y) (< (car x)(car y)))))
+; (p2-table (cdr snpcs))
+; (setq p2c (loop for nc in p2cs when nc collect (cadr nc)))
+; (p2-xoss p2c)
+
+ 
+
 
