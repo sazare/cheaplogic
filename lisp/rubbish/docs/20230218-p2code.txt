@@ -1,0 +1,29 @@
+20230218-p2code
+
+うまい例
+kqc/basic/basic004.kqc 4つのpathがある
+RUBBISH(5): (reportc (analyze-p2code))
+
+kqc file             : kqc/basic/basic004.kqc
+
+  goals                = NIL
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+# of pcodes          : 3
+1 ((L1-1 L4-1) (L2-1 L3-2) (L3-1 L4-2))
+1 ((L1-1 L3-1) (L2-1 L3-2))
+1 ((L1-1 L2-1))
+NIL
+
+
+
+kqc/path/graph201.kqc　ループのある例、p2code重複あり
+たくさんの[]ができて、[]の数が超えておわる。
+
+
+

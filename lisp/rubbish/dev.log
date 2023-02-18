@@ -1,4 +1,20 @@
 
+2023/02/18土
+・p2codeの包含関係と長さ+1で、となりのclauseをp2codeベースで定義してみた。
+・head部分が同じならp2codeを含むという見方で(p2-adjmap p2cs)を考えた
+  (cnext p2 allp2code) でp2の隣のp2codeを取り出す。
+　p2codeがそういうふうにソートされているわけではないので、このアプローチはNG
+・(p2c-containp p2 allp2)はp2の全pairを含むp2code in allp2を選ぶようにする。
+　これにp2の長さ+1の条件を加えて、となりのp2codeを決めた
+　　(wnext p2 allp2code)と(p2-wadjmap allp2cs)を定義した。
+　　これでよさそうだが、数が増えるので、使い方を考えなくては。
+
+・(p2toc p2code) => このp2codeをもつcid
+を作った。なかったっけ??(p2top p2code) => pcode。これを思い出しているだけ
+
+・ソートしたり手がはいっているので、それを除去することを考える
+
+
 2023/02/14火
 1) propが描けるか確認した(昔、書けるように作った気がする)
 

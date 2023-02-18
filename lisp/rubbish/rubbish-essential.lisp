@@ -118,3 +118,8 @@
   )
 )
 
+;; abbr for (print-list list)
+(defun pl (l)
+ (loop for p in l do (format t "~a~%" p))
+)
+

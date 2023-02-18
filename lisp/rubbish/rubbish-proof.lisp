@@ -270,42 +270,149 @@
 ;
 ;T
 
+(defun strip-p2c (p2c)
+  (loop for p2 in p2c when (second p2) collect (second p2))
+)
+
 (defun p2c-memberp (p1 c2)
   (member p1 c2 :test 'equal)  
 )
 
 (defun p2c-containp (c1 c2)
+  "c1's pair appears in c2. dont care the order."
   (loop for p1 in c1 always
     (p2c-memberp p1 c2)
   )
 )
 
+
+(defun headequal (c1 c2)
+  "c1 appears in c2 leftside." 
+  (loop for cl in c1 as cr in c2 always (equal cl cr))
+)
+
+;; p2cs is (strip-p2c p2cs)
 (defun p2-table (p2cs)
+  "check p2c-containp on x y. not y x. if p2cs is sorted with <, it check little to larger."
   (loop for ps on p2cs collect
-    (list (cadar ps) 
-      (loop for p2 in (cdr ps) when (p2c-containp (cadar ps) (cadr p2)) collect (cadr p2))
+    (list (first ps) 
+      (loop for p2 in (cdr ps) when (p2c-containp (first ps) (first p2)) collect p2)
     )
   )
 )
 
+;; p2cs is (strip-p2c p2cs)
 (defun p2-xoss (p2cs)
   (loop for pl in p2cs collect
-    (list pl
+    (cons pl
       (loop for pr in p2cs 
-         when (p2c-containp pl pr) collect pr
+         when (p2c-containp pl pr) unless (equal pl pr) collect pr
       )
     )
   )
 )
 
+;; p2xp is better looking than p2-xoss
+;(defun p2xp (lcl* &optional (out t))
+;  (loop for cl* in lcl* do
+;    (format out "~a~%" (first cl*))
+;    (loop for ll in (second cl*) unless (equal (first cl*) ll) do
+;      (format out "  ~a~%" ll)
+;    )
+;  )
+;)
+;; utility
+;;;
+(defun sp2cs (p2cs)
+  "p2cs = (num list)..."
+  (let* (np2cs)
+    (setq np2cs (loop for p2 in p2cs when (second p2) collect (list (length (second p2)) (second p2))))
+    (sort (copy-list np2cs) '< :key 'first)
+  )
+)
 
-; (setq p2cs (analyze-p2code0 *clist*))
-; (setq np2cs (loop for p2 in p2cs collect (list (length (cadr p2)) (cadr p2))))
-; (setq snpcs (sort np2cs (lambda (x y) (< (car x)(car y)))))
-; (p2-table (cdr snpcs))
-; (setq p2c (loop for nc in p2cs when nc collect (cadr nc)))
-; (p2-xoss p2c)
+(defun sp2c (p2cs)
+  "p2cs = (num list)..."
+  (let (p2c)
+   (setq p2c (loop for nc in p2cs when (second nc) collect (second nc)))
+   (sort (copy-list p2c) '< :key 'length)
+  )
+)
 
- 
+(defun cnext (code p2cs)
+  "cnext is a 1 longer than code in p2cs"
+  (let (next)
+    (setq next (loop for ps in p2cs 
+                when (and (equal (length ps) (1+ (length code) )) (headequal code ps))
+                collect ps))
+    next
+  )
+)
+
+(defun n-ring (n np2c)
+  (loop for x in np2c when (eq (length x) n) collect x)
+)
+
+(defun p2-adjmap-level (nexts np2c)
+  (loop while nexts with nl = () do
+    (setq news (cnext (pop nexts) np2c))
+    (setq nl (append nl news))
+  finally
+    (return nl)
+  )
+)
 
 
+(defun p2-adjmap (np2c)
+  (let* ((roots (n-ring 1 np2c)) (nexts roots)(nl nexts)(alls nl))
+    (loop while nl do
+      (setq nl (p2-adjmap-level nl np2c))
+      (setq nexts (append nexts nl))
+      (setq alls (append alls nl))
+    finally
+      (return alls)
+    )
+  )
+)
+
+
+;; weak version
+
+(defun wnext (code p2cs)
+  "wnext is a 1 longer than code in p2cs"
+  (let (next)
+    (setq next (loop for ps in p2cs 
+                when (and (equal (length ps) (1+ (length code))) (p2c-containp code ps))
+                collect ps))
+    next
+  )
+)
+
+(defun p2-wadjmap-level (nexts np2c)
+  (loop while nexts with nl = () do
+    (setq news (wnext (pop nexts) np2c))
+    (setq nl (append nl news))
+  finally
+    (return nl)
+  )
+)
+(defun p2-wadjmap (np2c)
+  (let* ((roots (n-ring 1 np2c)) (nexts roots)(nl nexts)(alls nl))
+    (loop while nl do
+      (setq nl (p2-wadjmap-level nl np2c))
+      (setq nexts (append nexts nl))
+      (setq alls (append alls nl))
+    finally
+      (return alls)
+    )
+  )
+)
+
+(defun p2toc (p2)
+  (loop for x in *clist* when (equal p2 (p2code x)) collect x)
+)
+
+; (setq y (loop for x in p2cs collect (second x)))
+; (setq y1 (cnext () y))
+; (setq y2 (loop for m in y1 collect (cnext m y)))
+; (setq y3 (loop for m in y2 collect (cnext m y)))

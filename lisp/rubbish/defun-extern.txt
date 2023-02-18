@@ -28,6 +28,11 @@ analyze-p2code () ;; for only []s
 print-pcodes (&optional (cids *clist*)) ;obsolete
 print-p2codes (&optional (cids *clist*));obsolete
 
+(p2toc p2code) p2codeを持つcid
+
+(wnext p2 p2cs) p2cs の中から、p2のlength+1でp2codeとして1pair多いものを選ぶ
+(p2-wadjmap p2cs) p2csの長さ1のp2csからはじめて、wnextのものをlist upする。
+
 ;; primitive structure
 cidof (lid)
 litof (lid)
