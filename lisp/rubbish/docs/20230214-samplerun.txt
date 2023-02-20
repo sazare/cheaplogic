@@ -114,3 +114,80 @@ kqc file             : kqc/path/graph201.kqc
    (L3-2 L5-1))
 1 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L6-1) (L2-3 L7-1) (L3-2 L5-1))
 NIL
+
+**** こっち
+(require :gtrail)
+(in-package :rubbish)
+(readkqc "kqc/path/graph201.kqc")
+ (pg (c1))
+
+
+;; ccp2は同じp2codeをもつcidのリストつきのリスト
+(defparameter ccp2 (classify-cid-by-p2code))
+
+;sccp2はccp2のfirstの長さでソートしたもの。secondはcidのリスト
+(defparameter sccp2 (sort-ccp2 ccp2))
+
+;sp2は長さ順のp2codeのlist
+(defparameter sp2 (loop for x in sccp2 collect (first x)))
+
+;sccp2に番号をわりふる。cidのリストがついている
+(defparameter sccp2n (numbering-sccp2 sccp2))
+
+;sp2nは、p2codeに番号を割り振る。p2codeのみのリスト。
+(defparameter sp2n (numbering-sccp2 sp2))
+
+; amapはsccp2のp2codeのお隣り(arrow)map (p2code (p2c1 p2c2 ...))*
+(defparameter amap (make-nnmap sccp2))
+
+; amapのp2codeを番号に置き換えたもの
+(defparameter mapn (map-in-number amap sccp2n))
+
+mapnの数字nから
+　(nth n sp2n)でp2codeがわかる。
+　(nth n sccp2n)でp2codeと対応するcidがわかる
+
+どのpairが増えているのかはちょっとわかりにくい。
+
+; analyze-p2code
+(defparameter ap2 (analyze-p2code ))
+(defparameter ap2a (analyze-p2code0 ))
+
+(p2c-n p2c sccp2n) p2codeから番号
+(n-p2c n sccp2n)   番号からp2code
+
+
+★現在
+(length (analyze-p2code)) == 10
+(length (analyze-p2code0)) == 64
+(length mapn) == 64
+
+;mapnは全p2codeについての矢印情報。
+
+;mapnのtargetが()のものの数
+(defparameter tarnull (loop for x in mapn when (null (second x)) collect x))
+tarnull
+;((1 NIL) (3 NIL) (47 NIL) (49 NIL) (48 NIL) (63 NIL) (62 NIL) (61 NIL))
+
+[]の数
+ (length (car (lscova)))
+;31
+これらの[]のp2codeは
+
+
+★この例では(length mapn) = 64。これは範囲をふやしてもかわらないのか?
+いまのpgはmax-contradictions=30で終わっているので、これをふやしてみる
+
+****
+
+(p2cn-p  p2code sccp2n)
+
+(find-next-p2codes nil sp2n)
+
+数字とp2codeの対応表
+ (loop for x in sccp2n collect (list (third x) (first x)))
+
+これで数字におきかえてwnextの表をつくる
+
+(p2c (wnext p2c))
+

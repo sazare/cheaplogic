@@ -44,6 +44,8 @@
 )
 
 
+
+
 ;;;;
 (defun analyze-pcode0 (&optional (cids *clist*))
   (let (xx yy zz)
@@ -76,6 +78,7 @@
 (defun uniq-p2codes (&optional (cids *clist*))
   (uniq (loop for cid in cids collect (p2code cid)))
 )
+
    
 (defun find-cid-by-p2code (p2code &optional (cids *clist*))
   (loop for cid in cids 
@@ -84,12 +87,26 @@
 )
 
 (defun classify-cid-by-p2code (&optional (cids *clist*))
+  "nil p2code is input clause"
   (let (p2codes)
     (setq p2codes (uniq-p2codes cids))
     (loop for pc in p2codes collect
       (list pc (find-cid-by-p2code pc))
     )
   )
+)
+
+(defun less-length (x y)
+  (< (length x) (length y))
+)
+
+(defun sort-ccp2 (ccp2)
+  "sort ccp2 by length of p2code"
+  (sort (copy-list ccp2) 'less-length :key 'car)
+)
+
+(defun num-sccp2 (sccp2)
+   (loop for x in sccp2 as y from 0 collect (cons y x))
 )
 
 ;;; 
@@ -171,3 +188,5 @@
 ;  (reportc (analyze-pcode))
 ;  (reportc (analyze-p2code))
 )
+
+

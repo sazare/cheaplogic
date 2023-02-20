@@ -1,4 +1,52 @@
 
+2023/02/20月
+・p2codeの1pairごとの拡張関係
+　(make-nnmap sccp2)でclassify-cid-by-p2codeの結果を使って木を作る
+
+(p2c-n p2c sccp2n) p2codeから番号
+(n-p2c n sccp2n)   番号からp2code
+
+==== funcions usage
+(require :gtrail)
+(in-package :rubbish)
+(readkqc "kqc/path/graph201.kqc")
+ (pg (c1))
+
+
+;; ccp2は同じp2codeをもつcidのリストつきのリスト
+(defparameter ccp2 (classify-cid-by-p2code))
+
+;sccp2はccp2のfirstの長さでソートしたもの。secondはcidのリスト
+(defparameter sccp2 (sort-ccp2 ccp2))
+
+;sp2は長さ順のp2codeのlist
+(defparameter sp2 (loop for x in sccp2 collect (first x)))
+
+;sccp2に番号をわりふる。cidのリストがついている
+(defparameter sccp2n (numbering-sccp2 sccp2))
+
+;sp2nは、p2codeに番号を割り振る。p2codeのみのリスト。
+(defparameter sp2n (numbering-sccp2 sp2))
+
+; amapはsccp2のp2codeのお隣り(arrow)map (p2code (p2c1 p2c2 ...))*
+(defparameter amap (make-nnmap sccp2))
+
+; amapのp2codeを番号に置き換えたもの
+(defparameter mapn (map-in-number amap sccp2n))
+
+========
+
+
+2023/02/19日
+・p2codeの次のspccp2 の要素をもとめる
+  (find-next-p2codes p2c allp2c)
+
+・s2codeに番号を割り振る
+　(numbering-sccp2 sccp2)
+  (find-p2code p2c scpp2n)
+
+
+
 2023/02/18土
 ・p2codeの包含関係と長さ+1で、となりのclauseをp2codeベースで定義してみた。
 ・head部分が同じならp2codeを含むという見方で(p2-adjmap p2cs)を考えた

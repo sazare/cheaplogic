@@ -323,59 +323,59 @@
 ;)
 ;; utility
 ;;;
-(defun sp2cs (p2cs)
-  "p2cs = (num list)..."
-  (let* (np2cs)
-    (setq np2cs (loop for p2 in p2cs when (second p2) collect (list (length (second p2)) (second p2))))
-    (sort (copy-list np2cs) '< :key 'first)
-  )
-)
-
-(defun sp2c (p2cs)
-  "p2cs = (num list)..."
-  (let (p2c)
-   (setq p2c (loop for nc in p2cs when (second nc) collect (second nc)))
-   (sort (copy-list p2c) '< :key 'length)
-  )
-)
-
-(defun cnext (code p2cs)
-  "cnext is a 1 longer than code in p2cs"
-  (let (next)
-    (setq next (loop for ps in p2cs 
-                when (and (equal (length ps) (1+ (length code) )) (headequal code ps))
-                collect ps))
-    next
-  )
-)
-
+;(defun sp2cs (p2cs)
+;  "p2cs = (num list)..."
+;  (let* (np2cs)
+;    (setq np2cs (loop for p2 in p2cs when (second p2) collect (list (length (second p2)) (second p2))))
+;    (sort (copy-list np2cs) '< :key 'first)
+;  )
+;)
+;
+;(defun sp2c (p2cs)
+;  "p2cs = (num list)..."
+;  (let (p2c)
+;   (setq p2c (loop for nc in p2cs when (second nc) collect (second nc)))
+;   (sort (copy-list p2c) '< :key 'length)
+;  )
+;)
+;
+;(defun cnext (code p2cs)
+;  "cnext is a 1 longer than code in p2cs"
+;  (let (next)
+;    (setq next (loop for ps in p2cs 
+;                when (and (equal (length ps) (1+ (length code) )) (headequal code ps))
+;                collect ps))
+;    next
+;  )
+;)
+;
 (defun n-ring (n np2c)
   (loop for x in np2c when (eq (length x) n) collect x)
 )
-
-(defun p2-adjmap-level (nexts np2c)
-  (loop while nexts with nl = () do
-    (setq news (cnext (pop nexts) np2c))
-    (setq nl (append nl news))
-  finally
-    (return nl)
-  )
-)
-
-
-(defun p2-adjmap (np2c)
-  (let* ((roots (n-ring 1 np2c)) (nexts roots)(nl nexts)(alls nl))
-    (loop while nl do
-      (setq nl (p2-adjmap-level nl np2c))
-      (setq nexts (append nexts nl))
-      (setq alls (append alls nl))
-    finally
-      (return alls)
-    )
-  )
-)
-
-
+;
+;(defun p2-adjmap-level (nexts np2c)
+;  (loop while nexts with nl = () do
+;    (setq news (cnext (pop nexts) np2c))
+;    (setq nl (append nl news))
+;  finally
+;    (return nl)
+;  )
+;)
+;
+;
+;(defun p2-adjmap (np2c)
+;  (let* ((roots (n-ring 1 np2c)) (nexts roots)(nl nexts)(alls nl))
+;    (loop while nl do
+;      (setq nl (p2-adjmap-level nl np2c))
+;      (setq nexts (append nexts nl))
+;      (setq alls (append alls nl))
+;    finally
+;      (return alls)
+;    )
+;  )
+;)
+;
+;
 ;; weak version
 
 (defun wnext (code p2cs)
@@ -389,11 +389,13 @@
 )
 
 (defun p2-wadjmap-level (nexts np2c)
-  (loop while nexts with nl = () do
-    (setq news (wnext (pop nexts) np2c))
-    (setq nl (append nl news))
-  finally
-    (return nl)
+  (let (news)
+    (loop while nexts with nl = () do
+      (setq news (wnext (pop nexts) np2c))
+      (setq nl (append nl news))
+    finally
+      (return nl)
+    )
   )
 )
 (defun p2-wadjmap (np2c)
@@ -408,11 +410,82 @@
   )
 )
 
+;; new style 
+; find p2code of p2c in allp2c(sccp2)
+;; (find-next-p2codes  nil sccp2n)
+(defun find-next-p2codes (p2c allp2c)
+  "find all elements of next of p2c in allp2c"
+  (loop for x in allp2c as y from 0 
+    when (eq (length (car x)) (1+ (length p2c)))
+    when (p2c-containp p2c (car x)) 
+    collect x)
+)
+
+;; (find-next-p2c nil sccp2)
+(defun find-next-p2c (p2c allp2c)
+  "next level p2codes of p2c in allp2c"
+  (loop for x in allp2c as y from 0 
+    when (eq (length (car x)) (1+ (length p2c)))
+    when (p2c-containp p2c (car x)) 
+    collect (car x))
+)
+
+;;; same p2c in other arrow7s targets
+;;; then many identical source p2c in map.
+
+(defun make-nnmap (sccp2)
+  (let* ((pool '(nil)) level nnmap checked)
+    (loop while pool do
+      (loop for x in pool with targ = nil when (not (member x checked)) do
+        (pushnew x checked)
+        (setq targ (find-next-p2c x sccp2))
+        (setq level (append level targ))
+        (setq nnmap (cons (list x targ) nnmap))
+      )
+      (setq pool level)
+      (setq level nil)
+    )
+    (reverse nnmap)
+  )
+)
+
+;; find number of p2c with assoc in sccp2n(from numbering-sccp2)
+(defun p2c-n (p2c sccp2n)
+  (third (assoc p2c sccp2n :test 'equal))
+)
+
+(defun n-p2c (n sccp2n)
+  (loop for x in sccp2n when (equal n (third x)) do (return (first x)))
+)
+
+(defun p2cn-n* (p2c* sccp2n)
+  (loop for p2c in p2c* collect
+    (p2cn-n p2c sccp2n)
+  )
+)
+
+(defun arrow-in-number (arrow sccp2n)
+  (list 
+    (p2cn-n (first arrow) sccp2n) 
+    (p2cn-n* (second arrow) sccp2n)
+  )
+)
+
+(defun map-in-number (amap sccp2n)
+  (sort (loop for arrow in amap collect (arrow-in-number arrow sccp2n)) '< :key 'car)
+)
+
+;; numbering sccp2 rigthside
+(defun numbering-sccp2 (sccp2)
+  (loop for x in sccp2 as n from 0 collect 
+    (append x (list n ))
+  )
+)
+
+
+;; p2toc 
 (defun p2toc (p2)
+  "find cid from p2code"
   (loop for x in *clist* when (equal p2 (p2code x)) collect x)
 )
 
-; (setq y (loop for x in p2cs collect (second x)))
-; (setq y1 (cnext () y))
-; (setq y2 (loop for m in y1 collect (cnext m y)))
-; (setq y3 (loop for m in y2 collect (cnext m y)))
