@@ -93,4 +93,17 @@
   )
 )
 
+;;; writebfile
+(defun writebfile (fname objects)
+  (with-open-file (out fname 
+      :direction :output
+      :if-exists :supersede)
+    (loop for o in objects do
+      (if o 
+        (format out "~a~%"  o)
+        (format out "\(\)~%")
+      )
+    )
+  )
+)
 

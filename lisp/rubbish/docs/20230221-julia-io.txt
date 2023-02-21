@@ -1,0 +1,38 @@
+julia fileio
+
+cd("/Users/shin/Projects/github/cheaplogic/lisp/rubbish/")
+
+# xxx3.g => xxx3-1.g remove '(' and ')' repeatedly
+
+g1 = open("xxx3.g", "r")
+
+ss = read(g1, String)
+
+close(g1)
+
+
+;;;
+g2 = open("xxx3-3.g", "r")
+
+ss = readlines(g2)
+
+close(g2)
+
+または
+
+ss = readlines("xxx3-1.g")
+
+
+こういうかきかたもあるがeofがわからないかな
+while ... {
+s = readline(g2)
+}
+
+この値が""のとき
+close(g2)かな
+eofではない。ただの改行行でも""になる。
+
+isopen(g2)
+とか
+closep(g2)
+とか

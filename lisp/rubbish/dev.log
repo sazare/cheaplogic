@@ -1,4 +1,17 @@
 
+2023/02/21火
+・隣接情報を取り出した。edgeの定義だけ取り出した
+
+・どうやってグラフを描くか
+　1) juliaでGraphs, GraphPlot
+　2) Rで、library(igraph)のサンプルがあった
+
+juliaもRもtkl/tkがないという
+juliaはIJuliaのnotebookで表示できた。
+RはMacの場合Quartzをインストール(CRANにリンクがあった)したらよかった
+quartz()を起動すると別ウインドウで表示できるみたい。
+
+
 2023/02/20月
 ・p2codeの1pairごとの拡張関係
 　(make-nnmap sccp2)でclassify-cid-by-p2codeの結果を使って木を作る
@@ -11,7 +24,6 @@
 (in-package :rubbish)
 (readkqc "kqc/path/graph201.kqc")
  (pg (c1))
-
 
 ;; ccp2は同じp2codeをもつcidのリストつきのリスト
 (defparameter ccp2 (classify-cid-by-p2code))

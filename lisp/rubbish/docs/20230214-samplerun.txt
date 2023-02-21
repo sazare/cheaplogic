@@ -143,6 +143,9 @@ NIL
 ; amapのp2codeを番号に置き換えたもの
 (defparameter mapn (map-in-number amap sccp2n))
 
+; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
+(defparameter adj (nnmap-to-adjmap mapn))
+
 mapnの数字nから
 　(nth n sp2n)でp2codeがわかる。
 　(nth n sccp2n)でp2codeと対応するcidがわかる

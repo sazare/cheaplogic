@@ -449,6 +449,13 @@
   )
 )
 
+;; transfer nnmap(1:n) to adj map(1:1).
+(defun nnmap-to-adjmap (map)
+  (loop for n-ns in map append
+    (loop with s = (first n-ns) for n in (second n-ns) collect (list s n))
+  )
+)
+
 ;; find number of p2c with assoc in sccp2n(from numbering-sccp2)
 (defun p2c-n (p2c sccp2n)
   (third (assoc p2c sccp2n :test 'equal))
@@ -458,16 +465,16 @@
   (loop for x in sccp2n when (equal n (third x)) do (return (first x)))
 )
 
-(defun p2cn-n* (p2c* sccp2n)
+(defun p2c-n* (p2c* sccp2n)
   (loop for p2c in p2c* collect
-    (p2cn-n p2c sccp2n)
+    (p2c-n p2c sccp2n)
   )
 )
 
 (defun arrow-in-number (arrow sccp2n)
   (list 
-    (p2cn-n (first arrow) sccp2n) 
-    (p2cn-n* (second arrow) sccp2n)
+    (p2c-n (first arrow) sccp2n) 
+    (p2c-n* (second arrow) sccp2n)
   )
 )
 
