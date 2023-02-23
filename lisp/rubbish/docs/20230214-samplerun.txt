@@ -118,7 +118,10 @@ NIL
 **** こっち
 (require :gtrail)
 (in-package :rubbish)
-(readkqc "kqc/path/graph201.kqc")
+;(readkqc "kqc/path/graph201.kqc")
+(readkqc "kqc/path/graph203.kqc")
+
+(setq *max-clauses* 100)
  (pg (c1))
 
 
@@ -144,7 +147,44 @@ NIL
 (defparameter mapn (map-in-number amap sccp2n))
 
 ; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
-(defparameter adj (nnmap-to-adjmap mapn))
+(defparameter adja (nnmap-to-adjmap mapn))
+; revert edges of adja
+(defparameter radja (loop for e in adja collect (list (second e)(first e))))
+
+;; Rのため隣接行列用データをつくる
+
+(defparameter adjm (conv-to-adjacent mapn))
+(defparameter mjda (trans-mat adjm))
+
+;; file に描く
+(writeadjm "mjda.r" mjda)
+
+;; then
+rubbish/
+mjda.r
+mjda-to-graph.R
+
+の状態で、
+R
+を起動し(大文字のR)
+
+source("mjda-to-graph.R")
+とすると、しばらくしてp2codeのグラフが表示される
+
+-----------------------
+#library(igraph)
+source("adj203.r")
+# 16 = sqrt(length(ad))
+rgr = graph.adjacency(matrix(ad, ncol=16, nrow=16))
+gr = simplify(rgr, remove.loop=F)
+----------
+quartz()
+plot(gr)
+----------------------
+または
+tkplot(gr)
+--------
+
 
 mapnの数字nから
 　(nth n sp2n)でp2codeがわかる。

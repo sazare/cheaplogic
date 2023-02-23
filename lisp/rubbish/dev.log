@@ -1,4 +1,33 @@
 
+2023/02/23木
+・p2codeの木をRで描く
+　sbclで隣接行列のlistをつくり
+　そのままだと向きが逆なので転置
+　adjmの転置なのがmjdaという名前にして
+　mjda.r に出力する
+・Rでは
+  source(mjda-to-graph.R)
+　とするとtkplot()でグラフ表示をし、手で操作できる。
+　(コメントしているが、xquart()で plot(gr)してもよい)
+　このとき、labelの値を隣接行列のnからn-1にしている
+  0はinputで、そのあとのindexがnodeのindexより1大きいから
+
+・Rのtkplotなどはpdfにexportできるので、その画像をdocsにいれてある
+
+
+2023/02/22水
+・Rでグラフを描く。
+ sbclで隣接行列を出力する
+　1. rubbish-analyze.lisp
+　　　にグラフ関係をまとめた。他にもいれたい
+　2. (defparameter adjm (conv-to-adjacent mapn))でbitmap行列に変換した
+　3. (writeadj "adj.r" adjm) でファイルに出力。Rの形式
+
+　R側ではこのadj.rを読み込むとadという変数に値が設定されるので
+　matrix(ad, col=length(ad), row=length(ad))
+　でmatrixが作れる
+
+
 2023/02/21火
 ・隣接情報を取り出した。edgeの定義だけ取り出した
 
