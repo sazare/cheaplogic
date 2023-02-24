@@ -1,4 +1,33 @@
 
+2023/02/24金
+・自動ではいる改行を抑制したい
+(setq  *print-right-margin* 200)
+　~/.sbclrcに追加した
+
+・show-parameter0, show-parameterで*kqc-file*を表示するようにした。
+　他のパラメタと同じ扱いのほうがよいと思う。
+
+・tkplotで、
+　- layoutをeingold-Tilfordにするとツリー表示になる。逆さまなので
+　　rotateをする。
+　- epsを出力する
+　　GIMPで変換する
+　　1) 「名前をつけてエクスポート」
+　　2) 出力形式はメニューから選べるので
+　　　 pdfやpngにする。jpegはサイズがでかくなる
+
+・p2codeに番号をつけたが、
+　木の末端になるのは
+　　1) contradiction(body がnil)
+　　2) contradictionではないものは、proveの途中のものが残るような気がするが
+　　　　[]と同じp2codeになるのはなぜだろうか?
+　　　　literalが残っているが、input 射影で[]と同じになるもの。
+　　　その意味は?
+
+・作ったpdf, pngなどをgithubに追加したが、動かすたびに新規で置き換わるので、
+  git statusでは、毎回untrackedになってしまう。よくないか
+　次のcommitでgithubリポジトリから消えてしまうのでは?
+
 2023/02/23木
 ・p2codeの木をRで描く
 　sbclで隣接行列のlistをつくり

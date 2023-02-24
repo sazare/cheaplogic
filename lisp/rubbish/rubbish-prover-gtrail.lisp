@@ -84,6 +84,7 @@
 (defun show-parameter0 (goals out)
   (format out 
   "
+  *kqcfile*            = ~a 
   goals                = ~a
   *max-clauses*        = ~a
   *max-contradictions* = ~a
@@ -91,6 +92,7 @@
   *max-steps*          = ~a
   *timeout-sec*        = ~a
   *enable-semantics*   = ~a~%"
+   *kqcfile*
    goals
    *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec* 
    *enable-semantics*) 
@@ -100,6 +102,7 @@
     (format t 
   "~%start-time: ~a ~%
   ### PARAMETERS ###
+  *kqcfile*            = ~a 
   goals                = ~a
   *max-clauses*        = ~a
   *max-contradictions* = ~a
@@ -107,7 +110,7 @@
   *max-steps*          = ~a
   *timeout-sec*        = ~a
   *enable-semantics*   = ~a~%"
-   (local-time:now) goals 
+   (local-time:now) *kqcfile* goals 
    *max-clauses* *max-contradictions* *max-trials* *max-steps* *timeout-sec*  
    *enable-semantics*) 
 )

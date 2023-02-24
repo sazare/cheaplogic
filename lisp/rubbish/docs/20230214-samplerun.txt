@@ -116,6 +116,10 @@ kqc file             : kqc/path/graph201.kqc
 NIL
 
 **** こっち
+一行の途中で改行をいれたくないとき
+(setq  *print-right-margin* 200)
+
+そして
 (require :gtrail)
 (in-package :rubbish)
 (readkqc "kqc/path/graph201.kqc")
@@ -178,8 +182,6 @@ epsになるので、GIMPでインポートしてから、
 　　(種類はメニューから選べ)
  2') quartzでplotの場合は、saveするとpdfになる。が、レイアウトが変えられないので、それでよい場合のみそうする。
    quartzだと画面が広いので、みやすいかもしれない。
-
-
 
 
 p2codeとidとcidのリストの表示
