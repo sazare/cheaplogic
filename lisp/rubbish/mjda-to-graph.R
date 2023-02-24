@@ -14,7 +14,7 @@ for (i in 1:s){
   vertex_attr(gr, "label", i) = (i-1)
 }
 
-#quartz()
-#plot(gr)
+quartz()
+plot(gr)
 
 tkplot(gr)

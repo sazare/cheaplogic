@@ -118,8 +118,8 @@ NIL
 **** こっち
 (require :gtrail)
 (in-package :rubbish)
-;(readkqc "kqc/path/graph201.kqc")
-(readkqc "kqc/path/graph203.kqc")
+(readkqc "kqc/path/graph201.kqc")
+;(readkqc "kqc/path/graph203.kqc")
 
 (setq *max-clauses* 100)
  (pg (c1))
@@ -171,6 +171,22 @@ R
 source("mjda-to-graph.R")
 とすると、しばらくしてp2codeのグラフが表示される
 
+tkplotのLayoutでReingold-Tilfordを選ぶとツリーになるので、それをexportする。
+epsになるので、GIMPでインポートしてから、
+ 1) rotateして逆さまにする。数字は読める向きのままになる。
+ 2)「名前をつけてエスクポート」でpdfとかpngとかjpgとかにする。pdfかpngのサイズはjpgより小さい。
+　　(種類はメニューから選べ)
+ 2') quartzでplotの場合は、saveするとpdfになる。が、レイアウトが変えられないので、それでよい場合のみそうする。
+   quartzだと画面が広いので、みやすいかもしれない。
+
+
+
+
+p2codeとidとcidのリストの表示
+
+(loop for x in sccp2n do (format t "~a ~a ~a~%" (third x)(second x)(first x)))
+
+
 -----------------------
 #library(igraph)
 source("adj203.r")
@@ -189,6 +205,9 @@ tkplot(gr)
 mapnの数字nから
 　(nth n sp2n)でp2codeがわかる。
 　(nth n sccp2n)でp2codeと対応するcidがわかる
+
+あるいは
+(loop for x in sccp2n do (format t "~a ~a~%" (third x)(second x)))
 
 どのpairが増えているのかはちょっとわかりにくい。
 
