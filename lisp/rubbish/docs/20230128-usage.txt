@@ -66,6 +66,11 @@ NIL
 ;(play-prover-gtrail '(1 2) "kqc/path/graph503.kqc")
 ;(play-prover-gtrail '(1) "kqc/ml002.kqc")
 
+; prover-gtrail may better
+(prover-gtrail '(C1) "kqc/path/graph201.kqc")
+
+
+
 (reportc (analyze-pcode))
 (reportc (analyze-p2code))
 

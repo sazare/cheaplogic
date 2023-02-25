@@ -1,4 +1,18 @@
 
+
+2023/02/25土
+・quicklispのgraphと名前にあるライブラリをさがしてみた
+(ql:system-apropos 'graph)
+いろいろあった
+cl-graphは使い方がわからないし、maintainerがもうやっていないらしい
+cl-digraphがどきゅめんとも書かれていて使えそう。
+cl-digraphのグラフ表示は(ql:quickload 'cl-digraph.dot)
+　pngが作れた。
+(digraph.dot:draw *d* :filename "digraph.png" :format :png)
+Graphvizのcl-dotを使ってcl-digraph.dotでグラフがかける
+
+
+
 2023/02/24金
 ・自動ではいる改行を抑制したい
 (setq  *print-right-margin* 200)

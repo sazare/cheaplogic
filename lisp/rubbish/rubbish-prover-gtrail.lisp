@@ -162,7 +162,7 @@
 (defun summary0 (out)
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
-    (format out  "~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max proof steps = ~a~%"
+    (format out  "~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max refute steps = ~a~%"
       (length *clist*)
       (length contras)
       (length valids)
@@ -185,7 +185,7 @@
   #contras = ~a
   #valids = ~a
   #trials = ~a
-  #max proof steps = ~a"
+  #max refute steps = ~a"
       (/ (- (get-internal-run-time) time-start) internal-time-units-per-second)
       (length *clist*)
       (length contras)

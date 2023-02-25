@@ -1,0 +1,197 @@
+20230225-p2code-satulation203
+
+
+maxをかえてp2codeの変化を見る
+
+======
+
+[graph203.kqcの場合]
+p2codeを見ると3つのpathができる。
+
+RUBBISH(7):  (pg (c1))
+
+start-time: 2023-02-25T07:50:56.293386+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/path/graph203.kqc
+  goals                = (C1)
+  *max-clauses*        = 100
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+limit-over number of contradictions exceeds
+
+end-time: 2023-02-25T07:50:56.297226+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.009214 secs
+  #clauses = 69
+  #contras = 11
+  #valids = 0
+  #trials = 115
+  #max proof steps = 22
+NIL
+RUBBISH(8):  (reportc (analyze-p2code))
+
+kqc file             : kqc/path/graph203.kqc
+
+  *kqcfile*            = kqc/path/graph203.kqc
+  goals                = NIL
+  *max-clauses*        = 100
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+# of pcodes          : 4
+12 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L4-1) (L2-3 L5-1) (L2-3 L6-1))
+5 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L5-1) (L2-3 L6-1) (L3-2 L5-1))
+1 ((L1-1 L2-1) (L2-2 L4-1) (L2-3 L5-1))
+1 ((L1-1 L3-1) (L3-2 L5-1))
+NIL
+
+clause数69で飽和している。
+==========
+RUBBISH(7):  (pg (c1))
+
+start-time: 2023-02-25T07:45:07.915269+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/path/graph203.kqc
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 50
+  *max-trials*         = 1000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+limit-over number of contradictions exceeds
+
+end-time: 2023-02-25T07:45:07.921750+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.011270 secs
+  #clauses = 309
+  #contras = 51
+  #valids = 0
+  #trials = 555
+  #max proof steps = 102
+NIL
+
+RUBBISH(8): (reportc (analyze-p2code))
+
+kqc file             : kqc/path/graph203.kqc
+
+  *kqcfile*            = kqc/path/graph203.kqc
+  goals                = NIL
+  *max-clauses*        = 1000
+  *max-contradictions* = 50
+  *max-trials*         = 1000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+# of pcodes          : 4
+72 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L4-1) (L2-3 L5-1) (L2-3 L6-1))
+25 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L5-1) (L2-3 L6-1) (L3-2 L5-1))
+1 ((L1-1 L2-1) (L2-2 L4-1) (L2-3 L5-1))
+1 ((L1-1 L3-1) (L3-2 L5-1))
+=======
+
+clause数309まで広げてもp2codeの数は同じ。ちなみに、中身も同じ。
+なので、max-clausesを大きくしても得られるp2codeの数は増えない。
+
+飽和の限界はどこか?
+
+=========
+limit-over number of clauses exceeds
+
+end-time: 2023-02-25T07:59:16.379042+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.007842 secs
+  #clauses = 31
+  #contras = 4
+  #valids = 0
+  #trials = 45
+  #max refute steps = 7
+NIL
+RUBBISH(8):
+
+RUBBISH(8):  (reportc (analyze-p2code))
+
+kqc file             : kqc/path/graph203.kqc
+
+  *kqcfile*            = kqc/path/graph203.kqc
+  goals                = NIL
+  *max-clauses*        = 30
+  *max-contradictions* = 10
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+# of pcodes          : 4
+3 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L4-1) (L2-3 L5-1) (L2-3 L6-1))
+1 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L5-1) (L2-3 L6-1) (L3-2 L5-1))
+1 ((L1-1 L2-1) (L2-2 L4-1) (L2-3 L5-1))
+1 ((L1-1 L3-1) (L3-2 L5-1))
+NIL
+RUBBISH(9):
+========
+さらに範囲をせばめ、各パスが1回程度にすると、
+clauses数31程度で、[]の数は1少ないが、必要なp2codeは全部みつかっている。
+
+graph203はシンプルなので、これで十分。
+
+これ以上は必要ないという限界はどうやってみつけるか?
+
+=========
+これは少なすぎる例
+
+limit-over number of clauses exceeds
+
+end-time: 2023-02-25T08:08:04.639355+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.007745 secs
+  #clauses = 21
+  #contras = 3
+  #valids = 0
+  #trials = 27
+  #max refute steps = 6
+NIL
+RUBBISH(8):
+
+RUBBISH(8):  (reportc (analyze-p2code))
+
+kqc file             : kqc/path/graph203.kqc
+
+  *kqcfile*            = kqc/path/graph203.kqc
+  goals                = NIL
+  *max-clauses*        = 20
+  *max-contradictions* = 5
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+# of pcodes          : 3
+1 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L5-1) (L2-3 L6-1) (L3-2 L5-1))
+1 ((L1-1 L2-1) (L2-2 L4-1) (L2-3 L5-1))
+1 ((L1-1 L3-1) (L3-2 L5-1))
+NIL
+
+
+ここには
+3 ((L1-1 L2-1) (L2-1 L2-2) (L2-2 L4-1) (L2-3 L5-1) (L2-3 L6-1))
+が、欠けているが、[]を出すレベルまで証明が進んでいないだけかと思ったが、
+((L1-1 L2-1) (L2-1 L2-2) (L2-2 L3-1) (L2-3 L5-1) (L2-3 L6-1) (L3-2 L5-1))が[]だった。
+analyze-p2codeは[]のp2codeだけを見ているのでちょっと違う
+
+

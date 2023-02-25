@@ -1,0 +1,36 @@
+20230221-ijulia-graph
+
+treeとか表示したい
+
+sbclのlibraryにgraphかけるものがあればそれでよい
+
+ない場合、グラフ情報をfileに出して、それをともにRかjuliaかで表示する。
+
+Rは別に書く
+
+juliaの場合
+Graphs
+GraphPlot
+を使う方法がある
+
+ただgraphplotとかやっても絵がでない。
+tkl/tkが必要だとかいうがXQuatz(Rはこれでできる)ではだめみたい
+それで、Jupyter notebookを使ってみたら表示できた
+
+Terminalで
+cd ここ
+したあと
+julia
+を起動し
+> using IJulia
+> cd("...ここ") いるかな??いらないかも
+> notebook(dir=".")
+でブラウザにnotebookが起動される。
+
+そこで
+using Graphs
+using GraphPlot
+
+でグラフをつくって
+graphplot(g)
+みたいにする
