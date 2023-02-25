@@ -6,8 +6,8 @@
 そして
 (require :gtrail)
 (in-package :rubbish)
-(readkqc "kqc/path/graph201.kqc")
-;(readkqc "kqc/path/graph203.kqc")
+;(readkqc "kqc/path/graph201.kqc")
+(readkqc "kqc/path/graph203.kqc")
 
 (setq *max-clauses* 250)
 (setq *max-contradictions* 50)
@@ -40,13 +40,18 @@
 ; amapのp2codeを番号に置き換えたもの
 (defparameter mapn (map-in-number amap sccp2n))
 
+;; 有向木の出力
+(defparameter dgmapn (make-p2graph mapn))
+(write-p2graph dgmapn "graph203.png")
+
+
+;; Rでのグラフ表示用(tkplotはよい)に隣接行列を作るなど
 ; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
 (defparameter adja (nnmap-to-adjmap mapn))
 ; revert edges of adja
 (defparameter radja (loop for e in adja collect (list (second e)(first e))))
 
 ;; Rのため隣接行列用データをつくる
-
 (defparameter adjm (conv-to-adjacent mapn))
 (defparameter mjda (trans-mat adjm))
 

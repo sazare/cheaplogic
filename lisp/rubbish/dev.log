@@ -1,5 +1,12 @@
 
 
+2023/02/26日
+・digraphでpngを作る手順を作った
+ digraphを作る部分 rubbish-digraph.lispにした
+　最初に(require :gtrail)をするとコンパイラーでoffsetがどーのこーのいうエラーになった
+　(load "rubbish-digraph.lisp")を一回やったらエラーがでなくなった。
+
+
 2023/02/25土
 ・quicklispのgraphと名前にあるライブラリをさがしてみた
 (ql:system-apropos 'graph)
