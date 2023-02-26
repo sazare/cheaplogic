@@ -61,3 +61,18 @@
   )
 )
 
+;text part
+(defun write-report (sccp2n fname) 
+  (with-open-file (out fname
+      :direction :output
+      :if-exists :supersede)
+    (format out "REPORT~%~%")
+    (format out "PARAMETERS")
+    (show-parameter0 () out)
+    (format out "~%SUMMARY")
+    (summary0 out)
+    (format out "~%N-P2CODE~%")
+    (loop for x in sccp2n do (format out "~a ~a~%" (third x)(second x)))
+;    (print-clauses *clist* out)
+  )
+)

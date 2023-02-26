@@ -3,21 +3,21 @@
 一行の途中で改行をいれたくないとき
 (setq  *print-right-margin* 200)
 
-そして
+;; do these
 (require :gtrail)
 (in-package :rubbish)
-;(readkqc "kqc/path/graph201.kqc")
-(readkqc "kqc/path/graph203.kqc")
+(readkqc "kqc/path/graph201.kqc")
+;(readkqc "kqc/path/graph203.kqc")
+;(readkqc "kqc/basic/basic004.kqc")
 
 (setq *max-clauses* 250)
 (setq *max-contradictions* 50)
 ;(setq *max-trials* 100)
 
- (pg (c1))
-(defparameter ap2a (analyze-p2code0 ))
-(reportc ap2a)
+(pg (c1))
 
-
+;(defparameter ap2a (analyze-p2code0 ))
+;(reportc ap2a)
 
 ;; ccp2は同じp2codeをもつcidのリストつきのリスト
 (defparameter ccp2 (classify-cid-by-p2code))
@@ -31,6 +31,9 @@
 ;sccp2に番号をわりふる。cidのリストがついている
 (defparameter sccp2n (numbering-sccp2 sccp2))
 
+;  (p2c-n p2c sccp2n) ;p2codeから番号
+;  (n-p2c n sccp2n)   ;番号からp2code
+
 ;sp2nは、p2codeに番号を割り振る。p2codeのみのリスト。
 (defparameter sp2n (numbering-sccp2 sp2))
 
@@ -40,14 +43,21 @@
 ; amapのp2codeを番号に置き換えたもの
 (defparameter mapn (map-in-number amap sccp2n))
 
-;; 有向木の出力
-(defparameter dgmapn (make-p2graph mapn))
-(write-p2graph dgmapn "graph203.png")
-
 
 ;; Rでのグラフ表示用(tkplotはよい)に隣接行列を作るなど
 ; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
 (defparameter adja (nnmap-to-adjmap mapn))
+
+;; 有向木の出力
+(load "rubbish-digraph.lisp")
+(defparameter dgmapn (make-p2graph mapn))
+;(defparameter dgmapn (make-p2graph2 (length mapn) adja))
+;(write-p2graph dgmapn "dgmapn.png")
+(write-p2g dgmapn sccp2n "dgmapn.rep")
+
+;;; almost over
+
+
 ; revert edges of adja
 (defparameter radja (loop for e in adja collect (list (second e)(first e))))
 
@@ -113,8 +123,6 @@ mapnの数字nから
 (defparameter ap2 (analyze-p2code ))
 (defparameter ap2a (analyze-p2code0 ))
 
-(p2c-n p2c sccp2n) p2codeから番号
-(n-p2c n sccp2n)   番号からp2code
 
 
 ★現在
