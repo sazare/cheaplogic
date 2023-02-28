@@ -4,6 +4,31 @@
 (setq  *print-right-margin* 200)
 
 ;; do these
+パラメタ候補
+[input]
+kqcfile 
+max-clauses
+max-contradictions
+goal 
+
+[output]
+ccp2    classify-cid-by-p2code  (p2code cid*)*
+sccp2   sort-ccp2 (p2code cid*)* sorted
+sp2 　　sorted list of all p2code (p2code cid*)* 
+sccp2n  sp2に番号をつけたもの (p2code cid* n)* sorted *full data poi
+amap　　p2codeのs→(t1 t2 ...), s==nilはinput
+mapn　　amapのp2codeを数字(0,...,N)に変換したもの, s==nilはinput
+adja　　全edge pair(s e)* s,eはvertices
+
+dgmapn  digraph
+radja
+adjm
+mjda
+
+
+
+
+
 (require :gtrail)
 (in-package :rubbish)
 (readkqc "kqc/path/graph201.kqc")
@@ -31,22 +56,19 @@
 ;sccp2に番号をわりふる。cidのリストがついている
 (defparameter sccp2n (numbering-sccp2 sccp2))
 
-;  (p2c-n p2c sccp2n) ;p2codeから番号
-;  (n-p2c n sccp2n)   ;番号からp2code
-
-;sp2nは、p2codeに番号を割り振る。p2codeのみのリスト。
-(defparameter sp2n (numbering-sccp2 sp2))
-
-; amapはsccp2のp2codeのお隣り(arrow)map (p2code (p2c1 p2c2 ...))*
+; amapはsccp2のp2codeのお隣り(arrow)map (p2code (p2c1 p2c2 ...))* 
 (defparameter amap (make-nnmap sccp2))
 
 ; amapのp2codeを番号に置き換えたもの
 (defparameter mapn (map-in-number amap sccp2n))
 
 
+
+
 ;; Rでのグラフ表示用(tkplotはよい)に隣接行列を作るなど
 ; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
 (defparameter adja (nnmap-to-adjmap mapn))
+
 
 ;; 有向木の出力
 (load "rubbish-digraph.lisp")
@@ -58,7 +80,7 @@
 ;;; almost over
 
 
-; revert edges of adja
+; revert edges of adja, not used
 (defparameter radja (loop for e in adja collect (list (second e)(first e))))
 
 ;; Rのため隣接行列用データをつくる
@@ -111,7 +133,8 @@ tkplot(gr)
 
 
 mapnの数字nから
-　(nth n sp2n)でp2codeがわかる。
+  (p2c-n p2c sccp2n) ;p2codeから番号
+  (n-p2c n sccp2n)   ;番号からp2code
 　(nth n sccp2n)でp2codeと対応するcidがわかる
 
 あるいは
@@ -148,9 +171,7 @@ tarnull
 
 ****
 
-(p2cn-p  p2code sccp2n)
-
-(find-next-p2codes nil sp2n)
+(find-next-p2codes nil sccp2n)
 
 数字とp2codeの対応表
  (loop for x in sccp2n collect (list (third x) (first x)))
