@@ -4,7 +4,7 @@
 (setq  *print-right-margin* 200)
 
 ;; do these
-パラメタ候補
+[パラメタ候補]
 [input]
 kqcfile 
 max-clauses
@@ -16,21 +16,31 @@ ccp2    classify-cid-by-p2code  (p2code cid*)*
 sccp2   sort-ccp2 (p2code cid*)* sorted
 sp2 　　sorted list of all p2code (p2code cid*)* 
 sccp2n  sp2に番号をつけたもの (p2code cid* n)* sorted *full data poi
+
 amap　　p2codeのs→(t1 t2 ...), s==nilはinput
-mapn　　amapのp2codeを数字(0,...,N)に変換したもの, s==nilはinput
-adja　　全edge pair(s e)* s,eはvertices
+mapn　　amapのp2codeに数字(0,...,N)を追加した。(n p2code)* s==nilはinput
 
-dgmapn  digraph
-radja
-adjm
-mjda
+** for graphs
+dgmapn  digraph of mapn
+
+adja　　全edge pair(s e)* s,eはverticesの名前(0..N) 矢印の向きが逆になる。使う必要はない
+radja   adjaの逆方向データ。矢印の向きを想定にあわせる。使っていない
+adjm　　隣接行列。bitmap行列
+mjda    adjmの転置
 
 
-
-
-
+[関数化]
 (require :gtrail)
 (in-package :rubbish)
+
+(multiple-value-setq (sccp2n mapn) (analyze-p2 "kqc/path/graph201.kqc" '(c1) 250 50))
+(multiple-value-setq (sccp2n mapn)  (analyze-p2 "kqc/path/graph203.kqc" '(c1) 100 30))
+
+(reportc (analyze-p2code0))
+
+で確認
+
+;; 以下は実行内容
 (readkqc "kqc/path/graph201.kqc")
 ;(readkqc "kqc/path/graph203.kqc")
 ;(readkqc "kqc/basic/basic004.kqc")
@@ -44,6 +54,9 @@ mjda
 ;(defparameter ap2a (analyze-p2code0 ))
 ;(reportc ap2a)
 
+
+;[以下はグラフ表示までの手順]
+;; 関数analyze-p2で実行している
 ;; ccp2は同じp2codeをもつcidのリストつきのリスト
 (defparameter ccp2 (classify-cid-by-p2code))
 
@@ -64,13 +77,9 @@ mjda
 
 
 
+[グラフ出力]
 
-;; Rでのグラフ表示用(tkplotはよい)に隣接行列を作るなど
-; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
-(defparameter adja (nnmap-to-adjmap mapn))
-
-
-;; 有向木の出力
+;; 有向木の出力(sbcl内で完結)
 (load "rubbish-digraph.lisp")
 (defparameter dgmapn (make-p2graph mapn))
 ;(defparameter dgmapn (make-p2graph2 (length mapn) adja))
@@ -79,9 +88,14 @@ mjda
 
 ;;; almost over
 
+;; Rでのグラフ表示
+;; (tkplotはグラフのレイアウトを変えられるのでよい)
+;; 隣接行列を作るなど
+; make-p2graph2で使うが、make-p2graph2を使う必要がないので不要
+; (defparameter adja (nnmap-to-adjmap mapn))
 
 ; revert edges of adja, not used
-(defparameter radja (loop for e in adja collect (list (second e)(first e))))
+;(defparameter radja (loop for e in adja collect (list (second e)(first e))))
 
 ;; Rのため隣接行列用データをつくる
 (defparameter adjm (conv-to-adjacent mapn))
@@ -143,9 +157,8 @@ mapnの数字nから
 どのpairが増えているのかはちょっとわかりにくい。
 
 ; analyze-p2code
-(defparameter ap2 (analyze-p2code ))
 (defparameter ap2a (analyze-p2code0 ))
-
+(defparameter ap2 (analyze-p2code ))
 
 
 ★現在
@@ -170,7 +183,6 @@ tarnull
 いまのpgはmax-contradictions=30で終わっているので、これをふやしてみる
 
 ****
-
 (find-next-p2codes nil sccp2n)
 
 数字とp2codeの対応表

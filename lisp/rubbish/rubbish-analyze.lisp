@@ -76,3 +76,40 @@
 ;    (print-clauses *clist* out)
   )
 )
+
+; do analyze
+(defun analyze-p2 (kqcfile &optional (goal '(C1)) (max-clauses 500) (max-contradictions 50))
+  (let (ccp2 sccp2 sp2 sccp2n amap mapn adja)
+    (setq *max-clauses* max-clauses)
+    (setq *max-contradictions* max-contradictions)
+ 
+    (readkqc kqcfile) 
+    (prover-gtrail goal)
+
+    ;; ccp2は同じp2codeをもつcidのリストつきのリスト
+    (setq ccp2 (classify-cid-by-p2code))
+    
+    ;sccp2はccp2のfirstの長さでソートしたもの。secondはcidのリスト
+    (setq sccp2 (sort-ccp2 ccp2))
+    
+    ;sp2は長さ順のp2codeのlist
+    (setq sp2 (loop for x in sccp2 collect (first x)))
+    
+    ;sccp2に番号をわりふる。cidのリストがついている
+    (setq sccp2n (numbering-sccp2 sccp2))
+    
+    ; amapはsccp2のp2codeのお隣り(arrow)map (p2code (p2c1 p2c2 ...))* 
+    (setq amap (make-nnmap sccp2))
+    
+    ; amapのp2codeを番号に置き換えたもの
+    (setq mapn (map-in-number amap sccp2n))
+
+    ;; Rでのグラフ表示用(tkplotはよい)に隣接行列を作るなど
+    ; for print graph (in Julia or R), adjmap may prefered. so translate mapn to adjmap 
+    ; not a must
+    ; (setq adja (nnmap-to-adjmap mapn))
+
+    ;all (values ccp2 sccp2 sp2 sccp2n amap mapn adja)
+    (values sccp2n mapn)
+  )
+)
