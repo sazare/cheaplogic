@@ -1,0 +1,4 @@
+;; no sigma, just goal
+
+(1 (x) (+ P x))
+

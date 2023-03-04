@@ -1,0 +1,53 @@
+20230305-empty
+
+basic/empty000.kqc
+ではΣ=φの場合をためした
+
+
+orphanということになったが、goalだけでは[]がでないという判定でOK
+
+
+CL-USER(1): (require :gtrail)
+To load "local-time":
+  Load 1 ASDF system:
+    local-time
+; Loading "local-time"
+
+NIL
+CL-USER(2): (in-package :rubbish)
+
+#<PACKAGE "RUBBISH">
+RUBBISH(3): (readkqc "kqc/basic/empty000.kqc" )
+
+NIL
+RUBBISH(4): (print-clauses)
+C1: 1 (X.129) [((+ P X.129))]
+NIL
+RUBBISH(5): (prover-gtrail '(c1))
+
+start-time: 2023-03-05T07:17:13.417539+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/basic/empty000.kqc
+  goals                = (C1)
+  *max-clauses*        = 1000
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+orphan lsym L1-1 in C1.
+
+end-time: 2023-03-05T07:17:13.423059+09:00
+
+finished. goallist is empty
+contradictions=NIL
+valids =NIL
+
+#clauses = 1
+#contras = 0
+#valids = 0
+#trials = 0
+#max refute steps = 0
+NIL
+RUBBISH(6):
