@@ -3,8 +3,8 @@
 basic/empty000.kqc
 ではΣ=φの場合をためした
 
-
-orphanということになったが、goalだけでは[]がでないという判定でOK
+orphanということになった。Σがφなのでgoalはorphanだから正しい。
+それゆえに、goalだけでは[]がでないという判定でOK
 
 
 CL-USER(1): (require :gtrail)
