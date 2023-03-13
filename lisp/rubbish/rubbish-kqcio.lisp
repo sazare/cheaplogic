@@ -92,3 +92,16 @@
     (print objects out)
   )
 )
+
+(defun writekqc (fname kqc)
+  (with-open-file (out fname 
+      :direction :output
+      :if-exists :supersede)
+
+    (format out ";~a~%" fname)
+
+    (loop for cls in kqc do
+      (print cls out)
+    )
+  )
+)

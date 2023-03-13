@@ -375,3 +375,32 @@
   (loop for lid in lids unless (iswff-literal lid) collect lid)
 )
 
+; list form of clauses
+(defun exp-lid (lid)
+  (eval lid)
+)
+
+(defun exp-body (body)
+  (loop for lid in body collect 
+    (exp-lid lid)
+  )
+)
+
+(defun exp-cid (cid)
+  (cons
+    (nameof cid)
+    (cons 
+      (varsof cid)
+      (exp-body (bodyof cid))
+    )
+  )
+)
+
+(defun exp-clist (&optional (cids (reverse *clist*)))
+  (loop for cid in cids collect 
+    (exp-cid cid)
+  )
+)
+
+
+  

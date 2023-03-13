@@ -76,6 +76,12 @@ mjda    adjmの転置
 (defparameter mapn (map-in-number amap sccp2n))
 
 
+;; fileout on the fly clauses
+
+(setq yy (exp-clist *input-clist*))
+(setq yy (exp-clist))
+
+(writekqc "my.kqc" yy)
 
 [グラフ出力]
 
