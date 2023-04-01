@@ -1,0 +1,8 @@
+;; consistent knowledge
+
+(1 () (+ P a))
+(2 () (- P b))
+(3 () (+ Q a b)(- R a b))
+(4 (x) (- Q a c))
+(5 () (+ R a b))
+

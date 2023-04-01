@@ -1,0 +1,8 @@
+;; inconsistent knowledge
+
+(1 () (+ P a))
+(2 () (- P b))
+(3 () (+ Q a b))
+(4 (x y) (- Q a x) (- R x y))
+(5 () (+ R b c))
+

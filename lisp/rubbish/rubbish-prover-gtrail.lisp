@@ -198,6 +198,60 @@
   )
 )
 
+(defun pure-prover-gtrail (goals)
+  (prog (
+         (contradictions nil) 
+         (valids nil)
+         (proof-steps 0)
+         (trials-count 0)
+         (goallist goals)
+         goal 
+         newgoal
+         newgoals
+         cs
+         ts
+         )
+
+    (loop named prover-loop 
+       while goallist do
+         (multiple-value-setq (goal goallist) (select-goal goallist))
+  
+         (setq  newgoal  (step-solver goal))
+  
+         (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
+         (setq contradictions (append cs contradictions))
+         (setq valids (append ts valids))
+         (setq goallist (append goallist newgoals))
+         (setq newgoal nil)
+         (setq *goallist* goallist)
+     
+         (rubbish-log :goallist goallist)
+ 
+         (cond
+           ((> (length *clist*) *max-clauses*) 
+            (return-from prover-loop (list contradictions valids)))
+           ((> (length contradictions) *max-contradictions*)
+            (return-from prover-loop (list contradictions valids)))
+           ((> trials-count *max-trials*)  
+            (return-from prover-loop (list contradictions valids)))
+           ((> proof-steps *max-steps*)  
+            (return-from prover-loop (list contradictions valids)))
+           ((eval (when-finish-p)  )
+            (return-from prover-loop (list contradictions valids)))
+         )
+      finally
+        (return (list contradictions valids))
+    )
+  )
+)
+
+(defun is-consistent (axioms)
+  (loop for g in *clist* append
+    (car (pure-prover-gtrail (list g)) )
+  )
+)
+
+
 ;; template prover control for gtrail
 (defun prover-gtrail (goals)
   (prog (
