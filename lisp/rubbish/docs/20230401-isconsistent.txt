@@ -14,3 +14,38 @@ see: 20230208-isconsistent.txt
 2. a ∈ Σなら Σ⊢aなので、Σ, 〜a ⊢ □の確認は不要
 
 
+---
+実験
+
+RUBBISH(6): (print-clauses)
+C5: 5 NIL [((+ R B C))]
+C4: 4 (X.129 Y.130) [((- Q A X.129) (- R X.129 Y.130))]
+C3: 3 NIL [((+ Q A B))]
+C2: 2 NIL [((- P B))]
+C1: 1 NIL [((+ P A))]
+NIL
+RUBBISH(7): (pure-prover-gtrail '(c3))
+
+((C7) NIL)
+RUBBISH(8): (pure-prover-gtrail '(c4))
+
+((C9) NIL)
+RUBBISH(9): (pure-prover-gtrail '(c5))
+
+((C11) NIL)
+
+RUBBISH(11): (p2code 'c7)
+
+((L3-1 L4-1) (L4-2 L5-1))
+RUBBISH(12): (p2code 'c9)
+
+((L3-1 L4-1) (L4-2 L5-1))
+RUBBISH(13): (p2code 'c11)
+
+((L3-1 L4-1) (L4-2 L5-1))
+
+
+同じp2codeを持つ[]は、同じ証明を作っている。だからそれらは同じ矛盾の証明を構成する。
+
+だから、このΣについては、矛盾は1つしか存在しない。
+(一般には矛盾の証明のインスタンスが無限に存在するので、ひとつの□は複数の矛盾instanceを含む)

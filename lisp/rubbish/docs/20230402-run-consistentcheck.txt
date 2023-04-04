@@ -1,0 +1,18 @@
+20230402-run-consistentcheck
+
+(require :gtrail)
+(in-package :rubbish)
+; 無矛盾kqc
+(readkqc "kqc/basic/consist001.kqc") 
+; 無矛盾性チェック
+ (is-consistent *clist*)
+
+
+(require :gtrail)
+(in-package :rubbish)
+; 矛盾kqc
+(readkqc "kqc/basic/consist002.kqc") 
+;
+; 無矛盾性チェック
+(is-consistent *clist*)
+
