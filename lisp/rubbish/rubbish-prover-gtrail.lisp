@@ -245,7 +245,7 @@
   )
 )
 
-(defun is-consistent (axioms)
+(defun is-inconsistent (axioms)
   (loop for g in *clist* append
     (car (pure-prover-gtrail (list g)) )
   )

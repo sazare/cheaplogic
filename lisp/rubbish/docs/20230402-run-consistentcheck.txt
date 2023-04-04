@@ -5,7 +5,7 @@
 ; 無矛盾kqc
 (readkqc "kqc/basic/consist001.kqc") 
 ; 無矛盾性チェック
- (is-consistent *clist*)
+ (is-inconsistent *clist*)
 
 
 (require :gtrail)
@@ -14,5 +14,5 @@
 (readkqc "kqc/basic/consist002.kqc") 
 ;
 ; 無矛盾性チェック
-(is-consistent *clist*)
+(is-inconsistent *clist*)
 
