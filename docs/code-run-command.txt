@@ -1,9 +1,10 @@
+
 sbclからshellコマンドを実行する
 
 https://ja.stackoverflow.com/questions/41371/sbclからbashのオプションを渡すには
 
-(run-program "/bin/ls" nil :output T)
-(run-program "/bin/ls" '("-l") :output T)
+(cl-user::run-program "/bin/ls" nil :output T)
+(cl-user::run-program "/bin/ls" '("-l") :output T)
 
 ファイルに出力したいときは、streamを作って:outputで指定するのだろう
 
