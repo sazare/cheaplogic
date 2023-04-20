@@ -245,7 +245,7 @@
   )
 )
 
-(defun is-inconsistent (axioms)
+(defun check-mujun (axioms)
   (loop for g in *clist* append
     (car (pure-prover-gtrail (list g)) )
   )
