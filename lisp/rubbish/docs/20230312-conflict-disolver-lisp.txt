@@ -1,5 +1,70 @@
 20230312-conflict-disolver-lisp
 
+サンプルのシナリオ
+
+;A) consistent mutation
+;simply inclease the knowledge
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+; no a in [1:10]
+(factisf (loop for i from 1 to 10 collect (list () (list '- 'P i 'a))))
+
+; see facts
+(setq f1 (factIs ( () (+ P 1 a))))
+(setq m1  (mutate f1))
 
 
+
+(factIs ( () ((+ P 5 b)))
+(mutate)
+
+(factIs ( () ((+ P 8 c)))
+(mutate)
+
+; (belieave = '(C1 C2 C3))
+
+;B) consistent but mutation
+;; this system not understand a is unique.
+;; so, This is happend
+
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+(setup-env)
+
+(factIs '(1 () ((+ P 1 a))))
+(factIs '(2 () ((+ P 5 a)))
+(factIs '(3 () ((+ P 8 a)))
+; (belieave = '(C1 C2 C3))
+
+
+;C) inconsisten mutation
+;; contradiction is removed both
+;; is it correct action?? 
+;; in this case, (- P ...) means erasing the fact of (+ P ...)
+;;  also, (-P ...) never hold as a fact.
+
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+(setup-env)
+
+(factis '(1 () ((+ P 1 a))))
+;; (beleave) = '(C1))
+
+(factis '(2 () ((+ P  3 a))) '(3 () ((- P 1 a)))) ;or macro
+;; (beleave) = (C2)
+;;;or
+;; == (make-clause
+; (factis '(4 () ((+ P 3 a)) (neg c1)
+
+(factis '(5 () (+ P 7 a)) '(6 () (- P 3 a))))
+;; (beleave) = '(C5))
+
+(factis '(7 () (+ P 7 a)))
+;; (beleave) = '(C7))
 

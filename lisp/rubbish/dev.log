@@ -1,3 +1,21 @@
+2023/05/06土
+運動の例で、動的fact列の処理を考えようとしている
+
+mutat システムを作った
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+で使える。
+20230312-conflict-disolver-lisp.txt
+で例をやってみている
+
+>>
+aの存在しない状態を記述してから
+factでaの位置を与える
+矛盾したらも古いfactを消去する
+<<
+という手順
+
 2023/04/25火
 　新しいfactにより矛盾するΣと矛盾解消の例を考えたい
 

@@ -245,8 +245,12 @@
   )
 )
 
+(defun check-mujun1 (g)
+  (car (pure-prover-gtrail (list g)) )
+)
+
 (defun check-mujun (axioms)
-  (loop for g in *clist* append
+  (loop for g in axioms append
     (car (pure-prover-gtrail (list g)) )
   )
 )
