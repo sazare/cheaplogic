@@ -27,6 +27,7 @@
       (:file "rubbish-analyze" :depends-on ("rubbish-package"))
       (:file "rubbish-prover-gtrail" :depends-on ("rubbish-package"))
       (:file "rubbish-disolver" :depends-on ("rubbish-package"))
+      (:file "rubbish-mujun" :depends-on ("rubbish-package"))
 ;      (:file "rubbish-digraph" :depends-on ("rubbish-package"))
     )
 )

@@ -25,8 +25,8 @@
 
 ;;
 (defun mutate (fact)
-  (let ((cs (check-mujun fact)))
-    (if cs (car cs) (format t "no mujun~%"))
+  (let ((ms (mujun-set fact)))
+    (warn "notyetimplement")
   )
 )
 

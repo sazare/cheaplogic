@@ -362,6 +362,10 @@
  (loop for id in llist when (isinputlid id) collect id)
 )
 
+;;; is input clause?
+(defun isinputcid (cid)
+  (null (get cid :proof))
+)
 
 ;;; checker well defined clauses
 (defun isWFF-literal (lid)

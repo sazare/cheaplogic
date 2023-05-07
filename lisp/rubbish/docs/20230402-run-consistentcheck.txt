@@ -16,3 +16,20 @@
 ; 無矛盾性チェック
 (check-mujun *clist*)
 
+
+(require :gtrail)
+(in-package :rubbish)
+; 矛盾kqc with 2[]s
+(readkqc "kqc/basic/consist003.kqc") 
+;
+; 無矛盾性チェック
+;(check-mujun *clist*)
+
+; 矛盾集合2個
+(setq ms (mujun-set  *clist*))
+
+
+
+
+
+

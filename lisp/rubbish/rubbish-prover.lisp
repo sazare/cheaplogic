@@ -210,13 +210,13 @@
 )
 
 ;;;; find refused
-(defun isunitclause (cid)
+(defun isunitcid (cid)
   (eq 1 (length (bodyof cid)))
 )
 
 (defun mayrefused (gcid conid)
   (loop for lid in (pcode conid) 
-    when (isunitclause (cidof (olidof lid))) 
+    when (isunitcid (cidof (olidof lid))) 
     unless (eq gcid (cidof (olidof lid)))
     collect (cidof (olidof lid))
   )

@@ -63,7 +63,7 @@
 ;; find fact in kb
 (defun findfact (kb)
   (loop for cid in kb
-    when (isunitclause cid)
+    when (isunitcid cid)
     collect cid
   )
 )

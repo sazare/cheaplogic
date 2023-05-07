@@ -13,7 +13,12 @@
 
 ; see facts
 (setq f1 (factIs ( () (+ P 1 a))))
-(setq m1  (mutate f1))
+;(setq m1  (mutate f1))
+; m1 is a set of cid of contr
+
+(setq mm1 (mujun-set f1))
+
+(loop for cid in (car mm1) unless (and (eq  cid 'c1)  (isinputcid cid)) collect cid)
 
 
 

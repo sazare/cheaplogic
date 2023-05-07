@@ -1,3 +1,28 @@
+2023/05/07日
+rubbish-prover-gtrail.lispで
+pure-prover-gtrailはprover-gtrailの一部であり、check-mujun用に抜き出したもの。
+停止用チェックのメッセージなどをはずしている。
+
+これ、ひとつにならないだろうかと思う。
+
+check-mujunをrubbish-mujun.lispに分離
+pure-prover-gtrailは、prover-gtrailと似ていることがわかるように、
+　　いつか、ひとつにできるかもしれないので、もとのままにした。
+　実際はcheck-mujunのためだけにあるので、こっちにいれたほうがよいかも。
+
+1) mujun-setは、Σのclause cに対する矛盾集合(複数)をみつける関数。
+　
+
+
+・追加
+(isinputcid cid)
+(isunitclauses cid) => (isunitcid cid)
+
+
+***　これで、矛盾集合からキーとするcidを選ぶ用意はできた。
+　どう判定するかは難しい
+
+
 2023/05/06土
 運動の例で、動的fact列の処理を考えようとしている
 
