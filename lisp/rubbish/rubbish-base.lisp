@@ -211,6 +211,7 @@
 ; body is lid*
   (setf (get cid :name) name)
   (setf (get cid :vars) vars)
+  (setf (get cid :born-when) (incf *born-when*))
   (set cid body)
   cid
 )
@@ -251,6 +252,9 @@
   (get cid :name)
 )
 
+(defun born-when-of (cid)
+  (get cid :born-when)
+)
 
 (defun lidof (cid i)
   (nth (- i 1) (bodyof cid))

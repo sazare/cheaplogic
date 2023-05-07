@@ -23,6 +23,7 @@
 (defparameter *timeout-sec* 10)
 
 (defparameter *max-cid* 0)
+(defparameter *born-when* 0)
 
 (defparameter *goallist* nil)
 

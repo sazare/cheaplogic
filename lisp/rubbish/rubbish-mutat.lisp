@@ -24,9 +24,10 @@
 )
 
 ;;
-(defun mutate (fact)
-  (let ((ms (mujun-set fact)))
-    (warn "notyetimplement")
+(defun mutate (facts)
+  (let (csc (ms (mujun-set facts)))
+    (setq csc (causes-contra facts ms))
+    (loop for cid in csc do (remove-cid cid))
   )
 )
 

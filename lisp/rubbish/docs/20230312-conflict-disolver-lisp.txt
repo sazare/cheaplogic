@@ -17,8 +17,11 @@
 ; m1 is a set of cid of contr
 
 (setq mm1 (mujun-set f1))
+; (loop for cid in (car mm1) unless (and (eq  cid f1)  (isinputcid cid)) collect cid)
+; (loop for cid in (car mm1) unless (member cid f1)  collect cid)
 
-(loop for cid in (car mm1) unless (and (eq  cid 'c1)  (isinputcid cid)) collect cid)
+(causes-contra f1 mm1)
+
 
 
 

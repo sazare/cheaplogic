@@ -1,3 +1,11 @@
+2023/05/08月
+運動の例で、はじめて矛盾解消ができた
+20230312-conflict-disolver-lisp.txt
+
+一番単純な例だと思う。
+どこまで一般化できるだろうか
+
+
 2023/05/07日
 rubbish-prover-gtrail.lispで
 pure-prover-gtrailはprover-gtrailの一部であり、check-mujun用に抜き出したもの。
