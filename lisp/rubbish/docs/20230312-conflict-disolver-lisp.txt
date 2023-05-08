@@ -16,24 +16,22 @@
 ;(setq m1  (mutate f1))
 ; m1 is a set of cid of contr
 
-(setq mm1 (mujun-set f1))
-; (loop for cid in (car mm1) unless (and (eq  cid f1)  (isinputcid cid)) collect cid)
-; (loop for cid in (car mm1) unless (member cid f1)  collect cid)
+;(setq mm1 (mujun-set f1))
+;(causes-contra f1 mm1)
 
-(causes-contra f1 mm1)
+(mutate f1)
+
+(setq f2 (factIs ( () (+ P 5 b))))
+(mutate f2)
+
+(setq f3 (factIs ( () (+ P 8 c))))
+(mutate f3)
+
+; c5やc8は残っている
 
 
 
-
-(factIs ( () ((+ P 5 b)))
-(mutate)
-
-(factIs ( () ((+ P 8 c)))
-(mutate)
-
-; (belieave = '(C1 C2 C3))
-
-;B) consistent but mutation
+;★B) consistent but mutation
 ;; this system not understand a is unique.
 ;; so, This is happend
 
@@ -41,38 +39,41 @@
 (require :mutat)
 (in-package :rubbish)
 
-(setup-env)
+; no a in [1:10]
+(factisf (loop for i from 1 to 10 collect (list () (list '- 'P i 'a))))
 
-(factIs '(1 () ((+ P 1 a))))
-(factIs '(2 () ((+ P 5 a)))
-(factIs '(3 () ((+ P 8 a)))
-; (belieave = '(C1 C2 C3))
+(setq f1 (factIs ( () (+ P 1 a))))
+(mutate f1)
 
+(setq f2 (factIs ( () (+ P 5 a))))
+(mutate f2)
 
-;C) inconsisten mutation
-;; contradiction is removed both
-;; is it correct action?? 
-;; in this case, (- P ...) means erasing the fact of (+ P ...)
-;;  also, (-P ...) never hold as a fact.
+(setq f3 (factIs ( () (+ P 8 a))))
+(mutate f3)
+
+; c1,c5,c8は消えて+Pがはいる
+
+この例では、前の位置のaが消えたことが書かれていない
+
+;;★去ったaの+P(?,a)を消す
 
 (require :gtrail)
 (require :mutat)
 (in-package :rubbish)
 
-(setup-env)
+; no a in [1:10]
+(factisf (loop for i from 1 to 10 collect (list () (list '- 'P i 'a))))
 
-(factis '(1 () ((+ P 1 a))))
-;; (beleave) = '(C1))
+(setq f1 (factIs ( () (+ P 1 a))))
+(mutate f1)
 
-(factis '(2 () ((+ P  3 a))) '(3 () ((- P 1 a)))) ;or macro
-;; (beleave) = (C2)
-;;;or
-;; == (make-clause
-; (factis '(4 () ((+ P 3 a)) (neg c1)
+(setq f2 (factis (() (+ P 3 a))(() (- P 1 a))))
+(mutate f2)
 
-(factis '(5 () (+ P 7 a)) '(6 () (- P 3 a))))
-;; (beleave) = '(C5))
+(setq f3 (factIs (() (+ P 8 a)) (() (- P 3 a))))
+(mutate f3)
 
-(factis '(7 () (+ P 7 a)))
-;; (beleave) = '(C7))
+いいけど、[]が全部残っているのはよくない。よい???
+ログとしてはあってもいいけどΣの最新状態としては適切でないと思う。
+□も消すか
 

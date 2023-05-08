@@ -43,8 +43,13 @@
 
 ;; select a clause for 
 
+(defun oldest-one (ms)
+  (car (sort ms  (lambda (x y) (< (born-when x)(born-when y)))))
+)
+
 (defun causes-contra (facts ms)
   (loop for m in ms append
+;    (loop for cid in  m unless (member cid facts)  collect cid)
     (loop for cid in  m unless (member cid facts)  collect cid)
   )
 )

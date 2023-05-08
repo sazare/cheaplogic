@@ -10,6 +10,8 @@
   *beleave*
 )
 
+;; as
+;  (factisf '((() (+ P 1 a))(() (- P 3 a))) )
 (defun factisf (facts)
   (prog1 
     (loop for f in facts collect
@@ -19,6 +21,8 @@
   )
 )
 
+;; as
+;(factis (() (+ P 1 a))(() (- P 3 a)))
 (defmacro factis (&rest facts)
   `(factisf ',facts)
 )

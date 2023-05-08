@@ -5,6 +5,50 @@
 一番単純な例だと思う。
 どこまで一般化できるだろうか
 
+運動の例を最後まで実行するスクリプトを作って記録をのこそう。今は時間がない。
+
+**
+削除するclauseの判定をclauseのborn-whenの古いものを選ぶように変えた。
+
+そして、全体を実行する。
+
+bug1 : f2を実行すると、+Pがorphanになる。
+RUBBISH(38): (mutate f2)
+orphan lsym L13-1 in C13.
+NIL
+
+create-cid でf2を作ったとき+PにL13-1がはいっていない??
+入力データでliteralのリストにしていた。
+(() (+ P x))
+とすべきところを
+(() ((+ P x))
+にしていた
+プログラムの問題ではなかった。
+★それがわからないのがまずい
+
+こんな感じでどうさする。
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+; no a in [1:10]
+(factisf (loop for i from 1 to 10 collect (list () (list '- 'P i 'a))))
+
+(setq f1 (factIs ( () (+ P 1 a))))
+(mutate f1)
+
+(setq f2 (factis (() (+ P 3 a))(() (- P 1 a))))
+(mutate f2)
+
+(setq f3 (factIs (() (+ P 8 a)) (() (- P 3 a))))
+(mutate f3)
+---
+ここで、check-mujunで作った□がずっと残っているのはよくなさそう。
+あとで消すか
+*clist*に追加しないようにできるか??
+
+
+
 
 2023/05/07日
 rubbish-prover-gtrail.lispで

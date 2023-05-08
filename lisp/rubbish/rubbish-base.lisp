@@ -252,7 +252,7 @@
   (get cid :name)
 )
 
-(defun born-when-of (cid)
+(defun born-when (cid)
   (get cid :born-when)
 )
 
