@@ -1,0 +1,8 @@
+2022/12/17
+printは、1つの対象のものと、複数の対象のものがありそう
+対象の種類は、clause, proof, infomationの三種類
+表示方法は、literalレベル(detail)、lidレベル、
+
+informationにはclauseのccode
+
+

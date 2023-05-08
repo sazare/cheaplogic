@@ -1,0 +1,17 @@
+
+input {
+  width: 400px;
+  border: 5px solid black;
+}
+
+label {
+  width: 200px;
+  color: blue;
+  border: 5px solid black;
+}
+
+
+html{
+  font-size: 20px;
+  font-family: "Courier";
+}

@@ -1,0 +1,207 @@
+シナリオテンプレート
+
+;; ケーキレシピの例になってしまった。あとで抽象化する
+
+(load "load-rubbish.lisp")
+(defparameter k001 (readkqc "kqc/cake/cake003.kqc"))
+
+(print-clauses *clist*)
+(dump-clauses *clist*)
+(print-literals *llist*)
+
+;; L1-1はgoal
+
+;; L2-1,L3-1,L4-1,L5-1,L6-1 は材料用意したときにfactになる。
+;; 必要なのは各factでを
+
+(defparameter Σ *clist*)
+* (print-clauses *clist*)
+C5: C5 (X.504 Y.505 Z.506) [((- D2 X.504) (- MELENGE Y.505)
+                             (- MIXPR X.504 Y.505 Z.506) (+ DOUGH Z.506))]
+C4: C4 (X.501 Y.502 Z.503) [((- D1 X.501) (- MILKP Y.502)
+                             (- MIXPR X.501 Y.502 Z.503) (+ D2 Z.503))]
+C3: C3 (X.498 Y.499 Z.500) [((- MIXED X.498) (- RICE Y.499)
+                             (- MIXPR X.498 Y.499 Z.500) (+ D1 Z.500))]
+C2: C2 (X.494 Y.495 Z.496 W.497) [((- EGGWHITE X.494) (- SUGARP Y.495)
+                                   (- BOWLPR X.494 Y.495 Z.496)
+                                   (- MIXPR Z.496 W.497) (+ MELENGE W.497))]
+C1: C1 (X.490 Y.491 Z.492 W.493) [((- EGGYELLOW X.490) (- SUGARP Y.491)
+                                   (- BOWLPR X.490 Y.491 Z.492)
+                                   (- MIXPR Z.492 W.493) (+ MIXED W.493))]
+
+次のfactを順番にΣにapplyして、Σを変えていくのか?
+
+(defparameter f1 (readskqc "((() (+ Sugarp sugar1)))"))
+(defparameter f2 (readskqc "((() (+ EggWhite white)))"))
+(defparameter f3 (readskqc "((() (+ EggYellow yellow)))"))
+(defparameter f4 (readskqc "((() (+ Rice riceflaur)))"))
+(defparameter f5 (readskqc "((() (+ Milkp milk)))"))
+
+*** これだと*lsymlist*にはいらない。oppoがみつからないので対処が必要かどうか?
+
+(dump-clausex (append f1 f2 f3 f4 f5))
+C6=(VARS NIL NAME C6)
+ L6-1 (+ SUGARP SUGAR1) = (OLID L6-1 PLID NIL CID C6)
+C7=(VARS NIL NAME C7)
+ L7-1 (+ EGGWHITE WHITE) = (OLID L7-1 PLID NIL CID C7)
+C8=(VARS NIL NAME C8)
+ L8-1 (+ EGGYELLOW YELLOW) = (OLID L8-1 PLID NIL CID C8)
+C9=(VARS NIL NAME C9)
+ L9-1 (+ RICE RICEFLAUR) = (OLID L9-1 PLID NIL CID C9)
+C10=(VARS NIL NAME C10)
+ L10-1 (+ MILKP MILK) = (OLID L10-1 PLID NIL CID C10)
+NIL
+
+;;; resolve-idか、Σxfiで消せるものを全部消す。
+;;; resolventだけを残すか、*clist*を使うのか?
+;;; 実験としては、両方Lidでよいかも
+
+
+;;; goal
+(defparameter g1 (readskqc "(((Z) (- Dough Z)))"))
+ (dump-clausex g1)
+C11=(VARS (Z.507) NAME C11)
+ L11-1 (- DOUGH Z.507) = (OLID L11-1 PLID NIL CID C11)
+
+;; goalからはじめると、ケーキを逆に作ってしまう☆
+
+; 1. factからはじめる
+; 2. unitになったらgoalとやってみる。[]になったら完成
+
+でどうだ
+
+ここまでで*maxcid* = 11
+
+※ この方針でやるとこんなかんじ
+1) 1:1のペアを先に消していく
+
+
+1.2) eggyellow: <L8-1: L1-1>
+EggYellow, Sugarp => Bowlpr,;Mixpr => Mixed
+
+(defparameter r13 (resolve-id 'L8-1 'L1-1))
+* (dump-clause r13)
+C11=(PROOF
+     (RESOLUTION (X.490 Y.491 Z.492 W.493) (YELLOW Y.508 Z.509 W.510)
+      (L8-1 L1-1))
+     VARS (Y.508 Z.509 W.510) NAME RESOLVENT)
+ L11-1 (- SUGARP Y.508) = (OLID L1-2 PLID L1-2 CID C11)
+ L11-2 (- BOWLPR YELLOW Y.508 Z.509) = (OLID L1-3 PLID L1-3 CID C11)
+ L11-3 (- MIXPR Z.509 W.510) = (OLID L1-4 PLID L1-4 CID C11)
+ L11-4 (+ MIXED W.510) = (OLID L1-5 PLID L1-5 CID C11)
+NIL
+
+リテラルの実行依頼
+(-Sugarp y ) 　　　　⇨ possible
+(-Bowlpr yellow y z)　⇨ no because y is not defined
+(-Mixpr z w)　　　　 ⇨ no because z is not defined
+(+Mixed w)　　　　　⇨ no because w is not defined
+
+これならリテラルの処理順は関係ない
+
+1.1) eggwhite : <L7-1:L2-1> 
+EggWhite, Sugarp => Bowlpr;Mixpr => Melenge
+
+(defparameter r12 (resolve-id 'L7-1 'L2-1))
+
+*  (dump-clause r12)
+C12=(PROOF
+     (RESOLUTION (X.494 Y.495 Z.496 W.497) (WHITE Y.512 Z.513 W.514)
+      (L7-1 L2-1))
+     VARS (Y.512 Z.513 W.514) NAME RESOLVENT)
+ L12-1 (- SUGARP Y.512) = (OLID L2-2 PLID L2-2 CID C12)
+ L12-2 (- BOWLPR WHITE Y.512 Z.513) = (OLID L2-3 PLID L2-3 CID C12)
+ L12-3 (- MIXPR Z.513 W.514) = (OLID L2-4 PLID L2-4 CID C12)
+ L12-4 (+ MELENGE W.514) = (OLID L2-5 PLID L2-5 CID C12)
+
+リテラルの実行依頼
+(-Sugarp y ) 　　　　⇨ possibe
+(-Bowlpr white y z)　⇨ no because y is not defined
+(-Mixpr z w)　　　　 ⇨ no because z is not defined
+(+Melange w)　　　　　⇨ no because w is not defined
+
+;;; ここで他のfactでなくSugarpをやるしかない。
+;;; 残っているうちのRicepとMilkpのはいっているclauseは実行できないから。つまり
+　　c3: -MIxed, -Rice, -Mixpr, +D1
+　　　は+MixedがないのでRiceがあってもMixprできない。
+　　c4: -D1, -Milkep, -Mixpr, +D2
+　　　は、-D1がないのでMilkの用意ができても実行できない。
+　　c5: -D2, -Melange, -Mixepr, +Dough
+　　　は、-D2がないのでMelangeができても実行できない。
+
+　??? これはどういう意味か?
+　Mixprという手続きリテラルは、条件(-の部分)と結果の部分にリテラルをわけるのか?
+　　符号の意味がきまるのか??　それはどうしたものか?
+
+　　それはMixprの述語に聞け。という気がする。
+　　-Mixprに実行の依頼を送り、Mixprの中で必要な引数が定義されているかどうかを判定し
+　　だめだったらNGを返す
+
+　???　実行判定の順番、resolveされる順番が決まっていなくてはならないのか?
+
+この段階でできるのは+Sugarpによるresolutionのみ。ただし2つある。
+
+2.1) sugarp <L6-1: W>
+　2.1.1) W = L11-1;; <L6-1: L11-1>
+(defparameter r14 (resolve-id 'L6-1 'L11-1))
+* (dump-clause r14)
+C13=(PROOF (RESOLUTION (Y.508 Z.509 W.510) (SUGAR1 Z.516 W.517) (L6-1 L11-1))
+     VARS (Z.516 W.517) NAME RESOLVENT)
+ L13-1 (- BOWLPR YELLOW SUGAR1 Z.516) = (OLID L1-3 PLID L11-2 CID C13)
+ L13-2 (- MIXPR Z.516 W.517) = (OLID L1-4 PLID L11-3 CID C13)
+ L13-3 (+ MIXED W.517) = (OLID L1-5 PLID L11-4 CID C13)
+
+(-Bowlpr yellow sugar1 z)　⇨ possible
+(-Mixpr z w)　　　　 ⇨ no because z is not defined
+(+Mixed w)　　　　　⇨ no because w is not defined
+
+　2.1.2) W = L12-1 ;; <L61:L12-1>
+(defparameter r15 (resolve-id 'L6-1 'L12-1))
+* (dump-clause r15)
+C14=(PROOF (RESOLUTION (Y.512 Z.513 W.514) (SUGAR1 Z.519 W.520) (L6-1 L12-1))
+     VARS (Z.519 W.520) NAME RESOLVENT)
+ L14-1 (- BOWLPR WHITE SUGAR1 Z.519) = (OLID L2-3 PLID L12-2 CID C14)
+ L14-2 (- MIXPR Z.519 W.520) = (OLID L2-4 PLID L12-3 CID C14)
+ L14-3 (+ MELENGE W.520) = (OLID L2-5 PLID L12-4 CID C14)
+NIL
+*
+(-Bowlpr white sugar1 z)　⇨ possible
+(-Mixpr z w)　　　　 ⇨ no because z is not defined
+(+Melange w)　　　　　⇨ no because w is not defined
+
+
+
+*****　ここでC13もC14も-Bowlprが実行可能になる。実行する料理人は一人なので順番に実行依頼がおき、
+(+Bowlpr a b z)が人間によって実行される。
+
+;;;;
+
+
+
+
+希望の手順
+
+1) C2はEggwhiteにSugarpをBowlprしてMixprするとMelangeができる手順
+2) C1はEggyellowとSugarpをBowlprにいれて、MixprするとMixedができるという手順
+3) C3はMixedにRiceをMixprするとD1ができる手順
+4) C4はD1にMilkpをいれてMixprするとD2ができる手順
+5) C5はD2にMelangeを入れてMixprするとDoughができる手順
+
+課題: 手順Mixprの実行後、Melangeができる場合とMixedができる場合がある
+　* 1)と2)は、処理部分はまったく同じBowlpr; Mixprであることが問題
+　　最初に入れるものがEggYellowかEggWhiteかの違いで結果が違う。
+　　どう書けば良いか
+　* 外部手順に1リテラルしか対応しないならば、これはどう書けば良いか??
+
+** depth firstで追いかけていくとこのようなケースはなんとかなりそう。
+　調理する人間が一人ならば、depthfirstでよい。
+
+@@@ 理想の手順
+1. 最初はレシピの知識だけをΣにもつ。
+2. 準備ができるにつれて観測factを作っていく。
+
+特殊条件
+★観測factドリブンの制御をする
+★処理リテラルは、入力がgroundになったら実行する。pevalのときと同じかな
+　実行が、lisp関数でやるか人間がやるかの違い
+
