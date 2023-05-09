@@ -77,3 +77,90 @@
 ログとしてはあってもいいけどΣの最新状態としては適切でないと思う。
 □も消すか
 
+消さない
+
+;; ★変種
+
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+; no a in [1:10]
+(factisf (loop for i from 1 to 10 collect (list '(y) (list '- 'P i 'y))))
+
+(setq f1 (factIs ( () (+ P 1 a))))
+(mutate f1)
+
+(setq f2 (factis (() (+ P 3 a))(() (- P 1 a))))
+(mutate f2)
+
+(setq f3 (factIs (() (+ P 8 a)) (() (- P 3 a))))
+(mutate f3)
+
+結果
+RUBBISH(11): (print-clauses)
+C20: RESOLVENT = []
+C19: RESOLVENT = []
+C18: C18 NIL [((- P 3 A))]
+C17: C17 NIL [((+ P 8 A))]
+C16: RESOLVENT = []
+C15: RESOLVENT = []
+C14: C14 NIL [((- P 1 A))]
+C12: RESOLVENT = []
+C10: C10 (Y.140) [((- P 10 Y.140))]
+C9: C9 (Y.139) [((- P 9 Y.139))]
+C7: C7 (Y.137) [((- P 7 Y.137))]
+C6: C6 (Y.136) [((- P 6 Y.136))]
+C5: C5 (Y.135) [((- P 5 Y.135))]
+C4: C4 (Y.134) [((- P 4 Y.134))]
+C2: C2 (Y.132) [((- P 2 Y.132))]
+
+移動して、前の状態に戻すとき、factとしては、aについてしか書けないからこうなっている。
+ということは、C1とか消したらだめなのか?
+
+(1 (y) (- P 1 y))
+ 
+に
+
+(2 () (+ P 1 a))
+
+がきたとき
+
+1が消えて
+(2 () (+ P 1 a))
+(3 (y) (- P 1 y) (+ = y a))
+になる
+
+この(+ = y a)は
+1と2のmgu
+((y) (a))
+から作られる
+
+そこで
+(4 () (- P 1 a))
+(5 () (+ P 8 a))
+がくると
+2は4でrefuteされて消え4が残るが
+3は1に戻らない
+
+(3 (y) (- P 1 y) (+ = y a))
+と
+(4 () (- P 1 a))
+
+から
+(5 (y) (- P 1 y))
+がでるか?
+
+3と4をresolveできない
+(6 () (+ = a a))
+がでて
+3は
+(7 (y) (- P 1 y) (+ P 1 a))
+
+
+***
+
+
+
+
+

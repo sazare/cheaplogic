@@ -37,21 +37,22 @@
   (let (cs ups)
     (setq cs (check-mujun cids)) 
     (setq ups (uniq-pcodes cs))
-    (loop for pc in ups collect (cinpc pc))
+    (values (loop for pc in ups collect (cinpc pc)) cs)
   )
 )
 
 ;; select a clause for 
 
 (defun oldest-one (ms)
-  (car (sort ms  (lambda (x y) (< (born-when x)(born-when y)))))
+  (loop with m0 = (car ms) 
+    for m on ms 
+    when (< (when-born (car m))(when-born m0)) 
+    do (setq m0 (car m))
+    finally (return m0))
 )
 
 (defun causes-contra (facts ms)
-  (loop for m in ms append
-;    (loop for cid in  m unless (member cid facts)  collect cid)
-    (loop for cid in  m unless (member cid facts)  collect cid)
-  )
+  (loop for m in ms collect (oldest-one m))
 )
 
 

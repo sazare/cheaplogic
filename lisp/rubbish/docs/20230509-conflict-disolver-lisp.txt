@@ -1,0 +1,40 @@
+20230509-conflict-disolver-lisp
+
+also 20230312-conflict-disolver-lisp
+
+
+f1はfactなので変数はない。
+それをrefuteするrがvar-freeでないときどうするか
+ rが0-varのときは、それを除去できる。
+　これ、
+
+;A) consistent mutation
+;simply inclease the knowledge
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+; no a in Area
+(factisf ((x y) (- P x y)))
+
+;(setq m1  (mutate f1))
+; m1 is a set of cid of contr
+;(setq mm1 (mujun-set f1))
+;(causes-contra f1 mm1)
+; see facts
+
+(setq f1 (factIs ( () (+ P 1 a))))
+;(mutate f1)
+
+;1) f1,Σの矛盾集合を作る
+;2) 矛盾集合の一つについて
+; 2-1) f1のcomplementのclauseを探す => ug
+;      -- clauseの中にあっらみつからない
+; 2-2) <f1:ug>=(v,σ);  ug>f1になっている
+; 3) π(σ)を作る
+; 4) ug+π(σ)
+
+; 
+
+
+
