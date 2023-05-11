@@ -1,0 +1,158 @@
+20230510-studyofcontradiction
+
+Σから□が導出できて問題なのは、そこから任意の式が導出できるからということなのだけど
+それは推論規則に、F⇒A (Aは任意の論理式)みたいのがあるからではなかっただろうか。
+
+resolution のproverを使う場合、まず
+
+1) □からは何も導出できない
+
+リテラルがなければresolveされることがないから
+だから、□ ∈ Σの場合、それだけでは脅威はない。
+
+さらに
+2) Σ, □ ⊢ Aは、Σ⊢Aと同じ。
+　　Σに□を加えてもΣと同じものしか証明できない。
+
+3) Σ, A ⊢ □の場合、Σ⊢¬Aの証明ができる。(□の証明が存在するとはそういうことだ)
+　これは、Σ, A ⊢□の証明Πに含まれる、すべての述語Pについて、+Pと-Pの証明が作れるということだが、
+
+
+Σ▷□の途中までの証明を組み替えて、どのような証明が可能かを考えたい。
+
+
+****
+まずすること
+
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+(trace pure-prover-gtrail)
+
+1. Σが∅の場合
+
+RUBBISH(13): (check-mujun ())
+
+NIL
+
+矛盾はない
+
+2. 矛盾を含むΣの場合
+
+(setq f1 (factIs ( () (+ P 1 a))))
+RUBBISH(14): (setq f1 (factIs ( () (+ P 1 a))))
+(C1)
+
+; 矛盾の登録方法
+(factis (()))
+; (())は、□clauseを表し、変数名のリスト()とliteralがひとつもないcdrからできている。
+
+
+RUBBISH(63): (print-clauses)
+C3: C3 = []
+C1: C1 NIL [((+ P 1 A))]
+NIL
+RUBBISH(64): (check-mujun *clist*)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
+  0: PURE-PROVER-GTRAIL returned (NIL NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C1))
+orphan lsym L1-1 in C1.
+  0: PURE-PROVER-GTRAIL returned (NIL NIL)
+NIL
+
+矛盾からは何も生まれないし、任意の命題を証明すこともできない。
+
+*矛盾にはliteralが含まれないので、他のclauseとresolveされることがない。
+だから矛盾は何も生まない。
+
+3. 複数の□
+もちろん
+(factis (()))
+(factis (()))
+(factis (()))
+
+RUBBISH(6): (print-clauses)
+C3: C3 = []
+C2: C2 = []
+C1: C1 = []
+NIL
+RUBBISH(7): (check-mujun *clist*)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
+  0: PURE-PROVER-GTRAIL returned (NIL NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C2))
+  0: PURE-PROVER-GTRAIL returned (NIL NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C1))
+  0: PURE-PROVER-GTRAIL returned (NIL NIL)
+NIL
+RUBBISH(8):
+
+である
+
+4. 複数の矛盾集合
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+(trace pure-prover-gtrail)
+
+(factis (() (+ P a))(() (+ P b))((x) (- P x)(+ R x))(()(- R a))(() (- R b)))
+;
+(print-clauses)
+C5: C5 NIL [((- R B))]
+C4: C4 NIL [((- R A))]
+C3: C3 (X.129) [((- P X.129) (+ R X.129))]
+C2: C2 NIL [((+ P B))]
+C1: C1 NIL [((+ P A))]
+
+(trace pure-prover-gtrail)
+(check-mujun *clist*)
+
+RUBBISH(10): (check-mujun *clist*)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C5))
+  0: PURE-PROVER-GTRAIL returned ((C7) NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C4))
+  0: PURE-PROVER-GTRAIL returned ((C9) NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
+  0: PURE-PROVER-GTRAIL returned ((C13 C12) NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C2))
+  0: PURE-PROVER-GTRAIL returned ((C15) NIL)
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C1))
+  0: PURE-PROVER-GTRAIL returned ((C17) NIL)
+(C7 C9 C13 C12 C15 C17)
+多いな
+
+C3からC13とC12がでるのか。なるほど
+
+これで
+(mujun-set '(c3))
+
+
+RUBBISH(6): (mujun-set '(c3))
+  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
+  0: PURE-PROVER-GTRAIL returned ((C9 C8) NIL)
+((C1 C3 C4) (C2 C3 C5))
+(C9 C8)
+RUBBISH(7): (print-clauses)
+C9: RESOLVENT = []
+C8: RESOLVENT = []
+C7: RESOLVENT NIL [((+ R B))]
+C6: RESOLVENT NIL [((+ R A))]
+C5: C5 NIL [((- R B))]
+C4: C4 NIL [((- R A))]
+C3: C3 (X.129) [((- P X.129) (+ R X.129))]
+C2: C2 NIL [((+ P B))]
+C1: C1 NIL [((+ P A))]
+NIL
+
+RUBBISH(10): (pcode 'c9)
+
+(L5-1 L3-2 L3-1 L2-1)
+RUBBISH(11): (pcode 'c8)
+
+(L4-1 L3-2 L3-1 L1-1)
+
+なるほど
+
+
+
+
+

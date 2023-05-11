@@ -42,6 +42,7 @@
 )
 
 ;; select a clause for 
+;;; this is an implementation of an situation.
 
 (defun oldest-one (ms)
   (loop with m0 = (car ms) 
