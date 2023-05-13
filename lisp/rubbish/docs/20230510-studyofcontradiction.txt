@@ -22,137 +22,26 @@ resolution のproverを使う場合、まず
 
 
 ****
-まずすること
+★
+1. ゴールgを決めてΣからΠ(Σ, g),Σからgをゴールとして求める証明は、gをresolveする相手がいるので〜gの証明も作っている。
 
-(require :gtrail)
-(require :mutat)
-(in-package :rubbish)
-(trace pure-prover-gtrail)
+2. resolutionで、Σ⊢□ができたといすると、ある述語が存在(Pとする)して、+Pと-Pのresolveで□が導出される。
+だから、Σから矛盾が導出されるということは、何か述語のunit clauseが存在し、それについて矛盾になるということは言える。
 
-1. Σが∅の場合
+3. だから、Σが矛盾しているかどうかのチェックをするためには、Σのすべての述語記号Pについて、
+　1) Σ, +P(x) ⊢ □ ? とΣ, -P(x) ⊢　□? を確認すればよい。ただし、引数の数はPによってきまる。
+　2) 片方が証明できれば、もう片方もいえるので、どちらか一方でよい。
 
-RUBBISH(13): (check-mujun ())
+4. わざわざ存在しないunit clauseを作るのは嫌なので、∀c ∈ Σについて、Σ, c⊢□? を確認すればよいのではないかというのを以前考えて、実装した(check-mujun)
 
-NIL
+例) これはどうか?
+ A) 
+　　1. +P-R
+    2. -P-S
+    3. +S-P
+　　4. +R+P
 
-矛盾はない
-
-2. 矛盾を含むΣの場合
-
-(setq f1 (factIs ( () (+ P 1 a))))
-RUBBISH(14): (setq f1 (factIs ( () (+ P 1 a))))
-(C1)
-
-; 矛盾の登録方法
-(factis (()))
-; (())は、□clauseを表し、変数名のリスト()とliteralがひとつもないcdrからできている。
-
-
-RUBBISH(63): (print-clauses)
-C3: C3 = []
-C1: C1 NIL [((+ P 1 A))]
-NIL
-RUBBISH(64): (check-mujun *clist*)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
-  0: PURE-PROVER-GTRAIL returned (NIL NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C1))
-orphan lsym L1-1 in C1.
-  0: PURE-PROVER-GTRAIL returned (NIL NIL)
-NIL
-
-矛盾からは何も生まれないし、任意の命題を証明すこともできない。
-
-*矛盾にはliteralが含まれないので、他のclauseとresolveされることがない。
-だから矛盾は何も生まない。
-
-3. 複数の□
-もちろん
-(factis (()))
-(factis (()))
-(factis (()))
-
-RUBBISH(6): (print-clauses)
-C3: C3 = []
-C2: C2 = []
-C1: C1 = []
-NIL
-RUBBISH(7): (check-mujun *clist*)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
-  0: PURE-PROVER-GTRAIL returned (NIL NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C2))
-  0: PURE-PROVER-GTRAIL returned (NIL NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C1))
-  0: PURE-PROVER-GTRAIL returned (NIL NIL)
-NIL
-RUBBISH(8):
-
-である
-
-4. 複数の矛盾集合
-(require :gtrail)
-(require :mutat)
-(in-package :rubbish)
-(trace pure-prover-gtrail)
-
-(factis (() (+ P a))(() (+ P b))((x) (- P x)(+ R x))(()(- R a))(() (- R b)))
-;
-(print-clauses)
-C5: C5 NIL [((- R B))]
-C4: C4 NIL [((- R A))]
-C3: C3 (X.129) [((- P X.129) (+ R X.129))]
-C2: C2 NIL [((+ P B))]
-C1: C1 NIL [((+ P A))]
-
-(trace pure-prover-gtrail)
-(check-mujun *clist*)
-
-RUBBISH(10): (check-mujun *clist*)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C5))
-  0: PURE-PROVER-GTRAIL returned ((C7) NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C4))
-  0: PURE-PROVER-GTRAIL returned ((C9) NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
-  0: PURE-PROVER-GTRAIL returned ((C13 C12) NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C2))
-  0: PURE-PROVER-GTRAIL returned ((C15) NIL)
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C1))
-  0: PURE-PROVER-GTRAIL returned ((C17) NIL)
-(C7 C9 C13 C12 C15 C17)
-多いな
-
-C3からC13とC12がでるのか。なるほど
-
-これで
-(mujun-set '(c3))
-
-
-RUBBISH(6): (mujun-set '(c3))
-  0: (RUBBISH::PURE-PROVER-GTRAIL (RUBBISH::C3))
-  0: PURE-PROVER-GTRAIL returned ((C9 C8) NIL)
-((C1 C3 C4) (C2 C3 C5))
-(C9 C8)
-RUBBISH(7): (print-clauses)
-C9: RESOLVENT = []
-C8: RESOLVENT = []
-C7: RESOLVENT NIL [((+ R B))]
-C6: RESOLVENT NIL [((+ R A))]
-C5: C5 NIL [((- R B))]
-C4: C4 NIL [((- R A))]
-C3: C3 (X.129) [((- P X.129) (+ R X.129))]
-C2: C2 NIL [((+ P B))]
-C1: C1 NIL [((+ P A))]
-NIL
-
-RUBBISH(10): (pcode 'c9)
-
-(L5-1 L3-2 L3-1 L2-1)
-RUBBISH(11): (pcode 'c8)
-
-(L4-1 L3-2 L3-1 L1-1)
-
-なるほど
-
-
-
+2023/05/12の段階ではだめ。proverの設計がこの目的にはあっていない。
+2023/05/12夜実装開始。check-mujun用か・・
 
 

@@ -66,3 +66,51 @@
 )
 
 
+;;; reduce-by-syntax
+;;; L1vL2vα to L1∨α when L1 ≡ L2
+;;; not use <L1:L2>, this is a propositional rule
+
+(defun entry-reduce (lid1 lid2 vs remid )
+  (let ((ncid (new-cid)) body (ns (newvars vs)) )
+
+    (setf body (loop for lid in (remof lid2) as n from 1 
+                collect (setlid (make-lid ncid n) ncid lid (litof lid) )))
+
+    (setcid ncid :REDUCED-BY-SYNTAX () body)
+
+    (entry-proof ncid :REDUCED-BY-SYNTAX vs vs (list lid1 lid2))
+    (rubbish-log :REDUCED-BY-SYNTAX ncid)
+    ncid
+  )
+)
+
+(defun reduce-id (lid1 lid2)
+  ;; lid1 and lid2 should have same cid
+  (let* ((vs (varsof (cidof lid1)) ))
+    (when (equal-lid lid1 lid2)
+;; logging
+     (rubbish-log lid1 lid2 vs ())
+;;; litとlidの対応をつける
+      (entry-reduce lid1 lid2 vs (remof lid2))
+    )
+  )
+)
+
+(defun match-lids (cid)
+  (let ((body (bodyof cid)) llid)
+    (loop named match-lids-loop for llids on body do
+      (setq llid (car llids))
+      (loop for rlid in (cdr llids) 
+        do (if (equal-lid llid rlid) (return-from match-lids-loop (values llid rlid)))
+      )
+    )
+  )
+)
+
+(defun step-reduce-syntax (cid)
+  (let (llid rlid)
+    (multiple-value-setq (llid rlid) (match-lids cid))
+    (when llid (reduce-id llid rlid))
+  )
+)
+   

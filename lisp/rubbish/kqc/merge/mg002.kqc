@@ -1,0 +1,7 @@
+; merge001.kqc show provable non merged
+
+(1 (x y) (- R x y))
+(2 () (+ P a)(+ P a)(+ R a a))
+
+;(play-prover-gtrail '(1) "kqc/merge/mg002.kqc")
+

@@ -1,0 +1,8 @@
+; mujunチェック用
+;; intension: no unit, PvP clause
+
+(1 () (+ P a) (+ R b))
+(2 () (- P a) (+ S c))
+(3 () (- P a) (- S c))
+(4 () (+ P a) (- R b))
+

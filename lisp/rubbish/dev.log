@@ -1,3 +1,34 @@
+2023/05/13土
+・reduce-idは　pure-prover-gtrailにだけ組み込めばいいのではないか。mujunチェック用ということで。
+　prover-gtrailでは、こういうことが起きないような気がするので様子見。
+
+・単体で動作
+　　reduce-id　　2つのlidでreduceする
+       match-lids　cidからlidをみつける
+       step-reduce  cidからlidみつけてreduceする
+
+　print-proof0, print-proof修正した。0と無印の違いがよくわからない
+
+　p2code, pcodeは動かない
+　　だから check-mujunは動かない
+
+2023/05/12金
+・+P+Pα => +Pα
+　の処理を追加したい。
+　ルール名は  reduced-by-syntax
+　+Pはequalのときだけ適用する。(equal lid1 lid2)でよい。
+　もしも、<L1:L2>=σ≠∅の場合、L1α・σとすると、L1>L2なら、-σの範囲にあるtermが除外されてしまうので適切でない。
+　逆にL2・-σも意味がおかしいので、まったく同一の場合だけ1つにするというルールにする。だから、命題算のルール。
+　equal-litとかequal-lidという関数を使っていないので、名前はこれ
+　reduce-by-semantixを参考に作る
+
+　L1L2L3αの場合もL1αとしたい。proof-stepの構造としては、2▷1の形とし、3Literalの場合は、2回適用する。
+　ルールが適用できなくなるまで繰り返すということか。
+
+　rubbish-resoid.lispに含める。
+
+  reduce-idは動いた。1ステップなので、これをどう組み込むか。
+
 2023/05/11木
 ・Σ, c ⊢ ?
 を考えた時、Σ∋cでない場合を考えたほうがいいのかなと思う。

@@ -411,4 +411,27 @@
 )
 
 
-  
+;;;
+(defun equal-lid (lid1 lid2)
+  (equal (litof lid1) (litof lid2))
+)
+
+
+;;;
+;;; interactive clause interface
+;  (factisf '((() (+ P 1 a))(() (- P 3 a))) )
+(defun factisf (facts)
+  (prog1 
+    (loop for f in facts collect
+      (make-clause f)
+    )
+    (make-lsymlist *llist*)
+  )
+)
+
+;; macro interface
+;(factis (() (+ P 1 a))(() (- P 3 a)))
+(defmacro factis (&rest facts)
+  `(factisf ',facts)
+)
+
