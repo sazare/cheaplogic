@@ -1,0 +1,11 @@
+;; reduce and □. work
+
+(1 () (- P a))
+(2 () (+ P a)(+ P a))
+
+
+
+;; (readkqc "kqc/merge/mg003.kqc")
+;; (play-prover-gtrail '(1) "kqc/merge/mg003.kqc")
+
+

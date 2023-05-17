@@ -1,0 +1,159 @@
+20230516-provercontrol
+
+・現状、2つのresolventのresolveは行っていない
+
+　lsymにlidを追加するとopposで相手のlidをみつけてくる。
+
+　resolventのlidがlsymに追加されていないので、goalのoppos はいつもinput literalから探すことになり、こうなっている。
+
+　今は、clause集合の矛盾チェックを考えていて、この問題をどうしようかという話になっている。
+　
+　つまり、Σが矛盾を含んでいるかどうかをチェックする方法として
+(A) ∀c ∈ Σについて、Σ, c⊢□? が言えればΣは矛盾していると判定
+という方法を考えたが、
+
+Σ={+P+R, +P-R, +P+S, -P-S}
+だと、矛盾がでない。
+
+改良案として
+(B) ∀p ∈ 述語 of Σについて、Σ,+p(..)⊢□? かΣ, -p(...)⊢□?がでたら
+　　Σは矛盾している
+という方法を考え中。
+
+これは、Σ,+pか、Σ,-pのどちらかで矛盾がだせれば、もう一方は自動的にそうなる。はず。
+
+例)
+C4: C4 NIL [((- P A) (- S A))]
+C3: C3 NIL [((- P A) (+ S A))]
+C2: C2 NIL [((+ P A) (- R A))]
+C1: C1 NIL [((+ P A) (+ R A))]
+
+
+
+　(問題の発端となった LL=> Lのルールでは、今のようにLLがpropositionalに
+同じ場合のみ適用するという範囲では、これが問題になるわけではない。
+なぜなら、unitがあってLが同一の形なら、reduceしなくてもresolutionだけで□がでるから。
+Σがすべてunitではないような場合に問題になると思われる。
+
+
+コード上、lidを登録するのはここで
+・resolventはentry-lid
+・inputclauseはmake-lid
+
+resolve-id -> entry-clause -> setlid これは、lidのplistの設定
+
+(input) make-lsymlist -> pushlsym ここで、lsym(+/-P)にlidを追加している。
+
+ということで、entry-lidではlsymにlidを登録していない
+　だから、resolventのlidをpushlsymすれば追加できる。
+
+****
+
+★resolventのlidもlsymに登録するとどうなるか?
+
+goalは消したいclauseを示している。
+そのliteralを消すためのopposはlsym∋lidからみつけるので
+resolventのlidもここに入っていないと消えない。
+
+例
+[kqc/merge/mg004.kqc]
+ (require :gtrail)
+ (in-package :rubbish)
+
+ (setq *max-clauses* 2477)
+;(trace pushlsym)
+;(trace entry-clause)
+;(trace entry-reduce)
+
+ (readkqc "kqc/merge/mg004.kqc")
+ (prover-gtrail '(c1))
+
+...
+C9: RESOLVENT NIL [((+ P A) (- P A))]
+C8: RESOLVENT NIL [((- S A) (+ P A))]
+C7: RESOLVENT NIL [((+ S A) (+ P A))]
+C6: RESOLVENT NIL [((+ R A) (- S A))]
+C5: RESOLVENT NIL [((+ R A) (+ S A))]
+C4: C4 NIL [((- P A) (- S A))]
+C3: C3 NIL [((- P A) (+ S A))]
+C2: C2 NIL [((+ P A) (- R A))]
+C1: C1 NIL [((+ P A) (+ R A))]
+こんな感じで永遠に続く
+NIL
+RUBBISH(11): +P
+(L1-1 L2-1)
+RUBBISH(12): -P
+(L3-1 L4-1)
+RUBBISH(13): +R
+(L1-2)
+RUBBISH(14): -R
+(L2-2)
+RUBBISH(15): +S
+(L3-2)
+RUBBISH(16): -S
+(L4-2)
+
+★では、resolventのlidをlsymに登録すれば良い。
+
+現状
+inputの場合
+
+★*max-clauses* = 200のとき
+
+ (loop for cc in *goallist* when (eq  1 (length (bodyof cc))) collect cc)
+(C33 C40 C44 C53 C59 C67 C77 C87 C93 C95 C99 C103 C105 C114 C116 C132 C134 C135 C136 C137 C138 C139 C140 C141 C142 C143 C144 C145 C146 C147 C148 C149 C150 C151 C152 C153 C163 C167 C169 C203 C205 C210)
+
+
+ (setq uc (loop for cc in *goallist* when (eq  1 (length (bodyof cc))) collect cc))
+>uc
+(C33 C40 C44 C53 C59 C67 C77 C87 C93 C95 C99 C103 C105 C114 C116 C132 C134 C135 C136 C137 C138 C139 C140 C141 C142 C143 C144 C145 C146 C147 C148 C149 C150 C151 C152 C153 C163 C167 C169 C203 C205 C210)
+
+RUBBISH(15):  (print-clauses '(c77 c163))
+C77: REDUCED-BY-SYNTAX NIL [((+ P A))]
+C163: REDUCED-BY-SYNTAX NIL [((- P A))]
+NIL
+
+RUBBISH(23): +p
+(L7-2 L86-1 L24-2 L66-1 L22-2 L39-1 L2-1 L10-1 L1-1 L19-2 L58-1 L39-2 L23-2 L76-1 L8-2)
+RUBBISH(24): -p
+(L4-1 L21-1 L3-1 L168-1 L162-1 L12-2 L10-2 L166-1 L29-2 L16-1 L20-1 L15-1)
+
+★max-clauseをふやしたら矛盾がみつかった
+RUBBISH(5):  (prover-gtrail '(c1))
+
+start-time: 2023-05-17T10:02:02.632921+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/merge/mg004.kqc
+  goals                = (C1)
+  *max-clauses*        = 2477
+  *max-contradictions* = 30
+  *max-trials*         = 100
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+
+limit-over number of clauses exceeds
+
+end-time: 2023-05-17T10:02:02.779348+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.151593 secs
+  #clauses = 3431
+  #contras = 224
+  #valids = 0
+  #trials = 3041
+  #max refute steps = 9
+
+
+;;; check-mujunは?
+
+ (require :gtrail)
+ (in-package :rubbish)
+ (readkqc "kqc/merge/mg004.kqc")
+ (setq *max-clauses* 2500)
+(check-mujun *clist*)
+
+
+

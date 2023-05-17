@@ -1,0 +1,14 @@
+;; reduce and □
+
+( () (+ P a)(+ R a))
+( () (+ P a)(- R a))
+( () (- P a)(+ S a))
+( () (- P a)(- S a))
+
+
+
+
+;; (readkqc "kqc/merge/mg004.kqc")
+;; (play-prover-gtrail '(1) "kqc/merge/mg004.kqc")
+
+
