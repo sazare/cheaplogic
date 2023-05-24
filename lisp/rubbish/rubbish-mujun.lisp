@@ -34,6 +34,7 @@
 
 ;; when cids make []s, make pcode of [], find cid of pcode'lid.
 (defun mujun-set (cids)
+  "mujun-set return set list and their contradictions"
   (let (cs ups)
     (setq cs (check-mujun cids)) 
     (setq ups (uniq-pcodes cs))
@@ -56,4 +57,39 @@
   (loop for m in ms collect (oldest-one m))
 )
 
+;;
+; ∀p ∈ Pred(Σ)について、 Π(Σ, +p)⊢□または Π(Σ, -p)⊢□ができたらΣに□が含まれると考える場合
+;; 1. +pか-pのどちらかでよいと思う。□ができるということは、opposのunitの証明もできるということだから
+;;;; ほんとか??
+;; 2. (make-psymlist *llist*) => list of pred
+;;;
+
+(defun make-vars (nts)
+  (loop for n from 1 to nts collect
+    (newvar 'vc)
+  )
+)
+
+
+(defun canonical-clause (lid)
+  (let ((lit (eval lid)) args vars)
+    (setq args (cddr lit))
+    (setq vars (make-vars (length args)))
+    (make-clause (list vars (cons (car lit) (cons (cadr lit) vars))))
+  )
+)
+
+;; (typical-lids *lsymlist*) => all typical lids
+(defun typical-lids (lsyms)
+  (loop for lsym in lsyms collect 
+    (car (eval lsym))
+  )
+)
+
+;; (make-ccids *lsymlist*) => new clauses
+(defun make-ccids (lsyms)
+  (loop for lid in (typical-lids lsyms) collect
+    (canonical-clause lid)
+  )
+)
 

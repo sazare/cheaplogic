@@ -133,6 +133,83 @@ RUBBISH(11): (pcode 'c8)
 なるほど
 
 
+***********:
 
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+(setq *max-clauses* 5000)
+
+(factis (() (+ P a) (+ P a)) (() (- P a)))
+(check-mujun (reverse *clist*))
+
+
+;;;
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+(factis (() (+ P a) (+ P a)) ((x) (- P x)(+ R x)) (()(- R a)) )
+(check-mujun (reverse *clist*))
+
+これは矛盾しない判定になる。なぜ?? 🕷
+修正済み
+　entry-clauseにsetlidが二行になっていた。修正ミスかな
+
+それでも矛盾していない感じかな
+
+;;;
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+(setq *max-clauses* 5000)
+
+(factis (() (+ P a) (+ P a)) (() (- P a)))
+(mujun-set *clist*)
+
+
+**************
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+(readkqc "kqc/mujun/mj003.kqc")
+(setq *max-clauses* 50)
+;(check-mujun *clist*)
+
+
+*******
+(require :gtrail)
+(require :mutat)
+(in-package :rubbish)
+
+(readkqc "kqc/mujun/mj003.kqc")
+
+(make-ccids *lsymlist*)
+
+RUBBISH(5): (print-clauses)
+C4: 4 NIL [((- R B) (+ P A))]
+C3: 3 NIL [((- S C) (- P A))]
+C2: 2 NIL [((- P A) (+ S C))]
+C1: 1 NIL [((+ R B) (+ P A))]
+NIL
+RUBBISH(6): (typical-lids *lsymlist*)
+
+(L1-1 L2-2 L3-1 L2-1 L4-1 L1-2)
+
+! L2-1
+(canonical-clause 'L2-1)
+
+C5
+(print-clause 'c5)
+
+(setq *max-clauses* 250)
+(setq *max-contradictions* 50)
+
+(pg (c1))
+
+(check-mujun '(c5))
+
+;; no □ ?? 5/15
 
 

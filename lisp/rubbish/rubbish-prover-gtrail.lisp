@@ -59,20 +59,26 @@
 
 ;;; a step of solver, a controller of the step.
 (defun step-solver (goal) 
-  (let (target oppos (newgoals ()) res) ;step1 select a lid in goal ; CASE CID
+  (let (target oppos (newgoals ()) res rres eres) ;step1 select a lid in goal ; CASE CID
     (if (null goal)
-      nil   ; this should not be happen. because nil = contradiction is immediately removed at generated from goal.
+      nil   ; this should not be happen. 
+            ;because nil = contradiction is immediately removed at generated from goal.
       (setf (values target oppos) (findoppos goal)) ; this is a first attempt to investigate the prover.
     )
     (loop for oppo in oppos  do
       (setq res (resolve-id target oppo))
-      (unless (eq :FAIL res)
+      (when (not (eq :FAIL res))
+        (push res newgoals)
+        (setq rres (step-reduce-syntax res))
+        (if rres (push rres newgoals))
 ;; reduction = remove the literals by peval=NIL , remove the goal by peval=T.
 ;; if no reduction, no red was made.
 ;; 
-        (if *enable-semantics*
-          (when (setq res (reduce-by-semantx res)) (push res newgoals))
-          (push res newgoals)
+        (when  *enable-semantics*
+          (when 
+           (setq eres (reduce-by-semantx rres)) 
+           (push eres newgoals)
+          )
         )
       )
     )

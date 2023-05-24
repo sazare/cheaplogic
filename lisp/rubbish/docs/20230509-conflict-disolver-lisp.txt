@@ -15,7 +15,7 @@ f1はfactなので変数はない。
 (in-package :rubbish)
 
 ; no a in Area
-(factisf ((x y) (- P x y)))
+(factis ((x y) (- P x y)))
 
 ;(setq m1  (mutate f1))
 ; m1 is a set of cid of contr

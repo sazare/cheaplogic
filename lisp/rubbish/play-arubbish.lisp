@@ -1,6 +1,10 @@
+;;; common lispの実験か?
 ;; simple session
 
-(load "load-rubbish.lisp")
+;(load "load-rubbish.lisp")
+(require :gtrail)
+(in-package :rubbish)
+
 (defparameter ccc (readafile "kqc/data001.kqc"))
 
 

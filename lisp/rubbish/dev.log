@@ -1,3 +1,94 @@
+2023/05/24水
+・kqcやplay-*.lispの整理の前に、ひととおり動かしてみる。
+
+
+2023/05/18木
+・kqcを整理しておかないといけない。全部やりなおすため
+
+記録する項目は?
+kqc path/目的/特徴/補足/使い方
+
+分類コードは?
+
+実行するパラメタは?
+
+*max-clauses*
+*enable-reduce-syntax* 
+*enable-semantix*
+
+rubbish-setup-unif.lispで代入はparに設定している。だったらeval不要では??
+
+
+2023/05/17水
+・goalが複数リテラルの場合、矛盾があっても矛盾が出ない
+kqc/merge/mg004.kqc
+ (prover-gtrail '(c1))
+C14: RESOLVENT NIL [((- P A) (- S A))]
+C13: RESOLVENT NIL [((- P A) (+ S A))]
+C12: RESOLVENT NIL [((- P A) (- S A))]
+C11: RESOLVENT NIL [((- P A) (+ S A))]
+C10: RESOLVENT NIL [((+ P A) (- P A))]
+C9: RESOLVENT NIL [((+ P A) (- P A))]
+C8: RESOLVENT NIL [((- S A) (+ P A))]
+C7: RESOLVENT NIL [((+ S A) (+ P A))]
+C6: RESOLVENT NIL [((+ R A) (- S A))]
+C5: RESOLVENT NIL [((+ R A) (+ S A))]
+C4: C4 NIL [((- P A) (- S A))]
+C3: C3 NIL [((- P A) (+ S A))]
+C2: C2 NIL [((+ P A) (- R A))]
+C1: C1 NIL [((+ P A) (+ R A))]
+こんな感じで永遠に続く
+
+★現在のprover-gtrailでは、lsym∋lidがinputだけなので、全部2-literalsのこのような例では矛盾はでない。
+
+entry-reduceでpushlsymをするようにした。
+ただし、make-lidでlidを作ってから、それにsetlidをして、pushlsymをするなど処理が煩雑
+entry-clauseでも同じではないか
+
+
+2023/05/15月
+step-solverでLLがLになるのは確認した。
+
+prover-gtrailが、unitのないclause setで□をだせない点。
+goal/factのある世界を考えていたのでこのようなΣでは□はだせない。
+
+check-mujunのようにc ∈Σについて、Σ, c⊢□もでない
+
+述語記号について +Pとか-Pを作ってΣ, +P⊢□もできない
+
+これは、resolventをopposの+P, -Pに追加していないからかな。
++P, -Pにはinput literal idのみが登録されている。
+
+・resolventはentry-lid
+・inputclauseはmake-lid
+
+resolve-id -> entry-clause -> setlid これは、lidのplistの設定
+
+(input) make-lsymlist -> pushlsym ここで、lsym(+/-P)にlidを追加している。
+　だから、resolventのlidをpushlsymすれば追加できる。
+
+
+・矛盾解析に必要な機能は何か?
+
+(entry-clause)と(entry-reduce)にpushlsymを追加したが、新しいlidを設定しなくてはいけないのに
+もとのコードはもとのlidに設定していた。
+entry-clauseについては、resolventを登録するという処理はなかったので、今まで問題にならなかったのか?
+
+このコードは、
+
+
+2023/05/14日
+step-solverにstep-reduce-syntaxを組み込んだ
+  step-reduce-syntax/reduce-id
+　だからprover-gtrailもpure-prover-gtrail自体は修正していない。両方ともstep-solverを呼ぶ
+
+* 名前:reduce-syntaxはreduce-propがよいのではないか?
+
+[おかしい点]
+
+
+
+
 2023/05/13土
 ・reduce-idは　pure-prover-gtrailにだけ組み込めばいいのではないか。mujunチェック用ということで。
 　prover-gtrailでは、こういうことが起きないような気がするので様子見。

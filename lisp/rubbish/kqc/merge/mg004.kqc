@@ -6,8 +6,6 @@
 ( () (- P a)(- S a))
 
 
-
-
 ;; (readkqc "kqc/merge/mg004.kqc")
 ;; (play-prover-gtrail '(1) "kqc/merge/mg004.kqc")
 

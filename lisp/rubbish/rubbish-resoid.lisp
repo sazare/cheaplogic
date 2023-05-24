@@ -24,9 +24,19 @@
   (let ((ncid (new-cid)) body (ns (newvars vs)) )
 
     (setf body (loop for lid in remid 
-                    for lit in (substp vs remlit* sig) 
-                    for n from 1
-                collect (setlid (make-lid ncid n) ncid lid (subsubp vs lit ns))))
+                    as lit in (substp vs remlit* sig) 
+                    as n from 1
+                collect 
+                  (let (nlid)
+                    (setq nlid (make-lid ncid n))
+                    (setlid nlid ncid lid (subsubp vs lit ns))
+    ;                (setlid nlid ncid lid (litof lid))
+                    (pushlsym nlid)
+                    nlid 
+                  )
+              )
+     )
+   
 
     (setcid ncid :resolvent (subsubp vs (shrinkvs vs sig) ns) (subsubp vs body ns)) ;;; this conflicts
 
@@ -74,7 +84,15 @@
   (let ((ncid (new-cid)) body (ns (newvars vs)) )
 
     (setf body (loop for lid in (remof lid2) as n from 1 
-                collect (setlid (make-lid ncid n) ncid lid (litof lid) )))
+                collect 
+                  (let (nlid)
+                    (setq nlid (make-lid ncid n))
+                    (setlid nlid ncid lid (litof lid))
+                    (pushlsym nlid)
+                    nlid 
+                  )
+               )
+    )
 
     (setcid ncid :REDUCED-BY-SYNTAX () body)
 

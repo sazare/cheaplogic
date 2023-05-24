@@ -2,6 +2,10 @@
 
 (in-package :rubbish)
 
+; process control
+(defparameter *enable-semantics* nil)     ;; use reduce-by-semantix
+(defparameter *enable-reduce-syntax* t) ;; don't use reduce-by-syntax
+
 ; variables for statistics
 
 (defparameter *num-of-input-literals* 0)   ;
@@ -16,7 +20,7 @@
 (defparameter *input-literals* ())         ; all literals of input clauses
 (defparameter *num-of-resolvents* 0)       ; # of resolvents = (*clist* - input-clause)
 
-(defparameter *max-clauses* 1000)
+(defparameter *max-clauses* 5000)
 (defparameter *max-contradictions* 30)
 (defparameter *max-trials* 100)
 (defparameter *max-steps* 100)
@@ -29,7 +33,6 @@
 
 (defparameter *rubbish-state* '(*goallist* *num-of-trials*))
 
-(defparameter *enable-semantics* nil)
 
 (defun reset-env ()
   (clear-all-atoms)

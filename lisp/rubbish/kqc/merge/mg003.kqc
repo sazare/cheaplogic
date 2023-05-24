@@ -4,8 +4,13 @@
 (2 () (+ P a)(+ P a))
 
 
-
 ;; (readkqc "kqc/merge/mg003.kqc")
 ;; (play-prover-gtrail '(1) "kqc/merge/mg003.kqc")
 
+;;; 2023/05/18, inputclauses doesn't reduced immediately, so the 2 refutations are same p2code
+
+;RUBBISH(5): (p2code 'c5)
+;((L1-1 L2-1) (L1-1 L2-2))
+;RUBBISH(6): (p2code 'c6)
+;((L1-1 L2-1) (L1-1 L2-2))
 
