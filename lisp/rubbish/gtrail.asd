@@ -29,5 +29,6 @@
       (:file "rubbish-disolver" :depends-on ("rubbish-package"))
       (:file "rubbish-mujun" :depends-on ("rubbish-package"))
 ;      (:file "rubbish-digraph" :depends-on ("rubbish-package"))
+      (:file "rubbish-goods" :depends-on ("rubbish-package"))
     )
 )

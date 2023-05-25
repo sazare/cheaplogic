@@ -307,7 +307,7 @@
         (format t "finished. goallist is empty~%")
         (format t "contradictions=~a~%" contradictions)
         (format t "valids =~a~%" valids)
-        (summary0 T) 
+        (summary time-start) 
     )
   )
 )
@@ -319,11 +319,11 @@
 )
 
 ; cidlistfy makes number to cid
-(defun cidlistfy (namelist)
-  (loop for name in namelist collect
-    (cidfy name)
-  )
-)
+;(defun cidlistfy (namelist)
+;  (loop for name in namelist collect
+;    (cidfy name)
+;  )
+;)
 
 ;; start process
 (defun start-prover-gtrail (kqcfile)
@@ -348,7 +348,7 @@
   (let ()
     (start-prover-gtrail kqcfile)
     (logstart)
-    (prover-gtrail (cidlistfy goal))
+    (prover-gtrail goal)
   )
 )
 

@@ -1,0 +1,44 @@
+20230509-memo
+
+(defun unifun (lid1 lid2)
+ (let* ((vs (append (varsof (cidof lid1)) (varsof (cidof lid2))))
+         (a1 (latomicof lid1))
+         (a2 (latomicof lid2))
+         (sig (funification vs a1 a2)))
+  (values vs sig)
+  )
+)
+
+
+(multiple-value-setq (vs ts) (unifun 'L1-1 'l11-1))
+
+
+;; これは生のliteralなのでlidをつけないと
+;; そのためにはcidが決まらないと
+(defun eqeqconds (vs ts)
+  (loop for v1 in vs as t1 in ts
+    collect (list '+ 'eqeq v1 t1)
+  )
+)
+
+;; make-clauseを見て作る
+
+(defun resclause (base vc conds)
+  (let (newbody newvars)
+    (setq newbody (append (bodyof bas) conds))
+    (setq newvars (append (varsof base) vc))
+    ;; restricted clauseは、親がbaseでproofは:restriction、かな
+    ;; するとproofたどるときに:restrictionがでてくる
+    ;; resolvenetは
+    ;; resolve-idも参照。entry-clauseか?
+　　(list newvars newbody)
+
+)
+
+(defun restrict (cause fact)
+  (let (vs ts cs )
+    (multiple-value-setq (vs ts) (unifun cause fact))
+    (setq cs (eqeqconds vs ts))
+    (rclause cause cs)
+  )
+)

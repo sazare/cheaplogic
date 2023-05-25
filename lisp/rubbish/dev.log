@@ -1,3 +1,43 @@
+2023/05/25木
+・rubbish-goods.lispを追加
+　長い函数名をmacroで短くする
+(rp path) = (readkqc path) (print-clauses)
+(pc cid)   = (print-clause cid)
+(pcs)       = (print-clauses)
+(ppg gs path) = (play-prover-gtrail 'gs path)
+
+rubbish-goods.lispはgtrail.asdに追加した
+
+[使い方]
+(require :gtrail)
+(in-package :rubbish)
+(rp "kqc/...")
+(pg c1)
+や
+(pg c1 c2)
+
+;(prover-gtrail '(c1))
+(pg c1)
+
+;表示
+(pc) = (print-clauses *clist*)
+(pc c1 c2) = (print-clauses '(c1 c2))
+
+
+または
+
+(play-prover-gtrail '(c1) "kqc/ml002.kqc")
+(ppg (c1) "kqc/ml002.kqc")
+;;
+;; 昨日までは(play-prover-gtrail '(1 2) "...")だったが、ここだけ数字だとよくわからなくなるのでC1 C2とするようにした
+
+
+
+; set some rubbish parameters different
+(load "pre-rubbish.conf")
+
+
+
 2023/05/24水
 ・kqcやplay-*.lispの整理の前に、ひととおり動かしてみる。
 
