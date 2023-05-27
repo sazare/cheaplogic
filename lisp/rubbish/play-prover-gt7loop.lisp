@@ -4,5 +4,5 @@
 
 ;; play prov7loop.kqc has loop and intro function
 
-(play-prover-gtrail '(1)  "kqc/provers/prov7loop.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/prov7loop.kqc")
 

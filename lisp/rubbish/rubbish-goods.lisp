@@ -1,9 +1,9 @@
-;; utilities for myself
+;; utility macros for myself
 
 (in-package :rubbish)
 
 (defun rp (path)
-  (readkqc path)
+  (readekqc path)
   (print-clauses)
 )
 
@@ -11,14 +11,26 @@
   `(print-clauses ',(or cs *clist*))
 )
 
-
 ;;
 (defmacro pg (&rest g)
   `(prover-gtrail ',g)
 )
 
-(defmacro ppg (g p)
+(defmacro ppg (p &rest g)
   `(play-prover-gtrail ',g ,p)
 )
+
+(defmacro sp (g)
+  `(show-parameter0 ',g t)
+)
+
+(defmacro pr0 (c)
+  `(print-proof0 ',c)
+)
+
+(defmacro ppr (c)
+  `(print-proof ',c)
+)
+
 
 

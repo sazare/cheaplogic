@@ -9,5 +9,5 @@
 (setq *max-steps* 100)
 (setq *timeout-sec* 1)
 
-(play-prover-gtrail '(1) "kqc/seman/sem001.kqc")
+(play-prover-gtrail '(C1) "kqc/seman/sem001.kqc")
 

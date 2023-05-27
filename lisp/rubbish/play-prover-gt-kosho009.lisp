@@ -9,6 +9,6 @@
 (setq *max-steps* 100)
 (setq *timeout-sec* 5)
 
-(play-prover-gtrail '(1 2) "kqc/kosho/switch009.kqc")
+(play-prover-gtrail '(C1 C2) "kqc/kosho/switch009.kqc")
 
 

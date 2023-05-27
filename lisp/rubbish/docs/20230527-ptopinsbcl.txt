@@ -1,0 +1,32 @@
+20230527-ptopinsbcl
+
+まず
+ (sb-ext:save-lisp-and-die "rungtrail" :executable t)
+
+しておく
+次に
+c001.lispで
+(load "/Users/shin/Projects/github/cheaplogic/lisp/rubbish/play-prover-gt-ml002.lisp")
+とるする
+このm002.lispでは
+
+(require :gtrail)
+(in-package :rubbish)
+(play-prover-gtrail '(C1) "kqc/ml002.kqc")
+
+などとしている。
+
+これによって
+sbcl --core rungtrail --script c001.lisp
+
+が動作する。save-lisp-and-dieしていないて、(require :gtrail)が動かない。
+
+次に
+c001.shで
+sbcl --control-stack-size 128MB --core rungtrail --script c001.lisp
+
+としておくと、
+
+zsh c001.sh
+で ml002.lispを実行できる。
+

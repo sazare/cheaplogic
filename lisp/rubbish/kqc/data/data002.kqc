@@ -1,6 +1,8 @@
 ; 1st example: const, func and var
-;J r1,c1=simpleprover("data/data001.cnf",3,5)
-;L (simpleprover 1 "kqc/data001.kqc" 3 5)
+; (play-prover-gtrail '(c1) "kqc/data/data002.kqc")
+
+;J r1,c1=simpleprover("data/data002.cnf",3,5)
+;L (simpleprover 1 "kqc/data002.kqc" 3 5)
 ; 1 : goal
 ; path : kqc file
 ; 3 5 are strategic parameters

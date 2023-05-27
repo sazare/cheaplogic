@@ -3,5 +3,5 @@
 (load "rubbish-prover-gtrail.lisp")
 
 ;; play for prover
-(play-prover-gtrail '(1)  "kqc/provers/prov2.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/prov2.kqc")
 

@@ -1,4 +1,7 @@
 ; 1st example: const, func and var
+; (play-prover-gtrail '(c1) "kqc/data/data001p.kqc")
+
+;; (play-prover-gtrail  "kqc/data001p.kqc" C1)
 ;J r1,c1=simpleprover("data/data001.cnf",3,5)
 ;L (simpleprover 1 "kqc/data001.kqc" 3 5)
 ; 1 : goal

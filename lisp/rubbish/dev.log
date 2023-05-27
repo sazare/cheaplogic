@@ -1,3 +1,36 @@
+2023/05/27土
+・矛盾チェックの準備
+
+まず、lispから別のprocessでlispを実行する方法をしらべた
+1. save-lisp-and-dieで、(require :gtrail)を実行したイメージ(rungtrail)を作る
+2. sbcl --core rungtrail --script ....lisp　が動く
+3. 2の行を含むshを作る
+4. 3のスクリプトを sbclの中で、(uiop:run-program "zsh c001.sh" :output t)
+あるいは
+chmod +x c001.sh
+で
+(uiop:run-program "c001.sh" :output t)
+で動く
+
+あとはプロセス間でのデータのやりとり
+
+* ml002.kqcの意味がわかった。
+*enable-semantics*をtにしたが、計算されていない
+
+C21: RESOLVENT NIL [((- >= 0.9 0.9) (- >= 0.9 0.8) (- >= 0.85 0.8))]
+が残り、これはreduce-by-semanticsで□になりそうに見える。
+
+これは、reduce-by-syntaxを作った時にこっちのパスを適当に修正したから。
+
+reduce-by-syntaxの実行後、これの結果だけをreduce-by-semanticsに渡していた。
+reduce-by-syntaxの前のresolventについても、by-semanticsを実行するようにしたら
+矛盾がでるようになった
+
+★by-semanticsが動くとproofの構造がおかしくなるのでp2codeやpcodeがnilになる
+
+
+
+
 2023/05/25木
 ・rubbish-goods.lispを追加
 　長い函数名をmacroで短くする

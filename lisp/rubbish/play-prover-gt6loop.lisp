@@ -4,5 +4,5 @@
 
 ;; play prov6loop.kqc has slightly complex one
 
-(play-prover-gtrail '(1)  "kqc/provers/prov6loop.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/prov6loop.kqc")
 

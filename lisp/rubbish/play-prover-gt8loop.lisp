@@ -4,5 +4,5 @@
 
 ;; play prov8loop.kqc has loop with input also a variable
 
-(play-prover-gtrail '(1)  "kqc/provers/prov8loop.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/prov8loop.kqc")
 

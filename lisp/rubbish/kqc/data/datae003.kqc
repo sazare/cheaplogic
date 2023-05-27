@@ -1,12 +1,14 @@
 ; 1st example: const, func and var
-;J r1,c1=simpleprover("data/data001.cnf",3,5)
-;L (simpleprover 1 "kqc/data001.kqc" 3 5)
+; (play-prover-gtrail '(c1000) "kqc/data/datae003.kqc")
+
+;J r1,c1=simpleprover("data/data003.cnf",3,5)
+;L (simpleprover 1 "kqc/data003.kqc" 3 5)
 ; 1 : goal
 ; path : kqc file
 ; 3 5 are strategic parameters
 ;; goal should be specifed from outer space
 
-(readefile "kqc/data001.kqc")
+(readefile "kqc/data/data001.kqc")
 
 (1000 (y) (- Q a y))
 (2000 (x y) (- Q x y))

@@ -5,5 +5,5 @@
 
 ;; play prov000.kqc 
 
-(play-prover-gtrail '(1)  "kqc/provers/prov000.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/prov000.kqc")
 

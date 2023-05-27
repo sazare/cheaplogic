@@ -76,8 +76,10 @@
 ;; 
         (when  *enable-semantics*
           (when 
-           (setq eres (reduce-by-semantx rres)) 
-           (push eres newgoals)
+           (when res (setq eres (reduce-by-semantx res)) 
+             (push eres newgoals))
+           (when rres (setq erres (reduce-by-semantx rres)) 
+             (push eres newgoals))
           )
         )
       )

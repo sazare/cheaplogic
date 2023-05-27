@@ -4,5 +4,5 @@
 
 ;; play provvv02.kqc
 
-(play-prover-gtrail '(1)  "kqc/provers/provvv02.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/provvv02.kqc")
 

@@ -9,7 +9,7 @@
 (setq *max-steps* 100)
 (setq *timeout-sec* 1)
 
-;(play-prover-gtrail '(1) "kqc/merge/merge001.kqc")
-;(play-prover-gtrail '(5) "kqc/merge/merge001.kqc")
-(play-prover-gtrail '(1 5) "kqc/merge/merge001.kqc")
+;(play-prover-gtrail '(C1) "kqc/merge/merge001.kqc")
+;(play-prover-gtrail '(C5) "kqc/merge/merge001.kqc")
+(play-prover-gtrail '(C1 C5) "kqc/merge/merge001.kqc")
 

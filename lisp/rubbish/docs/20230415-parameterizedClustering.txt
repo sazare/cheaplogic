@@ -1,0 +1,12 @@
+20230415-parameterizedClustering
+
+constantをclusteringで決めて、constantの関係として表現を作る
+constantのclusteringかもしれない
+
+
+この方法は、NLPで、tokenを作って、そこから文章を作るのと同じかも。
+
+ただし、constantのclusterは述語命題になる
+
+
+

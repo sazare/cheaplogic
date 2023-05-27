@@ -4,6 +4,6 @@
 
 ;; play for prover
 
-(play-prover-gtrail '(1)  "kqc/provers/prov3vv.kqc")
+(play-prover-gtrail '(C1)  "kqc/provers/prov3vv.kqc")
 
 
