@@ -1,0 +1,43 @@
+20230524-memorun
+
+(require :gtrail)
+(in-package :rubbish)
+(rp "kqc/
+
+(pg 'c1)
+
+
+
+(load "goods.lisp")
+(in-package :rubbish)
+
+
+;(prover-gtrail '(c1))
+(pg c1)
+
+;表示
+(ps c1)
+(pcs)
+が使える
+(pcs) = (print-clauses *clist*)
+(pcs c1 c2) = (print-clauses '(c1 c2))
+
+
+または
+
+(play-prover-gtrail '(c1) "kqc/ml002.kqc")
+(ppg (c1) "kqc/ml002.kqc")
+;;
+
+; set some rubbish parameters different
+(load "pre-rubbish.conf")
+
+
+;;;矛盾チェック
+
+(require :gtrail)
+(require :mutat) ; fact seq用
+(in-package :rubbish)
+
+(check-mujun   )
+(mujun-set  )

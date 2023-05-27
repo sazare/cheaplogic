@@ -26,8 +26,7 @@ reduce-by-syntaxの実行後、これの結果だけをreduce-by-semanticsに渡
 reduce-by-syntaxの前のresolventについても、by-semanticsを実行するようにしたら
 矛盾がでるようになった
 
-★by-semanticsが動くとproofの構造がおかしくなるのでp2codeやpcodeがnilになる
-
+・clauseの証明にby-semanticsをふくむ場合もp2codeやpcodeが表示できている
 
 
 
