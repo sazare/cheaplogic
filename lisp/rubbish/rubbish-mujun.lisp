@@ -7,6 +7,7 @@
 ;; pure-prover-gtrail1 is in rubbish-prover-gtrail.lisp
 
 
+;; this method is simple but not perfect.
 (defun check-mujun1 (g)
   (car (pure-prover-gtrail (list g)) )
 )
@@ -93,3 +94,36 @@
   )
 )
 
+;;;
+(defun pair-or-iso (&optional (lsymlist *lsymlist*))
+  "classify lsym with has oppos or not."
+  (loop with fills = nil and isos = nil for lsym in lsymlist 
+    do (if (boundp (oppolsymof lsym)) 
+         (push lsym fills)
+         (push lsym isos))
+    finally (return (values fills isos))
+  )
+)
+
+
+;;; check-mujun-controller
+(defun check-mujun-controller (kqc)
+  (let (pairs isos gid g contras)
+    (readekqc kqc)
+    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
+    (unless pairs (format t "consistent by all lsym are orphans~%"))
+    (loop for lsym in pairs do
+       (setq gid (canonical-clause lsym))
+       (setq g (rawclause gid))
+       ; do check-mujun g kqc
+       (when (check-mujun-gandkqc g kqc) (push g contras))
+      finally
+       (return contras)
+    )
+  )
+)
+
+;;; check-mujun-
+(defun check-mujun-gandkqc (g kqc)
+  (uiop:run-program "sbcl --control-stack-size 128MB --script play-prover-gt-ml002.lisp" :force-output t)
+)

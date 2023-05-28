@@ -267,7 +267,11 @@
 )
 
 (defun rawclause (cid)
- (list (nameof cid) (varsof cid) (subsof cid) (rawlits (bodyof cid)))
+  (list 
+    (nameof cid) 
+    (varsof cid)  
+    (rawlits (bodyof cid))
+  )
 )
 
 ;;; primitive ops of basic data

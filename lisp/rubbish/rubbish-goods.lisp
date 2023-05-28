@@ -20,7 +20,7 @@
   `(play-prover-gtrail ',g ,p)
 )
 
-(defmacro sp (g)
+(defmacro spa (g)
   `(show-parameter0 ',g t)
 )
 
@@ -30,6 +30,10 @@
 
 (defmacro ppr (c)
   `(print-proof ',c)
+)
+
+(defmacro sm ()
+  `(summary0 t)
 )
 
 

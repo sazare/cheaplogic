@@ -1,3 +1,45 @@
+2023/05/29月
+scriptの先頭に.sbclrcから次をコピーしておくとrequire は呼べる
+------------------
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
+                                       (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+;;; for ASDF
+(pushnew #p"/Users/shin/.common-lisp/" asdf:*central-registry*)
+------------------
+? packageの関数をrun-program越しによべるのか?
+--userinit xxx.lisp でrequire, inpackageとreadkqcを行い
+--eval '(rubbish:print-clauses)'
+で出力できた
+
+また、xxx.lispでreadkqcをせずに
+--evalで、'(let()(readkqc "...")(print-clauses)'
+でも動いたので、scriptでin-packageしてあれば、evalの式はそのpackage内で動くように見える
+-----
+
+
+2023/05/28日
+shからsbclを呼び出す。check-mujunの道具
+
+% cat c005.lisp
+(defun a () (format t "in a~%"))
+(defun b () (format t "in b~%"))
+(format t "~a~%" (b))
+------
+% sbcl --script c005.lisp --exec '(format t "~a~%" (a))'
+in b
+NIL
+
+execの結果がでないな
+sbcl --eval '(format t "~a~%" 123)'
+は
+123
+でる。
+
+
+
 2023/05/27土
 ・矛盾チェックの準備
 
