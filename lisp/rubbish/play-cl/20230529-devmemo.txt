@@ -1,0 +1,37 @@
+20230529-devmemo
+
+sbcl --control-stack-size 128MB
+--script 
+
+(uiop:run-program "sbcl --control-stack-size 128MB --script play-prover-gt-ml002.lisp" :force-output t)
+
+
+----
+sbcl --control-stack-size 128MB
+(require :gtrail)
+(sb-ext:save-lisp-and-die "run-check-mujun-gandkqc" :executable t)
+
+----
+(uiop:run-program "sbcl --core ./run-check-mujun-gandkqc --script play-prover-gt-ml002.lisp" :force-output t)
+----
+
+=========
+** see play-cl
+
+sbclパラメタ
+--sysinitは~/.sbclrc
+--userinitは、自分のコード
+--eval ..は、呼び出しform
+--script ..は、実行コード
+scriptとevalは両立しない。
+その場合はscriptのファイルをuserinitで指定すればよい
+そのとき、requireをしたければ、sysinitを指定するか
+scriptの先頭でquicklispの初期化などをすればよい(ref ~/.sbclrc)
+
+
+----
+scriptでrequire してin-packageしておいて--userinitで読み込み
+入り口を --eval '...'で呼び出せば、requireなどは特に指定不要
+
+-----
+

@@ -111,19 +111,46 @@
   (let (pairs isos gid g contras)
     (readekqc kqc)
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
-    (unless pairs (format t "consistent by all lsym are orphans~%"))
-    (loop for lsym in pairs do
-       (setq gid (canonical-clause lsym))
-       (setq g (rawclause gid))
-       ; do check-mujun g kqc
-       (when (check-mujun-gandkqc g kqc) (push g contras))
-      finally
-       (return contras)
+    (unless pairs (format t "consistent because all lsyms are orphans~%"))
+    (let (lid ofile)
+      (loop for lsym in pairs as i from 1 do
+        (setq lid (car (eval lsym)))
+        (setq gid (canonical-clause lid))
+        (setq g (rawclause gid))
+        (setq ofile (with-output-to-string (out) (format out "mujun-output/mujun~10,'0d.out" i)))
+        ; do check-mujun g kqc
+        (when (check-mujun-on g kqc ofile) (push g contras))
+       finally
+        (return contras)
+      )
     )
   )
 )
 
 ;;; check-mujun-
-(defun check-mujun-gandkqc (g kqc)
-  (uiop:run-program "sbcl --control-stack-size 128MB --script play-prover-gt-ml002.lisp" :force-output t)
+(defun check-mujun-on (g kqc ofile)
+  (prog ()
+    (format t "check-mujun-on ~a ~a ~ofile~%" g kqc ofile)
+    (return t)
+;  (uiop:run-program "sbcl --control-stack-size 128MB --eval '(mujun-prover)' :force-output t)
+  )
 )
+
+
+(defun mujun-prover ()
+  (let ()
+    (format t "mujun-prover run~%" )
+; 1. get parameter(g, kqc, ofile)
+
+; 2. (factisf g)
+
+; 3.  (readkqc kqc)
+
+; 4. (prover-gtrail g)
+
+; 5. when mujun exists, then report it in ofile
+
+  )
+)
+
+

@@ -1,0 +1,5 @@
+;; consistent set
+(() (+ P a))
+(() (+ R a)(- S a))
+(() (+ S b)(- W a))
+

@@ -19,6 +19,14 @@ scriptの先頭に.sbclrcから次をコピーしておくとrequire は呼べ�
 でも動いたので、scriptでin-packageしてあれば、evalの式はそのpackage内で動くように見える
 -----
 
+(quit :unix-status 2)でprocessの$?が2になる
+run-programで実行して、値が0以外だと、breakしてしまう
+　他の方法
+
+*ファイル名のつくりかた
+(format t "~4,'0d" 12)
+数字の左側を0で埋める
+
 
 2023/05/28日
 shからsbclを呼び出す。check-mujunの道具
