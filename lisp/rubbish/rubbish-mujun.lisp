@@ -117,7 +117,7 @@
         (setq lid (car (eval lsym)))
         (setq gid (canonical-clause lid))
         (setq g (rawclause gid))
-        (setq ofile (with-output-to-string (out) (format out "mujun-output/mujun~10,'0d.out" i)))
+        (setq ofile (with-output-to-string (out) (format out "mujun-output/mujun~3,'0d.out" i)))
         ; do check-mujun g kqc
         (when (check-mujun-on g kqc ofile) (push g contras))
        finally
@@ -129,27 +129,39 @@
 
 ;;; check-mujun-
 (defun check-mujun-on (g kqc ofile)
-  (prog ()
+  (prog (cmd)
     (format t "check-mujun-on ~a ~a ~ofile~%" g kqc ofile)
+    (setq cmd (with-output-to-string (out) 
+                (format out "sbcl --control-stack-size 128MB --userinit 'rubbish-mujun-prover.lisp'  --eval '(mujun-prover)' '~a' '~a' '~a'" g kqc ofile)))
+    (format t "call ~a~%" cmd)
+    (uiop:run-program cmd  :force-output t)
     (return t)
-;  (uiop:run-program "sbcl --control-stack-size 128MB --eval '(mujun-prover)' :force-output t)
   )
 )
 
 
-(defun mujun-prover ()
-  (let ()
-    (format t "mujun-prover run~%" )
-; 1. get parameter(g, kqc, ofile)
+(defun mujun-prover-inside (g kqc ofile)
+  (let (sexp)
+
+; 1. get parameter(g, kqc, ofile) in mujun-prover
 
 ; 2. (factisf g)
+     (setq gid (factisf g))
 
 ; 3.  (readkqc kqc)
+     (readkqc kqc)
 
 ; 4. (prover-gtrail g)
 
-; 5. when mujun exists, then report it in ofile
+    (prover-gtrail (list gic))
 
+; 5. when mujun exists, then report it in ofile
+    (with-open-file (out ofile
+                         :direction :output
+                         :if-exists :supersede)
+      (format out "in rubbish-mujun-prover-inside~%")
+      (format out "~a ~a~%" g (car (lscova)))
+    ) 
   )
 )
 
