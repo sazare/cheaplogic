@@ -1,0 +1,43 @@
+mujun checker (2023/05/30)
+
+何をするか
+check-mujunは、kqcから述語記号をとりだし、それぞれについて+/-のunit clause を作る。
+そして、それらとkqcから□を導出してみる。
+矛盾がでれば、kqcは矛盾していることがわかる。
+
+パラメタによっては、矛盾の導出が行われる以前に反証プロセスが中断することがあるので
+矛盾がでなかった場合、kqcが無矛盾であるという証明にはならない。
+そのまま続ければ矛盾が導出できるかもしれないので。
+
+
+今日の段階では、sbclを--evalや--scriptで実行しようとしたとき(require :gtrail)を
+実行したところでrequireが未定義になる。そのため、一旦、(require :gtrail)をした
+save imageを作って、それをsbcl --core することにした。
+
+step 1 make run-mujun
+$lisp
+ (require :gtrail)
+ (in-package :rubbish)
+ (sb-ext:save-lisp-and-die "run-mujun" :executable t)
+
+
+矛盾チェック処理は次のように実行する。
+
+step 2 run check-mujun-controller
+$ lisp
+  (require :gtrail)
+  (in-package :rubbish)
+  (check-mujun-controller "kqc/mujun/mj101.kqc")
+
+出力ファイル
+work.log  実行ログ
+work.txt　実行ログ
+mujun-output/mujun???.out mujun-proverのログ
+
+
+これからの課題
+1) save imageを使わなくても(require :gtrail)をできるようにする
+2) check-mujun-controllerがmujun-proverの結果を判定するようにする(矛盾判定)
+3) 出力ファイルの整理
+4) step1 をmakeかなにかで自動化する
+

@@ -1,5 +1,19 @@
 20230529-devmemo
 
+ 1) save image run-mujunを作る
+
+(require :gtrail)
+(in-package :rubbish)
+(sb-ext:save-lisp-and-die "run-mujun" :executable t)
+
+ 2) 実行する
+
+(require :gtrail)
+(in-package :rubbish)
+(check-mujun-controller "kqc/mujun/mj101.kqc")
+
+
+
 sbcl --control-stack-size 128MB
 --script 
 
@@ -9,7 +23,7 @@ sbcl --control-stack-size 128MB
 ----
 sbcl --control-stack-size 128MB
 (require :gtrail)
-(sb-ext:save-lisp-and-die "run-check-mujun-gandkqc" :executable t)
+(sb-ext:save-lisp-and-die "run-mujun" :executable t)
 
 ----
 (uiop:run-program "sbcl --core ./run-check-mujun-gandkqc --script play-prover-gt-ml002.lisp" :force-output t)

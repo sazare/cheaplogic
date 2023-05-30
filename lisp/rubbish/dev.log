@@ -1,3 +1,84 @@
+2023/05/30火
+・いちおううごいた
+手順
+ 1) save image run-mujunを作る
+    $lisp
+　　(require :gtrail)
+       (sb-ext:save-lisp-and-die "run-mujun" :executable t)
+ 2)
+    $lisp
+　  (require :gtrail)
+      (in-package :rubbish)
+      (check-mujun-controller "kqc/mujun/mj1101.kqc")
+
+　呼び出すところは
+　run-programでsbcl --core run-mujun  --eval '(mujun-prover)' $g $kqc $ofile
+みたいなことをして、呼ばれた方の動作確認した
+
+　この場合、rubbish-mujun-prover.lispは不要で、定義している mujun-proverもrubbish-mujun.lispに含めれば良い。
+　が、rubbish-mujun-prover.lispは別にして、gtrail.asdに含めている。
+
+★ちょっと疑問
+・save imageを作らないとうまくいかない。
+　run-programしたとたんどこかに行ってしまう。
+
+・? lispでrequire gtrailして、直接mujun-proverを動かしてうまくいく。つまり、呼ばれる側の動作は確認した。
+　(mujun-prover g kqc ofile)
+
+　ログをwork.txtにとり、かくproverの出力はmujunxxx.outにしている。
+
+・run-programにすると動かないのは、この関数の使い方だ。
+　(require :gtrail)をmujun-proverで
+
+★
+　prover-g trailのあと、(lscova)しても(nil nil)
+　contradictionがみつかっていない??
+
+★　(prover-gtrail '(c0))を実行しても*clist*が増えていない。
+　手でやると増えている。
+　*clist*の定義がdefvarだったのでdefparameterにしてみたが同じ
+
+　prover-gtrailが動いていないのか??
+
+　prover-gtrailのreturnが(contradictions valids)なので、その値を使ってみる
+　やはりnil
+
+　step-solverの値もnil
+ここまでは check-mujun-controller経由の実行
+
+*単体で動かしてみると
+ (mujun-prover-inside "(()(+ P a))" "kqc/mujun/mj101.kqc" "mujun-output/debug.out")
+これならC3がみつかる。
+
+* prover-gtrailでgid=c0をevalするとエラーになってるらしい。
+
+***どうするか?
+* できていること
+  prover-mujun-inside, prover-mujunは動いている(c3がみつかってログにでる)
+  run-programでパラメタ goalの文字列、kqc, ofileは渡っている
+
+* できないこと
+　(prover-gtrail '(c0))を実行してもcontraがでない。
+ 確認　c0は(L0-1)になっている。
+
+1) run-programで直接起動すると何が違うのか?
+2) run-mujun経由がまずいのか??
+3)  ちなみに(prover-gtrail)の結果がnilになっている。(nil nil)ではない???
+
+c0とc1の違いは、symbol-plistのname。c0は0、c1はc1になっている。
+関係ないと思うが・・・
+
+C0のnameが0なのも気になるが、問題ないはず。
+
+★canonical-clauseで、varsとclauseの変数名がちがっているからresolveできるはずがない。
+(rawclause0 cid)が間違っていた
+(vars . body)
+となるべきところ
+(vars body)
+になっていた。
+
+
+
 2023/05/29月
 scriptの先頭に.sbclrcから次をコピーしておくとrequire は呼べる
 ------------------

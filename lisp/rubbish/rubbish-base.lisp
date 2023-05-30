@@ -48,9 +48,9 @@
 )
 
 ;; LID ops
-(defvar *maxcid* 0)
-(defvar *clist* ())
-(defvar *llist* ())
+(defparameter  *maxcid* 0)
+(defparameter *clist* ())
+(defparameter *llist* ())
 
 ;; make a lid from cid and n'th of body
 (defun make-lid (cid n)
@@ -267,8 +267,17 @@
 )
 
 (defun rawclause (cid)
-  (list 
+  (cons
     (nameof cid) 
+    (cons 
+      (varsof cid)  
+      (rawlits (bodyof cid))
+    )
+  )
+)
+
+(defun rawclause0 (cid)
+  (cons
     (varsof cid)  
     (rawlits (bodyof cid))
   )

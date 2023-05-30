@@ -220,14 +220,18 @@
          ts
          )
 
+
     (loop named prover-loop 
        while goallist do
          (multiple-value-setq (goal goallist) (select-goal goallist))
   
          (setq  newgoal  (step-solver goal))
-  
+
+
          (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
          (setq contradictions (append cs contradictions))
+
+
          (setq valids (append ts valids))
          (setq goallist (append goallist newgoals))
          (setq newgoal nil)
@@ -274,6 +278,12 @@
 
     (show-parameter goals time-start)
 
+;; debug
+(with-open-file (out "work.txt" :direction :output :if-exists :append)
+
+(format out "~a in prover-gtrail " (local-time:now))
+(format out "goals=~a ~%" goals )
+
 ;; 
     (loop named prover-loop 
        while goallist do
@@ -283,6 +293,12 @@
   
          (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
          (setq contradictions (append cs contradictions))
+
+(format out "~a prover-gtrail " (local-time:now))
+(format out "eval goal = ~a  " (eval goal))
+(format out "goal=~a contras=~a newgoal==~a ~%" goal contradictions newgoal)
+
+
          (setq valids (append ts valids))
          (setq goallist (append goallist newgoals))
          (setq newgoal nil)
@@ -311,6 +327,7 @@
         (format t "valids =~a~%" valids)
         (summary time-start) 
     )
+  )
   )
 )
 

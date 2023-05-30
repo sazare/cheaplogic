@@ -9,6 +9,7 @@
   (:export 
     :*maxcid*
     :readekqc
+
     :prover-gtrail 
     :play-prover-gtrail
     :*max-clauses*
@@ -35,6 +36,9 @@
     :analyze-pcode
     :analyze-p2code
     :reportc
+
+    :mujun-prover
+    *clist*
 
     )
  )
