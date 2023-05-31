@@ -1,3 +1,26 @@
+2023/05/31水
+check-mujun調整
+1) run-mujunなしで動いた
+　しかし、性能が必要なときはこれを使うべき
+　そのため --sysinit rubbish-mujun-init.lispを使用。
+　　init.lispではquicklispの初期化だけしている。(require :gtrail)のため
+
+2) 出力はmujun-output/result.logのみにした
+　work.logへの出力はコメントアウト
+　work.txtはprover-gtrailのログ
+
+3) 矛盾がでない場合のメッセージ
+　　1) 全部isoのとき、Σ全体がconsistentかもしれないメッセージ
+　　2) isoのliteralについてメッセージを出す
+　　3) 出ていない) (lscova)でcontraがでていないとき。もしかして
+
+★★ この方法では次の場合に矛盾があることになる
+{+P(a), -P(b)}
+(x).+P(x)と(x).-P(x)でチェックするから・・・
+
+ううむ
+
+
 2023/05/30火
 ・いちおううごいた
 手順

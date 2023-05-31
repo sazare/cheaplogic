@@ -1,10 +1,11 @@
 20230529-devmemo
 
- 1) save image run-mujunを作る
+ 1) save image run-mujunを作る 不要2023/05/31
 
 (require :gtrail)
 (in-package :rubbish)
 (sb-ext:save-lisp-and-die "run-mujun" :executable t)
+
 
  2) 実行する
 
@@ -12,8 +13,11 @@
 (in-package :rubbish)
 (check-mujun-controller "kqc/mujun/mj101.kqc")
 
+3) 直接実行する
 
 
+
+*****
 sbcl --control-stack-size 128MB
 --script 
 

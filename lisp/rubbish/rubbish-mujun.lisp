@@ -110,13 +110,20 @@
   (let (pairs isos gid g contras)
     (readekqc kqc)
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
-    (unless pairs (format t "consistent because all lsyms are orphans~%"))
-    (let (lid ofile)
-      (loop for lsym in pairs as i from 1 do
+
+    (with-open-file (out "mujun-output/result.log"
+                         :direction :output
+                         :if-exists :supersede)
+      (unless pairs (format out "consistent because all lsyms are orphans~%"))
+      (when isos (format out "these are orphans: ~a~%" isos))
+    )
+
+    (let (lid ofile) 
+      (loop for lsym in pairs do
         (setq lid (car (eval lsym)))
         (setq gid (canonical-clause lid))
         (setq g (rawclause0 gid))
-        (setq ofile (with-output-to-string (out) (format out "mujun-output/mujun~3,'0d.out" i)))
+        (setq ofile "mujun-output/result.log")
         ; do check-mujun g kqc
         (when (check-mujun-on g kqc ofile) (push g contras))
        finally
@@ -129,72 +136,70 @@
 ;;; check-mujun-
 (defun check-mujun-on (g kqc ofile)
   (prog (cmd)
-    (format t "check-mujun-on g=~a kqc=~a ofile~a~%" g kqc ofile)
+;    (format t "check-mujun-on g=~a kqc=~a ofile~a~%" g kqc ofile)
     (setq cmd (with-output-to-string (out) 
-                (format out "sbcl --control-stack-size 128MB --core 'run-mujun' --eval '(rubbish:mujun-prover)' '~a' '~a' '~a'" g kqc ofile)))
-    (format t "cmd = ~a~%" cmd)
+                (format out "sbcl --control-stack-size 128MB --sysinit rubbish-mujun-init.lisp --eval '(rubbish:mujun-prover)' '~a' '~a' '~a'" g kqc ofile)))
+;    (format t "cmd = ~a~%" cmd)
     (uiop:run-program cmd  :force-output t)
     (return t)
   )
 )
 
+; for speed up by  using run-mujun (save image)
+;(format out "sbcl --control-stack-size 128MB --core 'run-mujun' --eval '(rubbish:mujun-prover)' '~a' '~a' '~a'" g kqc ofile)))
 
 (defun mujun-prover-inside (g kqc ofile)
   (let (gids sg cv)
 ; 1. get parameter(g, kqc, ofile) in mujun-prover
 
-  ;(setq sg (list (readastring g)))
    (setq sg (list (cons 0 (readastring g))))
 
-    (with-open-file (out "work.log"
-                         :direction :output
-                         :if-exists :append)
-     (format out "~a " (local-time:now))
-     (format out "rubbish-mujun-prover-inside param g=~a, sg=~a, kqc=~a, ofile=~a~%" g sg kqc ofile)
-    )
+;    (with-open-file (out "work.log"
+;                         :direction :output
+;                         :if-exists :append)
+;     (format out "~a " (local-time:now))
+;     (format out "rubbish-mujun-prover-inside param g=~a, sg=~a, kqc=~a, ofile=~a~%" g sg kqc ofile)
+;    )
 
 ; 2.  (readkqc kqc)
      (readkqc kqc)
-    (with-open-file (out "work.log"
-                         :direction :output
-                         :if-exists :append)
-     (format out "in rubbish-mujun-prover-inside gids = ~a, clist = ~a~%" gids *clist* )
-    )
 
 ; 3. (factisf g)
     (setq gids (factisf sg))
-    (with-open-file (out "work.log"
-                         :direction :output
-                         :if-exists :append)
-     (format out "in rubbish-mujun-prover-inside sg=~a gids=~a " sg gids )
-     (format out "rawclause gid=~a clist=~a~%" (rawclause (car gids)) *clist*)
-     (print-clauses *clist* out)
-    )
+;    (with-open-file (out "work.log"
+;                         :direction :output
+;                         :if-exists :append)
+;     (format out "in rubbish-mujun-prover-inside sg=~a gids=~a " sg gids )
+;     (format out "rawclause gid=~a clist=~a~%" (rawclause (car gids)) *clist*)
+;    ; (print-clauses *clist* out)
+;    )
 
 ; 4. (prover-gtrail (list g))
 
     (setq cv (prover-gtrail gids))
 
-    (with-open-file (out "work.log"
-                         :direction :output
-                         :if-exists :append)
-     (format out "in rubbish-mujun-prover-inside after prover gids=~a lscova= ~a ~a~%" gids (lscova) cv)
-    )
+;    (with-open-file (out "work.log"
+;                         :direction :output
+;                         :if-exists :append)
+;     (format out "in rubbish-mujun-prover-inside after prover gids=~a lscova= ~a ~a~%" gids (lscova) cv)
+;    )
 
 ; 5. when mujun exists, then report it in ofile
     (with-open-file (out ofile
                          :direction :output
-                         :if-exists :supersede)
+                         :if-exists :append)
 
-;      (format out "~a " (local-time:now))
-;      (format out "in rubbish-mujun-prover-inside contradiction: gids=~a (lscova)=~a (c v)=~a~%" gids (lscova) cv )
+      (format out "~a " (local-time:now))
 
-      (if (car (lscova)) 
-        (format out "in rubbish-mujun-prover-inside contradiction: ~a ~a ~a ~%" gids g (car (lscova)))
-        (format out "in rubbish-mujun-prover-inside no contra: ~a ~a ~%" gids g)
+      (let ((contras (car (lscova))))
+        (when contras
+          (loop for c in contras do 
+            (format out "contra(inside): ~a p2c=~a pc=~a~%" g (p2code c) (pcode c))
+          )
+        )
+        (format out "no contra(inside): ~a ~a ~%" g contras)
       )
-    ) 
+    )
   )
 )
-
 
