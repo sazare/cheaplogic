@@ -1,4 +1,5 @@
-(() (+ P a))
-(() (- R b))
-((x) (- R x)(+ S x))
+; consistent. all literals are orphans.
+(1 () (+ P a))
+(2 () (- R b))
+(3 (x) (- R x)(+ S x))
 

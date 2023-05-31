@@ -1,0 +1,12 @@
+;; 7 can't be contradict because +Ra never resolved and -W is orphan
+;;in 7 
+
+(1 ()(+ P a))
+(2 ()(- P a))
+(3 ()(+ S a b))
+(4 (x y)(- S x y))
+(5 () (- R b))
+(6 (x) (+ Q x))
+(7 () (+ R a)(- W a))
+
+

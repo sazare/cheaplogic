@@ -23,6 +23,7 @@
       (:file "rubbish-peval" :depends-on ("rubbish-package"))
       (:file "rubbish-semantx" :depends-on ("rubbish-package"))
       (:file "rubbish-log" :depends-on ("rubbish-package"))
+      (:file "rubbish-flog" :depends-on ("rubbish-package"))
       (:file "rubbish-prover" :depends-on ("rubbish-package"))
       (:file "rubbish-analyze" :depends-on ("rubbish-package"))
       (:file "rubbish-prover-gtrail" :depends-on ("rubbish-package"))

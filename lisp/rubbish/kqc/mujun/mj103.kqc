@@ -1,7 +1,8 @@
-
-(()(+ P a))
-(()(- P a))
-(()(+ S a b))
-((x y)(- S x y))
-(() (+ R a))
+;; 1,2 and 3,4 are contradict
+;; but 5 is orphan
+(1 ()(+ P a))
+(2 ()(- P a))
+(3 ()(+ S a b))
+(4 (x y)(- S x y))
+(5 () (+ R a))
 

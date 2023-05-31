@@ -1,8 +1,6 @@
-; mujunチェック用
-;; intension: no unit, PvP clause
-
+; inconsistent 
 (1 () (+ R b) (+ P a))
-(2 () (- S c) (- P a))
-(3 () (+ S c) (- P a))
-(4 () (- R b) (+ P a))
+(2 () (- R b) (+ P a))
+(3 () (- S c) (- P a))
+(4 () (+ S c) (- P a))
 

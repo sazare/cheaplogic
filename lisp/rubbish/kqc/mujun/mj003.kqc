@@ -1,8 +1,7 @@
-; mujunチェック用
-;; intension: no unit, PvP clause
+; inconsistent. order of literals are different from previouses
 
 (1 () (+ R b) (+ P a))
-(2 () (- P a) (+ S c))
-(3 () (- S c) (- P a))
-(4 () (- R b) (+ P a))
+(2 () (- R b) (+ P a))
+(3 () (- P a) (+ S c))
+(4 () (- S c) (- P a))
 

@@ -1,4 +1,4 @@
-;; consistent set
+;; consistent no contra
 (() (+ P a))
 (() (+ R a)(- S a))
 (() (+ S b)(- W a))

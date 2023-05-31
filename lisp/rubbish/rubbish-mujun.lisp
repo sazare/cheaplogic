@@ -111,6 +111,7 @@
     (readekqc kqc)
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
 
+    (create-flog "mujun-output/mujun.log")
     (with-open-file (out "mujun-output/result.log"
                          :direction :output
                          :if-exists :supersede)
@@ -145,7 +146,7 @@
   )
 )
 
-; for speed up by  using run-mujun (save image)
+; for speed up by  using run-mujun (make-mujun-image)
 ;(format out "sbcl --control-stack-size 128MB --core 'run-mujun' --eval '(rubbish:mujun-prover)' '~a' '~a' '~a'" g kqc ofile)))
 
 (defun mujun-prover-inside (g kqc ofile)
@@ -154,12 +155,7 @@
 
    (setq sg (list (cons 0 (readastring g))))
 
-;    (with-open-file (out "work.log"
-;                         :direction :output
-;                         :if-exists :append)
-;     (format out "~a " (local-time:now))
-;     (format out "rubbish-mujun-prover-inside param g=~a, sg=~a, kqc=~a, ofile=~a~%" g sg kqc ofile)
-;    )
+   (flog "mujun-output/mujun.log" "rubbish-mujun-prover-inside param g=~a, sg=~a, kqc=~a, ofile=~a~%" g sg kqc ofile)
 
 ; 2.  (readkqc kqc)
      (readkqc kqc)
@@ -192,12 +188,12 @@
       (format out "~a " (local-time:now))
 
       (let ((contras (car (lscova))))
-        (when contras
+        (if contras
           (loop for c in contras do 
-            (format out "contra(inside): ~a p2c=~a pc=~a~%" g (p2code c) (pcode c))
+            (format out "contradictions(inside): ~a p2c=~a pc=~a~%" g (p2code c) (pcode c))
           )
+          (format out "no contradictions(inside): ~a ~a ~%" g contras)
         )
-        (format out "no contra(inside): ~a ~a ~%" g contras)
       )
     )
   )
