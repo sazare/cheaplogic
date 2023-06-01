@@ -6,7 +6,7 @@ sbcl <<-EOD
   (pushnew #p"/Users/shin/.common-lisp/" asdf:*central-registry*)
 
   (require :gtrail)
-  (sb-ext:save-lisp-and-die "run-mujun" :executable t)
+  (sb-ext:save-lisp-and-die "run-gtrail" :executable t)
 EOD
 echo ok
 

@@ -1,3 +1,24 @@
+2023/06/01木
+・kqc/mujunの整理
+　mj2*は基本的なものにした
+
+・rubbish-flog.lispを作成
+　(create-flog filename)でファイルを作り(あったら上書きする)
+    (flog filename format data...)で出力する
+    x filenameで指定するのがいやだけど、その場その場でcloseしたいし、fidみたいのは使えない
+
+・run-gtrailを作るスクリプトmake-gtrail-image.shを作った
+　昨日まではrun-mujunにしていたが、中身が(require :gtrail)だけなのでこの名前にした。
+　run-gtrail以外の名前もつけられるようにパラメタでファイル名をとるように拡張できるが、
+　やることは(request :gtrail)に固定なので、このままにする。
+
+imageを使ったcontrollerのほうの動作も確認した。
+
+★★★ ソースを修正したら必ず、make-gtrail-image.shの実行をすることにしよう。
+　run-gtrailを使わないバージョンでも、問題ない。
+　　　　忘れないようにするためにスクリプトを作ったのだし。
+
+
 2023/05/31水
 check-mujun調整
 1) run-mujunなしで動いた
