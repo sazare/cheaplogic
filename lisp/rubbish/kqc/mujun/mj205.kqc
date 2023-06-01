@@ -1,5 +1,5 @@
-;; inconsist
+;; inconsist because a orphans +R
 
-((y) (+ P y))
-((x) (- P x)(+ R x))
+(1 (y) (+ P y))
+(2 (x) (- P x)(+ R x))
 

@@ -1,3 +1,29 @@
+2023/06/02金
+・昨日の段階で、canonicalによるmujun checkerは矛盾をみつけすぎであり、
+その原因はcanonial clauseが一般的すぎてΣにない矛盾までみつけてしまうからだった
+<+P(a):-P(b)>の場合
+
+そこで、先のcheck-mujunの方法で、∀c∈Σ check Σ,c⊢□でやるものを作った
+それが inner-mujun-controller in rubbish-mujun.lisp
+昨日のcheck-mujun-controllerはcannon-mujun-controllerとした。
+
+mj202.kqcが、{+P(a), -P(b)}であり、cannonとinnerで実験したところ
+cannonでは□がみつかり、innerでは無矛盾となった。
+
+また、mj00[12].kqcはunit clauseがないケースで、以前、check-mujunでは矛盾がみつけられなかったもの。
+これは、cannonでもinnerでもみつけられた。
+reduce-syntaxを実装したので、innerでもみつけられるようになっている。
+
+この結果をmujun-outputの下のsub dirに保存しておいた。
+result-cannon-mj202-findcontra
+result-inner-mj001-findcontra
+result-inner-mj002-findcontra
+result-inner-mj202-nocontra
+
+これで十分なのだろうか。他の例も考えてみるひつようがある。
+
+
+
 2023/06/01木
 ・kqc/mujunの整理
 　mj2*は基本的なものにした
@@ -13,10 +39,17 @@
 　やることは(request :gtrail)に固定なので、このままにする。
 
 imageを使ったcontrollerのほうの動作も確認した。
+このソースをrun-programの行をコメントアウトしておいたら、実行時にエラーになった。
+かっこの構造がわからないようだ。
+
+とりあえず、関数の外側にこのコメント行を残した。
+もっとよい方法を考えよう
 
 ★★★ ソースを修正したら必ず、make-gtrail-image.shの実行をすることにしよう。
 　run-gtrailを使わないバージョンでも、問題ない。
 　　　　忘れないようにするためにスクリプトを作ったのだし。
+
+・矛盾がどのような場合に発生するか考える
 
 
 2023/05/31水

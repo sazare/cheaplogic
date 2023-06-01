@@ -1,5 +1,7 @@
-;; 5,6 never contradict each
-;; +Q is an orphan
+;; 5,6 never contradict each, +Q is an orphan
+;; contradict 1,2 and 3,4
+;; but canonical clauses(+/- R x)  make contradictions from 5,6
+
 (1 ()(+ P a))
 (2 ()(- P a))
 (3 ()(+ S a b))

@@ -1,4 +1,4 @@
-;; 1,2 and 3,4 are contradict
+;; 1,2 and 3,4 are contradict as mj103.kqc
 ;; but 5 is orphan
 (1 ()(+ P a))
 (2 ()(- P a))

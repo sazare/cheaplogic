@@ -1,5 +1,5 @@
 ;; 7 can't be contradict because +Ra never resolved and -W is orphan
-;;in 7 
+;; 1,2 and 3,4 make contradictions
 
 (1 ()(+ P a))
 (2 ()(- P a))

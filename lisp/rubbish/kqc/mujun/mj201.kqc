@@ -1,4 +1,4 @@
-;; inconsist
-(() (+ P a))
-(() (- P a))
+;; inconsist 
+(1 () (+ P a))
+(2 () (- P a))
 

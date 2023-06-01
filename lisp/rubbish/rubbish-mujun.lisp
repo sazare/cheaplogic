@@ -104,9 +104,7 @@
   )
 )
 
-
-;;; check-mujun-controller
-(defun check-mujun-controller (kqc)
+(defun cannon-mujun-controller (kqc)
   (let (pairs isos gid g contras)
     (readekqc kqc)
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
@@ -114,6 +112,7 @@
     (create-flog "mujun-output/mujun.log")
     (create-flog "mujun-output/result.log")
 
+    (flog "mujun-output/mujun.log" "cannon-mujun run~%")
     (unless pairs (flog "mujun-output/mujun.log" "consistent because all lsyms are orphans~%"))
     (when isos (flog "mujun-output/mujun.log" "these are orphans: ~a~%" isos))
 
@@ -130,8 +129,31 @@
     )
   )
 )
+;;; inner-mujun-controller
+(defun inner-mujun-controller (kqc)
+  (let (pairs isos gid g contras)
+    (readekqc kqc)
+    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
 
-;;; check-mujun-
+    (create-flog "mujun-output/mujun.log")
+    (create-flog "mujun-output/result.log")
+
+    (flog "mujun-output/mujun.log" "inner-mujun run~%")
+    (unless pairs (flog "mujun-output/mujun.log" "consistent because all lsyms are orphans~%"))
+    (when isos (flog "mujun-output/mujun.log" "these are orphans: ~a~%" isos))
+
+    (let (lid) 
+      (loop for lid in *clist* do
+        (setq g (rawclause0 lid))
+        ; do check-mujun g kqc
+        (when (check-mujun-on g kqc ) (push g contras))
+       finally
+        (return contras)
+      )
+    )
+  )
+)
+;;
 (defun check-mujun-on (g kqc )
   (prog (cmd)
     (format t "check-mujun-on g=~a kqc=~a ~%" g kqc )
@@ -173,11 +195,12 @@
     (let ((contras (car (lscova))))
       (if contras
         (loop for c in contras do 
-          (flog "mujun-output/result.log" "contradictions(inside): ~a p2c=~a pc=~a~%" g (p2code c) (pcode c))
+          (flog "mujun-output/result.log" "contradictions(inside): ~a, p2c=~a, pc=~a~%" (rawclause (car gids)) (p2code c) (pcode c))
         )
-        (flog "mujun-output/result.log" "no contradictions(inside): ~a ~a ~%" g contras)
+        (flog "mujun-output/result.log" "no contradictions(inside): ~a, ~a ~%" (rawclause (car gids)) contras)
       )
     )
   )
 )
+
 

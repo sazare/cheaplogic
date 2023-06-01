@@ -1,4 +1,5 @@
-; inconsistent, need reduction-syntax
+; inconsistent, need reduction-syntax, but can't find by goal-prover(infinite proving)
+
 
 (1 () (+ P a) (+ R b))
 (2 () (+ P a) (- R b))

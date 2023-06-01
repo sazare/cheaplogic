@@ -1,0 +1,5 @@
+2023-06-02T08:11:32.278286+09:00 inner-mujun run
+2023-06-02T08:11:32.575713+09:00 rubbish-mujun-prover-inside param sg=((0 NIL (- P A) (- S C))), kqc=kqc/mujun/mj001.kqc
+2023-06-02T08:11:32.967226+09:00 rubbish-mujun-prover-inside param sg=((0 NIL (- P A) (+ S C))), kqc=kqc/mujun/mj001.kqc
+2023-06-02T08:11:33.347209+09:00 rubbish-mujun-prover-inside param sg=((0 NIL (+ P A) (- R B))), kqc=kqc/mujun/mj001.kqc
+2023-06-02T08:11:33.726838+09:00 rubbish-mujun-prover-inside param sg=((0 NIL (+ P A) (+ R B))), kqc=kqc/mujun/mj001.kqc

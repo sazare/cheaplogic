@@ -11,7 +11,11 @@
 
 (require :gtrail)
 (in-package :rubbish)
-(check-mujun-controller "kqc/mujun/mj101.kqc")
+(cannon-mujun-controller "kqc/mujun/mj102-a.kqc")
+
+(require :gtrail)
+(in-package :rubbish)
+(inner-mujun-controller "kqc/mujun/mj102-a.kqc")
 
 3) 直接実行する
 
