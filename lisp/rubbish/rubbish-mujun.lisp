@@ -104,7 +104,7 @@
   )
 )
 
-(defun cannon-mujun-controller (kqc)
+(defun cannon-mujun-finder (kqc)
   (let (pairs isos gid g contras)
     (readekqc kqc)
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
@@ -129,8 +129,8 @@
     )
   )
 )
-;;; inner-mujun-controller
-(defun inner-mujun-controller (kqc)
+;;; inner-mujun
+(defun inner-mujun-finder (kqc)
   (let (pairs isos gid g contras)
     (readekqc kqc)
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
