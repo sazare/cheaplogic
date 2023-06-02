@@ -11,13 +11,24 @@
 
 (require :gtrail)
 (in-package :rubbish)
-(cannon-mujun-controller "kqc/mujun/mj102-a.kqc")
+(inner-mujun-finder "kqc/mujun/mj102-a.kqc")
+(inner-mujun-finder "kqc/mujun/mj102-a.kqc" t)
 
 (require :gtrail)
 (in-package :rubbish)
-(inner-mujun-controller "kqc/mujun/mj102-a.kqc")
+(inner-mujun-finder "kqc/mujun/mj102-a.kqc")
+(inner-mujun-finder "kqc/mujun/mj102-a.kqc" t)
 
 3) 直接実行する
+
+cannon fast time consumed = 0.175704 secs
+cannon slow time consumed = 0.180577 secs
+inner fast time consumed = 0.197941 secs
+inner slow time consumed = 0.227374 secs
+
+* innerではclaueの数だけcheck-mujunを繰り返すが
+cannonは述語記号の数だけなので速い。
+cannonは間違っているのでこの比較には意味がない!
 
 
 

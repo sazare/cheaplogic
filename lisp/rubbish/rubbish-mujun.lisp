@@ -104,15 +104,23 @@
   )
 )
 
-(defun cannon-mujun-finder (kqc)
-  (let (pairs isos gid g contras)
-    (readekqc kqc)
-    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
+(defun cannon-mujun-finder (kqc &optional (faster nil))
+  (let (pairs isos gid g contras 
+         (time-start (get-internal-run-time)))
 
     (create-flog "mujun-output/mujun.log")
     (create-flog "mujun-output/result.log")
 
-    (flog "mujun-output/mujun.log" "cannon-mujun run~%")
+    (flog "mujun-output/mujun.log" " start: ~a~%" (local-time:now))
+
+    (readekqc kqc)
+    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
+
+    (if faster
+      (flog "mujun-output/mujun.log" "cannon-mujun faster run~%")
+      (flog "mujun-output/mujun.log" "cannon-mujun run~%")
+    )
+
     (unless pairs (flog "mujun-output/mujun.log" "consistent because all lsyms are orphans~%"))
     (when isos (flog "mujun-output/mujun.log" "these are orphans: ~a~%" isos))
 
@@ -122,23 +130,35 @@
         (setq gid (canonical-clause lid))
         (setq g (rawclause0 gid))
         ; do check-mujun g kqc
-        (when (check-mujun-on g kqc ) (push g contras))
+        (when (check-mujun-on g kqc faster) (push g contras))
        finally
         (return contras)
       )
     )
+    (flog "mujun-output/mujun.log" " end: ~a~%" (local-time:now))
+    (flog "mujun-output/mujun.log" " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
   )
 )
+
 ;;; inner-mujun
-(defun inner-mujun-finder (kqc)
-  (let (pairs isos gid g contras)
-    (readekqc kqc)
-    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
+(defun inner-mujun-finder (kqc &optional (faster nil))
+  (let (pairs isos gid g contras
+         (time-start (get-internal-run-time)))
 
     (create-flog "mujun-output/mujun.log")
     (create-flog "mujun-output/result.log")
 
-    (flog "mujun-output/mujun.log" "inner-mujun run~%")
+    (flog "mujun-output/mujun.log" " start: ~a~%" (local-time:now))
+
+    (readekqc kqc)
+    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
+
+    (format t "start: ~a" time-start)
+
+    (if faster
+      (flog "mujun-output/mujun.log" "inner-mujun faster run~%")
+      (flog "mujun-output/mujun.log" "inner-mujun run~%")
+    )
     (unless pairs (flog "mujun-output/mujun.log" "consistent because all lsyms are orphans~%"))
     (when isos (flog "mujun-output/mujun.log" "these are orphans: ~a~%" isos))
 
@@ -146,19 +166,26 @@
       (loop for lid in *clist* do
         (setq g (rawclause0 lid))
         ; do check-mujun g kqc
-        (when (check-mujun-on g kqc ) (push g contras))
+        (when (check-mujun-on g kqc faster) (push g contras))
        finally
         (return contras)
       )
     )
+    (flog "mujun-output/mujun.log" " end: ~a~%" (local-time:now))
+    (flog "mujun-output/mujun.log" " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
   )
 )
+
 ;;
-(defun check-mujun-on (g kqc )
+(defun check-mujun-on (g kqc &optional (faster nil))
   (prog (cmd)
     (format t "check-mujun-on g=~a kqc=~a ~%" g kqc )
-    (setq cmd (with-output-to-string (out) 
+    (if faster  
+      (setq cmd (with-output-to-string (out) 
+               (format out "sbcl --control-stack-size 128MB --core run-gtrail --eval '(rubbish:mujun-prover)' '~a' '~a'" g kqc )))
+      (setq cmd (with-output-to-string (out) 
                 (format out "sbcl --control-stack-size 128MB --sysinit rubbish-mujun-init.lisp --eval '(rubbish:mujun-prover)' '~a' '~a'" g kqc )))
+    )
     (format t "cmd = ~a~%" cmd)
     (uiop:run-program cmd  :force-output t)
     (return t)
