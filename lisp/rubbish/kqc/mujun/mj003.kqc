@@ -1,5 +1,4 @@
 ; inconsistent. order of literals are different from previouses
-
 (1 () (+ R b) (+ P a))
 (2 () (- R b) (+ P a))
 (3 () (- P a) (+ S c))

@@ -1,5 +1,4 @@
 ;; inconsist
-
 ((y) (+ P y))
 ((x) (- P x))
 

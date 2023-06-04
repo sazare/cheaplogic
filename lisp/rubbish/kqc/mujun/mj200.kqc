@@ -1,5 +1,4 @@
 ; consist with all orphans
-
 (1 (x) (+ P x))
 (2 (x) (+ R x))
 (3 (x) (+ S x))

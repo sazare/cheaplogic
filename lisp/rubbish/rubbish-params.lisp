@@ -4,13 +4,20 @@
 
 ; process control
 (defparameter *enable-semantics* nil)     ;; use reduce-by-semantix
-(defparameter *enable-reduce-syntax* t) ;; don't use reduce-by-syntax
+;(defparameter *enable-reduce-syntax* t) ;; don't use reduce-by-syntax
+(defparameter *enable-reduce-syntax* nil) ;; don't use reduce-by-syntax
 
+;(defparameter *max-clauses* 1000)
+(defparameter *max-clauses* 5000)
+(defparameter *max-contradictions* 30)
+(defparameter *max-trials* 10000) 
+(defparameter *max-steps* 100)
+(defparameter *timeout-sec* 10)
+
+;; local vars
 ; variables for statistics
-
 (defparameter *num-of-input-literals* 0)   ;
 (defparameter *trials-count* 0)           ; how many unifications do?
-
 ; it seems too time consuming, i calculate it from *clist*. so, the below variable is not used.
 (defparameter *num-of-proof-steps* 0)      ; how long proof is?
 
@@ -19,14 +26,6 @@
 (defparameter *input-clauses* ())          ; as the *clist* immediately after read kqc file
 (defparameter *input-literals* ())         ; all literals of input clauses
 (defparameter *num-of-resolvents* 0)       ; # of resolvents = (*clist* - input-clause)
-
-(defparameter *max-clauses* 1000)
-;(defparameter *max-clauses* 5000)
-(defparameter *max-contradictions* 30)
-(defparameter *max-trials* 300)  ;; for 1GB
-(defparameter *max-steps* 100)
-(defparameter *timeout-sec* 10)
-
 (defparameter *max-cid* 0)
 (defparameter *when-born* 0)
 

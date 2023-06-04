@@ -14,22 +14,22 @@
 
 
 ;; this method is simple and not perfect.
-(defun check-mujun1 (g)
-  (car (pure-prover-gtrail (list g)) )
-)
-
-(defun check-mujunn (axioms)
-  (loop for g in axioms collect
-    (car (pure-prover-gtrail (list g)) )
-  )
-)
-
-(defun check-mujun (axioms)
-  (loop for g in axioms append
-    (car (pure-prover-gtrail (list g)) )
-  )
-)
-
+;(defun check-mujun1 (g)
+;  (car (pure-prover-gtrail (list g)) )
+;)
+;
+;(defun check-mujunn (axioms)
+;  (loop for g in axioms collect
+;    (car (pure-prover-gtrail (list g)) )
+;  )
+;)
+;
+;(defun check-mujun (axioms)
+;  (loop for g in axioms append
+;    (car (pure-prover-gtrail (list g)) )
+;  )
+;)
+;
 ;; 
 ;; pc is a pcode, cinpc make cid of pcode's lid
 (defun cinpc (pc)
@@ -40,14 +40,14 @@
 ;;; this finds effectively minimal inconsistent subset of *clist* 
 
 ;; when cids make []s, make pcode of [], find cid of pcode'lid.
-(defun mujun-set (cids)
-  "mujun-set return set list and their contradictions"
-  (let (cs ups)
-    (setq cs (check-mujun cids)) 
-    (setq ups (uniq-pcodes cs))
-    (values (loop for pc in ups collect (cinpc pc)) cs)
-  )
-)
+;(defun mujun-set (cids)
+;  "mujun-set return set list and their contradictions"
+;  (let (cs ups)
+;    (setq cs (check-mujun cids)) 
+;    (setq ups (uniq-pcodes cs))
+;    (values (loop for pc in ups collect (cinpc pc)) cs)
+;  )
+;)
 
 ;; select a clause for 
 ;;; this is an implementation of an situation.
@@ -110,48 +110,50 @@
   )
 )
 
-(defun cannon-mujun-finder (kqc &optional (faster nil))
-  (let (pairs isos gid g contras time-start)
-
-    (create-flog +MUJUNLOG+)
-    (create-flog +RESULTLOG+)
-
-    (flog +MUJUNLOG+ " start: ~a~%" (local-time:now))
-
-    (readekqc kqc)
-
-    (setq time-start (get-internal-run-time))
-
-    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
-
-    (if faster
-      (flog +MUJUNLOG+ "cannon-mujun faster run~%")
-      (flog +MUJUNLOG+ "cannon-mujun run~%")
-    )
-
-    (inner-mujun-finder "kqc/mujun/mj102-a.kqc" t)
-    (unless pairs (flog +MUJUNLOG+ "consistent because all lsyms are orphans~%"))
-    (when isos (flog +MUJUNLOG+ "these are orphans: ~a~%" isos))
-
-    (let (lid) 
-      (loop for lsym in pairs do
-        (setq lid (car (eval lsym)))
-        (setq gid (canonical-clause lid))
-        (setq g (rawclause0 gid))
-        ; do check-mujun g kqc
-        (when (check-mujun-on g kqc faster) (push g contras))
-       finally
-        (return contras)
-      )
-    )
-    (flog +MUJUNLOG+ " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
-    (flog +MUJUNLOG+ " end: ~a~%" (local-time:now))
-  )
-)
+;(defun cannon-mujun-finder (kqc &optional (faster nil))
+;  (let (pairs isos gid g contras time-start)
+;
+;    (create-flog +MUJUNLOG+)
+;    (create-flog +RESULTLOG+)
+;
+;    (flog +MUJUNLOG+ " start: ~a~%" (local-time:now))
+;
+;    (readekqc kqc)
+;
+;    (setq time-start (get-internal-run-time))
+;
+;    (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
+;
+;    (if faster
+;      (flog +MUJUNLOG+ "cannon-mujun faster run~%")
+;      (flog +MUJUNLOG+ "cannon-mujun run~%")
+;    )
+;
+;    (inner-mujun-finder "kqc/mujun/mj102-a.kqc" t)
+;    (unless pairs (flog +MUJUNLOG+ "consistent because all lsyms are orphans~%"))
+;    (when isos (flog +MUJUNLOG+ "these are orphans: ~a~%" isos))
+;
+;    (let (lid) 
+;      (loop for lsym in pairs do
+;        (setq lid (car (eval lsym)))
+;        (setq gid (canonical-clause lid))
+;        (setq g (rawclause0 gid))
+;        ; do check-mujun g kqc
+;        (when (check-mujun-on g kqc faster) (push g contras))
+;       finally
+;        (return contras)
+;      )
+;    )
+;    (flog +MUJUNLOG+ " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
+;    (flog +MUJUNLOG+ " end: ~a~%" (local-time:now))
+;  )
+;)
 
 ;;; inner-mujun
 (defun inner-mujun-finder (kqc &optional (faster nil))
   (let (pairs isos gid g contras time-start)
+
+;    (load #p"mujun.conf")
 
     (create-flog +MUJUNLOG+)
     (create-flog +RESULTLOG+)
@@ -216,6 +218,10 @@
 
 (defun mujun-prover-inside (g kqc )
   (let (gids sg cv)
+
+; 0. setup parameter for mujun-finder
+;    (load #p"mujun.conf")
+
 ; 1. get parameter(g, kqc ) in mujun-prover
 
    (setq sg (list (cons 0 (readastring g))))

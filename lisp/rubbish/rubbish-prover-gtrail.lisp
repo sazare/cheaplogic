@@ -74,8 +74,8 @@
     (loop for oppo in oppos  do
       (setq res (resolve-id target oppo))
 
-      (flog t "trials-count=~a~%" *trials-count*)
-      (flog t "(length *clist*)=~a~%" (length *clist*))
+;      (flog t "trials-count=~a~%" *trials-count*)
+;      (flog t "(length *clist*)=~a~%" (length *clist*))
 
       (when (not (eq :FAIL res))
         (push res newgoals)
@@ -225,7 +225,6 @@
          cs
          ts
          )
-
 
     (loop named prover-loop 
        while goallist do

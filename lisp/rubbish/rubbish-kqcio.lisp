@@ -46,7 +46,7 @@
    append 
      (cond 
        ((equal 'readefile (car exp)) (eval exp))
-       ((equal 'eval (car exp)) (eval exp) ())
+       ((equal 'eval (car exp)) (eval (cadr exp))() )
        (t (list exp))
      ) 
  )
