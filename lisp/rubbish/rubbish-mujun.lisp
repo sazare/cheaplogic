@@ -4,10 +4,16 @@
 
 ;; for analyze and manipulate mujun 
 
+;; logfilename
+
+(defconstant +MUJUNLOG+ #p"mujun-output/mujun.log")
+(defconstant +RESULTLOG+ #p"mujun-output/result.log")
+
+
 ;; pure-prover-gtrail1 is in rubbish-prover-gtrail.lisp
 
 
-;; this method is simple but not perfect.
+;; this method is simple and not perfect.
 (defun check-mujun1 (g)
   (car (pure-prover-gtrail (list g)) )
 )
@@ -61,7 +67,7 @@
 ;;
 ; ∀p ∈ Pred(Σ)について、 Π(Σ, +p)⊢□または Π(Σ, -p)⊢□ができたらΣに□が含まれると考える場合
 ;; 1. +pか-pのどちらかでよいと思う。□ができるということは、opposのunitの証明もできるということだから
-;;;; ほんとか??
+;;;; ほんとか?? NOT TRUE 6/1
 ;; 2. (make-psymlist *llist*) => list of pred
 ;;;
 
@@ -105,24 +111,27 @@
 )
 
 (defun cannon-mujun-finder (kqc &optional (faster nil))
-  (let (pairs isos gid g contras 
-         (time-start (get-internal-run-time)))
+  (let (pairs isos gid g contras time-start)
 
-    (create-flog "mujun-output/mujun.log")
-    (create-flog "mujun-output/result.log")
+    (create-flog +MUJUNLOG+)
+    (create-flog +RESULTLOG+)
 
-    (flog "mujun-output/mujun.log" " start: ~a~%" (local-time:now))
+    (flog +MUJUNLOG+ " start: ~a~%" (local-time:now))
 
     (readekqc kqc)
+
+    (setq time-start (get-internal-run-time))
+
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
 
     (if faster
-      (flog "mujun-output/mujun.log" "cannon-mujun faster run~%")
-      (flog "mujun-output/mujun.log" "cannon-mujun run~%")
+      (flog +MUJUNLOG+ "cannon-mujun faster run~%")
+      (flog +MUJUNLOG+ "cannon-mujun run~%")
     )
 
-    (unless pairs (flog "mujun-output/mujun.log" "consistent because all lsyms are orphans~%"))
-    (when isos (flog "mujun-output/mujun.log" "these are orphans: ~a~%" isos))
+    (inner-mujun-finder "kqc/mujun/mj102-a.kqc" t)
+    (unless pairs (flog +MUJUNLOG+ "consistent because all lsyms are orphans~%"))
+    (when isos (flog +MUJUNLOG+ "these are orphans: ~a~%" isos))
 
     (let (lid) 
       (loop for lsym in pairs do
@@ -135,32 +144,42 @@
         (return contras)
       )
     )
-    (flog "mujun-output/mujun.log" " end: ~a~%" (local-time:now))
-    (flog "mujun-output/mujun.log" " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
+    (flog +MUJUNLOG+ " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
+    (flog +MUJUNLOG+ " end: ~a~%" (local-time:now))
   )
 )
 
 ;;; inner-mujun
 (defun inner-mujun-finder (kqc &optional (faster nil))
-  (let (pairs isos gid g contras
-         (time-start (get-internal-run-time)))
+  (let (pairs isos gid g contras time-start)
 
-    (create-flog "mujun-output/mujun.log")
-    (create-flog "mujun-output/result.log")
+    (create-flog +MUJUNLOG+)
+    (create-flog +RESULTLOG+)
 
-    (flog "mujun-output/mujun.log" " start: ~a~%" (local-time:now))
+    (flog +MUJUNLOG+ " start: ~a~%" (local-time:now))
 
     (readekqc kqc)
+
+    (setq time-start (get-internal-run-time))
+
+    (with-open-file (out +MUJUNLOG+
+                         :direction :output
+                         :if-exists :append)
+       (format out "kqc file = ~a~%" kqc)
+       (print-clauses *clist* out)
+       (terpri out)
+    )
+
     (multiple-value-setq (pairs isos) (pair-or-iso *lsymlist*))
 
-    (format t "start: ~a" time-start)
+    (format t "start : ~a" time-start)
 
     (if faster
-      (flog "mujun-output/mujun.log" "inner-mujun faster run~%")
-      (flog "mujun-output/mujun.log" "inner-mujun run~%")
+      (flog +MUJUNLOG+ "inner-mujun faster run~%")
+      (flog +MUJUNLOG+ "inner-mujun run~%")
     )
-    (unless pairs (flog "mujun-output/mujun.log" "consistent because all lsyms are orphans~%"))
-    (when isos (flog "mujun-output/mujun.log" "these are orphans: ~a~%" isos))
+    (unless pairs (flog +MUJUNLOG+ "consistent because all lsyms are orphans~%"))
+    (when isos (flog +MUJUNLOG+ "these are orphans: ~a~%" isos))
 
     (let (lid) 
       (loop for lid in *clist* do
@@ -171,8 +190,8 @@
         (return contras)
       )
     )
-    (flog "mujun-output/mujun.log" " end: ~a~%" (local-time:now))
-    (flog "mujun-output/mujun.log" " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
+    (flog +MUJUNLOG+ " end: ~a~%" (local-time:now))
+    (flog +MUJUNLOG+ " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
   )
 )
 
@@ -200,31 +219,33 @@
 ; 1. get parameter(g, kqc ) in mujun-prover
 
    (setq sg (list (cons 0 (readastring g))))
+   (flog +MUJUNLOG+ "rubbish-mujun-prover-inside param sg=~a, kqc=~a~%" sg kqc)
 
-   (flog "mujun-output/mujun.log" "rubbish-mujun-prover-inside param sg=~a, kqc=~a~%" sg kqc)
-
-; 2.  (readkqc kqc)
+; 2.  readkqc 
      (readkqc kqc)
 
 ; 3. (factisf g)
+
     (setq gids (factisf sg))
 
-;     (flog "mujun-output/mujun.log" "rawclause gid=~a clist=~a~%" (rawclause (car gids)) *clist*)
-;     (flog "mujun-output/mujun.log" "~a~%" (with-output-to-string (out) (print-clauses *clist* out)))
+;     (flog +MUJUNLOG+ "rawclause gid=~a clist=~a~%" (rawclause (car gids)) *clist*)
+;     (flog +MUJUNLOG+ "~a~%" (with-output-to-string (out) (print-clauses *clist* out)))
 
 ; 4. (prover-gtrail (list g))
 
+     (flog +MUJUNLOG+ "before prover gids=~a~%" (rawclause (car gids)))
+
     (setq cv (prover-gtrail gids))
 
-;     (flog "mujun-output/mujun.log" "after prover gids=~a lscova= ~a ~a~%" gids (lscova) cv)
+     (flog +MUJUNLOG+ "after prover gids=~a lscova= ~a ~a~%" gids (lscova) cv)
 
 ; 5. when mujun exists, then report it
     (let ((contras (car (lscova))))
       (if contras
         (loop for c in contras do 
-          (flog "mujun-output/result.log" "contradictions(inside): ~a, p2c=~a, pc=~a~%" (rawclause (car gids)) (p2code c) (pcode c))
+          (flog +RESULTLOG+ "contradictions(inside): gc=~a, p2c=~a, pc=~a~%" (rawclause (car gids)) (p2code c) (pcode c))
         )
-        (flog "mujun-output/result.log" "no contradictions(inside): ~a, ~a ~%" (rawclause (car gids)) contras)
+        (flog +RESULTLOG+  "no contradictions(inside): gc=~a, ~a ~%" (rawclause (car gids)) contras)
       )
     )
   )

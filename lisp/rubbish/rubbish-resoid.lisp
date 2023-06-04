@@ -60,7 +60,7 @@
          (a2 (latomicof lid2)) 
          (sig (funification vs a1 a2)))
 ;; 
-   (incf *num-of-trials*)
+   (incf *trials-count*)
 ;; logging
    (rubbish-log lid1 lid2 vs sig)
 ;; here: vs.sig is a mgu or sig==:NO

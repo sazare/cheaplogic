@@ -13,11 +13,19 @@
 )
 
 (defun flog (logfile format &rest args)
-    (with-open-file (out logfile
+  (cond
+    ((eq logfile t)
+     (format t "~a " (local-time:now))
+     (apply #'format t format args)
+    )
+    (t  
+      (with-open-file (out logfile
                          :direction :output
                          :if-exists :append)
-     (format out "~a " (local-time:now))
-     (apply #'format out format args)
+       (format out "~a " (local-time:now))
+       (apply #'format out format args)
+      )
     )
+  )
 )
 

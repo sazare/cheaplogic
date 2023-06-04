@@ -3,6 +3,12 @@
 
 (in-package :rubbish)
 
+;; counter for control
+
+(defparameter *trials-count* 0)
+
+;;
+
 ;(load "load-rubbish.lisp")
 ;(readkqc "kqc/file/path")
 ;(make-lsymlist *llist*)
@@ -67,6 +73,10 @@
     )
     (loop for oppo in oppos  do
       (setq res (resolve-id target oppo))
+
+      (flog t "trials-count=~a~%" *trials-count*)
+      (flog t "(length *clist*)=~a~%" (length *clist*))
+
       (when (not (eq :FAIL res))
         (push res newgoals)
         (setq rres (step-reduce-syntax res))
@@ -141,12 +151,10 @@
     (format out "*max-contradictions*    = ~a~%" *max-contradictions*)
     (format out "*max-steps*    = ~a~%" *max-steps*)
     (format out "*max-trials*    = ~a~%" *max-trials*)
-    (format out "*num-of-contradictions*    = ~a~%" *num-of-contradictions*)
     (format out "*num-of-input-literals*    = ~a~%" *num-of-input-literals*)
     (format out "*num-of-literals*    = ~a~%" *num-of-literals*)
     (format out "*num-of-proof-steps*    = ~a~%" *num-of-proof-steps*)
     (format out "*num-of-resolvents*    = ~a~%" *num-of-resolvents*)
-    (format out "*num-of-trials*    = ~a~%" *num-of-trials*)
     (format out "*pcodelist*    = ~a~%" *pcodelist*)
     (format out "*peval-active*    = ~a~%" *peval-active*)
   ;  (format out "*rubbish-log*    = ~a~%" *rubbish-log*)
@@ -170,11 +178,11 @@
 (defun summary0 (out)
   (let (others contras valids)
     (multiple-value-setq (others contras valids) (gathercontra *clist*) )
-    (format out  "~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#max refute steps = ~a~%"
+    (format out  "~%#clauses = ~a~%#contras = ~a~%#valids = ~a~%#trials = ~a~%#refute steps = ~a~%"
       (length *clist*)
       (length contras)
       (length valids)
-      *num-of-trials*
+      *trials-count*
       (loop with s = 0 for cid in (car (lscova)) collect 
        (setq s (max s (depth-cid cid))) finally (return s)
       )
@@ -198,7 +206,7 @@
       (length *clist*)
       (length contras)
       (length valids)
-      *num-of-trials*
+      *trials-count*
       (loop with s = 0 for cid in (car (lscova)) collect 
        (setq s (max s (depth-cid cid))) finally (return s)
       )
@@ -208,10 +216,8 @@
 
 (defun pure-prover-gtrail (goals)
   (prog (
-         (contradictions nil) 
          (valids nil)
          (proof-steps 0)
-         (trials-count 0)
          (goallist goals)
          goal 
          newgoal
@@ -229,7 +235,7 @@
 
 
          (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
-         (setq contradictions (append cs contradictions))
+         (setq *contradictions* (append cs *contradictions*))
 
 
          (setq valids (append ts valids))
@@ -241,30 +247,29 @@
  
          (cond
            ((> (length *clist*) *max-clauses*) 
-            (return-from prover-loop (list contradictions valids)))
-           ((> (length contradictions) *max-contradictions*)
-            (return-from prover-loop (list contradictions valids)))
-           ((> trials-count *max-trials*)  
-            (return-from prover-loop (list contradictions valids)))
+            (return-from prover-loop (list *contradictions* valids)))
+           ((> (length *contradictions*) *max-contradictions*)
+            (return-from prover-loop (list *contradictions* valids)))
+           ((> *trials-count* *max-trials*)  
+            (return-from prover-loop (list *contradictions* valids)))
            ((> proof-steps *max-steps*)  
-            (return-from prover-loop (list contradictions valids)))
+            (return-from prover-loop (list *contradictions* valids)))
            ((eval (when-finish-p)  )
-            (return-from prover-loop (list contradictions valids)))
+            (return-from prover-loop (list *contradictions* valids)))
          )
       finally
-        (return (list contradictions valids))
+        (return (list *contradictions* valids))
     )
   )
 )
 
 
+
 ;; template prover control for gtrail
 (defun prover-gtrail (goals)
   (prog (
-         (contradictions nil) 
          (valids nil)
          (proof-steps 0)
-         (trials-count 0)
          (time-start (get-internal-run-time))
          (goallist goals)
          goal 
@@ -285,7 +290,7 @@
          (setq  newgoal  (step-solver goal))
   
          (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
-         (setq contradictions (append cs contradictions))
+         (setq *contradictions* (append cs *contradictions*))
 
          (setq valids (append ts valids))
          (setq goallist (append goallist newgoals))
@@ -296,22 +301,22 @@
  
          (cond
            ((> (length *clist*) *max-clauses*) 
-            (return-from prover-loop (quit-contra "number of clauses exceeds" time-start contradictions valids)))
-           ((> (length contradictions) *max-contradictions*)
-            (return-from prover-loop (quit-contra "number of contradictions exceeds" time-start contradictions valids)))
-           ((> trials-count *max-trials*)  
-            (return-from prover-loop (quit-contra "number of trials exceeds" time-start contradictions valids)))
+            (return-from prover-loop (quit-contra "number of clauses exceeds" time-start *contradictions* valids)))
+           ((> (length *contradictions*) *max-contradictions*)
+            (return-from prover-loop (quit-contra "number of contradictions exceeds" time-start *contradictions* valids)))
+           ((> *trials-count* *max-trials*)  
+            (return-from prover-loop (quit-contra "number of trials exceeds" time-start *contradictions* valids)))
            ((> proof-steps *max-steps*)  
-            (return-from prover-loop (quit-contra "number of steps exceeds" time-start contradictions valids)))
+            (return-from prover-loop (quit-contra "number of steps exceeds" time-start *contradictions* valids)))
            ((> (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) *timeout-sec*)
-            (return-from prover-loop (quit-contra "run time exceeds" time-start contradictions valids)))
+            (return-from prover-loop (quit-contra "run time exceeds" time-start *contradictions* valids)))
            ((eval (when-finish-p)  )
-            (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start contradictions valids)))
+            (return-from prover-loop (quit-contra "when-finish-p decide to finish" time-start *contradictions* valids)))
          )
       finally
         (format t "~%end-time: ~a~%~%" (local-time:now))
         (format t "finished. goallist is empty~%")
-        (format t "contradictions=~a~%" contradictions)
+        (format t "contradictions=~a~%" *contradictions*)
         (format t "valids =~a~%" valids)
         (summary time-start) 
     )
@@ -320,7 +325,7 @@
 
 ;; macro interface
 
-(defmacro pg (goals)
+(defmacro pgt (goals)
   `(prover-gtrail (quote ,goals))
 )
 
@@ -423,7 +428,7 @@
 
   ;below parameters
   (setf *goallist* nil)
-  (setf *num-of-trials* 0)
+  (setf *trials-count* 0)
   (setf *maxcid* 0)
 )
 

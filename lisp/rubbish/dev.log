@@ -1,3 +1,52 @@
+2023/06/04日
+・停止条件の処理がおかしかった
+ - *num-of-trials*が参照されていなかったり、したので
+　tirals-countを*trials-count*にかえて数えるようにかえた
+   resolve-idのあと。trialsは失敗してもカウントするのでこれでよい
+trialsはresolve-idで、失敗した回数も含む。
+clauseの数は、成功したresolve-idの数(input clausesも含む)になる。
+
+- contradictionsを*contradictions*にした。contraditionsの数はこれをもとに計算するようにした
+　gather-contradictionsでcontrasを計算しているので二重にcontradictionsを求めている
+    違っていたら問題なので一方にしたい。gathercontraは
+
+昨日から出ているdefconstantのえらー
+--------------------
+ASDF could not load gtrail because The constant +RESULTLOG+ is being redefined (from "mujun-output/result.log" to "mujun-output/result.log")
+See also:
+  The ANSI Standard, Macro DEFCONSTANT
+  The SBCL Manual, Node "Idiosyncrasies".
+
+debugger invoked on a SB-EXT:DEFCONSTANT-UNEQL in thread
+#<THREAD "main thread" RUNNING {70086C03A3}>:
+  The constant +RESULTLOG+ is being redefined (from "mujun-output/result.log"
+  to "mujun-output/result.log")
+See also:
+  The ANSI Standard, Macro DEFCONSTANT
+  The SBCL Manual, Node "Idiosyncrasies"
+--------------------
+#p",,"にして解決した。同じ文字列でも違うオブジェクトになる。
+
+
+2023/06/03土
+・つまり、一般にΣが無矛盾だということは証明できない。特別、有限の場合はできる。
+だから、「Σが無矛盾である」というのは断定できない。
+
+そこで、Σ=∅からはじめて、ひとつひとつclauseを追加していくことを考える。
+
+世界についてのfactは、無変数と考えられて、それを無矛盾を維持して追加していくことはできる。
+
+・ファイルパスをdefparamerで名前をつけた
+
+   mujun-output/mujun.log => +MUJUNLOG+
+　mujun-output/result.log => +RESULTLOG+
+
+ recipe をみると、defconstantには+をつけるらしい
+defconstantにすると、asdfが再定義しているという。
+(require :gtrail)で一度このエラーがでるが、もう一度(require ...)をすると出なくなる
+こわいのでdefparameterにかえた。変数名は定数の気持ちを表すため
+
+
 2023/06/02金
 ・昨日の段階で、canonicalによるmujun checkerは矛盾をみつけすぎであり、
 その原因はcanonial clauseが一般的すぎてΣにない矛盾までみつけてしまうからだった
@@ -44,7 +93,6 @@ imageを使ったcontrollerのほうの動作も確認した。
 
 とりあえず、関数の外側にこのコメント行を残した。
 もっとよい方法を考えよう
-
 ということで、(xxx-mujun-finder kqc &optional (faster nil))とした
 開始・終了時刻と経過時間をmujun.logに出力するようにした。
 確かにすこしだけ速くなる。
@@ -56,6 +104,9 @@ innerとcannonの比較ではcannonが速いが、そもそもcannonは間違っ
 ★★★ ソースを修正したら必ず、make-gtrail-image.shの実行をすることにしよう。
 　run-gtrailを使わないバージョンでも、問題ない。
 　　　　忘れないようにするためにスクリプトを作ったのだし。
+
+忘れずにやるようにするのは難しいかな。
+
 
 ・矛盾がどのような場合に発生するか考える
 

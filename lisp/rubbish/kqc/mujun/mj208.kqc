@@ -1,0 +1,4 @@
+; like a factorial
+
+(1 () (+ P 1 1))
+(2 (x y) (- P x y)(+ P (a x) (times (a x)  y)))

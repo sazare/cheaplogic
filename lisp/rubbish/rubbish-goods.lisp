@@ -7,7 +7,7 @@
   (print-clauses)
 )
 
-(defmacro pc (&rest cs)
+(defmacro pcs (&rest cs)
   `(print-clauses ',(or cs *clist*))
 )
 

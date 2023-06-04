@@ -4,10 +4,9 @@
 
 (defun reset-stat ()
   (setq *num-of-input-literals* 0)   
-  (setq *num-of-trials* 0)
+  (setq *trials-count* 0)
   (setq *num-of-proof-steps* 0)
-
-  (setq *num-of-contradictions* 0)
+  
   (setq *num-of-literals* 0)
   (setq *input-clauses* ())
   (setq *input-literals* ())
