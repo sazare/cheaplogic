@@ -1,3 +1,47 @@
+2023/06/05月
+・inner-mujun-finderの子プロセスで、パラメータを変えたいのでmujun.confをloadするようにしたin {pure-}prover-gtrail
+・普通のproverとmujun-finderで違うので、切り替えられるようにしたいが、同じmujun.confなので気をつける必要がある。
+
+
+・cannon-*と古いcheck-mujunやmujun-setをコメントアウトした。間違っているから。
+　でもまだ消せない
+
+・reqdekqc で、eval x とかくと(eval x)するようにした。
+　しかし、mj001.kqcに(eval (setq *enable-reduce-syntax* t)とかくと
+----
+RUBBISH(3): (inner-mujun-finder  #p"kqc/mujun/mj001.kqc")
+kqc reading: kqc/mujun/mj001.kqc
+....
+start : 293023check-mujun-on g=(NIL (- P A) (- S C)) kqc=kqc/mujun/mj001.kqc
+cmd = sbcl --control-stack-size 128MB --sysinit rubbish-mujun-init.lisp --eval '(rubbish:mujun-prover)' '(NIL (- P A) (- S C))' 'kqc/mujun/mj001.kqc'
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [CONTINUE] Ignore runtime option --eval "(rubbish:mujun-prover)".
+  1: [ABORT   ] Skip rest of --eval and --load options.
+  2:            Skip to toplevel READ/EVAL/PRINT loop.
+  3: [EXIT    ] Exit SBCL (calling #'EXIT, killing the process).
+
+(RUBBISH::ADD-CID EVAL)
+   source: (MAX *MAXCID* N)
+0]
+-----
+というようなエラーになる。
+色々調べたがよくわからないので、mujun.confで切り替えるようにした。
+このエラーを見る限り(eval ...)をclauseと思って変換しているようだが・・・
+(readekqc ...)
+単体では問題がおきない。
+よくわからない。readkqcを読んでいるか。それだった。
+
+*enable-reduce-syntax*をkqcによって切り替えたいか?とは思う。
+いまは、これをtでいろいろ動かしてみたいのでparams.lispでtにしておき
+kqcでは指定しない。mj001.kqcだけ残す
+
+以上から
+mujun.confの設定はprover-gtrailで読み込む。有効になる。
+
+
 2023/06/04日
 ・停止条件の処理がおかしかった
  - *num-of-trials*が参照されていなかったり、したので

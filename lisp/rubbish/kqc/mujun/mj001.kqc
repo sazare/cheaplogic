@@ -1,5 +1,5 @@
 ; inconsistent, need reduction-syntax, but can't find by goal-prover(infinite proving)
-;(eval (setq *enable-reduce-syntax* t))
+(eval (setq rubbish:*enable-reduce-syntax* t))
 (1 () (+ P a) (+ R b))
 (2 () (+ P a) (- R b))
 (3 () (- P a) (+ S c))

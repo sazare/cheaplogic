@@ -1,7 +1,6 @@
 ; use local-time for summary
 (ql:quickload :local-time)
 
-
 (in-package :cl-user)
 
 (defpackage :rubbish
@@ -40,7 +39,15 @@
     :mujun-prover
     *clist*
 
+    *enable-semantics*
+    *enable-reduce-syntax* 
+
+;   *max-clauses* 
+    *max-clauses*
+    *max-contradictions* 
+    *max-trials* 
+    *max-steps* 
+    *timeout-sec*
     )
  )
-(in-package :rubbish)
 

@@ -45,10 +45,17 @@
  (loop for exp in (readafile fname)
    append 
      (cond 
-       ((equal 'readefile (car exp)) (eval exp))
+       ((equal 'readefile (car exp)) (eval exp)())
        ((equal 'eval (car exp)) (eval (cadr exp))() )
        (t (list exp))
      ) 
+ )
+)
+
+(defun evalfile (fname)
+ (loop for exp in (readafile fname)
+   do
+    (eval exp)
  )
 )
 

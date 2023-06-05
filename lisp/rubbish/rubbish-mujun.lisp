@@ -153,8 +153,6 @@
 (defun inner-mujun-finder (kqc &optional (faster nil))
   (let (pairs isos gid g contras time-start)
 
-;    (load #p"mujun.conf")
-
     (create-flog +MUJUNLOG+)
     (create-flog +RESULTLOG+)
 
@@ -219,16 +217,13 @@
 (defun mujun-prover-inside (g kqc )
   (let (gids sg cv)
 
-; 0. setup parameter for mujun-finder
-;    (load #p"mujun.conf")
-
 ; 1. get parameter(g, kqc ) in mujun-prover
 
    (setq sg (list (cons 0 (readastring g))))
    (flog +MUJUNLOG+ "rubbish-mujun-prover-inside param sg=~a, kqc=~a~%" sg kqc)
 
 ; 2.  readkqc 
-     (readkqc kqc)
+     (readekqc kqc)
 
 ; 3. (factisf g)
 

@@ -226,6 +226,8 @@
          ts
          )
 
+    (load #p"mujun.conf")
+
     (loop named prover-loop 
        while goallist do
          (multiple-value-setq (goal goallist) (select-goal goallist))
@@ -279,6 +281,7 @@
          )
 
 ;; preparation
+    (load #p"mujun.conf")
 
     (show-parameter goals time-start)
 

@@ -2,10 +2,11 @@
 
 (in-package :rubbish)
 
-; process control
+; process control parameters
 (defparameter *enable-semantics* nil)     ;; use reduce-by-semantix
-;(defparameter *enable-reduce-syntax* t) ;; don't use reduce-by-syntax
-(defparameter *enable-reduce-syntax* nil) ;; don't use reduce-by-syntax
+;(defparameter *enable-semantics* t)     ;; use reduce-by-semantix
+(defparameter *enable-reduce-syntax* t) ;; don't use reduce-by-syntax
+;(defparameter *enable-reduce-syntax* nil) ;; don't use reduce-by-syntax
 
 ;(defparameter *max-clauses* 1000)
 (defparameter *max-clauses* 5000)
@@ -14,12 +15,13 @@
 (defparameter *max-steps* 100)
 (defparameter *timeout-sec* 10)
 
+;; internal used variables
 ;; local vars
 ; variables for statistics
 (defparameter *num-of-input-literals* 0)   ;
 (defparameter *trials-count* 0)           ; how many unifications do?
 ; it seems too time consuming, i calculate it from *clist*. so, the below variable is not used.
-(defparameter *num-of-proof-steps* 0)      ; how long proof is?
+(defparameter *num-of-proof-steps* 0)      ; how long proof is? NOT USED YET.
 
 (defparameter *contradictions* ())
 (defparameter *num-of-literals* 0)         ; = (length *llist*)
