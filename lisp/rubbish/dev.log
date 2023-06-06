@@ -9,6 +9,12 @@ comment.kqc
 readekqcで正しく読めた(というかコメントは読み飛ばせた)
 
 
+・runmujun.shのパラメタ違いのときのusage表示追加。
+・mj207.kqcとmj208.kqcのclauseの順を逆にした
+　　head -2 *.kqcのとき、内容がわかりやすくなる。
+・readekqcの終わりの*clist*の順を逆にした。max → 1だったのを書いた順の1→maxにした。
+　他に影響がないかよくわからない
+
 
 2023/06/06火
 ・mujun-finderで、kqcから1つのclauseを選んだ時、それを作り直して実行する必要はないのでは?
