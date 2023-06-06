@@ -1,0 +1,10 @@
+; test for comment
+#|
+this
+is
+comments
+|#
+( ()(+ P a)(+ Q b))
+((x) (+ P x))
+( (x)( - P x )(- R x))
+

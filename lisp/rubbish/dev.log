@@ -1,3 +1,15 @@
+2023/06/07水
+・コメントの書き方で
+#|
+こめんと
+こめんと
+|#
+と書けるのをrecipeで知ったのでkqcでかけるかためしてみた。
+comment.kqc
+readekqcで正しく読めた(というかコメントは読み飛ばせた)
+
+
+
 2023/06/06火
 ・mujun-finderで、kqcから1つのclauseを選んだ時、それを作り直して実行する必要はないのでは?
   check-mujunのときみたいに、cidだけ指定すればいいのでは??
@@ -57,9 +69,11 @@ restarts (invokable by number or by possibly-abbreviated name):
 *enable-reduce-syntax*をkqcによって切り替えたいか?とは思う。
 いまは、これをtでいろいろ動かしてみたいのでparams.lispでtにしておき
 kqcでは指定しない。mj001.kqcだけ残す
+この指定が有効になるようなので、これでもいいのかも。(6/6)
 
 以上から
-mujun.confの設定はprover-gtrailで読み込む。有効になる。
+mujun.confの設定はprover-gtrailで読み込む。有効になることを確認。
+
 
 
 2023/06/04日
