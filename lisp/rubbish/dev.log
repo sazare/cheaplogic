@@ -1,7 +1,27 @@
+2023/06/06火
+・mujun-finderで、kqcから1つのclauseを選んだ時、それを作り直して実行する必要はないのでは?
+  check-mujunのときみたいに、cidだけ指定すればいいのでは??
+
+そのようにしたバージョン
+　(mujun-finder kqc)
+
+　呼ばれる関数は末尾に-nをつけた。
+
+inner-mujun-finderはΣ内のclauseしか指定しないので、cannonみたいに新たにclauseを作る必要がない
+ところ、わざわざ作っていたのでそれをやめたのがmujun-finder
+
+だから、cannonもinnerもコード消して良い
+
+・pred記号が全部orphanのとき無矛盾判定していたコードは残しておいてもいいかも。
+　なので追加した。
+
+・メッセージも見直し、mujun/*.kqcについて動作させ、矛盾が発見できるかみた。
+　パラメタの値が妥当かよくわからない。
+　
+
 2023/06/05月
 ・inner-mujun-finderの子プロセスで、パラメータを変えたいのでmujun.confをloadするようにしたin {pure-}prover-gtrail
 ・普通のproverとmujun-finderで違うので、切り替えられるようにしたいが、同じmujun.confなので気をつける必要がある。
-
 
 ・cannon-*と古いcheck-mujunやmujun-setをコメントアウトした。間違っているから。
 　でもまだ消せない

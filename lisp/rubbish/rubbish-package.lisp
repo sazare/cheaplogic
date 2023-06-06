@@ -36,7 +36,9 @@
     :analyze-p2code
     :reportc
 
+
     :mujun-prover
+    :mujun-prover-n
     *clist*
 
     *enable-semantics*

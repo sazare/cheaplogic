@@ -11,8 +11,8 @@
 
 (require :gtrail)
 (in-package :rubbish)
-(inner-mujun-finder "kqc/mujun/mj102-a.kqc")
-(inner-mujun-finder "kqc/mujun/mj102-a.kqc" t)
+(mujun-finder "kqc/mujun/mj102-a.kqc")
+(mujun-finder "kqc/mujun/mj102-a.kqc" t)
 
 (require :gtrail)
 (in-package :rubbish)
