@@ -5,7 +5,7 @@
 (defparameter *kb* ())
 
 (defun init-kb ()
-  (setq *kb* (reverse *clist*))
+  (setq *kb* *clist*)
 )
 
 

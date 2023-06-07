@@ -417,7 +417,7 @@
   )
 )
 
-(defun exp-clist (&optional (cids (reverse *clist*)))
+(defun exp-clist (&optional (cids *clist*))
   (loop for cid in cids collect 
     (exp-cid cid)
   )

@@ -31,12 +31,15 @@
 
 (defun readkqc (fname)
  (let ((kqc (readafile fname)))
-   (loop for k in kqc 
-     collect (make-clause k)
-   )
-   (setq *kqcfile* fname)
-   (make-lsymlist *llist*)
-   (warn-syntax *llist*)
+   (prog1 
+     (loop for k in kqc 
+       collect (make-clause k)
+     )
+     (setq *clist* (reverse *clist*))
+     (setq *kqcfile* fname)
+     (make-lsymlist *llist*)
+     (warn-syntax *llist*)
+  )
  )
 )
 
@@ -67,6 +70,7 @@
        do (format t ".")
        collect (make-clause k)
      )
+     (setq *clist* (reverse *clist*))
      (format t "~%")
      (setq *kqcfile* fname)
      (make-lsymlist *llist*)
