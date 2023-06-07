@@ -31,6 +31,8 @@
 
 (defun readkqc (fname)
  (let ((kqc (readafile fname)))
+   (format t "kqc reading: ~a~%" fname)
+   (setq *clist* (reverse *clist*))
    (prog1 
      (loop for k in kqc 
        collect (make-clause k)
@@ -65,6 +67,7 @@
 (defun readekqc (fname)
  (let ((kqc (readefile fname)))
    (format t "kqc reading: ~a~%" fname)
+   (setq *clist* (reverse *clist*))
    (prog1 
      (loop for k in kqc 
        do (format t ".")
@@ -88,8 +91,12 @@
 
 (defun readskqc (str)
  (let ((kqc (readastring str)))
-   (loop for k in kqc 
-     collect (make-clause k)
+   (setq *clist* (reverse *clist*))
+   (prog1 
+     (loop for k in kqc 
+       collect (make-clause k)
+     )
+     (setq *clist* (reverse *clist*))
    )
  )
 )

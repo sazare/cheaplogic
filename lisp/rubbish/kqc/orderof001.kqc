@@ -1,0 +1,6 @@
+;; ordering test
+(() (+ P a))
+(() (+ Q a)(- P a)(+ R a))
+(() (- Q a))
+(() (- R a))
+

@@ -17,6 +17,11 @@ readekqcで正しく読めた(というかコメントは読み飛ばせた)
 　exp-clistとinit-kbでreverse *clist* していたので、そのreverseをとった。
 　これらの関数は他で使われていなかったので、影響はないと考える。
 
+****
+　既存のΣの無矛盾性をチェックするのはmujun-finder
+　fact列で、次に加えるfactが矛盾するかどうかを判定するのは、prover-gtarilを直接使えば良い。
+　　Σに含まれないgoalでチェックするinner-mujun-finderも使えそうだが、無駄なproveringをするのでだめ。
+　新しいclauseをreadskqcしたとして
 
 
 2023/06/06火
