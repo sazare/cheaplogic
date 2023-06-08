@@ -1,3 +1,13 @@
+2023/06/08木
+・なぜかml002.kqcが*enable-semantics* をtにしても矛盾がでなくなった。
+
+prover-gtrailを実行する前にtにしても処理が終わるとnilになっている
+show-parameterでnilといっているので、最初のほうでnilになっているらしい
+★ mujun.confで設定していた
+★★ これはわからないので、enable-* は*.kqcで指定することにする。confではしない
+[確認すみ]
+
+
 2023/06/07水
 ・コメントの書き方で
 #|
@@ -17,11 +27,20 @@ readekqcで正しく読めた(というかコメントは読み飛ばせた)
 　exp-clistとinit-kbでreverse *clist* していたので、そのreverseをとった。
 　これらの関数は他で使われていなかったので、影響はないと考える。
 
+* readXkqcを繰り返すと、*clist*の順序がめちゃくちゃになるのを修正。つまり
+1回目 *clist* = (1 2 3 4)
+2回目 *clist* = (4 3 2 1  5 6 7)
+などとなっていた
+
 ****
 　既存のΣの無矛盾性をチェックするのはmujun-finder
 　fact列で、次に加えるfactが矛盾するかどうかを判定するのは、prover-gtarilを直接使えば良い。
 　　Σに含まれないgoalでチェックするinner-mujun-finderも使えそうだが、無駄なproveringをするのでだめ。
-　新しいclauseをreadskqcしたとして
+　新しいclauseをreadskqcしたとして・・・
+
+　... 考え中 ...
+
+
 
 
 2023/06/06火

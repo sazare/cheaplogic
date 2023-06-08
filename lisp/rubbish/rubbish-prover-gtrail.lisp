@@ -48,7 +48,7 @@
 )
 
 
-(defparameter *enable-semantics* nil)
+;(defparameter *enable-semantics* nil)
 ;(defparameter *enable-semantics* t)
 
 (defun findoppos (goal)

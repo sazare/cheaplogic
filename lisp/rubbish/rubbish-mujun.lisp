@@ -20,7 +20,7 @@
 )
 
 ;;;; mujun-finder
-;; mujun-finder over inner-mujun-finder over  cannon-mujun-finder
+;; mujun-finder over mujun-finder over  cannon-mujun-finder
 (defun mujun-finder (kqc &optional (faster nil))
   (prog (pairs isos gid g contras time-start)
 
@@ -49,8 +49,8 @@
     )
 
     (if faster
-      (flog +MUJUNLOG+ "inner-mujun faster run~%")
-      (flog +MUJUNLOG+ "inner-mujun run~%")
+      (flog +MUJUNLOG+ "run-gtrail run for faster run~%")
+      (flog +MUJUNLOG+ "no run-grail run~%")
     )
 
     (loop for n from 0 to (- (length *clist*) 1) do

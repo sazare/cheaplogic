@@ -36,15 +36,14 @@
     :analyze-p2code
     :reportc
 
-
     :mujun-prover
     :mujun-prover-n
+
     *clist*
 
     *enable-semantics*
-    *enable-reduce-syntax* 
+    *enable-reduce-syntax*
 
-;   *max-clauses* 
     *max-clauses*
     *max-contradictions* 
     *max-trials* 

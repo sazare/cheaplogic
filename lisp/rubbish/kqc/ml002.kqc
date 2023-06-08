@@ -1,6 +1,7 @@
 ;;; converted from julia version
 ;;;calc image is Party probability
 ;;; eval action
+(eval (setq *enable-semantics* t))
 
 ;;# MP is Mechanical Proving
 ; ML is Machine Learning
