@@ -6,12 +6,19 @@
 ; 2 format args
 
 (defun create-flog (logfile)
-;  (unless (probe-file logfile)
+  (unless (probe-file logfile)
     (with-open-file (out logfile
                    :direction :output
                    :if-exists :supersede)
     )
-;  )
+  )
+)
+
+(defun new-flog (logfile)
+  (with-open-file (out logfile
+                 :direction :output
+                 :if-exists :supersede)
+  )
 )
 
 (defun flog (logfile format &rest args)

@@ -15,7 +15,9 @@ sbcl --control-stack-size 1GB <<-EOD
 EOD
 (
 cd mujun-output
-mkdir $NNN
+if [ ! -d $NNN ]; then
+  mkdir $NNN
+fi
 cp *.log $NNN
 )
 
