@@ -8,6 +8,7 @@
 
 (defconstant +MUJUNLOG+ #p"mujun-output/mujun.log")
 (defconstant +RESULTLOG+ #p"mujun-output/result.log")
+(defconstant +RESULTMSG+ #p"mujun-output/result.msg")
 
 (defun pair-or-iso (&optional (lsymlist *lsymlist*))
   "classify lsym with has oppos or not."
@@ -26,6 +27,7 @@
 
     (create-flog +MUJUNLOG+)
     (create-flog +RESULTLOG+)
+    (create-flog +RESULTMSG+)
 
     (flog +MUJUNLOG+ " start: ~a~%" (local-time:now))
 
@@ -92,6 +94,19 @@
   )
 )
 
+(defun contradictions-info ()
+  (let (cont*)
+    (setq cont* (nth 0 (lscova)))
+    (cond 
+      (cont* 
+        (let ((class (classify-cid-by-pcode cont*)))
+          (loop for ca in class collect (nth 0 ca)))
+        )
+      (t :consistent)
+    )
+  )
+)
+
 (defun mujun-prover-inside-n (gi kqc )
   (let (gid sg cv)
 
@@ -114,11 +129,15 @@
 
 ; 5. when mujun exists, then report it
     (let ((contras (car (lscova))))
-      (if contras
-        (loop for c in contras do 
-          (flog +RESULTLOG+ "contradictions(inside): g=~a, pc=~a, p2c=~a~%" (rawclause gid) (pcode c) (p2code c))
+      (cond
+        (contras
+          (fmsg +RESULTMSG+ "(contradiction ~a ~a)" (rawclause gid) (contradictions-info) )
+          (flog +RESULTLOG+ "(contradiction ~a ~a)" (rawclause gid) (contradictions-info) )
         )
-        (flog +RESULTLOG+  "no contradictions(inside): g=~a~%" (rawclause gid) )
+        (t
+          (fmsg +RESULTMSG+  "(consistent ~a)" (rawclause gid) )
+          (flog +RESULTLOG+  "(consistent ~a)" (rawclause gid) )
+        ) 
       )
     )
   )
@@ -360,9 +379,9 @@
 ;    (let ((contras (car (lscova))))
 ;      (if contras
 ;        (loop for c in contras do 
-;          (flog +RESULTLOG+ "contradictions(inside): gc=~a, p2c=~a, pc=~a~%" (rawclause (car gids)) (p2code c) (pcode c))
+;          (flog +RESULTMSG+ "contradictions(inside): gc=~a, p2c=~a, pc=~a~%" (rawclause (car gids)) (p2code c) (pcode c))
 ;        )
-;        (flog +RESULTLOG+  "no contradictions(inside): gc=~a, ~a ~%" (rawclause (car gids)) contras)
+;        (flog +RESULTMSG+  "no contradictions(inside): gc=~a, ~a ~%" (rawclause (car gids)) contras)
 ;      )
 ;    )
 ;  )

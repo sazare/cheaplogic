@@ -1,3 +1,77 @@
+2023/06/25日
+result.msgで子→親のやりとりをすることにした
+result.logはログ
+ちがいは、データをs-式で持っていることin msg
+
+in result.log
+(timestamp (consistent goal))
+(timestamp (contradiction goal pcode*))
+
+
+2023/06/24土
+方法案
+1) mkfifo で名前つきパイプを作る(親で作るか、shで作るか)
+2) 子でそのパイプに復帰情報を渡す。consisかcontraか、pcode
+3) 親は子の終了後それを読み込む。あるいは別スレッドで???
+
+fifoの使い方は、learningcommonlisp/procsのpipe-op.lisp参照
+read-lineを使っているが、ここをreadにして、両方listで
+(consistent)
+(list contradiction contrainfo)みたいにする
+contrainfoは
+1) (car (lscova)) がcidのリストなので、これからpcodeを作って、
+(classify-cid-by-pcode (car (lscova))
+で (pcode cids)*ができる。
+
+これはわたせる。cidいるかな??
+また、fifoだと、child側が終了できるだろうか?
+parent側はchild作って、終了したらreadするので、child側は
+終了できないような気がする。
+
+それならfifoでなく、普通のfileでよいのでは??
+
+
+2023/06/23金
+・子プロセスから結果をもらいたい
+　子プロセスは1度にひとつしか作らない。今は。
+　　子プロセスを使うのは実行空間を別々にしたいからなので、複数実行する必要はない。
+
+　今、ファイルに出力(あるいはT)している内容でなく、必要な情報だけ渡したい。
+　goal, kqc -- 親は知っている。ただし、複数子プロセスを作るときはgoalもあったほうがよさそう。
+　子プロセスのid -- 呼び出すときidを振り分けたらよいかも。
+　parameterも必要かも。
+　結果
+　　無矛盾 nilでよい、:maybe-consistentでもよい。
+　　矛盾　 contradictionのp2codeがほしいかもしれない。
+　　　　　　p2codeからproofを再現できないかもしれないがinput clauseは親子共通なので、これを元にしていれば話せる。
+　　　　　　だから、Lidは共通。
+
+　矛盾は一個しかみつからないか?
+
+
+2023/06/20火
+github/learningcommonlisp/procs
+プロセスの実験
+mujunはうまくいっているが、かなり微妙。
+シンプルな構造でやってみた。
+outerprocs.lispが呼び出し側で、innerprocs.lispが呼ばれ側のscript。
+innerはloadすると最後に書いた関数が実行される。
+mujunとは違う制御。
+
+uiop:run-programの引数に:outputがあって、指定するとそこに出力される。
+inner側でwith-openしてもできるが、こっちの方が楽。
+
+run-programの値はうまくいったかしっぱいしたか。
+inner側の関数の復帰地とは関係ない。
+
+rubbishでは管理するソースを1本にしようとしたが、procsのようにバラバラにしたほうがわかりやすい。
+特に、別プロセスで動かすから。threadなら同じにしたほうが変数の関係などわかりやすいかもしれない。
+
+別プロセスにしているのは、rubbishがpropertyを使うなどして、プロセス空間を汚染しつくしているから、
+別のΣの証明を1空間に維持することはムリ。
+threadで同一空間ではできないし、いくつΣを使うのかもわからないので、やはりprocessがよい。
+
+
 2023/06/08木
 ・なぜかml002.kqcが*enable-semantics* をtにしても矛盾がでなくなった。
 
