@@ -20,6 +20,18 @@
   )
 )
 
+(defun answer ()
+  (with-open-file (in +RESULTMSG+) 
+    (let (g pcs ss)
+      (loop until (eq :eof (setf ss (read in nil :eof))) do
+        (setq g (nth 1 (nth 1 ss))) 
+        (setq pcs (nth 2 (nth 1 ss))) 
+        (format t "~a: ~a~%" g pcs)
+      )
+    )
+  )
+)
+
 ;;;; mujun-finder
 ;; mujun-finder over mujun-finder over  cannon-mujun-finder
 (defun mujun-finder (kqc &optional (faster nil))
@@ -58,7 +70,8 @@
     (loop for n from 0 to (- (length *clist*) 1) do
       (when (check-mujun-on-n n kqc faster) (push (nth n *clist*) contras) )
      finally
-      (return contras)
+       (answer)
+       (return contras)
     )
     (flog +MUJUNLOG+ " end: ~a~%" (local-time:now))
     (flog +MUJUNLOG+ " time consumed = ~,6F secs ~%"  (/ (- (get-internal-run-time) time-start) internal-time-units-per-second) )
@@ -77,6 +90,7 @@
     )
     (format t "cmd = ~a~%" cmd)
     (uiop:run-program cmd  :force-output t)
+
     (return t)
   )
 )
@@ -94,6 +108,8 @@
   )
 )
 
+;; for return value of child is passed thrugh "mujun-output/result.msg"
+;; for contradiction it contains pcode of the dontra.
 (defun contradictions-info ()
   (let (cont*)
     (setq cont* (nth 0 (lscova)))
