@@ -56,8 +56,8 @@
     (let (g pcs ss)
       (loop until (eq :eof (setf ss (read in nil :eof))) collect
         (progn 
-          (setq g (nth 1 (nth 1 ss))) 
-          (setq pcs (nth 2 (nth 1 ss))) 
+          (setq g (nth 1 ss)) 
+          (setq pcs (nth 2 ss)) 
           (format t "~a: ~a~%" g pcs)
           (cons g pcs)
         )

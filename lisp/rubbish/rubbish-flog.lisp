@@ -41,15 +41,11 @@
 (defun fmsg (logfile format &rest args)
   (cond
     ((eq logfile t)
-      (format t "~a " (local-time:now))
       (apply #'format t format args)
     )
     (t  
       (with-open-file (out logfile :direction :output :if-exists :append)
-        (let (ms)
-          (setq ms (with-output-to-string (os) (apply #'format os format args)))
-          (format out "(\"~a\" ~a)~%" (local-time:now) ms)
-        )
+          (format out "~a~%"  (with-output-to-string (os) (apply #'format os format args)))
       )
     )
   )
