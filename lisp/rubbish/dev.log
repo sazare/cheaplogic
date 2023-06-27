@@ -11,6 +11,8 @@ RUBBISH(5): (pl mmm)
 ((5 NIL (- P B) (+ R A)) (L5-2 L5-1 L4-2 L4-1 L1-1))
 という具合に、continfはcdrになっていて()が一つへっている。
 
+* まどかのjuliaの命題をすこし移した
+　sbclで日本語のatomが使える
 
 2023/06/26月
 result.msgはsupresedeで作ることにした。(new-flog)
