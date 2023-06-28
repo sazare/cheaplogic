@@ -1,0 +1,8 @@
+;; unchangable rule of the world
+
+
+( (who) (- 魔法少女です who)(+ 死んでいる who))
+( (who) (- 魔法少女です who)(- 死んでいる (魂 who)))
+
+( (who s) (- 魔法少女です who)(+ < (魂 who) 10))
+

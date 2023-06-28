@@ -1,3 +1,10 @@
+2023/06/29木
+・readekqcで、kqcの中の(readefile ...)が読み込まれていなかった。
+　readefileの中で、readefileのevalの結果を()で置き換えていた。
+　それを修正した
+
+
+
 2023/06/27火
 childからparentに送る(ts coninf)のカッコをformat でつけているが
 データをlistにすればよいような気がする。

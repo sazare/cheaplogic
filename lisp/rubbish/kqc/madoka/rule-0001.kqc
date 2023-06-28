@@ -1,0 +1,14 @@
+;; unchangable rule of the world
+; (魂 who) は ソウルジェム
+
+( (who) (- 女の子です who)(- 契約する キュゥべえ who)(+ 魔法少女です who)(+ = (魂 who)  0))
+
+( (who) (- 魔法少女です who) (- = (魂 who) 10) (+ 魔女です who))
+
+( (who g) (- 魔法少女です who) (- グリーフシード who g) (- 魔女を倒した who) (+ グリーフシード who (+ g 1)))
+
+( (who s) (- 魔法少女です who) (- = (魂 who) s)(- わるいこころ who) (+ = (魂 who) (+ s 1)))
+
+( (who g s) (- 魔法少女です who)(- > g 0)(- = (魂 who) s)(- グリーフシード who g) (- 交換する g)(+ = (魂 who) 0)(+ グリーフシード who (- g 1)))
+
+

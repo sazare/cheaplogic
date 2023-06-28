@@ -1,0 +1,4 @@
+(readefile "kqc/madoka/rule-0001.kqc")
+(readefile "kqc/madoka/rule-0002.kqc")
+(readefile "kqc/madoka/rule-0003.kqc")
+
