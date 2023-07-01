@@ -1,0 +1,32 @@
+; dead or alive?
+
+( (w) (- kill w q) (+ death q))
+( () (- death q)(- death q))
+( () (+ kill homura q))
+
+;; ? ( () (- death q))
+;; ? ( () (+ death q))
+
+
+;;(require :gtrail)
+;;(in-package :rubbish)
+;;(readekqc "kqc/qbei/da001.kqc")
+;;kqc reading: kqc/qbei/da001.kqc
+;;(C1 C2 C3)
+;;(make-clause '( ( ) (+ death q)))
+;;C4
+;;(prover-gtrail '(c4))
+;;
+;;  ### SUMMARY ###
+;;  time consumed = 0.018754 secs
+;;  #clauses = 10
+;;  #contras = 2
+;;
+;;同様に (make-clause '( () (- death q)))でも
+;;  ### SUMMARY ###
+;;  time consumed = 0.018245 secs
+;;  #clauses = 6
+;;  #contras = 1
+;;
+;;となる。
+
