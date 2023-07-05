@@ -1,0 +1,30 @@
+;; 関係の認識
+
+; ( (me from to value) (+ Perception me from to value))
+
+; examples
+
+;; Taro thinks jiro is higher, but Jiro thinks Taro is a friend.
+(2 () (+ Think Taro Taro Jiro 10))
+(3 () (+ Think Taro Jiro Taro -10))
+(4 () (+ Think Jiro Taro Jiro 0))
+(5 () (+ Think Jiro Jiro Taro 0))
+
+; 2,5 show what they think themselves.
+; 2,4 show they think their relations asymmetric.
+; 3,4 show they think opponent think about self.
+
+
+;;; this value translates expression to keigo expression
+; (+ Think A A B 0) => (Hello B) ==> (Hello B)
+; (+ Think A A B 1) => (Hello B) ==> (Hello B kun)
+; (+ Think A A B 2) => (Hello B) ==> (Hello B san)
+; (+ Think A A B 5) => (Hello B) ==> (Hello B sama)
+
+;;
+;; what goals are meaningful?
+
+;; a senario
+;; call me Jiro, not Jiro-san
+;;; changes Taro think Taro-Jiro's value 2 to0
+
