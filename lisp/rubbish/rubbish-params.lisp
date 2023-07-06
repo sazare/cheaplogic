@@ -3,8 +3,8 @@
 (in-package :rubbish)
 
 ; process control parameters
-(defparameter *enable-semantics* nil)     ;; use reduce-by-semantix
-;(defparameter *enable-semantics* t)     ;; use reduce-by-semantix
+;(defparameter *enable-semantics* nil)     ;; use reduce-by-semantix
+(defparameter *enable-semantics* t)     ;; use reduce-by-semantix
 
 (defparameter *enable-reduce-syntax* t) ;; don't use reduce-by-syntax
 ;(defparameter *enable-reduce-syntax* nil) ;; don't use reduce-by-syntax
