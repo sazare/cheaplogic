@@ -2,15 +2,15 @@
 
 (require :gtrail)
 (in-package :rubbish)
-(rp "kqc/
+(make-clause '(()(+ 魔法少女 まどか)))
 
+(rp "kqc/madoka/mado-101.kqc")
 (pg 'c1)
 
 
 
 (load "goods.lisp")
 (in-package :rubbish)
-
 
 ;(prover-gtrail '(c1))
 (pg c1)
