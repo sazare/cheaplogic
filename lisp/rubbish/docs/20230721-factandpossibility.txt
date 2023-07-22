@@ -1,0 +1,36 @@
+20230721-factandpossibility
+
+・resolution refutationは「問い」による証明構成法である。
+・問われなければ矛盾が内在していてもよい。
+　(effective contradiction)
+
+・できる、できないというのは、factの形をしているが、問われていないもの。
+
+例)
+
+a) (+ 溶ける x)(- 氷である x)
+b) (+ 死ぬ x) (- 人である x)
+b1) (+ 死ぬものである x)(- 生き物である x)
+b2) (+ 生き物である x)(- 動物である x)
+b3) (+ 動物である x)(- 人である x)
+
+c) (+ 死ぬことができる x) for x in 動物
+c1) (- 死ぬことができる x)(- 機械である x)
+c2) (+ 死ぬことができる x)(- 動物である x)
+
+d) (- 十分な金を持つ who)(+ 本を買える who)
+　 (+ 十分な金を持つ who)(-本を買える who)
+
+【整理】
+・あるリテラルLについて
+　Σに α∨+Lが存在すれば、may L
+　Σに α∨-Lが存在すれば、may not L
+
+ なぜリテラルに注目するかというとfactはLiteral clause(unit clause)だから。
+　αが∅の場合は
+　+L : fact L
+　-L : fact not L
+
+  clauseformなので、A and BはAとBが別のclauseになっている。
+
+
