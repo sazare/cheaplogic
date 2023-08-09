@@ -1,0 +1,5 @@
+20230810-mujunmemo
+
+(mujun-prover-inside-n 1 "kqc/mujun/mj102.kqc")
+
+;kqcの1番目のcidで矛盾が起きるかをチェックする
