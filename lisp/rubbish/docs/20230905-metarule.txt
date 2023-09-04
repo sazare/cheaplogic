@@ -1,0 +1,21 @@
+20230905-metarule
+
+[factからclause setを作る]
+
+(+P 2)がfactできたとき、Σに次のclause setを作って追加するルールがこれ
+
+meta-vars 
+ ↓ binder => meta clauses
+ ↓ ↓　　　  ↓(()(+P 2)) ↓ ((x)(-P x)(+= 2 x)))
+(w)(-P w) => ((() (+P w)) ((x) (-P x)(+= w x))))
+
+Σ => Σ∨ (()(+P 2)), ((x)(-P x)(+= 2 x)))
+
+手順
+1) fact とbinderをresolve(var+literalなのが微妙だ)しσを作る
+2) meta clausesにσを適用する。→ clause setができる
+3) Σに clause setを追加する。
+
+このあと、新しいΣについて矛盾解消をする必要がある。
+
+[矛盾解消]
