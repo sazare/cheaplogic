@@ -1,5 +1,19 @@
 20230524-memorun
+;;; 20240131 rubbish-beauty.lispを追加した
+;;; 確認コード
 
+(require :gtrail)
+(in-package :rubbish)
+(readkqc "kqc/madoka/madoka001.kqc")
+(beauty-cid*)
+(beauty-cid* *clist*)
+
+(bcs)
+
+
+
+
+;;;
 (require :gtrail)
 (in-package :rubbish)
 (make-clause '(()(+ 魔法少女 まどか)))

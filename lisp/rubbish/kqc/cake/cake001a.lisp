@@ -9,6 +9,6 @@
 (setq *max-steps* 100)
 (setq *timeout-sec* 5)
 
-(play-prover-gtrail '(1) fkname)
+(play-prover-gtrail '(c1) fkname)
 
 

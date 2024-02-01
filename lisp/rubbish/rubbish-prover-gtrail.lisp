@@ -65,7 +65,7 @@
 
 ;;; a step of solver, a controller of the step.
 (defun step-solver (goal) 
-  (let (target oppos (newgoals ()) res rres eres) ;step1 select a lid in goal ; CASE CID
+  (let (target oppos (newgoals ()) res rres eres erres) ;step1 select a lid in goal ; CASE CID
     (if (null goal)
       nil   ; this should not be happen. 
             ;because nil = contradiction is immediately removed at generated from goal.

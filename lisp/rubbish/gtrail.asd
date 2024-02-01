@@ -19,6 +19,7 @@
       (:file "rubbish-statistics" :depends-on ("rubbish-package"))
       (:file "rubbish-resoid" :depends-on ("rubbish-package"))
       (:file "rubbish-print" :depends-on ("rubbish-package"))
+      (:file "rubbish-beauty" :depends-on ("rubbish-package"))
       (:file "rubbish-proof" :depends-on ("rubbish-package"))
       (:file "rubbish-peval" :depends-on ("rubbish-package"))
       (:file "rubbish-semantx" :depends-on ("rubbish-package"))
