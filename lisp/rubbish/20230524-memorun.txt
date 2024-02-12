@@ -9,6 +9,15 @@
 (beauty-cid* *clist*)
 
 (bcs)
+(bcs '(c1 c2))
+など
+
+----
+ケーキ
+(readkqc "kqc/cake/cake001.kqc")
+
+--- 
+論理に迷う
 
 
 

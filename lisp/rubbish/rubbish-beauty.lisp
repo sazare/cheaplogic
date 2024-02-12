@@ -45,10 +45,22 @@
 )
 
 (defun beauty-lid* (&optional (lid* *llist*) (out t))
-  (loop for lid in lid*
+  (loop for lid2 on lid*
     do
-    (beauty-lit (eval lid) out)
-    (format out " ")
+    (beauty-lit (eval (car lid2)) out)
+    (when (cdr lid2) (format out " "))
+  )
+)
+
+
+(defun beauty-vars (vars out)
+  (when vars
+    (format out "∀~{~a ~}" vars)
+;    (format out "∀")
+;    (loop for vs on vars do
+;      (format out "~a" (car vs))
+;      (when (cdr vs) (format out " "))
+;    )
   )
 )
 
@@ -69,9 +81,11 @@
      )
     )
     (t 
-     (format out "~a ~a.[" cid(varsof cid))
-      (beauty-lid* (bodyof cid))
-     (format out "]")
+      (format out "~a " cid)
+      (beauty-vars (varsof cid) out)
+      (format out "[")
+      (beauty-lid* (bodyof cid) out)
+      (format out "]")
     )
   )
 )
@@ -87,7 +101,7 @@
 
 
 ;;; ui
-(defmacro bcs (&rest cs)
-  `(beauty-cid* ,(or cs *clist*))
+(defun bcs (&optional (cid* *clist*) (out t))
+  (beauty-cid* cid* out)
 )
 
