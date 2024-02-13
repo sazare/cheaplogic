@@ -1,4 +1,7 @@
 ; Recipe of Cake (3)
+;;; ここでは、パン生地をつくるところまでを書いている。
+;;; そのあとはパンを焼いて、パンが完成というところだが状態の変化がないので無視
+	
 ;; until made Kiji of cake, delete second part of construct cake.(Cream used)
 ;; ref :  docs/
 ;; prev:  kqc/cake/cake002.kqc
@@ -8,10 +11,13 @@
 
 ;; 20210702 comment out goal and preparation facts
 
-;; goal 
+;; goal  make a Dough
+;;; だからGoalはパン生地が観測されるところまで
 ;(1 (Z) (- Dough Z))
 
-;; preparation(some kinds of facts)
+
+;; preparation(some kinds of facts introduced by sensors)
+;;; 前提として、素材が調理台に出現したとセンサーが認識したとき
 ;(() (+ Fresh freshclean))
 ; 3 times suger used namely 3 different sugar unit
 ;(() (+ Sugarp sugar1))
@@ -28,7 +34,13 @@
 ;((x y) (+ Whippr x y z)(+ Cream z))
 
 ; Human actions be fact after human do it.
+;;; これらのfactsは人間にこのfactsを成り立たせろと命じる動詞である
+
 ; and observed by EO.
+;;; 人間がなにかをすると、センサーはそれをfactとして観測するので
+;;; factは自動的に発生するだろう
+
+
 ; Bowl then Mix make Melange or Mixed something.
 ;((x y z) (+ Bowlpr x y z))
 ;; namely, Mixpr don't make determined state.

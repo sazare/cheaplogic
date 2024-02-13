@@ -14,7 +14,7 @@
 (() (+ Sugarp sugar3))
 (() (+ EggWhite white))
 (() (+ EggYellow yellow))
-(() (+ Rice riceflaur))
+(() (+ Sift riceflaur))
 (() (+ Milkp milk))
 
 ;; manipulations, (1) these literal remain after
@@ -26,6 +26,6 @@
 ((x y z) (- Fresh x) (- Sugarp y) (- Whipp x y z) (+ Cream z))
 ((x y z w) (- EggWhite x) (- Sugarp y) (- Bowlp x y z) (- Mixp z w) (+ Melenge w))
 ((x y z w) (- EggYellow x) (- Sugarp y) (- Bowlp x y z) (- Mixp z w) (+ Mixed w))
-((x y z) (- Mixed x) (- Rice y) (- Mixp x y z) (+ D1 z))
+((x y z) (- Mixed x) (- Sift y) (- Mixp x y z) (+ D1 z))
 ((x y z) (- D1 x) (- Milkp y) (- Mixp x y z) (+ D2 z))
 ((x y z) (- D2 x) (- Melenge y) (- Mixp x y z) (+ Dough z))

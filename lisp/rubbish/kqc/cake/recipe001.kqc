@@ -2,22 +2,9 @@
 ;; ref :  docs/20210522_CakeRecipe3.md
 ;; remain proc literals at [] 
 
-;; goal 
-(1 (Z) (- Dough Z))
-;(1 (Z) (- D1 Z))
-
 ;; preparation(some kinds of facts)
-(() (+ Fresh freshclean))
-; 3 times suger used namely 3 different sugar unit
-(() (+ Sugarp1 sugar1))
-(() (+ Sugarp2 sugar2))
-(() (+ Sugarp3 sugar3))
-(() (+ EggWhite white))
-(() (+ EggYellow yellow))
-(() (+ Sift riceflaur))
-(() (+ Milkp milk))
 
-;; manipulations, (1) these literal remain after
+;; manipulations, (1) these literals remain after
 ;((x y) (+ Whipp x y (whip x y)))
 ;((x y) (+ Bowlp x y (inbowl x y)))
 ;((x y) (+ Mixp x y (mix x y)))

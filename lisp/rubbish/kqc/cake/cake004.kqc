@@ -13,7 +13,7 @@
 (() (+ Sugarp sugar1))
 (() (+ EggWhite white))
 (() (+ EggYellow yellow))
-(() (+ Rice riceflaur))
+(() (+ Sift riceflaur))
 (() (+ Milkp milk))
 
 ;; Human actions. How muti actions expressed?
@@ -55,8 +55,8 @@
 ;; the following 2 Mixpr literal cause ambiguity.
 ;; not work
 
-; mixed and mixed Rice more, it is D1
-((x y z) (- Mixed x) (- Rice y) (- Mixpr x y z))
+; mixed and mixed Sift more, it is D1
+((x y z) (- Mixed x) (- Sift y) (- Mixpr x y z))
 ;; for HA
 ((x y z) (+ Mixpr x y z) (+ D1 z))
 
