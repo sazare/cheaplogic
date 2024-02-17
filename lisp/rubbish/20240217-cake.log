@@ -1,0 +1,286 @@
+cakeレシピで、人間の部分を関数で置き換えると、-Doughの矛盾がでたときそのmguが
+なんらかのシミュレーションになるのではないか。
+
+もちろん、人間がやるときのエラーに対するシミュレーしよんはできないが
+
+[preoverを使うときに使えるone liner]
+
+(require :gtrail)
+(in-package :rubbish)
+(load "kqc/cake/cake001a.lisp")
+
+このlispの中身
+(defparameter fkname "kqc/cake/cake001a.kqc")
+(setq *max-clauses* 50)
+(setq *max-trials* 100)
+(setq *max-steps* 100)
+(setq *timeout-sec* 5)
+(play-prover-gtrail '(c1) fkname)
+---
+  ### SUMMARY ###
+  time consumed = 1.386939 secs
+  #clauses = 5001
+  #contras = 0
+  #valids = 0
+  #trials = 4983
+  #max refute steps = 0
+
+*max-clauses*が50で #clausesが5001になっているのは、終わりの制御がうまくいっていないから。
+でもまあ、1秒程度の話なのでとりあえずよい。
+これだと、永遠に矛盾はでないのか?それを知りたいが
+
+矛盾はでなかったが、これでunit clauseを探して、どこまでいけたかを見る
+
+(readkqc fkname)
+kqc reading: kqc/cake/cake001a.kqc
+(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15 C16 C17 C18)
+
+kqcには18 clauseがある。
+
+;; min?
+(apply 'min (loop for x in *clist* collect (length (bodyof  x))))
+1
+(defparameter x1 	(loop for x in *clist* when (eq 1 (length (bodyof  x))) collect x))
+ x1
+(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12)
+
+初期clauseのみがunit
+
+;;max?
+(apply 'max (loop for x in *clist* collect (length (bodyof  x))))
+9
+(defparameter x9 (loop for x in *clist* when (eq 9 (length (bodyof  x))) collect x))
+X9
+(C49 C48 C47 C46 C45 C44 C43 C42 C41 C40 C39 C38 C37 C36 C35 C34)
+
+最大9literal clauseがこれら、
+
+cake001a.kqcの書き方はどうか?
+これは複雑なので
+cake004-sim.kqcでやりなおしてみる
+{修正}
+Whiper と Creamはこのフェーズでは使わないのでコメントアウトとコメントにある。コメントにした
+Bowlprはコメントになっていたので有効にした
+
+[cake004-sim.kqc]
+スクリプト
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake004-sim.kqc")
+(setq *max-clauses* 50)
+(setq *max-trials* 100)
+(setq *max-steps* 100)
+(setq *timeout-sec* 5)
+(play-prover-gtrail '(c1) fkname)
+
+
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/cake/cake004-sim.kqc
+  goals                = (C1)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 100000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = T
+
+limit-over number of clauses exceeds
+
+end-time: 2024-02-17T08:07:20.285260+09:00
+
+  ### SUMMARY ###
+  time consumed = 5.580930 secs
+  #clauses = 5466
+  #contras = 0
+  #valids = 0
+  #trials = 4967
+  #max refute steps = 0
+
+できない
+
+play-prover-gtrailの中でlogをとっている
+(logshow)とか(logshown) で見れるが、よくわからん。rubbish-log.lisp
+
+
+人の作業を関数にした
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/cake/cake004-sim.kqc
+  goals                = (C1)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 100000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = T
+
+limit-over number of clauses exceeds
+
+end-time: 2024-02-17T08:18:49.637108+09:00
+
+  ### SUMMARY ###
+  time consumed = 5.568663 secs
+  #clauses = 5466
+  #contras = 0
+  #valids = 0
+  #trials = 4967
+  #max refute steps = 0
+
+同じか
+
+(length *rubbish-log*)
+で
+(logshown 10000 10030)などをしてみたが表示の意味
+
+ためしにc5447をみてみる
+RUBBISH(12): (pcs c5447)
+C5447: RESOLVENT (Z.92929 X.92933 Y.92934 Z.92935 W.92936 Z.92937 X.92938 Y.92939 Z.92940 W.92941 Z.92942 X.92943 Y.92944 Z.92945 W.92946) [((- EGGWHITE X.92933) (- SUGARP Y.92934)
+                                                                                                                                                          (- BOWLPR X.92933 Y.92934 Z.92935)
+                                                                                                                                                          (- EGGWHITE X.92938) (- SUGARP Y.92939)
+                                                                                                                                                          (- BOWLPR X.92938 Y.92939 Z.92940)
+                                                                                                                                                          (- EGGWHITE X.92943) (- SUGARP Y.92944)
+                                                                                                                                                          (- BOWLPR X.92943 Y.92944 Z.92945)
+                                                                                                                                                          (+ MIXPR Z.92945 W.92946 NIL)
+                                                                                                                                                          (- EGGWHITE X.92943) (- SUGARP Y.92944)
+                                                                                                                                                          (- BOWLPR X.92943 Y.92944 Z.92945))]
+NIL
+
+進化していない。
+simを単純化してみる。たぶんループしている。
+
+D2の工程をとばして、D1からmelengeを作るようにしてみる
+Mixprの+/-が逆に書いている気がするので合わせるつまり、α-mixer と +mixerβとする。
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake004-sim0.kqc")
+(setq *max-clauses* 50)
+(setq *max-trials* 100)
+(setq *max-steps* 100)
+(setq *timeout-sec* 5)
+(play-prover-gtrail '(c1) fkname)
+
+
+;;;
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/cake/cake004-sim0.kqc
+  goals                = (C1)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 100000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = T
+
+limit-over number of contradictions exceeds
+
+end-time: 2024-02-17T08:33:00.347425+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.051250 secs
+  #clauses = 535
+  #contras = 16
+  #valids = 0
+  #trials = 521
+  #max refute steps = 8
+
+となって矛盾がでた。
+　? D2とばしたからか?
+　? +/-の付け替えか?
+
+RUBBISH(10): (lscova)
+
+((C18 C21 C496 C499 C502 C505 C508 C511 C514 C517 C520 C523 C526 C529 C532 C535) NIL)
+
+矛盾をひとつひとつ見ていくとして
+
+(print-proof0 'c496)
+などで見れる。
+これと、inputのpcsを比較するなど
+
+見ているとp2codeでもいいかなという気がしてこれを使う。
+(pcode  'c496)
+ (L9-5 L9-4 L9-3 L9-2 L9-1 L8-1 L7-1 L5-1 L4-1 L2-1 L14-2 L14-1 L11-3 L11-2 L11-1 L1-1)
+これよりやはりp2codeがよい
+(p2code  'c496)
+ ((L1-1 L14-2) (L11-1 L9-5) (L11-2 L5-1) (L11-3 L14-1) (L2-1 L9-2) (L4-1 L9-1) (L7-1 L9-3) (L8-1 L9-4))
+
+こうなると、proofの各pairと*mgu*がみたくなる
+(print0-proof)で表示されるがでかすぎてわからない。
+
+****
+  0. 矛盾のcidから
+  1. proofof から vars<-mgu, ll:lr がわかる
+　2. cidof(ll), cidof(lr)で親のcidがわかる
+
+　みたいのは、cid, ll, lr, vars<-mgu
+
+  (cid) = (:when-born :vars :name)
+          (:proof (rule vars mgu conflicts=(ll lr)) :when-boarn :vars :name)
+
+このproofのvarsとcidのvarsの関係がよくわからない。
+　たぶんmgu計算したときのvarsなのだろう。一方向とは限らないと思うが、いままではこれでよかったのか?
+
+
+これをstem と呼ぶ。
+
+とりあえず
+
+(
+
+
+*cid,ll, lrの実体はそれぞれのidの値
+
+
+;;;; すこしもどしてD2を有効にした
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake004-sim1.kqc")
+(setq *max-clauses* 50)
+(setq *max-trials* 100)
+(setq *max-steps* 100)
+(setq *timeout-sec* 5)
+(play-prover-gtrail '(c1) fkname)
+
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/cake/cake004-sim1.kqc
+  goals                = (C1)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 100000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = T
+
+
+
+limit-over number of contradictions exceeds
+
+end-time: 2024-02-17T12:47:03.717594+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.011725 secs
+  #clauses = 197
+  #contras = 16
+  #valids = 0
+  #trials = 181
+  #max refute steps = 5
+NIL
+
+矛盾の数はsim0と同じ
+max refute stpesが減ってしまった。間違いか??
+D2が入ることで矛盾がへっているのかな???
+
+;;;; proofのmguの木をstem treeと呼ぶ
+*** 先にprint-stemをつくる
+  (cid) = (:when-born :vars :name)
+          (:proof (rule vars mgu conflicts=(ll lr)) :when-boarn :vars :name)
+
+
+(print-stem cid out)
+
+
+

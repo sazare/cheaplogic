@@ -2,7 +2,7 @@
 
 (defparameter fkname "kqc/cake/cake001a.kqc")
 
-(load "load-rubbish.lisp")
+;(load "load-rubbish.lisp")
 
 (setq *max-clauses* 50)
 (setq *max-trials* 100)

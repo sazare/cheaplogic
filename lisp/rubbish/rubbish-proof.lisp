@@ -524,3 +524,40 @@
   (loop for x in *clist* when (equal p2 (p2code x)) collect x)
 )
 
+
+;;;;;;;;;;;;;;;
+;*** print-stemをつくる
+;  proofのmguの木
+;  (cid) = (:when-born :vars :name)
+;          (:proof (rule vars mgu conflicts=(ll lr)) :when-boarn :vars :name)
+
+(defun print-root-stem (cid &optional (out t))
+;  (format out "~a ~a ~a~%" cid (varsof cid) (nameof cid))
+  (print-clause cid out)
+)
+
+(defun print-child-stem (cid &optional (out t))
+  (let ((proof (proofof cid)) rule vars mgu conf ll lr)
+    (setq rule (car proof))
+    (setq vars (cadr proof))
+    (setq mgu  (caddr proof))
+    (setq conf (cadddr proof))
+    (setq ll   (car conf))
+    (setq lr   (cadr conf))
+
+   (format out "~a ~a ~a ⇔ ~a~%   ~a: ~a.~a:~a/~a.~a:~a~%" 
+               cid rule vars mgu (varsof cid) (varsof (cidof ll)) ll (litof ll) (varsof (cidof lr)) lr (litof lr))
+    (print-stem (cidof ll) out)
+    (print-stem (cidof lr) out)
+  )
+)
+
+(defun print-stem (cid &optional (out t))
+  (let ((proof (proofof cid)))
+    (if proof
+      (print-child-stem cid out)
+      (print-root-stem cid out)
+    )
+  )
+)
+
