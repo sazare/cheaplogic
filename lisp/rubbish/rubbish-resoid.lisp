@@ -38,10 +38,10 @@
      )
    
 
-    (setcid ncid :resolvent (subsubp vs (shrinkvs vs sig) ns) (subsubp vs body ns)) ;;; this conflicts
+    (setcid ncid :reso (subsubp vs (shrinkvs vs sig) ns) (subsubp vs body ns)) ;;; this conflicts
 
     (entry-proof ncid :resolution vs (subsubp vs sig ns) (list lid1 lid2))
-    (rubbish-log :resolvent ncid)
+    (rubbish-log :reso ncid)
     ncid
   )
 )

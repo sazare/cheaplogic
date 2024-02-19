@@ -21,9 +21,9 @@
 (() (+ Milkp milk))
 
 ;; manipulations, (1) these literal remain after
-;((x y) (+ Whippr x y (whip x y)))
-;((x y) (+ Bowlpr x y (inbowl x y)))
-;((x y) (+ Mixpr x y (mix x y)))
+((x y) (+ Whippr x y (whip x y)))
+((x y) (+ Bowlpr x y (inbowl x y)))
+((x y) (+ Mixpr x y (mix x y)))
 
 ;; or after state of a procedure become fact by EO
 ;; how combinate them.

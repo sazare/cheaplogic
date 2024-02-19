@@ -1,0 +1,82 @@
+; Recipe of Cake (4)
+;;;; SIMULATION OF ACTUATOR. 
+;;; backword
+
+;; until made Kiji of cake, delete second part of construct cake.(Cream used)
+;; ref :  docs/
+;; prev:  kqc/cake/cake002.kqc
+;;; 1) another way of Human Action
+
+;; goal 
+(1 (Z) (- Cake Z))
+
+;; preparation(some kinds of facts)
+;(() (+ Fresh freshclean))
+; 3 times suger used namely 3 different sugar unit
+(() (+ Sugarp sugar1))
+(() (+ EggWhite white))
+(() (+ EggYellow yellow))
+(() (+ Sift riceflaur))
+(() (+ Milkp milk))
+
+;; Human actions. How muti actions expressed?
+; this means, after whipped x,y to z, z is Cream
+;; Cream is used after half part. 
+;; In this kqc, I simply Dough and Ceram make a cake
+;; Human does Whip x,y to z. means positive (+Whippr x y z)
+;((x y) (+ Whippr x y z)(+ Cream z))
+
+; Human actions be fact after human do it.
+; and observed by EO.
+; Bowl then Mix make Melange or Mixed something.
+((x y z) (+ Bowlpr x y (bowler z)))
+;; namely, Mixpr don't make determined state.
+((x y z) (+ Mixpr x y (mixer z)))
+
+;; Bake it
+((x) (+ Bakepr x (oven x)))
+
+;; In this way, Human Action Done just remove the Action Literal.
+;; It seems good for it...
+
+;; after state of a procedure become fact by EO
+
+;; recipe
+
+;; Cream is made from Fresh and Sugar with whip, but Cream don't used in this phase
+;; commented out this.
+;((x y z) (- Fresh x) (- Sugarp y) (- Whippr x y z) (+ Cream z))
+
+; when EggWhite, mixed them is Melange, when EggYellow, mixed them is Mixed without name)
+;; 2 literals are initial fact/states, next 2 pr literals are human action
+((x y z w) (- EggYellow x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Mixed w))
+((x y z w) (- EggWhite x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Melenge w))
+
+;; in Recipe some constructs has no name(as D1, D2 here)
+;;; how these Mixpr are distinguished each others.
+;; may the constant name?
+
+;; Mixpr is just removed after HA done,
+;; then Mixed state literal is not ambiguous, seems good by just it.
+;; the following 2 Mixpr literal cause ambiguity.
+;; not work
+
+; mixed and mixed Sift more, it is D1
+((x y z) (- Mixed x) (- Sift y) (+ Mixpr x y z))
+;; for HA
+((x y z) (- Mixpr x y z) (+ D1 z))
+
+; mixed D1 and mix Milk more, it is D2
+((x y z) (- D1 x) (- Milkp y) (+ Mixpr x y z))
+;;; for HA
+((x y z) (- Mixpr x y z) (+ D2 z))
+
+; Just Melange and D2 mixed, it is Dough
+((x y z) (- D2 x) (- Melenge y) (+ Mixpr x y z) )
+;; for HA
+((x y z)  (- Mixpr x y z) (+ Dough z))
+
+
+;; a baked dough is the Cake
+((x y) (- Dough x)(- Bakepr x y)(+ Cake y))
+

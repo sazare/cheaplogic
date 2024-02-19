@@ -545,10 +545,15 @@
     (setq ll   (car conf))
     (setq lr   (cadr conf))
 
-   (format out "~a ~a ~a ⇔ ~a~%   ~a: ~a.~a:~a/~a.~a:~a~%" 
-               cid rule vars mgu (varsof cid) (varsof (cidof ll)) ll (litof ll) (varsof (cidof lr)) lr (litof lr))
-    (print-stem (cidof ll) out)
-    (print-stem (cidof lr) out)
+   (format out "~a ~a~%" cid rule)
+   (format out "  ~a~%" vars)
+   (format out "  ~a~%" mgu)
+;   (format out "  ~a:~%" (varsof cid) )
+   (format out "    ~a:~a :: ~a:~a~%"  ll (litof ll) lr (litof lr))
+;   (format out "    ~a.~a:~a~%" (varsof (cidof ll)) ll (litof ll))
+;   (format out "    ~a.~a:~a~%" (varsof (cidof lr)) lr (litof lr))
+   (print-stem (cidof ll) out)
+   (print-stem (cidof lr) out)
   )
 )
 
@@ -558,6 +563,85 @@
       (print-child-stem cid out)
       (print-root-stem cid out)
     )
+  )
+)
+
+;; print-hilbert
+;;; change print layout from stem
+
+(defun print-root-hilbert (cid &optional (out t))
+  (print-clause cid out)
+)
+
+(defun print-child-hilbert (cid &optional (out t))
+  (let ((proof (proofof cid)) rule vars mgu conf ll lr)
+    (setq rule (car proof))
+    (setq vars (cadr proof))
+    (setq mgu  (caddr proof))
+    (setq conf (cadddr proof))
+    (setq ll   (car conf))
+    (setq lr   (cadr conf))
+
+   (print-clause cid out)
+   (format out "L  ~a.~a:~a~%" (varsof (cidof ll)) ll (litof ll))
+   (format out "R  ~a.~a:~a~%" (varsof (cidof lr)) lr (litof lr))
+   (format out "V  ~a~%" vars)
+   (format out "M  ~a~%" mgu)
+   (print-hilbert (cidof ll) out)
+   (print-hilbert (cidof lr) out)
+  )
+)
+
+(defun print-hilbert (cid &optional (out t))
+  "print hilbert type proof"
+  (let ((proof (proofof cid)))
+    (if proof
+      (print-child-hilbert cid out)
+      (print-root-hilbert cid out)
+    )
+  )
+)
+
+(defun print-hilbert* (cid* &optional (out t)) 
+  (loop for cid in cid* do
+    (format out "~%[~a]~%" cid)
+    (print-hilbert cid out)
+  )
+)
+
+(defun pph* (cid* &optional (out t)) 
+  (print-hilbert* cid* out)
+)
+
+(defun oph* (cid* fname)
+  (when (probe-file fname) (format t "~a already EXISTS. overwrite it.~%" fname))
+  (with-open-file (out fname :direction :output :if-exists :supersede)
+    (print-hilbert* cid* out)
+  )
+)
+
+;; the followings are goods for proof study.
+(defmacro pph (cid &optional (out t))
+   "print hilbert type proof with unquoted cid"
+  `(print-hilbert ',cid ,out)
+)
+
+
+(defun condep ()
+  "show depth of contradictions"
+  (loop for x in (car (lscova)) collect (when-born x))
+)
+
+(defun maxdep () 
+  "max depth of clauses"
+  (apply  'max (loop for x in *clist* collect (length (bodyof x))))
+)
+
+(defun mds ()
+  "max depth and cids have it"
+  (let (m)
+    (setq m (maxdep))
+    (list m (loop for x in *clist* when (eq m (length (bodyof x))) collect x))
   )
 )
 

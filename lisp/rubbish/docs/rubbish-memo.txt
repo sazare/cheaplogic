@@ -1,0 +1,15 @@
+rubbish-memo.txt
+
+[shell]
+# ;のない行をwwwに出力する
+# kqcからコメントを除去する
+
+grep -v ';' cake005-sim1.kqc |grep -v '^$' >www 
+
+
+
+[proof 分析ツール]
+(mds)        ; (maxdep (cid ...))
+(pph c306)   ; print-hilbert
+
+

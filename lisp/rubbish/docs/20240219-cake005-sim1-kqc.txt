@@ -1,0 +1,57 @@
+20240219-cake005-sim1-kqc.txt
+
+kqc reading: kqc/cake/cake005-sim1.kqc
+(C1 C2 C3 C4 C5 C6 C7 C8 C9 C10 C11 C12 C13 C14 C15 C16 C17 C18)
+
+RUBBISH(5): (bcs)
+C1 ∀Z.148 [-CAKE(Z.148)]
+C2 [+SUGARP(SUGAR1)]
+C3 [+EGGWHITE(WHITE)]
+C4 [+EGGYELLOW(YELLOW)]
+C5 [+SIFT(RICEFLAUR)]
+C6 [+MILKP(MILK)]
+C7 ∀X.149 Y.150 Z.151 [+BOWLPR(X.149,Y.150,BOWLER((Z.151)))]
+C8 ∀X.152 Y.153 Z.154 [+MIXPR(X.152,Y.153,MIXER((Z.154)))]
+C9 ∀X.155 [+BAKEPR(X.155,OVEN((X.155)))]
+C10 ∀X.156 Y.157 Z.158 W.159 [-EGGYELLOW(X.156) -SUGARP(Y.157) -BOWLPR(X.156,Y.157,Z.158) -MIXPR(Z.158,W.159) +MIXED(W.159)]
+C11 ∀X.160 Y.161 Z.162 W.163 [-EGGWHITE(X.160) -SUGARP(Y.161) -BOWLPR(X.160,Y.161,Z.162) -MIXPR(Z.162,W.163) +MELENGE(W.163)]
+C12 ∀X.164 Y.165 Z.166 [-MIXED(X.164) -SIFT(Y.165) +MIXPR(X.164,Y.165,Z.166)]
+C13 ∀X.167 Y.168 Z.169 [-MIXPR(X.167,Y.168,Z.169) +D1(Z.169)]
+C14 ∀X.170 Y.171 Z.172 [-D1(X.170) -MILKP(Y.171) +MIXPR(X.170,Y.171,Z.172)]
+C15 ∀X.173 Y.174 Z.175 [-MIXPR(X.173,Y.174,Z.175) +D2(Z.175)]
+C16 ∀X.176 Y.177 Z.178 [-D2(X.176) -MELENGE(Y.177) +MIXPR(X.176,Y.177,Z.178)]
+C17 ∀X.179 Y.180 Z.181 [-MIXPR(X.179,Y.180,Z.181) +DOUGH(Z.181)]
+C18 ∀X.182 Y.183 [-DOUGH(X.182) -BAKEPR(X.182,Y.183) +CAKE(Y.183)]
+
+
+start-time: 2024-02-19T07:32:22.665458+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/cake/cake005-sim1.kqc
+  goals                = (C1)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 100000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+limit-over number of contradictions exceeds
+
+end-time: 2024-02-19T07:32:22.795934+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.134285 secs
+  #clauses = 1131
+  #contras = 31
+  #valids = 0
+  #trials = 1146
+  #max refute steps = 20
+NIL
+RUBBISH(9): (apply  'max (loop for x in *clist* collect (length (bodyof x))))
+
+11
+RUBBISH(10): (loop for x in *clist* when (eq 11 (length (bodyof x))) collect x)
+
+(C865 C864 C863 C308 C307 C306)
+

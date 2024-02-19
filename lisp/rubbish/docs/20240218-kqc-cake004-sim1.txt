@@ -1,0 +1,81 @@
+kqc/cake/cake004-sim1.kqc
+
+素材を示す定数と述語の定義
+C1 ∀Z.148 [-DOUGH(Z.148)]
+C2 [+SUGARP(SUGAR1)]
+C3 [+EGGWHITE(WHITE)]
+C4 [+EGGYELLOW(YELLOW)]
+C5 [+SIFT(RICEFLAUR)]
+C6 [+MILKP(MILK)]
+
+基本的な調理作業を証明器でシミュレーションするための関数定義。
+C7 ∀X.149 Y.150 Z.151 [+BOWLPR(X.149,Y.150,BOWLER((Z.151)))]
+C8 ∀X.152 Y.153 Z.154 [+MIXPR(X.152,Y.153,MIXER((Z.154)))]
+
+
+このように、人間は、材料をボウルに入れることと混ぜることをするだけ。
+
+; 以下は調理の手順
+C9 ∀X.155 Y.156 Z.157 W.158 [-EGGYELLOW(X.155) -SUGARP(Y.156) -BOWLPR(X.155,Y.156,Z.157) -MIXPR(Z.157,W.158) +MIXED(W.158)]
+C10 ∀X.159 Y.160 Z.161 W.162 [-EGGWHITE(X.159) -SUGARP(Y.160) -BOWLPR(X.159,Y.160,Z.161) -MIXPR(Z.161,W.162) +MELENGE(W.162)]
+C11 ∀X.163 Y.164 Z.165 [-MIXED(X.163) -SIFT(Y.164) +MIXPR(X.163,Y.164,Z.165)]
+C12 ∀X.166 Y.167 Z.168 [-MIXPR(X.166,Y.167,Z.168) +D1(Z.168)]
+C13 ∀X.169 Y.170 Z.171 [-D1(X.169) -MILKP(Y.170) +MIXPR(X.169,Y.170,Z.171)]
+C14 ∀X.172 Y.173 Z.174 [-MIXPR(X.172,Y.173,Z.174) +D2(Z.174)]
+C15 ∀X.175 Y.176 Z.177 [-D2(X.175) -MELENGE(Y.176) +MIXPR(X.175,Y.176,Z.177)]
+C16 ∀X.178 Y.179 Z.180 [-MIXPR(X.178,Y.179,Z.180) +DOUGH(Z.180)]
+
+意味
+1. Doughは生地を意味する。このあと焼いてケーキを作る部分は省略した。
+2-6. 砂糖、卵の黄身と白身、ふるいにかけた小麦粉(riceflaur)、ミルクなどを定数で示し、それを述語で包んだ。
+7,8は人間でなくシミュレーションするためのもの。これがなければ、人間への命令になる。
+7. BOWLPRが人間への命令だとすると、それを関数Bowlerで実行したと考えた記述。
+8. MIXPRという述語に対する関数形の導入。
+9. 卵の黄身と砂糖をボウルに入れて、まぜたものをMIXEDという述語で表す
+10. 卵の白身と砂糖をボウルに入れてまぜたものをMelenge(メレンゲ)と呼ぶ
+11. 調理台で、黄身をまぜたものに古いをかけた小麦粉を混ぜる
+12. 11でまぜたものをD1と呼ぶ。これは生地の第一段階。11のあと寝かせて第一段階ができるので、別のclauseにしている。11と12の間には時間がかかる。
+13. 生地の第一段階にミルクを加えてまぜる。
+14. 13でまぜたものをD2と呼ぶ。これは生地の第二段階。これも13のあと寝かせて14の状態になる。
+15. 生地の第二段階にメレンゲを加えて混ぜる。
+16. 15を寝かせると生地が完成する。
+
+注意
+* BOWLPRはボウルに材料をいれた状態
+* 16,14,12などのMIXPRは調理台上でまぜているのでBOWLPRは書いていない
+* D1とD2には定義された名前がなかったので便宜上このように名付けた。
+
+
+
+###########
+kqc reading: kqc/cake/cake002.kqc
+................
+
+start-time: 2024-02-18T18:51:14.261979+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/cake/cake002.kqc
+  goals                = (C1)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 100000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+end-time: 2024-02-18T18:51:14.266154+09:00
+
+finished. goallist is empty
+contradictions=(C34)
+valids =NIL
+
+end-time: 2024-02-18T18:51:14.266182+09:00
+
+  ### SUMMARY ###
+  time consumed = 0.008293 secs
+  #clauses = 34
+  #contras = 1
+  #valids = 0
+  #trials = 18
+  #max refute steps = 18
+NIL
