@@ -13,3 +13,5 @@ grep -v ';' cake005-sim1.kqc |grep -v '^$' >www
 (pph c306)   ; print-hilbert
 
 
+[summary]
+#contradictions / #trials を追加したが、意味はあいまい。experimentals

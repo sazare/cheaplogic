@@ -201,17 +201,18 @@
   #contras = ~a
   #valids = ~a
   #trials = ~a
-  #con/tri rate = ~a
-  #max refute steps = ~a"
+  [experimentals]
+  #max refute steps = ~a
+  #con/tri rate = ~a"
       (/ (- (get-internal-run-time) time-start) internal-time-units-per-second)
       (length *clist*)
       (length contras)
       (length valids)
       *trials-count*
-      (/ (length contras) (* 1.0 *trials-count*))
       (loop with s = 0 for cid in (car (lscova)) collect 
        (setq s (max s (depth-cid cid))) finally (return s)
       )
+      (/ (length contras) (* 1.0 *trials-count*))
     )
   )
 )
