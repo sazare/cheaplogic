@@ -11,6 +11,10 @@
   `(print-clauses ',(or cs *clist*))
 )
 
+(defmacro p1 (cid)
+  `(print-clause ',cid )
+)
+
 ;;
 (defmacro pg (&rest g)
   `(prover-gtrail ',g)

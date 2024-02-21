@@ -7,10 +7,21 @@ rubbish-memo.txt
 grep -v ';' cake005-sim1.kqc |grep -v '^$' >www 
 
 
+[cluse tools]
+(pcs {clist})
+
+(p1 cid)
+
 
 [proof 分析ツール]
 (mds)        ; (maxdep (cid ...))
 (pph c306)   ; print-hilbert
+(oph* (cadr (mds))) 
+(ophc fname) ; all contradiction's proof to fname
+
+[log]
+(logshow)
+  何がNGかわかる
 
 
 [summary]

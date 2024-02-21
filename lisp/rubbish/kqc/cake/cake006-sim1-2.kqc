@@ -1,6 +1,12 @@
-; Recipe of Cake (4)
+; Recipe of Cake (
 ;;;; SIMULATION OF ACTUATOR. 
-;;; backword
+;;;; 6 from 5 
+;;;; let name of Mixepr, Mixed differ
+;;; P(x,y,f(x,y)) is not appropriate. change to -P(x,y)∨+R(f(x,y)) 
+;;; and 
+
+;; from 6-sim1 to 6-sim1-2
+;; Mixed to Mixed[1-5] and Bowler, Bowled to *[12]
 
 ;; until made Kiji of cake, delete second part of construct cake.(Cream used)
 ;; ref :  docs/
@@ -13,10 +19,10 @@
 ;; preparation(some kinds of facts)
 ;(() (+ Fresh freshclean))
 ; 3 times suger used namely 3 different sugar unit
-(() (+ Sugarp sugar1))
+(() (+ Sugarp sugar))
 (() (+ EggWhite white))
 (() (+ EggYellow yellow))
-(() (+ Sift riceflaur))
+(() (+ Sifted riceflaur))
 (() (+ Milkp milk))
 
 ;; Human actions. How muti actions expressed?
@@ -29,15 +35,13 @@
 ; Human actions be fact after human do it.
 ; and observed by EO.
 ; Bowl then Mix make Melange or Mixed something.
-((x y) (+ Bowlpr x y (bowler x y)))
-;((x y z) (+ Bowlpr x y z))
-;; namely, Mixpr don't make determined state.
-((x y) (+ Mixpr x y (mixer x y)))
-;((x y z) (+ Mixpr x y z))
+;((x y) (- Bowlpr x y)(+ Bowled x y))
 
-;; Bake it
-((x) (+ Bakepr x (oven x)))
-;((x y) (+ Bakepr x y))
+;; namely, Mixpr don't make determined state.
+;((x y z) (+ Mixpr x y)(- Mixed (mixer x y)))
+
+;; Bake to Cake 
+((x) (- Bakepr x) (+ Cake (oven x)))
 
 ;; In this way, Human Action Done just remove the Action Literal.
 ;; It seems good for it...
@@ -52,8 +56,19 @@
 
 ; when EggWhite, mixed them is Melange, when EggYellow, mixed them is Mixed without name)
 ;; 2 literals are initial fact/states, next 2 pr literals are human action
-((x y z w) (- EggYellow x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Mixed w))
-((x y z w) (- EggWhite x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Melenge w))
+;((x y z w) (- EggYellow x) (- Sugarp y) (- Bowlpr x y z)(- Mixpr z w) (+ Mixed w))
+((x y) (- EggYellow x) (- Sugarp y) (+ Bowlpr1 x y))
+((x y) (- Bowlpr1 x y)(+ Bowled1 x y))
+(() (- Bowled1 yellow sugar)(+ Mixpr1 yellow sugar))
+(() (- Mixpr1 yellow sugar) (+ Mixedys mi1))
+((w) (- Mixedys w) (+ M1 w))
+
+;((x y z w) (- EggWhite x) (- Sugarp y) (- Bowlpr x y z) (- Mixpr z w) (+ Melenge w))
+((x y z w) (- EggWhite x) (- Sugarp y) (+ Bowlpr2 x y))
+((x y) (- Bowlpr2 x y)(+ Bowled2 x y))
+((x y) (- Bowled2 white sugar)  (+ Mixpr2 white sugar))
+(() (- Mixpr2 white sugar) (+ Mixedws melenge))
+((w) (- Mixedws w) (+ Melenge w))
 
 ;; in Recipe some constructs has no name(as D1, D2 here)
 ;;; how these Mixpr are distinguished each others.
@@ -65,21 +80,26 @@
 ;; not work
 
 ; mixed and mixed Sift more, it is D1
-((x y z) (- Mixed x) (- Sift y) (+ Mixpr x y z))
-;; for HA
-((x y z) (- Mixpr x y z) (+ D1 z))
+((x y) (- M1 x) (- Sifted y) (+ Mixpr3 x y))
+;; for Simulation
+(() (- Mixpr3 mi1 riceflaur) (+ Mixedm1s do1))
+(() (- Mixedm1s do1) (+ D1 do1))
+
 
 ; mixed D1 and mix Milk more, it is D2
-((x y z) (- D1 x) (- Milkp y) (+ Mixpr x y z))
+((x y) (- D1 x) (- Milkp y) (+ Mixpr4 x y))
 ;;; for HA
-((x y z) (- Mixpr x y z) (+ D2 z))
+(() (- Mixpr4 do1 milk) (+ Mixed1m do2))
+(() (- Mixed1m do2) (+ D2 do2))
+
 
 ; Just Melange and D2 mixed, it is Dough
-((x y z) (- D2 x) (- Melenge y) (+ Mixpr x y z) )
+((x y) (- D2 x) (- Melenge y) (+ Mixpr5 x y) )
 ;; for HA
-((x y z)  (- Mixpr x y z) (+ Dough z))
-
+(() (- Mixpr5 do2 melenge) (+ Mixed2m dough))
+(()  (- Mixed2m dough) (+ Dough dough))
 
 ;; a baked dough is the Cake
-((x y) (- Dough x)(- Bakepr x y)(+ Cake y))
+((x) (- Dough x)(+ Bakepr x))
+
 

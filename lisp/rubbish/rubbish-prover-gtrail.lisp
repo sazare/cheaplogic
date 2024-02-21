@@ -237,13 +237,12 @@
   
          (setq  newgoal  (step-solver goal))
 
-
          (multiple-value-setq (newgoals cs ts) (gathercontra newgoal) )
          (setq *contradictions* (append cs *contradictions*))
 
-
          (setq valids (append ts valids))
-         (setq goallist (append goallist newgoals))
+         (setq goallist (append (list newgoal) newgoals goallist))
+;         (setq goallist (append goallist newgoals))
          (setq newgoal nil)
          (setq *goallist* goallist)
      

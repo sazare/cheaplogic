@@ -1446,7 +1446,115 @@ NIL
 (defparameter *timeout-sec* 10)
 (play-prover-gtrail '(c1) fkname)
 (mds)
+(oph* (cadr (mds)) "cake5.txt")
 
 
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake005-sim1.kqc")
 (readkqc fkname)
 (bcs)
+
+;;; cake006-sim1 は、センサーや作業によるタイムラグを反映して
+;;; P(x,y,f(x,y))をP(x,y)→R(f(x,y))にしたもの
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1.kqc")
+
+;; run
+(defparameter *max-clauses* 10000)
+(defparameter *max-trials* 1000)
+(defparameter *max-steps* 1000)
+(defparameter *timeout-sec* 10)
+
+(trace step-solver)
+(trace resolve-id)
+;(trace step-reduce-syntax)
+;(trace match-lids)
+;(trace reduce-id)
+;(trace equal-lid)
+;(trace entry-reduce)
+;(trace engty-clause)
+
+(play-prover-gtrail '(c1) fkname)
+(mds)
+(oph* (cadr (mds)) "cake6.txt")
+
+;;; kqc
+(readkqc fkname)
+(bcs)
+
+;;;; Mixpr to Mixpr[1:5]
+;;;; melange to melenge
+;;;; MIXED2 ...
+ 
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1-2.kqc")
+
+;; run
+(defparameter *max-clauses* 10000)
+(defparameter *max-trials* 1000)
+(defparameter *max-steps* 1000)
+(defparameter *timeout-sec* 10)
+(play-prover-gtrail '(c1) fkname)
+(mds)
+(oph* (cadr (mds)) "cake6.txt")
+
+;;; kqc
+(readkqc fkname)
+(bcs)
+
+;;; from cake6-sim1-2, 
+;;; remove predicates Mixed???
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1-3.kqc")
+
+;; run
+(defparameter *max-clauses* 10000)
+(defparameter *max-trials* 1000)
+(defparameter *max-steps* 1000)
+(defparameter *timeout-sec* 10)
+
+;(trace step-solver)
+;(trace resolve-id)
+;(trace step-reduce-syntax)
+;(trace match-lids)
+;(trace reduce-id)
+;(trace equal-lid)
+;(trace entry-reduce)
+;(trace engty-clause)
+
+(play-prover-gtrail '(c1) fkname)
+(mds)
+(oph* (cadr (mds)) "cake6.txt")
+
+;;; kqc
+(readkqc fkname)
+(bcs)
+
+;;;; Mixpr to Mixpr[1:5]
+;;;; melange to melenge
+;;;; MIXED2 ...
+ 
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1-2.kqc")
+
+;; run
+(defparameter *max-clauses* 10000)
+(defparameter *max-trials* 1000)
+(defparameter *max-steps* 1000)
+(defparameter *timeout-sec* 10)
+(play-prover-gtrail '(c1) fkname)
+(mds)
+(oph* (cadr (mds)) "cake6.txt")
+
+;;; kqc
+(readkqc fkname)
+(bcs)
+
+

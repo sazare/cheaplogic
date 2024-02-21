@@ -63,7 +63,7 @@
      )
     )
     (t
-     (format out "~a~a: ~a ~a [~a]~%" (nspace ind) cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
+     (format out "~a~a: ~a ~a ~a~%" (nspace ind) cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
     )
   )
 )
@@ -614,9 +614,17 @@
 )
 
 (defun oph* (cid* fname)
+  (unless fname (format t "fname is needed~%"))
   (when (probe-file fname) (format t "~a already EXISTS. overwrite it.~%" fname))
   (with-open-file (out fname :direction :output :if-exists :supersede)
     (print-hilbert* cid* out)
+  )
+)
+
+(defun ophc (&optional fname)
+  (if fname 
+    (oph* (car (lscova)) fname)
+    (print-hilbert* (car (lscova)) t)
   )
 )
 

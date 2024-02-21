@@ -1,4 +1,42 @@
 
+2024/02/20火
+・Cakeのkqcを調整中
+　まちがい
+　　- melengeをmelangeにしていた
+　　- Mixpr2の何か
+
+ cake006-sim1-2.kqcで[]は出たが、修正を遡ってみたら
+
+ cake006-sim1.kqcでは[]がでない。
+
+(logshow)の 末尾をみるとこういうことになっている。
+
+(20240120.094919 L71-1 L16-2 (W.161) (SUGAR))
+(20240120.094919 RESO C74)
+(20240120.094919 GOALLIST (C72 C73 C74))
+(20240120.094919 L72-1 L6-1 NIL NO)
+(20240120.094919 GOALLIST (C73 C74))
+(20240120.094919 L73-1 L21-2 NIL NO)
+(20240120.094919 GOALLIST (C74))
+(20240120.094919 L74-1 L18-2 NIL NIL)
+(20240120.094919 RESO C75)
+(20240120.094919 GOALLIST (C75))
+(20240120.094919 L75-1 L21-2 NIL NO)
+(20240120.094919 GOALLIST NIL)に
+
+RUBBISH(11): (p1 c75)
+C75: RESO NIL ((- MIXED1M WHITE) (- MIXEDWS SUGAR) (- MIXPR MI1 RICEFLAUR))
+NIL
+RUBBISH(12): (p1 c21)
+C21: NIL [((- MIXPR DO1 MILK) (+ MIXED1M DO2))]
+NIL
+
+★unifyに失敗しているのにgoallistから消去しているのはなぜ???
+
+**** pure-prover-gtrailで newgoallistの制御がおかしくて消えていく ★
+
+
+
 2024/02/13火
 ・rubbish-beauty.lispを最近作っていた。
 　kqcをreadkqcしたものを手書きのclauseみたいに表示するもの。
