@@ -20,12 +20,9 @@
 
 (defun beauty-term* (arg* &optional (out t))
   (let ()
-    (format out "(")
     (loop for tm* on arg* do
       (beauty-term (car tm*) out)
       (when (cdr tm*) (format out ","))
-    finally
-      (format out ")")
     )
   )
 )
@@ -33,7 +30,9 @@
 (defun beauty-lit (lit &optional (out t))
   (let ((sign (car lit))(psym (cadr lit))(args (cddr lit)))
     (format out "~a~a" sign psym)
-     (beauty-term* args)
+    (format out "(")
+    (beauty-term* args)
+    (format out ")")
   )
 )
 

@@ -1539,16 +1539,21 @@ NIL
 ;;;; Mixpr to Mixpr[1:5]
 ;;;; melange to melenge
 ;;;; MIXED2 ...
+
  
+;;; from cake6-sim1-3, 
+;;; remove predicates Mixed???
+
 (require :gtrail)
 (in-package :rubbish)
-(defparameter fkname "kqc/cake/cake006-sim1-2.kqc")
+(defparameter fkname "kqc/cake/cake006-sim1-4.kqc")
 
 ;; run
 (defparameter *max-clauses* 10000)
 (defparameter *max-trials* 1000)
 (defparameter *max-steps* 1000)
 (defparameter *timeout-sec* 10)
+
 (play-prover-gtrail '(c1) fkname)
 (mds)
 (oph* (cadr (mds)) "cake6.txt")
@@ -1557,4 +1562,12 @@ NIL
 (readkqc fkname)
 (bcs)
 
-
+;;; trace
+(trace step-solver)
+(trace resolve-id)
+(trace step-reduce-syntax)
+(trace match-lids)
+(trace reduce-id)
+(trace equal-lid)
+(trace entry-reduce)
+(trace engty-clause)
