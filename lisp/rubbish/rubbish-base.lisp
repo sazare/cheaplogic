@@ -205,7 +205,7 @@
  )
 )
 
-(defun setcid (cid name vars body)
+(defun setcid (cid name vars body ovars)
 ; name may be number
 ; vars is var*
 ; body is lid*
@@ -213,6 +213,7 @@
   (setf (get cid :vars) vars)
   (setf (get cid :when-born) (incf *when-born*))
   (set cid body)
+  (setf (get cid :ovars) ovars)
   cid
 )
 
@@ -232,7 +233,7 @@
         (setq body (cddr cexp)))
     )
     (pushnew cid *input-clauses*)
-    (setcid cid name ns (make-lids cid (subsubp vars body ns)))
+    (setcid cid name ns (make-lids cid (subsubp vars body ns)) ())
   )
 )
 

@@ -529,7 +529,7 @@
 ;*** print-stemをつくる
 ;  proofのmguの木
 ;  (cid) = (:when-born :vars :name)
-;          (:proof (rule vars mgu conflicts=(ll lr)) :when-boarn :vars :name)
+;          (:proof (rule vars mgu conflicts=(ll lr)) :when-boarn :ovars  :vars :name)
 
 (defun print-root-stem (cid &optional (out t))
 ;  (format out "~a ~a ~a~%" cid (varsof cid) (nameof cid))
@@ -653,3 +653,42 @@
   )
 )
 
+;;;;
+;;; information extraction
+
+
+(defun extract-inf(ccid icid* base)
+;  ;; for every step of cid
+;  ;; もしかして、[]からさかのぼってinputまでいくのかな
+;  ;; そしてinputから[]にむかって適用していく?
+;  ;; だとしたら証明プロセスとともにやるほうがはやいかも
+
+  (extract-child ccid icid* (cons :tuple base))
+)
+
+(defun extract-child (cid icid* base)
+  (let ((proof (proofof cid)) ll lr rule vars mgu conf lbase rbase ovars rvars)
+    (setq rule (car proof))
+    (setq vars (cadr proof))
+    (setq mgu  (caddr proof))
+    (setq conf (cadddr proof))
+    (setq ll   (car conf))
+    (setq lr   (cadr conf))
+    (setq ovars (get cid :ovars))
+    (setq rvars (get cid :vars))
+
+    (cond 
+       (proof 
+         (let ()
+          (setq lbase (extract-child (cidof ll) icid* base))
+          (setq rbase (extract-child (cidof lr) icid* base))
+          (if (and lbase rbase)
+            (substp ovars (substp vars (cons :tuple (append (cdr lbase) (cdr rbase))) mgu) rvars)
+            (substp ovars (substp vars (or lbase rbase) mgu) rvars)
+          )
+        ))
+      (t (if (member cid icid*) base nil))
+    )
+  )
+)
+;

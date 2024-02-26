@@ -21,7 +21,7 @@
 
 
 (defun entry-clause (lid1 lid2 vs sig remid remlit*)
-  (let ((ncid (new-cid)) body (ns (newvars vs)) )
+  (let ((ncid (new-cid)) body (ns (newvars vs)) newvars )
 
     (setf body (loop for lid in remid 
                     as lit in (substp vs remlit* sig) 
@@ -36,9 +36,10 @@
                   )
               )
      )
-   
+  
+    (setq newvars (shrinkvs vs sig)) 
 
-    (setcid ncid :reso (subsubp vs (shrinkvs vs sig) ns) (subsubp vs body ns)) ;;; this conflicts
+    (setcid ncid :reso (subsubp vs newvars  ns) (subsubp vs body ns) newvars) ;;; this conflicts
 
     (entry-proof ncid :resolution vs (subsubp vs sig ns) (list lid1 lid2))
     (rubbish-log :reso ncid)
@@ -93,7 +94,7 @@
                )
     )
 
-    (setcid ncid :REDUCED-BY-SYNTAX () body)
+    (setcid ncid :REDUCED-BY-SYNTAX () body ())
 
     (entry-proof ncid :REDUCED-BY-SYNTAX vs vs (list lid1 lid2))
     (rubbish-log :REDUCED-BY-SYNTAX ncid)

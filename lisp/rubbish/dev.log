@@ -1,4 +1,35 @@
 
+2024/02/26月
+ついに情報抽出をはじめる。
+extract-inf in proof
+　は、[]とinput clauseでnconjのclauseならびに
+　注目する変数リストを与えると、それらの変数リストに対して
+　[]の証明でできるmguを適用したものを作る。
+
+　cake6-sim1-4.kqcの結果について情報がとれた。
+
+RUBBISH(71): (extract-inf 'c36 '(c1) '(z.148) )
+
+(TUPLE (OVEN (DOU (DO2 (DO1 (MX1 YELLOW SUGAR) RICEFLAUR) MILK) (MEL WHITE SUGAR))))
+
+
+しかし、2つのinputがからむ場合は未テスト
+つまり
+　▼　　▽
+---------
+    α
+の場合、▽と▼の両方にnconjのclauseがあると、それぞれの変数リストの結果がでてくるが
+[v1...]と[v2...]をマージした場合の結果を確認していない。
+
+期待では
+　(tupple (tupple v1...) (tupple v2...))
+になり、2つの結果が並列にでてくるはず。
+
+いまのところ、このような証明がproverで作れないはずなので、proverの方をもうすこし考えよう。
+
+
+
+
 2024/02/20火
 ・Cakeのkqcを調整中
 　まちがい

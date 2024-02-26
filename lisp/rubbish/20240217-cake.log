@@ -1446,7 +1446,7 @@ NIL
 (defparameter *timeout-sec* 10)
 (play-prover-gtrail '(c1) fkname)
 (mds)
-(oph* (cadr (mds)) "cake5.txt")
+(oph* (car (lscova)) "cake5.txt")
 
 
 (require :gtrail)
@@ -1479,7 +1479,7 @@ NIL
 
 (play-prover-gtrail '(c1) fkname)
 (mds)
-(oph* (cadr (mds)) "cake6.txt")
+(oph* (car (lscova)) "cake6.txt")
 
 ;;; kqc
 (readkqc fkname)
@@ -1556,7 +1556,7 @@ NIL
 
 (play-prover-gtrail '(c1) fkname)
 (mds)
-(oph* (cadr (mds)) "cake6.txt")
+(oph* (car (lscova)) "cake6.txt")
 
 ;;; kqc
 (readkqc fkname)
