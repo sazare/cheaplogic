@@ -658,6 +658,7 @@
 
 
 (defun extract-inf(ccid icid* base)
+  "info from contra proof with goals and vars(extract-inf contra goals varsininputs)"
 ;  ;; for every step of cid
 ;  ;; もしかして、[]からさかのぼってinputまでいくのかな
 ;  ;; そしてinputから[]にむかって適用していく?

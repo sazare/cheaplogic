@@ -1,0 +1,60 @@
+; Recipe of Cake (
+;;; L0 version of cake006-sim1-4.kqc
+
+;;;; SIMULATION OF ACTUATOR. 
+;;;; 6 from 5 
+;;;; let name of Mixepr, Mixed differ
+;;; P(x,y,f(x,y)) is not appropriate. change to -P(x,y)∨+R(f(x,y)) 
+;;; and 
+;; from 6-sim1 to 6-sim1-2
+;; Mixed to Mixed[1-5] and Bowler, Bowled to *[12]
+
+;; cake6-sim1-3 is remove some redundant predicate ... *ED???
+;; cake6-sim1-4 removed more
+
+;; until made Kiji of cake, delete second part of construct cake.(Cream used)
+;; ref :  docs/
+;; prev:  kqc/cake/cake002.kqc
+;;; 1) another way of Human Action
+
+;; goal 
+(1 () (- Cake))
+
+(() (+ Sugarp ))
+(() (+ EggWhite ))
+(() (+ EggYellow ))
+(() (+ Sifted ))
+(() (+ Milkp ))
+
+
+;; Bake to Cake 
+;; oven is automatic
+(() (- Bakepr) (+ Cake))
+
+;; recipe
+
+(() (- EggYellow) (- Sugarp) (+ Mixpr1))
+(() (- Mixpr1) (+ Mix1 ))
+
+(() (- EggWhite ) (- Sugarp ) (+ Mixpr2))
+(() (- Mixpr2 ) (+ Melenge))
+
+(() (- Mix1 ) (- Sifted ) (+ Mixpr3 ))
+;; for Simulation
+(() (- Mixpr3 ) (+ D1 ))
+
+; mixed D1 and mix Milk more, it is D2
+(() (- D1 ) (- Milkp ) (+ Mixpr4 ))
+;;; for HA
+(() (- Mixpr4 ) (+ D2 ))
+
+
+; Just Melange and D2 mixed, it is Dough
+(() (- D2 ) (- Melenge ) (+ Mixpr5 ))
+;; for HA
+(() (- Mixpr5 ) (+ Dough (dou )))
+
+;; a baked dough is the Cake
+(() (- Dough )(+ Bakepr ))
+
+

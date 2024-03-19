@@ -32,5 +32,6 @@
       (:file "rubbish-mujun" :depends-on ("rubbish-package"))
 ;      (:file "rubbish-digraph" :depends-on ("rubbish-package"))
       (:file "rubbish-goods" :depends-on ("rubbish-package"))
+      (:file "rubbish-explore" :depends-on ("rubbish-package"))
     )
 )

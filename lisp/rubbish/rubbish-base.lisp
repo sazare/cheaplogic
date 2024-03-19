@@ -324,6 +324,9 @@
   )
 )
 
+(defun ptolsym (sign psym)
+  (intern (format nil "~a~a" sign  psym   :rubbish))
+)
 
 ;; lsym and oppo
 (defun oppo (sign)

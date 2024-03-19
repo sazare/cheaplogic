@@ -1468,8 +1468,8 @@ NIL
 (defparameter *max-steps* 1000)
 (defparameter *timeout-sec* 10)
 
-(trace step-solver)
-(trace resolve-id)
+;(trace step-solver)
+;(trace resolve-id)
 ;(trace step-reduce-syntax)
 ;(trace match-lids)
 ;(trace reduce-id)
@@ -1504,6 +1504,7 @@ NIL
 
 ;;; kqc
 (readkqc fkname)
+(print-clauses)
 (bcs)
 
 ;;; from cake6-sim1-2, 
@@ -1555,11 +1556,17 @@ NIL
 (defparameter *timeout-sec* 10)
 
 (play-prover-gtrail '(c1) fkname)
+(lscova)
+(extract-inf 'c36 '(c1) '(z.148) )
+
 (mds)
 (oph* (car (lscova)) "cake6.txt")
 
+
 ;;; kqc
 (readkqc fkname)
+(print-clauses)
+
 (bcs)
 
 ;;; trace
@@ -1571,3 +1578,36 @@ NIL
 (trace equal-lid)
 (trace entry-reduce)
 (trace engty-clause)
+
+
+ (extract-inf 'c36 '(c1) '(z.148) )
+; shows the process of cake making is dintended one.
+; by supporting clauses
+
+;; L0 of cake006-sim1-4-l0.kqc
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1-4-l0.kqc")
+
+(play-prover-gtrail '(c1) fkname)
+(lscova)
+(print-hilbert 'c36)
+
+
+(readkqc fkname)
+(print-clauses)
+
+
+;;;;;;;;;;;; expolore
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1-4.kqc")
+
+(readkqc fkname)
+(print-clauses)
+
+
+

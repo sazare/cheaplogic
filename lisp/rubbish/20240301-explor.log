@@ -1,0 +1,69 @@
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/2on2001.kqc")
+;(defparameter *max-clauses* 10000)
+;(defparameter *max-trials* 1000)
+;(defparameter *max-steps* 1000)
+;(defparameter *timeout-sec* 10)
+(play-prover-gtrail '(c1) fkname)
+
+(mds)
+(oph* (car (lscova)) "explore.txt")
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/2on2001.kqc")
+(readkqc fkname)
+(bcs)
+
+;;; これは2つの矛盾がでて問題なさそう
+
+;;RとSの間にUを入れて、痕跡を隠した
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/2on2002.kqc")
+(play-prover-gtrail '(c1) fkname)
+
+(mds)
+(oph* (car (lscova)) "explore.txt")
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/2on2002.kqc")
+(readkqc fkname)
+(bcs)
+
+;; 矛盾x2がでてしまう
+
+
+;; cakeのように2つのパスが必要にしてみた
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/2on2003.kqc")
+(play-prover-gtrail '(c1) fkname)
+
+(mds)
+(oph* (car (lscova)) "explore.txt")
+
+RUBBISH(7): (lscova)
+
+((C18 C19) NIL)
+RUBBISH(8): (extract-inf 'c18 '(c1) '(z.148))
+(:TUPLE (F C (G B C)))
+RUBBISH(9): (extract-inf 'c19 '(c1) '(z.148))
+(:TUPLE (F C (G A C)))
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/2on2003.kqc")
+(readkqc fkname)
+(bcs)
+
+;矛盾が二個できる??
+
+linearでないproofを探している
+
