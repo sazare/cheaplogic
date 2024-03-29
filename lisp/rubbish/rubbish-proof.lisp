@@ -657,8 +657,8 @@
 ;;; information extraction
 
 
-(defun extract-inf(ccid icid* base)
-  "info from contra proof with goals and vars(extract-inf contra goals varsininputs)"
+(defun extract-mgu(ccid icid* base)
+  "info from contra proof with goals and vars(extract-mgu contra goals varsininputs)"
 ;  ;; for every step of cid
 ;  ;; もしかして、[]からさかのぼってinputまでいくのかな
 ;  ;; そしてinputから[]にむかって適用していく?

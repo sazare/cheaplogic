@@ -1557,7 +1557,7 @@ NIL
 
 (play-prover-gtrail '(c1) fkname)
 (lscova)
-(extract-inf 'c36 '(c1) '(z.148) )
+(extract-mgu 'c36 '(c1) '(z.148) )
 
 (mds)
 (oph* (car (lscova)) "cake6.txt")
@@ -1580,7 +1580,8 @@ NIL
 (trace engty-clause)
 
 
- (extract-inf 'c36 '(c1) '(z.148) )
+ (extract-mgu 'c36 '(c1) '(z.148) )
+
 ; shows the process of cake making is dintended one.
 ; by supporting clauses
 
@@ -1605,6 +1606,12 @@ NIL
 (require :gtrail)
 (in-package :rubbish)
 (defparameter fkname "kqc/cake/cake006-sim1-4.kqc")
+
+(play-prover-gtrail '(c1) fkname)
+(lscova)
+(print-hilbert 'c36)
+
+(extract-mgu 'c36 '(c1) '(z.148) )
 
 (readkqc fkname)
 (print-clauses)
