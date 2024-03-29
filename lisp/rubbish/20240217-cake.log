@@ -1498,9 +1498,13 @@ NIL
 (defparameter *max-trials* 1000)
 (defparameter *max-steps* 1000)
 (defparameter *timeout-sec* 10)
+
 (play-prover-gtrail '(c1) fkname)
 (mds)
 (oph* (cadr (mds)) "cake6.txt")
+
+(extract-mgu 'c54 '(c1) '(z.148))
+
 
 ;;; kqc
 (readkqc fkname)
@@ -1611,6 +1615,7 @@ NIL
 (lscova)
 (print-hilbert 'c36)
 
+; これはうまく出る
 (extract-mgu 'c36 '(c1) '(z.148) )
 
 (readkqc fkname)

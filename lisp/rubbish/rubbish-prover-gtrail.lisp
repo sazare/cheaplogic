@@ -362,6 +362,7 @@
 (defun play-prover-gtrail (goal kqcfile)
   (let ()
     (start-prover-gtrail kqcfile)
+    (print-clauses)
     (logstart)
     (prover-gtrail goal)
   )
