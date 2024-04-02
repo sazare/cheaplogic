@@ -67,3 +67,85 @@ RUBBISH(9): (extract-inf 'c19 '(c1) '(z.148))
 
 linearでないproofを探している
 
+
+*** input pairs and mgu of them
+;as rubbish-explore.lisp
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/cake/cake006-sim1-4.kqc")
+(readkqc fkname)
+ (defparameter mm (mguofΣ))
+(loop for x in mm do (format t "~a~%" x))
+
+これがもとの結果で
+((CAKE L7-2 L1-1) ((X.149 Z.148) (X.149 (OVEN X.149))))
+((EGGYELLOW L4-1 L8-1) ((X.150 Y.151) (YELLOW Y.151)))
+((MIXPR1 L8-3 L9-1) ((X.150 Y.151 X.152 Y.153) (X.152 Y.153 X.152 Y.153)))
+((EGGWHITE L3-1 L10-1) ((X.154 Y.155 Z.156 W.157) (WHITE Y.155 Z.156 W.157)))
+((SUGARP L2-1 L8-2) ((X.150 Y.151) (X.150 SUGAR)))
+((SUGARP L2-1 L10-2) ((X.154 Y.155 Z.156 W.157) (X.154 SUGAR Z.156 W.157)))
+((MIXPR2 L10-3 L11-1) ((X.154 Y.155 Z.156 W.157 X.158 Y.159) (X.158 Y.159 Z.156 W.157 X.158 Y.159)))
+((MIX1 L9-2 L12-1) ((X.152 Y.153 X.160 Y.161) (X.152 Y.153 (MX1 X.152 Y.153) Y.161)))
+((SIFTED L5-1 L12-2) ((X.160 Y.161) (X.160 RICEFLAUR)))
+((MIXPR3 L12-3 L13-1) ((X.160 Y.161 X.162 Y.163) (X.162 Y.163 X.162 Y.163)))
+((D1 L13-2 L14-1) ((X.162 Y.163 X.164 Y.165) (X.162 Y.163 (DO1 X.162 Y.163) Y.165)))
+((MILKP L6-1 L14-2) ((X.164 Y.165) (X.164 MILK)))
+((MIXPR4 L14-3 L15-1) ((X.164 Y.165 X.166 Y.167) (X.166 Y.167 X.166 Y.167)))
+((D2 L15-2 L16-1) ((X.166 Y.167 X.168 Y.169) (X.166 Y.167 (DO2 X.166 Y.167) Y.169)))
+((MELENGE L11-2 L16-2) ((X.158 Y.159 X.168 Y.169) (X.158 Y.159 X.168 (MEL X.158 Y.159))))
+((MIXPR5 L16-3 L17-1) ((X.168 Y.169 X.170 Y.171) (X.170 Y.171 X.170 Y.171)))
+((DOUGH L17-2 L18-1) ((X.170 Y.171 X.172) (X.170 Y.171 (DOU X.170 Y.171))))
+((BAKEPR L18-2 L7-1) ((X.172 X.149) (X.149 X.149)))
+((BAKEPR (L18-2) (L7-1)) ((X.172 X.149) (X.149 X.149)))
+
+ここからx←xを除いたものが今の結果
+
+((CAKE L7-2 L1-1) ((Z.148) ((OVEN X.149))))
+((EGGYELLOW L4-1 L8-1) ((X.150) (YELLOW)))
+((MIXPR1 L8-3 L9-1) ((Y.151 X.150) (Y.153 X.152)))
+((EGGWHITE L3-1 L10-1) ((X.154) (WHITE)))
+((SUGARP L2-1 L8-2) ((Y.151) (SUGAR)))
+((SUGARP L2-1 L10-2) ((Y.155) (SUGAR)))
+((MIXPR2 L10-3 L11-1) ((Y.155 X.154) (Y.159 X.158)))
+((MIX1 L9-2 L12-1) ((X.160) ((MX1 X.152 Y.153))))
+((SIFTED L5-1 L12-2) ((Y.161) (RICEFLAUR)))
+((MIXPR3 L12-3 L13-1) ((Y.161 X.160) (Y.163 X.162)))
+((D1 L13-2 L14-1) ((X.164) ((DO1 X.162 Y.163))))
+((MILKP L6-1 L14-2) ((Y.165) (MILK)))
+((MIXPR4 L14-3 L15-1) ((Y.165 X.164) (Y.167 X.166)))
+((D2 L15-2 L16-1) ((X.168) ((DO2 X.166 Y.167))))
+((MELENGE L11-2 L16-2) ((Y.169) ((MEL X.158 Y.159))))
+((MIXPR5 L16-3 L17-1) ((Y.169 X.168) (Y.171 X.170)))
+((DOUGH L17-2 L18-1) ((X.172) ((DOU X.170 Y.171))))
+((BAKEPR L18-2 L7-1) ((X.172) (X.149)))
+
+これからz.148の行方をたどれる
+
+z.148<-(oven x149)
+z.149<-x.172
+x.172<-(dou x.170 y.171)
+x.170<-x.168
+y.171<-x.169
+x.168<-(do2 x.166 x.167)
+x.169<-(mel x.158 y.159)
+
+;; inputで
+;; 変数のリストを作る
+ (defparameter vs (allvars mm))
+;; (assoc 'x.150 mm)
+;; で(x.150 xxx)がでる
+
+
+この例では、あいまいさなく情報がとれてしまう
+ルーブがない
+
+ルーブがありf^nの形になるときはどうなのか
+
+p2codeの課題
+
+1) □のp2codeから、input clauseが使われたかどうかだけがわかるので、複数回使われたものはわからない。
+　つまり、複数回使う可能性のあるものがわかれば、L1の証明を作るのに役立つ
+
+2) 
+

@@ -26,18 +26,58 @@
     )
   )
 )
-(defun mguofl0 ()
+
+(defun remove-empty (mgu)
+  (let (vs ms nv nm)
+    (setq vs (car mgu))
+    (setq ms (cadr mgu))
+    (loop for v in vs as m in ms when (not (eq v m)) do
+      (push v nv)
+      (push m nm)
+    )
+    (list nv nm)
+  )
+)
+
+(defun mguofΣ()
   (loop for plsls in (make-pair-lids) append
     (loop for ll in (combi (cadr plsls) (caddr plsls))
       collect
-        (list plsls (unify-pair (car ll) (cadr ll)))
+        (list (cons (car plsls) ll) (remove-empty (unify-pair (car ll) (cadr ll))))
     )
   )
 )
 
+(defun allvars (mm)
+  (loop for v in (loop for m in mm append (car (nth 1 m)))
+      collect (list v)
+  )
+)
 
-;;; do
- (defparameter mm (mguofl0))
- (loop for x in mm do (format t "~a~%" x))
+(defun break-mgu (mgu)
+  (loop for v1 in (car mgu)
+         as m1 in (cadr mgu)
+      unless (eq v1 m1)
+      collect (list v1 m1)
+  )
+)
+  
+(defun break-mgu* (mm)
+  (loop for m in mm append
+    (break-mgu (cadr m))
+  )
+)
+
+
+(defun print-mm (mm)
+  (loop for x in mm do (format t "~a ~a~%" (car x)(cadr x)))
+)
+
+;; do
+(defparameter mm (mguofΣ))
+(print-mm mm)
+(defparameter vs (allvars mm))
+(defparameter 1m (break-mgu* mm))
+(print-mm 1m)
 
 
