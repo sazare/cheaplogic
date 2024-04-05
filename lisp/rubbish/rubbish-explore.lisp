@@ -48,10 +48,19 @@
   )
 )
 
-(defun allvars (mm)
-  (loop for v in (loop for m in mm append (car (nth 1 m)))
-      collect (list v)
+(defun allsinglevars (mm)
+  "collect all atom in mm"
+; it contains constants,
+  (loop for m in mm  with vs do 
+    (setq vs (append (car (nth 1 m)) vs)) 
+    (loop for mr in (cadr (nth 1 m)) when (atom mr) do (push mr vs)) 
+    finally
+    (return vs)
   )
+)
+
+(defun allvars (mm)
+  (loop for v in (allsinglevars mm) collect (list v))
 )
 
 (defun break-mgu (mgu)
@@ -68,16 +77,105 @@
   )
 )
 
-
+;;
 (defun print-mm (mm)
   (loop for x in mm do (format t "~a ~a~%" (car x)(cadr x)))
 )
 
+(defun find-sigma (v m1)
+  (loop for s in m1 with ss do
+    (cond 
+      ((eq v (car s)) (push s ss))
+      ((eq v (cadr s)) (push (list (cadr s) (car s)) ss))
+    )
+    finally
+    (return ss)
+  )
+)
+
+(defun isconst(sym)
+  (string-equal sym (vrootof sym))
+)
+
+(defun remove-nil (ls)
+  (loop for e in ls when e collect e)
+)
+
+(defparameter *checked-vars* ())
+
+(defun checkit (v) (push v *checked-vars*))
+
+(defun ischecked (v) (member v *checked-vars*))
+
+(defun clearchecked () (setq *checked-vars* ()))
+
+(defun vartrace* (v* m1)
+  (loop for v in v* unless (isconst v) collect
+    (vartrace v m1)
+  )
+)
+
+(defun vartrace (v m1)
+  (let (ssp ss s1 trace atrace)
+    (setq ssp (list v))
+    (loop while ssp do
+      (setq v (pop ssp))
+
+(format  t "find-sigma: v=~a ssp=~a ~%" v ssp )
+      (setq ss (find-sigma v m1))
+
+      (when ss (setq ssp (append ss ssp)) )
+(format  t "append sigma: ss=~a ssp=~a ~%" ss ssp )
+
+      (setq s1 (pop ssp))
+(format  t "pop ssp: ssp=~a s1=~a cadr=~a~%" ssp s1 (cadr s1)) 
+
+      (loop while (and ssp (ischecked (cadr s1))) do
+(format  t "1 ssp=~a s1=~a cadr=~a~%" ssp s1 (cadr s1)) 
+        (setq s1 (pop ssp))
+      )
+
+(format t "2 checkit s1=~a cadr=~a~%" s1 (cadr s1))
+
+      (checkit (cadr s1))
+
+(format t "3 push s1 to trace  s1=~a trace=~a~%" s1 trace)
+      (push s1 trace)
+
+(format t "before vartrace* : s1=~a atrace=~a~%" s1 atrace)
+
+      (when (listp (cadr s1)) (setq atrace  (vartrace* (cdr (cadr s1)) m1)))
+
+(format t "5 trace=~a atrace=~a~%" trace atrace)
+      (push atrace trace)
+
+(format t "6 trace=~a atrace=~a~%" trace atrace)
+      (setq atrace nil)
+    )
+    (remove-nil trace)
+  )
+)
+
+(defun trace-vars (v mm)
+  (let (m1)
+    (setq m1 (break-mgu* mm))
+
+    (clearchecked )
+
+    (vartrace v m1)
+  )
+)
+  
 ;; do
 (defparameter mm (mguofΣ))
 (print-mm mm)
+
+(defparameter m1 (break-mgu* mm))
+(print-mm m1)
+
 (defparameter vs (allvars mm))
-(defparameter 1m (break-mgu* mm))
-(print-mm 1m)
+
+(clearchecked)
+(vartrace 'z.157 m1)
 
 
