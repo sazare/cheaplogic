@@ -202,7 +202,6 @@ p2codeの課題
 
 (defparameter vs (allvars mm))
 
-(clearchecked)
-(vartrace 'z.157 m1)
+(trace-vars 'z.157 mm)
 
 

@@ -1,0 +1,7 @@
+; examples for stray in logic
+
+
+(1 () (+ P 1))
+
+(() (- P 1))
+

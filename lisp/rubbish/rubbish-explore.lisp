@@ -51,7 +51,7 @@
 (defun allsinglevars (mm)
   "collect all atom in mm"
 ; it contains constants,
-  (loop for m in mm  with vs do 
+  (loop for m in mm  with vs = nil do 
     (setq vs (append (car (nth 1 m)) vs)) 
     (loop for mr in (cadr (nth 1 m)) when (atom mr) do (push mr vs)) 
     finally
@@ -83,7 +83,7 @@
 )
 
 (defun find-sigma (v m1)
-  (loop for s in m1 with ss do
+  (loop for s in m1 with ss = nil do
     (cond 
       ((eq v (car s)) (push s ss))
       ((eq v (cadr s)) (push (list (cadr s) (car s)) ss))
@@ -101,60 +101,65 @@
   (loop for e in ls when e collect e)
 )
 
-(defparameter *checked-vars* ())
+(defparameter *checked-sigma* ())
 
-(defun checkit (v) (push v *checked-vars*))
+(defun checkit (v) (push v *checked-sigma*))
 
-(defun ischecked (v) (member v *checked-vars*))
+(defun ischecked (v) (member v *checked-sigma* :test 'equal))
 
-(defun clearchecked () (setq *checked-vars* ()))
+(defun clearchecked () (setq *checked-sigma* ()))
 
-(defun vartrace* (v* m1)
+;; gather vars in a term
+(defun vsinterm (tm)
+  (if (atom tm) 
+    (if (isconst tm) nil (list tm))
+    (vsinterm* (cdr tm))
+  )
+)
+
+(defun vsinterm* (tm*)
+  (loop for tm in tm* append
+    (vsinterm tm)
+  )
+)
+
+;; 
+(defun vartrace* (v* m1 )
+  "get sigmas from v* in m1"
   (loop for v in v* unless (isconst v) collect
-    (vartrace v m1)
+    (vartrace v m1 )
   )
 )
 
 (defun vartrace (v m1)
-  (let (ssp ss s1 trace atrace)
+  "get sigmas from v in m1"
+  (let (knownvs ssp ss s1 s0 s trace atrace)
     (setq ssp (list v))
     (loop while ssp do
-      (setq v (pop ssp))
+      (setq s0 (pop ssp))
 
-(format  t "find-sigma: v=~a ssp=~a ~%" v ssp )
-      (setq ss (find-sigma v m1))
+      (format t "at loop s0=~a~%" s0)
 
-      (when ss (setq ssp (append ss ssp)) )
-(format  t "append sigma: ss=~a ssp=~a ~%" ss ssp )
+      (loop while (member s0 *checked-sigma* :test 'equal) 
+        do (setq s0 (pop ssp)))
 
-      (setq s1 (pop ssp))
-(format  t "pop ssp: ssp=~a s1=~a cadr=~a~%" ssp s1 (cadr s1)) 
+      (format t "after loop s0=~a~%" s0)
 
-      (loop while (and ssp (ischecked (cadr s1))) do
-(format  t "1 ssp=~a s1=~a cadr=~a~%" ssp s1 (cadr s1)) 
-        (setq s1 (pop ssp))
+      (setq ss (find-sigma s0 m1))
+      (push s0 *checked-sigma*)
+
+      (setq ssp (append ssp ss))
+
+      (loop for  s in ss with nextss = nil do
+        (setq nextss (vartrace* (vsinterm* (cdr s)) m1))
+        (setq ssp (append nextss ssp))
+        (push s *checked-sigma*)
       )
-
-(format t "2 checkit s1=~a cadr=~a~%" s1 (cadr s1))
-
-      (checkit (cadr s1))
-
-(format t "3 push s1 to trace  s1=~a trace=~a~%" s1 trace)
-      (push s1 trace)
-
-(format t "before vartrace* : s1=~a atrace=~a~%" s1 atrace)
-
-      (when (listp (cadr s1)) (setq atrace  (vartrace* (cdr (cadr s1)) m1)))
-
-(format t "5 trace=~a atrace=~a~%" trace atrace)
-      (push atrace trace)
-
-(format t "6 trace=~a atrace=~a~%" trace atrace)
-      (setq atrace nil)
     )
-    (remove-nil trace)
+    (remove-nil *checked-sigma*)
   )
 )
+
 
 (defun trace-vars (v mm)
   (let (m1)
@@ -167,15 +172,14 @@
 )
   
 ;; do
-(defparameter mm (mguofΣ))
-(print-mm mm)
-
-(defparameter m1 (break-mgu* mm))
-(print-mm m1)
-
-(defparameter vs (allvars mm))
-
-(clearchecked)
-(vartrace 'z.157 m1)
+;(defparameter mm (mguofΣ))
+;(print-mm mm)
+;
+;(defparameter m1 (break-mgu* mm))
+;(print-mm m1)
+;
+;;(defparameter vs (allvars mm))
+;
+;(trace-vars 'z.157 mm)
 
 
