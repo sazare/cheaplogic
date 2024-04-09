@@ -82,104 +82,130 @@
   (loop for x in mm do (format t "~a ~a~%" (car x)(cadr x)))
 )
 
-(defun find-sigma (v m1)
-  (loop for s in m1 with ss = nil do
-    (cond 
-      ((eq v (car s)) (push s ss))
-      ((eq v (cadr s)) (push (list (cadr s) (car s)) ss))
-    )
-    finally
-    (return ss)
-  )
-)
 
 (defun isconst(sym)
   (string-equal sym (vrootof sym))
+)
+
+(defun isvarsyntax (sym)
+  (not (isconst sym))
 )
 
 (defun remove-nil (ls)
   (loop for e in ls when e collect e)
 )
 
+;; *checked-sigma*
 (defparameter *checked-sigma* ())
-
-(defun checkit (v) (push v *checked-sigma*))
-
+(defun checkit (v) (unless (member v *checked-sigma*) (push v *checked-sigma*)))
 (defun ischecked (v) (member v *checked-sigma* :test 'equal))
+(defun clear-checked () (setq *checked-sigma* ()))
 
-(defun clearchecked () (setq *checked-sigma* ()))
 
-;; gather vars in a term
-(defun vsinterm (tm)
-  (if (atom tm) 
-    (if (isconst tm) nil (list tm))
-    (vsinterm* (cdr tm))
+;; *track-subs*
+(defparameter *track-subs* nil)
+(defun clear-subs () (setq *track-subs* nil))
+(defun pickup (s) 
+  (let ()
+    (setq *track-subs*  (remove s *track-subs* :test 'equal) )
+    s
   )
 )
 
-(defun vsinterm* (tm*)
-  (loop for tm in tm* append
-    (vsinterm tm)
+;; gather vars in a term
+(defun vsinterm (ft)
+  (if (atom ft) 
+    (if (isconst ft) nil (list ft))
+    (vsinterm* (cdr ft))
+  )
+)
+
+(defun vsinterm* (ft*)
+  (loop for ft in ft* append
+    (vsinterm ft)
   )
 )
 
 ;; 
-(defun vartrace* (v* m1 )
-  "get sigmas from v* in m1"
-  (loop for v in v* unless (isconst v) collect
-    (vartrace v m1 )
+(defun v*track (v*)
+  (loop for v in v* unless (isconst v) append (vtrack v))
+)
+
+(defun vtrack (v)
+  (let (s*)
+    (setq s* (loop for x in *track-subs* when (equal v (car x)) collect x))
+    (if s*
+      (s*track s*)
+      (loop for x in *track-subs* when (equal v (cadr x)) do 
+        (checkit x)
+        (vtrack (car x))))
   )
 )
 
-(defun vartrace (v m1)
-  "get sigmas from v in m1"
-  (let (knownvs ssp ss s1 s0 s trace atrace)
-    (setq ssp (list v))
-    (loop while ssp do
-      (setq s0 (pop ssp))
-
-      (format t "at loop s0=~a~%" s0)
-
-      (loop while (member s0 *checked-sigma* :test 'equal) 
-        do (setq s0 (pop ssp)))
-
-      (format t "after loop s0=~a~%" s0)
-
-      (setq ss (find-sigma s0 m1))
-      (push s0 *checked-sigma*)
-
-      (setq ssp (append ssp ss))
-
-      (loop for  s in ss with nextss = nil do
-        (setq nextss (vartrace* (vsinterm* (cdr s)) m1))
-        (setq ssp (append nextss ssp))
-        (push s *checked-sigma*)
+(defun s*track (s*)
+  (let (res rs)
+    (loop for s in s* append 
+      (loop for m in *track-subs* do
+        (cond
+          ((equal s m)
+            (checkit s)
+            (pickup s)
+            (setq res (append (strack s ) res)))
+          ((and (not (listp (cadr s))) (isvarsyntax (cadr s)))
+            (setq rs (list (cadr s) (car s)))
+            (checkit rs)
+            (pickup s)
+            (setq res (append (strack rs) res)))
+          (t rs)
+        )
       )
     )
-    (remove-nil *checked-sigma*)
+    rs
   )
 )
 
+(defun strack(s)
+  (let (ss sv*)
+    (setq sv* (ftrack (cadr s)))
+    (pickup s)
+    (vtrack (car s))
+  )
+)
 
-(defun trace-vars (v mm)
-  (let (m1)
-    (setq m1 (break-mgu* mm))
-
-    (clearchecked )
-
-    (vartrace v m1)
+(defun ftrack(ft)  
+  (if (atom ft)
+    (vtrack ft)
+    (v*track (cdr ft))
   )
 )
   
+(defparameter mm nil)
+(defparameter m1 nil)
+
+(defun trackvars (v*)
+  (let ()
+    (clear-subs)
+    (clear-checked)
+
+    (setq  mm (mguofΣ))
+    (setq  m1 (break-mgu* mm))
+    (setq *track-subs* m1)
+
+    (v*track v*)
+
+    (uniq *checked-sigma*)
+  )
+)
+
+
+
 ;; do
 ;(defparameter mm (mguofΣ))
 ;(print-mm mm)
-;
 ;(defparameter m1 (break-mgu* mm))
 ;(print-mm m1)
 ;
 ;;(defparameter vs (allvars mm))
 ;
-;(trace-vars 'z.157 mm)
-
+;(vtrack 'z.157 m1)
 

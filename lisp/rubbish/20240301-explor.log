@@ -195,13 +195,17 @@ p2codeの課題
 (in-package :rubbish)
 (defparameter fkname "kqc/cake/cake006-sim1-4.kqc")
 (readkqc fkname)
- (defparameter mm (mguofΣ))
+(pcs)
 
+
+(trackvars '(z.148))
+
+
+(defparameter mm (mguofΣ))
 (defparameter m1 (break-mgu* mm))
 (print-mm m1)
 
-(defparameter vs (allvars mm))
+;(defparameter vs (allvars mm))
 
-(trace-vars 'z.157 mm)
 
 
