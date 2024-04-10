@@ -105,7 +105,7 @@
 ;; *sigma-graph*
 (defparameter *sigma-graph* nil)
 (defun clear-graph () (setq *sigma-graph* nil))
-(defun find-in-graph (s) 
+(defun remove-in-graph (s) 
   (let ()
     (setq *sigma-graph*  (remove s *sigma-graph* :test 'equal) )
     s
@@ -138,6 +138,7 @@
       (s*track s*)
       (loop for x in *sigma-graph* when (and (isvarsyntax (cadr x)) (equal v (cadr x))) do 
         (check-in-tree (list (cadr x)(car x)))
+        (remove-in-graph x)
         (vtrack (car x))))
   )
 )
@@ -149,12 +150,12 @@
         (cond
           ((equal s m)
             (check-in-tree s)
-            (find-in-graph s)
+            (remove-in-graph s)
             (setq res (append (strack s ) res)))
           ((and (not (listp (cadr s))) (isvarsyntax (cadr s)))
             (setq rs (list (cadr s) (car s)))
             (check-in-tree rs)
-            (find-in-graph s)
+            (remove-in-graph s)
             (setq res (append (strack rs) res)))
           (t rs)
         )
@@ -167,7 +168,7 @@
 (defun strack(s)
   (let (ss sv*)
     (setq sv* (ftrack (cadr s)))
-    (find-in-graph s)
+    (remove-in-graph s)
     (vtrack (car s))
   )
 )
