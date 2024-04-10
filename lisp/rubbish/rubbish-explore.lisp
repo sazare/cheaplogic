@@ -88,26 +88,26 @@
 )
 
 (defun isvarsyntax (sym)
-  (not (isconst sym))
+  (and (atom sym) (not (isconst sym)))
 )
 
 (defun remove-nil (ls)
   (loop for e in ls when e collect e)
 )
 
-;; *checked-sigma*
-(defparameter *checked-sigma* ())
-(defun checkit (v) (unless (member v *checked-sigma*) (push v *checked-sigma*)))
-(defun ischecked (v) (member v *checked-sigma* :test 'equal))
-(defun clear-checked () (setq *checked-sigma* ()))
+;; *v-tree*
+(defparameter *v-tree* ())
+(defun check-in-tree (v) (unless (member v *v-tree*) (push v *v-tree*)))
+(defun ischecked (v) (member v *v-tree* :test 'equal))
+(defun clear-checked () (setq *v-tree* ()))
 
 
-;; *track-subs*
-(defparameter *track-subs* nil)
-(defun clear-subs () (setq *track-subs* nil))
-(defun pickup (s) 
+;; *sigma-graph*
+(defparameter *sigma-graph* nil)
+(defun clear-graph () (setq *sigma-graph* nil))
+(defun find-in-graph (s) 
   (let ()
-    (setq *track-subs*  (remove s *track-subs* :test 'equal) )
+    (setq *sigma-graph*  (remove s *sigma-graph* :test 'equal) )
     s
   )
 )
@@ -133,11 +133,11 @@
 
 (defun vtrack (v)
   (let (s*)
-    (setq s* (loop for x in *track-subs* when (equal v (car x)) collect x))
+    (setq s* (loop for x in *sigma-graph* when (equal v (car x)) collect x))
     (if s*
       (s*track s*)
-      (loop for x in *track-subs* when (equal v (cadr x)) do 
-        (checkit x)
+      (loop for x in *sigma-graph* when (and (isvarsyntax (cadr x)) (equal v (cadr x))) do 
+        (check-in-tree (list (cadr x)(car x)))
         (vtrack (car x))))
   )
 )
@@ -145,16 +145,16 @@
 (defun s*track (s*)
   (let (res rs)
     (loop for s in s* append 
-      (loop for m in *track-subs* do
+      (loop for m in *sigma-graph* do
         (cond
           ((equal s m)
-            (checkit s)
-            (pickup s)
+            (check-in-tree s)
+            (find-in-graph s)
             (setq res (append (strack s ) res)))
           ((and (not (listp (cadr s))) (isvarsyntax (cadr s)))
             (setq rs (list (cadr s) (car s)))
-            (checkit rs)
-            (pickup s)
+            (check-in-tree rs)
+            (find-in-graph s)
             (setq res (append (strack rs) res)))
           (t rs)
         )
@@ -167,7 +167,7 @@
 (defun strack(s)
   (let (ss sv*)
     (setq sv* (ftrack (cadr s)))
-    (pickup s)
+    (find-in-graph s)
     (vtrack (car s))
   )
 )
@@ -184,16 +184,16 @@
 
 (defun trackvars (v*)
   (let ()
-    (clear-subs)
+    (clear-graph)
     (clear-checked)
 
     (setq  mm (mguofΣ))
     (setq  m1 (break-mgu* mm))
-    (setq *track-subs* m1)
+    (setq *sigma-graph* m1)
 
     (v*track v*)
 
-    (uniq *checked-sigma*)
+    (uniq *v-tree*)
   )
 )
 

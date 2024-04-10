@@ -197,8 +197,7 @@ p2codeの課題
 (readkqc fkname)
 (pcs)
 
-
-(trackvars '(z.148))
+(defparameter zz (trackvars '(z.148)))
 
 
 (defparameter mm (mguofΣ))
