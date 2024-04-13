@@ -11,11 +11,11 @@
   )
 )
 
+
 (defun unify-pair (lid1 lid2)
-  (let ((vars (append (varsof (cidof lid1)) (varsof (cidof lid2)))))
-    (list vars  
-      (unificationp vars (cdr (eval lid1)) (cdr (eval lid2)))
-    )
+  (let ((vars (append (varsof (cidof lid1)) (varsof (cidof lid2)))) mgu)
+    (setq mgu (unificationp vars (cdr (eval lid1)) (cdr (eval lid2))))
+    (unless (eq mgu :no) (list vars  mgu))
   )
 )
 
@@ -40,10 +40,13 @@
 )
 
 (defun mguofΣ()
-  (loop for plsls in (make-pair-lids) append
-    (loop for ll in (combi (cadr plsls) (caddr plsls))
-      collect
-        (list (cons (car plsls) ll) (remove-empty (unify-pair (car ll) (cadr ll))))
+  (let (up) 
+    (loop for plsls in (make-pair-lids) append
+      (loop for ll in (combi (cadr plsls) (caddr plsls))
+        append
+          (when (setq up (unify-pair (car ll)(cadr ll))) 
+            (list (list (cons (car plsls) ll) (remove-empty up))))
+      )
     )
   )
 )
@@ -84,7 +87,7 @@
 
 
 (defun isconst(sym)
-  (string-equal sym (vrootof sym))
+  (or (numberp sym) (string-equal sym (vrootof sym)))
 )
 
 (defun isvarsyntax (sym)

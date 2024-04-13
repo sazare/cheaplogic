@@ -452,3 +452,10 @@
   `(factisf ',facts)
 )
 
+;;; cid of a var
+(defun cidofvar (v)
+  (loop for cid in *clist* do
+    (if (member v (varsof cid)) (return cid))
+  )
+)
+
