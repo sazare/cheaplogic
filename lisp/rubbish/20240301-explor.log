@@ -218,7 +218,7 @@ p2codeの課題
 (readkqc fkname)
 (pcs)
 
-(defparameter zz (trackvars '(z.148 z.149)))
+(defparameter zz (trackvars '(x.148 z.149)))
 (print-mm zz)
 
 結果
@@ -313,7 +313,7 @@ c3.y.151←c4.y.153
 (defparameter fkname "kqc/explore/noinside.kqc")
 (readkqc fkname)
 (pcs)
-(defparameter zz (trackvars '(x1.148 z1.149)))
+(defparameter zz (trackvars '(x.148 z.149)))
 (print-mm zz)
 
 結果
@@ -350,7 +350,7 @@ X1.148 1
 {x1.148=2}
 
 X1.148 X4.152
-　これは x.4.152←x1.148になる。∵ x.148はinputだから
+　これは x.4.152←148になる。∵ x.148はinputだから
 
 x.152←x.148
 から
@@ -415,7 +415,7 @@ Y3.151 Y4.153
 (defparameter fkname "kqc/explore/noinside2.kqc")
 (readkqc fkname)
 (pcs)
-(defparameter zz (trackvars '(x1.148 z1.149)))
+(defparameter zz (trackvars '(x.148 z.149)))
 (print-mm zz)
 
 結果C1: 1 (X1.148 Z1.149) ((- Q X1.148 Z1.149))
@@ -489,25 +489,31 @@ c3 (+EQ 1 1) (-P (D 1) Y3.152) (+ Q 1 (M 1 Y3.152)))
 * z1.149 = (m x1.148 y3.151)
 
 
-;; c
+★
+
+ここでどのcidの変数かわかりやすくするためにv{cid}.xxxとするようにした。
+わかりやすいかどうかは謎
+★これまでのlogはそのままでは実行できなくなってしまった。
+
 
 (require :gtrail)
 (in-package :rubbish)
 (defparameter fkname "kqc/explore/noinside3.kqc")
 (readkqc fkname)
 (pcs)
-(defparameter zz (trackvars '(x1.148 z1.149)))
+(defparameter zz (trackvars '(x.148 z.149)))
 (print-mm zz)
 
 結果
-
 C1: 1 (X1.148 Z1.149) ((- P X1.148 Z1.149))
 C2: 2 (W2.150 V2.151) ((+ P 1 1))
 C3: 3 (X3.152 Y3.153) ((+ P X3.152 Y3.153) (- Q X3.152 Y3.153))
 C4: 4 (X4.154 Y4.155) ((- P (D X4.154) Y4.155) (+ Q X4.154 (M X4.154 Y4.155)))
+NIL
+RUBBISH(6): (defparameter zz (trackvars '(x.148 z.149)))
 
-から
-
+ZZ
+RUBBISH(7): (print-mm zz)
 X1.148 1
 X1.148 X3.152
 X3.152 (D X4.154)
@@ -519,56 +525,16 @@ Y3.153 Y4.155
 Y3.153 (M X3.152 Y4.155)
 Y4.155 Y3.153
 
+これをもとに-P(2,z)の証明を作るとすると
 
-X1.148<-2
-
-X3.152←X1.148　から
-X3.152←2
-
-X3.152の右は
-X4.154 X3.152
-Y3.153 (M X3.152 Y4.155)
-
+x1.148 2
+x3.152 x1.148
 から
-X4.154 2
-Y3.153 (M 2 Y4.155)
+x3.152 2
+x4.154 x3.152=2
 
-この中の
-Y4.155の左で
-Y4.155 Y3.153
-
-から
-
-Y3.153の左で
-
-Y3.153 Y4.155
-Y3.153 (M X3.152 Y4.155)
-
-から
-
-Y4.155 Y3.153は
-Y4.155 (M X3.152 Y4.155)
-Y3.153 (M X3.152 Y4.155)
-
-のいずれにせよ
-になるので (M 2 Y4.155)
-
-Y4.155から
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+y3.153 (m x4.154 y4.155)
+  y3.153 (m 2 y4.155)
 
 
 

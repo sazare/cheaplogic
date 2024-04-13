@@ -35,15 +35,14 @@
 
 ;; newvar : v -> v.nnn
 (defun newvar (v)
- ; (intern (string (rub-gensym (basevar v))) :rubbish )
-  (intern (string (rub-gensym (format nil "~a." (basevar v)))) :rubbish)
+   (intern (string (rub-gensym (format nil "~a." (basevar v)))) :rubbish )
 )
 
 ;; for rename : vs <- nvs s.t. new vars of v in vs : p-not
 ; vs.nvs is the binding form
 
 ;; vs don't contain same var
-(defun newvars (vs) 
+(defun newvars (vs)
  (loop for v in vs collect (newvar v))
 )
 

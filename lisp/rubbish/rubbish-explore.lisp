@@ -15,7 +15,10 @@
 (defun unify-pair (lid1 lid2)
   (let ((vars (append (varsof (cidof lid1)) (varsof (cidof lid2)))) mgu)
     (setq mgu (unificationp vars (cdr (eval lid1)) (cdr (eval lid2))))
-    (unless (eq mgu :no) (list vars  mgu))
+    (if (eq mgu :no)
+      (format t "nomgu: ~a.~a:~a~%" vars (eval lid1) (eval lid2))
+      (unless (eq mgu :no) (list vars  mgu))
+    )
   )
 )
 
