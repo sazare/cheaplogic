@@ -1,0 +1,8 @@
+;; can i get a simple inside type of mgu
+
+(1 (x z) (- P x z))
+
+(2 () (+ P 1 1))
+(3 (x y) (- P x y) (+ P (s x) (m x y)))
+
+

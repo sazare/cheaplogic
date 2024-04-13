@@ -1,0 +1,8 @@
+one liner i used
+
+find . >find.list
+ 
+find . -name '*.kqc' >find-name.txt
+
+
+

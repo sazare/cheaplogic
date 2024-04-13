@@ -1,0 +1,14 @@
+;; howinside.kqcを書き換え、insideのない書き方にする
+
+(1 (x z) (- P x z))
+(2 () (+ P 1 1))
+(3 (x y) (- P x y) (+ Q  (s x) (m x y)))
+(4 (x y) (- Q x y) (+ P x y))
+
+
+;(1 (x z) (- P x z))
+;(2 () (+ P 1 1))
+;(3 (x y) (- P x y) (+ Q  (s x) (m x y)))
+;(4 (x y) (- Q x y) (+ P x y))
+
+
