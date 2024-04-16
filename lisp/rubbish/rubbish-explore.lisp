@@ -11,9 +11,12 @@
   )
 )
 
+(defun varsofthem (lid1 lid2)
+  (append (varsof (cidof lid1)) (varsof (cidof lid2)))
+)
 
 (defun unify-pair (lid1 lid2)
-  (let ((vars (append (varsof (cidof lid1)) (varsof (cidof lid2)))) mgu)
+  (let ((vars (varsofthem lid1 lid2)) mgu)
     (setq mgu (unificationp vars (cdr (eval lid1)) (cdr (eval lid2))))
     (if (eq mgu :no)
       (format t "nomgu: ~a.~a:~a~%" vars (eval lid1) (eval lid2))
@@ -48,7 +51,12 @@
       (loop for ll in (combi (cadr plsls) (caddr plsls))
         append
           (when (setq up (unify-pair (car ll)(cadr ll))) 
-            (list (list (cons (car plsls) ll) (remove-empty up))))
+            (list 
+              (list (append 
+                      (cons (car plsls) ll) 
+                      (list (varsofthem (car ll)(cadr ll))))
+              (remove-empty up)))
+         )
       )
     )
   )
