@@ -53,7 +53,7 @@
           (when (setq up (unify-pair (car ll)(cadr ll))) 
             (list 
               (list (append 
-                      (cons (car plsls) ll) 
+                      (list (car plsls) ll) 
                       (list (varsofthem (car ll)(cadr ll))))
               (remove-empty up)))
          )
