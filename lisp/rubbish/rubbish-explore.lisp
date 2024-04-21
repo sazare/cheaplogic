@@ -84,7 +84,8 @@
       collect (list v1 m1)
   )
 )
-  
+ 
+; break-mgu* removes vars of mgu.  
 (defun break-mgu* (mm)
   (loop for m in mm append
     (break-mgu (cadr m))
@@ -116,12 +117,12 @@
 (defun clear-checked () (setq *v-tree* ()))
 
 
-;; *sigma-graph*
-(defparameter *sigma-graph* nil)
-(defun clear-graph () (setq *sigma-graph* nil))
+;; *σ-graph*
+(defparameter *σ-graph* nil)
+(defun clear-graph () (setq *σ-graph* nil))
 (defun remove-in-graph (s) 
   (let ()
-    (setq *sigma-graph*  (remove s *sigma-graph* :test 'equal) )
+    (setq *σ-graph*  (remove s *σ-graph* :test 'equal) )
     s
   )
 )
@@ -147,10 +148,10 @@
 
 (defun vtrack (v)
   (let (s*)
-    (setq s* (loop for x in *sigma-graph* when (equal v (car x)) collect x))
+    (setq s* (loop for x in *σ-graph* when (equal v (car x)) collect x))
     (if s*
       (s*track s*)
-      (loop for x in *sigma-graph* when (and (isvarsyntax (cadr x)) (equal v (cadr x))) do 
+      (loop for x in *σ-graph* when (and (isvarsyntax (cadr x)) (equal v (cadr x))) do 
         (check-in-tree (list (cadr x)(car x)))
         (remove-in-graph x)
         (vtrack (car x))))
@@ -160,7 +161,7 @@
 (defun s*track (s*)
   (let (res rs)
     (loop for s in s* append 
-      (loop for m in *sigma-graph* do
+      (loop for m in *σ-graph* do
         (cond
           ((equal s m)
             (check-in-tree s)
@@ -204,9 +205,9 @@
 
     (setq  mm (mguofΣ))
     (setq  m1 (break-mgu* mm))
-    (setq *sigma-graph* m1)
+    (setq *σ-graph* m1)
 
-    (v*track v*)
+    (v*track v*) ; let reduce *σ-graph*, update mm
 
     (uniq *v-tree*)
   )
