@@ -45,7 +45,7 @@
   )
 )
 
-(defun mguofΣ()
+(defun mguofΣ (&optional (eraze-empty t))
   (let (up) 
     (loop for plsls in (make-pair-lids) append
       (loop for ll in (combi (cadr plsls) (caddr plsls))
@@ -55,7 +55,9 @@
               (list (append 
                       (list (car plsls) ll) 
                       (list (varsofthem (car ll)(cadr ll))))
-              (remove-empty up)))
+                    (if eraze-empty (remove-empty up) up )
+              )
+           )
          )
       )
     )
