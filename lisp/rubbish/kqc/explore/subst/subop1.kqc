@@ -1,0 +1,6 @@
+;; substitution operation
+
+((e s) (- isExpr e) (- isSubstexpr s) (+ isExpr (subop e s)))
+
+((x y e) (- isExpr e) (- isSubstexpr (subexpr x y)) (+ isExpr (subop e x y)))
+

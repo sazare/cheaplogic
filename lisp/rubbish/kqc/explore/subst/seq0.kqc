@@ -1,0 +1,24 @@
+;; basic type seq
+
+(() (+ isseq nil))
+((x y) (- isBasic x) (- isseq y) (+ isseq (seq x y)))
+
+;; 表現と関数の関係はどう書くのか?
+;; つまり、(seq x y)は(x . y)という表現になるのか、(x y)という表現になるのかというようなこと
+;; 表現の意味と表現の具体的な現れの関係かな
+
+;; ↓のような書き方をしたいきもするが、これはなにか
+((x y z) (- isseq x) (+ isseq (seq (one x)(others x))))
+
+;; あるいは
+((x y) (- isBasic x)(- isseq y)  (+ isseq (seq x y)))
+;と
+((x y z)(- isseq x) (+ isBasic (one x)) (+ isseq (others x)))
+;; なのか
+
+;; isBasicはいろいろ定義がある。seqはいろいろなデータに対して定義できるから。
+;; めんどう
+
+
+
+

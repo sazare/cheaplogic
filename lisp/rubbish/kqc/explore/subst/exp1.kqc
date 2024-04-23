@@ -1,0 +1,18 @@
+;; 表現の定義
+
+((x) (- isSymbol x) (+ isExpr x))
+((f) (- isSymbol f) (- isseq args)(+ isExpr (seq f args)))
+((x y) (- isExpr x)(- isseq y) (+ isseq (seq x y)))
+(() (+ isSymbol x) (- isExpr x))
+
+;; instance
+(() (+ isSymbol a))
+(() (+ isSymbol x))
+(() (+ isSymbol y))
+(() (+ isSymbol f))
+(() (+ isseq nil))
+
+
+
+;; exp ∧ +symbolと exp ∧ -symbolが存在する
+

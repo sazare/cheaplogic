@@ -1,0 +1,12 @@
+;; substitution expr
+
+(() (+ isSubstExpr ()))
+((x y) (- isSymbol x) (- isExpr y) (+ isSubstExpr (subexpr x y)))
+((x y) (- isSubstSeq y)(- isSubstExpr x) (+ isSubstExpr (subseq x y)))
+
+;; s = (subexpr (dc1 s) (dc2 s))
+;; これはやばい
+((s) (- isSubstexpr s) (+ isSymbol (dc1 s))(+ isExpr (dc2 s)))
+
+
+

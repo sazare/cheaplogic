@@ -1,0 +1,7 @@
+;; all stuffs of subst descriptions
+
+(readefile "kqc/explore/subst/exp1.kqc")
+(readefile "kqc/explore/subst/sub1.kqc")
+(readefile "kqc/explore/subst/subop1.kqc")
+
+

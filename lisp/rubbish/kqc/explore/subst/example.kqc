@@ -1,0 +1,4 @@
+;; sample
+
+(1 (+ Substop (f x a) x b))
+
