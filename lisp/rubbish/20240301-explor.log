@@ -755,5 +755,16 @@ RUBBISH(20): (print-mm (mguofΣ nil))
 (print-mm zz)
 
 
+★定数を0引数の関数として書くと、定数のパスは末尾が1になる件
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/sample01.kqc")
+; readekqc not readkqc
+(readekqc fkname)
+(pcs)
+
+(defparameter zz (trackvars '(x.148 y.149)))
+(print-mm zz)
 
 

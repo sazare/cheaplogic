@@ -101,7 +101,7 @@
 
 
 (defun isconst(sym)
-  (or (numberp sym) (string-equal sym (vrootof sym)))
+  (and (atom sym) (or (numberp sym) (string-equal sym (vrootof sym))))
 )
 
 (defun isvarsyntax (sym)
