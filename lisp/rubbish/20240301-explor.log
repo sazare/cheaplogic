@@ -768,3 +768,92 @@ RUBBISH(20): (print-mm (mguofΣ nil))
 (print-mm zz)
 
 
+★定数と変数の表現方法
+★1
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/expr001.kqc")
+; readekqc not readkqc
+(readekqc fkname)
+(pcs)
+
+
+(play-prover-gtrail '(c1) fkname)
+
+★2
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/expr002.kqc")
+; readekqc not readkqc
+(readekqc fkname)
+(pcs)
+
+;(defparameter *max-contradictions* 100)
+(load "explore.conf")
+
+
+
+C1: NIL [((- EXPR A))]
+C2: NIL [((- EXPR X))]
+C3: NIL [((- EXPR (F A B)))]
+C4: NIL [((- EXPR (F X A)))]
+C5: NIL [((- EXPR (F A (G A))))]
+C6: NIL [((- EXPR (F (G B) A)))]
+C7: NIL [((- EXPR (F (G X) A)))]
+C8: NIL [((- EXPR (G A)))]
+C9: NIL [((- EXPR (G (F A B))))]
+C10: NIL [((- EXPR (F (F A (G B)) (G (F A B) (G A)))))]
+
+
+(play-prover-gtrail '(c1) fkname)
+(play-prover-gtrail '(c2) fkname)
+(play-prover-gtrail '(c3) fkname)
+(play-prover-gtrail '(c4) fkname)
+
+;; f with g
+(play-prover-gtrail '(c5) fkname)
+(play-prover-gtrail '(c6) fkname)
+(play-prover-gtrail '(c7) fkname)
+(play-prover-gtrail '(c8) fkname)
+
+; g with f
+(play-prover-gtrail '(c9) fkname)
+
+;; fun with funs
+(setq *max-clauses* 15000)
+(play-prover-gtrail '(c10) fkname)
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/explore/const/expr002.kqc
+  goals                = (C10)
+  *max-clauses*        = 15000
+  *max-contradictions* = 20000
+  *max-trials*         = 100000
+  *max-steps*          = 1000
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+  ### SUMMARY ###
+  time consumed = 3.018604 secs
+  #clauses = 15006
+  #contras = 1680
+  #valids = 0
+  #trials = 39456
+  [experimentals]
+  #max refute steps = 12
+  #con/tri rate = 0.042579077
+
+
+(play-prover-gtrail '(c11) fkname)
+
+ちなみに、max-clauses = 20000にするとgcでメモリ不足になる
+
+; groundだけなのでextract-infは使えない
+(extract-inf 'c351 '(c3) '())
+
+; mguofΣは多すぎ
+(defparameter mm (mguofΣ))
+(length mm)
+774
+
+

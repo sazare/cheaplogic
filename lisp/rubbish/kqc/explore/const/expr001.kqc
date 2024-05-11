@@ -1,0 +1,21 @@
+;; how expr be writtern
+
+(() (- Expr (f a y a)))
+;(() (- Expr (f a b a)))
+
+;; a is a constant in wff, x y are vars in wff
+((x y) (+ Expr (f x y a)) (- Const x)(- Var y))
+
+; this is not correct
+((x y w) (+ Expr (w x y)) (- Const y) (- Var x) (- Fcon w))
+
+;; a, b are consts in the subject
+(()(+ Const a))
+(()(+ Const b))
+
+;; x,y are vars in the subject
+(()(+ Var x))
+(()(+ Var y))
+
+;; not work
+(() (+ Fcon f))

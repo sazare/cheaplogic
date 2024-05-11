@@ -1,3 +1,49 @@
+2024/05/11土
+expr00[12].kqc
+　対象の定数、変数と記述の定数、変数の書き方の違いを検討中
+
+  confの扱いで、*max-contradictions*とかtop-levelで変更しても、実行するともとにもどっていた
+　gtrailでmujun.confをloadしていたから。
+
+　shin@Chapterhouse rubbish % grep mujun.conf r*p
+rubbish-prover-gtrail.lisp:;    (load #p"mujun.conf")
+rubbish-prover-gtrail.lisp:;    (load #p"mujun.conf")
+
+としたので変更はconfでなくスクリプトにする。
+
+
+
+
+2024/05/07火
+unificationを論理式で書くこと考え続けている。
+
+unificationを実現するには
+1) パスの生成あるいは表現のsymbol wise 比較の定義
+2) 差異の認識 (c:c, c:v, e:c, e:v, e:e, v:v)
+3) {x←e1}と{x←e2}の解消
+　　たぶん{x←<e1:e2>}への置き換え
+
+が必要だと思うのだけど、3)はdisagreementを毎回E1,E2にかけるという
+操作によって簡単になる話なので、
+Herbranがunificationを推論規則の形で定式化したという話は眉唾ではないかと
+思うようになった。
+
+そもそも、代入という操作の操作は表現なしではちゃんと定義できないものなのではないのか
+　σ*σ
+ ------
+  E1 E2
+ ------
+  v1 v2 ...
+
+ひとつには代入にでてくる変数は、論理世界では違っていても同じなのに、代入操作では違っていたら違う。
+
+代入を実行する順序が結果に影響することと、それを制限するために課せられる代入への制約
+
+代入をどう理解すればよいのか
+
+まあ、置き換え操作として考えるべき
+
+
 
 2024/04/28日
 用語がわけわからんという結論

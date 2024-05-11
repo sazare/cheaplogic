@@ -229,7 +229,7 @@
          ts
          )
 
-    (load #p"mujun.conf")
+;    (load #p"mujun.conf")
 
     (loop named prover-loop 
        while goallist do
@@ -283,7 +283,7 @@
          )
 
 ;; preparation
-    (load #p"mujun.conf")
+;    (load #p"mujun.conf")
 
     (show-parameter goals time-start)
 

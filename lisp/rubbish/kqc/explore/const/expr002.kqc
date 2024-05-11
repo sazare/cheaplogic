@@ -1,0 +1,45 @@
+;; Expr full
+;;; too complex? exhausted memory
+
+;; problem
+(() (- Expr a))
+(() (- Expr x))
+
+(() (- Expr (f a b)))
+(() (- Expr (f x a)))
+(() (- Expr (f a (g a))))
+(() (- Expr (f (g b) a)))
+
+(() (- Expr (f (g x) a)))
+
+(() (- Expr (g a)))
+(() (- Expr (g (f a b))))
+
+(() (- Expr (f (f a b) (g (f a )))))
+
+(() (- Expr (f (f a (g b)) (g (f a (g a))))))
+
+;; Expr definition
+((x) (+ Expr x)(- Symbol x))
+
+((x y) (+ Expr (f x y)) (- Expr x)(- Expr y))
+
+((x) (+ Expr (g x)) (- Expr x))
+
+;; individual definitions 
+
+(()(+ Symbol a))
+(()(+ Symbol b))
+(()(+ Symbol x))
+(()(+ Symbol y))
+
+;; or
+;((x) (+ Symbol x)(- Const x))
+;((x) (+ Symbol x)(- Var x))
+;
+;(()(+ Const a))
+;(()(+ Const b))
+;(()(+ Var x))
+;(()(+ Var y))
+
+
