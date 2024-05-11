@@ -1,3 +1,62 @@
+
+2024/05/12日
+
+symbol-const/varのとこまで定義を伸ばしてやってみた
+
+
+rlwrap sbcl --control-stack-size 2GB
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/expr002.kqc")
+; readekqc not readkqc
+(readekqc fkname)
+(pcs)
+
+;(defparameter *max-contradictions* 100)
+(load "explore.conf")
+
+(play-prover-gtrail '(c10) fkname)
+
+start-time: 2024-05-12T07:18:59.934979+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/explore/const/expr002.kqc
+  goals                = (C10)
+  *max-clauses*        = 20000
+  *max-contradictions* = 20000
+  *max-trials*         = 100000
+  *max-steps*          = 1000
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+Heap exhausted during garbage collection: 0 bytes available, 16 requested.
+        Immobile Object Counts
+ Gen layout fdefn symbol   code  Boxed   Cons    Raw   Code  SmMix  Mixed  LgRaw LgCode  LgMix Waste%       Alloc        Trig   Dirty GCs Mem-age
+  3      0      0      0      0     49   8836     93     34     78      7      0      0     10    0.2   595917472     2000000    9107   0  1.2088
+  4      0      0      0      0      0      0      0      0      0      0      0      0      0    0.0           0     2000000       0   0  0.0000
+  5      0      0      0      0      0      0      0      0      0      0      0      0      0    0.0           0     2000000       0   0  0.0000
+  6      0      0      0      0    172     48    103    190     33      8      5      0     33    2.6    37770656     2000000       9   0  0.0000
+  7      0      0      0      0     39   6450     74     23     77      2      0      0     20    0.1   437580400     2000000    6685   0  0.0000
+Tot      0      0      0      0    260  15334    270    247    188     17      5      0     63    0.2  1071267056 [99.8% of 1073741824 max]
+GC control variables:
+   *GC-INHIBIT* = true
+   *GC-PENDING* = true
+   *STOP-FOR-GC-PENDING* = false
+Collection trigger variables:
+   dynamic_space_size = 1073741824
+   bytes_allocated = 1071267056
+   auto_gc_trigger = 690583443
+   bytes_consed_between_gcs = 53687091
+fatal error encountered in SBCL pid 63622 pthread 0x1fe87bac0:
+Heap exhausted, game over.
+
+Welcome to LDB, a low-level debugger for the Lisp runtime environment.
+(GC in progress, oldspace=3, newspace=7)
+ldb>
+
+
+
+
 2024/05/11土
 expr00[12].kqc
 　対象の定数、変数と記述の定数、変数の書き方の違いを検討中

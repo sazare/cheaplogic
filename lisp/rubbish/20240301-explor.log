@@ -847,6 +847,11 @@ C10: NIL [((- EXPR (F (F A (G B)) (G (F A B) (G A)))))]
 (play-prover-gtrail '(c11) fkname)
 
 ちなみに、max-clauses = 20000にするとgcでメモリ不足になる
+これを
+rlwrap sbcl --control-stack-size 4GB
+でやってみたがやはりメモリ不足
+なにか空回りしているのかも
+
 
 ; groundだけなのでextract-infは使えない
 (extract-inf 'c351 '(c3) '())
@@ -856,4 +861,18 @@ C10: NIL [((- EXPR (F (F A (G B)) (G (F A B) (G A)))))]
 (length mm)
 774
 
+
+★うえのC11だけ抜き出してみた
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/expr002a.kqc")
+; readekqc not readkqc
+(readekqc fkname)
+(pcs)
+
+;(defparameter *max-contradictions* 100)
+(load "explore.conf")
+(play-prover-gtrail '(c1) fkname)
 

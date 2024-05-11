@@ -1,23 +1,10 @@
-;; Expr full
-;;; too complex? exhausted memory
+;; Expr ony 11 of expr002.kqc
+;;; 
+;; but exhost memoy at 4GB also
 
 ;; problem
-(1 () (- Expr a))
-(2 () (- Expr x))
 
-(3 () (- Expr (f a b)))
-(4 () (- Expr (f x a)))
-(5 () (- Expr (f a (g a))))
-(6 () (- Expr (f (g b) a)))
-
-(7 () (- Expr (f (g x) a)))
-
-(8 () (- Expr (g a)))
-(9 () (- Expr (g (f a b))))
-
-(10 () (- Expr (f (f a b) (g (f a )))))
-
-(11 () (- Expr (f (f a (g b)) (g (f a (g a))))))
+(1 () (- Expr (f (f a (g b)) (g (f a (g a))))))
 
 ;; Expr definition
 ((x) (+ Expr x)(- Symbol x))
