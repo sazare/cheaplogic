@@ -1,0 +1,20 @@
+;; Expr definition(a b x y f2 g1) with var and const
+;;
+
+((x) (+ Expr x)(- Symbol x))
+
+((x y) (+ Expr (f x y)) (- Expr x)(- Expr y))
+
+((x) (+ Expr (g x)) (- Expr x))
+
+;; individual definitions 
+
+((x) (+ Symbol x)(- Const x))
+((x) (+ Symbol x)(- Var x))
+
+(()(+ Const a))
+(()(+ Const b))
+(()(+ Var x))
+(()(+ Var y))
+
+

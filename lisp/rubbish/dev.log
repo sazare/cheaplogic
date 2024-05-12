@@ -55,6 +55,25 @@ Welcome to LDB, a low-level debugger for the Lisp runtime environment.
 ldb>
 
 
+★★★★★★　play-prover-gtrailの中でreadkqcしているので、先にreadkqcは不要。
+それをやめたら、メモリは十分で終わった。
+
+★eqexpr002の4で
+unificationpの中のどこかでsubstpがmguとしてNOをもらってbeakしていた。
+
+次のdisagで、:noをreturnするのでなくthrowするように変更したら、問題の箇所はとおった。
+
+(defun disag (vs e1 e2 m fn)
+  (cond
+    ((equal e1 e2) m)
+    ((atom e1) (funcall fn vs e1 e2 m))
+    ((atom e2) (funcall fn vs e2 e1 m))
+;;; now throw unificaions is ok. but someday it may be unificationp??
+;;;
+    ((not (eq (car e1)(car e2))) (throw 'unifications :NO)) ;; this should be in fn...?
+    (t (disag* vs (cdr e1)(cdr e2) m fn))
+  )
+)
 
 
 2024/05/11土

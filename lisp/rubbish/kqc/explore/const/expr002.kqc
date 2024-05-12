@@ -28,18 +28,18 @@
 
 ;; individual definitions 
 
-(()(+ Symbol a))
-(()(+ Symbol b))
-(()(+ Symbol x))
-(()(+ Symbol y))
+;(()(+ Symbol a))
+;(()(+ Symbol b))
+;(()(+ Symbol x))
+;(()(+ Symbol y))
 
 ;; or
-;((x) (+ Symbol x)(- Const x))
-;((x) (+ Symbol x)(- Var x))
-;
-;(()(+ Const a))
-;(()(+ Const b))
-;(()(+ Var x))
-;(()(+ Var y))
+((x) (+ Symbol x)(- Const x))
+((x) (+ Symbol x)(- Var x))
+
+(()(+ Const a))
+(()(+ Const b))
+(()(+ Var x))
+(()(+ Var y))
 
 

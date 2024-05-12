@@ -1,0 +1,30 @@
+;; define eqv of Exprs
+
+(1 () (- Expr= a a))
+(2 () (- Expr= (f a x) (f a x)))
+
+(3 () (+ Expr= a b))
+(4 () (+ Expr= (g a) (g b)))
+(5 () (+ Expr= (f a b) (f b b)))
+(6 () (+ Expr= (f a a) (f a b)))
+
+;; defintion positive Expr=
+((x) (+ Expr= x x) (- Expr x))
+
+;; individuals on negative Expr=
+(() (- Expr= a b))
+(() (- Expr= b a))
+
+
+((x y) (- Expr= a (f x y)))
+((x) (- Expr= a (g x)))
+((x y z) (- Expr= (f x y) (g z)))
+((x y z) (- Expr= (g z) (f x y)))
+
+((x y z w) (- Expr= (f x y) (f z w))(+ Expr= x z))
+((x y z w) (- Expr= (f x y) (f z w))(+ Expr= y w))
+
+((x y) (- Expr= (g x) (g y))(+ Expr= x y))
+
+(readefile "kqc/explore/const/exprdef.kqc")
+

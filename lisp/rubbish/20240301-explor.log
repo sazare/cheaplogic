@@ -785,14 +785,12 @@ RUBBISH(20): (print-mm (mguofΣ nil))
 (require :gtrail)
 (in-package :rubbish)
 (defparameter fkname "kqc/explore/const/expr002.kqc")
+
+
+
 ; readekqc not readkqc
 (readekqc fkname)
 (pcs)
-
-;(defparameter *max-contradictions* 100)
-(load "explore.conf")
-
-
 
 C1: NIL [((- EXPR A))]
 C2: NIL [((- EXPR X))]
@@ -805,6 +803,7 @@ C8: NIL [((- EXPR (G A)))]
 C9: NIL [((- EXPR (G (F A B))))]
 C10: NIL [((- EXPR (F (F A (G B)) (G (F A B) (G A)))))]
 
+★★play-prover-gtrailの前にreadekqcをしてはいけない。中でやってるから
 
 (play-prover-gtrail '(c1) fkname)
 (play-prover-gtrail '(c2) fkname)
@@ -875,4 +874,204 @@ rlwrap sbcl --control-stack-size 4GB
 ;(defparameter *max-contradictions* 100)
 (load "explore.conf")
 (play-prover-gtrail '(c1) fkname)
+
+
+★
+exprの定義を分離
+ exprdef.kqc　　symbolのみ
+ exprvcdef.kqc　symbolをconstとvarで定義
+
+　vcのほうがステップ数が増える
+
+
+★ E1≡E"の実験
+eqexpr001.kqc
+ exprdef.kqc
+ exprvcdef.kqc
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/eqexpr001.kqc")
+
+; readekqc not readkqc
+(readekqc fkname)
+(pcs)
+
+RUBBISH(4): kqc reading: kqc/explore/const/eqexpr001.kqc
+.........
+(C1 C2 C3 C4 C5 C6 C7 C8 C9)
+RUBBISH(5): (pcs)
+C1: 1 NIL ((- EXPR= A A))
+C2: (X.148) [((+ EXPR= X.148 X.148) (- EXPR X.148))]
+C3: (X.149) [((+ EXPR X.149) (- SYMBOL X.149))]
+C4: (X.150 Y.151) [((+ EXPR (F X.150 Y.151)) (- EXPR X.150) (- EXPR Y.151))]
+C5: (X.152) [((+ EXPR (G X.152)) (- EXPR X.152))]
+C6: NIL [((+ SYMBOL A))]
+C7: NIL [((+ SYMBOL B))]
+C8: NIL [((+ SYMBOL X))]
+C9: NIL [((+ SYMBOL Y))]
+
+
+ (play-prover-gtrail '(c1) fkname)  OK
+ (play-prover-gtrail '(c2) fkname)  OK
+
+ (play-prover-gtrail '(c3) fkname)
+RUBBISH(5): (pcs)
+C1: 1 NIL ((- EXPR= A A))
+C2: 2 NIL ((- EXPR= (F A X) (F A X)))
+C3: 3 NIL ((+ EXPR= A B))
+C4: (X.148) [((+ EXPR= X.148 X.148) (- EXPR X.148))]
+C5: (X.149 Y.150) [((- EXPR= X.149 Y.150) (+ EXPR= X.149 Y.150))]
+C6: (X.151) [((+ EXPR X.151) (- SYMBOL X.151))]
+C7: (X.152 Y.153) [((+ EXPR (F X.152 Y.153)) (- EXPR X.152) (- EXPR Y.153))]
+C8: (X.154) [((+ EXPR (G X.154)) (- EXPR X.154))]
+C9: NIL [((+ SYMBOL A))]
+C10: NIL [((+ SYMBOL B))]
+C11: NIL [((+ SYMBOL X))]
+C12: NIL [((+ SYMBOL Y))]
+NIL
+この場合
+C14: RESO NIL ((+ EXPR= A B))
+が無限に増殖してだめ
+C5の
++E or -E
+の形のせいかなあ。無条件のループになっている
+
+★¬Expr=の定義にExpr=を使ってはだめで、より低いレベルで書かないといけない
+
+
+★★ -Expr=を定義してみる
+ eqexpr002
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/eqexpr002.kqc")
+
+
+(readekqc fkname)
+(pcs)
+C1: 1 NIL ((- EXPR= A A))
+C2: 2 NIL ((- EXPR= (F A X) (F A X)))
+C3: 3 NIL ((+ EXPR= A B))
+C4: 4 NIL ((+ EXPR= (G A) (G B)))
+C5: 5 NIL ((+ EXPR= (F A B) (F B B)))
+C6: 6 NIL ((+ EXPR= (F A A) (F A B)))
+C7: (X.148) [((+ EXPR= X.148 X.148) (- EXPR X.148))]
+C8: NIL [((- EXPR= A B))]
+C9: NIL [((- EXPR= B A))]
+C10: (X.149 Y.150) [((- EXPR= A (F X.149 Y.150)))]
+C11: (X.151) [((- EXPR= A (G X.151)))]
+C12: (X.152 Y.153 Z.154) [((- EXPR= (F X.152 Y.153) (G Z.154)))]
+C13: (X.155 Y.156 Z.157) [((- EXPR= (G Z.157) (F X.155 Y.156)))]
+C14: (X.158 Y.159 Z.160 W.161) [((- EXPR= (F X.158 Y.159) (F Z.160 W.161)) (+ EXPR= X.158 Z.160))]
+C15: (X.162 Y.163 Z.164 W.165) [((- EXPR= (F X.162 Y.163) (F Z.164 W.165)) (- EXPR= X.162 Z.164) (+ EXPR= Y.163 W.165))]
+C16: (X.166 Y.167) [((- EXPR= (G X.166) (G Y.167)) (+ EXPR= X.166 Y.167))]
+C17: (X.168) [((+ EXPR X.168) (- SYMBOL X.168))]
+C18: (X.169 Y.170) [((+ EXPR (F X.169 Y.170)) (- EXPR X.169) (- EXPR Y.170))]
+C19: (X.171) [((+ EXPR (G X.171)) (- EXPR X.171))]
+C20: NIL [((+ SYMBOL A))]
+C21: NIL [((+ SYMBOL B))]
+C22: NIL [((+ SYMBOL X))]
+C23: NIL [((+ SYMBOL Y))]
+
+★
+ (play-prover-gtrail '(c3) fkname)
+start-time: 2024-05-12T08:32:09.519802+09:00
+
+  ### PARAMETERS ###
+  *kqcfile*            = kqc/explore/const/eqexpr002.kqc
+  goals                = (C3)
+  *max-clauses*        = 5000
+  *max-contradictions* = 30
+  *max-trials*         = 10000
+  *max-steps*          = 100
+  *timeout-sec*        = 10
+  *enable-semantics*   = NIL
+
+limit-over number of clauses exceeds
+
+end-time: 2024-05-12T08:32:14.921482+09:00
+
+  ### SUMMARY ###
+  time consumed = 5.391476 secs
+  #clauses = 8199
+  #contras = 1
+  #valids = 0
+  #trials = 8375
+  [experimentals]
+  #max refute steps = 1
+  #con/tri rate = 1.1940298e-4
+
+意外と時間がかかった。なぜか8199もresolvent作っている??
+
+RUBBISH(5): (pr0 c25)
+C25: RESO = []
+C25 [] RESOLUTION : <L3-1:L8-1>
+  L3-1 ().(+ EXPR= A B) input1
+  C3: 3 NIL ((+ EXPR= A B))
+  L8-1 ().(- EXPR= A B) input2
+  C8: C8 NIL ((- EXPR= A B))
+NIL
+
+なので、*max-contradictions* = 1にすればすぐに終わるかも
+
+おわらんな。
+チェックのタイミングがおそすぎる。
+動的にチェックできないかなあ。
+
+
+★
+
+ (play-prover-gtrail '(c4) fkname)
+
+debugger invoked on a TYPE-ERROR @7008079658 in thread
+#<THREAD "main thread" RUNNING {7008A004F3}>:
+  The value
+    :NO
+  is not of type
+    LIST
+
+(fixed!)
+
+Type HELP for debugger help, or (SB-EXT:EXIT) to exit from SBCL.
+
+restarts (invokable by number or by possibly-abbreviated name):
+  0: [ABORT] Exit debugger, returning to top level.
+
+(SUBSTS Z.154 :NO)
+   source: (CAAR SS)
+0]backtrace
+0: (SUBSTS Z.154 :NO)
+1: (UNIFICS (X.152 Y.153 Z.154) B Z.154 :NO)
+2: (DISAG* (X.152 Y.153 Z.154) (B) (Z.154) :NO #<FUNCTION UNIFICS>)
+3: (DISAG* (X.152 Y.153 Z.154) ((G B)) ((G Z.154)) :NO #<FUNCTION UNIFICS>)
+4: (UNIFICATIONS (X.152 Y.153 Z.154) (EXPR= (G A) (G B)) (EXPR= (F X.152 Y.153) (G Z.154)))
+5: (UNIFICATIONSP (X.152 Y.153 Z.154) (EXPR= (G A) (G B)) (EXPR= (F X.152 Y.153) (G Z.154)))
+6: (RESOLVE-ID L4-1 L12-1)
+7: (STEP-SOLVER C4)
+8: (PROVER-GTRAIL (C4))
+
+
+★
+ (play-prover-gtrail '(c5) fkname)
+ (play-prover-gtrail '(c6) fkname)
+
+これだとだめ。
+
+((x y z w) (- Expr= (f x y) (f z w))(- Expr= y w)(+ Expr= x z))
+((x y z w) (- Expr= (f x y) (f z w))(- Expr= x z)(+ Expr= y w))
+((x y z w) (- Expr= (f x y) (f z w))(+ Expr= x z)(+ Expr= y w))
+
+これならOK
+
+((x y z w) (- Expr= (f x y) (f z w))(+ Expr= x z))
+((x y z w) (- Expr= (f x y) (f z w))(+ Expr= y w))
+
+ただし、c6は2つ□がでる。ちょっと解明未
+
+★
+
+
+
 

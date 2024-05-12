@@ -207,7 +207,9 @@
     ((equal e1 e2) m)
     ((atom e1) (funcall fn vs e1 e2 m))
     ((atom e2) (funcall fn vs e2 e1 m))
-    ((not (eq (car e1)(car e2))) :NO) ;; this should be in fn...?
+;;; now throw unificaions is ok. but someday it may be unificationp??
+;;; 
+    ((not (eq (car e1)(car e2))) (throw 'unifications :NO)) ;; this should be in fn...?
     (t (disag* vs (cdr e1)(cdr e2) m fn))
   )
 )
