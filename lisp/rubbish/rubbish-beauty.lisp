@@ -104,3 +104,6 @@
   (beauty-cid* cid* out)
 )
 
+(defmacro b1 (&optional cid (out t))
+  `(beauty-cid ',cid ,out)
+)

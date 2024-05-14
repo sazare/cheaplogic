@@ -2,9 +2,7 @@
 ;;
 
 ((x) (+ Expr x)(- Symbol x))
-
 ((x y) (+ Expr (f x y)) (- Expr x)(- Expr y))
-
 ((x) (+ Expr (g x)) (- Expr x))
 
 ;; individual definitions 
