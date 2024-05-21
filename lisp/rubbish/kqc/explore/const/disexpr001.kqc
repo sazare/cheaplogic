@@ -1,0 +1,9 @@
+;; define eqv of Exprs
+
+(1 () (- ≡ a x) (- Var x)(- Const a))
+
+;; ? (+ ς a x)
+
+;; defintion positive ≡
+(readefile "kqc/explore/const/eqexprdef.kqc")
+

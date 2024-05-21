@@ -1,14 +1,14 @@
 ;; define eqv of Exprs
 
-(1 () (- Expr= a a))
-(2 () (- Expr= (f a x) (f a x)))
+(1 () (- ≡ a a))
+(2 () (- ≡ (f a x) (f a x)))
 
-(3 () (+ Expr= a b))
-(4 () (+ Expr= (g a) (g b)))
-(5 () (+ Expr= (f a b) (f b b)))
-(6 () (+ Expr= (f a a) (f a b)))
-(7 () (+ Expr= (f a b) (g b)))
+(3 () (+ ≡ a b))
+(4 () (+ ≡ (g a) (g b)))
+(5 () (+ ≡ (f a b) (f b b)))
+(6 () (+ ≡ (f a a) (f a b)))
+(7 () (+ ≡ (f a b) (g b)))
 
-;; defintion positive Expr=
+;; defintion positive ≡
 (readefile "kqc/explore/const/eqexprdef.kqc")
 

@@ -1,12 +1,12 @@
 ;; define eqv of Exprs
 ;; this failes on 3. C5 is x
 
-(1 () (- Expr= a a))
-(2 () (- Expr= (f a x) (f a x)))
-(3 () (+ Expr= a b))
+(1 () (- ≡ a a))
+(2 () (- ≡ (f a x) (f a x)))
+(3 () (+ ≡ a b))
 
-((x) (+ Expr= x x) (- Expr x))
-((x y) (- Expr= x y) (+ Expr= x y))
+((x) (+ ≡ x x) (- Expr x))
+((x y) (- ≡ x y) (+ ≡ x y))
 
 (readefile "kqc/explore/const/exprdef.kqc")
 

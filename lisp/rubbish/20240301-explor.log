@@ -1072,6 +1072,21 @@ restarts (invokable by number or by possibly-abbreviated name):
 
 ★
 
+★ unification
+unify001.kqc
 
 
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/unify001.kqc")
+ (play-prover-gtrail '(c1) fkname)
 
+ (readekqc fkname)
+ (pcs)
+
+★C1: 1 (X.148 U.149) ((- D (F A X.148) (F A B) U.149))
+> (extract-mgu 'c33 '(c1) '(x.148 U.149))
+(:TUPLE X (APPEND NIL ((W C))))
+
+
+(extract-mgu )

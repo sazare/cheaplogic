@@ -1,23 +1,23 @@
-;; defintion positive Expr=
-((x) (+ Expr= x x) (- Expr x))
+;; defintion positive ≡
+((x) (+ ≡ x x) (- Expr x))
 
-;; individuals on negative Expr=
-(() (- Expr= a b))
-(() (- Expr= b a))
+;; individuals on negative ≡
+(() (- ≡ a b))
+(() (- ≡ b a))
 
-((x y) (- Expr= z (f x y))(- Symbol z))
-((x) (- Expr= z (g x))(- Symbol z))
+((x y) (- ≡ z (f x y))(- Symbol z))
+((x) (- ≡ z (g x))(- Symbol z))
 
-((x y) (- Expr= (f x y) z)(- Symbol z))
-((x) (- Expr= (g x) z)(- Symbol z))
+((x y) (- ≡ (f x y) z)(- Symbol z))
+((x) (- ≡ (g x) z)(- Symbol z))
 
-((x y z) (- Expr= (f x y) (g z)))
-((x y z) (- Expr= (g z) (f x y)))
+((x y z) (- ≡ (f x y) (g z)))
+((x y z) (- ≡ (g z) (f x y)))
 
-((x y z w) (- Expr= (f x y) (f z w))(+ Expr= x z))
-((x y z w) (- Expr= (f x y) (f z w))(+ Expr= y w))
+((x y z w) (- ≡ (f x y) (f z w))(+ ≡ x z))
+((x y z w) (- ≡ (f x y) (f z w))(+ ≡ y w))
 
-((x y) (- Expr= (g x) (g y))(+ Expr= x y))
+((x y) (- ≡ (g x) (g y))(+ ≡ x y))
 
 (readefile "kqc/explore/const/exprdef.kqc")
 
