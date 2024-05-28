@@ -4,83 +4,54 @@
 ;((e1 e2 x)(+ D e1 e2 x))
 
 ; ok
-; (1 (u) (- D a a u)(- Const a)(- Const b))
+; (1 (u) (- D a a u)(- Const a))
+; ok
+;(1 (u) (- D a a u))
 
 ;; twin nconj find the trueth?
 ;; if this, u may be anything. 
 ;(1 (u) (+ D b a u)(- Const a)(- Const b))
-;; no □
-; (1 (u) (- D b a u)(- Const a)(- Const b))
-
+;; no □, ∵ a,bは(+ Const ?)がないから
+;(1 (u) (- D b a u))
+;; this must be □. it means fail of unify.
+;(1 (u) (+ D b a u))
 
 ;; cant
-; no
-;(1 (x u) (+ D a (f (g b) x) u))
-; no
-;(1 (x u m) (- D m (f (g b) x) u)(- Const m))
+; no cは任意のConstでOK
+(1 (c x y u) (+ D c (f (g y) x) u)(- Const c))
 
-;; should □
-;; this means fail of unify. ignore u.
-;(1 (x u) (+ D (f (g b) x) a u) )
+;特定の定数a,bについての問い合わせの場合。
+;(1 (x u) (+ D a (f (g b) x) u))
 
 ;; this is ok or not
-;; u is ε
-;; (extract-mgu 'c35 '(c1) '(x.148)) => (:TUPLE Ε)
-(1 (u) (- D (f a b) (f a b) u))
+;; u is ∅ 
+;; (extract-mgu 'c35 '(c1) '(x.148)) => (:TUPLE ∅)
+;(1 (u) (- D (f a b) (f a b) u))
 
 ;; u is mgu
 ;; u is (x b)?
-;; C1: 1 (X.149 U.150) ((- D (F A X.149) (F A B) U.150)) 
-;; (extract-mgu 'c35 '(c1) '(x.149)) => (:TUPLE B)
-;(1 (x u) (- D (f a x) (f a b) u))
+;; this require induction of Expr on D
+;(1 (u) (- D (g a)(g x) u))
+;(1 (u) (- D (g x)(g b) u))
+;(1 (u) (- D (f a x) (f a b) u))
+;(1 (u) (- D (f (g x) y)(f x b) u))
+;(1 (u) (- D (f (g x) b)(f x b) u))
 
-;; fail case ... fail is represented by -D
+;; -D is fail, +D contra
+;(1 (u) (- D (f (g x) b)(f x (g b)) u))
+;; +D makes no contra. -D not connect +D chain
+;; 
+;(1 (u) (+ D (f (g x) b)(f y (g b)) u))
+
+;; these cannot remove c1 = c2 or a = b. these are NO.
 ;; but this doesn't cause □ something like this
-((z)(- D a b z))
-((c1 c2 z)(- D c1 c2 z) (- Const c1)(- Const c2))
-
-((z)(- D a b z))
-((z)(- D b a z))
-
-((z e1)(- D (g e1) a z))
-((z e1)(- D (g e1) b z))
-((z e1)(- D a (g e1) z))
-((z e1)(- D b (g e1) z))
-
-((z e1 e2)(- D a (f e1 e2) z))
-((z e1 e2)(- D b (f e1 e2) z))
-((z e1 e2)(- D (f e1 e2) a z))
-((z e1 e2)(- D (f e1 e2) b z))
-
-((x y w z)(- D (f x y)(g w) z))
-((x y w z)(- D (g w) (f x y) z))
-
-;; successful
-; ε is empty substitution
-((x)(+ D x x ε))
-
-((ww cc)(+ D ww cc ((σ ww cc))) (- Var ww))
-((ww cc)(+ D cc ww ((σ ww cc))) (- Var ww))
-
-((vx vy vz vw d1 d2)(+ D (f vx vy)(f vz vw) (σ vd1 vd2)) (- D vx vz vd1)(- D vy vw vd2))
-((vx vz vd)(+ D (g vx)(g vz) vd) (- D vx vz vd))
+;((z)(- D a b z)(- Const a)(- Const b))
+;((c1 c2 z)(- D c1 c2 z) (- Const c1)(- Const c2))
 
 
-;; local defintion
-(() (+ Var x))
-(() (+ Var y))
-(() (+ Var w))
-(() (+ Var z))
-(() (+ Var u))
-(() (- Var a))
-(() (- Var b))
-(() (+ Const a))
-(() (+ Const b))
+;; NOGOOD this is true when x ≠ y. but how can i write so?
+;((x y z)(- D x y z)(- Const x)(- Cosnt y))
 
-((x) (- Var (g x)))
-((x y) (- Var (f x y)))
 
-;((x) (- Var x)(- Const x))
-;((x) (+ Var x)(+ Const x))
-
+(readefile "kqc/explore/const/unifydef.kqc")
 

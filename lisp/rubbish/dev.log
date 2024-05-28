@@ -1,3 +1,106 @@
+2024/05/28火
+・unify001.kqcのサンプルを調べた。
+
+成功するものはうまくいく。関数含む。
+失敗する例はchainになっているとしっばいするようだ。
+
+unifydef.kqcを作った
+
+
+2024/05/26日
+unify001.kqcをやり直している
+
+; (1 (u) (- D b a u)(- Const a)(- Const b))
+で公理に
+(+ Const a)
+(+ Const b)
+があるのと
+
+; (2 (u) (- D b a u))
+の違いは?
+
+(+ Const a)のaとここのaは関係がないので、
+この2からは□がでないはず。
+やってみる
+たしかに□はでない
+
+
+;(1 (x u m) (- D m (f (g b) x) u)(- Const m)(- Const a)(- Const b))
+と
+;(2 (x u m) (- D m (f (g b) x) u)(- Const m)(- Const a)(- Const b)(- Var x))
+の違いは、
+1のxはこちらのxなので、何かの同一性か任意性を表しているが
+2のxは対象世界のxなので、(f (g b) x)という式しか示さないことになる。
+この場合は1が正しい
+
+
+¬conjで(-Const a)を書かなくても、条件にある(-Const a)が公理の(+Const a)と対消滅するのでだめだ。
+
+★★対象とこっちで同じ記号を使ってはいけない
+
+
+2024/05/25土
+
+追加確認
+
+expr003.kqcで
+(p1 c1)
+C1: 1 NIL ((- EXPR (F (F A (G B)) (G A))))
+をやると
+RUBBISH(8): (pr0 c119)
+C119: RESO = []
+C119 [] RESOLUTION : <L78-1:L10-1>
+  L78-1 ().(- SYMBOL B)  in
+  C78: RESO NIL ((- SYMBOL B))
+  C78 (L78-1) RESOLUTION : <L52-1:L6-1>
+    L52-1 ().(- EXPR B)  in
+    C52: RESO NIL ((- EXPR B))
+    C52 (L52-1) RESOLUTION : <L35-1:L9-1>
+      L35-1 ().(- SYMBOL A)  in
+      C35: RESO NIL ((- SYMBOL A) (- EXPR B))
+      C35 (L35-1 L35-2) RESOLUTION : <L26-1:L8-1>
+        L26-1 ().(- EXPR (G B))  in
+        C26: RESO NIL ((- EXPR (G B)) (- SYMBOL A))
+        C26 (L26-1 L26-2) RESOLUTION : <L19-1:L6-1>
+          L19-1 ().(- EXPR A)  in
+          C19: REDUCED-BY-SYNTAX NIL ((- EXPR A) (- EXPR (G B)))
+          C19 L18-3 (L19-1 L19-2) removed are..L18-3
+           in
+            C18: RESO NIL ((- EXPR A) (- EXPR (G B)) (- EXPR A))
+            C18 (L18-1 L18-2 L18-3) RESOLUTION : <L15-1:L8-1>
+              L15-1 ().(- EXPR (G A))  in
+              C15: RESO NIL ((- EXPR (G A)) (- EXPR A) (- EXPR (G B)))
+              C15 (L15-1 L15-2 L15-3) RESOLUTION : <L13-1:L7-1>
+                L13-1 ().(- EXPR (F A (G B)))  in
+                C13: RESO NIL ((- EXPR (F A (G B))) (- EXPR (G A)))
+                C13 (L13-1 L13-2) RESOLUTION : <L1-1:L7-1>
+                  L1-1 ().(- EXPR (F (F A (G B)) (G A))) input1
+                  C1: 1 NIL ((- EXPR (F (F A (G B)) (G A))))
+                  L7-1 (X.153 Y.154).(+ EXPR (F X.153 Y.154)) input2
+                  C7: C7 (X.153 Y.154) ((+ EXPR (F X.153 Y.154)) (- EXPR X.153) (- EXPR Y.154))
+                L7-1 (X.153 Y.154).(+ EXPR (F X.153 Y.154))  in
+                C7: C7 (X.153 Y.154) ((+ EXPR (F X.153 Y.154)) (- EXPR X.153) (- EXPR Y.154))
+              L8-1 (X.155).(+ EXPR (G X.155))  in
+              C8: C8 (X.155) ((+ EXPR (G X.155)) (- EXPR X.155))
+          L6-1 (X.152).(+ EXPR X.152)  in
+          C6: C6 (X.152) ((+ EXPR X.152) (- SYMBOL X.152))
+        L8-1 (X.155).(+ EXPR (G X.155))  in
+        C8: C8 (X.155) ((+ EXPR (G X.155)) (- EXPR X.155))
+      L9-1 ().(+ SYMBOL A)  in
+      C9: C9 NIL ((+ SYMBOL A))
+    L6-1 (X.152).(+ EXPR X.152)  in
+    C6: C6 (X.152) ((+ EXPR X.152) (- SYMBOL X.152))
+  L10-1 ().(+ SYMBOL B)  in
+  C10: C10 NIL ((+ SYMBOL B))
+
+
+★証明の読み方
+
+(pr0 c??)
+で、c1から上に向かって読んでいくと、だいたい証明の流がわかるようだ。
+
+
+
 
 2024/05/21火
 ・2つの定数が異なることが書けない。

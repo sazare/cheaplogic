@@ -344,7 +344,6 @@
 (defun start-prover-gtrail (kqcfile)
   (let (cids )
     (setq cids (readekqc kqcfile))
-    (make-lsymlist *llist*)
 
     (when *enable-semantics* 
       (loop with nids = () 

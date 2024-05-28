@@ -1,0 +1,50 @@
+;; unification 
+
+;; successful part
+; ε is empty substitution
+((x)(+ D x x ∅))
+
+((vv cc)(+ D vv cc (σ vv cc)) (- Var vv))
+((vv cc)(+ D cc vv (σ vv cc)) (- Var vv))
+
+((v1 v2 v3 v4 d1 d2)(+ D (f v1 v2)(f v3 v4) (σ d1 d2)) (- D v1 v3 d1)(- D v2 v4 d2))
+((v1 v3 d0)(+ D (g v1)(g v3) d0) (- D v1 v3 d0))
+
+
+;; fail part
+;; when unification fail, it means -D.
+;; this interpretation works some cases. 
+;; but +D chains are not connect to -D result ... how to solve it/
+;; I use a,b without const. these a b are absolute constants.
+;; and (+ Const a) say the a is this a. This is right?
+;; described a is constant in observer's. this is right? maybe
+
+((z)(- D a b z))
+((z)(- D b a z))
+
+((c z e1)(- D (g e1) c z)(- Const c))
+((c z e1)(- D c (g e1) z)(- Const c))
+
+((c z e1 e2)(- D c (f e1 e2) z)(- Const c))
+((c z e1 e2)(- D (f e1 e2) c z)(- Const c))
+
+((x y w z)(- D (f x y)(g w) z))
+((x y w z)(- D (g w) (f x y) z))
+
+;; local defintion
+(() (+ Var x))
+(() (+ Var y))
+(() (+ Var w))
+(() (+ Var z))
+(() (+ Var u))
+(() (- Var a))
+(() (- Var b))
+(() (+ Const a))
+(() (+ Const b))
+
+((x) (- Var (g x)))
+((x y) (- Var (f x y)))
+
+;((x) (- Var x)(- Const x))
+;((x) (+ Var x)(+ Const x))
+

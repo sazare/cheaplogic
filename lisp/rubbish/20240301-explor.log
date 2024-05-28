@@ -1072,17 +1072,100 @@ restarts (invokable by number or by possibly-abbreviated name):
 
 ★
 
-★ unification
+★ unification(これは下でやりなおす★)
 unify001.kqc
 
 
 (require :gtrail)
 (in-package :rubbish)
 (defparameter fkname "kqc/explore/const/unify001.kqc")
- (play-prover-gtrail '(c1) fkname)
+
+; (play-prover-gtrail '(c1) fkname)
 
  (readekqc fkname)
  (pcs)
+ (prover-gtrail '(c1))
+
+
+★C1: 1 (U.148) ((- D (F A B) (F A B) U.148))
+　εは空代入で、大文字はΕ(Eではない)
+
+ (extract-mgu 'c35 '(c1) '(x.148)) => (:TUPLE Ε)
+
+★C1: (Z.148) [((- D A B Z.148))]
+  ### SUMMARY ###
+  time consumed = 0.006628 secs
+  #clauses = 32
+  #contras = 0
+
+★C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149))
+
+(extract-mgu 'c36 '(c1) '(x.148 u.149)) 
+(:TUPLE E2.245 Z.243)
+
+C36: RESO = []
+C36 [] RESOLUTION : <L1-1:L10-1>
+  L1-1 (X.148 U.149).(+ D A (F (G B) X.148) U.149) input1
+  C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149))
+  L10-1 (Z.164 E1.165 E2.166).(- D A (F E1.165 E2.166) Z.164) input2
+  C10: C10 (Z.164 E1.165 E2.166) ((- D A (F E1.165 E2.166) Z.164))
+NIL
+
+C36は、公理にこれがあるから矛盾しているだけだ。
+C10は
+((z e1 e2)(- D a (f e1 e2) z))
+なるほど、これが-Dになるのは(- Const a)のときだから、条件たりないんだ
+
+
+★公理を書き直してconst aいれたら
+　C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149) (- CONST A) (- CONST B))
+ならConstゆえに□する
+RUBBISH(10): (pr0 c51)
+C51: RESO = []
+C51 [] RESOLUTION : <L43-1:L30-1>
+  L43-1 (Z.260 E2.261).(- CONST B)  in
+  C43: RESO (Z.260 E2.261) ((- CONST B))
+  C43 (L43-1) RESOLUTION : <L35-1:L29-1>
+    L35-1 (Z.227 E2.229).(- CONST A)  in
+    C35: RESO (Z.227 E2.229) ((- CONST A) (- CONST B))
+    C35 (L35-1 L35-2) RESOLUTION : <L1-1:L11-1>
+      L1-1 (X.148 U.149).(+ D A (F (G B) X.148) U.149) input1
+      C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149) (- CONST A) (- CONST B))
+      L11-1 (Z.167 E1.168 E2.169).(- D A (F E1.168 E2.169) Z.167) input2
+      C11: C11 (Z.167 E1.168 E2.169) ((- D A (F E1.168 E2.169) Z.167))
+    L29-1 ().(+ CONST A)  in
+    C29: C29 NIL ((+ CONST A))
+  L30-1 ().(+ CONST B)  in
+  C30: C30 NIL ((+ CONST B))
+NIL
+
+
+★C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149))
+
+にしてみたが□でる。
+理由は
+
+RUBBISH(10): (extract-mgu 'c40 '(c1) '(x.148 u.149))
+
+(:TUPLE E2.257 Z.256)
+RUBBISH(11): (pr0 c40)
+C40: RESO = []
+C40 [] RESOLUTION : <L34-1:L29-1>
+  L34-1 (Z.225 E2.227).(- CONST A)  in
+  C34: RESO (Z.225 E2.227) ((- CONST A))
+  C34 (L34-1) RESOLUTION : <L1-1:L11-1>
+    L1-1 (X.148 U.149).(+ D A (F (G B) X.148) U.149) input1
+    C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149))
+    L11-1 (Z.167 E1.168 E2.169).(- D A (F E1.168 E2.169) Z.167) input2
+    C11: C11 (Z.167 E1.168 E2.169) ((- D A (F E1.168 E2.169) Z.167) (- CONST A))
+  L29-1 ().(+ CONST A)  in
+  C29: C29 NIL ((+ CONST A))
+NIL
+
+(+ Const a)が形だけでもaに一致するからだ。
+★★対象とこっちで同じ記号を使ってはいけない
+
+
 
 ★C1: 1 (X.148 U.149) ((- D (F A X.148) (F A B) U.149))
 > (extract-mgu 'c33 '(c1) '(x.148 U.149))
@@ -1099,4 +1182,336 @@ Exprdef.kqcには+Exprしかないので、nconjが+Exprだと答えがでない
 (in-package :rubbish)
 (defparameter fkname "kqc/explore/const/expr003.kqc")
  (play-prover-gtrail '(c1) fkname)
+
+
+★証明の読み方
+
+(pr0 c??)
+で、c1から上に向かって読んでいくと、だいたい証明の流がわかるようだ。
+
+
+★やりなおし unify001.kqc
+unify001.kqc
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/unify001.kqc")
+
+; (play-prover-gtrail '(c1) fkname)
+
+ (readekqc fkname)
+ (pcs)
+ (prover-gtrail '(c1))
+
+*
+RUBBISH(7): (p1 c1)
+C1: 1 (U.148) ((- D A A U.148))
+NIL
+RUBBISH(8): (pr0 c30)
+C30: RESO = []
+C30 [] RESOLUTION : <L1-1:L12-1>
+  L1-1 (U.148).(- D A A U.148) input1
+  C1: 1 (U.148) ((- D A A U.148))
+  L12-1 (X.177).(+ D X.177 X.177 ∅) input2
+  C12: C12 (X.177) ((+ D X.177 X.177 ∅))
+NIL
+RUBBISH(9): (extract-mgu 'c30 '(c1) '(u.148))
+
+(:TUPLE ∅)
+
+これはaが定数でもなんでも∅なのでもんだいなし
+
+*RUBBISH(9): (p1 c1)
+C1: 1 (U.148) ((- D A A U.148) (- CONST A))
+
+RUBBISH(6): (pr0 c33)
+C33: RESO = []
+C33 [] RESOLUTION : <L30-1:L24-1>
+  L30-1 ().(- CONST A)  in
+  C30: RESO NIL ((- CONST A))
+  C30 (L30-1) RESOLUTION : <L1-1:L12-1>
+    L1-1 (U.148).(- D A A U.148) input1
+    C1: 1 (U.148) ((- D A A U.148) (- CONST A))
+    L12-1 (X.177).(+ D X.177 X.177 ∅) input2
+    C12: C12 (X.177) ((+ D X.177 X.177 ∅))
+  L24-1 ().(+ CONST A)  in
+  C24: C24 NIL ((+ CONST A))
+NIL
+
+(extract-mgu 'c33 '(c1) '(u.148))
+
+(:TUPLE ∅)
+
+★
+
+  ### SUMMARY ###
+  time consumed = 0.015229 secs
+  #clauses = 29
+  #contras = 0
+  #valids = 0
+  #trials = 15
+  [experimentals]
+  #max refute steps = 0
+  #con/tri rate = 0.0
+
+C1: 1 (U.148) ((- D B A U.148))
+-Dで反証しようとしているが、これはunify失敗するので、+Dで反証になる。
+
+★ axiomに-D(a,b)直接書き、¬conjは+D(a,b)
+こう書かないと-D(x,x)を除去できない
+
+RUBBISH(7): (lscova)
+
+((C26) NIL)
+RUBBISH(8): (pr0 c26)
+C26: RESO = []
+C26 [] RESOLUTION : <L1-1:L3-1>
+  L1-1 (U.148).(+ D B A U.148) input1
+  C1: 1 (U.148) ((+ D B A U.148))
+  L3-1 (Z.150).(- D B A Z.150) input2
+  C3: C3 (Z.150) ((- D B A Z.150))
+NIL
+RUBBISH(9): (p1 c1)
+C1: 1 (U.148) ((+ D B A U.148))
+NIL
+RUBBISH(10): (extract-mgu 'c26 '(c1) '(u.148))
+
+(:TUPLE Z.205)
+
+
+★C1: 1 (C.148 X.149 Y.150 U.151) ((+ D C.148 (F (G Y.150) X.149) U.151) (- CONST C.148))
+
+の場合
+(lscova)
+
+((C78 C79) NIL)
+になるが、それぞれがaとbの場合なのでOK
+RUBBISH(10): (pr0 c78)
+C78: RESO = []
+C78 [] RESOLUTION : <L40-1:L22-1>
+  L40-1 (Y.305 Z.307 E2.308).(- CONST A)  in
+  C40: RESO (Y.305 Z.307 E2.308) ((- CONST A))
+  C40 (L40-1) RESOLUTION : <L31-1:L22-1>
+    L31-1 (Y.252 C.254 Z.255 E2.257).(- CONST C.254)  in
+    C31: RESO (Y.252 C.254 Z.255 E2.257) ((- CONST C.254) (- CONST C.254))
+    C31 (L31-1 L31-2) RESOLUTION : <L1-1:L6-1>
+      L1-1 (C.148 X.149 Y.150 U.151).(+ D C.148 (F (G Y.150) X.149) U.151) input1
+      C1: 1 (C.148 X.149 Y.150 U.151) ((+ D C.148 (F (G Y.150) X.149) U.151) (- CONST C.148))
+      L6-1 (C.160 Z.161 E1.162 E2.163).(- D C.160 (F E1.162 E2.163) Z.161) input2
+      C6: C6 (C.160 Z.161 E1.162 E2.163) ((- D C.160 (F E1.162 E2.163) Z.161) (- CONST C.160))
+    L22-1 ().(+ CONST A)  in
+    C22: C22 NIL ((+ CONST A))
+  L22-1 ().(+ CONST A)  in
+  C22: C22 NIL ((+ CONST A))
+NIL
+RUBBISH(11): (pr0 c79)
+C79: RESO = []
+C79 [] RESOLUTION : <L41-1:L23-1>
+  L41-1 (Y.309 Z.311 E2.312).(- CONST B)  in
+  C41: RESO (Y.309 Z.311 E2.312) ((- CONST B))
+  C41 (L41-1) RESOLUTION : <L31-1:L23-1>
+    L31-1 (Y.252 C.254 Z.255 E2.257).(- CONST C.254)  in
+    C31: RESO (Y.252 C.254 Z.255 E2.257) ((- CONST C.254) (- CONST C.254))
+    C31 (L31-1 L31-2) RESOLUTION : <L1-1:L6-1>
+      L1-1 (C.148 X.149 Y.150 U.151).(+ D C.148 (F (G Y.150) X.149) U.151) input1
+      C1: 1 (C.148 X.149 Y.150 U.151) ((+ D C.148 (F (G Y.150) X.149) U.151) (- CONST C.148))
+      L6-1 (C.160 Z.161 E1.162 E2.163).(- D C.160 (F E1.162 E2.163) Z.161) input2
+      C6: C6 (C.160 Z.161 E1.162 E2.163) ((- D C.160 (F E1.162 E2.163) Z.161) (- CONST C.160))
+    L23-1 ().(+ CONST B)  in
+    C23: C23 NIL ((+ CONST B))
+  L23-1 ().(+ CONST B)  in
+  C23: C23 NIL ((+ CONST B))
+NIL
+RUBBISH(9): (extract-mgu 'c78 '(c1) '(u.148))
+
+(:TUPLE U.148)
+
+(extract-mgu 'c79 '(c1) '(u.148))
+
+(:TUPLE U.148)
+
+★特定の定数で書いた場合
+RUBBISH(7): (lscova)
+
+((C43) NIL)
+RUBBISH(8): (p1 c1)
+C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149))
+NIL
+RUBBISH(9): (pr0 c43)
+C43: RESO = []
+C43 [] RESOLUTION : <L29-1:L22-1>
+  L29-1 (Z.229 E2.231).(- CONST A)  in
+  C29: RESO (Z.229 E2.231) ((- CONST A))
+  C29 (L29-1) RESOLUTION : <L1-1:L6-1>
+    L1-1 (X.148 U.149).(+ D A (F (G B) X.148) U.149) input1
+    C1: 1 (X.148 U.149) ((+ D A (F (G B) X.148) U.149))
+    L6-1 (C.158 Z.159 E1.160 E2.161).(- D C.158 (F E1.160 E2.161) Z.159) input2
+    C6: C6 (C.158 Z.159 E1.160 E2.161) ((- D C.158 (F E1.160 E2.161) Z.159) (- CONST C.158))
+  L22-1 ().(+ CONST A)  in
+  C22: C22 NIL ((+ CONST A))
+NIL
+
+証明はひとつにきまる。
+
+RUBBISH(10): (extract-mgu 'c43 '(c1) '(u.148))
+
+(:TUPLE U.148)
+
+★<f(a,b):f(a,b)> = ∅
+
+RUBBISH(7): (p1 c1)
+C1: 1 (U.148) ((- D (F A B) (F A B) U.148))
+NIL
+RUBBISH(8): (pr0 c29)
+C29: RESO = []
+C29 [] RESOLUTION : <L1-1:L10-1>
+  L1-1 (U.148).(- D (F A B) (F A B) U.148) input1
+  C1: 1 (U.148) ((- D (F A B) (F A B) U.148))
+  L10-1 (X.173).(+ D X.173 X.173 ∅) input2
+  C10: C10 (X.173) ((+ D X.173 X.173 ∅))
+NIL
+RUBBISH(9): (extract-mgu 'c29 '(c1) '(u.148))
+
+(:TUPLE ∅)
+
+★<g(a):g(x)> = (x ← a)
+
+?! ((σ vv dd))みたいな書き方をしていたため、vvとddがなにかわからないものになっていた。
+
+RUBBISH(7): (p1 c1)
+C1: 1 (U.148) ((- D (G A) (G X) U.148))
+NIL
+RUBBISH(8): (pr0 c31)
+C31: RESO = []
+C31 [] RESOLUTION : <L30-1:L15-1>
+  L30-1 ().(- VAR X)  in
+  C30: RESO NIL ((- VAR X))
+  C30 (L30-1) RESOLUTION : <L27-1:L12-1>
+    L27-1 (D0.210).(- D A X D0.210)  in
+    C27: RESO (D0.210) ((- D A X D0.210))
+    C27 (L27-1) RESOLUTION : <L1-1:L14-1>
+      L1-1 (U.148).(- D (G A) (G X) U.148) input1
+      C1: 1 (U.148) ((- D (G A) (G X) U.148))
+      L14-1 (V1.184 V3.185 D0.186).(+ D (G V1.184) (G V3.185) D0.186) input2
+      C14: C14 (V1.184 V3.185 D0.186) ((+ D (G V1.184) (G V3.185) D0.186) (- D V1.184 V3.185 D0.186))
+    L12-1 (VV.176 CC.177).(+ D CC.177 VV.176 (Σ VV.176 CC.177))  in
+    C12: C12 (VV.176 CC.177) ((+ D CC.177 VV.176 (Σ VV.176 CC.177)) (- VAR VV.176))
+  L15-1 ().(+ VAR X)  in
+  C15: C15 NIL ((+ VAR X))
+NIL
+RUBBISH(10): (extract-mgu 'c31 '(c1) '(u.148))
+
+(:TUPLE (Σ X A))
+
+
+★うえのバリ <g(x):g(b)> = (x ← b)
+
+
+★うえのバリ。fの場合　C1: 1 (U.148) ((- D (F A X) (F A B) U.148))
+
+RUBBISH(8): (pr0 c38)
+C38: RESO = []
+C38 [] RESOLUTION : <L36-1:L15-1>
+  L36-1 ().(- VAR X)  in
+  C36: RESO NIL ((- VAR X))
+  C36 (L36-1) RESOLUTION : <L31-1:L11-1>
+    L31-1 (D2.226).(- D X B D2.226)  in
+    C31: RESO (D2.226) ((- D X B D2.226))
+    C31 (L31-1) RESOLUTION : <L27-1:L10-1>
+      L27-1 (D1.212 D2.213).(- D A A D1.212)  in
+      C27: RESO (D1.212 D2.213) ((- D A A D1.212) (- D X B D2.213))
+      C27 (L27-1 L27-2) RESOLUTION : <L1-1:L13-1>
+        L1-1 (U.148).(- D (F A X) (F A B) U.148) input1
+        C1: 1 (U.148) ((- D (F A X) (F A B) U.148))
+        L13-1 (V1.178 V2.179 V3.180 V4.181 D1.182 D2.183).(+ D (F V1.178 V2.179) (F V3.180 V4.181) (Σ D1.182 D2.183)) input2
+        C13: C13 (V1.178 V2.179 V3.180 V4.181 D1.182 D2.183) ((+ D (F V1.178 V2.179) (F V3.180 V4.181) (Σ D1.182 D2.183)) (- D V1.178 V3.180 D1.182) (- D V2.179 V4.181 D2.183))
+      L10-1 (X.173).(+ D X.173 X.173 ∅)  in
+      C10: C10 (X.173) ((+ D X.173 X.173 ∅))
+    L11-1 (VV.174 CC.175).(+ D VV.174 CC.175 (Σ VV.174 CC.175))  in
+    C11: C11 (VV.174 CC.175) ((+ D VV.174 CC.175 (Σ VV.174 CC.175)) (- VAR VV.174))
+  L15-1 ().(+ VAR X)  in
+  C15: C15 NIL ((+ VAR X))
+NIL
+RUBBISH(9): (extract-mgu 'c38 '(c1) '(u.148))
+
+(:TUPLE (Σ ∅ (Σ X B)))
+
+★C1: 1 (U.148) ((- D (F (G X) Y) (F X B) U.148))
+NIL
+RUBBISH(8): (pr0 c37)
+C37: RESO = []
+C37 [] RESOLUTION : <L35-1:L16-1>
+  L35-1 ().(- VAR Y)  in
+  C35: RESO NIL ((- VAR Y))
+  C35 (L35-1) RESOLUTION : <L33-1:L15-1>
+    L33-1 ().(- VAR X)  in
+    C33: RESO NIL ((- VAR X) (- VAR Y))
+    C33 (L33-1 L33-2) RESOLUTION : <L30-1:L11-1>
+      L30-1 (D2.222).(- D Y B D2.222)  in
+      C30: RESO (D2.222) ((- D Y B D2.222) (- VAR X))
+      C30 (L30-1 L30-2) RESOLUTION : <L27-1:L12-1>
+        L27-1 (D1.212 D2.213).(- D (G X) X D1.212)  in
+        C27: RESO (D1.212 D2.213) ((- D (G X) X D1.212) (- D Y B D2.213))
+        C27 (L27-1 L27-2) RESOLUTION : <L1-1:L13-1>
+          L1-1 (U.148).(- D (F (G X) Y) (F X B) U.148) input1
+          C1: 1 (U.148) ((- D (F (G X) Y) (F X B) U.148))
+          L13-1 (V1.178 V2.179 V3.180 V4.181 D1.182 D2.183).(+ D (F V1.178 V2.179) (F V3.180 V4.181) (Σ D1.182 D2.183)) input2
+          C13: C13 (V1.178 V2.179 V3.180 V4.181 D1.182 D2.183) ((+ D (F V1.178 V2.179) (F V3.180 V4.181) (Σ D1.182 D2.183)) (- D V1.178 V3.180 D1.182) (- D V2.179 V4.181 D2.183))
+        L12-1 (VV.176 CC.177).(+ D CC.177 VV.176 (Σ VV.176 CC.177))  in
+        C12: C12 (VV.176 CC.177) ((+ D CC.177 VV.176 (Σ VV.176 CC.177)) (- VAR VV.176))
+      L11-1 (VV.174 CC.175).(+ D VV.174 CC.175 (Σ VV.174 CC.175))  in
+      C11: C11 (VV.174 CC.175) ((+ D VV.174 CC.175 (Σ VV.174 CC.175)) (- VAR VV.174))
+    L15-1 ().(+ VAR X)  in
+    C15: C15 NIL ((+ VAR X))
+  L16-1 ().(+ VAR Y)  in
+  C16: C16 NIL ((+ VAR Y))
+NIL
+RUBBISH(9): (extract-mgu 'c37 '(c1) '(u.148))
+
+(:TUPLE (Σ (Σ X (G X)) (Σ Y B)))
+RUBBISH(10):
+
+★RUBBISH(7): (p1 c1)
+C1: 1 (U.148) ((- D (F (G X) B) (F X B) U.148))
+NIL
+RUBBISH(8): (pr0 c39)
+C39: RESO = []
+C39 [] RESOLUTION : <L36-1:L15-1>
+  L36-1 ().(- VAR X)  in
+  C36: RESO NIL ((- VAR X))
+  C36 (L36-1) RESOLUTION : <L30-1:L10-1>
+    L30-1 (D2.222).(- D B B D2.222)  in
+    C30: RESO (D2.222) ((- D B B D2.222) (- VAR X))
+    C30 (L30-1 L30-2) RESOLUTION : <L27-1:L12-1>
+      L27-1 (D1.212 D2.213).(- D (G X) X D1.212)  in
+      C27: RESO (D1.212 D2.213) ((- D (G X) X D1.212) (- D B B D2.213))
+      C27 (L27-1 L27-2) RESOLUTION : <L1-1:L13-1>
+        L1-1 (U.148).(- D (F (G X) B) (F X B) U.148) input1
+        C1: 1 (U.148) ((- D (F (G X) B) (F X B) U.148))
+        L13-1 (V1.178 V2.179 V3.180 V4.181 D1.182 D2.183).(+ D (F V1.178 V2.179) (F V3.180 V4.181) (Σ D1.182 D2.183)) input2
+        C13: C13 (V1.178 V2.179 V3.180 V4.181 D1.182 D2.183) ((+ D (F V1.178 V2.179) (F V3.180 V4.181) (Σ D1.182 D2.183)) (- D V1.178 V3.180 D1.182) (- D V2.179 V4.181 D2.183))
+      L12-1 (VV.176 CC.177).(+ D CC.177 VV.176 (Σ VV.176 CC.177))  in
+      C12: C12 (VV.176 CC.177) ((+ D CC.177 VV.176 (Σ VV.176 CC.177)) (- VAR VV.176))
+    L10-1 (X.173).(+ D X.173 X.173 ∅)  in
+    C10: C10 (X.173) ((+ D X.173 X.173 ∅))
+  L15-1 ().(+ VAR X)  in
+  C15: C15 NIL ((+ VAR X))
+NIL
+RUBBISH(9): (extract-mgu 'c39 '(c1) '(u.148))
+
+(:TUPLE (Σ (Σ X (G X)) ∅))
+RUBBISH(10):
+
+★<f(g(x),b): f(x,g(b))>?
+(1 (u) (- D (f (g x) b)(f x (g b)) u))
+は矛盾でず、goal empty end(GEE)
+
+(1 (u) (+ D (f (g x) b)(f y (g b)) u))
+は7000clause超え
+<b: g(b)>で失敗するはず??
+失敗が伝わっていないのか。失敗したということがわからないはず。+Dでなく-Dでさがしにいくから。
+
+
+
 

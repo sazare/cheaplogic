@@ -1,0 +1,30 @@
+;; except of def are not Expr. is it correct?
+
+;(1 () (+ Expr (f a)))
+;(1 () (+ Expr (g (f b))))
+;(1 () (+ Expr (g a (f b))))
+;(1 () (+ Expr (h h h)))
+
+(1 () (- Expr (f (f a (g b)) (g a))))
+
+;; a way to exclude otherwise
+
+(() (- Expr c))
+((x) (- Expr x) (+ Symbol x))
+((x) (- Expr (f x)))
+((x y) (- Expr (g x y)))
+
+
+;(readefile "kqc/explore/const/exprdef.kqc")
+
+((x) (+ Expr x)(- Symbol x))
+((x y) (+ Expr (f x y)) (- Expr x)(- Expr y))
+((x) (+ Expr (g x)) (- Expr x))
+
+;; individual definitions 
+
+(()(+ Symbol a))
+(()(+ Symbol b))
+(()(+ Symbol x))
+(()(+ Symbol y))
+
