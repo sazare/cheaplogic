@@ -1,0 +1,17 @@
+; query for unifydef001
+
+;;success
+
+;(1 (u) (- D a x u))
+(1 (u) (- D (f x) (f a)  u))
+;(1 (u) (- D (f x)(f (f a)) u) 
+
+;; fail
+;(1 (u) (- D a (f x)  u))
+;(1 (u) (- D (f x) a  u))
+;(1 (u) (- D (f (f a)) (f a)  u))
+; (1 (u) (- D (f a)(f (f x) u)))
+
+
+(readefile "kqc/explore/const/unifydef001.kqc")
+

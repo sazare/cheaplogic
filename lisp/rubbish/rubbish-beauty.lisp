@@ -54,12 +54,7 @@
 
 (defun beauty-vars (vars out)
   (when vars
-    (format out "∀~{~a ~}" vars)
-;    (format out "∀")
-;    (loop for vs on vars do
-;      (format out "~a" (car vs))
-;      (when (cdr vs) (format out " "))
-;    )
+    (format out "∀ ~{~a ~}" vars)
   )
 )
 

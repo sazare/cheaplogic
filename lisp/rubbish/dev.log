@@ -1,3 +1,164 @@
+2024/06/03月
+・unifyque000.kqc
+で、Exprの定義などを単純化してみた。うまくいったきがする。
+
+
+そこで、unifyque0abfg.kqcで、fの二引数化をした。
+
+Q1)　00aで
+((e) (+ D x e (s x e))(- Expr e))
+((e) (+ D e x (s x e))(- Expr e))
+だったのを、変数がyも増えたのと、-Exprは関係ないと思ったので
+(1) 
+((w e) (+ D w e (s w e))(- Var w))
+((w e) (+ D e w (s w e))(- Var w))
+にしたが 代入がうまれなかった。これは-Exprがないせいかと思い
+(2)
+((w e) (+ D w e (s w e))(- Var w)(- Expr e))
+((w e) (+ D e w (s w e))(- Var w)(- Expr e))
+
+としたが、今度はQ2のようになった。
+(2)でよいと思うのでやりなおしたら、うまくいった。
+Q2は、ここで追加した-Exprが増殖したためだろう。
+
+★書き方で無駄なLiteralが増えると、終われなくなるのか★
+
+
+Q2) reduced-by-syntaxでループにはいったようだ。max-clauseを5000、10000にしても進まなかったので 50にして確認した。
+
+★ループにはいるときはmax-clausesを小さくして様子を見る!!!
+C25: REDUCED-BY-SYNTAX NIL ((- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR A) (- VAR B) (- EXPR Y))
+C24: RESO NIL ((- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR A) (- EXPR X) (- VAR B) (- EXPR Y))
+C23: REDUCED-BY-SYNTAX NIL ((- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR A) (- VAR Y) (- EXPR B))
+C22: RESO NIL ((- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR A) (- EXPR X) (- VAR Y) (- EXPR B))
+C21: REDUCED-BY-SYNTAX NIL ((- D B Y U2.201) (- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR X))
+C20: RESO (U2.201) ((- D B Y U2.201) (- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR X) (- EXPR A))
+C19: REDUCED-BY-SYNTAX NIL ((- D B Y U2.196) (- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR A))
+C18: RESO (U2.196) ((- D B Y U2.196) (- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y) (- VAR A) (- EXPR X))
+C17: RESO NIL ((- VAR (F X B)) (- EXPR (F A Y)))
+C16: RESO NIL ((- VAR (F A Y)) (- EXPR (F X B)))
+C15: RESO (U1.187 U2.188) ((- D X A U1.187) (- D B Y U2.188) (- EXPR X) (- EXPR B) (- EXPR A) (- EXPR Y))
+C1: 1 (U.148) ((- D (F X B) (F A Y) U.148))
+C2: NIL [((+ VAR X))]
+C3: NIL [((+ VAR Y))]
+C4: NIL [((+ CONST A))]
+C5: NIL [((+ CONST B))]
+C6: (W.149) [((+ EXPR W.149) (- VAR W.149))]
+C7: (W.150) [((+ EXPR W.150) (- CONST W.150))]
+C8: (W.151 V.152) [((+ EXPR (F W.151 V.152)) (- EXPR W.151) (- EXPR V.152))]
+C9: (W.153) [((+ EXPR (G W.153)) (- EXPR W.153))]
+C10: (W.154) [((+ D W.154 W.154 ∅))]
+C11: (W1.155 W2.156 V1.157 V2.158 U1.159 U2.160) [((+ D (F W1.155 V1.157) (F W2.156 V2.158) (S U1.159 U2.160)) (- D W1.155 W2.156 U1.159) (- D V1.157 V2.158 U2.160) (- EXPR W1.155) (- EXPR V1.157)
+                                                   (- EXPR W2.156) (- EXPR V2.158))]
+C12: (W.161 V.162 U.163) [((+ D (G W.161) (G V.162) U.163) (- D W.161 V.162 U.163) (- EXPR W.161) (- EXPR V.162))]
+C13: (W.164 E.165) [((+ D W.164 E.165 (S W.164 E.165)) (- VAR W.164) (- EXPR E.165))]
+C14: (W.166 E.167) [((+ D E.167 W.166 (S W.166 E.167)) (- VAR W.166) (- EXPR E.167))]
+NIL
+
+★
+C1: 1 (U.148) ((- D (F X B) (F A Y) U.148))
+C2: NIL [((+ VAR X))]
+C3: NIL [((+ VAR Y))]
+C4: NIL [((+ CONST A))]
+C5: NIL [((+ CONST B))]
+C6: (W.149) [((+ EXPR W.149) (- VAR W.149))]
+C7: (W.150) [((+ EXPR W.150) (- CONST W.150))]
+C8: (W.151 V.152) [((+ EXPR (F W.151 V.152)) (- EXPR W.151) (- EXPR V.152))]
+C9: (W.153) [((+ EXPR (G W.153)) (- EXPR W.153))]
+C10: (W.154) [((+ D W.154 W.154 ∅))]
+C11: (W1.155 W2.156 V1.157 V2.158 U1.159 U2.160) [((+ D (F W1.155 V1.157) (F W2.156 V2.158) (S U1.159 U2.160)) (- D W1.155 W2.156 U1.159) (- D V1.157 V2.158 U2.160) (- EXPR W1.155) (- EXPR V1.157)
+                                                   (- EXPR W2.156) (- EXPR V2.158))]
+C12: (W.161 V.162 U.163) [((+ D (G W.161) (G V.162) U.163) (- D W.161 V.162 U.163) (- EXPR W.161) (- EXPR V.162))]
+C13: (W.164 E.165) [((+ D W.164 E.165 (S W.164 E.165)) (- VAR W.164))]
+C14: (W.166 E.167) [((+ D W.166 E.167 (S W.166 E.167)) (- VAR W.166))]
+
+変数定数使わずにC13,14で書くと□がでない。
+なぜ??? ★
+
+★C1: 1 (U.148) ((- D (F X (G B)) (F (F A B) Y) U.148))
+
+の場合、
+RUBBISH(21): (summary0 t)
+
+#clauses = 245
+#contras = 6
+#valids = 0
+#trials = 593
+#refute steps = 15
+で
+RUBBISH(12): (lscova)
+
+((C238 C239 C240 C242 C243 C245) NIL)
+
+それぞれのmguをみると、以下のとおり。二重にとれているものがある。c245が一回だけ。
+詳細はみてない。
+
+RUBBISH(13): (extract-mgu 'c245 '(c1) '(u.148))
+
+(:TUPLE (S (S X (F A B)) (S Y (G B))))
+RUBBISH(14): (extract-mgu 'c243 '(c1) '(u.148))
+
+(:TUPLE (S (S X (F A B)) (S Y (G B))) (S (S X (F A B)) (S Y (G B))))
+RUBBISH(15): (extract-mgu 'c242 '(c1) '(u.148))
+
+(:TUPLE (S (S X (F A B)) (S Y (G B))) (S (S X (F A B)) (S Y (G B))))
+RUBBISH(16): (extract-mgu 'c240 '(c1) '(u.148))
+
+(:TUPLE (S (S X (F A B)) (S Y (G B))) (S (S X (F A B)) (S Y (G B))))
+RUBBISH(17): (extract-mgu 'c239 '(c1) '(u.148))
+
+(:TUPLE (S (S X (F A B)) (S Y (G B))) (S (S X (F A B)) (S Y (G B))))
+RUBBISH(18): (extract-mgu 'c238 '(c1) '(u.148))
+
+(:TUPLE (S (S X (F A B)) (S Y (G B))) (S (S X (F A B)) (S Y (G B))))
+RUBBISH(19):
+
+
+★
+C24: REDUCED-BY-SYNTAX NIL ((- EXPR (G B)) (- EXPR (F B A)) (- EXPR Z) (- D X B U1.206) (- D Y A U2.207) (- EXPR X) (- EXPR Y) (- EXPR B) (- EXPR A) (- EXPR Y))
+C23: RESO (U1.206 U2.207) ((- EXPR (G B)) (- EXPR (F B A)) (- EXPR Z) (- D X B U1.206) (- D Y A U2.207) (- EXPR X) (- EXPR Y) (- EXPR B) (- EXPR A) (- EXPR X) (- EXPR Y))
+
+のpr0をみるとC24はL23-10をremoveしている。
+
+RUBBISH(11): l23-10
+
+(- EXPR X)
+RUBBISH(12): (p1 c23)
+C23: RESO (U1.206 U2.207) ((- EXPR (G B)) (- EXPR (F B A)) (- EXPR Z) (- D X B U1.206) (- D Y A U2.207) (- EXPR X) (- EXPR Y) (- EXPR B) (- EXPR A) (- EXPR X) (- EXPR Y))
+RUBBISH(12): NIL (p1 c24)
+C24: REDUCED-BY-SYNTAX NIL ((- EXPR (G B)) (- EXPR (F B A)) (- EXPR Z) (- D X B U1.206) (- D Y A U2.207) (- EXPR X) (- EXPR Y) (- EXPR B) (- EXPR A) (- EXPR Y))
+
+たしかに。
+tiralを20000、max-clausesを10000にしてもlimit超えになる。
+
+たしかに、-Exprが多すぎ。
+これではtrialやclauseを増やしても届きそうにない。
+
+-Exprがいらないのか??
+
+
+
+2024/06/02日
+・定数がaのみ、abのみ、a,f^1のみという場合を調べた
+　変数はxやy
+
+ここでは、失敗についての公理は作っていない。
+成功のみ。
+
+unifyque00a.kqc
+unifydef00a.kqc
+　問題がない
+
+unifyque0ab.kqc
+unifydef0ab.kqc
+　<x:y>については、証明が2つでてくる。これはいいことだ。
+
+unifyque001.kqc
+unifydef001.kqc
+　これはa,bとf一引数の存在するΣ
+
+
+
 2024/05/28火
 ・unify001.kqcのサンプルを調べた。
 

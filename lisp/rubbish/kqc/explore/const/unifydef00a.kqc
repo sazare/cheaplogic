@@ -1,0 +1,19 @@
+;; unify def for a,x
+
+;; base
+(() (+ Const a))
+(() (+ Var x))
+((w) (+ Symbol w)(- Var w))
+((w) (+ Symbol w)(- Const w))
+
+((w) (+ Expr w) (- Symbol w))
+
+;; unify
+
+((w) (+ D w w ∅))
+(() (+ D a x (s x a)))
+(() (+ D x a (s x a)))
+
+
+((u) (+ D e1 e2 u)(- Expr e1)(- Expr e2))
+

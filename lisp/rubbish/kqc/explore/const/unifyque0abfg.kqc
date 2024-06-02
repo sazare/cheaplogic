@@ -1,0 +1,51 @@
+; query for a,b,f^2
+
+;;success
+
+;(1 (u) (- D a a u))
+;(1 (u) (- D x a u))
+;(1 (u) (- D a x u))
+;(1 (u) (- D (f x b) (f a y)  u))
+;(1 (u) (- D (f x (g b))(f (f a b) y) u))
+;(1 (u) (- D (f (g a)(f b b)) (f x y) u))
+(1 (u) (- D (f (f x y) (g b))(f (f b a) z) u))
+
+;; base
+(() (+ Var x))
+(() (+ Var y))
+(() (+ Const a))
+(() (+ Const b))
+
+((w) (+ Expr w)(- Var w))
+((w) (+ Expr w)(- Const w))
+
+((w v) (+ Expr (f w v))(- Expr w)(- Expr v))
+((w) (+ Expr (g w))(- Expr w))
+
+;; unify
+;; case same
+((w) (+ D w w ∅))
+
+;; case f:f
+((w1 w2 v1 v2 u1 u2) (+ D (f w1 v1) (f w2 v2) (s u1 u2))(- D w1 w2 u1)(- D v1 v2 u2)(- Expr w1)(- Expr v1)(- Expr w2)(- Expr v2))
+
+;; case g:g
+((w v u) (+ D (g w) (g v) u)(- D w v u)(- Expr w)(- Expr v))
+
+;; F:F, C:F, F:C are all fail. without further checks.
+
+;; and var make sigma.
+((e) (+ D x e (sx e)))
+((e) (+ D e x (sx e)))
+((e) (+ D y e (sy e)))
+((e) (+ D e y (sy e)))
+((e) (+ D z e (sz e)))
+((e) (+ D e z (sz e)))
+
+;((w e) (+ D w e (s w e))(- Var w))
+;((w e) (+ D w e (s w e))(- Var w))
+
+;((w e) (+ D e w (s w e))(- Var w)(- Expr e))
+;((w e) (+ D e w (s w e))(- Var w)(- Expr e))
+
+

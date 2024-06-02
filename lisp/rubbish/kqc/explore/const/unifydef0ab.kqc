@@ -1,0 +1,28 @@
+;; unify def for a,b,x
+
+;; base
+(() (+ Var x))
+(() (+ Var y))
+(() (+ Const a))
+(() (+ Const b))
+((w) (+ Symbol w)(- Var w))
+((w) (+ Symbol w)(- Const w))
+((w) (+ Expr w) (- Symbol w))
+
+;; unify
+
+((w) (+ D w w ∅))
+;; this contains (+ D x x ∅)
+;; this contains (+ D y y ∅)
+
+((w e) (+ D w e (s w e))(- Expr e)(- Var w))
+((w e) (+ D e w (s w e))(- Expr e)(- Var w))
+;; these contain 
+;(() (+ D x y (s x y)))
+;(() (+ D y x (s x y)))
+
+;; fail
+;((w) (- D a b w))
+;((w) (- D b a w))
+
+

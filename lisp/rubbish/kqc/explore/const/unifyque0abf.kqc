@@ -1,0 +1,37 @@
+; query for a,b,f^2
+
+;;success
+
+;(1 (u) (- D a x u))
+;(1 (u) (- D (f x b) (f a y)  u))
+;(1 (u) (- D (f x (g b))(f (f a) y) u))
+;(1 (u) (- D (f (f x) (g b))(f (f a) y) u))
+(1 (u) (- D (f (g a)(f b b)) u))
+
+;; base
+(() (+ Var x))
+(() (+ Const a))
+(() (+ Const b))
+
+(() (+ Expr x))
+(() (+ Expr a))
+((w v) (+ Expr (f w v))(- Expr w)(- Expr v))
+((w) (+ Expr (g w))(- Expr w))
+
+;; unify
+;; case same
+((w) (+ D w w ∅))
+
+;; case f:f
+((w v m k u) (+ D (f w m) (f v k) u)(- D w v u)(- D m k)(- Expr w)(- Expr v)(- Expr m)(- Expr k))
+
+;; case g:g
+((w v u) (+ D (g w) (g v) u)(- D w v u)(- Expr w)(- Expr v))
+
+;; F:F, C:F, F:C are all fail. without further checks.
+
+;; and var make sigma.
+((e) (+ D x e (s w e))(- Var x))
+((e) (+ D e x (s w e))(- Var x))
+
+

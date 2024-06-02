@@ -1,0 +1,23 @@
+;; queires for 0ab
+
+;; success
+;(1 (w) (- D a a w))
+;(1 (w) (- D b b w))
+
+;(1 (w) (- D x a w))
+;(1 (w) (- D a x w))
+;(1 (w) (- D y a w))
+;(1 (w) (- D a y w))
+;(1 (w) (- D x b w))
+;(1 (w) (- D b x w))
+;(1 (w) (- D y b w))
+;(1 (w) (- D b y w))
+;(1 (w) (- D x y w))
+(1 (w) (- D y x w))
+
+;; fail
+;(1 (w) (- D a b w))
+;(1 (w) (- D b a w))
+
+
+(readefile "kqc/explore/const/unifydef0ab.kqc")
