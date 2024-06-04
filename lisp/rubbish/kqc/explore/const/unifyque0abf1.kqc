@@ -1,7 +1,5 @@
 ; query for a,b,f^2
 
-
-;; remove Expr. Exprは何も働いていない。証明が難しくなるだけ。
 ;;success
 
 ;(1 (u) (- D a x u))
@@ -12,10 +10,11 @@
 ; x
 ;(1 (u) (- D (f (f x) (g b))(f (f a) y) u))
 
-; o 
+; o trials=20002, clauses=6911 
 ;(1 (u) (- D (f (g a)(f b b)) (f (g x) y)  u))
 
-;; ok
+;; x trials=30009 clauses=6107
+;; clausesが減っている?
 (1 (u) (- D (f (g a)(f b b)) (f (g x) (f y b))  u))
 
 
@@ -26,23 +25,21 @@
 (() (+ Const a))
 (() (+ Const b))
 
-;((w) (+ Expr w)(- Var w))
-;((w) (+ Expr w)(- Const w))
+((w) (+ Expr w)(- Var w))
+((w) (+ Expr w)(- Const w))
 
-;((w v) (+ Expr (f w v))(- Expr w)(- Expr v))
-;((w) (+ Expr (g w))(- Expr w))
+((w v) (+ Expr (f w v))(- Expr w)(- Expr v))
+((w) (+ Expr (g w))(- Expr w))
 
 ;; unify
 ;; case same
 ((w) (+ D w w ∅))
 
 ;; case f:f
-((w1 w2 v1 v2 u1 u2) (+ D (f w1 v1) (f w2 v2) (sc u1 u2))(- D w1 w2 u1)(- D v1 v2 u2))
-;((w1 w2 v1 v2 u1 u2) (+ D (f w1 v1) (f w2 v2) (sc u1 u2))(- D w1 w2 u1)(- D v1 v2 u2)(- Expr w1)(- Expr v1)(- Expr w2)(- Expr v2))
+((w1 w2 v1 v2 u1 u2) (+ D (f w1 v1) (f w2 v2) (sc u1 u2))(- D w1 w2 u1)(- D v1 v2 u2)(- Expr w1)(- Expr v1)(- Expr w2)(- Expr v2))
 
 ;; case g:g
-((w v u) (+ D (g w) (g v) u)(- D w v u))
-;((w v u) (+ D (g w) (g v) u)(- D w v u)(- Expr w)(- Expr v))
+((w v u) (+ D (g w) (g v) u)(- D w v u)(- Expr w)(- Expr v))
 
 ;; F:F, C:F, F:C are all fail. without further checks.
 

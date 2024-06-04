@@ -1,3 +1,105 @@
+2024/06/04火
+・unifyque0abf.kqc
+　なぜかu1,u2が定数になってしまう。ua,ubにしたら動いた。
+
+　でも、unifyque0abfg.kqcは問題ない。
+　　なにか変なコードがはいっているのか??
+
+まちがってunifyque0abf.kqcを消したので、checkoutした
+　今回はu1,u2にしても定数にはならない。
+
+　ここにbとyを追加
+
+  Const, Varがあるのに、+Expr(w)-Const(w)はなく-Expr(x)などとしている??
+
+abfの定義はすてて、abfgの定義をコピーした
+包含しているので動く
+
+abfで
+; o trials=20002, clauses=6911
+;(1 (u) (- D (f (g a)(f b b)) (f (g x) y)  u))
+
+だが、
+;; x trials=30009 clauses=6107
+;; clausesが減っている?
+(1 (u) (- D (f (g a)(f b b)) (f (g x) (f y b))  u))
+
+ネストするとむずかしそう。
+
+★ 0abf, 0abfgからExprを除去したら、全部軽くできた。
+　つまり、Exprはわたしの妄想で、証明には必要なかったということ。
+
+なんだそれは
+
+
+C1: 1 (U.148) ((- D (F (F X Y) (G B)) (F (F B A) Z) U.148))
+C2: NIL [((+ VAR X))]
+C3: NIL [((+ VAR Y))]
+C4: NIL [((+ CONST A))]
+C5: NIL [((+ CONST B))]
+C6: (W.149) [((+ D W.149 W.149 ∅))]
+C7: (W1.150 W2.151 V1.152 V2.153 U1.154 U2.155) [((+ D (F W1.150 V1.152) (F W2.151 V2.153) (S U1.154 U2.155)) (- D W1.150 W2.151 U1.154) (- D V1.152 V2.153 U2.155))]
+C8: (W.156 V.157 U.158) [((+ D (G W.156) (G V.157) U.158) (- D W.156 V.157 U.158))]
+C9: (W.159 E.160) [((+ D W.159 E.160 (S W.159 E.160)) (- VAR W.159))]
+C10: (W.161 E.162) [((+ D W.161 E.162 (S W.161 E.162)) (- VAR W.161))]
+
+の場合、C9,10で()-Var w)をつけていると、resolventがこうなって破綻する
+
+C34: RESO NIL ((- VAR (G B)) (- VAR X) (- VAR Y))
+C33: RESO NIL ((- VAR (G B)) (- VAR X) (- VAR Y))
+C32: RESO NIL ((- VAR (G B)) (- VAR X) (- VAR Y))
+C31: RESO NIL ((- VAR (G B)) (- VAR X) (- VAR Y))
+
+(- Var (g b))をなぜ問うのか? C9,C10で入れ替えて問うているからだ。
+
+;((e) (+ D x e (sx e)))
+;((e) (+ D e x (sx e)))
+;((e) (+ D y e (sy e)))
+;((e) (+ D e y (sy e)))
+;((e) (+ D z e (sz e)))
+;((e) (+ D e z (sz e)))
+
+で書くしかないのか??
+対象論理式では変数は有限個だからいいような気もする。
+
+(1 (u) (- D (f (f (f x y) (g b) ) (g c)) (f (f (f a b) (g z))) u))
+で
+NIL
+RUBBISH(7): (extract-mgu 'c60 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) ∅))
+RUBBISH(8): (extract-mgu 'c59 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) (SX C)))
+RUBBISH(9): (extract-mgu 'c58 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) (SY C)))
+RUBBISH(10): (extract-mgu 'c57 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) (SZ C)))
+RUBBISH(11): (extract-mgu 'c56 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) ∅))
+RUBBISH(12): (extract-mgu 'c51 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) (SX (G C))))
+RUBBISH(13): (extract-mgu 'c50 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) (SY (G C))))
+RUBBISH(14): (extract-mgu 'c49 '(c1) '(u.148))
+
+(:TUPLE (SC (SC (SC (SX A) (SY B)) (SZ B)) (SZ (G C))))
+
+★なんで(sz b)なんだ?? それぞれの□でsx,sy,szの値が違うのはなぜ?
+
+scの計算をしていないからか?
+
+つかれた
+
+unifyque0abf[g]1.kqcは動かないやつのバックアップ
+1がないやつはExprを除去したもの
+
+
 2024/06/03月
 ・unifyque000.kqc
 で、Exprの定義などを単純化してみた。うまくいったきがする。

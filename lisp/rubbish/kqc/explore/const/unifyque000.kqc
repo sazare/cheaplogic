@@ -2,9 +2,9 @@
 
 ;;success
 
-;(1 (u) (- D a x u))
+(1 (u) (- D a x u))
 ;(1 (u) (- D (f x) (f a)  u))
-(1 (u) (- D (f x)(f (f a)) u))
+;(1 (u) (- D (f x)(f (f a)) u))
 
 ;; fail
 ;(1 (u) (- D a (f x)  u))
@@ -14,9 +14,9 @@
 
 
 ;; base
-(() (+ Var x))
-(() (+ Const a))
-(() (+ Const b))
+;(() (+ Var x))
+;(() (+ Const a))
+;(() (+ Const b))
 
 (() (+ Expr x))
 (() (+ Expr a))
@@ -28,7 +28,7 @@
 
 ((w v u) (+ D (f w) (f v) u)(- D w v u)(- Expr w)(- Expr v))
 
-((e) (+ D x e (s w e))(- Var x))
-((e) (+ D e x (s w e))(- Var x))
+((e) (+ D x e (s x e)))
+((e) (+ D e x (s x e)))
 
 
