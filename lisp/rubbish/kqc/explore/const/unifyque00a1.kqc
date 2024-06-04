@@ -12,21 +12,12 @@
 (() (+ Const a))
 (() (+ Var x))
 
-((w) (+ Expr w) (- Var w))
-((w) (+ Expr w) (- Const w))
-
 ;; unify
 
 ((w) (+ D w w ∅))
 
-
 ;; -Expr not neccesaary. but show for my intension.
-((e) (+ D e x (s x e))(- Expr e))
-((e) (+ D x e (s x e))(- Expr e))
-;; these are enough
-;((e) (+ D e x (s x e)))
-;((e) (+ D x e (s x e)))
+((e) (+ D e x (s x e)))
+((e) (+ D x e (s x e)))
 
-;; this is meaningless
-;;((u) (+ D e1 e2 u)(- Expr e1)(- Expr e2))
 

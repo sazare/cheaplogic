@@ -11,14 +11,15 @@
 ; o
 ;(1 (u) (- D (f (f x y) (g b))(f (f b a) z) u))
 ; o
-(1 (u) (- D (f (f (f x y) (g b) ) (g c)) (f (f (f a b) (g z))) u))
+(1 (u) (- D (f (f (f x y) (g c) ) (g c)) (f (f (f a b) (g z))) u))
 
 ;; base
-(() (+ Var x))
-(() (+ Var y))
-(() (+ Const a))
-(() (+ Const b))
-(() (+ Const c))
+;(() (+ Var x))
+;(() (+ Var y))
+;(() (+ Var z))
+;(() (+ Const a))
+;(() (+ Const b))
+;(() (+ Const c))
 
 ;; unify
 ;; case same
@@ -33,12 +34,19 @@
 ;; F:F, C:F, F:C are all fail. without further checks.
 
 ;; and var make sigma.
-((e) (+ D x e (sx e)))
-((e) (+ D e x (sx e)))
-((e) (+ D y e (sy e)))
-((e) (+ D e y (sy e)))
-((e) (+ D z e (sz e)))
-((e) (+ D e z (sz e)))
+((e) (+ D x e (s x e)))
+((e) (+ D e x (s x e)))
+((e) (+ D y e (s y e)))
+((e) (+ D e y (s y e)))
+((e) (+ D z e (s z e)))
+((e) (+ D e z (s z e)))
+
+;((e) (+ D x e (sx e)))
+;((e) (+ D e x (sx e)))
+;((e) (+ D y e (sy e)))
+;((e) (+ D e y (sy e)))
+;((e) (+ D z e (sz e)))
+;((e) (+ D e z (sz e)))
 
 ;((w e) (+ D w e (s w e))(- Var w))
 ;((w e) (+ D e w (s w e))(- Var w))
