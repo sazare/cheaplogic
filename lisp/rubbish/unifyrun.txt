@@ -1,0 +1,42 @@
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/expr004.kqc")
+ (readekqc fkname)
+ (pcs)
+ (prover-gtrail '(c1))
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/unifyque0abfg1.kqc")
+ (readekqc fkname)
+ (pcs)
+
+;; success
+(require :gtrail)
+(in-package :rubbish)
+(setq *max-clauses* 10000)
+(setq *max-trials* 30000)
+(defparameter fkname "kqc/explore/const/unifyque0abf.kqc")
+ (readekqc fkname)
+ (pcs)
+ (prover-gtrail '(c1))
+
+
+
+
+
+;; infinite at
+;; ♾️  REDUCED-BY-SYNTAX
+(1 (u) (- D (f (f x y) (g b))(f (f b a) z) u))
+
+
+(require :gtrail)
+(in-package :rubbish)
+(setq *max-clauses* 10000)
+(setq *max-trials* 20000)
+(defparameter fkname "kqc/explore/const/unifyque0abfg.kqc")
+ (readekqc fkname)
+ (pcs)
+ (prover-gtrail '(c1))
+
