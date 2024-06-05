@@ -3,7 +3,7 @@
 ;;success
 
 ;(1 (u) (- D a a u))
-;(1 (u) (- D x a u))
+(1 (u) (- D x a u))
 ;(1 (u) (- D a x u))
 ;(1 (u) (- D (f x b) (f a y)  u))
 ;(1 (u) (- D (f x (g b))(f (f a b) y) u))
@@ -11,7 +11,7 @@
 ; o
 ;(1 (u) (- D (f (f x y) (g b))(f (f b a) z) u))
 ; o
-(1 (u) (- D (f (f (f x y) (g c) ) (g c)) (f (f (f a b) (g z))) u))
+;(1 (u) (- D (f (f (f x y) (g c) ) (g c)) (f (f (f a b) (g z))) u))
 
 ;; base
 ;(() (+ Var x))

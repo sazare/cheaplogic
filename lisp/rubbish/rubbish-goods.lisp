@@ -40,5 +40,13 @@
   `(summary0 t)
 )
 
+(defun print-list (mm)
+  (loop for x in mm do (format t "~a~%" x))
+)
+
+(defun pf (f)
+  (print-list (readafile f))
+)
+
 
 
