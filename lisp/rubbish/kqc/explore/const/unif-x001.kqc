@@ -1,0 +1,44 @@
+; some 
+
+
+
+;;; about Expr
+;(1 () (- Expr a))
+;(1 () (- Expr x))
+;(1 () (- Expr (s f a)))
+;(1 () (- Expr (s f (s f a))))
+;(1 () (- Expr (s f x)))
+;(1 () (- Expr (s f (s f x))))
+;(1 () (- Expr c))
+;(1 () (- Expr y))
+;(1 () (- Expr (s h a)))
+
+;;; about Sim
+;(1 () (- Sim a a))
+;(1 () (- Sim a x))
+;(1 () (- Sim x a))
+;(1 () (- Sim x a))
+(1 () (- Sim (f a) (f x)))
+
+;; Sim is e1 is identical to e2
+;((e1 e2) (+ Sim e1 e2) (- Expr e1)(- Expr e2))
+((e) (+ Sim a a))
+((e) (+ Sim x e) (- Expr e))
+((e) (+ Sim e x) (- Expr e))
+
+;; ★★
+;; やりたいことは Simの引数を分解してSimに還元することなのに
+;; これではExprであることを確認しているだけになる。
+;; このSimの展開はおこなわれるが、Exprの定義をサカノボるが、
+;; Exprの定義はいらないと思う。
+((e1 e2) (+ Sim (f e1)(f e2))(- Sim e1 e2))
+
+
+
+(() (+ Const a))
+(() (+ Var x))
+
+((w)(+ Expr w)(- Const w))
+((w)(+ Expr w)(- Var w))
+((w v)(+ Expr (f w))(- Expr w))
+

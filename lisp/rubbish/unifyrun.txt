@@ -1,6 +1,6 @@
 (require :gtrail)
 (in-package :rubbish)
-(defparameter fkname "kqc/explore/const/expr004.kqc")
+(defparameter fkname "kqc/explore/const/unif-x001.kqc")
  (readekqc fkname)
  (pcs)
  (prover-gtrail '(c1))
