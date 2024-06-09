@@ -1,0 +1,51 @@
+;; why Expr dont work in the proof fo Sim?
+;; f^2 may be good for this demonstration
+; Sim is D yesterday
+
+;;; about Expr
+;(1 () (- Expr a))
+;(1 () (- Expr b))
+;(1 () (- Expr c))
+;(1 () (- Expr x))
+;(1 () (- Expr y))
+;(1 () (- Expr (f x a)))
+;(1 () (- Expr (f b a)))
+;(1 () (- Expr (f (f b a) c)))
+;(1 () (- Expr (f (f b a) (f x y))))
+
+;;; about Sim
+
+;(1 () (- Sim a a))
+;(1 () (- Sim a x))
+;(1 () (- Sim x a))
+;(1 () (- Sim x a))
+;(1 () (- Sim (f a b) x))
+(1 () (- Sim (f a b) (f x y)))
+
+;; Sim is e1 is identical to e2
+;; もしかすると
+;; この定義はe1とe2の型のことを言っていて
+;((e1 e2) (+ Sim e1 e2) (- Expr e1)(- Expr e2))
+
+;; こっちは、値のことを述べているという違いがあるのかも
+((e) (+ Sim a a))
+((e) (+ Sim x e) (- Expr e))
+((e) (+ Sim e x) (- Expr e))
+
+;; それでこれは値の関係だが、
+((e1 e2) (+ Sim (f e1)(f e2))(- Sim e1 e2))
+ここから導けないのは、(1) ExEの関係がないから
+;((e1 e2) (+ Sim e1 e2) (- Expr e1)(- Expr e2))
+;; もしここで、(- Sim (f a b)(f b a))があったとき、
+;; (Sim a b)とかだけでなく(Sim a a)の組み合わせも発生するので
+;; 正しい結果に辿りつかないはず。
+
+
+
+(() (+ Const a))
+(() (+ Var x))
+
+((w)(+ Expr w)(- Const w))
+((w)(+ Expr w)(- Var w))
+((w v)(+ Expr (f w))(- Expr w))
+
