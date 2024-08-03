@@ -23,9 +23,6 @@
  (prover-gtrail '(c1))
 
 
-
-
-
 ;; infinite at
 ;; ♾️  REDUCED-BY-SYNTAX
 (1 (u) (- D (f (f x y) (g b))(f (f b a) z) u))
@@ -36,6 +33,14 @@
 (setq *max-clauses* 10000)
 (setq *max-trials* 20000)
 (defparameter fkname "kqc/explore/const/unifyque0abfg.kqc")
+ (readekqc fkname)
+ (pcs)
+ (prover-gtrail '(c1))
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/explore/const/subst001.kqc")
  (readekqc fkname)
  (pcs)
  (prover-gtrail '(c1))

@@ -1,0 +1,33 @@
+;; substitution
+;; (Esub e1 e2 σ) : e1 ≡ e2*σ
+;; ∅ is empty substitution
+;; 
+;; empty substition ∅
+((e) (+ ESub e e ∅) (- Expr e))
+
+;; Expr
+((e) (+ Expr e)(- Const e))
+((e) (+ Expr e)(- Var e))
+((e1 e2) (+ Expr (f e1 e2)) (- Expr e1)(- Expr e2))
+
+
+; x←a and no variables b
+((vw ca cb) (+ ESub cb cb (r vw ca)) (- Var x)(- Expr ca)(- Expr cb))
+((vw ca) (+ ESub ca ca (r vw ca)) (- Var vw)(- Expr ca))
+
+;; for every variables x,y,..., these are valid
+((ca vw) (+ ESub ca vw (r vw ca)) (- Var vw)(- Expr ca))
+((ca vw vu) (+ ESub ca vw (r vu ca)) (- Var vu) (- Var vw)(- Expr ca))
+
+;; for every functions, these are valid.
+((e1 e2 e3 e4) (+ Esub (f e3 e4) (f e1 e2) σ) (- Esub e3 e1 σ)(- Esub e4 e2 σ))
+
+;;  e*(σ1*σ2) = (e1*σ1)*σ2
+;; ???
+ (() (- Esub e1 e2 σ) (- Ssub σ σ1 σ2)(- Esub e3 e2 σ1)(- Esub e1 e3 σ2) (- Expr e1)(- Expr e2)(- Expr 3))
+
+
+;; (SSub a b c) : c = a * b as an substitution
+((σ) (SSub σ ∅ σ))
+((σ) (SSub σ σ ∅))
+
