@@ -61,4 +61,35 @@ proverをFOLで書くのが目的。
 
 clauseの定義(集合の定義)
 　(x) (+ isClause (s x))(- isLit x))  ; unit clause
-    (x y) (+ isClause (
+    (x y) (+ isClause (sa x y)) (- isLit x)(- isClause y)) ; depends on sa, s
+
+または、clauseの要素を選ぶ関数chooseを使って書くとか
+
+いずれにせよ、選ぶ方法があって、
+
+**** 
+clauseの定義は、literalの集合。
+LKなどでは、順番をかえる規則を使っている。それだと無限ループになるけどな
+
+
+(isClause (clause name body) )(- name number)(- set l1 set))
+
+なんかな
+
+
+とりあえず、2literalまで考える。LKとかはなんかごまかしている。
+そもそもLKの記号操作はちゃんと定義されているわけではなさそう。
+人間にわかればよいということか。
+
+
+((x y) (+ isClause (s2 x y) ) (- isLit x)(- isLit y))
+((x) (+ isClause (s1 x)) (- isLit x))
+
+((x y) (- isClause (s1 + x))(- isClause (s1 - x)) (+ isClause (s0)))
+
+clauseの識別とliteral集合である構造
+
+((x y z) (- isClause (c2 (s1 + x) y)) (- isClause (c2 (s1 - x) z)) (+ isClause (s2 y z)))
+
+と書きたいのかな
+
