@@ -1,3 +1,5 @@
+
+
 20230524-memorun
 ;;; 20240131 rubbish-beauty.lispを追加した
 ;;; 確認コード

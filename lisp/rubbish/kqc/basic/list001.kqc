@@ -1,0 +1,17 @@
+;; seems ok
+;(1 (z w) (- Listp w)(- Listp z a w))
+;; ??
+;(1 (z) (- Listp z (listy a)))
+;;  y became nil
+;;(1 (x y z) (- Listp x c y) (- Listp y b z)(- Listp z a))
+
+;; 1に2を適用したあと、二度と2を適用しないのかも
+(1 (x y z) (- Listp z a) (- Listp y b z) (- Listp x c y) )
+;;　なにか書くことを間違えているのかも
+;;; ほしいのは (listp a b c)みたいなのをどう表現するのかということ
+
+;;;;わからぬ
+
+(2 (x) (+ Listp (listy x) x))
+(3 (x w z) (+ Listp z (listy x w)) (- Listp w y))
+

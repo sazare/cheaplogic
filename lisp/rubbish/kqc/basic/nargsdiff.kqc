@@ -1,0 +1,7 @@
+(1 (z) (- P a b z))
+
+((x y z) (+ P x y z) (- Q (f x y) z ))
+((x y w) (+ Q (f x y w) w))
+((x y z) (+ P x y z) (- Q (f x y z) z ))
+((x y w) (+ Q (f x y) (g x y)))
+

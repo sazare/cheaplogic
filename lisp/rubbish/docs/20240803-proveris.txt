@@ -93,3 +93,22 @@ clauseの識別とliteral集合である構造
 
 と書きたいのかな
 
+
+★
+(l1 l2 ...1 ...2) (- isC l1 ...1) (- isC l2 ...2) (- Oppo l1 l2) (+ isC ...1 ...2)
+(l1 l2) (+ Oppo l1 l2) (- isN l1)(- isP l2)(- eqP l1 l2))
+
+これは?
+(l1 l2 α β) (- isC l1 α) (- isC l2 β) (- Oppo l1 l2) (+ isC ∅ (∪ α β))
+(l1 l2) (+ Oppo l1 l2) (- isN l1)(- isP l2)(- eqP l1 l2))
+
+isNとisPはl1,l2が逆もありだが、特に書かなくてもなんとかならんか。
+
+
+問題は
+(C) (+ isC ∅ C) ≡ (a C) (+ isC a C-a) (- isL a) (- ∈ a C))
+
+みたいなことを書く必要があるのかないのか
+
+とか?
+

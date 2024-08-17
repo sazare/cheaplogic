@@ -1,0 +1,115 @@
+20240817-memorun.txt
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/basic/nargsdiff.kqc")
+(readkqc fkname)
+(bcs)
+ (prover-gtrail '(c1))
+
+RUBBISH(5): (bcs)
+C1 ∀ Z.148 [-P(A,B,Z.148)]
+C2 ∀ X.149 Y.150 Z.151 [+P(X.149,Y.150,Z.151) -Q(F(X.149,Y.150),Z.151)]
+C3 ∀ X.152 Y.153 W.154 [+Q(F(X.152,Y.153,W.154),W.154)]
+C4 ∀ X.155 Y.156 Z.157 [+P(X.155,Y.156,Z.157) -Q(F(X.155,Y.156,Z.157),Z.157)]
+C5 ∀ X.158 Y.159 W.160 [+Q(F(X.158,Y.159),G(X.158,Y.159))]
+NIL
+
+(pr0 c8)      1:2
+(pr0 c9)      1:2
+(pr0 c10)　1:4
+
+引数違っていてもunify成功するのか。
+失敗したらproofに残らないだけだろう
+
+(extract-mgu 'c10 '(c1) '(z.148))
+
+たとえば、L2-2とL3-1とかL4-2とL5-1
+
+L1 L2のunifyはどうやる?
+]
+RUBBISH(21): (unify-pair 'l2-2 'l3-1)
+
+((X.149 Y.150 Z.151 X.152 Y.153 W.154) (X.152 Y.153 W.154 X.152 Y.153 W.154))
+RUBBISH(22): l2-2
+
+(- Q (F X.149 Y.150) Z.151)
+RUBBISH(23): l3-1
+
+(+ Q (F X.152 Y.153 W.154) W.154)
+
+できてるできてる。
+引数のたりない部分は成功したとみなされてる。
+
+ということは、list的なものは定義できるのかも。
+データを定義できないけど。
+
+こんなかんじか
+
+(x) (+ P x (c x)) (- Q x)
+(x v w) ((+ P x  (c x w)) (- Q x) (-P v w))
+
+
+* 述語の場合
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/basic/nargsdiffp.kqc")
+(readkqc fkname)
+(bcs)
+ (prover-gtrail '(c1))
+
+(extract-mgu 'c6 '(c1) '(z.148))
+(extract-mgu 'c7 '(c1) '(z.148))
+(extract-mgu 'c8 '(c1) '(z.148))
+
+C1 ∀ Z.148 [-P(Z.148,A,B)]
+C2 ∀ X.149 [+P(C,X.149,B)]
+C3 [+P(D,A)]
+C4 ∀ E.150 [+P(K,E.150,B)]
+C5 ∀ X.151 [+P(E,A,B,X.151)]
+
+c6: c1:c4  c7=c1:c5  c8=c1:c2
+(pr0 c6)
+(pr0 c7)
+(pr0 c8)
+
+できていないc1:c3は
+RUBBISH(14): (unify-pair 'l1-1 'l3-1)
+nomgu: (Z.148).(- P Z.148 A B):(+ P D A)
+NIL
+
+逆は
+RUBBISH(15): (unify-pair 'l3-1 'l1-1)
+
+((Z.148) (D))
+
+できた。なぜ??
+引数の数が多いほうが左だとだめなのか。
+そっちのほうでunifyのループをまわしているのだろう。
+
+引数の数の少ない方を左にすればできてしまうか　★★
+
+
+★そこで、listpというのを考えた
+basic/list.kqc
+
+なにをかけばよいのかわからない
+合成は書いているが分解が欠けていないからか?
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/basic/list001.kqc")
+(readkqc fkname)
+(bcs)
+ (prover-gtrail '(c1))
+
+
+(require :gtrail)
+(in-package :rubbish)
+(defparameter fkname "kqc/basic/list002.kqc")
+(readkqc fkname)
+(bcs)
+ (prover-gtrail '(c1))
+
+

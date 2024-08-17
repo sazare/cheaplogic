@@ -1,0 +1,9 @@
+(1 (z w) (- Listp w)(- Listp z a w)
+;(1 (z) (- Listp z (listy a)))
+;(1 (x y z) (- Listp x c y) (- Listp y b z)(- Listp z))
+
+;;;;わからぬ
+
+((x) (+ Listp (listy x) x))
+((x w z) (+ Listp z (listy x w)) (- Listp w y))
+
