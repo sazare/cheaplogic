@@ -1,0 +1,12 @@
+;; 2 distinctive contradictions, 6 predicates
+;; need factor
+
+(1 (x) (+ P x) (+ Q x))
+(2 (x) (- P x) (+ R x)))
+(3 (x) (+ P x) (- Q x))
+(4 (x) (- P x) (- R x)))
+
+(5 (x) (+ S x) (+ V x))
+(6 (x) (- S x) (+ U x)))
+(7 (x) (+ S x) (- V x))
+(8 (x) (- S x) (- U x)))

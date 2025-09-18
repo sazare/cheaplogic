@@ -1,4 +1,15 @@
-(1 (z w) (- Listp w)(- Listp z a w)
+;たとえば、3つのリストはどう書くのか?
+;(listy a b c)か
+;(listy a (listy b c))
+;(listy a (listy b (listy c)))
+;か
+;; (listy a b c)と(listy a w)をunifyしたとき
+;wに(listy b c)が代入されるだろうか
+;
+; (listy a w) と (list a y)は 
+
+
+;(1 (z w) (- Listp w)(- Listp z a w)
 ;(1 (z) (- Listp z (listy a)))
 ;(1 (x y z) (- Listp x c y) (- Listp y b z)(- Listp z))
 

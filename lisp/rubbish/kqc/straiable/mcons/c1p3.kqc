@@ -1,0 +1,8 @@
+;; 2 con from 4 non unit clauses
+;; needed factoring P or Q or R auw
+
+(1 (x) (+ P x) (+ Q x))
+(2 (x) (- P x) (+ R x)))
+(3 (x) (+ P x) (- Q x))
+(4 (x) (- P x) (- R x)))
+

@@ -33,6 +33,7 @@
   )
 )
 
+;; perhaps remove empty pairs in mgu
 (defun remove-empty (mgu)
   (let (vs ms nv nm)
     (setq vs (car mgu))

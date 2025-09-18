@@ -1,0 +1,87 @@
+
+20240827-listofdata.txt
+
+
+
+プログラム構造 関数表現
+データ構造　データ表現
+
+関数表現は数学にも存在する。
+
+cons(a, cons(b, cons(c, nil)))
+みたいなやつ
+
+データ表現が数学にないのは(あるのか?)
+数学で扱うデータは数とその集合であり
+　(x,y)とかx1,x2,x3,...とかあるな。
+でもデータの操作というものにあまり興味がないのではないか
+
+あるいは、本質的に等価ということで、関数表現だけ扱ったり
+記号的に扱う必要性がなく、人間が解釈できればそれでよしとしている。
+
+
+
+(LL a b c d e)
+と
+(LL a b c d e f)
+の関係はどう書けるか?
+
+
+(LLp (LL a b c) (LL a b) c)
+
+(LLp x y z) ≡ x = (LLt y z)
+
+listを使うとすると
+
+(Listp x y z) ⇔ x = (cons z y)
+みたいになる
+
+(Listp (cons z y)  y z) if  (Listp y) 
+
+
+Listp の定義としてはこれ
+
+((- Listp y) (+ Listp (cons z y)))
+
+Listp上での定義は?
+(- Listp z)  (- Consp z x y) (- R y w) (- R y u) (+ R z v))
+
+仕切り直して
+ 
+(- Listp w) (+ Map w (map f w))を考えたい
+
+(+ Listp w)ならば (+ Consp w -- )か(+ Elementp w)になる
+
+(- Elementp w) (+ Map w (f w))
+と書くか、
+(- Elementp w) (+ Apply w f (f w))
+と書くのか
+
+　★同値の定義の逆向きの場合、場合わけになる。
+
+(Map w f) の定義は
+
+a) (+ Consp w (cons x y)) (+ Map w (cons (f x) z)) (- Map y z)(+ Elementp x))
+
+ElementpはListpにおける要素という概念であり、
+
+と書くよりないだろう。
+
+この(+ Elementp x)は、要素の場合わけ条件(- Elementp w)と打ち消し合う。
+xはlistではないのでmapを適用しない。
+そのまま (f x)になる。
+これはどういう概念のもとにいるのか
+
+になる。
+
+a)のy側は
+(- Map y z)
+
+
+
+
+P(x) If φ(x)
+
+
+
+よくわからない

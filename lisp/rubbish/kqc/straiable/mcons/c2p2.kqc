@@ -1,0 +1,7 @@
+;; 2 distinctive contras
+
+(1 (x) (+ P x))
+(2 ()  (- P a))
+(3 (x) (+ Q x))
+(4 ()  (- Q b))
+
