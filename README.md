@@ -1,11 +1,10 @@
 # cheaplogic(experimental)
 
-0. lisp/rubbish is an implementation of a proof analyzer.
-  'Proof analyzer' contains not only prover but also tools for analyzing proofs. 
 
-  How to write something in FOL is my basic interests. The tools are for.
-  rubbish/kqc contains such something example files written with 'clause form'.
-   ex. Twenty Questions(20 doors in japanse), flush light, finding paths of a graph, etc.
+0. lisp/rubbishのあたりは、proverに対する悪戦苦闘の残骸。
+　2025/09/22 このごろは、factの集合に含まれる情報をどう取り出すかについて試行錯誤中
+
+see lisp/rubbish/dev.log
 
 -- previous activities are..
 1. LogicalWorld
@@ -24,5 +23,12 @@
  viewprover uses Genie.jl for Web Interface.
  It is a prover in sense of it tries to find one []. But it requires some help of human.
  
+4. lisp/rubbish is an implementation of a proof analyzer.
+  'Proof analyzer' contains not only prover but also tools for analyzing proofs. 
+
+  How to write something in FOL is my basic interests. The tools are for.
+  rubbish/kqc contains such something example files written with 'clause form'.
+   ex. Twenty Questions(20 doors in japanse), flush light, finding paths of a graph, etc.
+
 
 
