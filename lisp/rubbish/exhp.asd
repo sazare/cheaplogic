@@ -30,6 +30,9 @@
 ;; resolution with lid
       (:file "rubbish-resoid" :depends-on ("rubbish-package"))
 
+;; factoring with lid
+      (:file "rubbish-factorid" :depends-on ("rubbish-package"))
+
 ; sunif and punif sertup
       (:file "rubbish-setup-unif" :depends-on ("rubbish-package"))
 

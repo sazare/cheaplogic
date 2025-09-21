@@ -1,5 +1,30 @@
 
-2025/09/21木
+
+9月22日(月)
+
+rubbish-factorid.lispを作り、(factor-id lid1 lid2)定義
+
+entry-factor追加
+:resolutionでなく:factoでentry-proofした
+
+print-proofは未対応　✴︎
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa002.kqc")
+(factor-id 'L1-1 'L1-2)
+で動作確認
+
+まだ、print-proofで:factoのパスを作っていない
+
+これ以外はresolutionのままだけどどうだろうか
+
+expr.asdにrabbish-factorid追加
+rubbish-packageはそのまま
+　in-package rubbishなら使える
+
+
+2025/09/21日
 rubbish-prover-exhaustive.lisp
 lidの-+listの作成まで
 

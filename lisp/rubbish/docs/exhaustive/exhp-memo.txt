@@ -13,8 +13,9 @@
 (defparameter lnp2 (make-lnplist ss2))
 (defparameter lnp3 (make-lnplist ss3))
 
+(factor-id 'L1-1 'L1-2) *
 
- (resolve-id 'l1-1 'l2-1)
+(resolve-id 'l1-1 'l2-1)
 (resolve-id 'l8-1 'l3-1)
 
 (make-lidlist '*clist*)
