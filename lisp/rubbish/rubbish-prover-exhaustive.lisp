@@ -15,7 +15,7 @@
 )
 
 ;
-(defun getlllist (lsym ids)
+(defun getlllist (lsym lids)
   (loop for lid in lids when (eq lsym (lsymof lid)) collect lid)
 )
 

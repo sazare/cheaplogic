@@ -1,0 +1,89 @@
+
+
+2025/09/21
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa002.kqc")
+
+(defparameter ss1 '(c1 c2 c7))
+(defparameter ss2 '(c1 c3 c4 c7))
+(defparameter ss3 '(c1 c5 c6 c7))
+
+(defparameter lnp1 (make-lnplist ss1))
+(defparameter lnp2 (make-lnplist ss2))
+(defparameter lnp3 (make-lnplist ss3))
+
+
+ (resolve-id 'l1-1 'l2-1)
+(resolve-id 'l8-1 'l3-1)
+
+(make-lidlist '*clist*)
+
+
+(loop for x in xx collect (car x))
+(sort (loop for x in xx collect (car x)) (lambda (a1 a2) (string< (string a1)(string a2))))
+(cons '+Q (loop for pp in (loop for x in xx when (eq '+Q (car x)) collect x)
+  collect (cdr pp)))
+
+
+(make-nplist *clist*)
+
+(defun make-nplist (clist)
+  (let (lidlist plist lslidlist mm ltolid)
+  (setq lidlist (make-lidlist clist))
+  (setq plist   (make-psymlist lidlist))
+  (setq lslidlist (loop for lid in lidlist collect (list (lsymof lid) lid)))
+
+  ;through hash table ...
+  (setq mm (make-hash-table))
+    (loop for pl in xx do 
+      (setf (gethash  (car pl) mm) (cons (cdr pl) (gethash (car pl) mm)))
+    )
+  )
+  
+   (setq ltolid 
+     (loop for p being the hash-keys of mm 
+        collect (cons p (gethash p mm))
+      )
+    )
+
+    (loop for ps in plist collect
+      (list ps (assoc (ptolsym '+ psym) itolid)(assoc (ptolsym '- psym) itolid))
+    )
+)
+
+
+    (setq lidlist (make-lidlist clist))
+    ;; predlist from lidlist
+    (setq plist   (make-psymlist lidlist))
+    ;; all lidlist to ((lsym lid)...)
+    (setq lslidlist (loop for lid in lidlist collect (list (lsymof lid) lid)))
+
+    ;through hash table ..., ((lsym posist neglist)...)
+    (setq mm (make-hash-table))
+    (loop for pl in xx do
+      (setf (gethash  (car pl) mm) (cons (cdr pl) (gethash (car pl) mm)))
+    )
+
+    ;; in hash, lsym->lidlist ==> ((lsym poslidlist neglidlist)...
+    (setq ltolid
+      (loop for p being the hash-keys of mm
+        collect (cons p (gethash p mm))
+      )
+    )
+    ; make ((pred poss negs)...)
+    (loop for psym in plist collect
+      (list psym (cdr (assoc (ptolsym '+ psym) ltolid)) (cdr(assoc (ptolsym '- psym) ltolid)))
+    )
+  )
+
+(defun getlllist (lsym ids)
+  (loop for lid in lids when (eq lsym (lsymof lid)) collect lid)
+ )
+
+(defparameter lids (make-lidlist *clist*))
+(defparameter pds (make-psymlist lids))
+
+    (loop for psym in plist collect
+       (let ((pl  (ptolsym '+ psym) (nl (ptolsym '- psym)))
+           

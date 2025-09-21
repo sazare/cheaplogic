@@ -1,0 +1,13 @@
+; factorial 001
+;; Pwith1 
+;; seems poor example
+
+;; subset {1,2},{1,3}, and {1,2,3} => (+ Q a b) or (+ Q b a)
+
+(1 (x y) (+ P x) (+ P y) (+ Q x y))
+(2 () (- P a))
+(3 () (- P b))
+(4 (u) (- P u))
+( (z w) (- Q z w))
+
+

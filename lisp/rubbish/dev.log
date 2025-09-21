@@ -1,4 +1,26 @@
 
+2025/09/21木
+rubbish-prover-exhaustive.lisp
+lidの-+listの作成まで
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa002.kqc")
+
+(defparameter ss1 '(c1 c2 c7))
+(defparameter ss2 '(c1 c3 c4 c7))
+(defparameter ss3 '(c1 c5 c6 c7))
+
+(defparameter lnp1 (make-lnplist ss1))
+(defparameter lnp2 (make-lnplist ss2))
+(defparameter lnp3 (make-lnplist ss3))
+
+このあと
+★ combiを作る
+* lid pairをガイドとして証明をする。
+　resolve-idは便利★
+
+
 2025/09/18木
 
 昨日repository exhproverつくったけど、めんどうくさいのでrubbishにexhprover追加する

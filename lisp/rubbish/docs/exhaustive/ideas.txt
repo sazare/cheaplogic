@@ -1,0 +1,50 @@
+こんなかんじ
+
+構成
+
+input S0 :clause set
+subset S1,S2,... ⊂ S0
+inference steps
+  S^i_0 = S^i
+  S^i = {S^i_0, S^i_1, ...}
+
+proof S1.1, S1.2,...
+     S^i_0 = Si
+     S^i_j = infer(S^i_{j-1}) 
+       where C∈S^i_j C∈S^i_{j-1} or 
+　　　　　  ∃ Cm,Cn ∈ S^i_{j-1}, L1∈Cm, L2∈Cn 
+   Resolution : Cm ≠ Cn, σ=<L1:¬L2>
+                   C = (Cm ∪ Cn - {L2})σ
+   Factoring  : Cm = Cn, σ=<L1:L2>
+                   C = (Cm - {L2})σ
+
+id's properties
+  all id is one and onlyone, the property is placed anywhere as in list or setf 
+
+SID
+  format  Sn.m
+
+oproperties
+  PSID: previous
+  ISID: input ≡ Sn
+
+eval 
+(eval 'Sn.m)
+  (SID (CID* (LID1 LID2 CID)))
+
+(eval 'Sn) = (Sn.1 Sn.2 Sn.3 ...)
+(eval 'S0
+
+
+CID
+  cid ∈　sid
+  cid = vars.<lid1:lid2>
+  vars = ∪varsof(cidof(lidn))
+
+LID
+  lid ∈　cid ∈　psid
+
+
+
+* 操作
+
