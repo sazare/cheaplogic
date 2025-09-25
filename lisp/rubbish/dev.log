@@ -1,4 +1,6 @@
 
+9月26日(金)
+print-proof0とprint-proofのfactoringの部分を追加した
 
 9月22日(月)
 
@@ -11,9 +13,28 @@ print-proofは未対応　✴︎
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa002.kqc")
+(readkqc "kqc/exhp/fa001.kqc")
 (factor-id 'L1-1 'L1-2)
+(resolve-id 'L6-1 'L2-1)
+(resolve-id 'L7-1 'L5-1)
+
+
 で動作確認
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa002.kqc")
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fb001.kqc")
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fb002.kqc")
+(resolve-id 'L1-2 '2-2)
+(resolve-id 'L1-1 'L3-1)
+(factor-id 'L2-1 'L1-2)
 
 まだ、print-proofで:factoのパスを作っていない
 
