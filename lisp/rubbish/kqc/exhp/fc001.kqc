@@ -1,0 +1,14 @@
+;; lsym number differ
+
+;;complicated factors clauses
+
+((x y z) (+ P x)(+ P y)(+ P z))
+((x y z) (+ P x)(+ P a)(- Q x y z))
+((x y z) (- P x)(- P y)(- R a y))
+((x y z) (- P x)(- Q x y z))
+((x y z) (+ Q x a b) (+ Q a b z))
+((x y z) (+ Q x a b) (+ R x b))
+((x y z) (- Q x y z) (- Q a y c))
+((x y z) (- Q x y z) (+ Q a b z))
+
+

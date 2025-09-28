@@ -1,0 +1,18 @@
+; factorial b002
+; ??
+
+(1 (x y z) (+ P a x y) (+ S x y z))
+(2 (x y z) (+ P y x b) (+ S x y z))
+(3 (w) (- P a b w))
+(4 (w) (- P a w b))
+(5 (u) (- P u u b))
+(6 (m) (- P a m m))
+(7 () (- P a c b))
+(8 () (- P d b a))
+
+(9 (x y w k) (- S x y w) (- S w y x) (- R x y)(- R w k))
+
+(10 () (- R a c))
+(11 () (- R a b))
+
+

@@ -1,0 +1,10 @@
+; factorial b001
+;?
+( (x y) (+ P a x) (+ Q x y))
+( (x y) (+ P y b) (- Q x y))
+( () (- P a b))
+( (u) (- P u u))
+( (m) (- P m m))
+( () (- P a c))
+( () (- P d b))
+
