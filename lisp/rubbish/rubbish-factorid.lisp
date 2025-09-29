@@ -13,8 +13,10 @@
                 collect
                   (let (nlid)
                     (setq nlid (make-lid ncid n))
-                    (setlid nlid ncid lid (subsubp vs lit ns))
-    ;                (setlid nlid ncid lid (litof lid))
+                    (if (or (eq lid1 lid) (eq lid2 lid))
+                      (setlid nlid ncid (list lid1 lid2)  (subsubp vs lit ns))
+                      (setlid nlid ncid lid (subsubp vs lit ns))
+                    )
                     (pushlsym nlid)
                     nlid
                   )

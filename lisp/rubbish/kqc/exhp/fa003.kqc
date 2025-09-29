@@ -1,0 +1,13 @@
+; factorial a003
+;; 3 literal factoring
+
+(1 (x y) (+ P x y) (+ P x b) (+ P a y)(+ Q x y))
+(2 () (- P a b))
+(3 (u) (- P u u))
+(4 (m) (- P m m))
+(5 () (- P a c))
+(6 () (- P d b))
+(7 () (- P d c))
+(8 (z w) (- Q z w))
+
+

@@ -1,11 +1,107 @@
+2025/09/28
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa001.kqc")
+(pcs)
+
+(defparameter m1 '((L1-3 'l5-1) (L1-1 L2-1)(L1-2 L3-1))
+(defparameter m2 '((L1-3 L5-1) (L1-1 L1-2)(L1-1 L4-1))
+ ↑これがだめだ。(L-1が二回)ちいさいほうでいいのか?
+
+((L1-1 L1-2) L4-1)という書き方は??
+
+矛盾なく一貫性のある方法は(どうなっててほしい?)
+同じolidを持つlidはどっちでもいいんじゃないか。
+だから
+(L1-1 L5-1)でも(L1-2 L4-1)でもよいとする。
+これをするとRでも複数plid, 複数olidが必要になるので、何か大型のupdateになるのかも
+過去に影響がなければ
+
+
+
+(make-lidlist *clist*)
+
+*
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fb001.kqc")
+(pcs)
+
+(defparameter ss1 '(c1 c2 c3))
+(defparameter ss2 '(c1 c2 c4 c5))
+(defparameter ss3 '(c1 c2 c4))
+(defparameter ss4 '(c1 c2 c5))
+(defparameter ss5 '(c1 c2 c6 c7))
+(defparameter ss6 '(c1 c2 c7))
+
+*
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fb002.kqc")
+(pcs)
+
+(defparameter ss1 '(c1 c2 c9 c10 c11 c3))
+(defparameter ss2 '(c1 c2 c9 c10 c11 c4))
+(defparameter ss3 '(c1 c2 c9 c10 c11 c5 c6))
+(defparameter ss4 '(c1 c2 c9 c10 c11 c7 c9))
+(defparameter ss5 '(c1 c2 c9 c10 c11))
+
+*
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fc001.kqc")
+(pcs)
+
+
+
+2025/09/26
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa003.kqc")
+(pcs)
+
+(defparameter ss1  '(c1 c5 c6 c7 c8))
+(defparameter ss2 '(c1 c2 c3 c8))
+
+(defparameter pm1 '((l1-3 l5-1)(l1-1 l7-1)(l1-2 l6-1)(l1-4 l8-1)
+(defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1))
+
+(pdrive pm1 ss1)
+(pdrive pm1 ss2)
+
+
+
+
+(factor-id 'L1-1 'L1-2) 
+(factor-id 'L8-1 'L8-2) 
+(resolve-id 'l1-1 'l2-1)
+(resolve-id 'l8-1 'l3-1)
+
+*
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa001.kqc")
+(pcs)
+
+(defparameter ss1 '(c5 c1 c2))
+(defparameter s2 '(c5 c1 c2 c3))
+(defparameter s3 '(c5 c1 c2 c4))
+(defparameter s3 '(c5 c1 c4))
+
+(defparameter lnp1 (make-lnplist ss1))
+(defparameter lnp2 (make-lnplist ss2))
+(defparameter lnp3 (make-lnplist ss3))
 
 
 2025/09/21
+*
 (require :exhp)
 (in-package :rubbish)
 (readkqc "kqc/exhp/fa002.kqc")
+(pcs)
 
-(defparameter ss1 '(c1 c2 c7))
+(defparameter ss1 '(c1 c2 c7))  
 (defparameter ss2 '(c1 c3 c4 c7))
 (defparameter ss3 '(c1 c5 c6 c7))
 
@@ -13,7 +109,7 @@
 (defparameter lnp2 (make-lnplist ss2))
 (defparameter lnp3 (make-lnplist ss3))
 
-(factor-id 'L1-1 'L1-2) *
+(factor-id 'L1-1 'L1-2) 
 
 (resolve-id 'l1-1 'l2-1)
 (resolve-id 'l8-1 'l3-1)

@@ -55,26 +55,55 @@
 
 )
 
-
-
-
-
-
 ; find a lid in ssi whose olid is ilid
-;ex (exh-mylid 'L1-2 '(C8 C9))
+;ex (find-lid-in-clist 'L1-2 '(C8 C9))
+(defun find-lid-in-clist (ilid clist)
+  (loop for lid in (make-lidlist clist) when (member ilid (olidof lid))
+    collect lid
+  )
+)
 
-(defun exh-mylid (ilid ssi)
-  "I find the lid whose olid is ilid but not equal."
-  (loop for cid in ssi append
-    (loop for lid in (bodyof cid) when (and (not (eq (olidof lid) lid)) (eq (olidof lid) ilid))
-      append (list lid)
-    )
+;; find-lid-in-clist = clidof
+;(defun find-lid-in-clist (ilid clist)
+;  "I find the lid whose olid is ilid but not equal."
+;  (loop for cid in clist append
+;    (loop for lid in (bodyof cid) when (and (not (eq (olidof lid) lid)) (eq (olidof lid) ilid))
+;      append (list lid)
+;    )
+;  )
+;)
+
+;;  find lid has ilid in lidlist
+(defun find-lid-in-llist(ilid llist)
+  "llist may be make-lidlist"
+  (loop for lid in llist 
+    when (member ilid (olidof lid) )
+    collect lid
   )
 )
 
 
-;; make nplist
+;;
+(defun updateclist(clist cid)
+  (let*  ((proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
+    (cond 
+      ((eq rule :resolution) (cons cid (remove-cid llid (remove-cid rlid clist))))
+      ((eq rule :factoring)  (cons cid (remove-cid llid (remove-cid rlid clist))))
+      (t clist)
+    )
+  )
+)
+ 
+;;;
+(defun next-pmap (pmap)
+  (car pmap)
+)
+
+(defun updatepmap(pmap cid)
+  "pmap = (llid rlid)*"
+  (let*  ((proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
+    pmap
+  )
+)
 
 
-
-;; make llpair of a clist

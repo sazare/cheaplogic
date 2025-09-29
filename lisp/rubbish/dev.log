@@ -1,6 +1,122 @@
 
+
+9月28日(日)
+
+　factoringでできるlidのolid, plidについて
+　　setlidで、plidがひとつだと思っている。Rのときはそう
+　　Fのときは2つあるので、entry-factorでなんとかするのか?
+
+　　　これは新しい状況
+　　　親がlid1 と lid2のとき
+　　　　olidは両方のolidのappend
+　　　　plidは(list lid1 lid2)
+
+　　このように修正した。
+　確認は 3リテラルのfactorでolidがあわさった。fa003.kqc
+　factorでolidがリストになる
+
+　これで、input lidからいまのlidをさがして
+
+　(xxx ilid clist) => currlid
+
+clist を最新版にkeepする必要ある。
+
+
+
+　Lid pairリスト(pmap)から証明を作る部分(pdriver)
+　
+　符号違う→R
+　　符号同じでcid同じ→F
+　　それ以外、あとまわし
+
+　　とする?
+
+  Lidpairを作る部分
+　　nplistからlidpair*を作る
+　　　1) Predについてnとpが同数なら、Rでもよい
+
+　　　　・3以上なら、2にしたり1にしたりするFがありうるが、EXHPなので、全体で失敗したならそこでも失敗するはずだから、しなくてよい
+
+　　　2) Predについてnとpの数が異なれば、その異なる数についてFをする
+　　　　　　|n|-|p|回のF
+
+　　　3) 異なる述語について同様な対処
+
+
+9月27日(土)
+　plitとかolitがFによって複数になるのでRのproofでも起こる
+
+例
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa001.kqc")
+
+(resolve-id 'l5-1 'l1-3))
+(factor-id 'l7-1 'l7-2)
+(resolve-id 'l8-1 'l4-1)
+
+RUBBISH(26): (symbol-plist 'l7-1)
+(:OLID L1-1 :PLID L1-1 :CID C7)
+RUBBISH(26): (symbol-plist 'l7-2)
+(:OLID L1-2 :PLID L1-2 :CID C7)
+RUBBISH(27): (symbol-plist 'l8-1)
+(:OLID L1-1 :PLID L7-1 :CID C8)
+
+L8-1のolidは(L1-1 L1-2)のふたつであってほしい。
+　いまのところ問題にはならないと思うが、正確にしたい★★★★★★
+
+これをやるには、Rも変更がひつよう。
+
+
 9月26日(金)
 print-proof0とprint-proofのfactoringの部分を追加した
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fc001.kqc")
+(pcs)
+(make-lnplist *clist*)
+
+(print-proof0 )
+RUBBISH(10): (print-proof0 'c10)
+C10: FACTO (Z.176) ((+ P Z.176))
+C10 (L10-1) FACTORING : <L9-1:L9-2>
+  L9-1 (Y.173 Z.174).(+ P Y.173)  in
+  C9: FACTO (Y.173 Z.174) ((+ P Y.173) (+ P Z.174))
+  C9 (L9-1 L9-2) FACTORING : <L1-1:L1-2>
+    L1-1 (X.148 Y.149 Z.150).(+ P X.148) input1
+    C1: C1 (X.148 Y.149 Z.150) ((+ P X.148) (+ P Y.149) (+ P Z.150))
+NIL
+
+(:PROOF (:FACTORING (Y.173 Z.174) (Z.176 Z.176) (L9-1 L9-2)) :OVARS (Z.174) :WHEN-BORN 10 :VARS (Z.176) :NAME :FACTO)
+RUBBISH(12): (symbol-plist 'l10-1)
+
+(:OLID L1-1 :PLID L9-1 :CID C10)
+
+ここで、OLIDがL1-1だけなのはおかしい。L1-2やL1-3も含むべき ***
+
+RUBBISH(13): (symbol-plist 'l9-1)
+
+(:OLID L1-1 :PLID L1-1 :CID C9)
+RUBBISH(14): (symbol-plist 'l9-2)
+
+(:OLID L1-3 :PLID L1-3 :CID C9)
+
+
+表はclauseからひくかlsymからひくか??
+表がどうかはわからないが、processが進行していくとclause構造がかわる。
+lsymについてはかわらない。ilidはかわらないかな
+
+lsymからひくとすると、lnplistの同じcidのlidをまとめるとか。
+
+証明が進むと、同じcidに含まれるlidが近寄っていく。
+その距離はどうはかれるのか?
+1:1のpairの個数かな
+
+
+
+factorのilidはどんどんふえる。
+
 
 9月22日(月)
 
@@ -35,6 +151,7 @@ print-proofは未対応　✴︎
 (resolve-id 'L1-2 '2-2)
 (resolve-id 'L1-1 'L3-1)
 (factor-id 'L2-1 'L1-2)
+
 
 まだ、print-proofで:factoのパスを作っていない
 

@@ -110,8 +110,11 @@
   ;; just plid of the input lid is null
 
   (if plid 
-    (setf (get lid :olid) (get plid :olid))
-    (setf (get lid :olid) lid)
+    (if (atom plid) 
+      (setf (get lid :olid) (get plid :olid))
+      (setf (get lid :olid) (loop for pd in plid append (get pd :olid)))
+    )
+    (setf (get lid :olid) (list lid))
   )
   lid
 )
