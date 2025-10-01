@@ -75,7 +75,7 @@
 (defparameter mm pm1)
 (defparameter cls ss1)
 
-(multiple-value-bind (mm cls) (step-forward mm cls))
+(multiple-value-setq (mm cls) (step-forward mm cls))
 
 
 (exec-prove pm1 ss1)
