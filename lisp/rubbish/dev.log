@@ -1,3 +1,50 @@
+10月1日(水)
+step-forward
+exec-prove
+まで作った。
+valuesの値のうけとりがうまくいかないらしい。
+
+次に確認するのは step-forward を１段階ずつすすめること。pm1とss2について。
+
+そしてmultiple-values-bindの使い方
+
+
+9月30日(火)
+% grep defun  r*exh*p
+;(defun exh-prover (clist))
+(defun make-lidlist(clist) clist -> 含まれる全lidのリスト
+(defun getlllist (lsym lids)　lsymをもつlidのリスト
+(defun make-lnplist (clist)　clistから (psym neg plus)のリストを作る
+(defun exh-prover-on-aset (llmap)　未
+(defun find-lid-in-clist (ilid clist)　 ilidをもつlidをclistからみつける。olidはlist
+;(defun find-lid-in-clist (ilid clist)　廃盤
+(defun find-lid-in-llist(ilid llist)　llistからilidをもつlidをみつける。olidはlist
+(defun updateclist(clist cid)
+　clistをあたらしいcidでupdateする。
+　R のときはcidを追加し2つのpcidは消す。
+　Fのときは、親のpid(2つとも同じ)を消してcidを追加する
+(defun canF (ll lr)) cidが同じで同じlsym
+(defun canR (ll lr)) cidが違ってoppolsym
+
+
+pmapはproof setpのオーダー
+　順番はどうでもよいはず。
+　canRでもcanFでもないものはあとにまわすだけでは?
+
+
+(defun pstep (pmap clist)  ) => pmap, clist | :fail
+　canでなくshouldなpairはどうやってきまるか
+　　・Rをするのはいつか
+
+　　・Fをするのはいつか
+
+
+(defun pdrive (pmap clist) ) => pmap, clist | :fail
+
+pmap : proof map 
+(defun next-pmap (pmap)　蜜柑　
+(defun updatepmap(pmap cid)　蜜柑
+
 
 
 9月28日(日)

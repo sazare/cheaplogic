@@ -82,28 +82,106 @@
   )
 )
 
+;;
+(defun step-forward (pmap clist)
+  (prog (cid lcid rcid (cls clist) ll1 rl1 llid rlid)
+    (setq ll1 (caar pmap)) 
+    (setq rl1 (cadar pmap))
+
+    (setq llid (car (find-lid-in-clist ll1 clist)))
+    (setq rlid (car (find-lid-in-clist rl1 clist)))
+
+    (setq lcid (cidof llid))
+    (setq rcid (cidof rlid))
+
+    (when (canR llid rlid) 
+      (setq cid (resolve-id llid rlid))
+      (unless (eq cid :FAIL)
+        (return (values (cdr pmap) (updateclist cid clist)))
+      )
+    )
+
+    (when (canF ll1 rl1) 
+      (setq cid (factor-id llid rlid))
+      (unless (eq cid :FAIL)
+        (return (values (cdr pmap) (updateclist cid clist)))
+      )
+    )
+  )
+)
+
+(defun exec-prove (pmap clist)
+  (let ((map pmap)(cs clist))
+    (loop while pmap do
+      (multiple-value-bind (map cs) (step-forward map cs))
+    )
+  )
+)
 
 ;;
-(defun updateclist(clist cid)
-  (let*  ((proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
+(defun remove-cid (cid clist)
+  (loop for c in clist unless (eq cid c) collect c)
+)
+
+
+;;
+(defun updateclist(cid clist)
+  (let*  (rcid lcid (proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
+    (setq lcid (cidof (car (find-lid-in-clist llid clist))))
+    (setq rcid (cidof (car (find-lid-in-clist rlid clist))))
+
     (cond 
-      ((eq rule :resolution) (cons cid (remove-cid llid (remove-cid rlid clist))))
-      ((eq rule :factoring)  (cons cid (remove-cid llid (remove-cid rlid clist))))
+      ((eq rule :resolution) (cons cid (remove-cid lcid (remove-cid rcid clist))))
+      ((eq rule :factoring)  (cons cid (remove-cid rlid clist)))
       (t clist)
     )
   )
 )
- 
+
 ;;;
-(defun next-pmap (pmap)
-  (car pmap)
+(defun canF (ll lr)
+  (and (equal (cidof ll)(cidof lr)) (equal (lsymof ll)(lsymof lr)))
 )
 
-(defun updatepmap(pmap cid)
-  "pmap = (llid rlid)*"
-  (let*  ((proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
-    pmap
-  )
+(defun canR (ll lr)
+  (and (not (equal (cidof ll)(cidof lr))) (equal (lsymof ll)(oppolsymof (lsymof lr))))
+)
+
+(defun proofstep (clist imap)
+   "imap is a pair list of inputlid. clist is just a clauses list"
+  (prog(rms rcs rcid )
+     (loop for m in imap do
+       (let ((ill (car m))(ilr (cadr m)) ll lr)
+         (setq ll (find-lid-in-clist ill clist))
+         (setq lr (find-lid-in-clist ilr clist))
+         (cond
+           ((canR ll lr) (setq rcid (resolve-id ll lr)))
+           ((canF ll lr) (setq rcid (factor-id ll lr)))
+           (t (push m rms) (setq imap (cdr imap)))
+         )
+         (when (not (eq :fail rcid) )
+           (return (values (update clist rcid) (update imap m)))
+         ) 
+       )
+     )
+  )   
 )
 
 
+;;;;
+;(defun next-pmap (pmap)
+;  (let (cand rem)
+;    (setq cand (car pmap))
+;    (setq rem (cdr pmap))
+;    
+;  )
+;)
+;
+;(defun updatepmap(pmap cid)
+;  "pmap = (llid rlid)*"
+;  (let*  ((proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
+;    pmap
+;  )
+;)
+;
+;
