@@ -1,7 +1,63 @@
 
+10月4日(土)
+step-forwardでループまわってないのがおかしい
 
 10月2日(木)
 clistが減らないのは、input cidで消そうとしていたからかな。
+input lidのcidを消していたがproofのl,rlidのcidofでよかった
+
+うごいた
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa003.kqc")
+(pcs)
+
+(defparameter ss1  '(c1 c5 c6 c7 c8))
+(defparameter ss2 '(c1 c2 c3 c8))
+
+(defparameter pm1 '((l1-3 l5-1)(l1-1 l7-1)(l1-2 l6-1)(l1-4 l8-1)))
+(defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
+
+(defparameter mm pm1)
+(defparameter cls ss1)
+
+(multiple-value-setq (mm cls) (step-forward mm cls))
+反復(rのみ)おけ
+
+次に
+
+(defparameter mm pm2)
+(defparameter cls ss1)
+(multiple-value-setq (mm cls) (step-forward mm cls))
+
+では
+
+((L1-1 L1-2) (L1-1 L1-3) (L1-1 L2-1) (L1-4 L8-1))
+
+ (L1-1 L2-1)
+で失敗しているぽい
+C10: FACTO NIL ((+ P A B) (+ Q A B))
+C9: FACTO (X.154) ((+ P X.154 B) (+ P A B) (+ Q X.154 B))
+C1: 1 (X.148 Y.149) ((+ P X.148 Y.149) (+ P X.148 B) (+ P A Y.149) (+ Q X.148 Y.149))
+C2: 2 NIL ((- P A B))
+C3: 3 (U.150) ((- P U.150 U.150))
+C4: 4 (M.151) ((- P M.151 M.151))
+C5: 5 NIL ((- P A C))
+C6: 6 NIL ((- P D B))
+C7: 7 NIL ((- P D C))
+C8: 8 (Z.152 W.153) ((- Q Z.152 W.153))
+
+のC10とC2のRがだめみたいだ。
+おそらくLidが不一致では??
+
+RUBBISH(28): (find-lid-in-clist 'l1-1 '(C10))
+(L10-1)
+うまくいってる
+
+以下明日
+
+
 
 
 10月1日(水)

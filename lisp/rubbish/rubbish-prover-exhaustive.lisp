@@ -84,37 +84,43 @@
 
 ;;
 (defun step-forward (pmap clist)
-  (prog (cid lcid rcid (cls clist) ll1 rl1 llid rlid)
-    (setq ll1 (caar pmap)) 
-    (setq rl1 (cadar pmap))
-
-    (setq llid (car (find-lid-in-clist ll1 clist)))
-    (setq rlid (car (find-lid-in-clist rl1 clist)))
-
-    (setq lcid (cidof llid))
-    (setq rcid (cidof rlid))
-
-    (when (canR llid rlid) 
-      (setq cid (resolve-id llid rlid))
-      (unless (eq cid :FAIL)
-        (return (values (cdr pmap) (updateclist cid clist)))
+  (let(cid lcid rcid (cls clist) ll1 rl1 llid rlid umap)
+    (loop for pm in pmap do 
+      (setq ll1 (car pm)) 
+      (setq rl1 (cadr pm))
+  
+      (setq llid (car (find-lid-in-clist ll1 clist)))
+      (setq rlid (car (find-lid-in-clist rl1 clist)))
+  
+      (setq lcid (cidof llid))
+      (setq rcid (cidof rlid))
+  
+      (when (canR llid rlid) 
+        (setq cid (resolve-id llid rlid))
+        (unless (eq cid :FAIL)
+          (return (values (append umap (cdr pmap)) (updateclist cid clist)))
+        )
       )
-    )
-
-    (when (canF ll1 rl1) 
-      (setq cid (factor-id llid rlid))
-      (unless (eq cid :FAIL)
-        (return (values (cdr pmap) (updateclist cid clist)))
+  
+      (when (canF ll1 rl1) 
+        (setq cid (factor-id llid rlid))
+        (unless (eq cid :FAIL)
+          (return (values (append umap (cdr pmap)) (updateclist cid clist)))
+        )
       )
+      (push pm umap)
+      finally
+      (return (values :FAIL clist))
     )
   )
 )
 
 (defun exec-prove (pmap clist)
   (let ((map pmap)(cs clist))
-    (loop while pmap do
+    (loop while map do
       (multiple-value-setq (map cs) (step-forward map cs))
     )
+    cs
   )
 )
 
