@@ -65,7 +65,7 @@
 (pcs)
 
 (defparameter ss1  '(c1 c5 c6 c7 c8))
-(defparameter ss2 '(c1 c2 c3 c8))
+(defparameter ss2 '(c1 c2 c8))
 
 (defparameter pm1 '((l1-3 l5-1)(l1-1 l7-1)(l1-2 l6-1)(l1-4 l8-1)))
 (defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
@@ -79,11 +79,15 @@
 
 
 (exec-prove pm1 ss1)
+(C32)とか
 
 (defparameter mm pm2)
 (defparameter cls ss2)
 
 (exec-prove pm2 ss2)
+(C12 C9 C1)なぜこうなるか2025/10/04 朝
+
+
 
 
 

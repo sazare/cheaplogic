@@ -1,6 +1,12 @@
 
 10月4日(土)
 step-forwardでループまわってないのがおかしい
+loopをまわしたらexecで止まるようになった。
+
+pmの途中で失敗する場合はまだみていない。
+
+tips returnはprogやloopにかえる
+
 
 10月2日(木)
 clistが減らないのは、input cidで消そうとしていたからかな。

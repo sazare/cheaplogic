@@ -119,8 +119,10 @@
   (let ((map pmap)(cs clist))
     (loop while map do
       (multiple-value-setq (map cs) (step-forward map cs))
+      (when (eq map :FAIL) (return :FAIL)) 
+     finally
+     (return cs)
     )
-    cs
   )
 )
 
@@ -133,8 +135,6 @@
 ;;
 (defun updateclist(cid clist)
   (let*  (rcid lcid (proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
-;    (setq lcid (cidof (car (find-lid-in-clist llid clist))))
-;    (setq rcid (cidof (car (find-lid-in-clist rlid clist))))
     (setq lcid (cidof llid))
     (setq rcid (cidof rlid))
 
