@@ -57,35 +57,53 @@
 
 
 2025/09/26
-************::10月1日(水)ここ
+************::10月5日ここ
 
 (require :exhp)
 (in-package :rubbish)
 (readkqc "kqc/exhp/fa003.kqc")
+
+(trace find-lid-in-clist)
+(trace resolve-id)
+(trace factor-id)
+(trace find-lid-in-clist)
+(trace find-lid-in-llist)
+(trace make-lidlist)
+
 (pcs)
 
 (defparameter ss1  '(c1 c5 c6 c7 c8))
-(defparameter ss2 '(c1 c2 c8))
-
 (defparameter pm1 '((l1-3 l5-1)(l1-1 l7-1)(l1-2 l6-1)(l1-4 l8-1)))
-(defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
 
+(defparameter ss2 '(c1 c2 c8))
+(defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm3 '((l1-1 l1-3)(l1-1 l1-2)(l1-1 l2-1)(l1-4 l8-1)))
+
+(defparameter pm4 '((l1-2 l1-3)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+
+
+(defparameter pm5 '((l1-2 l3-1)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+
+(defparameter pm6 '((l1-1 l2-1)(l1-3 l1-2)(l1-1 l1-3)(l1-1 l7-1)(l1-2 l6-1)))
+
+
+(defparameter res nil)
 (defparameter mm pm1)
 (defparameter cls ss1)
 
-(step-forward mm cls)
-
-(multiple-value-setq (mm cls) (step-forward mm cls))
-
+(multiple-value-setq (res mm cls) (step-forward mm cls))
 
 (exec-prove pm1 ss1)
 (C32)とか
 
-(defparameter mm pm2)
+(defparameter res nil)
+(defparameter mm pm5)
 (defparameter cls ss2)
 
-(exec-prove pm2 ss2)
-(C12 C9 C1)なぜこうなるか2025/10/04 朝
+(multiple-value-setq (res mm cls) (step-forward mm cls))
+
+(exec-prove pm3 ss2)
+(exec-prove pm4 ss2)
 
 
 

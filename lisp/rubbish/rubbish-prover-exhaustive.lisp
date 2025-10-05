@@ -58,39 +58,32 @@
 ; find a lid in ssi whose olid is ilid
 ;ex (find-lid-in-clist 'L1-2 '(C8 C9))
 (defun find-lid-in-clist (ilid clist)
-  (loop for lid in (make-lidlist clist) when (member ilid (olidof lid))
-    collect lid
-  )
-)
-
-;; find-lid-in-clist = clidof
-;(defun find-lid-in-clist (ilid clist)
-;  "I find the lid whose olid is ilid but not equal."
-;  (loop for cid in clist append
-;    (loop for lid in (bodyof cid) when (and (not (eq (olidof lid) lid)) (eq (olidof lid) ilid))
-;      append (list lid)
-;    )
-;  )
-;)
-
-;;  find lid has ilid in lidlist
-(defun find-lid-in-llist(ilid llist)
-  "llist may be make-lidlist"
-  (loop for lid in llist 
-    when (member ilid (olidof lid) )
-    collect lid
+  (let (wlid)
+    (setq wlid (loop for lid in (make-lidlist clist) 
+                when (member ilid (olidof lid)) 
+                collect lid))
+    (if (null wlid) 
+      :FAIL
+      wlid
+    )
   )
 )
 
 ;;
 (defun step-forward (pmap clist)
-  (let(cid lcid rcid (cls clist) ll1 rl1 llid rlid umap)
+  (let (pms cid lcid rcid (cls clist) ll1 rl1 llid rlid umap)
     (loop for pm in pmap do 
+      (setq pms (length umap))
+
       (setq ll1 (car pm)) 
       (setq rl1 (cadr pm))
   
-      (setq llid (car (find-lid-in-clist ll1 clist)))
-      (setq rlid (car (find-lid-in-clist rl1 clist)))
+      (setq llid (find-lid-in-clist ll1 clist))
+      (if (equal llid :FAIL) (return (values :fail pmap clist)))
+      (setq llid (car llid))
+      (setq rlid (find-lid-in-clist rl1 clist))
+      (if (equal rlid :FAIL) (return (values :fail pmap clist)))
+      (setq rlid (car rlid))
   
       (setq lcid (cidof llid))
       (setq rcid (cidof rlid))
@@ -98,28 +91,30 @@
       (when (canR llid rlid) 
         (setq cid (resolve-id llid rlid))
         (unless (eq cid :FAIL)
-          (return (values (append umap (cdr pmap)) (updateclist cid clist)))
+          (return (values :success (append umap (cdr pmap)) (updateclist cid clist)))
         )
       )
   
       (when (canF ll1 rl1) 
         (setq cid (factor-id llid rlid))
         (unless (eq cid :FAIL)
-          (return (values (append umap (cdr pmap)) (updateclist cid clist)))
+          (return (values :success (append umap (cdr pmap)) (updateclist cid clist)))
         )
       )
+
       (push pm umap)
+      (when (eq pms (length umap)) (return (values :FAIL umap clist)))
       finally
-      (return (values :FAIL clist))
+        (return (values :SUCCESS umap clist))
     )
   )
 )
 
 (defun exec-prove (pmap clist)
-  (let ((map pmap)(cs clist))
+  (let ((map pmap)(cs clist) result)
     (loop while map do
-      (multiple-value-setq (map cs) (step-forward map cs))
-      (when (eq map :FAIL) (return :FAIL)) 
+      (multiple-value-setq (result map cs) (step-forward map cs))
+      (when (eq result :FAIL) (return (list :FAIL map cs))) 
      finally
      (return cs)
     )
@@ -134,13 +129,18 @@
 
 ;;
 (defun updateclist(cid clist)
-  (let*  (rcid lcid (proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
+  (let*  
+    (rcid lcid 
+       (proof (proofof cid)) 
+       (rule (nth 0 proof))
+       (llid (car (nth 3 proof)))
+       (rlid (cadr (nth 3 proof))))
     (setq lcid (cidof llid))
     (setq rcid (cidof rlid))
 
     (cond 
       ((eq rule :resolution) (cons cid (remove-cid lcid (remove-cid rcid clist))))
-      ((eq rule :factoring)  (cons cid (remove-cid rlid clist)))
+      ((eq rule :factoring)  (cons cid (remove-cid rcid clist)))
       (t clist)
     )
   )

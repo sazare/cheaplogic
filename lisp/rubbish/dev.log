@@ -1,4 +1,22 @@
 
+10月5日(日)
+updateclistで、remove-cidの引数がrlidだった。rcidがただしい。
+それでfactoringしたcidが消えずにのこっていた
+
+pmで先にRをしてFを後ですると、failするようになった。
+find-lid-in-clistの中で
+
+step-forwardのI/Fをかえた
+(result map clause)
+1回map全部について処理してなにもかわらなければFAILとするようにした
+
+しかし
+(defparameter ss2 '(c1 c2 c8))
+(defparameter pm5 '((l1-2 l3-1)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+
+(exec-prover pm5 ss2)
+はとまらない
+
 10月4日(土)
 step-forwardでループまわってないのがおかしい
 loopをまわしたらexecで止まるようになった。
