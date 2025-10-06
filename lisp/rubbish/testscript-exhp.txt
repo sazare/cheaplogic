@@ -1,0 +1,60 @@
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fb001.kqc")
+(pcs)
+
+(defparameter ss1 '(c1 c2 c3))
+(defparameter ss2 '(c1 c2 c4 c5))
+(defparameter ss3 '(c1 c2 c4))
+(defparameter ss4 '(c1 c2 c5))
+(defparameter ss5 '(c1 c2 c6 c7))
+(defparameter ss6 '(c1 c2 c7))
+
+
+
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa003.kqc")
+
+(pcs)
+
+(defparameter ss1  '(c1 c5 c6 c7 c8))
+(defparameter pm1 '((l1-3 l5-1)(l1-1 l7-1)(l1-2 l6-1)(l1-4 l8-1)))
+
+(defparameter ss2 '(c1 c2 c8))
+(defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm3 '((l1-1 l1-3)(l1-1 l1-2)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm4 '((l1-2 l1-3)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+
+(defparameter pm5 '((l1-2 l3-1)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm6 '((l1-1 l2-1)(l1-3 l1-2)(l1-1 l1-3)(l1-1 l7-1)(l1-2 l6-1)))
+
+
+(proof-driver pm1 ss1)
+(proof-driver pm2 ss2)
+(proof-driver pm3 ss2)
+(proof-driver pm4 ss2)
+(proof-driver pm5 ss2)
+(proof-driver pm6 ss2)
+
+;;結果
+RUBBISH(60): (proof-driver pm1 ss1)
+
+(:SUCCESS (C30))
+RUBBISH(61): (proof-driver pm2 ss2)
+
+(:SUCCESS (C34))
+RUBBISH(62): (proof-driver pm3 ss2)
+
+(:SUCCESS (C38))
+RUBBISH(63): (proof-driver pm4 ss2)
+
+(:SUCCESS (C42))
+RUBBISH(64): (proof-driver pm5 ss2)
+
+(:FAIL ((L1-2 L3-1) (L1-2 L1-1) (L1-1 L2-1) (L1-4 L8-1)) (C1 C2 C8))
+RUBBISH(65): (proof-driver pm6 ss2)
+
+(:FAIL ((L1-1 L1-3) (L1-1 L7-1) (L1-2 L6-1)) (C44 C8))
+
