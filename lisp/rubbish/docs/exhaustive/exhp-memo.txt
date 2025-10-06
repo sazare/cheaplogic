@@ -78,12 +78,9 @@
 (defparameter ss2 '(c1 c2 c8))
 (defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
 (defparameter pm3 '((l1-1 l1-3)(l1-1 l1-2)(l1-1 l2-1)(l1-4 l8-1)))
-
 (defparameter pm4 '((l1-2 l1-3)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
 
-
 (defparameter pm5 '((l1-2 l3-1)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
-
 (defparameter pm6 '((l1-1 l2-1)(l1-3 l1-2)(l1-1 l1-3)(l1-1 l7-1)(l1-2 l6-1)))
 
 
@@ -104,6 +101,11 @@
 
 (exec-prove pm3 ss2)
 (exec-prove pm4 ss2)
+;次はfail
+
+(exec-prove pm5 ss2)
+(exec-prove pm6 ss2)
+
 
 
 

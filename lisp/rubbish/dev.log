@@ -1,4 +1,12 @@
 
+10月6日(月)
+無限ループの理由は
+　find-lid-in-clistでlidが見つからなかった場合。
+　これがおこるかどうかはわからないが、おこりうるのでそのばあい:FAILとした
+
+step-forwardやexec-proveでも:FAILと:SUCCESSが帰るようにした。
+
+
 10月5日(日)
 updateclistで、remove-cidの引数がrlidだった。rcidがただしい。
 それでfactoringしたcidが消えずにのこっていた
