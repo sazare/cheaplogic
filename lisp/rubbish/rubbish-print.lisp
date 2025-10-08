@@ -9,6 +9,13 @@
   )
 )
 
+(defun pcs (&optional (cids *clist*) (out t))
+  (loop for cid in cids do
+    (print-clause cid out)
+  )
+)
+
+
 ;; print clause list
 
 (defun print-clausex (&optional (cs *clist*) (out t))

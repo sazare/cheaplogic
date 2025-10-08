@@ -33,57 +33,82 @@
   )
 )
 
-
-; make the llmap
-;; llmap has all combination of llpair
-
-; loop for an entry of llmap resolve the paire repeatly
-;; ? factoring or resolution combinations are ok??
-;;; the timing of factoring is not clear!!
-
-; exhaustive-prover in a ss
-
-(defun exh-prover-on-aset (llmap)
-; do 1:1 pair 
-
-;; if n:n, it cause combinations of R
-
-;; if n:n, It may be acomplished with F.
-
-;; if not n:n, then factoring must. complicated , think tomorrow.
-
-
+(defun comb1 (e l)
+  (if (null l)
+    e
+    (list (cons e (car l))  (comb1 e (cdr l)))
+  )
 )
 
-; find a lid in ssi whose olid is ilid
-;ex (find-lid-in-clist 'L1-2 '(C8 C9))
-(defun find-lid-in-clist (ilid clist)
-  (let (wlid)
-    (setq wlid (loop for lid in (make-lidlist clist) 
-                when (member ilid (olidof lid)) 
-                collect lid))
-    (if (null wlid) 
-      :FAIL
-      wlid
+(defun comb0 (l1 l2)
+  (if (null l2) 
+    l1
+    (append (comb1 (car l1) l2) (comb0 (cdr l1) l2))
+  )
+)
+
+(defun combnn (l1 l2)
+  (loop for c1 in l1 append
+    (loop for c2 in l2 collect 
+       (list c1 c2)
     )
   )
 )
 
+;;;
+(defun choose2 (a ll)
+  (loop for b in ll  collect (cons a b))
+)
+
+(defun choose1 (ll)
+  (if (null (cdr ll))
+    (loop for a in (car ll) collect (list a))
+    (loop for a in (car ll) append (choose2 a (choose1 (cdr ll))))
+  )
+)
+
+(defun lnp2pmap (npl)
+  (loop for np in npl collect
+    (combnn (nth 1 np) (nth 2 np))
+  )
+)
+
+(defun make-pmap-noF(llmap)
+  (loop for x in (choose1 (lnp2pmap llmap)) collect x)
+)
+
+
+; find a lid in ssi whose olid is ilid
+;ex (find-lid-in-clist 'L1-2 '(C8 C9))
+(defun find-lid-in-clist (ilid clist)
+  (loop for lid in (make-lidlist clist) 
+                when (member ilid (olidof lid)) 
+                collect lid)
+)
+;;;
+(defun canF (ll lr)
+  (and (equal (cidof ll)(cidof lr)) (equal (lsymof ll)(lsymof lr)))
+)
+
+(defun canR (ll lr)
+  (and (not (equal (cidof ll)(cidof lr))) (equal (lsymof ll)(oppolsymof (lsymof lr))))
+)
+
 ;;
-(defun step-forward (pmap clist)
-  (let (pms cid lcid rcid (cls clist) ll1 rl1 llid rlid umap)
+(defun step-driver (pmap clist)
+  (let (pms cid ls rs lcid rcid (cls clist) ll1 rl1 llid rlid umap)
     (loop for pm in pmap do 
       (setq pms (length umap))
 
       (setq ll1 (car pm)) 
       (setq rl1 (cadr pm))
   
-      (setq llid (find-lid-in-clist ll1 clist))
-      (if (equal llid :FAIL) (return (values :fail pmap clist)))
-      (setq llid (car llid))
-      (setq rlid (find-lid-in-clist rl1 clist))
-      (if (equal rlid :FAIL) (return (values :fail pmap clist)))
-      (setq rlid (car rlid))
+      (setq ls (find-lid-in-clist ll1 clist))
+      (when (or (null ls) (> (length ls) 1)) (return (values :fail pmap clist)))
+      (setq llid (car ls))
+      (setq rs (find-lid-in-clist rl1 clist))
+      (when (or (null rs) (> (length rs) 1))  (return (values :fail pmap clist)))
+      (setq rlid (car rs))
   
       (setq lcid (cidof llid))
       (setq rcid (cidof rlid))
@@ -91,18 +116,19 @@
       (when (canR llid rlid) 
         (setq cid (resolve-id llid rlid))
         (unless (eq cid :FAIL)
-          (return (values :success (append umap (cdr pmap)) (updateclist cid clist)))
+          (return (values :SUCCESS (append umap (cdr pmap)) (updateclist cid clist)))
         )
       )
   
       (when (canF ll1 rl1) 
         (setq cid (factor-id llid rlid))
         (unless (eq cid :FAIL)
-          (return (values :success (append umap (cdr pmap)) (updateclist cid clist)))
+          (return (values :SUCCESS (append umap (cdr pmap)) (updateclist cid clist)))
         )
       )
 
       (push pm umap)
+      ; next is check no progress of the loop.
       (when (eq pms (length umap)) (return (values :FAIL umap clist)))
       finally
         (return (values :SUCCESS umap clist))
@@ -110,13 +136,16 @@
   )
 )
 
-(defun exec-prove (pmap clist)
+(defun proof-driver (pmap clist)
   (let ((map pmap)(cs clist) result)
     (loop while map do
-      (multiple-value-setq (result map cs) (step-forward map cs))
+      (multiple-value-setq (result map cs) (step-driver map cs))
       (when (eq result :FAIL) (return (list :FAIL map cs))) 
-     finally
-     (return cs)
+      finally
+        (if (and (eq (length cs) 1) (iscontradiction (car cs))) 
+          (return (list :SUCCESS cs))
+          (return (list :FAIL cs))
+        )
     )
   )
 )
@@ -125,7 +154,6 @@
 (defun remove-cid (cid clist)
   (loop for c in clist unless (eq cid c) collect c)
 )
-
 
 ;;
 (defun updateclist(cid clist)
@@ -139,57 +167,10 @@
     (setq rcid (cidof rlid))
 
     (cond 
-      ((eq rule :resolution) (cons cid (remove-cid lcid (remove-cid rcid clist))))
-      ((eq rule :factoring)  (cons cid (remove-cid rcid clist)))
+      ((eq rule :RESOLUTION) (cons cid (remove-cid lcid (remove-cid rcid clist))))
+      ((eq rule :FACTORING)  (cons cid (remove-cid rcid clist)))
       (t clist)
     )
   )
 )
 
-;;;
-(defun canF (ll lr)
-  (and (equal (cidof ll)(cidof lr)) (equal (lsymof ll)(lsymof lr)))
-)
-
-(defun canR (ll lr)
-  (and (not (equal (cidof ll)(cidof lr))) (equal (lsymof ll)(oppolsymof (lsymof lr))))
-)
-
-(defun proofstep (clist imap)
-   "imap is a pair list of inputlid. clist is just a clauses list"
-  (prog(rms rcs rcid )
-     (loop for m in imap do
-       (let ((ill (car m))(ilr (cadr m)) ll lr)
-         (setq ll (find-lid-in-clist ill clist))
-         (setq lr (find-lid-in-clist ilr clist))
-         (cond
-           ((canR ll lr) (setq rcid (resolve-id ll lr)))
-           ((canF ll lr) (setq rcid (factor-id ll lr)))
-           (t (push m rms) (setq imap (cdr imap)))
-         )
-         (when (not (eq :fail rcid) )
-           (return (values (update clist rcid) (update imap m)))
-         ) 
-       )
-     )
-  )   
-)
-
-
-;;;;
-;(defun next-pmap (pmap)
-;  (let (cand rem)
-;    (setq cand (car pmap))
-;    (setq rem (cdr pmap))
-;    
-;  )
-;)
-;
-;(defun updatepmap(pmap cid)
-;  "pmap = (llid rlid)*"
-;  (let*  ((proof (proofof cid)) (rule (nth 0 proof))(llid (car (nth 3 proof)))(rlid (cadr (nth 3 proof))))
-;    pmap
-;  )
-;)
-;
-;
