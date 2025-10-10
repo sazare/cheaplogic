@@ -213,6 +213,7 @@
 (defun code-of-rule (code)
   (cond
     ((eq code :RESOLUTION) :RS)
+    ((eq code :FACTORING) :FA)
     ((eq code :REDUCED-BY-SEMANTIX) :SM)
     ((eq code :REDUCED-BY-SYNTAX) :SN)
     (t code)

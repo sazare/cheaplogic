@@ -1,4 +1,56 @@
 
+
+10月9日(木)
+extract-mguを使ってみる
+
+単純なRのみの fa000.kqc
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa000.kqc")
+
+(defparameter ss01 '(c1 c2 c3))
+(defparameter pm01 (make-pmap-noF (make-lnplist ss01)))
+(defparameter con01 (proof-driver (car pm01) ss01))
+
+*clist*だとやるたびにかわるからだめ。
+
+結果
+
+RUBBISH(27): con01
+(:SUCCESS (C10))
+
+RUBBISH(32): (pcs '(c1 c2 c3 c10))
+C1: 1 (X.148 Y.149) ((+ P X.148) (+ Q X.148 Y.149))
+C2: 2 NIL ((- P A))
+C3: (Z.150 W.151) [((- Q Z.150 W.151))]
+C10: RESO = []
+NIL
+
+RUBBISH(33): (extract-mgu 'c10 '(c1) '(x.148 y.149))
+
+(:TUPLE A W.177)
+RUBBISH(34): (extract-mgu 'c10 '(c3) '(z.150 w.151))
+
+(:TUPLE A W.177)
+RUBBISH(35): (print-proof0 'c10)
+C10: RESO = []
+C10 [] RESOLUTION : <L9-1:L2-1>
+  L9-1 (Z.174 W.175).(+ P Z.174)  in
+  C9: RESO (Z.174 W.175) ((+ P Z.174))
+  C9 (L9-1) RESOLUTION : <L1-2:L3-1>
+    L1-2 (X.148 Y.149).(+ Q X.148 Y.149) input1
+    C1: 1 (X.148 Y.149) ((+ P X.148) (+ Q X.148 Y.149))
+    L3-1 (Z.150 W.151).(- Q Z.150 W.151) input2
+    C3: C3 (Z.150 W.151) ((- Q Z.150 W.151))
+  L2-1 ().(- P A)  in
+  C2: 2 NIL ((- P A))
+NIL
+
+あってみたい
+Fについてはextract-mguはまだ未対応な気がする
+
+
 10月8日(水)
 make-pmap-noF
 

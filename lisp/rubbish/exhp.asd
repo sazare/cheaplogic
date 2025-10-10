@@ -10,6 +10,8 @@
       (:file "rubbish-package")
 ;; essential functions of commonlisp
       (:file "rubbish-essential" :depends-on ("rubbish-package"))
+;; elementary math
+      (:file "rubbish-set" :depends-on ("rubbish-package"))
 
 ;gensym -- not use gen-noran now.
       (:file "rubbish-gen" :depends-on ("rubbish-package"))
