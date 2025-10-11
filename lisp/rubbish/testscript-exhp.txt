@@ -1,10 +1,23 @@
 
 
-pmapを作る
+
+clistからproofまで
 
 (require :exhp)
 (in-package :rubbish)
+(readkqc "kqc/exhp/fa000.kqc")
+
+(noF-driver *clist*)
+
+
+
+
+pmapを作る
+(require :exhp)
+(in-package :rubbish)
 (readkqc "kqc/exhp/fb001.kqc")
+(defparameter nof01 (exhp-filter-nof ss001))
+(defparameter nof01 (exhp-filter-nof ss001))
 
 : 手順
 (make-pmap-noF (make-lnplist ss))

@@ -150,6 +150,14 @@
   )
 )
 
+(defun noF-driver (clist)
+  (loop for ss in (exhp-filter-nof (subsetof clist)) collect 
+    (let (pm )
+      (setq pm (make-pmap-noF (make-lnplist ss)))
+      (proof-driver pm ss)
+    )
+  )
+)
 ;;
 (defun remove-cid (cid clist)
   (loop for c in clist unless (eq cid c) collect c)
