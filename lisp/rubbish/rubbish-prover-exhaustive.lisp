@@ -4,23 +4,23 @@
 
 ; exhaustive-prover
 
-;(defun exh-prover (clist))
-; make a pnlist
-
-; make the lllist
+; make all lid of clist
 (defun make-lidlist(clist)
+  "clist -> all lids"
   (loop for cid in clist append
     (bodyof cid)
   )
 )
 
-;
+; find lids with lsym in lids
 (defun getlllist (lsym lids)
+  "lids -> lids has lsym"
   (loop for lid in lids when (eq lsym (lsymof lid)) collect lid)
 )
 
-; make-lnplist is another implementation of make-nplist
-(defun make-lnplist (clist)
+; make-ppnlist is another implementation of make-nplist
+(defun make-ppnlist (clist)
+  "clist -> (pre pos neg)*"
   (let (lidlist psymlist)
     (setq lidlist (make-lidlist clist))
     (setq psymlist (make-psymlist lidlist))
@@ -33,48 +33,78 @@
   )
 )
 
-(defun comb1 (e l)
-  (if (null l)
-    e
-    (list (cons e (car l))  (comb1 e (cdr l)))
+;;; pairint over pred
+
+(defun kickout (s l)
+  (loop for e in l
+    when (not (equal s e))
+    collect e
   )
 )
 
-(defun comb0 (l1 l2)
-  (if (null l2) 
-    l1
-    (append (comb1 (car l1) l2) (comb0 (cdr l1) l2))
+(defun mapput (p1 pss)
+  (loop for ps in pss collect
+    (cons p1 ps)
   )
 )
 
-(defun combnn (l1 l2)
-  (loop for c1 in l1 append
-    (loop for c2 in l2 collect 
-       (list c1 c2)
+(defun pairvh (v h vs hs)
+  (mapput (list v h) (pairv vs hs))
+)
+
+(defun pairh (v vs hs)
+  (if (null vs)
+    (list (list (list v (car hs))))
+    (loop for h in hs append
+      (pairvh v h vs (kickout h hs))
     )
   )
 )
 
-;;;
-(defun choose2 (a ll)
-  (loop for b in ll  collect (cons a b))
+(defun pairv (vs hs)
+  (pairh (car vs) (cdr vs) hs) 
 )
 
-(defun choose1 (ll)
-  (if (null (cdr ll))
-    (loop for a in (car ll) collect (list a))
-    (loop for a in (car ll) append (choose2 a (choose1 (cdr ll))))
+(defun pairing (pl sl)
+  (pairv pl sl)
+)
+
+;;;;
+;(ppn2pplist (make-ppnlist (car (exhp-filter-nof (subsetof ss1)))))
+;(ppn2pplist (make-ppnlist (car (exhp-filter-nof (subsetof ss1)))))
+;((((L1-3 L5-1))) (((L1-1 L3-1) (L1-2 L4-1)) ((L1-1 L4-1) (L1-2 L3-1))))
+;;
+;; (pplist2pms ..)
+;; ((((L1-3 L5-1) (L1-1 L3-1) (L1-2 L4-1)) ((L1-3 L5-1) (L1-1 L4-1) (L1-2 L3-1))))
+(defun ppn2pplist (ppnlist)
+  (loop for ppn in ppnlist collect
+    (pairing (nth 1 ppn)(nth 2 ppn))
   )
 )
-
-(defun lnp2pmap (npl)
-  (loop for np in npl collect
-    (combnn (nth 1 np) (nth 2 np))
+;
+(defun pplist2pms (pplist)
+  (if (cdr pplist) 
+    (let (ppltail)
+      (setq ppltail (pplist2pms (cdr pplist)))
+      (loop for ap in (car pplist) collect
+        (loop for tp in ppltail collect
+          (append ap tp)
+        )
+      )
+    )
+    (car pplist)
   )
 )
+ 
 
-(defun make-pmap-noF(llmap)
-  (loop for x in (choose1 (lnp2pmap llmap)) collect x)
+(defun pairpath(clist)
+  (loop for ss in (exhp-filter-nof (subsetof clist)) append
+    (pairplist (ppn2pnlist (make-ppnlist ss)))
+  )
+)
+ 
+(defun make-pmap-noF (ppnlist)
+  (loop for x in (pplist2pms (ppn2pplist ppnlist)) collect x)
 )
 
 
@@ -85,6 +115,7 @@
                 when (member ilid (olidof lid)) 
                 collect lid)
 )
+
 ;;;
 (defun canF (ll lr)
   (and (equal (cidof ll)(cidof lr)) (equal (lsymof ll)(lsymof lr)))
@@ -94,7 +125,29 @@
   (and (not (equal (cidof ll)(cidof lr))) (equal (lsymof ll)(oppolsymof (lsymof lr))))
 )
 
-;;
+(defun remove-cid (cid clist)
+  (loop for c in clist unless (eq cid c) collect c)
+)
+
+(defun updateclist(cid clist)
+  (let*  
+    (rcid lcid 
+       (proof (proofof cid)) 
+       (rule (nth 0 proof))
+       (llid (car (nth 3 proof)))
+       (rlid (cadr (nth 3 proof))))
+    (setq lcid (cidof llid))
+    (setq rcid (cidof rlid))
+
+    (cond 
+      ((eq rule :RESOLUTION) (cons cid (remove-cid lcid (remove-cid rcid clist))))
+      ((eq rule :FACTORING)  (cons cid (remove-cid rcid clist)))
+      (t clist)
+    )
+  )
+)
+
+;; 
 (defun step-driver (pmap clist)
   (let (pms cid ls rs lcid rcid (cls clist) ll1 rl1 llid rlid umap)
     (loop for pm in pmap do 
@@ -150,34 +203,37 @@
   )
 )
 
-(defun noF-driver (clist)
-  (loop for ss in (exhp-filter-nof (subsetof clist)) collect 
-    (let (pm )
-      (setq pm (make-pmap-noF (make-lnplist ss)))
-      (proof-driver pm ss)
-    )
+
+;;; nof-prover
+(defun balance-nof (ppn)
+  "for no Fctoring, + and - has same length"
+  (and
+    (nth 1 ppn)
+    (nth 2 ppn)
+    (eq (length (nth 1 ppn)) (length (nth 2 ppn)))
   )
 )
-;;
-(defun remove-cid (cid clist)
-  (loop for c in clist unless (eq cid c) collect c)
+
+(defun exhp-filter-noF (ss)
+  "for no Filtering, the clauses set has at least 2, and balanced ppn"
+  (loop for s in ss 
+    when 
+      (and 
+        (> (length s) 1) 
+        (loop for ppn in (make-ppnlist s) always (balance-nof ppn))
+      )
+    collect s
+  )
 )
 
-;;
-(defun updateclist(cid clist)
-  (let*  
-    (rcid lcid 
-       (proof (proofof cid)) 
-       (rule (nth 0 proof))
-       (llid (car (nth 3 proof)))
-       (rlid (cadr (nth 3 proof))))
-    (setq lcid (cidof llid))
-    (setq rcid (cidof rlid))
-
-    (cond 
-      ((eq rule :RESOLUTION) (cons cid (remove-cid lcid (remove-cid rcid clist))))
-      ((eq rule :FACTORING)  (cons cid (remove-cid rcid clist)))
-      (t clist)
+(defun noF-driver (clist)
+  "for no Fctoring clause set, do proof-driver"
+  (loop for ss in (exhp-filter-nof (subsetof clist)) collect 
+    (let (pms)
+      (setq pms (make-pmap-noF (make-ppnlist ss)))
+      (loop for pm in (car pms) collect  ;;why car
+        (proof-driver pm ss)
+      )
     )
   )
 )

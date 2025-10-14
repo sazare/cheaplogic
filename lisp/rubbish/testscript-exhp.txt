@@ -1,5 +1,37 @@
 
+(require :exhp)
+(in-package :rubbish)
 
+(trace pairing)
+(trace pairv)
+(trace pairh)
+(trace pairvh)
+(trace mapput)
+(trace kickout)
+
+(pairing '(a) '(b))
+ (pairing '(a b) '(c d))
+(pairing '(a b c) '(d e f)))
+(pairing '(a b c d) '(e f g h)))
+
+(make-pmap '((p (l1 l2) (l3 l4)(q (l5) (l6)))
+ 
+
+
+
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/fa001.kqc")
+
+(defparameter ss1 '(C1 C3 C4 C5) )
+(defparameter ss2 '(C1 C2 C4 C5) )
+(defparameter ss3 '(C1 C2 C3 C5))
+
+ (defparameter ppn1 (make-ppnlist ss3))
+
+
+(noF-driver *clist*)
 
 clistからproofまで
 

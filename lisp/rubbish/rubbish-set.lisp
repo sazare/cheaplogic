@@ -22,42 +22,36 @@
   )  
 )
 
+;;; 
 
-(defun balance (pnp)
-  (and
-    (nth 1 pnp)
-    (nth 2 pnp)
+
+(defun comb1 (e l)
+  "make (e) and (e. m) in ∀m ∈ l"
+  (if (null l)
+    e
+    (list (cons e (car l))  (comb1 e (cdr l)))
   )
 )
 
-(defun exhp-filter (ss)
-  (loop for s in ss 
-    when 
-      (and 
-        (> (length s) 1) 
-        (loop for pnp in (make-lnplist s) always (balance pnp))
-      )
-    collect s
+(defun combnn (l1 l2)
+  "make all pair of l1 and l2 as same length"
+  (loop for c1 in l1 append
+    (loop for c2 in l2 collect 
+       (list c1 c2)
+    )
   )
 )
 
-(defun balance-nof (pnp)
-  (and
-    (nth 1 pnp)
-    (nth 2 pnp)
-    (eq (length (nth 1 pnp)) (length (nth 2 pnp)))
+;;;  subset ops
+(defun choose2 (a ll)
+  "a,ll -> (a . b) for all b ∈ ll"
+  (loop for b in ll  collect (cons a b))
+)
+
+(defun choose1 (ll)
+  (if (null (cdr ll))
+    (loop for a in (car ll) collect (list a))
+    (loop for a in (car ll) append (choose2 a (choose1 (cdr ll))))
   )
 )
 
-(defun exhp-filter-noF (ss)
-  (loop for s in ss 
-    when 
-      (and 
-        (> (length s) 1) 
-        (loop for pnp in (make-lnplist s) always (balance-nof pnp))
-      )
-    collect s
-  )
-
-
-)

@@ -10,8 +10,12 @@ extract-mguを使ってみる
 (readkqc "kqc/exhp/fa000.kqc")
 
 (defparameter ss01 '(c1 c2 c3))
-(defparameter pm01 (make-pmap-noF (make-lnplist ss01)))
+(defparameter pm01 (make-pmap-noF (make-ppnlist ss01)))
 (defparameter con01 (proof-driver (car pm01) ss01))
+
+
+
+
 
 *clist*だとやるたびにかわるからだめ。
 
