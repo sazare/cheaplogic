@@ -1,4 +1,5 @@
 ;;  rubbish-prover-exhaustive.lisp
+;;; EXHP はclistベースで証明を作る
 
 (in-package :rubbish)
 
@@ -33,7 +34,7 @@
   )
 )
 
-;;; pairint over pred
+;;; pairing
 
 (defun kickout (s l)
   (loop for e in l
@@ -69,19 +70,17 @@
   (pairv pl sl)
 )
 
-;;;;
-;(ppn2pplist (make-ppnlist (car (exhp-filter-nof (subsetof ss1)))))
-;(ppn2pplist (make-ppnlist (car (exhp-filter-nof (subsetof ss1)))))
-;((((L1-3 L5-1))) (((L1-1 L3-1) (L1-2 L4-1)) ((L1-1 L4-1) (L1-2 L3-1))))
-;;
-;; (pplist2pms ..)
-;; ((((L1-3 L5-1) (L1-1 L3-1) (L1-2 L4-1)) ((L1-3 L5-1) (L1-1 L4-1) (L1-2 L3-1))))
+;;;; ppn : pred pos neg
+;;;; pplist : pair list
+;;;; pms : pair map
+
 (defun ppn2pplist (ppnlist)
   (loop for ppn in ppnlist collect
     (pairing (nth 1 ppn)(nth 2 ppn))
   )
 )
-;
+
+;;
 (defun pplist2pms (pplist)
   (if (cdr pplist) 
     (let (ppltail)
@@ -95,25 +94,19 @@
     (car pplist)
   )
 )
- 
 
-(defun pairpath(clist)
-  (loop for ss in (exhp-filter-nof (subsetof clist)) append
-    (pairplist (ppn2pnlist (make-ppnlist ss)))
-  )
-)
- 
+;;;;
+;;  make pair map from ppnlist
 (defun make-pmap-noF (ppnlist)
   (pplist2pms (ppn2pplist ppnlist))
 )
-
 
 ; find a lid in ssi whose olid is ilid
 ;ex (find-lid-in-clist 'L1-2 '(C8 C9))
 (defun find-lid-in-clist (ilid clist)
   (loop for lid in (make-lidlist clist) 
-                when (member ilid (olidof lid)) 
-                collect lid)
+     when (member ilid (olidof lid)) 
+     collect lid)
 )
 
 ;;;
@@ -129,6 +122,7 @@
   (loop for c in clist unless (eq cid c) collect c)
 )
 
+;; update clist ad step prover
 (defun updateclist(cid clist)
   (let*  
     (rcid lcid 
