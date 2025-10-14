@@ -3,6 +3,18 @@
 10月14日(火)
 なんとか(paring ps ns)はできた。
 
+nof-driver　fa001.kqcで動いた。2つ□をみつけた。
+
+不明点
+ただよくわからないのは
+(defun make-pmap-noF (ppnlist)
+  (loop for x in (pplist2pms (ppn2pplist ppnlist)) collect x)
+)
+
+がpmapパスのリストのリストを返している
+nof-driverでcarをとってloopしている
+
+
 
 10月13日(月)
 set.lispからexhausstive.lispへexhp固有の関数を移動

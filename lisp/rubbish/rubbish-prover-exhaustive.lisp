@@ -86,7 +86,7 @@
   (if (cdr pplist) 
     (let (ppltail)
       (setq ppltail (pplist2pms (cdr pplist)))
-      (loop for ap in (car pplist) collect
+      (loop for ap in (car pplist) append
         (loop for tp in ppltail collect
           (append ap tp)
         )
@@ -104,7 +104,7 @@
 )
  
 (defun make-pmap-noF (ppnlist)
-  (loop for x in (pplist2pms (ppn2pplist ppnlist)) collect x)
+  (pplist2pms (ppn2pplist ppnlist))
 )
 
 
@@ -231,7 +231,7 @@
   (loop for ss in (exhp-filter-nof (subsetof clist)) collect 
     (let (pms)
       (setq pms (make-pmap-noF (make-ppnlist ss)))
-      (loop for pm in (car pms) collect  ;;why car
+      (loop for pm in pms collect  ;;why car
         (proof-driver pm ss)
       )
     )

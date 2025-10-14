@@ -1,4 +1,6 @@
 
+
+;;; make-pmap
 (require :exhp)
 (in-package :rubbish)
 
@@ -16,10 +18,7 @@
 
 (make-pmap '((p (l1 l2) (l3 l4)(q (l5) (l6)))
  
-
-
-
-
+;;;;;;;;;; nof-driver
 (require :exhp)
 (in-package :rubbish)
 (readkqc "kqc/exhp/fa001.kqc")
@@ -30,8 +29,11 @@
 
  (defparameter ppn1 (make-ppnlist ss3))
 
+(noF-driver ss1)
+(noF-driver ss2)
+(noF-driver ss3)
 
-(noF-driver *clist*)
+;;;;;;;;;;;;;;;;;;
 
 clistからproofまで
 
