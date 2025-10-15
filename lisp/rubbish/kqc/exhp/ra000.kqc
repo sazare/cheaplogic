@@ -1,0 +1,7 @@
+; simple R
+
+(1 (x y) (+ P x) (+ Q x y))
+(2 () (- P a))
+((z w) (- Q a w))
+
+

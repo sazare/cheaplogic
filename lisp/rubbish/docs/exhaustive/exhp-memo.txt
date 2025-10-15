@@ -1,5 +1,29 @@
 
 
+
+10月15日(水)
+考えてみたら、部分集合を選んでdriveするのが目的だった。
+すべての部分集合でdriveしてもしかたない。
+
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/ra002.kqc")
+
+(defvar allss (subsetof *clist*))
+
+(nof-driver (nth 10 allss))
+
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/ra001.kqc")
+
+(defvar allss (fsubset *clist*))
+
+(nof-driver (nth 10 allss))
+
+
 10月9日(木)
 extract-mguを使ってみる
 

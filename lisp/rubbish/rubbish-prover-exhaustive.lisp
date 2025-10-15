@@ -220,7 +220,7 @@
   )
 )
 
-(defun noF-driver (clist)
+(defun noF-driver-full(clist)
   "for no Fctoring clause set, do proof-driver"
   (loop for ss in (exhp-filter-nof (subsetof clist)) collect 
     (let (pms)
@@ -228,6 +228,21 @@
       (loop for pm in pms collect  ;;why car
         (proof-driver pm ss)
       )
+    )
+  )
+)
+
+;;
+(defun nof-subset (clist)
+  (exhp-filter-nof (subsetof clist)) 
+)
+;(nof-driver (nth i (subsetof *clist*)))
+
+(defun noF-driver (ss)
+  (let (pms)
+    (setq pms (make-pmap-noF (make-ppnlist ss)))
+    (loop for pm in pms collect  
+      (proof-driver pm ss)
     )
   )
 )

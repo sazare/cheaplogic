@@ -1,0 +1,10 @@
+;; simple long
+
+((x y z) (+ P x y z)(+ Q x y)(+ R y z)(+ S z x)(+ M y z x)(+ N z x y))
+((x y z)(- P x y z))
+((x y) (- Q x y))
+((x y) (- R x y))
+((x y) (- S x y))
+((x y) (- M x y z))
+((x y) (- N x y z))
+
