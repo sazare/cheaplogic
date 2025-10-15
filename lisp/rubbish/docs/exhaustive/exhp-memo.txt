@@ -4,16 +4,18 @@
 10月15日(水)
 考えてみたら、部分集合を選んでdriveするのが目的だった。
 すべての部分集合でdriveしてもしかたない。
-
+個数についてすこし調べた
 
 (require :exhp)
 (in-package :rubbish)
 (readkqc "kqc/exhp/ra002.kqc")
 
+ (defparameter ss1 '(c1 c2 c3 c4 c5 c6 c7 c8 c9 c10))
+
 (defvar allss (subsetof *clist*))
 
-(nof-driver (nth 10 allss))
-
+(nof-driver ss1)
+((:SUCCESS (C40)))
 
 (require :exhp)
 (in-package :rubbish)
