@@ -1,11 +1,25 @@
 
+
+10月19日(日)
+1) subsetをnextsetでtraverseするようにした。
+(subtraverse clist filter driver)
+これをつかって
+(nof-prover ss) = (subtraverse ss #'noneedF #'nof-driver)にした
+　
+
 10月18日(土)
+・balance-nofで、resolvable(canR)もチェックするようにした。
+・Fをするのも考慮するようにした。
+　m>nのとき、m-n個のLとm側のn個のLを<:>することにする。
+　このとき、n個のどれをFするかは、m-n個のLとcanFなものがあればそれでいいとする。
+　このための関数を途中まで作った
+
 
 exhp-driverはfactoringもresolutionもする
 
-pmapを作るとき、証明の構造を設計している
+1) nof-subsetでそういうssを選んで
+2) nof-driverは、1)の要素のどれかについて、うまくpnapを作ってresolする
 
-Fを含むpmapを
 
 10月16日(木)
   rubbishのニックネームにrubを定義した

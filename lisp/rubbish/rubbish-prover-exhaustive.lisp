@@ -275,10 +275,10 @@
 )
 
 ;;
-(defun nof-subset (clist)
-  (exhp-filter-nof (subsetof clist)) 
-)
-;(nof-driver (nth i (subsetof *clist*)))
+;(defun nof-subset (clist)
+;  (exhp-filter-nof (subsetof clist)) 
+;)
+;;(nof-driver (nth i (subsetof *clist*)))
 
 (defun noF-driver (ss)
   (let (pms)
@@ -289,3 +289,17 @@
   )
 )
 
+(defun subtraverse (clist filterfn driver)
+  (let ((ss nil)(res nil))
+    (loop while (setq ss (nextset ss clist)) 
+      when (funcall filterfn ss) append (funcall driver ss)
+    )
+  )
+)
+
+(defun nof-prover (ss)
+  (subtraverse ss #'noneedF #'noF-driver)
+)
+
+
+      

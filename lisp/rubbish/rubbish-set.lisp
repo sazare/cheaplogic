@@ -55,3 +55,35 @@
   )
 )
 
+;;;; nextset
+;; (nextset '(c d) '(a b c d e))
+;; (0 0 1 1 0) => (0 0 1 1 1) => (c d e)
+
+(defun nextset (s w)
+  (objectize (nextbinary (binarize s w)) w)
+)
+
+(defun binarize (s w)
+  (loop for e in w collect (if (member e s) 1 0))
+)
+
+(defun objectize (b w) 
+  (loop for e in w as c in b when (eq c 1) collect e)
+)
+
+(defun nextbinary (b)
+  (let ((c 1))
+      (loop for d in b collect
+        (if (eq 1 c)
+          (cond
+            ((eq d 1) (setq c 1) 0)
+            ((eq d 0) (setq c 0) 1)
+          )
+          d
+        )
+      )
+  )
+)
+
+
+

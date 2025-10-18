@@ -91,6 +91,9 @@ Resolutionのみ
 (readkqc "kqc/exhp/ra000.kqc")
 (readkqc "kqc/exhp/ra001.kqc")
 
+(defvar ss1 *clist*)
+(nof-prover ss1)
+
 ra000 : 2述語
 ra001 : linear で6述語
 
