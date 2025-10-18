@@ -1,5 +1,24 @@
 
 
+10月18日(土)
+・canRとcanFにresolve-id, factor-idでFAILしない条件をつけた
+
+・exhp-filter-nofで1つのclause setについてfactor不要かどうか判定する関数
+　　noneedfactorをつくり、それを呼ぶようにした
+
+10月16日(木)
+パッケージの使い方を考えてみた
+
+(require :exhp)
+(in-package :rub)
+(rub:readekqc "kqc/exhp/ra003.kqc")
+(defvar ss1 *clist*)
+(defvar sss1 (subsetof ss1))
+(exhp-filter-nof sss1)
+
+
+(rub:readekqc "kqc/exhp/ra002.kqc")
+
 
 10月15日(水)
 考えてみたら、部分集合を選んでdriveするのが目的だった。
@@ -8,11 +27,28 @@
 
 (require :exhp)
 (in-package :rubbish)
+(readkqc "kqc/exhp/ra000.kqc")
+ (defparameter ss1 '(c1 c2 c3))
+(exhp-filter-nof (subsetof ss1))
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/ra001.kqc")
+ (defparameter ss1 *clist*)
+(exhp-filter-nof (subsetof ss1))
+
+
+;not work in these
 (readkqc "kqc/exhp/ra002.kqc")
 
- (defparameter ss1 '(c1 c2 c3 c4 c5 c6 c7 c8 c9 c10))
-
+; test for memory
+(readkqc "kqc/exhp/ra020.kqc")
+(readkqc "kqc/exhp/ra030.kqc")
+(readkqc "kqc/exhp/ra050.kqc")
+ (defparameter ss1 *clist*)
 (defvar allss (subsetof *clist*))
+
+
 
 (nof-driver ss1)
 ((:SUCCESS (C40)))

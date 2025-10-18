@@ -1,4 +1,98 @@
+****
+(require :exhp)
+(in-package :rub)
+(readkqc "kqc/exhp/ra020.kqc")
+(readkqc "kqc/exhp/ra030.kqc")
+(readkqc "kqc/exhp/ra050.kqc")
+Rよう
 
+いかは、readkqc後(subsetof *clist*)
+ra020 : メモリ確認20clauses -> ok
+ra030 : メモリ確認 30 clauses -> ldb起動
+
+2GBから5GBまで増やしたがだめ
+rlwrap sbcl --control-stack-size 5GB
+RUB(4): (defparameter ss (subsetof *clist*))
+Heap exhausted during garbage collection: 0 bytes available, 16 requested.
+        Immobile Object Counts
+ Gen layout fdefn symbol   code  Boxed   Cons    Raw   Code  SmMix  Mixed  LgRaw LgCode  LgMix Waste%       Alloc        Trig   Dirty GCs Mem-age
+  1      0      0      0      0      0   6575      0      0      1      0      0      0      0    0.1   430663456   333751530    6576   1  0.7500
+  2      0      0      0      0     49   9102     20     31     11      3      0      0      0    0.1   603492720     2000000    3650   0  0.6061
+  3      0      0      0      0      0      0      0      0      0      0      0      0      0    0.0           0     2000000       0   0  0.0000
+  4      0      0      0      0      0      0      0      0      0      0      0      0      0    0.0           0     2000000       0   0  0.0000
+  5      0      0      0      0      0      0      0      0      0      0      0      0      0    0.0           0     2000000       0   0  0.0000
+  6      0      0      0      0    172     48    103    190     33      8      5      0     33    2.6    37769648     2000000       9   0  0.0000
+Tot      0      0      0      0    221  15725    123    221     45     11      5      0     33    0.2  1071925360 [99.8% of 1073741824 max]
+GC control variables:
+   *GC-INHIBIT* = true
+   *GC-PENDING* = true
+   *STOP-FOR-GC-PENDING* = false
+Collection trigger variables:
+   dynamic_space_size = 1073741824
+   bytes_allocated = 1071925360
+   auto_gc_trigger = 834113891
+   bytes_consed_between_gcs = 53687091
+fatal error encountered in SBCL pid 41363 pthread 0x1f782c800:
+Heap exhausted, game over.
+
+この見方がよくわかっていないかも
+99.8% of 1073741824 max　は1GBではないのか??
+
+
+****
+Fのある例
+1)
++P(a,x) +P(b, y) +P(x,y)
+-P(a,w)
+-P(b,w)
+
+Fの候補は
+<1-1:1-2>×
+<1-1:1-3>
+<1-2:1-3>
+だから
+1Fでできるのは2clauseで
++P(a,a)+P(b,a)
++P(a,b)+P(b,y)
+となりyが違う
+
+だが、Rの相手は自動的に決まっていて、それは<L1:L2>rでわかる
+
+2)
++P(a,x) +P(b, y) +P(x,y)
+-P(a,w)
+
+このときは2Fになるが1にはならないのでFの段階で失敗する。
+<1-2:<1-1:1-3>>
+<1-1:<1-2:1-3>>
+この書き方は<:>でmguを表しているのと矛盾するけど、unifyしたあとのatomを表すとする。
+
+相手が1つの場合は、1<mのm個全部をひとつにするので、そのときfacorがひとつでも失敗すればなしになる
+
+** filterでpair(L1, L2)は∃<L1:L2>だけにすればよい
+　unifyがだぶるが、proofで失敗するよりはまし
+　resolve-idとfactor-idの中でatomicofで符号をとっているので形の上では問題ないと思う。
+
+(require :exhp)
+(in-package :rubbish)
+(readkqc "kqc/exhp/f3-2001.kqc")
+
+(defparameter ss3-2 '(c1 c2 c3 c4))
+(defparameter ss3-1 '(c1 c2 c4))
+
+
+
+
+****
+Resolutionのみ
+
+(require :exhp)
+(in-package :rub)
+(readkqc "kqc/exhp/ra000.kqc")
+(readkqc "kqc/exhp/ra001.kqc")
+
+ra000 : 2述語
+ra001 : linear で6述語
 
 ;;; make-pmap
 (require :exhp)

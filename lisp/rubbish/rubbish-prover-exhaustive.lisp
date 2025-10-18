@@ -111,11 +111,17 @@
 
 ;;;
 (defun canF (ll lr)
-  (and (equal (cidof ll)(cidof lr)) (equal (lsymof ll)(lsymof lr)))
+  (and 
+    (equal (cidof ll)(cidof lr)) 
+    (equal (lsymof ll)(lsymof lr)) 
+    (not (eq :FAIL (factor-id ll lr))))
 )
 
 (defun canR (ll lr)
-  (and (not (equal (cidof ll)(cidof lr))) (equal (lsymof ll)(oppolsymof (lsymof lr))))
+  (and 
+    (not (equal (cidof ll)(cidof lr))) 
+    (equal (lsymof ll)(oppolsymof (lsymof lr))) 
+    (not (eq :FAIL (resolve-id ll lr))))
 )
 
 (defun remove-cid (cid clist)
@@ -200,22 +206,58 @@
 
 ;;; nof-prover
 (defun balance-nof (ppn)
-  "for no Fctoring, + and - has same length"
+  "for no Fctoring, + and - has same length, and unifiable"
   (and
     (nth 1 ppn)
     (nth 2 ppn)
-    (eq (length (nth 1 ppn)) (length (nth 2 ppn)))
+    (let ((l1 (nth 1 ppn)) (l2 (nth 2 ppn)))
+      (and 
+       (eq (length l1) (length l2))
+       (loop for ll in l1 as lr in l2 always
+         (canR ll lr))
+      )
+    )
   )
 )
 
+;; 検討中。factoringが必要なときのpairing
+(defun reductible (ppn)
+  (and
+    (nth 1 ppn)
+    (nth 2 ppn)
+    (let ((l1 (nth 1 ppn)) (l2 (nth 2 ppn)))
+      (cond 
+        ((> (length l1)(length l2)) (effort-pairing l1 l2))
+        ((< (length l1)(length l2)) (effort-pairing l2 l1))
+        (t t)
+      )
+    )
+  )
+)
+
+(defun factorable (s) 
+  (and 
+    (> (length s) 1) 
+    (loop for ppn in (make-ppnlist s) always 
+      (or (balance-nof ppn) (reductible ppn))
+    )
+  )
+)
+
+; F free
+(defun noneedF (s)
+  (and 
+    (> (length s) 1) 
+    (loop for ppn in (make-ppnlist s) always (balance-nof ppn))
+  )
+)
+
+;; no F pairs only
 (defun exhp-filter-noF (ss)
   "for no Filtering, the clauses set has at least 2, and balanced ppn"
   (loop for s in ss 
     when 
-      (and 
-        (> (length s) 1) 
-        (loop for ppn in (make-ppnlist s) always (balance-nof ppn))
-      )
+      (noneedF s)
     collect s
   )
 )

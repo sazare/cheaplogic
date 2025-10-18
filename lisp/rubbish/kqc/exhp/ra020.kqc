@@ -21,3 +21,4 @@
 ((x y) (- S c d))
 ((x z) (- R c d))
 ((x y) (- V c d))
+((x y) (- W c d))

@@ -1,0 +1,9 @@
+; 3to2factoring
+
+
+((x y) (+ P a x)(+ P b y)(+ P x y)(+ R x y))
+((w) (- P a w))
+((u) (- P b w))
+((m n) (- R m n))
+
+

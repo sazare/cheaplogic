@@ -5,9 +5,26 @@
 
 (defpackage :rubbish
   (:use :cl)
+  (:nicknames :rub)
   (:export 
     :*maxcid*
     :readekqc
+
+    :make-lidlist
+    :getlllist
+    :make-ppnlist
+    :paring
+    :ppn2pplist
+    :pplist2pms
+    :make-pmap-nof
+    :find-lid-in-clist
+    :step-driver
+    :proof-driver
+    :exhp-filter-nof
+    :noF-driver-full
+    :subsetof
+    :nof-subset
+    :noF-driver
 
     :prover-gtrail 
     :play-prover-gtrail
