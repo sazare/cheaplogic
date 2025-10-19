@@ -1,0 +1,51 @@
+★exhp
+
+noFの場合
+n:nについてpairingですべての組み合わせをつくる。(make-
+　そのpairがunifiableかどうかはcanR, canFで確認する。(reducible)
+　その判定はstep-driverで行う。
+　 psitがunificableでなければ後回しにする。
+　Fについては同じcidになったときにunifyされる
+
+filterかける段階ではreducible判定はしない。
+
+driverの中で判定する。
+ driverはnoFの場合
+　(1) ppnlistを作る段階はまだppnがpnリストになるだけ。
+　(2) そこからmake-pmapするのでそこでpair化する。
+
+　predごとにpnpairの組み合わせをつくり、それを組み合わせてpmapをつくる。
+　cmake-pmapでは、ppn2pplistでppairをつくり、pplist2pmsで単純に組み合わせるだけなので
+　ppn2pplistが組み合わせの責任をもつ。
+　ppn2pplistはpairingで1述語ごとのpairの組み合わせをつくる。
+　　ここが今はF用のn:n限定になっているので、ここを一般化すれぱFもできるようになる。
+
+
+----
+1. power set settraverse to a subset
+2. filtering level0
+3. ppnつくる
+4. 1述語ごとpnからpair list 作る
+5. plist の組み合わせpmapつくる
+6. pmapでproveing
+6.1. cid同じ±おなじあればF
+6.2. なかったら±違いをR
+6.3. ひとつもできなかったら志津倍
+
+3か4でplistの篩かける。ここではreducible必要ない
+
+5で、Fの組み合わせ作る
+5でpn がm:mのときはmxm  のペアリング(noF既存)
+★新規
+m<kのときはk-mについてFのペアリング
+
+
+(nextset s w)
+(c b) (a b c d) -> (0 1 1 0) next
+ (0 1 1 1) ->(b c d)
+
+(binarize s w) = loop for e in w collect
+ (if (member e s) 1 0))
+
+(materialize s w) = loop for e un w collect
+  when  (eq 1 e) collect e)

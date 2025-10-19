@@ -110,18 +110,31 @@
 )
 
 ;;;
+;; simple resolable or factorble
+(defun reducible (lid1 lid2)
+  (let* ((vs (append (varsof (cidof lid1)) (varsof (cidof lid2))))
+         (a1 (latomicof lid1))
+         (a2 (latomicof lid2)) 
+         (sig (funification vs a1 a2)))
+
+     (not (eq :NO sig))
+  )
+)
+
 (defun canF (ll lr)
   (and 
     (equal (cidof ll)(cidof lr)) 
     (equal (lsymof ll)(lsymof lr)) 
-    (not (eq :FAIL (factor-id ll lr))))
+    (reducible  ll lr)
+  )
 )
 
 (defun canR (ll lr)
   (and 
     (not (equal (cidof ll)(cidof lr))) 
     (equal (lsymof ll)(oppolsymof (lsymof lr))) 
-    (not (eq :FAIL (resolve-id ll lr))))
+    (reducible  ll lr)
+  )
 )
 
 (defun remove-cid (cid clist)
@@ -157,10 +170,10 @@
       (setq rl1 (cadr pm))
   
       (setq ls (find-lid-in-clist ll1 clist))
-      (when (or (null ls) (> (length ls) 1)) (return (values :fail pmap clist)))
+      (when (or (null ls) (> (length ls) 1)) (return (values :FAIL pmap clist)))
       (setq llid (car ls))
       (setq rs (find-lid-in-clist rl1 clist))
-      (when (or (null rs) (> (length rs) 1))  (return (values :fail pmap clist)))
+      (when (or (null rs) (> (length rs) 1))  (return (values :FAIL pmap clist)))
       (setq rlid (car rs))
   
       (setq lcid (cidof llid))
@@ -203,25 +216,8 @@
   )
 )
 
-
-;;; nof-prover
-(defun balance-nof (ppn)
-  "for no Fctoring, + and - has same length, and unifiable"
-  (and
-    (nth 1 ppn)
-    (nth 2 ppn)
-    (let ((l1 (nth 1 ppn)) (l2 (nth 2 ppn)))
-      (and 
-       (eq (length l1) (length l2))
-       (loop for ll in l1 as lr in l2 always
-         (canR ll lr))
-      )
-    )
-  )
-)
-
 ;; 検討中。factoringが必要なときのpairing
-(defun reductible (ppn)
+(defun なにかn:mのときpairをつくるやつ(ppn)
   (and
     (nth 1 ppn)
     (nth 2 ppn)
@@ -235,14 +231,17 @@
   )
 )
 
-(defun factorable (s) 
-  (and 
-    (> (length s) 1) 
-    (loop for ppn in (make-ppnlist s) always 
-      (or (balance-nof ppn) (reductible ppn))
-    )
+;;;
+;;; possible no F
+(defun balance-nof (ppn)
+  "for no Fctoring, + and - has same length, and unifiable"
+  (and
+    (nth 1 ppn)
+    (nth 2 ppn)
+    (eq (length (nth 1 ppn)) (length (nth 2 ppn)))
   )
 )
+
 
 ; F free
 (defun noneedF (s)
@@ -252,43 +251,15 @@
   )
 )
 
-;; no F pairs only
-(defun exhp-filter-noF (ss)
-  "for no Filtering, the clauses set has at least 2, and balanced ppn"
-  (loop for s in ss 
-    when 
-      (noneedF s)
-    collect s
-  )
-)
-
-(defun noF-driver-full(clist)
-  "for no Fctoring clause set, do proof-driver"
-  (loop for ss in (exhp-filter-nof (subsetof clist)) collect 
-    (let (pms)
-      (setq pms (make-pmap-noF (make-ppnlist ss)))
-      (loop for pm in pms collect  ;;why car
-        (proof-driver pm ss)
-      )
-    )
-  )
-)
-
-;;
-;(defun nof-subset (clist)
-;  (exhp-filter-nof (subsetof clist)) 
-;)
-;;(nof-driver (nth i (subsetof *clist*)))
-
 (defun noF-driver (ss)
   (let (pms)
     (setq pms (make-pmap-noF (make-ppnlist ss)))
-    (loop for pm in pms collect  
-      (proof-driver pm ss)
+    (loop for pm in pms collect (proof-driver pm ss)
     )
   )
 )
 
+;;; for every subsets do something
 (defun subtraverse (clist filterfn driver)
   (let ((ss nil)(res nil))
     (loop while (setq ss (nextset ss clist)) 
@@ -297,9 +268,8 @@
   )
 )
 
+;; sample of subtraverse
 (defun nof-prover (ss)
   (subtraverse ss #'noneedF #'noF-driver)
 )
 
-
-      

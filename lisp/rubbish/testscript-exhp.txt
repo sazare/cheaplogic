@@ -90,6 +90,8 @@ Resolutionのみ
 (in-package :rub)
 (readkqc "kqc/exhp/ra000.kqc")
 (readkqc "kqc/exhp/ra001.kqc")
+(readkqc "kqc/exhp/ra002.kqc")
+(readkqc "kqc/exhp/ra003.kqc")
 
 (defvar ss1 *clist*)
 (nof-prover ss1)

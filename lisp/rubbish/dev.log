@@ -5,7 +5,20 @@
 (subtraverse clist filter driver)
 これをつかって
 (nof-prover ss) = (subtraverse ss #'noneedF #'nof-driver)にした
-　
+
+(reducible l1 l2)
+ resoでもfactでもatomがunifiableならT
+というもの
+
+(noneedf ss)は、ssがFなしでできそうならT
+pairのそれぞれについてreducibleかどうか判定している
+
+
+★ (noneedF ss)はppnlistつくってbalance-nofをチェックするだけ
+　　balance-nofはpnがn:nで対応するl1,l2がreducibleである
+　　組み合わせはしていないなあ
+
+
 
 10月18日(土)
 ・balance-nofで、resolvable(canR)もチェックするようにした。

@@ -76,6 +76,7 @@
 )
 
 
+
 ;;; reduce-by-syntax
 ;;; L1vL2vα to L1∨α when L1 ≡ L2
 ;;; not use <L1:L2>, this is a propositional rule
