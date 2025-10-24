@@ -1,12 +1,12 @@
 ****
 (require :exhp)
 (in-package :rub)
-(readkqc "kqc/exhp/ra020.kqc")
-(readkqc "kqc/exhp/ra030.kqc")
-(readkqc "kqc/exhp/ra050.kqc")
+(readekqc "kqc/exhp/ra020.kqc")
+(readekqc "kqc/exhp/ra030.kqc")
+(readekqc "kqc/exhp/ra050.kqc")
 Rよう
 
-いかは、readkqc後(subsetof *clist*)
+いかは、readekqc後(subsetof *clist*)
 ra020 : メモリ確認20clauses -> ok
 ra030 : メモリ確認 30 clauses -> ldb起動
 
@@ -75,7 +75,7 @@ Fの候補は
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/f3-2001.kqc")
+(readekqc "kqc/exhp/f3-2001.kqc")
 
 (defparameter ss3-2 '(c1 c2 c3 c4))
 (defparameter ss3-1 '(c1 c2 c4))
@@ -88,10 +88,10 @@ Resolutionのみ
 
 (require :exhp)
 (in-package :rub)
-(readkqc "kqc/exhp/ra000.kqc")
-(readkqc "kqc/exhp/ra001.kqc")
-(readkqc "kqc/exhp/ra002.kqc")
-(readkqc "kqc/exhp/ra003.kqc")
+(readekqc "kqc/exhp/ra000.kqc")
+(readekqc "kqc/exhp/ra001.kqc")
+(readekqc "kqc/exhp/ra002.kqc")
+(readekqc "kqc/exhp/ra003.kqc")
 
 (defvar ss1 *clist*)
 (nof-prover ss1)
@@ -120,7 +120,7 @@ ra001 : linear で6述語
 ;;;;;;;;;; nof-driver
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa001.kqc")
+(readekqc "kqc/exhp/fa001.kqc")
 
 (defparameter ss1 '(C1 C3 C4 C5) )
 (defparameter ss2 '(C1 C2 C4 C5) )
@@ -138,7 +138,7 @@ clistからproofまで
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa000.kqc")
+(readekqc "kqc/exhp/fa000.kqc")
 
 (noF-driver *clist*)
 
@@ -148,7 +148,7 @@ clistからproofまで
 pmapを作る
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fb001.kqc")
+(readekqc "kqc/exhp/fb001.kqc")
 (defparameter nof01 (exhp-filter-nof ss001))
 (defparameter nof01 (exhp-filter-nof ss001))
 
@@ -173,7 +173,7 @@ RUBBISH(152): (make-pmap-noF  '((q (3 4)(5 6))(r (7 8)(9 10))))
 ;;;;; pmap-driver
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fb001.kqc")
+(readekqc "kqc/exhp/fb001.kqc")
 (pcs)
 
 (defparameter ss1 '(c1 c2 c3))
@@ -188,7 +188,7 @@ RUBBISH(152): (make-pmap-noF  '((q (3 4)(5 6))(r (7 8)(9 10))))
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa003.kqc")
+(readekqc "kqc/exhp/fa003.kqc")
 
 (pcs)
 

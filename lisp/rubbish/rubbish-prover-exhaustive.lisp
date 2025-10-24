@@ -50,7 +50,9 @@
 )
 
 (defun pairvh (v h vs hs)
-  (mapput (list v h) (pairv vs hs))
+  (if (reducible v h)
+    (mapput (list v h) (pairv vs hs))
+  )
 )
 
 (defun pairh (v vs hs)
@@ -82,6 +84,7 @@
 
 ;;
 (defun pplist2pms (pplist)
+  "(p1 p2 ...) -> Πpi"
   (if (cdr pplist) 
     (let (ppltail)
       (setq ppltail (pplist2pms (cdr pplist)))
@@ -98,6 +101,7 @@
 ;;;;
 ;;  make pair map from ppnlist
 (defun make-pmap-noF (ppnlist)
+  "I make pairs from ppnist"
   (pplist2pms (ppn2pplist ppnlist))
 )
 
@@ -112,7 +116,7 @@
 ;;;
 ;; simple resolable or factorble
 (defun reducible (lid1 lid2)
-  (let* ((vs (append (varsof (cidof lid1)) (varsof (cidof lid2))))
+  (let* ((vs (union (varsof (cidof lid1)) (varsof (cidof lid2))))
          (a1 (latomicof lid1))
          (a2 (latomicof lid2)) 
          (sig (funification vs a1 a2)))
@@ -125,7 +129,6 @@
   (and 
     (equal (cidof ll)(cidof lr)) 
     (equal (lsymof ll)(lsymof lr)) 
-    (reducible  ll lr)
   )
 )
 
@@ -133,7 +136,6 @@
   (and 
     (not (equal (cidof ll)(cidof lr))) 
     (equal (lsymof ll)(oppolsymof (lsymof lr))) 
-    (reducible  ll lr)
   )
 )
 
@@ -217,7 +219,7 @@
 )
 
 ;; 検討中。factoringが必要なときのpairing
-(defun なにかn:mのときpairをつくるやつ(ppn)
+(defun whatisthis (ppn)
   (and
     (nth 1 ppn)
     (nth 2 ppn)

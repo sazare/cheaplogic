@@ -1,5 +1,38 @@
 
 
+10月21日(火)
+*pairingでのreducibleは不要なsubsetを早めに消す。(preemptive)
+　このときRかFは関係なくatomのunifiablityで判定できる。
+
+ step-driverでcanRやcanFは、そのような篩わけが終わっているので本当に必要なRとFにまかせる。
+
+* exhpでは証明できない例
+
+
+
+10月23日(木)
+driverとnavigatorにしたい。長いのでnavi。ドリとナビか??
+dryとnavとか
+
+make-pmapがnavigatorかな
+
+proverというよりproof-searcherなのだな。あるいはproof-analyzer。
+
+
+
+10月20日(月)
+exhp
+
+・canR, canFの中のreducibleは、直後にresolve-idやfsctor-idが行われるので不要
+・pairingの途中(pairvh)でpairをつくるとき、reducibleをしてふるう。
+
+★ m>nのときpairを作るのはpairingの前かな??
+　それはppn2pplistのあたり??
+  ppn2plistはF用にpairを作っている
+　pplist2pmsは(p1,p2,...)からΠpiを作る処理ので修正不要。
+　その上はmake-pmap-noFなのでmake-pmapを作る
+
+
 10月19日(日)
 1) subsetをnextsetでtraverseするようにした。
 (subtraverse clist filter driver)

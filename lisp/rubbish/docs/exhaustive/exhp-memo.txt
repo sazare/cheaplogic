@@ -36,24 +36,24 @@
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/ra000.kqc")
+(readekqc "kqc/exhp/ra000.kqc")
  (defparameter ss1 '(c1 c2 c3))
 (exhp-filter-nof (subsetof ss1))
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/ra001.kqc")
+(readekqc "kqc/exhp/ra001.kqc")
  (defparameter ss1 *clist*)
+
+
 (exhp-filter-nof (subsetof ss1))
 
-
-;not work in these
-(readkqc "kqc/exhp/ra002.kqc")
+(readekqc "kqc/exhp/ra002.kqc")
 
 ; test for memory
-(readkqc "kqc/exhp/ra020.kqc")
-(readkqc "kqc/exhp/ra030.kqc")
-(readkqc "kqc/exhp/ra050.kqc")
+(readekqc "kqc/exhp/ra020.kqc")
+(readekqc "kqc/exhp/ra030.kqc")
+(readekqc "kqc/exhp/ra050.kqc")
  (defparameter ss1 *clist*)
 (defvar allss (subsetof *clist*))
 
@@ -64,7 +64,7 @@
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/ra001.kqc")
+(readekqc "kqc/exhp/ra001.kqc")
 
 (defvar allss (fsubset *clist*))
 
@@ -78,7 +78,7 @@ extract-mguを使ってみる
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa000.kqc")
+(readekqc "kqc/exhp/fa000.kqc")
 
 (defparameter ss01 '(c1 c2 c3))
 (defparameter pm01 (make-pmap-noF (make-ppnlist ss01)))
@@ -160,7 +160,7 @@ make-pmap-noF
 2025/09/28
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa001.kqc")
+(readekqc "kqc/exhp/fa001.kqc")
 (pcs)
 
 (defparameter m1 '((L1-3 'l5-1) (L1-1 L2-1)(L1-2 L3-1))
@@ -183,7 +183,7 @@ make-pmap-noF
 *
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fb001.kqc")
+(readekqc "kqc/exhp/fb001.kqc")
 (pcs)
 
 (defparameter ss1 '(c1 c2 c3))
@@ -196,7 +196,7 @@ make-pmap-noF
 *
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fb002.kqc")
+(readekqc "kqc/exhp/fb002.kqc")
 (pcs)
 
 (defparameter ss1 '(c1 c2 c9 c10 c11 c3))
@@ -208,7 +208,7 @@ make-pmap-noF
 *
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fc001.kqc")
+(readekqc "kqc/exhp/fc001.kqc")
 (pcs)
 
 
@@ -218,7 +218,7 @@ make-pmap-noF
 
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa003.kqc")
+(readekqc "kqc/exhp/fa003.kqc")
 
 (trace find-lid-in-clist)
 (trace resolve-id)
@@ -278,7 +278,7 @@ make-pmap-noF
 *
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa001.kqc")
+(readekqc "kqc/exhp/fa001.kqc")
 (pcs)
 
 (defparameter ss1 '(c5 c1 c2))
@@ -295,7 +295,7 @@ make-pmap-noF
 *
 (require :exhp)
 (in-package :rubbish)
-(readkqc "kqc/exhp/fa002.kqc")
+(readekqc "kqc/exhp/fa002.kqc")
 (pcs)
 
 (defparameter ss1 '(c1 c2 c7))  

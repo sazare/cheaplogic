@@ -21,6 +21,11 @@ driverの中で判定する。
 　　ここが今はF用のn:n限定になっているので、ここを一般化すれぱFもできるようになる。
 
 
+canR, canFの中のreducibleは、直後にresolve-idやfsctor-idが行われるので不要
+
+pairingの途中でpairをつくるとき、reducibleをしてふるう。
+
+
 ----
 1. power set settraverse to a subset
 2. filtering level0
