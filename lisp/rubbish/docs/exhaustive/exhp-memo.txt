@@ -19,13 +19,15 @@
 (defvar rr11  (nof-driver (nth 0 ff1)))
 
 
-
+(require :exhp)
+(in-package :rub)
 (rub:readekqc "kqc/exhp/ra003.kqc")
 (defvar ss1 *clist*)
 (defvar sss1 (subsetof ss1))
 (exhp-filter-nof sss1)
 
-
+(require :exhp)
+(in-package :rub)
 (rub:readekqc "kqc/exhp/ra002.kqc")
 
 

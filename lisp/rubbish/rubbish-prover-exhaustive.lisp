@@ -163,11 +163,17 @@
 )
 
 ;; 
-(defun step-driver (pmap clist)
-  (let (pms cid ls rs lcid rcid (cls clist) ll1 rl1 llid rlid umap)
-    (loop for pm in pmap do 
-      (setq pms (length umap))
+(defun putit-after (e l)
+  (append l (list e))
+)
 
+(defun step-driver (pmap clist)
+  (let (pm pms cid ls rs lcid rcid (cls clist) ll1 rl1 llid rlid umap)
+    (setq umap nil)
+    (loop while pmap do
+      (setq pm (car pmap))
+      (setq pmap (cdr pmap))
+ 
       (setq ll1 (car pm)) 
       (setq rl1 (cadr pm))
   
@@ -184,25 +190,33 @@
       (when (canR llid rlid) 
         (setq cid (resolve-id llid rlid))
         (unless (eq cid :FAIL)
-          (return (values :SUCCESS (append umap (cdr pmap)) (updateclist cid clist)))
+          (return (values :SUCCESS (append umap pmap) (updateclist cid clist)))
         )
       )
   
       (when (canF ll1 rl1) 
         (setq cid (factor-id llid rlid))
         (unless (eq cid :FAIL)
-          (return (values :SUCCESS (append umap (cdr pmap)) (updateclist cid clist)))
+          (return (values :SUCCESS (append umap pmap) (updateclist cid clist)))
         )
       )
 
-      (push pm umap)
-      ; next is check no progress of the loop.
-      (when (eq pms (length umap)) (return (values :FAIL umap clist)))
-      finally
-        (return (values :SUCCESS umap clist))
+      ;DEEP FAIL
+      
+      (if (null pmap) 
+        ;; all pairs  are checked but no
+        (if umap 
+          (return (values :FAIL umap clist))
+          (return (values :SUCCESS nil clist))
+        )
+        ;; no FR but following pairs
+        (setq pmap (append pmap umap))
+      )
     )
   )
 )
+
+(defun nop (n x y) )
 
 (defun proof-driver (pmap clist)
   (let ((map pmap)(cs clist) result)
@@ -265,7 +279,8 @@
 (defun subtraverse (clist filterfn driver)
   (let ((ss nil)(res nil))
     (loop while (setq ss (nextset ss clist)) 
-      when (funcall filterfn ss) append (funcall driver ss)
+      when (funcall filterfn ss) 
+      append (funcall driver ss)
     )
   )
 )

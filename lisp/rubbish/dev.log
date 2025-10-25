@@ -1,4 +1,16 @@
 
+10月25日(土)
+M>NでのPairingのデッサン
+
+(pairing (car N)(cdr N),M) = (paring n N M)
+  if (null n) then nil
+  (pairing2 n N (car M)(cdr M)) = (pairing2 n N m M) = P
+    if (null m) then ↑ :FAIL
+    if <n:m> then (append (n,m), (paring (car N)(cdr N) (cdr M)))
+             else (pairing2 n N (car M) (append (cdr M)(list m))))
+
+これだとMの無限ループになるのでなんとかする
+
 
 10月21日(火)
 *pairingでのreducibleは不要なsubsetを早めに消す。(preemptive)

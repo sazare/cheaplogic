@@ -89,10 +89,28 @@ Resolutionのみ
 (require :exhp)
 (in-package :rub)
 (readekqc "kqc/exhp/ra000.kqc")
-(readekqc "kqc/exhp/ra001.kqc")
-(readekqc "kqc/exhp/ra002.kqc")
-(readekqc "kqc/exhp/ra003.kqc")
+(defvar ss1 *clist*)
+(nof-prover ss1)
 
+
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/ra001.kqc")
+(defvar ss1 *clist*)
+(nof-prover ss1)
+
+
+;xxxxxx
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/ra002.kqc") 
+(defvar ss1 *clist*)
+(nof-prover ss1)
+
+
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/ra003.kqc")
 (defvar ss1 *clist*)
 (nof-prover ss1)
 

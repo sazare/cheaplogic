@@ -1,8 +1,8 @@
 ;; <>check in filter
 
 ((x y z) (+ P a y z)(+ Q x y))
-((x y) (- P a y))
-((x z) (- P b z))
-((x y) (- P x y))
-((x y) (- Q x y))
+((x y z) (- P a y z))
+((x y z) (- P b y z))
+((x y z) (- P x y z))
+((x y z) (- Q x y z))
 
