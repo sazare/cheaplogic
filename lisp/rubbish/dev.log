@@ -11,6 +11,8 @@ M>NでのPairingのデッサン
 
 これだとMの無限ループになるのでなんとかする
 
+nof-proverでra00[123]をやったらエラー
+nof-prover, proof-driver, step-driverのpmapの扱いが狂っていた
 
 10月21日(火)
 *pairingでのreducibleは不要なsubsetを早めに消す。(preemptive)
