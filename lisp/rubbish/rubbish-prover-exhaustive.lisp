@@ -125,6 +125,16 @@
   )
 )
 
+;; unify-atom
+(defun unify-atom (lid1 lid2)
+  (let* ((vs (union (varsof (cidof lid1)) (varsof (cidof lid2))))
+         (a1 (latomicof lid1))
+         (a2 (latomicof lid2))
+         (sig (funification vs a1 a2)))
+    (if (eq :NO sig) :NO (list vs sig))
+  )
+)
+
 (defun canF (ll lr)
   (and 
     (equal (cidof ll)(cidof lr)) 

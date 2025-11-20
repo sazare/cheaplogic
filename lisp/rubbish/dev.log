@@ -6,6 +6,14 @@ uMatrix を作るツール
   umatrix of -P and -P  F
   umatrix of +P and -P  R
 
+LIDのunificationは(unify-pair l1 l2)がいいが
+messageださなくていいので別のをつくる
+
+reducibleのまねてmgu|:NOを返すようにする。
+∅代入が (vars vars)になる点
+同じvとtのペアを消してもよいのか??
+
+
 10月25日(土)
 M>NでのPairingのデッサン
 
