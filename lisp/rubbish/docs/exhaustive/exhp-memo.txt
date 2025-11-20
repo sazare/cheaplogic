@@ -1,4 +1,22 @@
 
+2025/11/20
+
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/umat001.kqc")
+
+(defvar ss1 *clist*)
+
+(defvar ppns (make-ppnlist ss1))
+(defvar ppn (assoc 'P ppns))
+(umatrix (cadr ppn)(cadr ppn)) 
+(umatrix (caddr ppn) (caddr ppn))
+(umatrix (cadr ppn) (caddr ppn))
+
+(umatrix 'P)
+(umatrix 'R)
+(umatrix 'Q)
+
 
 10月18日(土)
 ・canRとcanFにresolve-id, factor-idでFAILしない条件をつけた
