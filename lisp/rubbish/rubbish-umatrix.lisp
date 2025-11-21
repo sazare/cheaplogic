@@ -10,11 +10,24 @@
   )
 )
 
-
 (defun make-umatrix (llids rlids)
   (loop for llid in llids collect
     (loop for rlid in rlids collect
       (unify-atoms llid rlid)
+    )
+  )
+)
+
+(defun strip-mgu (mgu)
+  (let (vs ts)
+    (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
+      when (not (equal v tm ) )  do
+        (push v vs)
+        (push tm ts)
+    ) 
+    (if (null vs) 
+      nil
+      (list (reverse vs)(reverse ts))
     )
   )
 )
