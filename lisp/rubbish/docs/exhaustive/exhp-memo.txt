@@ -3,7 +3,7 @@
 
 (require :exhp)
 (in-package :rub)
-(readekqc "kqc/exhp/umat001.kqc")
+(readekqc "kqc/exhp/umat010.kqc")
 
 (defvar ss1 *clist*)
 

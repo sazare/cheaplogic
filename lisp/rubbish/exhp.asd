@@ -63,6 +63,7 @@
 ; concern lsymbol
       (:file "rubbish-prover" :depends-on ("rubbish-package"))
       (:file "rubbish-prover-exhaustive" :depends-on ("rubbish-package"))
+      (:file "rubbish-umatrix" :depends-on ("rubbish-package"))
 
 ;pcs bps,...
       (:file "rubbish-goods" :depends-on ("rubbish-package"))
