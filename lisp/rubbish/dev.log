@@ -5,6 +5,15 @@ rubbish-umatrix.lisp を追加
 *clist*から全述語のumatrix(++, --, +-)を作成する。
 (pum )がumatrixを表示するが、見やすいとはいえない
 
+代入を=にしてみた。そんなに見やすはないが
+
+(defvar um1 (make-umatrix *clist*))
+で3表がつくれる。
+
+(pum um1)
+
+で表示できる。
+
 11月20日(木)
 uMatrix を作るツール
 (uMatrix p)
