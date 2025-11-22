@@ -5,18 +5,35 @@
 (in-package :rub)
 (readekqc "kqc/exhp/umat010.kqc")
 
+(defparameter um1 (make-umatrix *clist*))
+(pcs)
+
+
 (defvar ss1 *clist*)
 
 (defvar ppns (make-ppnlist ss1))
 (defvar ppn (assoc 'P ppns))
-(umatrix (cadr ppn)(cadr ppn)) 
-(umatrix (caddr ppn) (caddr ppn))
-(umatrix (cadr ppn) (caddr ppn))
 
-(umatrix 'P)
-(umatrix 'R)
-(umatrix 'Q)
+(pum (nth 2 um1)
 
+
+RUB(104): (nth 1 (nth 2 um1))
+
+(((L1-1 L1-2) (L1-1 L1-2)) ((((X.148 Y.149) (X.148 Y.149)) ((X.148 Y.149) (A B))) (((X.148 Y.149) (A B)) ((X.148 Y.149) (X.148 Y.149)))))
+RUB(105): (nth 2 (nth 2 um1))
+
+(((L2-1 L2-2 L3-1 L3-2) (L2-1 L2-2 L3-1 L3-2))
+ ((((X.150 Y.151 W.152) (X.150 Y.151 W.152)) ((X.150 Y.151 W.152) (B Y.151 A)) ((W.152 Y.151 X.150 X.153 Y.154) (Y.154 Y.151 A X.153 Y.154))
+   ((W.152 Y.151 X.150 X.153 Y.154) (B Y.151 X.153 X.153 Y.154)))
+  (((X.150 Y.151 W.152) (B Y.151 A)) ((X.150 Y.151 W.152) (X.150 Y.151 W.152)) :NO :NO)
+  (((W.152 Y.151 X.150 X.153 Y.154) (W.152 Y.151 A X.153 W.152)) :NO ((X.153 Y.154) (X.153 Y.154)) ((X.153 Y.154) (A B)))
+  (((W.152 Y.151 X.150 X.153 Y.154) (B Y.151 X.150 X.150 Y.154)) :NO ((X.153 Y.154) (A B)) ((X.153 Y.154) (X.153 Y.154)))))
+RUB(106): (nth 3 (nth 2 um1))
+
+(((L1-1 L1-2) (L2-1 L2-2 L3-1 L3-2))
+ ((((W.152 Y.151 X.150 X.148 Y.149) (B Y.151 X.150 X.150 Y.149)) :NO ((Y.149 X.148 X.153 Y.154) (Y.149 A X.153 B)) ((Y.149 X.148 X.153 Y.154) (Y.149 X.153 X.153 Y.154)))
+  (((W.152 Y.151 X.150 X.148 Y.149) (W.152 Y.151 A X.148 W.152)) :NO ((Y.149 X.148 X.153 Y.154) (Y.154 X.148 X.153 Y.154)) ((Y.149 X.148 X.153 Y.154) (B X.148 A Y.154)))))
+RUB(107):
 
 10月18日(土)
 ・canRとcanFにresolve-id, factor-idでFAILしない条件をつけた
