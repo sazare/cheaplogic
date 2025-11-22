@@ -1,6 +1,9 @@
 
 
 11月21日(金)
+rubbish-umatrix.lisp を追加
+*clist*から全述語のumatrix(++, --, +-)を作成する。
+(pum )がumatrixを表示するが、見やすいとはいえない
 
 11月20日(木)
 uMatrix を作るツール
