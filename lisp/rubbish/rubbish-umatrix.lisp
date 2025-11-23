@@ -82,6 +82,12 @@
   )
 ) 
 
+(defun pums0 (umss)
+ (loop for ums in umss do
+   (pum0 ums)
+ )
+)
+
 ;;; 
 (defun strip-mgu-eq (mgu)
   (let (forms)
@@ -171,14 +177,20 @@
 (defun pum (ums)
   (let (pred)
     (setq pred (nth 0 ums))
-    (format t "~%~a PxP~%" pred)
+    (format t "~%+~ax+~a~%" pred pred)
     (pum-p (nth 1 ums))
-    (format t "~%~a NxN~%" pred)
+    (format t "~%-~ax-~a~%" pred pred)
     (pum-p (nth 2 ums))
-    (format t "~%~a PxN~%" pred)
+    (format t "~%+~ax-~a~%" pred pred)
     (pum-p (nth 3 ums))
   )
 ) 
+
+(defun pums (umss)
+ (loop for ums in umss do
+   (pum ums)
+ )
+)
 
 ;; unify-atoms
 (defun unify-atoms (lid1 lid2)
