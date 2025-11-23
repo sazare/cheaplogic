@@ -123,3 +123,12 @@
  (loop for p in l do (format t "~a~%" p))
 )
 
+;; max of list
+(defun max-length (nlist)
+  (let (m)
+    (setq m 0)
+    (loop for x in nlist unless (atom x) do (setq m (max m (length x))))
+    m
+  )
+)
+

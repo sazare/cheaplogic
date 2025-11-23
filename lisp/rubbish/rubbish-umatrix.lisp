@@ -29,25 +29,65 @@
   )
 )
 
-;(defun strip-mgu (mgu)
-;  (let (vs ts)
-;    (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
-;      when (not (equal v tm ) )  do
-;        (push v vs)
-;        (push tm ts)
-;    ) 
-;    (if (null vs) 
-;      :∅
-;      (list (reverse vs)(reverse ts))
-;    )
-;  )
-;)
+(defun strip-mgu-raw (mgu)
+  (let (vs ts)
+    (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
+      when (not (equal v tm ) )  do
+        (push v vs)
+        (push tm ts)
+    ) 
+    (if (null vs) 
+      :∅
+      (list (reverse vs)(reverse ts))
+    )
+  )
+)
 
-(defun strip-mgu (mgu)
+(defun pum-row0 (lid ml)
+  (format t "~a |" lid)
+  (loop for am in  ml do
+    (if (eq :NO am)
+      (format t "|NO")
+      (format t "|~a" (strip-mgu-raw am))
+    )
+  finally 
+    (format t "|~%")
+  )
+)
+
+(defun pum-p0 (aum)
+  "ums = ((ll1 ll2) (m11 m12 ...)(m21 m22 ...)...(mk1 mk2 ...))"
+  (let (rt ct)
+    (setq rt (nth 0 (car aum)))
+    (setq ct (nth 1 (car aum)))
+
+    (format t "     |" )
+    (loop for cn in ct do (format t "~a|" cn)) 
+    (format t "~%")
+    (loop for aml in (cdr aum) as rn in rt do
+      (pum-row0 rn aml)
+    ) 
+  )
+)
+
+(defun pum0 (ums)
+  (let (pred)
+    (setq pred (nth 0 ums))
+    (format t "~%~a PxP~%" pred)
+    (pum-p0 (nth 1 ums))
+    (format t "~%~a NxN~%" pred)
+    (pum-p0 (nth 2 ums))
+    (format t "~%~a PxN~%" pred)
+    (pum-p0 (nth 3 ums))
+  )
+) 
+
+;;; 
+(defun strip-mgu-eq (mgu)
   (let (forms)
     (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
       when (not (equal v tm ) ) do 
-        (push (list '= v tm) forms)
+        (push (list v '= tm) forms)
     ) 
     (if (null forms) 
       :∅
@@ -56,17 +96,62 @@
   )
 )
 
-(defun pum-row (lid ml)
-  (format t "~a |" lid)
-  (loop for am in  ml do
-    (if (eq :NO am)
-      (format t "|NO")
-      (format t "|~a" (strip-mgu am))
+(defun pm2sm(ml)
+  (loop for am in  ml collect
+    (cond
+     ((atom am) am)
+     (t (strip-mgu-eq am) )
     )
-  finally 
-    (format t "|~%")
   )
 )
+
+(defun string-of-nth (n tl)
+  (let (nn)
+    (if (< n (length tl))
+      (nth n tl)
+      ""
+    )
+  )
+)
+(defun p-eterm (tm)
+;(format t "|~a" (nth n am)))
+  (if (eq '= (nth 1 tm))
+    (format t "~a=~a|" (nth 0 tm)(nth 2 tm))
+    (format t "~a|" tm)
+  )
+) 
+
+(defun pum-row-s (lid ml)
+  (let (sml mh)
+    (setq sml (pm2sm ml))
+    (setq mh (max-length sml))
+
+    (loop for n from 0 to (- mh 1) do
+      (if (eq n 0)
+        (format t "~a |" lid)
+        (format t "     |")
+      )
+      (loop for am in sml do
+        (cond
+         ((eq :no am) 
+          (if (eq n 0) 
+            (format t "|NO|")
+            (format t "|  |")))
+
+         ((eq :∅ am)
+          (if (eq n 0) 
+            (format t "|Φ |")
+            (format t "|  |")))
+
+        (t  (p-eterm (nth n am))) 
+        )
+      finally
+        (format t "~%")
+      )
+    )
+  )
+)
+
  
 (defun pum-p (aum)
   "ums = ((ll1 ll2) (m11 m12 ...)(m21 m22 ...)...(mk1 mk2 ...))"
@@ -77,8 +162,8 @@
     (format t "     |" )
     (loop for cn in ct do (format t "~a|" cn)) 
     (format t "~%")
-    (loop for aml in (cadr aum) as rn in rt do
-      (pum-row rn aml)
+    (loop for aml in (cdr aum) as rn in rt do
+      (pum-row-s rn aml)
     ) 
   )
 )
@@ -86,11 +171,11 @@
 (defun pum (ums)
   (let (pred)
     (setq pred (nth 0 ums))
-    (format t "~a PxP~%" pred)
+    (format t "~%~a PxP~%" pred)
     (pum-p (nth 1 ums))
-    (format t "~a NxN~%" pred)
+    (format t "~%~a NxN~%" pred)
     (pum-p (nth 2 ums))
-    (format t "~a PxN~%" pred)
+    (format t "~%~a PxN~%" pred)
     (pum-p (nth 3 ums))
   )
 ) 

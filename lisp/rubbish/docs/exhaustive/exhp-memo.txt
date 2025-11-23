@@ -6,7 +6,8 @@
 (readekqc "kqc/exhp/umat010.kqc")
 
 (defparameter um1 (make-umatrix *clist*))
-(pum um1)
+(pum (nth 2 um1))
+
 
 
 (defvar ss1 *clist*)
