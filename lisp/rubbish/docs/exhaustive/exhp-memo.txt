@@ -6,8 +6,22 @@
 (readekqc "kqc/exhp/umat010.kqc")
 
 (defparameter um1 (make-umatrix *clist*))
+
+Pだけだと
 (pum (nth 2 um1))
 
+全部の述語については
+(pums um1)
+
+ここらへんが便利
+RUB(25):  (make-lidlist *clist*)
+(L1-1 L1-2 L1-3 L2-1 L2-2 L3-1 L3-2 L3-3 L4-1 L5-1)
+
+RUB(26): (make-psymlist (make-lidlist *clist*))
+(Q R P)
+
+RUB(27): (make-ppnlist *clist*)
+((Q (L5-1) (L3-3)) (R (L1-3) (L4-1)) (P (L1-1 L1-2) (L2-1 L2-2 L3-1 L3-2)))
 
 
 (defvar ss1 *clist*)

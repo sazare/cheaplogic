@@ -1,4 +1,31 @@
 
+11月26日(水)
+(pums)の表示に手をいれた。
+(pum pred um1) にpredを追加した
+
+bug
+lid1xlid1の場合、中身がない
+RUB(38): (pum (nth 0 um1))
+
++Qx+Q
+  0: (RUBBISH::PUM-P (((RUBBISH::L5-1) (RUBBISH::L5-1)) (((RUBBISH::X.157 RUBBISH::Y.158) (RUBBISH::X.157 RUBBISH::Y.158)))))
+     |L5-1|
+    1: (RUBBISH::PUM-ROW-S RUBBISH::L5-1 (((RUBBISH::X.157 RUBBISH::Y.158) (RUBBISH::X.157 RUBBISH::Y.158))))
+    1: PUM-ROW-S returned NIL
+  0: PUM-P returned NIL
+
+nのカウントでtoの値を-1していたので最後の行が無視されていた。
+それを治したら最後の行にNILだけが表示された
+p-etermでnilのときなにも表示しないようにした
+
+・表のセルの幅がまちまちなので、揃えたいが、いまいち
+　関係各所に#\tabをいれたが大騒ぎ。
+　tabの幅が自動できまるか
+　やはりテーブルを認識してセルの幅を計算しないとだめだろう、
+　とにかく今日はここまで
+
+　
+
 
 11月23日(日)
 new

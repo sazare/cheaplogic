@@ -120,10 +120,11 @@
   )
 )
 (defun p-eterm (tm)
-;(format t "|~a" (nth n am)))
-  (if (eq '= (nth 1 tm))
-    (format t "~a=~a|" (nth 0 tm)(nth 2 tm))
-    (format t "~a|" tm)
+  (unless (null tm) 
+    (if (eq '= (nth 1 tm))
+      (format t "~a=~a~a|" (nth 0 tm)(nth 2 tm) #\tab)
+      (format t "~a~a|" tm #\tab)
+    )
   )
 ) 
 
@@ -132,22 +133,22 @@
     (setq sml (pm2sm ml))
     (setq mh (max-length sml))
 
-    (loop for n from 0 to (- mh 1) do
+    (loop for n from 0 to mh do
       (if (eq n 0)
-        (format t "~a |" lid)
-        (format t "     |")
+        (format t "~a~a" lid #\tab)
+        (format t "~a" #\tab)
       )
       (loop for am in sml do
         (cond
          ((eq :no am) 
           (if (eq n 0) 
-            (format t "|NO|")
-            (format t "|  |")))
+            (format t "NO~a|" #\tab)
+            (format t "~a|" #\tab)))
 
          ((eq :∅ am)
           (if (eq n 0) 
-            (format t "|Φ |")
-            (format t "|  |")))
+            (format t "Φ~a|" #\tab)
+            (format t "~a|" #\tab)))
 
         (t  (p-eterm (nth n am))) 
         )
@@ -165,8 +166,8 @@
     (setq rt (nth 0 (car aum)))
     (setq ct (nth 1 (car aum)))
 
-    (format t "     |" )
-    (loop for cn in ct do (format t "~a|" cn)) 
+    (format t "~a" #\tab)
+    (loop for cn in ct do (format t "|~a~a|" cn #\tab)) 
     (format t "~%")
     (loop for aml in (cdr aum) as rn in rt do
       (pum-row-s rn aml)
@@ -187,8 +188,11 @@
 ) 
 
 (defun pums (umss)
- (loop for ums in umss do
-   (pum ums)
+ (loop with pred for ums in umss do
+   (setq pred (nth 0 ums))
+   (format t "~%~%[~a]" pred)
+   (pum  ums)
+   (format t "[end of ~a]" pred)
  )
 )
 
