@@ -1,4 +1,64 @@
 
+
+11月27日(木)
+✴︎ itoについて調べた
+ *MYSBCL*は.sbclrcで定義されていてOK
+ (myload "ito.lisp")は動く
+
+　個々のito-*.lispは、package rubbishを導入する前につくらていて
+　load-rubbish.lispでloadされるようになっている。
+　これがうまく動かない理由らしい。
+　ito-rubbish-kqcio.lisp
+    >load-rubbish-kqcio.lisp
+　で in-packageをしていないから未定義になるようで実行する前に
+　　(load "rubbish-pacage.lisp")すればうごいた
+
+　　★ myloadしようとすると変数 *MYSBCL*を参照したりするが、これは:rubbishにはいっていないのでmyloadができない。
+　mylaod関係をCL-USERにいれておくのもいやなので、mytoolというパッケージを作ってそこにいれる?
+　このmytool-package.lispはどこにおいておくか
+
+　すこし時間がかかる
+
+
+  *MYSBCL*はどこのパッケージにおくか
+　　　なんとなくcl-user:*MYSBCL*のような気がする
+　これは.sbclrcで定義されているので、そこでOK
+　では myloadも.sbclrcで定義しているのでcl-user:mylaadとする
+
+　そうなると(myload "ito...")は
+(defun myload (fname)
+  (load (format nil "~a/~a" *MYSBCL* fname))
+)
+　という定義だから、どこでpackageを切り替えるか
+　ito.lispの中で以前package itoを使おうとしてやめている。
+
+　たしかに、ito書く時はito packageで書かなくてはならないので
+　ito:defito
+  ito:intend-t
+　とか書き直すのかな。
+
+　でito-rubbishな中では
+　(in-package :rubbish)
+　して
+    (ito:defito ito-atest ()
+     "..."
+     (ito:intend-equal "..."  (fff ...) 'sss)
+    )
+)
+
+(ito-atest)
+   　と書くのか。ito-atestはrubbishの名前だから
+
+このパッケージ名どうする?
+　　itoとmytoolは別ぱっけか
+
+   sazare-tools, satools
+　  mytool
+   omtool
+
+
+
+* 
 11月26日(水)
 (pums)の表示に手をいれた。
 (pum pred um1) にpredを追加した
@@ -24,10 +84,64 @@ p-etermでnilのときなにも表示しないようにした
 　やはりテーブルを認識してセルの幅を計算しないとだめだろう、
 　とにかく今日はここまで
 
-　
+ある述語のpumは
+(pum (assoc 'Q um1))
+がわかりよい
+
 
 
 11月23日(日)
+** ito.asd, ito-package.lisp 作成した
+~/lib/ito/ito-package.lisp
+~/lib/ito/ito.asd作成し、~/.common-lisp/ito.asd にlinkした
+~/lib/ito/ito.lispの定義は前と同じだが、(in-package :ito)がはいっている
+
+これでつぎのように確認
+rubbishで
+　(require :ito)
+  (require :rubbish)
+  (in-package :rubbish)
+  (ito:defito test1 () "hi" 1 1)
+  (test1)
+
+test1は今のpackage つまりrubbishにある
+
+　ito-rubbish-base.lispをこの書き方にして
+  nito-rubbish-base.lisp
+とし
+　(load "nito-rubbish-base.lisp")
+で動作した。
+おめでとう
+
+実行例
+~~~~~~~~~~~~~~~~~
+CL-USER(1): (require :ito)
+
+NIL
+CL-USER(2): (require :exhp)
+To load "local-time":
+  Load 1 ASDF system:
+    local-time
+; Loading "local-time"
+
+NIL
+CL-USER(3): (in-package :rubbish)
+
+#<PACKAGE "RUBBISH">
+RUB(4): (ito:defito mytest () "" (+ 1 1) 2)
+
+MYTEST
+RUB(5): (mytest)
+
+ito:
+2
+RUB(6):
+~~~~~~~~~~~~~~~~~
+
+.sbclrcの中のmyload関係の定義は不要。asdでいける
+
+ ほかのito-*.lispは修正していない
+
 new
  (pums um1)
 　すべての述語のumatrixを表示する

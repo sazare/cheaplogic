@@ -7,10 +7,25 @@ rubbish-memo.txt
 grep -v ';' cake005-sim1.kqc |grep -v '^$' >www 
 
 
-[cluse tools]
+[clause tools]
 (pcs {clist})
 
 (p1 cid)
+
+(bcs {clist}) beautiful print
+
+(print-proof0 
+
+
+[umatrix]
+defparameter um1 (make-umatrix *clist*))
+
+全部の述語についてのmgu matriのprintは
+(pums um1)
+
+1述語(P)についての3つのmatrixのprint
+
+(pum (assoc 'P um1))
 
 
 [proof 分析ツール]

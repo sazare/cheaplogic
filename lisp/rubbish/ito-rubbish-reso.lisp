@@ -1,6 +1,6 @@
 ;; resolution over unif-disag.lisp
 
-(myload "ito.lisp")
+(CL-USER:myload "ito.lisp")
 (load "load-rubbish-unif.lisp")
 (load "load-rubbish-reso.lisp")
 
