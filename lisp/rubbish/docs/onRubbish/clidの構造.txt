@@ -1,0 +1,102 @@
+
+証明に関連するsymbol-plistの例
+
+(require :exhp)
+(in-package :rubbish)
+(readekqc "kqc/exhp/fa000.kqc")
+
+(defparameter ss01 '(c1 c2 c3))
+(defparameter pm01 (make-pmap-noF (make-ppnlist ss01)))
+(defparameter con01 (proof-driver (car pm01) ss01))
+
+
+cidの中身
+RUB(33): (loop for li in '(c1 c2 c3 c4 c5) do (format t "~a = ~a~%" li (eval li)))
+C1 = (L1-1 L1-2)
+C2 = (L2-1)
+C3 = (L3-1)
+C4 = (L4-1)
+C5 = NIL
+NIL
+RUB(34):
+
+
+lidの中身
+RUB(32): (loop for li in *llist* do (format t "~a = ~a~%" li (eval li)))
+L4-1 = (+ P Z.154)
+L3-1 = (- Q Z.150 W.151)
+L2-1 = (- P A)
+L1-2 = (+ Q X.148 Y.149)
+L1-1 = (+ P X.148)
+NIL
+
+
+cidのplist
+RUB(34): (loop for li in '(c1 c2 c3 c4 c5) do (format t "~a = ~a~%" li (symbol-plist  li)))
+C1 = (OVARS NIL WHEN-BORN 1 VARS (X.148 Y.149) NAME 1)
+C2 = (OVARS NIL WHEN-BORN 2 VARS NIL NAME 2)
+C3 = (OVARS NIL WHEN-BORN 3 VARS (Z.150 W.151) NAME C3)
+C4 = (PROOF (RESOLUTION (X.148 Y.149 Z.150 W.151) (Z.154 W.155 Z.154 W.155) (L1-2 L3-1)) OVARS (Z.150 W.151) WHEN-BORN 4 VARS (Z.154 W.155) NAME RESO)
+C5 = (PROOF (RESOLUTION (Z.154 W.155) (A W.157) (L4-1 L2-1)) OVARS (W.155) WHEN-BORN 5 VARS (W.157) NAME RESO)
+NIL
+
+OVARS    使っていないかも
+WHEN-BORN 生成されたとき
+VARS　cidのvars
+NAME もとのclauseの番号とか生成されたルールresolution, factoring
+
+lidのplist
+RUB(35): (loop for li in *llist* do (format t "~a = ~a~%" li (symbol-plist li)))
+L4-1 = (OLID (L1-1) PLID L1-1 CID C4)
+L3-1 = (OLID (L3-1) PLID NIL CID C3)
+L2-1 = (OLID (L2-1) PLID NIL CID C2)
+L1-2 = (OLID (L1-2) PLID NIL CID C1)
+L1-1 = (OLID (L1-1) PLID NIL CID C1)
+
+OLID　もともとのlid
+PLID　親のlid
+CID　cid
+
+(require :exhp)
+(in-package :rubbish)
+(readekqc "kqc/exhp/fa002.kqc")
+(pcs)
+
+(factor-id 'L1-1 'L1-2) 
+(resolve-id 'l8-1 'l2-1)
+(resolve-id 'l9-1 'l7-1)
+
+cidのplist
+RUB(11): (loop for li in '(c1 c2 c8 c9 c10) do (format t "~a = ~a~%" li (symbol-plist li)))
+C1 = (OVARS NIL WHEN-BORN 1 VARS (X.148 Y.149) NAME 1)
+C2 = (OVARS NIL WHEN-BORN 2 VARS NIL NAME 2)
+C8 = (PROOF (FACTORING (X.148 Y.149) (B A) (L1-1 L1-2)) OVARS NIL WHEN-BORN 8 VARS NIL NAME FACTO)
+C9 = (PROOF (RESOLUTION NIL NIL (L8-1 L2-1)) OVARS NIL WHEN-BORN 9 VARS NIL NAME RESO)
+C10 = (PROOF (RESOLUTION (Z.152 W.153) (B A) (L9-1 L7-1)) OVARS NIL WHEN-BORN 10 VARS NIL NAME RESO)
+NIL
+
+* ルールで作られたcidはPROOFを持つ
+構造 (rule vars terms pair)
+ rule = RESOLUTION, FACTORING SEMANTIXもあるかも
+ (vars terms) でmgu
+ pairは親の2つのlid。どのルールでも親は2つのlid。
+
+
+ 
+lidのplist
+RUB(13): (loop for li in *llist*  do (format t "~a = ~a~%" li (symbol-plist li)))
+L9-1 = (OLID (L1-3) PLID L8-2 CID C9)
+L8-2 = (OLID (L1-3) PLID L1-3 CID C8)
+L8-1 = (OLID (L1-1 L1-2) PLID (L1-1 L1-2) CID C8)
+L7-1 = (OLID (L7-1) PLID NIL CID C7)
+L6-1 = (OLID (L6-1) PLID NIL CID C6)
+L5-1 = (OLID (L5-1) PLID NIL CID C5)
+L4-1 = (OLID (L4-1) PLID NIL CID C4)
+L3-1 = (OLID (L3-1) PLID NIL CID C3)
+L2-1 = (OLID (L2-1) PLID NIL CID C2)
+L1-3 = (OLID (L1-3) PLID NIL CID C1)
+L1-2 = (OLID (L1-2) PLID NIL CID C1)
+L1-1 = (OLID (L1-1) PLID NIL CID C1)
+
+* Factoringの場合、親のLIDはfactoringした2つのlid
+

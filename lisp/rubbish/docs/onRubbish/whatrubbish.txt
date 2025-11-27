@@ -1,0 +1,60 @@
+Rubbishのまとめ
+
+0. 今　何をしたいのかと方法
+　最初はresolution refutationのproverをつくろうと思っていた。
+　総当たりのproverで、条件を指定してそこまで実行するものを作った。
+
+　次にgoalをもとに証明を追跡する gtrail.asdを作成した。
+  
+  □のproofの順番が違っていても変わらないものは何かを考えた。
+　input cid/lidのpairの集合はある程度変わらないと思った。
+　これをpcode, p2codeと呼びツールを作成した。
+
+  このあたりから、Σに含まれる全□ の証明情報がΣの情報だと考えるようになった。
+
+　この場合、従来のproverによってひとつの□ をみつけるだけではたりない。
+  全部の□ を検索するproverはいまいちな気がしていたが
+
+　clause set Sの全clausesを使ってできる□ の証明(exhaustive proof)というものを考えた。
+  Sから生まれる□ の情報がuniqueであるとは限らないし、あらかじめそれを考慮したperoofを作ることもできないだろう。
+　しかし、given Σの矛盾構造を調べる手段にはなるのではないだろうか。
+　つまり、与えられたΣの(すべての)部分集合についてexhaustiveな□ proofを考えると、Σに含まれる矛盾情報についての知識を増やせるのではないかと考える。
+
+
+　これが可能になったのは、rubbish proverの方法が適していたと考える。
+
+2025/11/28の段階では、exhaustive proverの実装において、Factoringをもれなく行うための仕組みができていない。
+
+
+1. 基本
+　- 表現 kqc
+　- 代入
+　- Unification
+  - ID  cid, lid, var
+  - resolution
+  - factoring
+  - proof
+    lcid, rcid, mgu, ocid, pcid
+    rlid, llid
+
+2. prover
+  - gtrail
+
+3. tools
+  - extract-mgu
+
+  - pcode, p2code
+
+  - 矛盾チェッカー
+
+  ? Rによるグラフ表示(analyze bitmap かな)
+    
+4. clause set analyzer
+  - Exhaustive Proof/ Prooover
+　　mgu Matrix
+
+
+5. mgu graph のinterpreter
+  proverのシミュレータであり、ある意味 program 
+
+
