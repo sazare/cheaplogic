@@ -21,6 +21,7 @@
      :intend-=
      :ito-set
      :report-result
+     :performance
     )
  )
 

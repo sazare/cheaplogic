@@ -42,8 +42,10 @@ Rubbishのまとめ
 
 3. tools
   - extract-mgu
+　　resolventとinpuclauseのどの変数に着目するかを指定すると、そのproofでその変数が何を代入されたかを示す
 
   - pcode, p2code
+　　proofが与えられると、そこにあるpairのリストを返す。
 
   - 矛盾チェッカー
 

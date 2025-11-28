@@ -9,6 +9,7 @@
     (
       (:file "ito-package")
       (:file "ito")
+      (:file "perf")
     )
 )
 

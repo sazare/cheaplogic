@@ -1,0 +1,26 @@
+rubbish のpcode
+
+rubbish-prover.lispに定義あり
+
+そこで定義されているいろいろ
+
+pcode
+spcode string化したpcode
+pinfo
+pinf
+spinf 　string化したpinf
+p2code
+
+
+
+p2codeは、olidのペアのリストで、ソートしたもの。
+
+
+- proofの構造は?
+
+
+
+resolution
+factoring
+merhe on semantix
+rename

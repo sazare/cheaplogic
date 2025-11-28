@@ -1,5 +1,44 @@
 
 
+11月28日(金)
+itoはasdとpackageにした
+(require :ito)
+(in-package :ito)
+で使えるようになる。
+
+実際にはitoはito:intend-.. みたいにprefixをつける。
+だから
+(require :exhp)
+(in-package :rubbish)
+(require :ito)
+(ito:defito ...)
+とか
+ito-xxx.lispでは
+---
+(in-package :ito)
+なんとか
+---
+と書いて
+(require :exhp)
+(in-package :rubbish)
+(require :ito)
+(load "ito-...lisp")
+とする。など
+
+以前のito-xxx.lispはrubbish/oldfashion-itoにいれて
+nit-xxx.lispという名前に変えた。
+
+* in rubbishで
+ln ~/lib/ito .
+とハードリンクしたのだけど、itoの中がrubbishと~/libで同じにならない。
+git add できない
+rubbish/ito/xxxを編集しても~/lib/ito/xxxに反映されない
+これはitoが違うものだから?
+
+ディレクトリをハードリンクできないのか
+
+
+
 11月27日(木)
 ✴︎ itoについて調べた
  *MYSBCL*は.sbclrcで定義されていてOK
@@ -56,6 +95,14 @@
 　  mytool
    omtool
 
+??? rubbishに~/lib/itoをハードリンクしたのだけど
+directoryにファイルを追加したりそのファイルを編集しても相方に反映されない。
+何かまちがろつている
+
+ln-sだとgithubでcommitだかaddができない
+cpするスクリプトを実行するようにするのかな
+install-ito.sh
+みたいな
 
 
 * 
