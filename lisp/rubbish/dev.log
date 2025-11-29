@@ -1,5 +1,42 @@
 
 
+11月29日(土)
+・昨日気がついたけど、rosolve-idとfactor-idがあればどんな証明も作れる・・・かな
+
+semantixはどうした
+(entry-proof )でgrepすると
+:FACTORING
+:RESOLUTION
+のほかに
+:REDUCED-BY-SYNTAX
+:REDUCED-BY-SEMANTIX
+がある。
+ここでもnew-cidしているのでproofにでてきそう
+VALIDのcidは□のproofにはでてこないからいいとして
+pevalしてTにならなかったが部分的に縮退したclauseはどうなる。
+いやまて
+(peval '(+ (+ 2 3) x))が)(+ (+ 2 3) x)のままだから問題おきないか ??
+いやこの置き換えがおきてcidが更新されるのか 
+
+gtrailの
+step-solverの中でせ*enable-semantics*をみている。
+
+✴︎rubbish-resoid.lisp/ entry-reduceの中で
+(equal-lid l1 l2)のときreduce-by-syntaxになっている。
+これはFactoringでもある。
+　REDUCE-BY-SYNTAXは:Factoringでよい?
+
+step-reduce-syntax => reduce-id (ここでequal-lidをしてentry-reduceしてる)
+　reduce-idでは、lidを除いて2つのliteralが同一のとき
+reduce-by-syntaxは、二つのliteralがequalのときに1つにする
+あるいみfactoringだなあ
+
+とてうことは、98行目の(setcid ncid:REDUCED-BY-SYNTAX)ゃ101行の(rubbing-log)の同ルール名は:FACTORINGでよい
+そのように修正した
+
+このときmguは
+
+
 11月28日(金)
 itoはasdとpackageにした
 (require :ito)

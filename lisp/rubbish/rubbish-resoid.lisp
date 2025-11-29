@@ -39,9 +39,9 @@
   
     (setq newvars (shrinkvs vs sig)) 
 
-    (setcid ncid :reso (subsubp vs newvars  ns) (subsubp vs body ns) newvars) ;;; this conflicts
+    (setcid ncid :RESO (subsubp vs newvars  ns) (subsubp vs body ns) newvars) ;;; this conflicts
 
-    (entry-proof ncid :resolution vs (subsubp vs sig ns) (list lid1 lid2))
+    (entry-proof ncid :RESOLUTION vs (subsubp vs sig ns) (list lid1 lid2))
     (rubbish-log :reso ncid)
     ncid
   )
@@ -95,10 +95,10 @@
                )
     )
 
-    (setcid ncid :REDUCED-BY-SYNTAX () body ())
+    (setcid ncid :FACTO () body ())
 
-    (entry-proof ncid :REDUCED-BY-SYNTAX vs vs (list lid1 lid2))
-    (rubbish-log :REDUCED-BY-SYNTAX ncid)
+    (entry-proof ncid :FACTORING  vs vs (list lid1 lid2))
+    (rubbish-log :FACTORING  ncid)
     ncid
   )
 )

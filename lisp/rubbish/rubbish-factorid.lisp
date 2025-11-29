@@ -3,7 +3,7 @@
 
 (in-package :rubbish)
 
-;; entry-factor
+;; yntry-factor
 (defun entry-factor (lid1 lid2 vs sig remid remlit*)
   (let ((ncid (new-cid)) body (ns (newvars vs)) newvars )
 
@@ -25,10 +25,10 @@
 
     (setq newvars (shrinkvs vs sig))
 
-    (setcid ncid :facto (subsubp vs newvars  ns) (subsubp vs body ns) newvars) ;;; this conflicts
+    (setcid ncid :FACTO (subsubp vs newvars  ns) (subsubp vs body ns) newvars) ;;; this conflicts
 
-    (entry-proof ncid :factoring vs (subsubp vs sig ns) (list lid1 lid2))
-    (rubbish-log :facto ncid)
+    (entry-proof ncid :FACTORING vs (subsubp vs sig ns) (list lid1 lid2))
+    (rubbish-log :FACTORING ncid)
     ncid
   )
 )
