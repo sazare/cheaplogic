@@ -1,5 +1,18 @@
 
 
+11月30日(日)
+すること
+・例をつくる
+・itoをrepositoryにする?? (lisptoolsはある)
+・on Rubbishの項目上げ
+
+
+・itoをrepositoryにしようかと思ったが、コードがPrctical Commonlispのままなので、ライセンス的にどうかと思いやめた。
+　itoのコードをlisp/rubbish/itoからlisp/itoに移動した
+　install-ito.shを作った
+
+
+
 11月29日(土)
 ・昨日気がついたけど、rosolve-idとfactor-idがあればどんな証明も作れる・・・かな
 

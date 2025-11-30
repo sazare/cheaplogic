@@ -3,7 +3,6 @@
 
 ;; Intent framework from test framework
 ;; based on the code of ch. 9 of Practical Commonlisp by Peter Seibel.
-;;  modified it as a novice commonlisper
 
 (defparameter *ito-name* nil)
 

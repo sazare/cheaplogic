@@ -2,8 +2,6 @@
 
 (in-package :ito)
 
-
-
 (defun perf-fn (n fn)
  (time (dotimes (i n)(funcall fn)))
 )
