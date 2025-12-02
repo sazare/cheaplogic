@@ -1,0 +1,9 @@
+;; identical factoring
+
+(1 (x) (+ P x)(+ P x)(+ Q x))
+(2 () (+ P a)(+ P a)(+ Q x))
+( () (- Q a))
+( () (- Q b))
+( () (- P a))
+( () (- P b))
+

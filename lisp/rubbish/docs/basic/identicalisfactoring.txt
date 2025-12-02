@@ -1,0 +1,17 @@
+identicalisfactoring.txt
+
+(defvar fn "kqc/exhp/f000.kqc")
+
+(require :exhp)
+(in-package :rubbish)
+(readekqc fn)
+
+
+
+(defvar fn "kqc/exhp/t001.kqc")
+(require :exhp)
+(in-package :rubbish)
+(readekqc fn)
+
+
+
