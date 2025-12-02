@@ -1,0 +1,14 @@
+;; separeted F 
+;; not facterd
+
+((x) (+ P x)(+ Q x))
+((x) (+ P x)(+ R x))
+(() (- P a))
+(() (- Q a))
+(() (- R a))
+
+((y) (- P y))
+(() (- Q b))
+(() (- R b))
+
+(() (- R c))
