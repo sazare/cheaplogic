@@ -9,6 +9,19 @@
 ✴︎ 同じclauseの同型のリテラルでfactoringした場合、proofのmguは新しい変数がでてくるので∅にはならない。
 　renameまで含めてということならそれでいい。だいじょうぶかな??? 疑問
 
+✴︎ 実行可能(peval)ではなくtrivial claseuと呼ぼう
+　その真偽が自明な命題
+　　自明なのは計算機構がいるから
+
+✴︎ input clauseやめて initial clauseと呼ぼうかな
+　pcodeやexhpでのpair定義に関係て
+　initial lid
+　ilidで同じになる
+　と思ったらproperty nameはolidにしたた
+　　original lidか
+
+
+
 11月30日(日)
 すること
 ・例をつくる

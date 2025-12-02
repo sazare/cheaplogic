@@ -1,0 +1,4 @@
+概念の定義
+
+initial clause : input clauseでなくこれにしよう
+
