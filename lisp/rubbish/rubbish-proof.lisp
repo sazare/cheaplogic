@@ -104,20 +104,6 @@
             (print-proof0  (cidof llid) (+ 2 ind) out))
         )
       )
-      ((eq (ruleof cid) :REDUCED-BY-SYNTAX)
-        (let* ((pr (proofof cid))(rlid (cadr (rpairof cid)))(flits (cadddr pr)))
-          (cond
-            ((iscontradiction cid) 
-              (format out "~a~a ~a [] removed are..~a~%~a" (nspace ind) cid rlid rlid (nspace ind)))
-            (t 
-              (format out "~a~a ~a ~a removed are..~a~%~a" (nspace ind) cid rlid  (bodyof cid) rlid (nspace ind)))
-          )
-          (let ()
-            (if (null (plidof rlid)) (format out "input1~%") (format out " in~%"))
-            (print-proof0 (cidof rlid) (+ 2 ind) out)
-          )
-        )
-      )
       ((eq (ruleof cid) :REDUCED-BY-SEMANTIX)
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
@@ -177,19 +163,6 @@
             (print-proof  (cidof llid) (+ 2 ind) out))
         )
       )
-      ((eq (ruleof cid) :REDUCED-BY-SYNTAX)
-        (let* ((pr (proofof cid))(rlid (cadr (rpairof cid))) (flits (cadddr pr)))
-          (cond
-            ((iscontradiction cid) 
-              (format out "~a~a ~a [] removed are..~a~%~a" (nspace ind) cid rlid rlid (nspace ind)))
-            (t 
-              (format out "~a~a ~a ~a removed are..~a~%~a" (nspace ind) cid rlid (bodyof cid) rlid (nspace ind)))
-          )
-          (let ()
-            (print-proof (cidof rlid) (+ 2 ind) out)
-          )
-        )
-      )
       ((eq (ruleof cid) :REDUCED-BY-SEMANTIX)
         (let* ((pr (proofof cid))(flits (cadddr pr)))
           (cond
@@ -215,7 +188,6 @@
     ((eq code :RESOLUTION) :RS)
     ((eq code :FACTORING) :FA)
     ((eq code :REDUCED-BY-SEMANTIX) :SM)
-    ((eq code :REDUCED-BY-SYNTAX) :SN)
     (t code)
   )
 )
