@@ -1,4 +1,5 @@
 ; 3to2factoring
+;; exhp need 1 factoring but which it is.
 
 
 ((x y) (+ P a x)(+ P b y)(+ P x y)(+ R x y))

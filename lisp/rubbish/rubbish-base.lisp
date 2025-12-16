@@ -461,3 +461,8 @@
   )
 )
 
+;; which 
+(defun which (bs os)
+  (loop for b in bs as o in os when b collect o)
+)
+

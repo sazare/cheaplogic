@@ -2,16 +2,6 @@
 
 (in-package :rubbish)
 
-;; unify-atoms
-(defun unify-atoms (lid1 lid2)
-  (let* ((vs (union (varsof (cidof lid1)) (varsof (cidof lid2))))
-         (a1 (latomicof lid1))
-         (a2 (latomicof lid2))
-         (sig (funification vs a1 a2)))
-    (if (eq :NO sig) :NO (list vs sig))
-  )
-)
-
 (defun make-umatrix (clist)
   (let (ppns ppn)
     (setq ppns (make-ppnlist clist))
@@ -29,18 +19,16 @@
 )
 
 (defun make-umatrix-p (llids rlids)
-  (let (um)
-    (setq um (make-array (list (length llids) (length rlids))))
-    (loop for llid in llids as x from 0 to (length llids) do
-      (loop for rlid in rlids as y from 0 to (length rlids) do
-        (setf (aref um x y) (unify-atoms llid rlid) )
+  (cons
+    (list llids rlids)
+    (loop for llid in llids collect
+      (loop for rlid in rlids collect
+        (unify-atoms llid rlid)
       )
     )
-    (cons (list llids rlids) um)
   )
 )
 
-;; printing umatrix
 (defun strip-mgu-raw (mgu)
   (let (vs ts)
     (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
@@ -67,47 +55,18 @@
   )
 )
 
-(defun puma (rt uma)
-  (let (am dim)
-    (setq dim (array-dimensions uma))
-    (loop for r from 0 to (1- (car dim)) do
-      (format t "~a " (nth r rt))
-      (loop for c from 0 to (1- (cadr dim)) do
-        (setq am (aref uma r c))
-        (if (eq :NO am)
-          (format t "|NO")
-          (format t "|~a" (strip-mgu-eq am))
-        )
-       finally (format t "~%")
-      )
-    )
-  )
-)
-
-;(defun puma (ct uma)
-;  (let (am dim)
-;    (setq dim (array-dimensions uma))
-;    (loop for r from 0 to (1- (car dim)) do
-;      (format t "~a " (nth r ct))
-;      (loop for c from 0 to (1- (cadr dim)) do
-;        (setq am (aref uma r c))
-;        (if (eq :NO am)
-;          (format t "|NO")
-;          (format t "|~a" (strip-mgu-raw am))
-;        )
-;       finally (format t "~%")
-;      )
-;    )
-;  )
-;)
-
 (defun pum-p0 (aum)
+  "ums = ((ll1 ll2) (m11 m12 ...)(m21 m22 ...)...(mk1 mk2 ...))"
   (let (rt ct)
     (setq rt (nth 0 (car aum)))
     (setq ct (nth 1 (car aum)))
-    (format t "     ")
-    (loop for c in ct do (format t "|~a" c) finally (format t "~%"))
-    (puma rt (cdr aum))
+
+    (format t "     |" )
+    (loop for cn in ct do (format t "~a|" cn)) 
+    (format t "~%")
+    (loop for aml in (cdr aum) as rn in rt do
+      (pum-row0 rn aml)
+    ) 
   )
 )
 
@@ -128,40 +87,6 @@
    (pum0 ums)
  )
 )
-;;;
-
-(defun checker-col (am c rt)
-  (loop for r from 0 to (1- rt) always (equal (aref am c r) :NO))
-)
-
-(defun checker-allcol (am ct rt)
-  (loop for c from 0 to (1- ct) collect (checker-col am c rt))
-)
-
-(defun checker-row (am r ct)
-  (loop for c from 0 to (1- ct) always (equal (aref am c r) :NO))
-)
-
-(defun checker-allrow (am rt ct)
-  (loop for r from 0 to (1- rt) collect (checker-row am r ct))
-)
-
-(defun nopa (aum)
-  (let (rt ct am rc cc)
-    (setq rt (length (nth 0 (car aum))))
-    (setq ct (length (nth 1 (car aum))))
-    (setq am (cdr aum))
-    
-    (setq rc (checker-allcol am rt ct))
-    (setq cc (checker-allrow am ct rt))
-    (append
-      (which rc (nth 0 (car aum)))
-      (which cc (nth 1 (car aum)))
-    )
-  )
-)
-  
-
 
 ;;; 
 (defun strip-mgu-eq (mgu)
@@ -271,6 +196,27 @@
  )
 )
 
+;; unify-atoms
+(defun unify-atoms (lid1 lid2)
+  (let* ((vs (union (varsof (cidof lid1)) (varsof (cidof lid2))))
+         (a1 (latomicof lid1))
+         (a2 (latomicof lid2))
+         (sig (funification vs a1 a2)))
+    (if (eq :NO sig) :NO (list vs sig))
+  )
+)
+
 ;;;;;;
 
+
+(defun col-all (a j n)
+  (loop for 0 to n collect (aref a j))
+)
+
+(defun isolated-l (umat)
+  (loop for i from 0 to n thereis
+    (loop for j from 0 to m always
+    (eq (getf imet i j) :FAIL)
+  )
+)
 

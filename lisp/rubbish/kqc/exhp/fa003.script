@@ -1,0 +1,22 @@
+(require :exhp)
+(in-package :rubbish)
+(readekqc "kqc/exhp/fa003.kqc")
+
+
+(pcs)
+
+(defparameter ss1  '(c1 c5 c6 c7 c8))
+(defparameter pm1 '((l1-3 l5-1)(l1-1 l7-1)(l1-2 l6-1)(l1-4 l8-1)))
+
+(defparameter ss2 '(c1 c2 c8))
+(defparameter pm2 '((l1-1 l1-2)(l1-1 l1-3)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm3 '((l1-1 l1-3)(l1-1 l1-2)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm4 '((l1-2 l1-3)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+
+(defparameter pm5 '((l1-2 l3-1)(l1-2 l1-1)(l1-1 l2-1)(l1-4 l8-1)))
+(defparameter pm6 '((l1-1 l2-1)(l1-3 l1-2)(l1-1 l1-3)(l1-1 l7-1)(l1-2 l6-1)))
+
+
+(multiple-value-setq (res mm cls) (step-driver mm cls))
+
+

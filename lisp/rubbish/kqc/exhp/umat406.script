@@ -1,0 +1,21 @@
+
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/umat406.kqc")
+
+(defparameter um1 (make-umatrix *clist*))
+
+(nth 0 um1)
+(nth 1 um1)
+(nth 2 um1)
+(nth 3 um1)
+(nth 4 um1)
+
+(pum0 (nth 4 um1))
+
+(defparameter pnxm (nth 3 (nth 4 um1)))
+
+(nopa pnxm)
+; 
+
+

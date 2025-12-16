@@ -1,0 +1,13 @@
+(require :exhp)
+(in-package :rubbish)
+(readekqc "kqc/exhp/fb001.kqc")
+(pcs)
+
+(defparameter ss1 '(c1 c2 c3))
+(defparameter ss2 '(c1 c2 c4 c5))
+(defparameter ss3 '(c1 c2 c4))
+(defparameter ss4 '(c1 c2 c5))
+(defparameter ss5 '(c1 c2 c6 c7))
+(defparameter ss6 '(c1 c2 c7))
+
+

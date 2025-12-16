@@ -8,6 +8,7 @@
   (ito:intend-equal "1 subst1" 'b (subst1  'b 'x 'a))
   (ito:intend-equal "2 subst1" 'a (subst1  'x 'x 'a))
   (ito:intend-equal "3 subst1" '(f a) (subst1  '(f x) 'x 'a))
+  (ito:intend-equal "3 subst1" '(f a) (subst1  '(f x) 'x 'b))
   (ito:intend-equal "4 subst1" '(f a (h a)) (subst1  '(f x (h x)) 'x 'a))
 ) 
 

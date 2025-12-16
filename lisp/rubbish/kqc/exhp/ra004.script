@@ -1,0 +1,11 @@
+(require :exhp)
+(in-package :rub)
+
+(rub:readekqc "kqc/exhp/ra004.kqc")
+(defvar ss1 *clist*)
+(defvar ff1 (nof-subset  ss1))
+(defvar rr10 (nof-driver (nth 0 ff1)))
+(defvar rr11  (nof-driver (nth 0 ff1)))
+
+
+

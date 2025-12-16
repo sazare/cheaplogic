@@ -1,0 +1,7 @@
+(require :exhp)
+(in-package :rubbish)
+(readekqc "kqc/exhp/fc001.kqc")
+(pcs)
+
+
+

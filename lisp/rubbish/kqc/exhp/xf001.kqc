@@ -1,0 +1,12 @@
+;; factor after R
+
+((x) (+ P x) (+ Q x))
+((x) (+ P a) (- Q a))
+((x) (+ P (f x)) (- Q x))
+((x) (+ P (f x)) (- Q y))
+
+((x) (- P x))
+
+
+
+

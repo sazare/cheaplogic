@@ -1,3 +1,8 @@
+12月6日(土)
+(require :exhp)
+(in-package :rub)
+
+
 
 2025/11/20
 

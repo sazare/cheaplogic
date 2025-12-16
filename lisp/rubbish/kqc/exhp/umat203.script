@@ -1,0 +1,61 @@
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/umat203.kqc")
+
+(defparameter um1 (make-umatrix *clist*))
+
+(pum0 (nth 2 um1))
+
+(defparameter pnxm (nth 3 (nth 2 um1)))
+; . #2A((((W.152 Y.151 X.150 X.148 Y.149) (B Y.151 X.150 X.150 Y.149)) :NO ((Y.149 X.148 X.153 Y.154) (Y.149 A X.153 B)))
+       (((W.152 Y.151 X.150 X.148 Y.149) (W.152 Y.151 A X.148 W.152)) :NO ((Y.149 X.148 X.153 Y.154) (Y.154 X.148 X.153 Y.154)))))
+
+(defparameter ump (cdr pnxm))
+
+(car pnxm)
+;((L1-1 L1-2) (L2-1 L2-2 L3-1))
+
+(nopa pnxm)
+;((NIL NIL) (NIL T NIL))
+;; TのL2-2が孤立したリテラル
+
+
+::::::::::::::::::
+
+ump
+;#2A((((W.152 Y.151 X.150 X.148 Y.149) (B Y.151 X.150 X.150 Y.149)) :NO ((Y.149 X.148 X.153 Y.154) (Y.149 A X.153 B)))
+
+(array-dimensions ump)
+;(2 3)
+
+(checker-row  ump 0 3)
+;NIL
+(checker-row  ump 1 3)
+;NIL
+
+ (checker-col  ump 0 2)
+;T
+ (checker-col  ump 1 2)
+;NIL
+
+
+(nopa pnxm)
+
+
+(pum-p0  pnxm)
+     |L2-1 |L2-2 |L3-1
+L2-1 |((W.152 = B) (X.148 = X.150))|NO|((X.148 = A) (Y.154 = B))
+L2-2 |((X.150 = A) (Y.149 = W.152))|NO|((Y.149 = Y.154))
+NIL
+
+;;
+(make-lidlist *clist*)
+;(L1-1 L1-2 L1-3 L2-1 L2-2 L3-1 L3-2 L3-3 L4-1 L5-1)
+
+(make-psymlist (make-lidlist *clist*))
+;(Q R P)
+
+(make-ppnlist *clist*)
+;((Q (L5-1) (L3-3)) (R (L1-3) (L4-1)) (P (L1-1 L1-2) (L2-1 L2-2 L3-1 L3-2)))
+
+

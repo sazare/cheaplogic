@@ -1,0 +1,15 @@
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/ra020.kqc")
+(readekqc "kqc/exhp/ra030.kqc")
+(readekqc "kqc/exhp/ra050.kqc")
+
+ra020 : メモリ確認20clauses -> ok
+ra030 : メモリ確認 30 clauses -> ldb起動
+
+rlwrap sbcl --control-stack-size 5GB
+RUB(4): (defparameter ss (subsetof *clist*))
+Heap exhausted during garbage collection: 0 bytes available, 16 requested.
+        Immobile Object Counts
+
+

@@ -1,0 +1,16 @@
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/umat010.kqc")
+
+(defparameter um1 (make-umatrix *clist*))
+
+(make-lidlist *clist*)
+;(L1-1 L1-2 L1-3 L2-1 L2-2 L3-1 L3-2 L3-3 L4-1 L5-1)
+
+(make-psymlist (make-lidlist *clist*))
+;(Q R P)
+
+(make-ppnlist *clist*)
+;((Q (L5-1) (L3-3)) (R (L1-3) (L4-1)) (P (L1-1 L1-2) (L2-1 L2-2 L3-1 L3-2)))
+
+

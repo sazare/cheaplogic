@@ -1,0 +1,13 @@
+(require :exhp)
+(in-package :rub)
+(readekqc "kqc/exhp/xf001.kqc")
+
+;1,2/f a:a
+(resolve-id 'l1-2 'l2-2)
+(factor-id )
+
+; 1,3/x:fx
+(resolve-id 'l1-2 'l3-2)
+
+; 1,4/fx:f
+(resolve-id 'l1-2 'l4-1)

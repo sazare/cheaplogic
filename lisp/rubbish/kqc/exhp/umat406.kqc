@@ -1,0 +1,11 @@
+;; umatrix 4+ : 6-
+
+(1 (x y) (+ P x b)(+ P a c)(+ R x y))
+(2 (x y w) (- P x c) (- P b a)(+ S x y w))
+(3 (x y) (- P c y)(- Q x y))
+(4 (x y) (- R x y)(+ P b d)(+ P e k))
+(5 (x y) (+ Q x y))
+(6 (x y z) (- S x y z)(- P x (k c)) (- P y a)(+ U x y z))
+(7 (x y z) (- U x y z)(- P (f x) (g x)) (- P (f y)(f z)))
+
+
