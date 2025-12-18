@@ -160,8 +160,6 @@
     )
   )
 )
-  
-
 
 ;;; 
 (defun strip-mgu-eq (mgu)
