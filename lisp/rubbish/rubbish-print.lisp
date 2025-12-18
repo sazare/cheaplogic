@@ -57,11 +57,11 @@
      )
     )
     ((eq cid (nameof cid))
-     (format out "~a: ~a [~a]~%" cid (varsof cid)(lit*of (bodyof cid)))
+     (format out "~a: ~a [~a]~%" cid (varsof cid) (lit*of (bodyof cid)))
     )
     (t 
 ;     (format out "~a: ~a ~a [~a]~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
-     (format out "~a: ~a ~a ~a~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
+      (format out "~a: ~a ~a [~a]~%" cid (nameof cid)(varsof cid)(lit*of (bodyof cid)))
     )
   )
 )
