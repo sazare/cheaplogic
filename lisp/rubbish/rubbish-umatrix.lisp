@@ -146,7 +146,9 @@
   (loop for r from 0 to (1- rt) collect (checker-row am r ct))
 )
 
+
 (defun nopa (aum)
+	"R-matrix NxP LID of full NO"
   (let (rt ct am rc cc)
     (setq rt (length (nth 0 (car aum))))
     (setq ct (length (nth 1 (car aum))))
@@ -158,6 +160,21 @@
       (which rc (nth 0 (car aum)))
       (which cc (nth 1 (car aum)))
     )
+  )
+)
+
+(defun f-checker-line(am ct)
+	(loop for r from 0 to (1- ct) collect
+    (loop for c from 0 to (1- ct) always (or (equal r c) (equal (aref am c r) :NO)))
+  )
+)
+
+(defun isolit (aum)
+	"F-matrix Diag LID of isolated"
+  (let (rt ct am rc cc)
+    (setq rt (length (nth 0 (car aum))))
+		(setq am (cdr aum))
+		(setq cc (which (f-checker-line am rt) (nth 0 (car aum))))
   )
 )
 

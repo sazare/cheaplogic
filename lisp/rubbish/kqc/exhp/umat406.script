@@ -15,7 +15,16 @@
 
 (defparameter pnxm (nth 3 (nth 4 um1)))
 
-(nopa pnxm)
-; 
+;R-matrix full NO check
+(nopa (nth 3 (nth 4 um1)))
+;(L4-2 L4-3 L2-2 L6-2 L6-3 L7-2 L7-3)
 
 
+;;F-matrix
+(isolit (nth 2 (nth 4 um1)))
+
+(L7-2 L7-3)
+(isolit (nth 1 (nth 4 um1)))
+
+(L1-1 L1-2 L4-2 L4-3)
+#
