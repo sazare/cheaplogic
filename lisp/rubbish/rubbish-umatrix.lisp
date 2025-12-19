@@ -39,7 +39,6 @@
     (cons (list llids rlids) um)
   )
 )
-
 ;; printing umatrix
 (defun strip-mgu-raw (mgu)
   (let (vs ts)
@@ -55,15 +54,17 @@
   )
 )
 
-(defun pum-row0 (lid ml)
-  (format t "~a |" lid)
-  (loop for am in  ml do
-    (if (eq :NO am)
-      (format t "|NO")
-      (format t "|~a" (strip-mgu-raw am))
+;;; 
+(defun strip-mgu-eq (mgu)
+  (let (forms)
+    (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
+      when (not (equal v tm ) ) do 
+        (push (list v '= tm) forms)
+    ) 
+    (if (null forms) 
+      :∅
+      (reverse forms)
     )
-  finally 
-    (format t "|~%")
   )
 )
 
@@ -84,22 +85,6 @@
   )
 )
 
-;(defun puma (ct uma)
-;  (let (am dim)
-;    (setq dim (array-dimensions uma))
-;    (loop for r from 0 to (1- (car dim)) do
-;      (format t "~a " (nth r ct))
-;      (loop for c from 0 to (1- (cadr dim)) do
-;        (setq am (aref uma r c))
-;        (if (eq :NO am)
-;          (format t "|NO")
-;          (format t "|~a" (strip-mgu-raw am))
-;        )
-;       finally (format t "~%")
-;      )
-;    )
-;  )
-;)
 
 (defun pum-p0 (aum)
   (let (rt ct)
@@ -114,11 +99,11 @@
 (defun pum0 (ums)
   (let (pred)
     (setq pred (nth 0 ums))
-    (format t "~%~a PxP~%" pred)
+    (format t "~%[~a +x+]~%" pred)
     (pum-p0 (nth 1 ums))
-    (format t "~%~a NxN~%" pred)
+    (format t "~%[~a -x-]~%" pred)
     (pum-p0 (nth 2 ums))
-    (format t "~%~a PxN~%" pred)
+    (format t "~%[~a +x-]~%" pred)
     (pum-p0 (nth 3 ums))
   )
 ) 
@@ -165,7 +150,7 @@
 
 (defun f-checker-line(am ct)
 	(loop for r from 0 to (1- ct) collect
-    (loop for c from 0 to (1- ct) always (or (equal r c) (equal (aref am c r) :NO)))
+    (loop for c from 0 to (1- ct) until (equal r c) always (equal (aref am c r) :NO))
   )
 )
 
@@ -178,114 +163,129 @@
   )
 )
 
-;;; 
-(defun strip-mgu-eq (mgu)
-  (let (forms)
-    (loop for v in (nth 0 mgu) as tm in (nth 1 mgu)
-      when (not (equal v tm ) ) do 
-        (push (list v '= tm) forms)
-    ) 
-    (if (null forms) 
-      :∅
-      (reverse forms)
-    )
-  )
-)
-
-(defun pm2sm(ml)
-  (loop for am in  ml collect
-    (cond
-     ((atom am) am)
-     (t (strip-mgu-eq am) )
-    )
-  )
-)
-
-(defun string-of-nth (n tl)
-  (let (nn)
-    (if (< n (length tl))
-      (nth n tl)
-      ""
-    )
-  )
-)
-(defun p-eterm (tm)
-  (unless (null tm) 
-    (if (eq '= (nth 1 tm))
-      (format t "~a=~a~a|" (nth 0 tm)(nth 2 tm) #\tab)
-      (format t "~a~a|" tm #\tab)
-    )
-  )
-) 
-
-(defun pum-row-s (lid ml)
-  (let (sml mh)
-    (setq sml (pm2sm ml))
-    (setq mh (max-length sml))
-
-    (loop for n from 0 to mh do
-      (if (eq n 0)
-        (format t "~a~a" lid #\tab)
-        (format t "~a" #\tab)
-      )
-      (loop for am in sml do
-        (cond
-         ((eq :no am) 
-          (if (eq n 0) 
-            (format t "NO~a|" #\tab)
-            (format t "~a|" #\tab)))
-
-         ((eq :∅ am)
-          (if (eq n 0) 
-            (format t "Φ~a|" #\tab)
-            (format t "~a|" #\tab)))
-
-        (t  (p-eterm (nth n am))) 
-        )
-      finally
-        (format t "~%")
-      )
-    )
-  )
-)
-
- 
-(defun pum-p (aum)
-  "ums = ((ll1 ll2) (m11 m12 ...)(m21 m22 ...)...(mk1 mk2 ...))"
-  (let (rt ct)
-    (setq rt (nth 0 (car aum)))
-    (setq ct (nth 1 (car aum)))
-
-    (format t "~a" #\tab)
-    (loop for cn in ct do (format t "|~a~a|" cn #\tab)) 
-    (format t "~%")
-    (loop for aml in (cdr aum) as rn in rt do
-      (pum-row-s rn aml)
-    ) 
-  )
-)
-
-(defun pum (ums)
-  (let (pred)
-    (setq pred (nth 0 ums))
-    (format t "~%+~ax+~a~%" pred pred)
-    (pum-p (nth 1 ums))
-    (format t "~%-~ax-~a~%" pred pred)
-    (pum-p (nth 2 ums))
-    (format t "~%+~ax-~a~%" pred pred)
-    (pum-p (nth 3 ums))
-  )
-) 
-
-(defun pums (umss)
- (loop with pred for ums in umss do
-   (setq pred (nth 0 ums))
-   (format t "~%~%[~a]" pred)
-   (pum  ums)
-   (format t "[end of ~a]" pred)
- )
-)
-
+;
+;(defun pm2sm(ml)
+;  (loop for am in  ml collect
+;    (cond
+;     ((atom am) am)
+;     (t (strip-mgu-eq am) )
+;    )
+;  )
+;)
+;
+;(defun string-of-nth (n tl)
+;  (let (nn)
+;    (if (< n (length tl))
+;      (nth n tl)
+;      ""
+;    )
+;  )
+;)
+;(defun p-eterm (tm)
+;  (unless (null tm) 
+;    (if (eq '= (nth 1 tm))
+;      (format t "~a=~a~a|" (nth 0 tm)(nth 2 tm) #\tab)
+;      (format t "~a~a|" tm #\tab)
+;    )
+;  )
+;) 
+;
+;(defun pum-row-s (lid ml)
+;  (let (sml mh)
+;    (setq sml (pm2sm ml))
+;    (setq mh (max-length sml))
+;
+;    (loop for n from 0 to mh do
+;      (if (eq n 0)
+;        (format t "~a~a" lid #\tab)
+;        (format t "~a" #\tab)
+;      )
+;      (loop for am in sml do
+;        (cond
+;         ((eq :no am) 
+;          (if (eq n 0) 
+;            (format t "NO~a|" #\tab)
+;            (format t "~a|" #\tab)))
+;
+;         ((eq :∅ am)
+;          (if (eq n 0) 
+;            (format t "Φ~a|" #\tab)
+;            (format t "~a|" #\tab)))
+;
+;        (t  (p-eterm (nth n am))) 
+;        )
+;      finally
+;        (format t "~%")
+;      )
+;    )
+;  )
+;)
+;
+; 
+;(defun pum-p (aum)
+;  "ums = ((ll1 ll2) (m11 m12 ...)(m21 m22 ...)...(mk1 mk2 ...))"
+;  (let (rt ct)
+;    (setq rt (nth 0 (car aum)))
+;    (setq ct (nth 1 (car aum)))
+;
+;    (format t "~a" #\tab)
+;    (loop for cn in ct do (format t "|~a~a|" cn #\tab)) 
+;    (format t "~%")
+;    (loop for aml in (cdr aum) as rn in rt do
+;      (pum-row-s rn aml)
+;    ) 
+;  )
+;)
+;
+;(defun pum (ums)
+;  (let (pred)
+;    (setq pred (nth 0 ums))
+;    (format t "~%+~ax+~a~%" pred pred)
+;    (pum-p (nth 1 ums))
+;    (format t "~%-~ax-~a~%" pred pred)
+;    (pum-p (nth 2 ums))
+;    (format t "~%+~ax-~a~%" pred pred)
+;    (pum-p (nth 3 ums))
+;  )
+;) 
+;
+;(defun pums (umss)
+; (loop with pred for ums in umss do
+;   (setq pred (nth 0 ums))
+;   (format t "~%~%[~a]" pred)
+;   (pum  ums)
+;   (format t "[end of ~a]" pred)
+; )
+;)
+;
 ;;;;;;
 
+;(defun pum-row0 (lid ml)
+;  (format t "~a |" lid)
+;  (loop for am in  ml do
+;    (if (eq :NO am)
+;      (format t "|NO")
+;      (format t "|~a" (strip-mgu-raw am))
+;    )
+;  finally 
+;    (format t "|~%")
+;  )
+;)
+
+;(defun puma (ct uma)
+;  (let (am dim)
+;    (setq dim (array-dimensions uma))
+;    (loop for r from 0 to (1- (car dim)) do
+;      (format t "~a " (nth r ct))
+;      (loop for c from 0 to (1- (cadr dim)) do
+;        (setq am (aref uma r c))
+;        (if (eq :NO am)
+;          (format t "|NO")
+;          (format t "|~a" (strip-mgu-raw am))
+;        )
+;       finally (format t "~%")
+;      )
+;    )
+;  )
+;)
 
