@@ -1,0 +1,56 @@
+onFFR.txt
+
+1つの述語記号についてΣのliteralを使って
+F+, F-, Rの3つのuMatrixができる。
+
+それぞれの要素数 (F+) (F-) (R)とする
+F+ F-は正方行列であり、()はその列数=業数
+N = (F+)
+M = (F-)
+としN > M
+とする。
+RはNxMになる。
+
+Fのliteralは、unifierがあってもclauseが違っていたらFacgtoringできない
+なので、ここでmguがあるのは、将来の証明の中で同じclauseになったときの話。
+しかし、EXHPなので、それは必ず起きなくてはならない。
+
+
+
+Rのmguは2つのliteralsが消滅してmguがのこり、clauseの他のliteralに反映される
+Fのmguはどちらかが残る(がmguかけると同じになる)で1つliteralが残り、同じclauseの他のliteralに反映される。
+
+
+Fについて、あるliteral Lについて、その行または列が全部:NOだとそのliteralはFactoringできない。
+
+Lとunifyできる、つまりmguを持つ行/列の対応リテラルを集合にする。[L] = {L, a,b,c...}となる
+この集合は同値類にはならないので、すべてのliteralをグループわけできるわけではない。
+
+✴︎ a⊥bとは¬<a:b>のこと
+
+✴︎(見証明) もし{a,b,c}と{a,d,e}がったとき、このaをどちらか一方の集合にだけ入れるという操作をしてfacoringの相手を制限してもEXHPの結果には影響しない。
+
+もし {a,b,c,d}と{a,b,e,f,b}があったとして、c,d ⊥ e,f,gの場合、
+ a,bをどっちかのグループにいれてふたつの集合に共通部分がないようにできる。
+
+{F-}として全部孤立なら literal数はN
+同値類の数がnなら、全部factoringで1つになったとしてfactorinhg後のliteral数はnとなる。
+
+実際には同値類を1literalまでfactoringしないというのもあるので、exhpの証明を作る時の候補としてはそういうのもある。
+
+で、Resolutionする場合、EXHPでは+と-のリテラルはfactoring後同じ数でなくてはならない。
+
+そのfactoring後のliteral数はnとNの間にあり、+と-のその値を↓+P↓と↑+P↑と書くとすると
+
+exhp証明について、literal数は
+max(↓+P↓, ↓-P↓)とmax(↑+P↑, ↑-P↑)の間にある。
+
+
+以下試行中
+
+
+これで擬似的に同値類に分割したとして，この同値類の個数を|S|。
+||S||_{v∈s} = Σ |v| 
+
+↓S↓と↑S↑
+
