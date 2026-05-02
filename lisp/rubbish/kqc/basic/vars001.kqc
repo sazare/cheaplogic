@@ -1,0 +1,9 @@
+;; vars makeup
+
+
+;; check: xn -> xn.m not xm
+
+
+((x1 x2 x3) (+ P x1 x2 x3))
+((x1 x2 x3) (- P x1 x2 x3))
+
