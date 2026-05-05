@@ -1,0 +1,8 @@
+;; vrs makeup
+
+;; check: vn -> vn.m not vm
+
+
+((p#v1 p#v2 p#v3) (+ P p#v1 p#v2 p#v3))
+((p#v1 p#v2 p#v3) (- P p#v1 p#v2 p#v3))
+
