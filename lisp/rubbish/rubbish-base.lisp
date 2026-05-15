@@ -97,6 +97,20 @@
   )
 )
 
+;;; lid
+(defun signoflid (lid)
+  (nth 0 (litof lid))
+)
+
+(defun predoflid (lid)
+  (nth 1 (litof lid))
+) 
+
+;;;; form
+(defun argsof (form)
+  (cddr form)
+) 
+
 ;;;;
 
 ; C10.xxx => 10
@@ -239,6 +253,7 @@
   )
 )
 
+;; cid
 (defun varsof (cid)
   (get cid :vars)
 )
@@ -348,6 +363,7 @@
 (defun signof (lsym)
   (subseq lsym 0 1)
 )
+
 
 (defun psymof (lsym)
   (subseq lsym 1)

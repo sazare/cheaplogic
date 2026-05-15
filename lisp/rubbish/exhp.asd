@@ -67,7 +67,11 @@
 
 ;pcs bps,...
       (:file "rubbish-goods" :depends-on ("rubbish-package"))
+
 ;; experimentals
+;; general literal
+     (:file "rubbish-gform" : depends-onf ("rubbish-package"))
+
 ; lid -> vars and unify. nplist combination checking
       (:file "rubbish-explore" :depends-on ("rubbish-package"))
 ; concerns adjacent matrix

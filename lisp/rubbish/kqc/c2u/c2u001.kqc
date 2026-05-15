@@ -1,0 +1,16 @@
+;; simple c2u 
+
+
+;; ¬conjecture
+(1 (z w) (- P z w))
+
+;; axioms
+(2 (x y) (- P x y)(+ P (s x) (m x y)))
+(3 () (+ P 0 1))
+
+
+;; generics
+((U1 V1) (+ P U1 V1))
+((U2 V2) (- P U2 V2))
+
+

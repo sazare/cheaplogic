@@ -1,5 +1,14 @@
 
 
+2026/05/09土
+一般形を使う時、varsをどうするか
+
+述語→(vars glit)
+(predof lid)
+ができたとして、(funification gvars glit (latomicof lidi))
+ lidiはclauseのliteral (in (bodyof cid))
+
+
 2026/05/04月
 計画
 　clauseの一般形を作る関数
