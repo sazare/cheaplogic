@@ -70,7 +70,7 @@
 
 ;; experimentals
 ;; general literal
-     (:file "rubbish-gform" : depends-onf ("rubbish-package"))
+;;;     (:file "rubbish-gform" : depends-on ("rubbish-package"))
 
 ; lid -> vars and unify. nplist combination checking
       (:file "rubbish-explore" :depends-on ("rubbish-package"))

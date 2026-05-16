@@ -13,6 +13,7 @@
 : 3. generate gliteral
 
   (list vars glist)
+  )
 )
 
 
