@@ -1,4 +1,4 @@
-Exhaustive Proverについてまとめたい
+Exhaustive Proverについてのあらすじ
 
 1. 目的
 　論理式あるいは論理式の集合(Σ)からどのような証明が作れるか。
