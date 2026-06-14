@@ -67,9 +67,18 @@ resolution refutaionにもとづくproverはこの∃x∃zα(x,z)という形の
 　　この-Pav+Pbvαの形のclauseは<Pa:Pb>がunifiableでないとき、ループの役割を果たす。
 　　なぜなら、このunifiableにならないσは他のclauseとresolutionをしていくことで、この非恒真状態をresolventに継承していくような変数のinstance化を保証するから。
 
-**ここまで見直し2026/06/14
+　　異なるclauseで同じ変数を持つと推論が適切でなくなる件
+　　　まずDisjoint Variable Condition(DVC)というものを考え、そこではすべてのclauseはそれが生成されたときに新しい変数でrenameする。つまり、すべての変数は同じ変数を持たない。
+　　resolutionの実装では、resolution ruleを適用するとき、まず変数名を変えましょう(rename)という方式があったが、(一般的かどうかは知らない)、これはメモリに制限があり、同じ変数名を使い回すと便利な時代のアルゴリズムだと思う。
+処理性能についても、resolutionのたびにrenameすると失敗するresolutionでもrenameを行うことになる。DVCでclauseを作るたびに新変数を導入すると、renameの回数はclauseの数に比例するので、全体的なrenameの回数も最小になるのではないか。
 
-　　異なるclauseで同じ変数を持つと推論が適切でなくなる。　→ DVC
+　またこうすると、literalはclauseに一意に属し、そのlitralの変数はすべてclauseに集約されている。
+　このことから、literl idやclause idの意味は大きく、resolutionはlidを指定するだけで決定できる。
+
+　DVCを考える時、+Pv-Pvαのようにそのclause自体とresolutionするときrenameが必要ではないかと考えられるが、EXHPで矛盾にいたる証明だけを考えている場合、矛盾からの逆算過程を考えれば、同じclause同士でresolutionすることはないので問題にならない。
+
+
+**ここまで見直し2026/06/14
 
 
 　証明の有無が重要ではない。
